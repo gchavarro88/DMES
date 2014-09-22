@@ -30,6 +30,10 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -48,6 +52,10 @@
         <param-value>/WEB-INF/log4j.properties</param-value>
     </context-param>
 
+    <context-param>  
+        <param-name>primefaces.THEME</param-name>  
+        <param-value>dark-hive</param-value>  
+    </context-param>
 <!--    <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>-->
