@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"      
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <title>.:DMES:. - Menú Principal</title>
+            <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        </h:head>
+        <h:body>
+            <p:ajaxStatus onstart="statusDialog.show();"
+                          onsuccess="statusDialog.hide();" />
+            <p:dialog modal="true" styleClass="top" widgetVar="statusDialog" header="Cargando..."
+                      draggable="false" closable="false" resizable="false">
+                <p:graphicImage value="#{request.contextPath}/images/loadBar.gif"/>
+            </p:dialog>
+            <p:layout styleClass="layoutBordes">
+                <p:layoutUnit position="north" collapseSize="25" collapsible="true" effect="explode"  gutter="1"
+                              styleClass="layoutBordes" >
+                    <div class="layoutNorth">
+                        <table width="100%" >
+                            <tr> 
+                                <td width="20%">
+                                    <p:graphicImage url="../images/fondo-Little.png" styleClass="graphicLayoutNorth"
+                                        height="70" width="150"/>
+                                </td>
+                                <td width="60%" align="center">
+                                    <label class="labelTittle">NOMBRE DE LA APLICACIÓN</label>
+                                </td>
+                                <td width="20%" align="center" valign="middle">
+                                    <table class="dataLayoutNorth" >
+                                        <tr>
+                                            <td style="padding-top: 5px;padding-bottom:5px; padding-left:10px; ">
+                                                <center>
+                                                    <label class="outPutLabelDate">Domingo, Septiembre 21 de 2015</label>
+                                                </center>
+                                                <br></br>
+                                                <p:outputLabel value="Usuario: " styleClass="outPutLabelTittle"/>
+                                                <p:outputLabel value="Gustavo Chavarro Ortiz"/>
+                                                <br></br>
+                                                <p:outputLabel value="Cargo: " styleClass="outPutLabelTittle"/>
+                                                <p:outputLabel value="Desarrollador"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </p:layoutUnit>
+                <p:layoutUnit position="west" collapseSize="25" collapsible="true" effect="bind" size="250" gutter="1"
+                              styleClass="layoutBordesWest">
+                    <f:facet name="header">    
+                    Módulos
+                    </f:facet>
+                    Menu ffffff
+                </p:layoutUnit>
+                <p:layoutUnit position="center" 
+                              styleClass="layoutBordes">
+                    Center
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>
+
