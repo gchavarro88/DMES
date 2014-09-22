@@ -26,6 +26,11 @@
             <artifactId>cglib-2.2</artifactId>
             <version>SNAPSHOT</version>
         </dependency>-->
+        <dependency>  
+            <groupId>org.primefaces.themes</groupId>  
+            <artifactId>all-themes</artifactId>  
+            <version>1.0.10</version>  
+        </dependency>  
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
