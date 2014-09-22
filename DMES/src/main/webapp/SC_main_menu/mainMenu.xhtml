@@ -26,7 +26,7 @@
                         <table width="100%" >
                             <tr> 
                                 <td width="20%">
-                                    <p:graphicImage url="../images/fondo-Little.png" styleClass="graphicLayoutNorth"
+                                    <p:graphicImage url="images/fondo-Little.png" styleClass="graphicLayoutNorth"
                                         height="70" width="150"/>
                                 </td>
                                 <td width="60%" align="center">
@@ -37,7 +37,7 @@
                                         <tr>
                                             <td style="padding-top: 5px;padding-bottom:5px; padding-left:10px; ">
                                                 <center>
-                                                    <label class="outPutLabelDate">Domingo, Septiembre 21 de 2015</label>
+                                                    <label class="outPutLabelDate">#{templateBean.listDateHeader()}</label>
                                                 </center>
                                                 <br></br>
                                                 <p:outputLabel value="Usuario: " styleClass="outPutLabelTittle"/>
@@ -54,15 +54,36 @@
                     </div>
                 </p:layoutUnit>
                 <p:layoutUnit position="west" collapseSize="25" collapsible="true" effect="bind" size="250" gutter="1"
-                              styleClass="layoutBordesWest">
+                              styleClass="layoutBordesWest" style="height: 100%;" resizable="true">
                     <f:facet name="header">    
                     Módulos
                     </f:facet>
-                    Menu ffffff
+                    
+                    <h:form id="formTreeMenu">
+
+                            <p:tree id="treeMenu" value="#{templateBean.fillCategories()}" var="nodeMenu" 
+                                highlight="true" styleClass="treeMenu" 
+                                selectionMode="single" selection="#{templateBean.nodeSeleted}" 
+                                style="border: 0px; text-align: left; font-size: 12px; vertical-align: middle;" 
+                                animate="true" dynamic="true" >
+                            <p:treeNode type="Home" >
+                                <p:graphicImage value="/images/bar.png" height="32" width="32"/>  
+                                <h:outputText value="  #{nodeMenu.name}"/>
+                            </p:treeNode>
+                            <p:treeNode type="Folder" >
+                                <p:graphicImage value="/images/#{templateBean.getImage(nodeMenu.name)}" height="28" width="28"/>  
+                                <h:outputText value="  #{nodeMenu.name}"/>
+                            </p:treeNode>
+                            
+                        </p:tree>
+                      
+                    </h:form>
                 </p:layoutUnit>
                 <p:layoutUnit position="center" 
                               styleClass="layoutBordes">
-                    Center
+                    
+                    <div style="height: 240px;"></div>
+                        
                 </p:layoutUnit>
             </p:layout>
         </h:body>

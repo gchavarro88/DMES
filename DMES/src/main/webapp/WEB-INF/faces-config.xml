@@ -10,4 +10,9 @@
             <to-view-id>/SC_main_menu/mainMenu.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>templateBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.template.TemplateBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>
