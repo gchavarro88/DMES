@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,16 +20,19 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author gustavo
+ * @author gchavarro88
  */
 @Entity
 @Table(name = "SC_PERSON_DOCUMENTATION_ATTACHED")
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "ScPersonDocumentationAttached.findAll", query = "SELECT s FROM ScPersonDocumentationAttached s"),
     @NamedQuery(name = "ScPersonDocumentationAttached.findByIdPersonDocumentationAttached", query = "SELECT s FROM ScPersonDocumentationAttached s WHERE s.idPersonDocumentationAttached = :idPersonDocumentationAttached"),
     @NamedQuery(name = "ScPersonDocumentationAttached.findByTittle", query = "SELECT s FROM ScPersonDocumentationAttached s WHERE s.tittle = :tittle"),
-    @NamedQuery(name = "ScPersonDocumentationAttached.findByPath", query = "SELECT s FROM ScPersonDocumentationAttached s WHERE s.path = :path")})
-public class ScPersonDocumentationAttached implements Serializable {
+    @NamedQuery(name = "ScPersonDocumentationAttached.findByPath", query = "SELECT s FROM ScPersonDocumentationAttached s WHERE s.path = :path")
+})
+public class ScPersonDocumentationAttached implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -49,77 +50,93 @@ public class ScPersonDocumentationAttached implements Serializable {
     @Column(name = "PATH")
     private String path;
     @JoinColumn(name = "ID_PERSON", referencedColumnName = "ID_PERSON")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScPerson idPerson;
 
-    public ScPersonDocumentationAttached() {
+    public ScPersonDocumentationAttached()
+    {
     }
 
-    public ScPersonDocumentationAttached(Long idPersonDocumentationAttached) {
+    public ScPersonDocumentationAttached(Long idPersonDocumentationAttached)
+    {
         this.idPersonDocumentationAttached = idPersonDocumentationAttached;
     }
 
-    public ScPersonDocumentationAttached(Long idPersonDocumentationAttached, String tittle, String path) {
+    public ScPersonDocumentationAttached(Long idPersonDocumentationAttached, String tittle, String path)
+    {
         this.idPersonDocumentationAttached = idPersonDocumentationAttached;
         this.tittle = tittle;
         this.path = path;
     }
 
-    public Long getIdPersonDocumentationAttached() {
+    public Long getIdPersonDocumentationAttached()
+    {
         return idPersonDocumentationAttached;
     }
 
-    public void setIdPersonDocumentationAttached(Long idPersonDocumentationAttached) {
+    public void setIdPersonDocumentationAttached(Long idPersonDocumentationAttached)
+    {
         this.idPersonDocumentationAttached = idPersonDocumentationAttached;
     }
 
-    public String getTittle() {
+    public String getTittle()
+    {
         return tittle;
     }
 
-    public void setTittle(String tittle) {
+    public void setTittle(String tittle)
+    {
         this.tittle = tittle;
     }
 
-    public String getPath() {
+    public String getPath()
+    {
         return path;
     }
 
-    public void setPath(String path) {
+    public void setPath(String path)
+    {
         this.path = path;
     }
 
-    public ScPerson getIdPerson() {
+    public ScPerson getIdPerson()
+    {
         return idPerson;
     }
 
-    public void setIdPerson(ScPerson idPerson) {
+    public void setIdPerson(ScPerson idPerson)
+    {
         this.idPerson = idPerson;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (idPersonDocumentationAttached != null ? idPersonDocumentationAttached.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScPersonDocumentationAttached)) {
+        if (!(object instanceof ScPersonDocumentationAttached))
+        {
             return false;
         }
         ScPersonDocumentationAttached other = (ScPersonDocumentationAttached) object;
-        if ((this.idPersonDocumentationAttached == null && other.idPersonDocumentationAttached != null) || (this.idPersonDocumentationAttached != null && !this.idPersonDocumentationAttached.equals(other.idPersonDocumentationAttached))) {
+        if ((this.idPersonDocumentationAttached == null && other.idPersonDocumentationAttached != null) || (this.idPersonDocumentationAttached != null && !this.idPersonDocumentationAttached.equals(other.idPersonDocumentationAttached)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
-        return "com.mycompany.dmes.entitys.ScPersonDocumentationAttached[ idPersonDocumentationAttached=" + idPersonDocumentationAttached + " ]";
+    public String toString()
+    {
+        return "com.sip.dmes.entitys.ScPersonDocumentationAttached[ idPersonDocumentationAttached=" + idPersonDocumentationAttached + " ]";
     }
     
 }

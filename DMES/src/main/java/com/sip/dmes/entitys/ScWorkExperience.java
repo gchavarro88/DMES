@@ -1,0 +1,157 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.sip.dmes.entitys;
+
+import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+/**
+ *
+ * @author gchavarro88
+ */
+@Entity
+@Table(name = "SC_WORK_EXPERIENCE")
+@NamedQueries(
+{
+    @NamedQuery(name = "ScWorkExperience.findAll", query = "SELECT s FROM ScWorkExperience s"),
+    @NamedQuery(name = "ScWorkExperience.findByIdWorkExperience", query = "SELECT s FROM ScWorkExperience s WHERE s.idWorkExperience = :idWorkExperience"),
+    @NamedQuery(name = "ScWorkExperience.findByInitDate", query = "SELECT s FROM ScWorkExperience s WHERE s.initDate = :initDate"),
+    @NamedQuery(name = "ScWorkExperience.findByEndDate", query = "SELECT s FROM ScWorkExperience s WHERE s.endDate = :endDate")
+})
+public class ScWorkExperience implements Serializable
+{
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID_WORK_EXPERIENCE")
+    private Long idWorkExperience;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "INIT_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date initDate;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "END_DATE")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+    @JoinColumn(name = "ID_EMPLOYEE", referencedColumnName = "ID_EMPLOYEE")
+    @ManyToOne(optional = false)
+    private ScEmployee idEmployee;
+    @JoinColumn(name = "ID_COMPANY", referencedColumnName = "ID_COMPANY")
+    @ManyToOne(optional = false)
+    private ScCompany idCompany;
+
+    public ScWorkExperience()
+    {
+    }
+
+    public ScWorkExperience(Long idWorkExperience)
+    {
+        this.idWorkExperience = idWorkExperience;
+    }
+
+    public ScWorkExperience(Long idWorkExperience, Date initDate, Date endDate)
+    {
+        this.idWorkExperience = idWorkExperience;
+        this.initDate = initDate;
+        this.endDate = endDate;
+    }
+
+    public Long getIdWorkExperience()
+    {
+        return idWorkExperience;
+    }
+
+    public void setIdWorkExperience(Long idWorkExperience)
+    {
+        this.idWorkExperience = idWorkExperience;
+    }
+
+    public Date getInitDate()
+    {
+        return initDate;
+    }
+
+    public void setInitDate(Date initDate)
+    {
+        this.initDate = initDate;
+    }
+
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
+    }
+
+    public ScEmployee getIdEmployee()
+    {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(ScEmployee idEmployee)
+    {
+        this.idEmployee = idEmployee;
+    }
+
+    public ScCompany getIdCompany()
+    {
+        return idCompany;
+    }
+
+    public void setIdCompany(ScCompany idCompany)
+    {
+        this.idCompany = idCompany;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 0;
+        hash += (idWorkExperience != null ? idWorkExperience.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof ScWorkExperience))
+        {
+            return false;
+        }
+        ScWorkExperience other = (ScWorkExperience) object;
+        if ((this.idWorkExperience == null && other.idWorkExperience != null) || (this.idWorkExperience != null && !this.idWorkExperience.equals(other.idWorkExperience)))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "com.sip.dmes.entitys.ScWorkExperience[ idWorkExperience=" + idWorkExperience + " ]";
+    }
+    
+}

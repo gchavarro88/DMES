@@ -16,7 +16,8 @@ import org.primefaces.model.TreeNode;
  *
  * @author gchavarro88
  */
-public class TemplateBean {
+public class TemplateBean
+{
 
     private final static Logger log = Logger.getLogger(TemplateBean.class);
     private TreeNode root; //Nodo base del árbol del menú
@@ -28,14 +29,15 @@ public class TemplateBean {
     private final String TREE_MENU_ROSOURCES_MANAGEMENT = "Gestión de los Recursos";//Item del menú principal
     private final String TREE_MENU_SETTINGS = "Configuraciones";//Item del menú principal
     private final String TREE_MENU_LEAVE = "Salir";//Item del menú principal
+
     /**
      * Creates a new instance of TemplateBean
      */
-    public TemplateBean() 
+    public TemplateBean()
     {
-    
+
     }
-    
+
     public String listDateHeader()
     {
         log.info("Obteniendo la fecha del encabezado");
@@ -54,12 +56,14 @@ public class TemplateBean {
         monthOfYear = ((fields[2].charAt(0) + "").toUpperCase()) + fields[2].substring(1, fields[2].length());
         year = fields[3];
         result = dayOfWeek + ", " + dayOfMonth + " de " + monthOfYear + " " + year;
-        log.info("fecha "+result);
+        log.info("fecha " + result);
         return result;
     }
-    
+
     /**
-     * Método encargado de llenar las categorias fijas del árbol de la pantalla inicial de pedidos
+     * Método encargado de llenar las categorias fijas del árbol de la pantalla
+     * inicial de pedidos
+     * <p>
      * @return Nodo raiz del árbol de categorías con todos sus hijos
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
@@ -71,9 +75,9 @@ public class TemplateBean {
         DefaultTreeNode node1 = new DefaultTreeNode(new ItemTreeIcon("DMES", "Folder"), root);
         node1.setType("Home");
         node1.setExpanded(true);
-        DefaultTreeNode node2 = new DefaultTreeNode(new ItemTreeIcon(TREE_MENU_PLANT_VISIBILITY,"Folder"), node1);
+        DefaultTreeNode node2 = new DefaultTreeNode(new ItemTreeIcon(TREE_MENU_PLANT_VISIBILITY, "Folder"), node1);
         node2.setType("Folder");
-        DefaultTreeNode node3 = new DefaultTreeNode(new ItemTreeIcon(TREE_MENU_SCHEDULING_ORDER,"Folder"), node1);
+        DefaultTreeNode node3 = new DefaultTreeNode(new ItemTreeIcon(TREE_MENU_SCHEDULING_ORDER, "Folder"), node1);
         node3.setType("Folder");
         DefaultTreeNode node4 = new DefaultTreeNode(new ItemTreeIcon(TREE_MENU_QUALITY_MANAGEMENT_AND_TRACKING, "Folder"), node1);
         node4.setType("Folder");
@@ -98,72 +102,76 @@ public class TemplateBean {
         node1.setExpanded(true);
         log.info("Menú construido y expandido");
         return root;
-    } 
+    }
+
     /**
-     * Método encargado de llenar las categorias fijas del árbol de la pantalla inicial de pedidos
+     * Método encargado de llenar las categorias fijas del árbol de la pantalla
+     * inicial de pedidos
+     * <p>
      * @return Nodo raiz del árbol de categorías con todos sus hijos
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
     public DefaultTreeNode getTypeNode(DefaultTreeNode node)
     {
-        if(node != null)
-        {            
+        if (node != null)
+        {
             node.setType("document");
         }
         return node;
     }
-    
+
     public String getImage(String nameNode)
     {
         String result = "";
-        if(nameNode.equalsIgnoreCase(TREE_MENU_PLANT_VISIBILITY))
+        if (nameNode.equalsIgnoreCase(TREE_MENU_PLANT_VISIBILITY))
         {
             result = "oee.png";
         }
-        else if(nameNode.equalsIgnoreCase(TREE_MENU_SCHEDULING_ORDER))
+        else if (nameNode.equalsIgnoreCase(TREE_MENU_SCHEDULING_ORDER))
         {
             result = "ord.png";
         }
-        else if(nameNode.equalsIgnoreCase(TREE_MENU_QUALITY_MANAGEMENT_AND_TRACKING))
+        else if (nameNode.equalsIgnoreCase(TREE_MENU_QUALITY_MANAGEMENT_AND_TRACKING))
         {
             result = "cal.png";
         }
-        else if(nameNode.equalsIgnoreCase(TREE_MENU_MAINTENANCE_MANAGEMENT))
+        else if (nameNode.equalsIgnoreCase(TREE_MENU_MAINTENANCE_MANAGEMENT))
         {
             result = "man.png";
         }
-        else if(nameNode.equalsIgnoreCase(TREE_MENU_ROSOURCES_MANAGEMENT))
+        else if (nameNode.equalsIgnoreCase(TREE_MENU_ROSOURCES_MANAGEMENT))
         {
             result = "rec.png";
         }
-        else if(nameNode.equalsIgnoreCase(TREE_MENU_SETTINGS))
+        else if (nameNode.equalsIgnoreCase(TREE_MENU_SETTINGS))
         {
             result = "confi.png";
         }
-        else if(nameNode.equalsIgnoreCase(TREE_MENU_LEAVE))
+        else if (nameNode.equalsIgnoreCase(TREE_MENU_LEAVE))
         {
             result = "salir.png";
-        }   
+        }
         return result;
     }
 
-    public TreeNode getRoot() {
+    public TreeNode getRoot()
+    {
         return root;
     }
 
-    public void setRoot(TreeNode root) {
+    public void setRoot(TreeNode root)
+    {
         this.root = root;
     }
 
-    public TreeNode getNodeSeleted() {
+    public TreeNode getNodeSeleted()
+    {
         return nodeSeleted;
     }
 
-    public void setNodeSeleted(TreeNode nodeSeleted) {
+    public void setNodeSeleted(TreeNode nodeSeleted)
+    {
         this.nodeSeleted = nodeSeleted;
     }
-    
-    
-    
-    
+
 }

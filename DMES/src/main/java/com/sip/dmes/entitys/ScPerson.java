@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
@@ -13,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -26,11 +24,12 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author gustavo
+ * @author gchavarro88
  */
 @Entity
 @Table(name = "SC_PERSON")
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "ScPerson.findAll", query = "SELECT s FROM ScPerson s"),
     @NamedQuery(name = "ScPerson.findByIdPerson", query = "SELECT s FROM ScPerson s WHERE s.idPerson = :idPerson"),
     @NamedQuery(name = "ScPerson.findByFirstName", query = "SELECT s FROM ScPerson s WHERE s.firstName = :firstName"),
@@ -44,8 +43,10 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScPerson.findByDescription", query = "SELECT s FROM ScPerson s WHERE s.description = :description"),
     @NamedQuery(name = "ScPerson.findByPathPhoto", query = "SELECT s FROM ScPerson s WHERE s.pathPhoto = :pathPhoto"),
     @NamedQuery(name = "ScPerson.findByCreationDate", query = "SELECT s FROM ScPerson s WHERE s.creationDate = :creationDate"),
-    @NamedQuery(name = "ScPerson.findByModifyDate", query = "SELECT s FROM ScPerson s WHERE s.modifyDate = :modifyDate")})
-public class ScPerson implements Serializable {
+    @NamedQuery(name = "ScPerson.findByModifyDate", query = "SELECT s FROM ScPerson s WHERE s.modifyDate = :modifyDate")
+})
+public class ScPerson implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -103,25 +104,32 @@ public class ScPerson implements Serializable {
     @Column(name = "MODIFY_DATE")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPhones> scPhonesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
-    private List<ScPersonObservations> scPersonObservationsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonSpecifications> scPersonSpecificationsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScMails> scMailsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPartner> scPartnerList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScEmployee> scEmployeeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPersonObservations> scPersonObservationsList;
 
-    public ScPerson() {
+    public ScPerson()
+    {
     }
 
-    public ScPerson(Long idPerson) {
+    public ScPerson(Long idPerson)
+    {
         this.idPerson = idPerson;
     }
 
-    public ScPerson(Long idPerson, String firstName, String lastName, short age, String country, String city, String domicilie, String pathPhoto, Date creationDate) {
+    public ScPerson(Long idPerson, String firstName, String lastName, short age, String country, String city, String domicilie, String pathPhoto, Date creationDate)
+    {
         this.idPerson = idPerson;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -133,173 +141,234 @@ public class ScPerson implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public Long getIdPerson() {
+    public Long getIdPerson()
+    {
         return idPerson;
     }
 
-    public void setIdPerson(Long idPerson) {
+    public void setIdPerson(Long idPerson)
+    {
         this.idPerson = idPerson;
     }
 
-    public String getFirstName() {
+    public String getFirstName()
+    {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName)
+    {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public String getLastName()
+    {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName)
+    {
         this.lastName = lastName;
     }
 
-    public short getAge() {
+    public short getAge()
+    {
         return age;
     }
 
-    public void setAge(short age) {
+    public void setAge(short age)
+    {
         this.age = age;
     }
 
-    public String getCountry() {
+    public String getCountry()
+    {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country)
+    {
         this.country = country;
     }
 
-    public String getCity() {
+    public String getCity()
+    {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(String city)
+    {
         this.city = city;
     }
 
-    public String getPersonalInformation() {
+    public String getPersonalInformation()
+    {
         return personalInformation;
     }
 
-    public void setPersonalInformation(String personalInformation) {
+    public void setPersonalInformation(String personalInformation)
+    {
         this.personalInformation = personalInformation;
     }
 
-    public String getDomicilie() {
+    public String getDomicilie()
+    {
         return domicilie;
     }
 
-    public void setDomicilie(String domicilie) {
+    public void setDomicilie(String domicilie)
+    {
         this.domicilie = domicilie;
     }
 
-    public String getStudies() {
+    public String getStudies()
+    {
         return studies;
     }
 
-    public void setStudies(String studies) {
+    public void setStudies(String studies)
+    {
         this.studies = studies;
     }
 
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
-    public String getPathPhoto() {
+    public String getPathPhoto()
+    {
         return pathPhoto;
     }
 
-    public void setPathPhoto(String pathPhoto) {
+    public void setPathPhoto(String pathPhoto)
+    {
         this.pathPhoto = pathPhoto;
     }
 
-    public Date getCreationDate() {
+    public Date getCreationDate()
+    {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(Date creationDate)
+    {
         this.creationDate = creationDate;
     }
 
-    public Date getModifyDate() {
+    public Date getModifyDate()
+    {
         return modifyDate;
     }
 
-    public void setModifyDate(Date modifyDate) {
+    public void setModifyDate(Date modifyDate)
+    {
         this.modifyDate = modifyDate;
     }
 
-    public List<ScPhones> getScPhonesList() {
+    public List<ScPhones> getScPhonesList()
+    {
         return scPhonesList;
     }
 
-    public void setScPhonesList(List<ScPhones> scPhonesList) {
+    public void setScPhonesList(List<ScPhones> scPhonesList)
+    {
         this.scPhonesList = scPhonesList;
     }
 
-    public List<ScPersonObservations> getScPersonObservationsList() {
-        return scPersonObservationsList;
-    }
-
-    public void setScPersonObservationsList(List<ScPersonObservations> scPersonObservationsList) {
-        this.scPersonObservationsList = scPersonObservationsList;
-    }
-
-    public List<ScPersonSpecifications> getScPersonSpecificationsList() {
+    public List<ScPersonSpecifications> getScPersonSpecificationsList()
+    {
         return scPersonSpecificationsList;
     }
 
-    public void setScPersonSpecificationsList(List<ScPersonSpecifications> scPersonSpecificationsList) {
+    public void setScPersonSpecificationsList(List<ScPersonSpecifications> scPersonSpecificationsList)
+    {
         this.scPersonSpecificationsList = scPersonSpecificationsList;
     }
 
-    public List<ScMails> getScMailsList() {
+    public List<ScMails> getScMailsList()
+    {
         return scMailsList;
     }
 
-    public void setScMailsList(List<ScMails> scMailsList) {
+    public void setScMailsList(List<ScMails> scMailsList)
+    {
         this.scMailsList = scMailsList;
     }
 
-    public List<ScPersonDocumentationAttached> getScPersonDocumentationAttachedList() {
+    public List<ScPersonDocumentationAttached> getScPersonDocumentationAttachedList()
+    {
         return scPersonDocumentationAttachedList;
     }
 
-    public void setScPersonDocumentationAttachedList(List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList) {
+    public void setScPersonDocumentationAttachedList(List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList)
+    {
         this.scPersonDocumentationAttachedList = scPersonDocumentationAttachedList;
     }
 
+    public List<ScPartner> getScPartnerList()
+    {
+        return scPartnerList;
+    }
+
+    public void setScPartnerList(List<ScPartner> scPartnerList)
+    {
+        this.scPartnerList = scPartnerList;
+    }
+
+    public List<ScEmployee> getScEmployeeList()
+    {
+        return scEmployeeList;
+    }
+
+    public void setScEmployeeList(List<ScEmployee> scEmployeeList)
+    {
+        this.scEmployeeList = scEmployeeList;
+    }
+
+    public List<ScPersonObservations> getScPersonObservationsList()
+    {
+        return scPersonObservationsList;
+    }
+
+    public void setScPersonObservationsList(List<ScPersonObservations> scPersonObservationsList)
+    {
+        this.scPersonObservationsList = scPersonObservationsList;
+    }
+
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (idPerson != null ? idPerson.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScPerson)) {
+        if (!(object instanceof ScPerson))
+        {
             return false;
         }
         ScPerson other = (ScPerson) object;
-        if ((this.idPerson == null && other.idPerson != null) || (this.idPerson != null && !this.idPerson.equals(other.idPerson))) {
+        if ((this.idPerson == null && other.idPerson != null) || (this.idPerson != null && !this.idPerson.equals(other.idPerson)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
-        return "com.mycompany.dmes.entitys.ScPerson[ idPerson=" + idPerson + " ]";
+    public String toString()
+    {
+        return "com.sip.dmes.entitys.ScPerson[ idPerson=" + idPerson + " ]";
     }
     
 }

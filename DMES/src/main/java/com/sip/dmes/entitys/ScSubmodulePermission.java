@@ -6,19 +6,18 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,24 +26,22 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_ROLES")
+@Table(name = "SC_SUBMODULE_PERMISSION")
 @NamedQueries(
 {
-    @NamedQuery(name = "ScRoles.findAll", query = "SELECT s FROM ScRoles s"),
-    @NamedQuery(name = "ScRoles.findByIdRol", query = "SELECT s FROM ScRoles s WHERE s.idRol = :idRol"),
-    @NamedQuery(name = "ScRoles.findByName", query = "SELECT s FROM ScRoles s WHERE s.name = :name"),
-    @NamedQuery(name = "ScRoles.findByDescription", query = "SELECT s FROM ScRoles s WHERE s.description = :description"),
-    @NamedQuery(name = "ScRoles.findByCreationDate", query = "SELECT s FROM ScRoles s WHERE s.creationDate = :creationDate"),
-    @NamedQuery(name = "ScRoles.findByModifyDate", query = "SELECT s FROM ScRoles s WHERE s.modifyDate = :modifyDate")
+    @NamedQuery(name = "ScSubmodulePermission.findAll", query = "SELECT s FROM ScSubmodulePermission s"),
+    @NamedQuery(name = "ScSubmodulePermission.findByIdSubmodulePermission", query = "SELECT s FROM ScSubmodulePermission s WHERE s.idSubmodulePermission = :idSubmodulePermission"),
+    @NamedQuery(name = "ScSubmodulePermission.findByName", query = "SELECT s FROM ScSubmodulePermission s WHERE s.name = :name"),
+    @NamedQuery(name = "ScSubmodulePermission.findByDescription", query = "SELECT s FROM ScSubmodulePermission s WHERE s.description = :description")
 })
-public class ScRoles implements Serializable
+public class ScSubmodulePermission implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_ROL")
-    private Long idRol;
+    @Column(name = "ID_SUBMODULE_PERMISSION")
+    private Long idSubmodulePermission;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -53,41 +50,35 @@ public class ScRoles implements Serializable
     @Size(max = 2000)
     @Column(name = "DESCRIPTION")
     private String description;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "CREATION_DATE")
-    @Temporal(TemporalType.DATE)
-    private Date creationDate;
-    @Column(name = "MODIFY_DATE")
-    @Temporal(TemporalType.DATE)
-    private Date modifyDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRole")
+    @JoinColumn(name = "ID_MODULE_PERMISSION", referencedColumnName = "ID_MODULE_PERMISSION")
+    @ManyToOne(optional = false)
+    private ScModulePermission idModulePermission;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubmodulePermission")
     private List<ScSubmodulePermissionByRole> scSubmodulePermissionByRoleList;
 
-    public ScRoles()
+    public ScSubmodulePermission()
     {
     }
 
-    public ScRoles(Long idRol)
+    public ScSubmodulePermission(Long idSubmodulePermission)
     {
-        this.idRol = idRol;
+        this.idSubmodulePermission = idSubmodulePermission;
     }
 
-    public ScRoles(Long idRol, String name, Date creationDate)
+    public ScSubmodulePermission(Long idSubmodulePermission, String name)
     {
-        this.idRol = idRol;
+        this.idSubmodulePermission = idSubmodulePermission;
         this.name = name;
-        this.creationDate = creationDate;
     }
 
-    public Long getIdRol()
+    public Long getIdSubmodulePermission()
     {
-        return idRol;
+        return idSubmodulePermission;
     }
 
-    public void setIdRol(Long idRol)
+    public void setIdSubmodulePermission(Long idSubmodulePermission)
     {
-        this.idRol = idRol;
+        this.idSubmodulePermission = idSubmodulePermission;
     }
 
     public String getName()
@@ -110,24 +101,14 @@ public class ScRoles implements Serializable
         this.description = description;
     }
 
-    public Date getCreationDate()
+    public ScModulePermission getIdModulePermission()
     {
-        return creationDate;
+        return idModulePermission;
     }
 
-    public void setCreationDate(Date creationDate)
+    public void setIdModulePermission(ScModulePermission idModulePermission)
     {
-        this.creationDate = creationDate;
-    }
-
-    public Date getModifyDate()
-    {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Date modifyDate)
-    {
-        this.modifyDate = modifyDate;
+        this.idModulePermission = idModulePermission;
     }
 
     public List<ScSubmodulePermissionByRole> getScSubmodulePermissionByRoleList()
@@ -144,7 +125,7 @@ public class ScRoles implements Serializable
     public int hashCode()
     {
         int hash = 0;
-        hash += (idRol != null ? idRol.hashCode() : 0);
+        hash += (idSubmodulePermission != null ? idSubmodulePermission.hashCode() : 0);
         return hash;
     }
 
@@ -152,12 +133,12 @@ public class ScRoles implements Serializable
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScRoles))
+        if (!(object instanceof ScSubmodulePermission))
         {
             return false;
         }
-        ScRoles other = (ScRoles) object;
-        if ((this.idRol == null && other.idRol != null) || (this.idRol != null && !this.idRol.equals(other.idRol)))
+        ScSubmodulePermission other = (ScSubmodulePermission) object;
+        if ((this.idSubmodulePermission == null && other.idSubmodulePermission != null) || (this.idSubmodulePermission != null && !this.idSubmodulePermission.equals(other.idSubmodulePermission)))
         {
             return false;
         }
@@ -167,7 +148,7 @@ public class ScRoles implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScRoles[ idRol=" + idRol + " ]";
+        return "com.sip.dmes.entitys.ScSubmodulePermission[ idSubmodulePermission=" + idSubmodulePermission + " ]";
     }
     
 }

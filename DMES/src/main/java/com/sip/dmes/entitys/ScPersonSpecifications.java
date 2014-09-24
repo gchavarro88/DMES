@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,16 +20,19 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author gustavo
+ * @author gchavarro88
  */
 @Entity
 @Table(name = "SC_PERSON_SPECIFICATIONS")
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "ScPersonSpecifications.findAll", query = "SELECT s FROM ScPersonSpecifications s"),
     @NamedQuery(name = "ScPersonSpecifications.findByIdPersonSpecifications", query = "SELECT s FROM ScPersonSpecifications s WHERE s.idPersonSpecifications = :idPersonSpecifications"),
     @NamedQuery(name = "ScPersonSpecifications.findByTittle", query = "SELECT s FROM ScPersonSpecifications s WHERE s.tittle = :tittle"),
-    @NamedQuery(name = "ScPersonSpecifications.findBySpecification", query = "SELECT s FROM ScPersonSpecifications s WHERE s.specification = :specification")})
-public class ScPersonSpecifications implements Serializable {
+    @NamedQuery(name = "ScPersonSpecifications.findBySpecification", query = "SELECT s FROM ScPersonSpecifications s WHERE s.specification = :specification")
+})
+public class ScPersonSpecifications implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -49,77 +50,93 @@ public class ScPersonSpecifications implements Serializable {
     @Column(name = "SPECIFICATION")
     private String specification;
     @JoinColumn(name = "ID_PERSON", referencedColumnName = "ID_PERSON")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScPerson idPerson;
 
-    public ScPersonSpecifications() {
+    public ScPersonSpecifications()
+    {
     }
 
-    public ScPersonSpecifications(Long idPersonSpecifications) {
+    public ScPersonSpecifications(Long idPersonSpecifications)
+    {
         this.idPersonSpecifications = idPersonSpecifications;
     }
 
-    public ScPersonSpecifications(Long idPersonSpecifications, String tittle, String specification) {
+    public ScPersonSpecifications(Long idPersonSpecifications, String tittle, String specification)
+    {
         this.idPersonSpecifications = idPersonSpecifications;
         this.tittle = tittle;
         this.specification = specification;
     }
 
-    public Long getIdPersonSpecifications() {
+    public Long getIdPersonSpecifications()
+    {
         return idPersonSpecifications;
     }
 
-    public void setIdPersonSpecifications(Long idPersonSpecifications) {
+    public void setIdPersonSpecifications(Long idPersonSpecifications)
+    {
         this.idPersonSpecifications = idPersonSpecifications;
     }
 
-    public String getTittle() {
+    public String getTittle()
+    {
         return tittle;
     }
 
-    public void setTittle(String tittle) {
+    public void setTittle(String tittle)
+    {
         this.tittle = tittle;
     }
 
-    public String getSpecification() {
+    public String getSpecification()
+    {
         return specification;
     }
 
-    public void setSpecification(String specification) {
+    public void setSpecification(String specification)
+    {
         this.specification = specification;
     }
 
-    public ScPerson getIdPerson() {
+    public ScPerson getIdPerson()
+    {
         return idPerson;
     }
 
-    public void setIdPerson(ScPerson idPerson) {
+    public void setIdPerson(ScPerson idPerson)
+    {
         this.idPerson = idPerson;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (idPersonSpecifications != null ? idPersonSpecifications.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScPersonSpecifications)) {
+        if (!(object instanceof ScPersonSpecifications))
+        {
             return false;
         }
         ScPersonSpecifications other = (ScPersonSpecifications) object;
-        if ((this.idPersonSpecifications == null && other.idPersonSpecifications != null) || (this.idPersonSpecifications != null && !this.idPersonSpecifications.equals(other.idPersonSpecifications))) {
+        if ((this.idPersonSpecifications == null && other.idPersonSpecifications != null) || (this.idPersonSpecifications != null && !this.idPersonSpecifications.equals(other.idPersonSpecifications)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
-        return "com.mycompany.dmes.entitys.ScPersonSpecifications[ idPersonSpecifications=" + idPersonSpecifications + " ]";
+    public String toString()
+    {
+        return "com.sip.dmes.entitys.ScPersonSpecifications[ idPersonSpecifications=" + idPersonSpecifications + " ]";
     }
     
 }
