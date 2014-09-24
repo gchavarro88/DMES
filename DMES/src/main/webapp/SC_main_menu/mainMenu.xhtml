@@ -13,9 +13,8 @@
             <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
         </h:head>
         <h:body>
-            <p:ajaxStatus onstart="statusDialog.show();"
-                          onsuccess="statusDialog.hide();" />
-            <p:dialog modal="true" styleClass="top" widgetVar="statusDialog" header="Cargando..."
+            <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
                       draggable="false" closable="false" resizable="false">
                 <p:graphicImage value="/images/loadBar.gif"/>
             </p:dialog>
@@ -82,8 +81,12 @@
                 <p:layoutUnit position="center" 
                               styleClass="layoutBordes">
                     
-                    <div style="height: 240px;"></div>
+                    <div id="divLayoutCenter">
                         
+                    </div>
+                    <script type="text/javascript">
+                        document.getElementById("divLayoutCenter").style.height = (screen.height-530)+"px";
+                    </script>
                 </p:layoutUnit>
             </p:layout>
         </h:body>

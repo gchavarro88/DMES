@@ -15,16 +15,17 @@
             <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/style.css"/>
         </h:head>
         <h:body>
-            <p:ajaxStatus onstart="statusDialog.show();"
-                          onsuccess="statusDialog.hide();" />
-            <p:dialog modal="true" styleClass="top" widgetVar="statusDialog" header="Cargando..."
+            <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
                       draggable="false" closable="false" resizable="false">
                 <p:graphicImage value="/images/loadBar.gif"/>
             </p:dialog>
-            <p:messages id="messageLogin" autoUpdate="true" closable="true" showSummary="false" showDetail="true" />
+            <h:form>
+                <p:messages id="messageLogin" autoUpdate="true" closable="true" showSummary="false" showDetail="true" />
+            </h:form>
             <div id="container">
                 <h3 class="tittle-sip"> SIP INGENIERÍA </h3>
-                <h:form styleClass="login">
+                <h:form styleClass="login" id="formLogin">
                     
                     <p>
                         <label for="login">Usuario:</label>
