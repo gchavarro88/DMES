@@ -26,12 +26,12 @@ import javax.validation.constraints.Size;
  *
  * @author gchavarro88
  */
-@Entity
-@Table(name = "SC_ROLES")
+@Entity 
+@Table(name = "sc_roles", schema = "dmes")
 @NamedQueries(
 {
     @NamedQuery(name = "ScRoles.findAll", query = "SELECT s FROM ScRoles s"),
-    @NamedQuery(name = "ScRoles.findByIdRol", query = "SELECT s FROM ScRoles s WHERE s.idRol = :idRol"),
+    @NamedQuery(name = "ScRoles.findByIdRole", query = "SELECT s FROM ScRoles s WHERE s.idRole = :idRole"),
     @NamedQuery(name = "ScRoles.findByName", query = "SELECT s FROM ScRoles s WHERE s.name = :name"),
     @NamedQuery(name = "ScRoles.findByDescription", query = "SELECT s FROM ScRoles s WHERE s.description = :description"),
     @NamedQuery(name = "ScRoles.findByCreationDate", query = "SELECT s FROM ScRoles s WHERE s.creationDate = :creationDate"),
@@ -43,51 +43,51 @@ public class ScRoles implements Serializable
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_ROL")
-    private Long idRol;
+    @Column(name = "id_role")
+    private Long idRole;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
     @Size(max = 2000)
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CREATION_DATE")
+    @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @Column(name = "MODIFY_DATE")
+    @Column(name = "modify_date")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRole")
-    private List<ScSubmodulePermissionByRole> scSubmodulePermissionByRoleList;
+    private List<ScUsers> scUsersList;
 
     public ScRoles()
     {
     }
 
-    public ScRoles(Long idRol)
+    public ScRoles(Long idRole)
     {
-        this.idRol = idRol;
+        this.idRole = idRole;
     }
 
-    public ScRoles(Long idRol, String name, Date creationDate)
+    public ScRoles(Long idRole, String name, Date creationDate)
     {
-        this.idRol = idRol;
+        this.idRole = idRole;
         this.name = name;
         this.creationDate = creationDate;
     }
 
-    public Long getIdRol()
+    public Long getIdRole()
     {
-        return idRol;
+        return idRole;
     }
 
-    public void setIdRol(Long idRol)
+    public void setIdRole(Long idRole)
     {
-        this.idRol = idRol;
+        this.idRole = idRole;
     }
 
     public String getName()
@@ -130,21 +130,21 @@ public class ScRoles implements Serializable
         this.modifyDate = modifyDate;
     }
 
-    public List<ScSubmodulePermissionByRole> getScSubmodulePermissionByRoleList()
+    public List<ScUsers> getScUsersList()
     {
-        return scSubmodulePermissionByRoleList;
+        return scUsersList;
     }
 
-    public void setScSubmodulePermissionByRoleList(List<ScSubmodulePermissionByRole> scSubmodulePermissionByRoleList)
+    public void setScUsersList(List<ScUsers> scUsersList)
     {
-        this.scSubmodulePermissionByRoleList = scSubmodulePermissionByRoleList;
+        this.scUsersList = scUsersList;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (idRol != null ? idRol.hashCode() : 0);
+        hash += (idRole != null ? idRole.hashCode() : 0);
         return hash;
     }
 
@@ -157,7 +157,7 @@ public class ScRoles implements Serializable
             return false;
         }
         ScRoles other = (ScRoles) object;
-        if ((this.idRol == null && other.idRol != null) || (this.idRol != null && !this.idRol.equals(other.idRol)))
+        if ((this.idRole == null && other.idRole != null) || (this.idRole != null && !this.idRole.equals(other.idRole)))
         {
             return false;
         }
@@ -167,7 +167,7 @@ public class ScRoles implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScRoles[ idRol=" + idRol + " ]";
+        return "com.sip.dmes.entitys.ScRoles[ idRole=" + idRole + " ]";
     }
     
 }

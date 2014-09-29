@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_COMPANY")
+@Table(name = "sc_company")
 @NamedQueries(
 {
     @NamedQuery(name = "ScCompany.findAll", query = "SELECT s FROM ScCompany s"),
@@ -38,15 +38,15 @@ public class ScCompany implements Serializable
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_COMPANY")
+    @Column(name = "id_company")
     private Long idCompany;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
     @Size(max = 2000)
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCompany")
     private List<ScWorkExperience> scWorkExperienceList;

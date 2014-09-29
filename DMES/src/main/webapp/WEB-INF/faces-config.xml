@@ -3,8 +3,18 @@
               xmlns="http://xmlns.jcp.org/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    
+    <application>        
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>        
+    </application>
+    <application>
+        <action-listener>org.primefaces.application.DialogActionListener</action-listener>
+        <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+        <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+    </application>
+    
     <navigation-rule>
-        <from-view-id>/index.xhtml</from-view-id>
+        <from-view-id>/Login.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>loginIn</from-outcome>
             <to-view-id>/SC_main_menu/mainMenu.xhtml</to-view-id>
@@ -14,5 +24,15 @@
         <managed-bean-name>templateBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.template.TemplateBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>loginBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.login.LoginBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>scUsersServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScUsers</property-class>
+            <value>#{scUsersServer}</value>
+        </managed-property>
     </managed-bean>
 </faces-config>

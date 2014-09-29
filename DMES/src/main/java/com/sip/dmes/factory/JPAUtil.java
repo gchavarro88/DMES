@@ -18,26 +18,20 @@ public class JPAUtil
 {
 
     private static Logger log = Logger.getLogger(JPAUtil.class);
-    private static EntityManagerFactory emf;
+    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("DMES_PersistenceUnit");
 
-    static
+    public static EntityManagerFactory getEntityManagerFactory()
     {
-        try
-        {
-            emf = Persistence
-                    .createEntityManagerFactory("DMES_PersistenceUnit");
-        }
-        catch (Exception e)
-        {
-            log.error("Error al intentar obtener un entity manager", e.getCause());
-        }
-        
-        EntityManager em = createEntityManager();
+
+        return emf;
+
     }
 
-    public static EntityManager createEntityManager()
+    public static EntityManager createEntity()
     {
-        return emf.createEntityManager();
+        EntityManager em = getEntityManagerFactory().createEntityManager();
+
+        return em;
     }
 
 }

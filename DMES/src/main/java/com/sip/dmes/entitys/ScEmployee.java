@@ -30,7 +30,7 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_EMPLOYEE")
+@Table(name = "sc_employee")
 @NamedQueries(
 {
     @NamedQuery(name = "ScEmployee.findAll", query = "SELECT s FROM ScEmployee s"),
@@ -53,52 +53,52 @@ public class ScEmployee implements Serializable
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_EMPLOYEE")
+    @Column(name = "id_employee")
     private Long idEmployee;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "POSITION")
+    @Column(name = "position")
     private String position;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "FORMATION")
+    @Column(name = "formation")
     private String formation;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ADMISSION_DATE")
+    @Column(name = "admission_date")
     @Temporal(TemporalType.DATE)
     private Date admissionDate;
-    @Column(name = "RETIREMENT_DATE")
+    @Column(name = "retirement_date")
     @Temporal(TemporalType.DATE)
     private Date retirementDate;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ACTIVE")
+    @Column(name = "active")
     private Character active;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "SALARY")
+    @Column(name = "salary")
     private BigDecimal salary;
-    @Column(name = "HOUR_VALUE")
+    @Column(name = "hour_value")
     private BigDecimal hourValue;
-    @Column(name = "PORCENTAGE")
+    @Column(name = "porcentage")
     private BigDecimal porcentage;
-    @Column(name = "AMOUNT")
+    @Column(name = "amount")
     private BigDecimal amount;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CREATION_DATE")
+    @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @Column(name = "MODIFY_DATE")
+    @Column(name = "modify_date")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployee")
-    private List<ScWorkExperience> scWorkExperienceList;
-    @JoinColumn(name = "ID_PERSON", referencedColumnName = "ID_PERSON")
+    @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)
     private ScPerson idPerson;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployee")
+    private List<ScWorkExperience> scWorkExperienceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployee")
     private List<ScCompetencies> scCompetenciesList;
 
@@ -241,16 +241,6 @@ public class ScEmployee implements Serializable
         this.modifyDate = modifyDate;
     }
 
-    public List<ScWorkExperience> getScWorkExperienceList()
-    {
-        return scWorkExperienceList;
-    }
-
-    public void setScWorkExperienceList(List<ScWorkExperience> scWorkExperienceList)
-    {
-        this.scWorkExperienceList = scWorkExperienceList;
-    }
-
     public ScPerson getIdPerson()
     {
         return idPerson;
@@ -259,6 +249,16 @@ public class ScEmployee implements Serializable
     public void setIdPerson(ScPerson idPerson)
     {
         this.idPerson = idPerson;
+    }
+
+    public List<ScWorkExperience> getScWorkExperienceList()
+    {
+        return scWorkExperienceList;
+    }
+
+    public void setScWorkExperienceList(List<ScWorkExperience> scWorkExperienceList)
+    {
+        this.scWorkExperienceList = scWorkExperienceList;
     }
 
     public List<ScCompetencies> getScCompetenciesList()

@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_WORK_EXPERIENCE")
+@Table(name = "sc_work_experience")
 @NamedQueries(
 {
     @NamedQuery(name = "ScWorkExperience.findAll", query = "SELECT s FROM ScWorkExperience s"),
@@ -39,22 +39,22 @@ public class ScWorkExperience implements Serializable
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_WORK_EXPERIENCE")
+    @Column(name = "id_work_experience")
     private Long idWorkExperience;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "INIT_DATE")
+    @Column(name = "init_date")
     @Temporal(TemporalType.DATE)
     private Date initDate;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "END_DATE")
+    @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @JoinColumn(name = "ID_EMPLOYEE", referencedColumnName = "ID_EMPLOYEE")
+    @JoinColumn(name = "id_employee", referencedColumnName = "id_employee")
     @ManyToOne(optional = false)
     private ScEmployee idEmployee;
-    @JoinColumn(name = "ID_COMPANY", referencedColumnName = "ID_COMPANY")
+    @JoinColumn(name = "id_company", referencedColumnName = "id_company")
     @ManyToOne(optional = false)
     private ScCompany idCompany;
 

@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="DMES_PersistenceUnit" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>com.mycompany.dmes.entitys.ScMails</class>
-    <class>com.mycompany.dmes.entitys.ScPersonDocumentationAttached</class>
-    <class>com.mycompany.dmes.entitys.ScPersonSpecifications</class>
-    <class>com.mycompany.dmes.entitys.ScPhones</class>
-    <class>com.mycompany.dmes.entitys.ScModulePermission</class>
-    <class>com.mycompany.dmes.entitys.ScModulePermissionByRole</class>
-    <class>com.mycompany.dmes.entitys.ScPerson</class>
-    <class>com.mycompany.dmes.entitys.ScPersonObservations</class>
-    <class>com.mycompany.dmes.entitys.ScRoles</class>
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <!--    <class>com.sip.dmes.entitys.ScPerson</class>
+    <class>com.sip.dmes.entitys.ScRoles</class>
+    <class>com.sip.dmes.entitys.ScUsers</class>-->
+    <class>com.sip.dmes.entitys.ScEmployee</class>
+    <class>com.sip.dmes.entitys.ScPersonObservations</class>
+    <class>com.sip.dmes.entitys.ScServicesOrProducts</class>
+    <class>com.sip.dmes.entitys.ScCompany</class>
+    <class>com.sip.dmes.entitys.ScMails</class>
+    <class>com.sip.dmes.entitys.ScModulePermissionByRole</class>
+    <class>com.sip.dmes.entitys.ScWorkExperience</class>
+    <class>com.sip.dmes.entitys.ScCompetencies</class>
+    <class>com.sip.dmes.entitys.ScPartner</class>
+    <class>com.sip.dmes.entitys.ScPersonSpecifications</class>
+    <class>com.sip.dmes.entitys.ScModulePermission</class>
+    <class>com.sip.dmes.entitys.ScSubmodulePermission</class>
+    <class>com.sip.dmes.entitys.ScPhones</class>
+    <class>com.sip.dmes.entitys.ScPersonDocumentationAttached</class>
+    <class>com.sip.dmes.entitys.ScRoles</class>
+    <class>com.sip.dmes.entitys.ScUsers</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <validation-mode>NONE</validation-mode>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/DMES"/>
-      <property name="javax.persistence.jdbc.password" value="sipPrueba"/>
+      <property name="javax.persistence.jdbc.password" value="sipPRueba"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.user" value="sipPrueba"/>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
     </properties>
   </persistence-unit>
 </persistence>

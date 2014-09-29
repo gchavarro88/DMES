@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_PARTNER")
+@Table(name = "sc_partner")
 @NamedQueries(
 {
     @NamedQuery(name = "ScPartner.findAll", query = "SELECT s FROM ScPartner s"),
@@ -46,35 +46,35 @@ public class ScPartner implements Serializable
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_PARTNER")
+    @Column(name = "id_partner")
     private Long idPartner;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1)
-    @Column(name = "ACTIVE")
+    @Column(name = "active")
     private String active;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "POSITION")
+    @Column(name = "position")
     private String position;
     @Size(max = 100)
-    @Column(name = "WEB_PAGE")
+    @Column(name = "web_page")
     private String webPage;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CREATION_DATE")
+    @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @Column(name = "MODIFY_DATE")
+    @Column(name = "modify_date")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartner")
     private List<ScServicesOrProducts> scServicesOrProductsList;
-    @JoinColumn(name = "ID_PERSON", referencedColumnName = "ID_PERSON")
+    @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)
     private ScPerson idPerson;
-    @JoinColumn(name = "ID_COMPANY", referencedColumnName = "ID_COMPANY")
+    @JoinColumn(name = "id_company", referencedColumnName = "id_company")
     @ManyToOne(optional = false)
     private ScCompany idCompany;
 

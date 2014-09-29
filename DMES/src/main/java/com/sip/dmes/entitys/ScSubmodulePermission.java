@@ -6,9 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,13 +23,14 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_SUBMODULE_PERMISSION")
+@Table(name = "sc_submodule_permission")
 @NamedQueries(
 {
     @NamedQuery(name = "ScSubmodulePermission.findAll", query = "SELECT s FROM ScSubmodulePermission s"),
     @NamedQuery(name = "ScSubmodulePermission.findByIdSubmodulePermission", query = "SELECT s FROM ScSubmodulePermission s WHERE s.idSubmodulePermission = :idSubmodulePermission"),
     @NamedQuery(name = "ScSubmodulePermission.findByName", query = "SELECT s FROM ScSubmodulePermission s WHERE s.name = :name"),
-    @NamedQuery(name = "ScSubmodulePermission.findByDescription", query = "SELECT s FROM ScSubmodulePermission s WHERE s.description = :description")
+    @NamedQuery(name = "ScSubmodulePermission.findByDescription", query = "SELECT s FROM ScSubmodulePermission s WHERE s.description = :description"),
+    @NamedQuery(name = "ScSubmodulePermission.findByType", query = "SELECT s FROM ScSubmodulePermission s WHERE s.type = :type")
 })
 public class ScSubmodulePermission implements Serializable
 {
@@ -40,21 +38,24 @@ public class ScSubmodulePermission implements Serializable
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_SUBMODULE_PERMISSION")
+    @Column(name = "id_submodule_permission")
     private Long idSubmodulePermission;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
     @Size(max = 2000)
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
-    @JoinColumn(name = "ID_MODULE_PERMISSION", referencedColumnName = "ID_MODULE_PERMISSION")
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 5)
+    @Column(name = "type")
+    private String type;
+    @JoinColumn(name = "id_module_permission", referencedColumnName = "id_module_permission")
     @ManyToOne(optional = false)
     private ScModulePermission idModulePermission;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSubmodulePermission")
-    private List<ScSubmodulePermissionByRole> scSubmodulePermissionByRoleList;
 
     public ScSubmodulePermission()
     {
@@ -65,10 +66,11 @@ public class ScSubmodulePermission implements Serializable
         this.idSubmodulePermission = idSubmodulePermission;
     }
 
-    public ScSubmodulePermission(Long idSubmodulePermission, String name)
+    public ScSubmodulePermission(Long idSubmodulePermission, String name, String type)
     {
         this.idSubmodulePermission = idSubmodulePermission;
         this.name = name;
+        this.type = type;
     }
 
     public Long getIdSubmodulePermission()
@@ -101,6 +103,16 @@ public class ScSubmodulePermission implements Serializable
         this.description = description;
     }
 
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
     public ScModulePermission getIdModulePermission()
     {
         return idModulePermission;
@@ -109,16 +121,6 @@ public class ScSubmodulePermission implements Serializable
     public void setIdModulePermission(ScModulePermission idModulePermission)
     {
         this.idModulePermission = idModulePermission;
-    }
-
-    public List<ScSubmodulePermissionByRole> getScSubmodulePermissionByRoleList()
-    {
-        return scSubmodulePermissionByRoleList;
-    }
-
-    public void setScSubmodulePermissionByRoleList(List<ScSubmodulePermissionByRole> scSubmodulePermissionByRoleList)
-    {
-        this.scSubmodulePermissionByRoleList = scSubmodulePermissionByRoleList;
     }
 
     @Override

@@ -29,20 +29,20 @@
                     
                     <p>
                         <label for="login">Usuario:</label>
-                    <p:inputText id="login" required="true"  requiredMessage="No se ha ingresado un nombre de usuario">
+                    <p:inputText id="login" required="true"  value="#{loginBean.login}" requiredMessage="No se ha ingresado un nombre de usuario">
                         <p:watermark for="login" value="nombre de usuario"/>
                     </p:inputText>
                     </p>
 
                     <p>
                         <label for="password">Password:</label>
-                    <p:password id="password" required="true" requiredMessage="No se ha ingresado un password">
+                    <p:password id="password" required="true" value="#{loginBean.password}" requiredMessage="No se ha ingresado un password">
                             <p:watermark for="password" value="*********"/>
                         </p:password>
                     </p>
 
                     <p class="login-submit">
-                    <p:commandButton styleClass="login-button" id="btnLogin" title="Presiona para iniciar sesión" action="loginIn">
+                    <p:commandButton styleClass="login-button" id="btnLogin" title="Presiona para iniciar sesión" action="#{loginBean.doLogin()}">
                         
                     </p:commandButton> 
 <!--                        <button type="submit" class="login-button">Login</button>-->

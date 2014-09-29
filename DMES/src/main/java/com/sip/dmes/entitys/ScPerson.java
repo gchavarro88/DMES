@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_PERSON")
+@Table(name = "sc_person", schema = "dmes")
 @NamedQueries(
 {
     @NamedQuery(name = "ScPerson.findAll", query = "SELECT s FROM ScPerson s"),
@@ -47,77 +47,79 @@ import javax.validation.constraints.Size;
 })
 public class ScPerson implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ID_PERSON")
-    private Long idPerson;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "FIRST_NAME")
-    private String firstName;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "LAST_NAME")
-    private String lastName;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "AGE")
-    private short age;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "COUNTRY")
-    private String country;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "CITY")
-    private String city;
-    @Size(max = 2000)
-    @Column(name = "PERSONAL_INFORMATION")
-    private String personalInformation;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "DOMICILIE")
-    private String domicilie;
-    @Size(max = 2000)
-    @Column(name = "STUDIES")
-    private String studies;
-    @Size(max = 2000)
-    @Column(name = "DESCRIPTION")
-    private String description;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "PATH_PHOTO")
-    private String pathPhoto;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "CREATION_DATE")
-    @Temporal(TemporalType.DATE)
-    private Date creationDate;
-    @Column(name = "MODIFY_DATE")
-    @Temporal(TemporalType.DATE)
-    private Date modifyDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPhones> scPhonesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPersonSpecifications> scPersonSpecificationsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScMails> scMailsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPartner> scPartnerList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScEmployee> scEmployeeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonObservations> scPersonObservationsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScMails> scMailsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPhones> scPhonesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPartner> scPartnerList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPersonSpecifications> scPersonSpecificationsList;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_person")
+    private Long idPerson;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "first_name")
+    private String firstName;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "last_name")
+    private String lastName;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "age")
+    private short age;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "country")
+    private String country;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "city")
+    private String city;
+    @Size(max = 2000)
+    @Column(name = "personal_information")
+    private String personalInformation;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "domicilie")
+    private String domicilie;
+    @Size(max = 2000)
+    @Column(name = "studies")
+    private String studies;
+    @Size(max = 2000)
+    @Column(name = "description")
+    private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "path_photo")
+    private String pathPhoto;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
+    @Column(name = "modify_date")
+    @Temporal(TemporalType.DATE)
+    private Date modifyDate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScUsers> scUsersList;
 
     public ScPerson()
     {
@@ -271,74 +273,14 @@ public class ScPerson implements Serializable
         this.modifyDate = modifyDate;
     }
 
-    public List<ScPhones> getScPhonesList()
+    public List<ScUsers> getScUsersList()
     {
-        return scPhonesList;
+        return scUsersList;
     }
 
-    public void setScPhonesList(List<ScPhones> scPhonesList)
+    public void setScUsersList(List<ScUsers> scUsersList)
     {
-        this.scPhonesList = scPhonesList;
-    }
-
-    public List<ScPersonSpecifications> getScPersonSpecificationsList()
-    {
-        return scPersonSpecificationsList;
-    }
-
-    public void setScPersonSpecificationsList(List<ScPersonSpecifications> scPersonSpecificationsList)
-    {
-        this.scPersonSpecificationsList = scPersonSpecificationsList;
-    }
-
-    public List<ScMails> getScMailsList()
-    {
-        return scMailsList;
-    }
-
-    public void setScMailsList(List<ScMails> scMailsList)
-    {
-        this.scMailsList = scMailsList;
-    }
-
-    public List<ScPersonDocumentationAttached> getScPersonDocumentationAttachedList()
-    {
-        return scPersonDocumentationAttachedList;
-    }
-
-    public void setScPersonDocumentationAttachedList(List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList)
-    {
-        this.scPersonDocumentationAttachedList = scPersonDocumentationAttachedList;
-    }
-
-    public List<ScPartner> getScPartnerList()
-    {
-        return scPartnerList;
-    }
-
-    public void setScPartnerList(List<ScPartner> scPartnerList)
-    {
-        this.scPartnerList = scPartnerList;
-    }
-
-    public List<ScEmployee> getScEmployeeList()
-    {
-        return scEmployeeList;
-    }
-
-    public void setScEmployeeList(List<ScEmployee> scEmployeeList)
-    {
-        this.scEmployeeList = scEmployeeList;
-    }
-
-    public List<ScPersonObservations> getScPersonObservationsList()
-    {
-        return scPersonObservationsList;
-    }
-
-    public void setScPersonObservationsList(List<ScPersonObservations> scPersonObservationsList)
-    {
-        this.scPersonObservationsList = scPersonObservationsList;
+        this.scUsersList = scUsersList;
     }
 
     @Override
@@ -369,6 +311,76 @@ public class ScPerson implements Serializable
     public String toString()
     {
         return "com.sip.dmes.entitys.ScPerson[ idPerson=" + idPerson + " ]";
+    }
+
+    public List<ScPersonDocumentationAttached> getScPersonDocumentationAttachedList()
+    {
+        return scPersonDocumentationAttachedList;
+    }
+
+    public void setScPersonDocumentationAttachedList(List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList)
+    {
+        this.scPersonDocumentationAttachedList = scPersonDocumentationAttachedList;
+    }
+
+    public List<ScEmployee> getScEmployeeList()
+    {
+        return scEmployeeList;
+    }
+
+    public void setScEmployeeList(List<ScEmployee> scEmployeeList)
+    {
+        this.scEmployeeList = scEmployeeList;
+    }
+
+    public List<ScPersonObservations> getScPersonObservationsList()
+    {
+        return scPersonObservationsList;
+    }
+
+    public void setScPersonObservationsList(List<ScPersonObservations> scPersonObservationsList)
+    {
+        this.scPersonObservationsList = scPersonObservationsList;
+    }
+
+    public List<ScMails> getScMailsList()
+    {
+        return scMailsList;
+    }
+
+    public void setScMailsList(List<ScMails> scMailsList)
+    {
+        this.scMailsList = scMailsList;
+    }
+
+    public List<ScPhones> getScPhonesList()
+    {
+        return scPhonesList;
+    }
+
+    public void setScPhonesList(List<ScPhones> scPhonesList)
+    {
+        this.scPhonesList = scPhonesList;
+    }
+
+    public List<ScPartner> getScPartnerList()
+    {
+        return scPartnerList;
+    }
+
+    public void setScPartnerList(List<ScPartner> scPartnerList)
+    {
+        this.scPartnerList = scPartnerList;
+    }
+
+    public List<ScPersonSpecifications> getScPersonSpecificationsList()
+    {
+        return scPersonSpecificationsList;
+    }
+
+    public void setScPersonSpecificationsList(List<ScPersonSpecifications> scPersonSpecificationsList)
+    {
+        this.scPersonSpecificationsList = scPersonSpecificationsList;
     }
     
 }

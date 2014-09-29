@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_MAILS")
+@Table(name = "sc_mails")
 @NamedQueries(
 {
     @NamedQuery(name = "ScMails.findAll", query = "SELECT s FROM ScMails s"),
@@ -37,17 +37,17 @@ public class ScMails implements Serializable
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_MAIL")
+    @Column(name = "id_mail")
     private Long idMail;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "MAIL")
+    @Column(name = "mail")
     private String mail;
     @Size(max = 100)
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
-    @JoinColumn(name = "ID_PERSON", referencedColumnName = "ID_PERSON")
+    @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)
     private ScPerson idPerson;
 

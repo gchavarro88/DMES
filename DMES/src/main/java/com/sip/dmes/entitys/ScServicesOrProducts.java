@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "SC_SERVICES_OR_PRODUCTS")
+@Table(name = "sc_services_or_products")
 @NamedQueries(
 {
     @NamedQuery(name = "ScServicesOrProducts.findAll", query = "SELECT s FROM ScServicesOrProducts s"),
@@ -42,34 +42,34 @@ public class ScServicesOrProducts implements Serializable
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_SERVICE_OR_PRODUCTS")
+    @Column(name = "id_service_or_products")
     private Long idServiceOrProducts;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "NAME_SERVICE_OR_PRODUCT")
+    @Column(name = "name_service_or_product")
     private String nameServiceOrProduct;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Column(name = "COST")
+    @Column(name = "cost")
     private BigDecimal cost;
     @Size(max = 2000)
-    @Column(name = "GUARANTEE")
+    @Column(name = "guarantee")
     private String guarantee;
     @Size(max = 2000)
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "AMOUNT")
+    @Column(name = "amount")
     private long amount;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "TYPE")
+    @Column(name = "type")
     private String type;
-    @JoinColumn(name = "ID_PARTNER", referencedColumnName = "ID_PARTNER")
+    @JoinColumn(name = "id_partner", referencedColumnName = "id_partner")
     @ManyToOne(optional = false)
     private ScPartner idPartner;
 

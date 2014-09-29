@@ -60,7 +60,7 @@
                     
                     <h:form id="formTreeMenu">
 
-                            <p:tree id="treeMenu" value="#{templateBean.fillCategories()}" var="nodeMenu" 
+                        <p:tree id="treeMenu" value="#{templateBean.root}" var="nodeMenu" 
                                 highlight="true" styleClass="treeMenu" 
                                 selectionMode="single" selection="#{templateBean.nodeSeleted}" 
                                 style="border: 0px; text-align: left; font-size: 12px; vertical-align: middle;" 
@@ -70,7 +70,7 @@
                                 <h:outputText value="  #{nodeMenu.name}"/>
                             </p:treeNode>
                             <p:treeNode type="Folder" >
-                                <p:graphicImage value="/images/#{templateBean.getImage(nodeMenu.name)}" height="28" width="28"/>  
+                                <p:graphicImage value="/images/#{nodeMenu.icone}" height="28" width="28"/>  
                                 <h:outputText value="  #{nodeMenu.name}"/>
                             </p:treeNode>
                             
