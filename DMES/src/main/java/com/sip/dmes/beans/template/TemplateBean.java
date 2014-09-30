@@ -9,15 +9,20 @@ package com.sip.dmes.beans.template;
 
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScModulePermissionByRole;
-import com.sip.dmes.entitys.ScModulePermission;
+import com.sip.dmes.dao.bo.IScSubModulePermissionByRole;
 import com.sip.dmes.entitys.ScModulePermissionByRole;
+import com.sip.dmes.entitys.ScSubmodulePermission;
+import com.sip.dmes.entitys.ScSubmodulePermissionByRole;
 import com.sip.dmes.utilities.ItemTreeIcon;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.primefaces.component.tabview.Tab;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -32,8 +37,10 @@ public class TemplateBean
     private TreeNode root; //Nodo base del árbol del menú
     private TreeNode nodeSeleted; //Nodo del árbol seleccionado
     IScModulePermissionByRole scModulePermissionByRoleServer;
+    IScSubModulePermissionByRole scSubModulePermissionByRoleServer;
     SessionBean sessionBean;
-
+    List<Tab> mainTabs;
+    
 
     /** 
      * Creates a new instance of TemplateBean
@@ -48,10 +55,15 @@ public class TemplateBean
     public void initData()
     {
 
-        fillCategories(); 
+        initTreeCagotegories(); 
+        initDataTab();
     }
  
-
+    public void initDataTab()
+    {
+        setMainTabs(new ArrayList<Tab>());
+    }
+    
     public String listDateHeader()
     {
         log.info("Obteniendo la fecha del encabezado");
@@ -81,11 +93,12 @@ public class TemplateBean
      * @return Nodo raiz del árbol de categorías con todos sus hijos
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public TreeNode fillCategories()
+    public TreeNode initTreeCagotegories()
     { 
         log.info("Inicia la construcción del menú lateral principal");
         root = new DefaultTreeNode(new ItemTreeIcon("root", null,"Folder"), null);
         List<ScModulePermissionByRole> listModules = null;
+        List<ScSubmodulePermissionByRole> listSubModules = null;
         DefaultTreeNode node1 = new DefaultTreeNode(new ItemTreeIcon("DMES", null,"Folder"), root);
         node1.setType("Home");
         node1.setExpanded(true);
@@ -94,6 +107,7 @@ public class TemplateBean
             listModules = getScModulePermissionByRoleServer().getAllIScModulePermissionsByRole(getSessionBean()
                     .getScUser().getIdRole());    
             DefaultTreeNode nodeIteractive = null;
+            DefaultTreeNode nodeIntern = null;
             if(listModules != null && !listModules.isEmpty())
             {
                 for(ScModulePermissionByRole scModulePermissionSelected: listModules)
@@ -102,6 +116,16 @@ public class TemplateBean
                             scModulePermissionSelected.getIdModulePermission().getType(),
                             scModulePermissionSelected.getIdModulePermission().getIcone()), node1);
                     nodeIteractive.setType(scModulePermissionSelected.getIdModulePermission().getType());
+                    //Se construyen los items de cada módulo
+                    listSubModules = getScSubModulePermissionByRoleServer().getAllIScModulePermissionsByRole
+                        (scModulePermissionSelected.getIdRole(),scModulePermissionSelected.getIdModulePermission());
+                    for(ScSubmodulePermissionByRole scSubmodulePermissionSelected: listSubModules)
+                    {
+                        nodeIntern = new DefaultTreeNode(new ItemTreeIcon(scSubmodulePermissionSelected.getScSubmodulePermission()
+                                .getName(), scSubmodulePermissionSelected.getScSubmodulePermission().getType(), 
+                                scSubmodulePermissionSelected.getScSubmodulePermission().getDescription()), nodeIteractive);
+                        nodeIntern.setType("Item");
+                    }
                 }
             }
         }
@@ -114,7 +138,26 @@ public class TemplateBean
         return root;
     }
 
+    public void navigationTree()
+    {
+        try
+        {
+            if(((ItemTreeIcon) nodeSeleted.getData()).getName().equalsIgnoreCase("Salir"))
+            {
+                 FacesContext.getCurrentInstance().getExternalContext().dispatch("Login.xhtml");
+            }
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar realizar la navegación del árbol de menú", e);
+        }
+        
+    }
 
+    public void cleanSession()
+    {
+        getSessionBean().setScUser(null);
+    }
 
     public TreeNode getRoot()
     {
@@ -154,6 +197,26 @@ public class TemplateBean
     public void setSessionBean(SessionBean sessionBean)
     {
         this.sessionBean = sessionBean;
+    }
+
+    public List<Tab> getMainTabs()
+    {
+        return mainTabs;
+    }
+
+    public void setMainTabs(List<Tab> mainTabs)
+    {
+        this.mainTabs = mainTabs;
+    }
+
+    public IScSubModulePermissionByRole getScSubModulePermissionByRoleServer()
+    {
+        return scSubModulePermissionByRoleServer;
+    }
+
+    public void setScSubModulePermissionByRoleServer(IScSubModulePermissionByRole scSubModulePermissionByRoleServer)
+    {
+        this.scSubModulePermissionByRoleServer = scSubModulePermissionByRoleServer;
     }
     
     

@@ -10,6 +10,7 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScUsers;
 
 import com.sip.dmes.entitys.ScUsers;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -32,9 +33,24 @@ public class LoginBean
     public LoginBean()
     {
         
-    }
-
+    } 
+    @PostConstruct
+    public void initData()
+    { 
+        if(getSessionBean().getScUser() != null)
+        {
+            try
+            {
+                FacesContext.getCurrentInstance().getExternalContext().dispatch("SC_main_menu/mainMenu.xhtml");
+            }
+            catch(Exception e)
+            {
+                
+            }
+            
+        }
     
+    }
     /**
      * Metodo en cargado de realizar el inicio de sesion del usuario.
      * @return String variable que indica si el usuario realizó el login satisfactoriamente

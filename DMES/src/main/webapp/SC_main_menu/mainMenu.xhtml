@@ -77,12 +77,16 @@
                                 selectionMode="single" selection="#{templateBean.nodeSeleted}" 
                                 style="border: 0px; text-align: left; font-size: 10px; vertical-align: middle;" 
                                 animate="true" dynamic="true" >
+                            <p:ajax event="select" update=""  listener="#{templateBean.navigationTree()}" />
                             <p:treeNode type="Home" >
                                 <p:graphicImage value="/images/bar.png" height="32" width="32"/>  
                                 <h:outputText value="  #{nodeMenu.name}"/>
                             </p:treeNode>
                             <p:treeNode type="Folder" >
                                 <p:graphicImage value="/images/#{nodeMenu.icone}" height="28" width="28"/>  
+                                <h:outputText value="  #{nodeMenu.name}"/>
+                            </p:treeNode>
+                            <p:treeNode type="Item" >
                                 <h:outputText value="  #{nodeMenu.name}"/>
                             </p:treeNode>
                             
@@ -94,7 +98,12 @@
                               styleClass="layoutBordes">
                     
                     <div id="divLayoutCenter">
-                        
+                        <h:form id="formMainTabs">
+                            <p:tabView dynamic="true" effect="bounce" effectDuration="3000" scrollable="true" 
+                                   value="" var="">
+                                
+                            </p:tabView>
+                        </h:form>
                     </div>
                     <script type="text/javascript">
                         document.getElementById("divLayoutCenter").style.height = (screen.height-530)+"px";

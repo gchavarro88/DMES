@@ -428,6 +428,23 @@ ALTER TABLE DMES.SC_WORK_EXPERIENCE
   OWNER TO "sipPrueba";
 
 
+CREATE TABLE dmes.sc_submodule_permission_by_role
+(
+   id_submodule_by_role numeric(18,0) NOT NULL, 
+   id_submodule_permission numeric(18,0) NOT NULL, 
+   id_role numeric(18,0) NOT NULL, 
+   CONSTRAINT "PK_SUBMODULE_PERMISSION_BY_ROLE" PRIMARY KEY (id_submodule_by_role), 
+   CONSTRAINT "ID_SUBMODULE_PERMISSION_BY_ROLE_SUBMODULE_PERMISSION" FOREIGN KEY (id_submodule_permission) REFERENCES dmes.sc_submodule_permission (id_submodule_permission) ON UPDATE NO ACTION ON DELETE NO ACTION, 
+   CONSTRAINT "FK_SUBMODULE_PERMISSION_BY_ROLE_FOR _ROLE" FOREIGN KEY (id_role) REFERENCES dmes.sc_roles (id_role) ON UPDATE NO ACTION ON DELETE NO ACTION
+) 
+WITH (
+  OIDS = FALSE
+)
+;
+ALTER TABLE dmes.sc_submodule_permission_by_role
+  OWNER TO "sipPrueba";
+
+
 INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
 	VALUES (1, 'Visibilidad de Planta', NULL, 'oee.png', 'Folder');
 INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
