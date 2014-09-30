@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "sc_submodule_permission")
+@Table(name = "sc_submodule_permission", schema = "dmes")
 @NamedQueries(
 {
     @NamedQuery(name = "ScSubmodulePermission.findAll", query = "SELECT s FROM ScSubmodulePermission s"),

@@ -24,15 +24,36 @@
         <managed-bean-name>templateBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.template.TemplateBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scModulePermissionByRoleServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScModulePermissionByRole</property-class>
+            <value>#{scModulePermissionByRoleServer}</value>
+        </managed-property>
     </managed-bean>
     <managed-bean>
         <managed-bean-name>loginBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.login.LoginBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
         <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+        <managed-property>
             <property-name>scUsersServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScUsers</property-class>
             <value>#{scUsersServer}</value>
         </managed-property>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>sessionBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.SessionBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 </faces-config>

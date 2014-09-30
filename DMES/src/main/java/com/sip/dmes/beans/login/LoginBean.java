@@ -6,6 +6,7 @@
 package com.sip.dmes.beans.login;
 
 import com.carvajal.mci.utilities.Utilities;
+import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScUsers;
 
 import com.sip.dmes.entitys.ScUsers;
@@ -27,6 +28,7 @@ public class LoginBean
     ScUsers scUser;// Objeto de tipo ScUsers donde se guardan los datos del usuario
     String login; // Variable donde se guarda el login ingresado por el cliente
     String password; //Variable donde se guarda el password ingresado por el cliente
+    SessionBean sessionBean;
     public LoginBean()
     {
         
@@ -51,6 +53,7 @@ public class LoginBean
                 if(getScUser() != null && getScUser().getPassword().
                         equals(Utilities.encriptaEnMD5(password)))
                 {
+                    getSessionBean().setScUser(getScUser());
                     result = "loginIn";
                 }
                 else
@@ -163,6 +166,16 @@ public class LoginBean
     public void setScUsersServer(IScUsers scUsersServer)
     {
         this.scUsersServer = scUsersServer;
+    }
+
+    public SessionBean getSessionBean()
+    {
+        return sessionBean;
+    }
+
+    public void setSessionBean(SessionBean sessionBean)
+    {
+        this.sessionBean = sessionBean;
     }
     
     

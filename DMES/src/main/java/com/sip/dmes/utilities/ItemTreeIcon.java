@@ -11,22 +11,13 @@ public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
 {
     private String name;
     private String type;
-    private int amountProducts;
-    private long idCategory;
+    private String icone;
 
-
-    public ItemTreeIcon(String name, String type, int amountProducts, long idCategory)
+    public ItemTreeIcon(String name, String type, String icone)
     {
         this.name = name;
         this.type = type;
-        this.amountProducts = amountProducts;
-        this.idCategory = idCategory;
-    }
-    
-    public ItemTreeIcon(String name, String type)
-    {
-        this.name = name;
-        this.type = type;     
+        this.icone = icone;
     }
 
     public String getName()
@@ -34,45 +25,32 @@ public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
         return name;
     }
 
-
     public void setName(String name)
     {
         this.name = name;
     }
-
 
     public String getType()
     {
         return type;
     }
 
-
     public void setType(String type)
     {
         this.type = type;
     }
 
-    public int getAmountProducts()
+    public String getIcone()
     {
-        return amountProducts;
+        return icone;
     }
+
+    public void setIcone(String icone)
+    {
+        this.icone = icone;
+    }
+
     
-    public void setAmountProducts(int amountProducts)
-    {
-        this.amountProducts = amountProducts;
-    }
-
-    public long getIdCategory()
-    {
-        return idCategory;
-    }
-
-    public void setIdCategory(long idCategory)
-    {
-        this.idCategory = idCategory;
-    }
-
-
     
     @Override
     public String toString()

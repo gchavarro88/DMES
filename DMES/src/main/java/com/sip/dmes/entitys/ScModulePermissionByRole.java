@@ -27,6 +27,7 @@ import javax.validation.constraints.Size;
 @NamedQueries(
 {
     @NamedQuery(name = "ScModulePermissionByRole.findAll", query = "SELECT s FROM ScModulePermissionByRole s"),
+    @NamedQuery(name = "ScModulePermissionByRole.findByIdRole", query = "SELECT s FROM ScModulePermissionByRole s WHERE s.idRole = :idRole"),
     @NamedQuery(name = "ScModulePermissionByRole.findByIdModulePermissionByRole", query = "SELECT s FROM ScModulePermissionByRole s WHERE s.idModulePermissionByRole = :idModulePermissionByRole"),
     @NamedQuery(name = "ScModulePermissionByRole.findByIdType", query = "SELECT s FROM ScModulePermissionByRole s WHERE s.idType = :idType")
 })

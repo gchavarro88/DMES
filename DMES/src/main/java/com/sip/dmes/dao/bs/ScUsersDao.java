@@ -36,12 +36,11 @@ public class ScUsersDao implements IScUsers
         {
             Query query  = entityManager.createNamedQuery("ScUsers.findByLogin");
             query.setParameter("login", login);
-            result = ((List<ScUsers>) query.getResultList()).get(0);
+            result = (ScUsers) query.getSingleResult();
         }
         catch(Exception e)
         {
             log.error("Error intentando consultar el usuario", e.getCause());
-            e.printStackTrace();
         }
         return result;
     }

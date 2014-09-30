@@ -7,6 +7,10 @@ package com.sip.dmes.beans.template;
 
 
 
+import com.sip.dmes.beans.SessionBean;
+import com.sip.dmes.dao.bo.IScModulePermissionByRole;
+import com.sip.dmes.entitys.ScModulePermission;
+import com.sip.dmes.entitys.ScModulePermissionByRole;
 import com.sip.dmes.utilities.ItemTreeIcon;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,14 +31,9 @@ public class TemplateBean
     private final static Logger log = Logger.getLogger(TemplateBean.class);
     private TreeNode root; //Nodo base del árbol del menú
     private TreeNode nodeSeleted; //Nodo del árbol seleccionado
-//    private ScModulePermissionDao scModulePermissionDao;//Objeto de acceso a los datos de los módulos
-    private final String TREE_MENU_PLANT_VISIBILITY = "Visibilidad de Planta";//Item del menú principal
-    private final String TREE_MENU_SCHEDULING_ORDER = "Programación de Orden de Fabricación";//Item del menú principal
-    private final String TREE_MENU_QUALITY_MANAGEMENT_AND_TRACKING = "Gestión de la Calidad y la Trazabilidad";//Item del menú principal
-    private final String TREE_MENU_MAINTENANCE_MANAGEMENT = "Gestión del Mantenimiento";//Item del menú principal
-    private final String TREE_MENU_ROSOURCES_MANAGEMENT = "Gestión de los Recursos";//Item del menú principal
-    private final String TREE_MENU_SETTINGS = "Configuraciones";//Item del menú principal
-    private final String TREE_MENU_LEAVE = "Salir";//Item del menú principal
+    IScModulePermissionByRole scModulePermissionByRoleServer;
+    SessionBean sessionBean;
+
 
     /** 
      * Creates a new instance of TemplateBean
@@ -44,10 +43,11 @@ public class TemplateBean
     {
         
     }
+    
     @PostConstruct
     public void initData()
     {
-//        scModulePermissionDao = new ScModulePermissionDao();
+
         fillCategories(); 
     }
  
@@ -84,24 +84,26 @@ public class TemplateBean
     public TreeNode fillCategories()
     { 
         log.info("Inicia la construcción del menú lateral principal");
-        root = new DefaultTreeNode(new ItemTreeIcon("root", "Folder"), null);
-//        List<ScModulePermission> listModules = null;
-        DefaultTreeNode node1 = new DefaultTreeNode(new ItemTreeIcon("DMES", "Folder"), root);
+        root = new DefaultTreeNode(new ItemTreeIcon("root", null,"Folder"), null);
+        List<ScModulePermissionByRole> listModules = null;
+        DefaultTreeNode node1 = new DefaultTreeNode(new ItemTreeIcon("DMES", null,"Folder"), root);
         node1.setType("Home");
         node1.setExpanded(true);
         try
         { 
-//            listModules = getScModulePermissionDao().getAllModulePermissions();    
-//            DefaultTreeNode nodeIteractive = null;
-//            if(listModules != null && !listModules.isEmpty())
-//            {
-//                for(ScModulePermission scModulePermissionSelected: listModules)
-//                {
-//                    nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(scModulePermissionSelected.getName()
-//                            , scModulePermissionSelected.getType()), node1);
-//                    nodeIteractive.setType(scModulePermissionSelected.getType());
-//                }
-//            }
+            listModules = getScModulePermissionByRoleServer().getAllIScModulePermissionsByRole(getSessionBean()
+                    .getScUser().getIdRole());    
+            DefaultTreeNode nodeIteractive = null;
+            if(listModules != null && !listModules.isEmpty())
+            {
+                for(ScModulePermissionByRole scModulePermissionSelected: listModules)
+                {
+                    nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(scModulePermissionSelected.getIdModulePermission().getName(),
+                            scModulePermissionSelected.getIdModulePermission().getType(),
+                            scModulePermissionSelected.getIdModulePermission().getIcone()), node1);
+                    nodeIteractive.setType(scModulePermissionSelected.getIdModulePermission().getType());
+                }
+            }
         }
         catch(Exception e)
         {
@@ -112,55 +114,7 @@ public class TemplateBean
         return root;
     }
 
-//    /**
-//     * Método encargado de llenar las categorias fijas del árbol de la pantalla
-//     * inicial de pedidos
-//     * <p>
-//     * @return Nodo raiz del árbol de categorías con todos sus hijos
-//     * @author: Gustavo Adolfo Chavarro Ortiz
-//     */
-//    public DefaultTreeNode getTypeNode(DefaultTreeNode node)
-//    {
-//        if (node != null)
-//        {
-//            node.setType("document");
-//        }
-//        return node;
-//    }
 
-//    public String getImage(String nameNode)
-//    {
-//        String result = "";
-//        if (nameNode.equalsIgnoreCase(TREE_MENU_PLANT_VISIBILITY))
-//        {
-//            result = "oee.png";
-//        }
-//        else if (nameNode.equalsIgnoreCase(TREE_MENU_SCHEDULING_ORDER))
-//        {
-//            result = "ord.png";
-//        }
-//        else if (nameNode.equalsIgnoreCase(TREE_MENU_QUALITY_MANAGEMENT_AND_TRACKING))
-//        {
-//            result = "cal.png";
-//        }
-//        else if (nameNode.equalsIgnoreCase(TREE_MENU_MAINTENANCE_MANAGEMENT))
-//        {
-//            result = "man.png";
-//        }
-//        else if (nameNode.equalsIgnoreCase(TREE_MENU_ROSOURCES_MANAGEMENT))
-//        {
-//            result = "rec.png";
-//        }
-//        else if (nameNode.equalsIgnoreCase(TREE_MENU_SETTINGS))
-//        {
-//            result = "confi.png";
-//        }
-//        else if (nameNode.equalsIgnoreCase(TREE_MENU_LEAVE))
-//        {
-//            result = "salir.png";
-//        }
-//        return result;
-//    }
 
     public TreeNode getRoot()
     {
@@ -182,15 +136,25 @@ public class TemplateBean
         this.nodeSeleted = nodeSeleted;
     }
 
-//    public ScModulePermissionDao getScModulePermissionDao()
-//    {
-//        return scModulePermissionDao;
-//    }
-//
-//    public void setScModulePermissionDao(ScModulePermissionDao scModulePermissionDao)
-//    {
-//        this.scModulePermissionDao = scModulePermissionDao;
-//    }
+    public IScModulePermissionByRole getScModulePermissionByRoleServer()
+    {
+        return scModulePermissionByRoleServer;
+    }
+
+    public void setScModulePermissionByRoleServer(IScModulePermissionByRole scModulePermissionByRoleServer)
+    {
+        this.scModulePermissionByRoleServer = scModulePermissionByRoleServer;
+    }
+
+    public SessionBean getSessionBean()
+    {
+        return sessionBean;
+    }
+
+    public void setSessionBean(SessionBean sessionBean)
+    {
+        this.sessionBean = sessionBean;
+    }
     
     
 

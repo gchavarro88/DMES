@@ -49,16 +49,14 @@ public class ScPerson implements Serializable
 {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScEmployee> scEmployeeList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonObservations> scPersonObservationsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScMails> scMailsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPhones> scPhonesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPartner> scPartnerList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonSpecifications> scPersonSpecificationsList;
     private static final long serialVersionUID = 1L;
@@ -323,16 +321,7 @@ public class ScPerson implements Serializable
         this.scPersonDocumentationAttachedList = scPersonDocumentationAttachedList;
     }
 
-    public List<ScEmployee> getScEmployeeList()
-    {
-        return scEmployeeList;
-    }
-
-    public void setScEmployeeList(List<ScEmployee> scEmployeeList)
-    {
-        this.scEmployeeList = scEmployeeList;
-    }
-
+   
     public List<ScPersonObservations> getScPersonObservationsList()
     {
         return scPersonObservationsList;
@@ -363,16 +352,7 @@ public class ScPerson implements Serializable
         this.scPhonesList = scPhonesList;
     }
 
-    public List<ScPartner> getScPartnerList()
-    {
-        return scPartnerList;
-    }
-
-    public void setScPartnerList(List<ScPartner> scPartnerList)
-    {
-        this.scPartnerList = scPartnerList;
-    }
-
+  
     public List<ScPersonSpecifications> getScPersonSpecificationsList()
     {
         return scPersonSpecificationsList;
