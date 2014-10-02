@@ -56,10 +56,12 @@ public class ScModulePermission implements Serializable
     @Size(max = 50)
     @Column(name = "type")
     private String type;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idModulePermission")
-    private List<ScSubmodulePermission> scSubmodulePermissionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idModulePermission")
-    private List<ScModulePermissionByRole> scModulePermissionByRoleList;
+    @Column(name = "id_father")
+    private Long father;
+    @Size(max = 50)
+    @Column(name = "page")
+    private String page;
+    
 
     public ScModulePermission()
     {
@@ -126,25 +128,27 @@ public class ScModulePermission implements Serializable
         this.type = type;
     }
 
-    public List<ScSubmodulePermission> getScSubmodulePermissionList()
+    public Long getFather()
     {
-        return scSubmodulePermissionList;
+        return father;
     }
 
-    public void setScSubmodulePermissionList(List<ScSubmodulePermission> scSubmodulePermissionList)
+    public void setFather(Long father)
     {
-        this.scSubmodulePermissionList = scSubmodulePermissionList;
+        this.father = father;
     }
 
-    public List<ScModulePermissionByRole> getScModulePermissionByRoleList()
+    public String getPage()
     {
-        return scModulePermissionByRoleList;
+        return page;
     }
 
-    public void setScModulePermissionByRoleList(List<ScModulePermissionByRole> scModulePermissionByRoleList)
+    public void setPage(String page)
     {
-        this.scModulePermissionByRoleList = scModulePermissionByRoleList;
+        this.page = page;
     }
+
+
 
     @Override
     public int hashCode()

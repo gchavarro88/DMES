@@ -23,7 +23,7 @@
     <managed-bean>
         <managed-bean-name>templateBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.template.TemplateBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
+        <managed-bean-scope>view</managed-bean-scope>
         <managed-property>
             <property-name>sessionBean</property-name>
             <property-class>com.sip.dmes.beans.SessionBean</property-class>
@@ -33,11 +33,6 @@
             <property-name>scModulePermissionByRoleServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScModulePermissionByRole</property-class>
             <value>#{scModulePermissionByRoleServer}</value>
-        </managed-property>
-        <managed-property>
-            <property-name>scSubModulePermissionByRoleServer</property-name>
-            <property-class>com.sip.dmes.dao.bo.IScSubModulePermissionByRole</property-class>
-            <value>#{scSubModulePermissionByRoleServer}</value>
         </managed-property>
     </managed-bean>
     <managed-bean>
@@ -64,7 +59,7 @@
     <navigation-rule>
         <from-view-id>/SC_main_menu/mainMenu.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>goOut</from-outcome>
+            <from-outcome>exit</from-outcome>
             <to-view-id>/Login.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>

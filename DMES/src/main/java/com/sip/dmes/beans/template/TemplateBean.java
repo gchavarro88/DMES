@@ -9,20 +9,19 @@ package com.sip.dmes.beans.template;
 
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScModulePermissionByRole;
-import com.sip.dmes.dao.bo.IScSubModulePermissionByRole;
 import com.sip.dmes.entitys.ScModulePermissionByRole;
-import com.sip.dmes.entitys.ScSubmodulePermission;
-import com.sip.dmes.entitys.ScSubmodulePermissionByRole;
 import com.sip.dmes.utilities.ItemTreeIcon;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.primefaces.component.tabview.Tab;
+import org.primefaces.component.tabview.TabView;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -35,11 +34,12 @@ public class TemplateBean
 
     private final static Logger log = Logger.getLogger(TemplateBean.class);
     private TreeNode root; //Nodo base del árbol del menú
-    private TreeNode nodeSeleted; //Nodo del árbol seleccionado
+    private TabView tabView;
     IScModulePermissionByRole scModulePermissionByRoleServer;
-    IScSubModulePermissionByRole scSubModulePermissionByRoleServer;
     SessionBean sessionBean;
     List<Tab> mainTabs;
+    HashMap<String, Integer> mapTabs;
+            
     
 
     /** 
@@ -47,7 +47,7 @@ public class TemplateBean
      */
     
     public TemplateBean()
-    {
+    { 
         
     }
     
@@ -56,12 +56,13 @@ public class TemplateBean
     {
 
         initTreeCagotegories(); 
-        initDataTab();
+        initDataTab();  
     }
  
     public void initDataTab()
     {
-        setMainTabs(new ArrayList<Tab>());
+        tabView = new TabView();
+        setMapTabs(new HashMap<String, Integer>()) ;
     }
     
     public String listDateHeader()
@@ -98,34 +99,39 @@ public class TemplateBean
         log.info("Inicia la construcción del menú lateral principal");
         root = new DefaultTreeNode(new ItemTreeIcon("root", null,"Folder"), null);
         List<ScModulePermissionByRole> listModules = null;
-        List<ScSubmodulePermissionByRole> listSubModules = null;
-        DefaultTreeNode node1 = new DefaultTreeNode(new ItemTreeIcon("DMES", null,"Folder"), root);
-        node1.setType("Home");
-        node1.setExpanded(true);
+        HashMap<Long, DefaultTreeNode> mapScModulePermissions = new HashMap<Long, DefaultTreeNode>(); 
         try
-        { 
+        {  
             listModules = getScModulePermissionByRoleServer().getAllIScModulePermissionsByRole(getSessionBean()
                     .getScUser().getIdRole());    
             DefaultTreeNode nodeIteractive = null;
-            DefaultTreeNode nodeIntern = null;
             if(listModules != null && !listModules.isEmpty())
             {
                 for(ScModulePermissionByRole scModulePermissionSelected: listModules)
                 {
-                    nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(scModulePermissionSelected.getIdModulePermission().getName(),
-                            scModulePermissionSelected.getIdModulePermission().getType(),
-                            scModulePermissionSelected.getIdModulePermission().getIcone()), node1);
-                    nodeIteractive.setType(scModulePermissionSelected.getIdModulePermission().getType());
-                    //Se construyen los items de cada módulo
-                    listSubModules = getScSubModulePermissionByRoleServer().getAllIScModulePermissionsByRole
-                        (scModulePermissionSelected.getIdRole(),scModulePermissionSelected.getIdModulePermission());
-                    for(ScSubmodulePermissionByRole scSubmodulePermissionSelected: listSubModules)
+                    if(scModulePermissionSelected.getIdModulePermission().getFather() < 1)
                     {
-                        nodeIntern = new DefaultTreeNode(new ItemTreeIcon(scSubmodulePermissionSelected.getScSubmodulePermission()
-                                .getName(), scSubmodulePermissionSelected.getScSubmodulePermission().getType(), 
-                                scSubmodulePermissionSelected.getScSubmodulePermission().getDescription()), nodeIteractive);
-                        nodeIntern.setType("Item");
+                        nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(scModulePermissionSelected.
+                        getIdModulePermission().getName(),scModulePermissionSelected.getIdModulePermission().
+                        getType(),scModulePermissionSelected.getIdModulePermission().getIcone(), scModulePermissionSelected.
+                        getIdModulePermission().getPage()), root);
+                        nodeIteractive.setType(scModulePermissionSelected.getIdModulePermission().getType());
+                        nodeIteractive.setExpanded(true);
                     }
+                    else
+                    {
+                        DefaultTreeNode nodeFather = mapScModulePermissions.get(scModulePermissionSelected.
+                        getIdModulePermission().getFather());
+                        
+                        nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(scModulePermissionSelected.
+                        getIdModulePermission().getName(),scModulePermissionSelected.getIdModulePermission().
+                        getType(),scModulePermissionSelected.getIdModulePermission().getIcone(), scModulePermissionSelected.
+                        getIdModulePermission().getPage()), nodeFather);
+                        
+                        nodeIteractive.setType(scModulePermissionSelected.getIdModulePermission().getType());
+                    }
+                    mapScModulePermissions.put(scModulePermissionSelected.getIdModulePermission().getIdModulePermission(),
+                            nodeIteractive);
                 }
             }
         }
@@ -133,25 +139,47 @@ public class TemplateBean
         {
             log.error("Error al intentar generar el menú principal", e.getCause());
         }
-        node1.setExpanded(true);
         log.info("Menú construido y expandido");
         return root;
-    }
+    } 
 
-    public void navigationTree()
+    public String navigationTree(ItemTreeIcon nodeSelected)
     {
-        try
+        String result = ""; 
+        try 
         {
-            if(((ItemTreeIcon) nodeSeleted.getData()).getName().equalsIgnoreCase("Salir"))
+            //Caso para cuando el usuario quiere salir de la aplicación
+            if(nodeSelected.getPage()!= null && nodeSelected.getPage().length() > 0)
             {
-                 FacesContext.getCurrentInstance().getExternalContext().dispatch("Login.xhtml");
+                 if(nodeSelected.getPage().equalsIgnoreCase("exit"))
+                 {
+                    result =  nodeSelected.getPage();
+                    cleanSession();
+                 }
+                 else if(nodeSelected.getType().equalsIgnoreCase("Item"))
+                 {
+                     if(getMapTabs()!= null && !getMapTabs().containsKey(nodeSelected.getName()))
+                     {
+                        Tab tab = new Tab();
+                        tab.setClosable(true);
+                        tab.setTitle(nodeSelected.getName());
+                        getTabView().getChildren().add(tab);
+                        getMapTabs().put(nodeSelected.getName(), getMapTabs().size());
+                     
+                     }
+                     else
+                     {
+                         getTabView().setActiveIndex(getMapTabs().get(nodeSelected.getName()));
+                     }
+                 }
             }
         }
         catch(Exception e)
         {
             log.error("Error al intentar realizar la navegación del árbol de menú", e);
+            e.printStackTrace();
         }
-        
+        return result;
     }
 
     public void cleanSession()
@@ -169,16 +197,7 @@ public class TemplateBean
         this.root = root;
     }
 
-    public TreeNode getNodeSeleted()
-    {
-        return nodeSeleted;
-    }
-
-    public void setNodeSeleted(TreeNode nodeSeleted)
-    {
-        this.nodeSeleted = nodeSeleted;
-    }
-
+  
     public IScModulePermissionByRole getScModulePermissionByRoleServer()
     {
         return scModulePermissionByRoleServer;
@@ -209,15 +228,26 @@ public class TemplateBean
         this.mainTabs = mainTabs;
     }
 
-    public IScSubModulePermissionByRole getScSubModulePermissionByRoleServer()
+    public TabView getTabView()
     {
-        return scSubModulePermissionByRoleServer;
+        return tabView;
     }
 
-    public void setScSubModulePermissionByRoleServer(IScSubModulePermissionByRole scSubModulePermissionByRoleServer)
+    public void setTabView(TabView tabView)
     {
-        this.scSubModulePermissionByRoleServer = scSubModulePermissionByRoleServer;
+        this.tabView = tabView;
     }
+
+    public HashMap<String, Integer> getMapTabs()
+    {
+        return mapTabs;
+    }
+
+    public void setMapTabs(HashMap<String, Integer> mapTabs)
+    {
+        this.mapTabs = mapTabs;
+    }
+
     
     
 

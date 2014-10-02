@@ -117,20 +117,10 @@ ALTER TABLE DMES.SC_MAILS
 
 -- DROP TABLE DMES.SC_MODULE_PERMISSION;
 
-CREATE TABLE DMES.SC_MODULE_PERMISSION
-(
-  ID_MODULE_PERMISSION numeric(18,0) NOT NULL,
-  NAME character varying(100) NOT NULL,
-  DESCRIPTION character varying(2000),
-  ICONE character varying(2000),
-  TYPE character varying(50),
-  CONSTRAINT PK_SC_MODULE_PERMISSION PRIMARY KEY (ID_MODULE_PERMISSION)
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE DMES.SC_MODULE_PERMISSION
-  OWNER TO "sipPrueba";
+CREATE TABLE sc_module_permission (id_module_permission numeric(18) NOT NULL, 
+"name" varchar(100) NOT NULL, description varchar(2000), icone varchar(2000), "type" varchar(50),
+ id_father numeric(18), page varchar(50), PRIMARY KEY (id_module_permission));
+
 
 
 
@@ -353,27 +343,6 @@ ALTER TABLE DMES.SC_SERVICES_OR_PRODUCTS
 
 -- Table: DMES.SC_SUBMODULE_PERMISSION
 
--- DROP TABLE DMES.SC_SUBMODULE_PERMISSION;
-
-CREATE TABLE DMES.SC_SUBMODULE_PERMISSION
-(
-  ID_SUBMODULE_PERMISSION numeric(18,0) NOT NULL,
-  NAME character varying(100) NOT NULL,
-  DESCRIPTION character varying(2000),
-  ID_MODULE_PERMISSION numeric(18,0) NOT NULL,
-  TYPE character(5) NOT NULL,
-  CONSTRAINT PK_SUBMODULE_PERMISSION PRIMARY KEY (ID_SUBMODULE_PERMISSION),
-  CONSTRAINT FK_SUBMODULE_PERMISSION_MODULE_PERMISSION FOREIGN KEY (ID_MODULE_PERMISSION)
-      REFERENCES DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE DMES.SC_SUBMODULE_PERMISSION
-  OWNER TO "sipPrueba";
-
-
 -- Table: DMES.SC_USERS
 
 -- DROP TABLE DMES.SC_USERS;
@@ -428,37 +397,30 @@ ALTER TABLE DMES.SC_WORK_EXPERIENCE
   OWNER TO "sipPrueba";
 
 
-CREATE TABLE dmes.sc_submodule_permission_by_role
-(
-   id_submodule_by_role numeric(18,0) NOT NULL, 
-   id_submodule_permission numeric(18,0) NOT NULL, 
-   id_role numeric(18,0) NOT NULL, 
-   CONSTRAINT "PK_SUBMODULE_PERMISSION_BY_ROLE" PRIMARY KEY (id_submodule_by_role), 
-   CONSTRAINT "ID_SUBMODULE_PERMISSION_BY_ROLE_SUBMODULE_PERMISSION" FOREIGN KEY (id_submodule_permission) REFERENCES dmes.sc_submodule_permission (id_submodule_permission) ON UPDATE NO ACTION ON DELETE NO ACTION, 
-   CONSTRAINT "FK_SUBMODULE_PERMISSION_BY_ROLE_FOR _ROLE" FOREIGN KEY (id_role) REFERENCES dmes.sc_roles (id_role) ON UPDATE NO ACTION ON DELETE NO ACTION
-) 
-WITH (
-  OIDS = FALSE
-)
-;
-ALTER TABLE dmes.sc_submodule_permission_by_role
-  OWNER TO "sipPrueba";
-
-
-INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
-	VALUES (1, 'Visibilidad de Planta', NULL, 'oee.png', 'Folder');
-INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
-	VALUES (2, 'Programación de Orden de Fabricación', NULL, 'ord.png', 'Folder');
-INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
-	VALUES (3, 'estión de la Calidad y la Trazabilidad', NULL, 'cal.png', 'Folder');
-INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
-	VALUES (4, 'Gestión del Mantenimiento', NULL, 'man.png', 'Folder');
-INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
-	VALUES (5, 'Gestión de los Recursos', NULL, 'rec.png', 'Folder');
-INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
-	VALUES (6, 'Configuraciones', NULL, 'confi.png', 'Folder');
-INSERT INTO DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION, NAME, DESCRIPTION, ICONE, TYPE) 
-	VALUES (7, 'Salir', NULL, 'salir.png', 'Folder');
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (1, 'Visibilidad de Planta', NULL, 'bar.png', 'Home', -1, 'mainMenu');
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (2, 'Visibilidad de Planta', NULL, 'oee.png', 'Folder', 1, NULL);
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (3, 'Programación de Orden de Fabricación', NULL, 'ord.png', 'Folder', 1, NULL);
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (4, 'estión de la Calidad y la Trazabilidad', NULL, 'cal.png', 'Folder', 1, NULL);
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (5, 'Gestión del Mantenimiento', NULL, 'man.png', 'Folder', 1, NULL);
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (6, 'Gestión de los Recursos', NULL, 'rec.png', 'Folder', 1, NULL);
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (7, 'Configuraciones', NULL, 'confi.png', 'Folder', 1, NULL);
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (9, 'Recursos Humanos', '', NULL, 'Folder', 7, NULL);
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (10, 'Recursos Materiales', NULL, NULL, 'Folder', 7, NULL);
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (8, 'Cerrar Sesión', NULL, 'salir.png', 'Folder', 1, 'exit');
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (11, 'Empleados', NULL, NULL, 'Item', 9, 'employee');
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (12, 'Proveedores', NULL, NULL, 'Item', 9, 'partner');
 
 
 INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
@@ -475,3 +437,21 @@ INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_
 	VALUES (6, 1, 'CRUD', 6);
 INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
 	VALUES (7, 1, 'CRUD', 7);
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (8, 1, 'CRUD', 8);
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (9, 1, 'CRUD', 9);
+
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (10, 1, 'CRUD', 10);
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (11, 1, 'CRUD', 11);
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (12, 1, 'CRUD', 12);
+
+INSERT INTO dmes.sc_roles (id_role, "name", description, creation_date, modify_date) 
+	VALUES (1, 'Administrator', NULL, '2014-09-26', NULL);
+
+INSERT INTO dmes.sc_users (id_user, id_person, id_role, login, password, creation_date, modify_date) 
+	VALUES (1, 1, 1, 'guschaor', '4e991c769a2b9a881189cd86c160b604', '2014-07-26', NULL);
+

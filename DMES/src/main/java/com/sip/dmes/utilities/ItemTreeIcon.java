@@ -12,12 +12,21 @@ public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
     private String name;
     private String type;
     private String icone;
+    private String page;
 
     public ItemTreeIcon(String name, String type, String icone)
     {
         this.name = name;
         this.type = type;
         this.icone = icone;
+    }
+    
+    public ItemTreeIcon(String name, String type, String icone, String page)
+    {
+        this.name = name;
+        this.type = type;
+        this.icone = icone;
+        this.page = page;
     }
 
     public String getName()
@@ -48,6 +57,16 @@ public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
     public void setIcone(String icone)
     {
         this.icone = icone;
+    }
+
+    public String getPage()
+    {
+        return page;
+    }
+
+    public void setPage(String page)
+    {
+        this.page = page;
     }
 
     

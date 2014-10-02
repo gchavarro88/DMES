@@ -48,6 +48,8 @@ public class ScModulePermissionByRole implements Serializable
     @JoinColumn(name = "id_module_permission", referencedColumnName = "id_module_permission")
     @ManyToOne(optional = false)
     private ScModulePermission idModulePermission;
+    
+    
 
     public ScModulePermissionByRole()
     {
@@ -98,6 +100,7 @@ public class ScModulePermissionByRole implements Serializable
         this.idModulePermission = idModulePermission;
     }
 
+    
     @Override
     public int hashCode()
     {
