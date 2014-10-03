@@ -10,6 +10,7 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScUsers;
 
 import com.sip.dmes.entitys.ScUsers;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -19,7 +20,7 @@ import javax.faces.event.ActionEvent;
  *
  * @author gchavarro88
  */
-public class LoginBean
+public class LoginBean implements Serializable
 {
 
     /**
@@ -31,7 +32,7 @@ public class LoginBean
     String password; //Variable donde se guarda el password ingresado por el cliente
     SessionBean sessionBean;
     public LoginBean()
-    {
+    { 
         
     } 
     @PostConstruct
@@ -39,9 +40,9 @@ public class LoginBean
     { 
         if(getSessionBean().getScUser() != null)
         {
-            try
+            try 
             {
-                FacesContext.getCurrentInstance().getExternalContext().dispatch("SC_main_menu/mainMenu.xhtml");
+                //FacesContext.getCurrentInstance().getExternalContext().dispatch("/SC_main_menu/mainMenu.xhtml");
             }
             catch(Exception e)
             {

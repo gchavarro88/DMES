@@ -164,3 +164,10 @@ body
     cursor: pointer;
 }
 
+.tabViewMain
+{
+    height: 100%;
+    width: 99%;
+    border: 0px solid;
+}
+

@@ -6,12 +6,14 @@
 package com.sip.dmes.beans;
 
 import com.sip.dmes.entitys.ScUsers;
+import java.io.Serializable;
+
 
 /**
  *
  * @author gchavarro88
  */
-public class SessionBean
+public class SessionBean implements Serializable
 {
 
     /**

@@ -11,6 +11,7 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScModulePermissionByRole;
 import com.sip.dmes.entitys.ScModulePermissionByRole;
 import com.sip.dmes.utilities.ItemTreeIcon;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,7 @@ import javax.faces.context.FacesContext;
 import org.apache.log4j.Logger;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.component.tabview.TabView;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -29,7 +31,7 @@ import org.primefaces.model.TreeNode;
  *
  * @author gchavarro88
  */
-public class TemplateBean
+public class TemplateBean implements Serializable
 {
 
     private final static Logger log = Logger.getLogger(TemplateBean.class);
@@ -57,6 +59,7 @@ public class TemplateBean
 
         initTreeCagotegories(); 
         initDataTab();  
+        
     }
  
     public void initDataTab()
