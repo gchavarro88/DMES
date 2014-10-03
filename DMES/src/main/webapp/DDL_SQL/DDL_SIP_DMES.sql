@@ -421,6 +421,15 @@ INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description
 	VALUES (11, 'Empleados', NULL, NULL, 'Item', 9, 'employee');
 INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
 	VALUES (12, 'Proveedores', NULL, NULL, 'Item', 9, 'partner');
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (13, 'Usuarios y Permisos', '', '', 'Folder', 7, '');
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (14, 'Usuarios', '', NULL, 'Item', 13, 'user');
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (15, 'Grupos y Roles', NULL, '', 'Item', 13, 'roles');
+INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
+	VALUES (16, 'Permisos por Grupo', NULL, '', 'Item', 13, 'permission');
+
 
 
 INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
@@ -448,6 +457,15 @@ INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_
 	VALUES (11, 1, 'CRUD', 11);
 INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
 	VALUES (12, 1, 'CRUD', 12);
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (13, 1, 'CRUD', 13);
+
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (14, 1, 'CRUD', 14);
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (15, 1, 'CRUD', 15);
+INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
+	VALUES (16, 1, 'CRUD', 16);
 
 INSERT INTO dmes.sc_roles (id_role, "name", description, creation_date, modify_date) 
 	VALUES (1, 'Administrator', NULL, '2014-09-26', NULL);
