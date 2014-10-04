@@ -21,7 +21,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
     
-<!--    <bean id="IParameter" class="com.carvajal.vmi.dao.ParameterImpl" scope="prototype">
+    <!--    <bean id="IParameter" class="com.carvajal.vmi.dao.ParameterImpl" scope="prototype">
         <property name="em" ref="entityManagerFactory"/>
     </bean>    -->
            
@@ -34,8 +34,10 @@
     
     
     <!--Beans --> 
-<!--    <bean id="serverParameter" class="com.carvajal.mci.dao.ParameterImpl"></bean>-->
- <bean id="scUsersServer" class="com.sip.dmes.dao.bs.ScUsersDao"></bean>
- <bean id="scModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScModulePermissionByRoleDao"></bean>
-<!-- <bean id="scSubModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScSubmodulePermissionByRoleDao"></bean>-->
+    <!--    <bean id="serverParameter" class="com.carvajal.mci.dao.ParameterImpl"></bean>-->
+    <bean id="scUsersServer" class="com.sip.dmes.dao.bs.ScUsersDao"></bean>
+    <bean id="scModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScModulePermissionByRoleDao"></bean>
+    <!-- <bean id="scSubModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScSubmodulePermissionByRoleDao"></bean>-->
+
+    <bean id="scPersonServer" class="com.sip.dmes.dao.bs.ScPersonDao"></bean>
 </beans>
