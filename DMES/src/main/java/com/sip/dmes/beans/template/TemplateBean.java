@@ -267,10 +267,10 @@ public class TemplateBean implements Serializable
                    entry.setValue((((Integer) entry.getValue()) - 1));
                }
            }
-           if(model.getElements().size() == 1)
+           if(getModel().getElements().size() == 1)
            {
-               setModel(new DefaultMenuModel());
-               mainTabs = new ArrayList<MainTabs>();
+               model.getElements().clear();
+               mainTabs.clear();
            }
            else
            {

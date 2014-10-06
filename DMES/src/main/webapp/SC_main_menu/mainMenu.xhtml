@@ -16,11 +16,14 @@
             </script>
         </h:head>
         <h:body >
-<!--            <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+            <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
             <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
                       draggable="false" closable="false" resizable="false">
                 <p:graphicImage value="/images/loadBar.gif"/>
-            </p:dialog>-->
+            </p:dialog>
+            <p:layout styleClass="layoutBordes">
+                <p:layoutUnit position="north" collapseSize="25" collapsible="true" effect="explode"  gutter="1"
+                              styleClass="layoutBordes" >
                     <div>
                         <table   class="layoutNorth">
                             <tr> 
@@ -63,9 +66,14 @@
                             </tr>
                         </table>
                     </div>
-                
-            <div >
-                <div style="width: 20%; float: left;">
+                </p:layoutUnit>
+                <p:layoutUnit position="west" collapseSize="25" collapsible="true" effect="bind" size="250" gutter="1"
+                              styleClass="layoutBordesWest" resizable="true" id="lateral">
+                    <f:facet name="header">    
+                    Módulos
+                    </f:facet>
+<!--            <div >-->
+<!--                <div style="width: 20%; float: left;">-->
                     <h:form id="formTreeMenu">
 
                         
@@ -91,9 +99,14 @@
                                     </p:tree>
                              
                     </h:form>
-                               
-                </div>
-                <div id="divTabs" style=" width:75%; float: right;" >
+                          <script type="text/javascript">
+                            document.getElementById("lateral").style.height = (screen.height-280)+"px";
+                    </script>
+                </p:layoutUnit>
+                <p:layoutUnit position="center" 
+                              styleClass="layoutBordes">
+<!--                </div>
+                <div id="divTabs" style=" width:75%; float: right;" >-->
                     <h:form id="formMainTabs">
                         <p:panel style="padding: 0px; margin: 0px; float: top;">
                             <f:facet name="header">
@@ -110,7 +123,7 @@
                             
                             
                             
-                            <p:tab id="tbEmpleados" title="#{tabs.title}" closable="true"  rendered="true" >
+                            <p:tab id="tbEmpleados" title="#{tabs.title}" rendered="true" >
                                 
                                     
                                     <iframe id="frameEmpleados" src="#{tabs.page}" scrolling="true" class="iframeTab">
@@ -126,13 +139,13 @@
                         </p:tabView>
                                  </p:panel>   
                     </h:form>
-                </div>
-            </div>
+<!--                </div>-->
+<!--            </div>
                 
-                        
-               
+                        -->
+               </p:layoutUnit>      
             
-
+</p:layout>
 
 
 
