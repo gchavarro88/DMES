@@ -11,21 +11,29 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScModulePermissionByRole;
 import com.sip.dmes.entitys.ScModulePermissionByRole;
 import com.sip.dmes.utilities.ItemTreeIcon;
+import com.sip.dmes.utilities.MainTabs;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
+import javax.el.MethodExpression;
+import javax.enterprise.inject.Default;
 import javax.faces.context.FacesContext;
-
+import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
-import org.primefaces.component.tabview.Tab;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.tabview.TabView;
-import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.DefaultSubMenu;
+import org.primefaces.model.menu.MenuModel;
 
 /**
  *
@@ -37,11 +45,13 @@ public class TemplateBean implements Serializable
     private final static Logger log = Logger.getLogger(TemplateBean.class);
     private TreeNode root; //Nodo base del árbol del menú
     private TabView tabView;
-    IScModulePermissionByRole scModulePermissionByRoleServer;
-    SessionBean sessionBean;
-    List<Tab> mainTabs;
-    HashMap<String, Integer> mapTabs;
-            
+    private IScModulePermissionByRole scModulePermissionByRoleServer;
+    private SessionBean sessionBean;
+    private List<MainTabs> mainTabsRecord;
+    private List<MainTabs> mainTabs;
+    private HashMap<String, Integer> mapTabs;
+    private int activeIndex;
+    private MenuModel model;
     
 
     /** 
@@ -56,16 +66,16 @@ public class TemplateBean implements Serializable
     @PostConstruct
     public void initData()
     {
-
-        initTreeCagotegories(); 
         initDataTab();  
-        
+        initTreeCagotegories(); 
     }
  
     public void initDataTab()
     {
-        tabView = new TabView();
+        setMainTabsRecord(new ArrayList<MainTabs>());
+        setMainTabs(new ArrayList<MainTabs>());
         setMapTabs(new HashMap<String, Integer>()) ;
+        setModel(new DefaultMenuModel());
     }
     
     public String listDateHeader()
@@ -103,6 +113,7 @@ public class TemplateBean implements Serializable
         root = new DefaultTreeNode(new ItemTreeIcon("root", null,"Folder"), null);
         List<ScModulePermissionByRole> listModules = null;
         HashMap<Long, DefaultTreeNode> mapScModulePermissions = new HashMap<Long, DefaultTreeNode>(); 
+        int amountTabs = 0;
         try
         {  
             listModules = getScModulePermissionByRoleServer().getAllIScModulePermissionsByRole(getSessionBean()
@@ -126,11 +137,25 @@ public class TemplateBean implements Serializable
                         DefaultTreeNode nodeFather = mapScModulePermissions.get(scModulePermissionSelected.
                         getIdModulePermission().getFather());
                         
-                        nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(scModulePermissionSelected.
-                        getIdModulePermission().getName(),scModulePermissionSelected.getIdModulePermission().
-                        getType(),scModulePermissionSelected.getIdModulePermission().getIcone(), scModulePermissionSelected.
-                        getIdModulePermission().getPage()), nodeFather);
-                        
+                        if(scModulePermissionSelected.getIdModulePermission().getType().equalsIgnoreCase("Item"))
+                        {
+                            mainTabsRecord.add(new MainTabs(scModulePermissionSelected.
+                            getIdModulePermission().getName(), amountTabs, scModulePermissionSelected.
+                            getIdModulePermission().getPage(), false));
+                            nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(scModulePermissionSelected.
+                            getIdModulePermission().getName(),scModulePermissionSelected.getIdModulePermission().
+                            getType(),scModulePermissionSelected.getIdModulePermission().getIcone(), scModulePermissionSelected.
+                            getIdModulePermission().getPage(), amountTabs), nodeFather);
+                            
+                            amountTabs++;
+                        }
+                        else
+                        {
+                            nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(scModulePermissionSelected.
+                            getIdModulePermission().getName(),scModulePermissionSelected.getIdModulePermission().
+                            getType(),scModulePermissionSelected.getIdModulePermission().getIcone(), scModulePermissionSelected.
+                            getIdModulePermission().getPage()), nodeFather);
+                        }
                         nodeIteractive.setType(scModulePermissionSelected.getIdModulePermission().getType());
                     }
                     mapScModulePermissions.put(scModulePermissionSelected.getIdModulePermission().getIdModulePermission(),
@@ -146,35 +171,71 @@ public class TemplateBean implements Serializable
         return root;
     } 
 
+    
     public String navigationTree(ItemTreeIcon nodeSelected)
     {
-        String result = ""; 
-        try 
+        String result = "";
+        DefaultMenuItem menuItemClose;
+        DefaultMenuItem menuItemView;
+        DefaultSubMenu subMenuItem;
+        CommandButton buttonItem;
+        int idSubMenu = 0;
+        int idMenuItem = 0;
+        try  
         {
             //Caso para cuando el usuario quiere salir de la aplicación
             if(nodeSelected.getPage()!= null && nodeSelected.getPage().length() > 0)
             {
-                 if(nodeSelected.getPage().equalsIgnoreCase("exit"))
-                 {
-                    result =  nodeSelected.getPage();
-                    cleanSession();
-                 }
-                 else if(nodeSelected.getType().equalsIgnoreCase("Item"))
-                 {
-                     if(getMapTabs()!= null && !getMapTabs().containsKey(nodeSelected.getName()))
-                     {
-                        Tab tab = new Tab();
-                        tab.setClosable(true);
-                        tab.setTitle(nodeSelected.getName());
-                        getTabView().getChildren().add(tab);
+                if(nodeSelected.getType().equalsIgnoreCase("Item"))
+                {
+                    if(getMapTabs() != null && getMapTabs().get(nodeSelected.getName()) == null)
+                    {
+                        idSubMenu = getMapTabs().size();
+                        //Se crea la pestaña nueva
+                        MainTabs maintTabAdd = getMainTabsRecord().get(nodeSelected.getPosition());
+                        maintTabAdd.setIndex(getMapTabs().size());
+                        mainTabs.add(maintTabAdd);
                         getMapTabs().put(nodeSelected.getName(), getMapTabs().size());
-                     
-                     }
-                     else
-                     {
-                         getTabView().setActiveIndex(getMapTabs().get(nodeSelected.getName()));
-                     }
-                 }
+                        setActiveIndex(getMapTabs().size()-1);
+                        //Se crea el botón para el menú de pestañas
+                        subMenuItem = new DefaultSubMenu((getMapTabs().size())+"-"+nodeSelected.getName());
+                        subMenuItem.setId(idSubMenu+"");
+                        subMenuItem.setStyle("width:50px;");
+                        menuItemView = new DefaultMenuItem("Ver pestaña", "ui-icon-document");
+                        menuItemView.setId(idSubMenu+"_"+idMenuItem);
+                        menuItemView.setCommand("#{templateBean.selectedTab(\""+nodeSelected.getName()+"\")}");
+                        menuItemView.setUpdate(":formMainTabs,:formTreeMenu");
+                        menuItemView.setIconPos("right");
+                        menuItemView.setStyleClass("subMenuItem");
+                        //menuItemView.setStyle("width:25px;");
+                        idMenuItem++;
+                        //Se crea el segundo menú
+                        menuItemClose = new DefaultMenuItem("Cerrar pestaña", "ui-icon-circle-close");
+                        menuItemClose.setId(idSubMenu+"_"+idMenuItem);
+                        menuItemClose.setCommand("#{templateBean.removeTabs(\""+nodeSelected.getName()+"\")}");
+                        menuItemClose.setUpdate(":formMainTabs,:formTreeMenu");
+                        menuItemClose.setIconPos("right");
+                        menuItemClose.setStyleClass("subMenuItem");
+                        //menuItemClose.setStyle("width:25px;");
+                        subMenuItem.addElement(menuItemView);
+                        subMenuItem.addElement(menuItemClose);
+                        model.addElement(subMenuItem);
+                        idSubMenu++;
+                    } 
+                    else
+                    {
+                        setActiveIndex(getMapTabs().get(nodeSelected.getName()));
+                    }
+                }
+                else
+                {
+                    if(nodeSelected.getPage().equalsIgnoreCase("exit"))
+                    {
+                       result =  nodeSelected.getPage();
+                       cleanSession();
+                    }            
+                }
+                 
             }
         }
         catch(Exception e)
@@ -185,11 +246,77 @@ public class TemplateBean implements Serializable
         return result;
     }
 
+    public boolean isTabVisible(int index)
+    {
+        return getMainTabs().get(index).isVisible();
+    }
+    
+    public void removeTabs(String idMenu)
+    {
+       try
+       {
+           int position = getMapTabs().get(idMenu);
+           mainTabs.remove(position);
+           mapTabs.remove(idMenu);
+           Iterator iterator = getMapTabs().entrySet().iterator();
+           while (iterator.hasNext())
+           {
+               Map.Entry entry = (Map.Entry) iterator.next();
+               if(((Integer) entry.getValue()) > position)
+               {
+                   entry.setValue((((Integer) entry.getValue()) - 1));
+               }
+           }
+           if(model.getElements().size() == 1)
+           {
+               setModel(new DefaultMenuModel());
+               mainTabs = new ArrayList<MainTabs>();
+           }
+           else
+           {
+               model.getElements().remove(position);
+               
+           }
+           
+       }
+       catch(Exception e)
+       {
+           
+       }
+       
+       
+    }
+    
+    public void selectedTab(String idMenu)
+    {
+         setActiveIndex(getMapTabs().get(idMenu));
+    }
     public void cleanSession()
     {
         getSessionBean().setScUser(null);
     }
 
+    public static MethodExpression createMethodExpression(String expression, Class<?> returnType, Class<?>... parameterTypes)
+    {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        return facesContext.getApplication().getExpressionFactory().createMethodExpression(
+                facesContext.getELContext(), expression, returnType, parameterTypes);
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public TreeNode getRoot()
     {
         return root;
@@ -221,15 +348,17 @@ public class TemplateBean implements Serializable
         this.sessionBean = sessionBean;
     }
 
-    public List<Tab> getMainTabs()
+    public List<MainTabs> getMainTabs()
     {
         return mainTabs;
     }
 
-    public void setMainTabs(List<Tab> mainTabs)
+    public void setMainTabs(List<MainTabs> mainTabs)
     {
         this.mainTabs = mainTabs;
     }
+
+    
 
     public TabView getTabView()
     {
@@ -249,6 +378,36 @@ public class TemplateBean implements Serializable
     public void setMapTabs(HashMap<String, Integer> mapTabs)
     {
         this.mapTabs = mapTabs;
+    }
+
+    public int getActiveIndex()
+    {
+        return activeIndex;
+    }
+
+    public void setActiveIndex(int activeIndex)
+    {
+        this.activeIndex = activeIndex;
+    }
+
+    public List<MainTabs> getMainTabsRecord()
+    {
+        return mainTabsRecord;
+    }
+
+    public void setMainTabsRecord(List<MainTabs> mainTabsRecord)
+    {
+        this.mainTabsRecord = mainTabsRecord;
+    }
+
+    public MenuModel getModel()
+    {
+        return model;
+    }
+
+    public void setModel(MenuModel model)
+    {
+        this.model = model;
     }
 
     

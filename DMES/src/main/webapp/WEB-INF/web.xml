@@ -9,7 +9,7 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <filter>
+<!--    <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
     </filter> 
@@ -22,7 +22,7 @@
     <context-param>
         <param-name>primefaces.UPLOADER</param-name>
         <param-value>auto</param-value>
-    </context-param>
+    </context-param>-->
        <listener>
              <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
        </listener>
@@ -33,6 +33,11 @@
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+    
+        <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -74,8 +79,8 @@
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
     </filter> -->
-    <filter-mapping>
+<!--    <filter-mapping>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <servlet-name>Faces Servlet</servlet-name>
-    </filter-mapping>
+    </filter-mapping>-->
 </web-app>

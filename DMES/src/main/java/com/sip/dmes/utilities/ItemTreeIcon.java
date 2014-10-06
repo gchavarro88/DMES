@@ -13,6 +13,7 @@ public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
     private String type;
     private String icone;
     private String page;
+    private int position;
 
     public ItemTreeIcon(String name, String type, String icone)
     {
@@ -28,6 +29,27 @@ public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
         this.icone = icone;
         this.page = page;
     }
+
+    public ItemTreeIcon(String name, String type, String icone, String page, int position)
+    {
+        this.name = name;
+        this.type = type;
+        this.icone = icone;
+        this.page = page;
+        this.position = position;
+    }
+
+    public int getPosition()
+    {
+        return position;
+    }
+
+    public void setPosition(int position)
+    {
+        this.position = position;
+    }
+    
+    
 
     public String getName()
     {
