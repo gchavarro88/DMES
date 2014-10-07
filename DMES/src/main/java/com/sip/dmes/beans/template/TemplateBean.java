@@ -22,9 +22,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.el.MethodExpression;
-import javax.enterprise.inject.Default;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.tabview.TabView;
@@ -52,7 +50,7 @@ public class TemplateBean implements Serializable
     private HashMap<String, Integer> mapTabs;
     private int activeIndex;
     private MenuModel model;
-    private int idSubMenusGlobal;
+    
 
     /** 
      * Creates a new instance of TemplateBean
@@ -78,7 +76,7 @@ public class TemplateBean implements Serializable
         setMapTabs(new HashMap<String, Integer>()) ;
         setModel(new DefaultMenuModel());
         getMainTabs().add(new MainTabs("DMES", 0, "", true));
-        idSubMenusGlobal = 0;
+        
     }
     
     public String listDateHeader()
@@ -198,9 +196,7 @@ public class TemplateBean implements Serializable
                         {
                             getMainTabs().clear();
                         }
-                        idSubMenu = getIdSubMenusGlobal()+1; 
-                        setIdSubMenusGlobal(idSubMenu);
-                        //getMapTabs().size();
+                        idSubMenu = getMapTabs().size();
                         //Se crea la pestaña nueva
                         MainTabs maintTabAdd = getMainTabsRecord().get(nodeSelected.getPosition());
                         maintTabAdd.setIndex(getMapTabs().size());
@@ -210,7 +206,7 @@ public class TemplateBean implements Serializable
                         //Se crea el botón para el menú de pestañas
                         subMenuItem = new DefaultSubMenu((getMapTabs().size())+"-"+nodeSelected.getName());
                         subMenuItem.setId(idSubMenu+"");
-                        subMenuItem.setStyle("width:50px;");
+//                        subMenuItem.setStyle("width:50px;");
                         menuItemView = new DefaultMenuItem("Ver pestaña", "ui-icon-document");
                         menuItemView.setId(idSubMenu+"_"+idMenuItem);
                         menuItemView.setCommand("#{templateBean.selectedTab(\""+nodeSelected.getName()+"\")}");
@@ -272,9 +268,11 @@ public class TemplateBean implements Serializable
            while (iterator.hasNext())
            {
                Map.Entry entry = (Map.Entry) iterator.next();
-               if(((Integer) entry.getValue()) > position)
+               int valueMap = ((Integer) entry.getValue());
+               if(valueMap > position)
                {
-                   entry.setValue((((Integer) entry.getValue()) - 1));
+                   entry.setValue( valueMap -1);
+                   System.out.println(valueMap+" Value Map");
                }
            }
            if(getMainTabs().isEmpty())
@@ -282,14 +280,47 @@ public class TemplateBean implements Serializable
                getMainTabs().clear();
                getMainTabs().add(new MainTabs("DMES", 0, "", true));
            }
+           String idDelete = model.getElements().get(position).getId();
            model.getElements().remove(position);
+           updateIdsModel(idDelete);
        }
        catch(Exception e)
        {
            
        }
-       
-       
+    }
+    
+    public void updateIdsModel(String idDelete)
+    {
+        try
+        {
+            int idDeleted = Integer.parseInt(idDelete);
+            for(Object o: getModel().getElements())
+            {
+                if(((DefaultSubMenu) o).getId() != null && ((DefaultSubMenu) o).getId().length() > 0)
+                {
+                    int idNew = Integer.parseInt(((DefaultSubMenu) o).getId());
+                    if(idDeleted < idNew)
+                    {
+                        idNew -= 1;
+                        int newIdMenuItem = 0;
+                        String tittle = ((DefaultSubMenu) o).getLabel();
+                        tittle = (idNew+1)+tittle.substring(1, tittle.length());
+                        ((DefaultSubMenu) o).setLabel(tittle);
+                        ((DefaultSubMenu) o).setId(idNew+"");
+                        for(Object menuItem: ((DefaultSubMenu) o).getElements())
+                        {
+                            ((DefaultMenuItem) menuItem).setId(idNew+"_"+newIdMenuItem);
+                            newIdMenuItem++;
+                        }
+                    }
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
     
     public void selectedTab(String idMenu)
@@ -415,15 +446,7 @@ public class TemplateBean implements Serializable
         this.model = model;
     }
 
-    public int getIdSubMenusGlobal()
-    {
-        return idSubMenusGlobal;
-    }
-
-    public void setIdSubMenusGlobal(int idSubMenusGlobal)
-    {
-        this.idSubMenusGlobal = idSubMenusGlobal;
-    }
+  
 
 
     
