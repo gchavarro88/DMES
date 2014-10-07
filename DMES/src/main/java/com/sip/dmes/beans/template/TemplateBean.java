@@ -52,7 +52,7 @@ public class TemplateBean implements Serializable
     private HashMap<String, Integer> mapTabs;
     private int activeIndex;
     private MenuModel model;
-    
+    private int idSubMenusGlobal;
 
     /** 
      * Creates a new instance of TemplateBean
@@ -68,6 +68,7 @@ public class TemplateBean implements Serializable
     {
         initDataTab();  
         initTreeCagotegories(); 
+        
     }
  
     public void initDataTab()
@@ -76,6 +77,8 @@ public class TemplateBean implements Serializable
         setMainTabs(new ArrayList<MainTabs>());
         setMapTabs(new HashMap<String, Integer>()) ;
         setModel(new DefaultMenuModel());
+        getMainTabs().add(new MainTabs("DMES", 0, "", true));
+        idSubMenusGlobal = 0;
     }
     
     public String listDateHeader()
@@ -190,7 +193,14 @@ public class TemplateBean implements Serializable
                 {
                     if(getMapTabs() != null && getMapTabs().get(nodeSelected.getName()) == null)
                     {
-                        idSubMenu = getMapTabs().size();
+                        if(getMainTabs() != null && getMainTabs().size() == 1 && 
+                                getMainTabs().get(0).getTitle().equalsIgnoreCase("DMES"))
+                        {
+                            getMainTabs().clear();
+                        }
+                        idSubMenu = getIdSubMenusGlobal()+1; 
+                        setIdSubMenusGlobal(idSubMenu);
+                        //getMapTabs().size();
                         //Se crea la pestaña nueva
                         MainTabs maintTabAdd = getMainTabsRecord().get(nodeSelected.getPosition());
                         maintTabAdd.setIndex(getMapTabs().size());
@@ -204,7 +214,7 @@ public class TemplateBean implements Serializable
                         menuItemView = new DefaultMenuItem("Ver pestaña", "ui-icon-document");
                         menuItemView.setId(idSubMenu+"_"+idMenuItem);
                         menuItemView.setCommand("#{templateBean.selectedTab(\""+nodeSelected.getName()+"\")}");
-                        menuItemView.setUpdate(":formMainTabs,:formTreeMenu");
+                        menuItemView.setUpdate(":formMainTabs");
                         menuItemView.setIconPos("right");
                         menuItemView.setStyleClass("subMenuItem");
                         //menuItemView.setStyle("width:25px;");
@@ -213,7 +223,7 @@ public class TemplateBean implements Serializable
                         menuItemClose = new DefaultMenuItem("Cerrar pestaña", "ui-icon-circle-close");
                         menuItemClose.setId(idSubMenu+"_"+idMenuItem);
                         menuItemClose.setCommand("#{templateBean.removeTabs(\""+nodeSelected.getName()+"\")}");
-                        menuItemClose.setUpdate(":formMainTabs,:formTreeMenu");
+                        menuItemClose.setUpdate(":formMainTabs");
                         menuItemClose.setIconPos("right");
                         menuItemClose.setStyleClass("subMenuItem");
                         //menuItemClose.setStyle("width:25px;");
@@ -253,7 +263,7 @@ public class TemplateBean implements Serializable
     
     public void removeTabs(String idMenu)
     {
-       try
+       try 
        {
            int position = getMapTabs().get(idMenu);
            mainTabs.remove(position);
@@ -267,17 +277,12 @@ public class TemplateBean implements Serializable
                    entry.setValue((((Integer) entry.getValue()) - 1));
                }
            }
-           if(getModel().getElements().size() == 1)
+           if(getMainTabs().isEmpty())
            {
-               model.getElements().clear();
-               mainTabs.clear();
+               getMainTabs().clear();
+               getMainTabs().add(new MainTabs("DMES", 0, "", true));
            }
-           else
-           {
-               model.getElements().remove(position);
-               
-           }
-           
+           model.getElements().remove(position);
        }
        catch(Exception e)
        {
@@ -409,6 +414,17 @@ public class TemplateBean implements Serializable
     {
         this.model = model;
     }
+
+    public int getIdSubMenusGlobal()
+    {
+        return idSubMenusGlobal;
+    }
+
+    public void setIdSubMenusGlobal(int idSubMenusGlobal)
+    {
+        this.idSubMenusGlobal = idSubMenusGlobal;
+    }
+
 
     
     

@@ -13,467 +13,675 @@ CREATE ROLE "sipPrueba" LOGIN
 
 
 
-CREATE SCHEMA DMES
-  AUTHORIZATION "sipPrueba";
+CREATE SCHEMA dmes;
 
 
--- Table: DMES.SC_COMPANY
+ALTER SCHEMA dmes OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_COMPANY;
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
 
-CREATE TABLE DMES.SC_COMPANY
-(
-  ID_COMPANY numeric(18,0) NOT NULL,
-  NAME character varying(100) NOT NULL,
-  DESCRIPTION character varying(2000),
-  CONSTRAINT PK_COMPANY PRIMARY KEY (ID_COMPANY)
-)
-WITH (
-  OIDS=FALSE
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = dmes, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: sc_company; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+CREATE TABLE sc_company (
+    id_company numeric(18,0) NOT NULL,
+    name character varying(100) NOT NULL,
+    description character varying(2000)
 );
-ALTER TABLE DMES.SC_COMPANY
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_COMPETENCIES
+ALTER TABLE dmes.sc_company OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_COMPETENCIES;
+--
+-- Name: sc_competencies; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-CREATE TABLE DMES.SC_COMPETENCIES
-(
-  ID_COMPETENCIES numeric(18,0) NOT NULL,
-  TITTLE character varying(100) NOT NULL,
-  DESCRIPTION character varying(2000),
-  ID_EMPLOYEE numeric(18,0) NOT NULL,
-  CONSTRAINT PK_COMPETENCIES PRIMARY KEY (ID_COMPETENCIES),
-  CONSTRAINT ID_COMPETENCIES_EMPLOYEE FOREIGN KEY (ID_EMPLOYEE)
-      REFERENCES DMES.SC_EMPLOYEE (ID_EMPLOYEE) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_competencies (
+    id_competencies numeric(18,0) NOT NULL,
+    tittle character varying(100) NOT NULL,
+    description character varying(2000),
+    id_employee numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_COMPETENCIES
-  OWNER TO "sipPrueba";
 
 
+ALTER TABLE dmes.sc_competencies OWNER TO "sipPrueba";
 
+--
+-- Name: sc_employee; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-
-
-
--- Table: DMES.SC_PERSON
-
--- DROP TABLE DMES.SC_PERSON;
-
-CREATE TABLE DMES.SC_PERSON
-(
-  ID_PERSON numeric(18,0) NOT NULL,
-  FIRST_NAME character varying(100) NOT NULL,
-  LAST_NAME character varying(100) NOT NULL,
-  AGE numeric(3,0) NOT NULL,
-  COUNTRY character varying(100) NOT NULL,
-  CITY character varying(100) NOT NULL,
-  PERSONAL_INFORMATION character varying(2000),
-  DOMICILIE character varying(100) NOT NULL,
-  STUDIES character varying(2000),
-  DESCRIPTION character varying(2000),
-  PATH_PHOTO character varying NOT NULL,
-  CREATION_DATE date NOT NULL,
-  MODIFY_DATE date,
-  CONSTRAINT PK_PERSON PRIMARY KEY (ID_PERSON)
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_employee (
+    id_employee numeric(18,0) NOT NULL,
+    "position" character varying(100) NOT NULL,
+    formation character varying(100) NOT NULL,
+    admission_date date NOT NULL,
+    retirement_date date,
+    active character(1) NOT NULL,
+    salary numeric(18,2),
+    hour_value numeric(18,2),
+    porcentage numeric(18,2),
+    amount numeric(18,2),
+    creation_date date NOT NULL,
+    modify_date date,
+    id_person numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_PERSON
-  OWNER TO "sipPrueba";
 
--- Table: DMES.SC_PARTNER
 
--- DROP TABLE DMES.SC_PARTNER;
+ALTER TABLE dmes.sc_employee OWNER TO "sipPrueba";
 
-CREATE TABLE DMES.SC_PARTNER
-(
-  ID_PARTNER numeric(18,0) NOT NULL,
-  ID_COMPANY numeric(18,0) NOT NULL,
-  ACTIVE character varying(1) NOT NULL,
-  POSITION character varying(100) NOT NULL,
-  WEB_PAGE character varying(100),
-  CREATION_DATE date NOT NULL,
-  MODIFY_DATE date,
-  ID_PERSON numeric(18,0) NOT NULL,
-  CONSTRAINT PK_PARTNER PRIMARY KEY (ID_PARTNER),
-  CONSTRAINT FK_PARTNER_COMPANY FOREIGN KEY (ID_COMPANY)
-      REFERENCES DMES.SC_COMPANY (ID_COMPANY) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT FK_PARTNER_PERSON FOREIGN KEY (ID_PERSON)
-      REFERENCES DMES.SC_PERSON (ID_PERSON) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+--
+-- Name: sc_mails; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+CREATE TABLE sc_mails (
+    id_mail numeric(18,0) NOT NULL,
+    mail character varying(100) NOT NULL,
+    description character varying(100),
+    id_person numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_PARTNER
-  OWNER TO "sipPrueba";
 
--- Table: DMES.SC_EMPLOYEE
 
--- DROP TABLE DMES.SC_EMPLOYEE;
+ALTER TABLE dmes.sc_mails OWNER TO "sipPrueba";
 
-CREATE TABLE DMES.SC_EMPLOYEE
-(
-  ID_EMPLOYEE numeric(18,0) NOT NULL,
-  POSITION character varying(100) NOT NULL,
-  FORMATION character varying(100) NOT NULL,
-  ADMISSION_DATE date NOT NULL,
-  RETIREMENT_DATE date,
-  ACTIVE character(1) NOT NULL,
-  SALARY numeric(18,2),
-  HOUR_VALUE numeric(18,2),
-  PORCENTAGE numeric(18,2),
-  AMOUNT numeric(18,2),
-  CREATION_DATE date NOT NULL,
-  MODIFY_DATE date,
-  ID_PERSON numeric(18,0) NOT NULL,
-  CONSTRAINT PK_EMPLOYEE PRIMARY KEY (ID_EMPLOYEE),
-  CONSTRAINT FK_EMPLOYEE_PERSON FOREIGN KEY (ID_PERSON)
-      REFERENCES DMES.SC_PERSON (ID_PERSON) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+--
+-- Name: sc_module_permission; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+CREATE TABLE sc_module_permission (
+    id_module_permission numeric(18,0) NOT NULL,
+    name character varying(100) NOT NULL,
+    description character varying(2000),
+    icone character varying(2000),
+    type character varying(50),
+    id_father numeric(18,0),
+    page character varying(50)
 );
-ALTER TABLE DMES.SC_EMPLOYEE
-  OWNER TO "sipPrueba";
 
 
+ALTER TABLE dmes.sc_module_permission OWNER TO "sipPrueba";
 
--- Table: DMES.SC_MAILS
+--
+-- Name: sc_module_permission_by_role; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
--- DROP TABLE DMES.SC_MAILS;
-
-CREATE TABLE DMES.SC_MAILS
-(
-  ID_MAIL numeric(18,0) NOT NULL,
-  MAIL character varying(100) NOT NULL,
-  DESCRIPTION character varying(100),
-  ID_PERSON numeric(18,0) NOT NULL,
-  CONSTRAINT PK_MAILS PRIMARY KEY (ID_MAIL),
-  CONSTRAINT FK_MAILS_PERSON FOREIGN KEY (ID_PERSON)
-      REFERENCES DMES.SC_PERSON (ID_PERSON) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_module_permission_by_role (
+    id_module_permission_by_role numeric(18,0) NOT NULL,
+    id_role numeric(18,0) NOT NULL,
+    id_type character varying(5),
+    id_module_permission numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_MAILS
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_PERSON_DOCUMENTATION_ATTACHED
+ALTER TABLE dmes.sc_module_permission_by_role OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_PERSON_DOCUMENTATION_ATTACHED;
+--
+-- Name: sc_partner; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-CREATE TABLE DMES.SC_PERSON_DOCUMENTATION_ATTACHED
-(
-  ID_PERSON_DOCUMENTATION_ATTACHED numeric(18,0) NOT NULL,
-  TITTLE character varying(200) NOT NULL,
-  PATH character varying(2000) NOT NULL,
-  ID_PERSON numeric(18,0) NOT NULL,
-  CONSTRAINT PK_PERSON_DOCUMENTATION_ATTACHED PRIMARY KEY (ID_PERSON_DOCUMENTATION_ATTACHED),
-  CONSTRAINT FK_PERSON_DOCUMENTATION_ATTACHED_FOR_PERSON FOREIGN KEY (ID_PERSON)
-      REFERENCES DMES.SC_PERSON (ID_PERSON) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_partner (
+    id_partner numeric(18,0) NOT NULL,
+    id_company numeric(18,0) NOT NULL,
+    active character varying(1) NOT NULL,
+    "position" character varying(100) NOT NULL,
+    web_page character varying(100),
+    creation_date date NOT NULL,
+    modify_date date,
+    id_person numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_PERSON_DOCUMENTATION_ATTACHED
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_PERSON_OBSERVATIONS
+ALTER TABLE dmes.sc_partner OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_PERSON_OBSERVATIONS;
+--
+-- Name: sc_person; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-CREATE TABLE DMES.SC_PERSON_OBSERVATIONS
-(
-  ID_PERSON_OBSERVATIONS numeric(18,0) NOT NULL,
-  TITTLE character varying(200) NOT NULL,
-  OBSERVATION character varying(2000) NOT NULL,
-  ID_PERSON numeric(18,0) NOT NULL,
-  CONSTRAINT PK_PERSON_OBSERVATIONS PRIMARY KEY (ID_PERSON_OBSERVATIONS),
-  CONSTRAINT FK_PERSON_OBSERVATION_FOR_PERSON FOREIGN KEY (ID_PERSON)
-      REFERENCES DMES.SC_PERSON (ID_PERSON) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_person (
+    id_person numeric(18,0) NOT NULL,
+    first_name character varying(100) NOT NULL,
+    last_name character varying(100) NOT NULL,
+    age numeric(3,0) NOT NULL,
+    country character varying(100) NOT NULL,
+    city character varying(100) NOT NULL,
+    personal_information character varying(2000),
+    domicilie character varying(100) NOT NULL,
+    studies character varying(2000),
+    description character varying(2000),
+    path_photo character varying NOT NULL,
+    creation_date date NOT NULL,
+    modify_date date
 );
-ALTER TABLE DMES.SC_PERSON_OBSERVATIONS
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_PERSON_SPECIFICATIONS
+ALTER TABLE dmes.sc_person OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_PERSON_SPECIFICATIONS;
+--
+-- Name: sc_person_documentation_attached; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-CREATE TABLE DMES.SC_PERSON_SPECIFICATIONS
-(
-  ID_PERSON_SPECIFICATIONS numeric(18,0) NOT NULL,
-  TITTLE character varying(200) NOT NULL,
-  SPECIFICATION character varying(2000) NOT NULL,
-  ID_PERSON numeric(18,0) NOT NULL,
-  CONSTRAINT PK_PERSON_SPECIFICATIONS PRIMARY KEY (ID_PERSON_SPECIFICATIONS),
-  CONSTRAINT FK_PERSON_SPECIFICATIONS_FOR_PERSON FOREIGN KEY (ID_PERSON)
-      REFERENCES DMES.SC_PERSON (ID_PERSON) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_person_documentation_attached (
+    id_person_documentation_attached numeric(18,0) NOT NULL,
+    tittle character varying(200) NOT NULL,
+    path character varying(2000) NOT NULL,
+    id_person numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_PERSON_SPECIFICATIONS
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_PHONES
+ALTER TABLE dmes.sc_person_documentation_attached OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_PHONES;
+--
+-- Name: sc_person_observations; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-CREATE TABLE DMES.SC_PHONES
-(
-  ID_PHONE numeric(18,0) NOT NULL,
-  NUMBER_PHONE numeric(18,0) NOT NULL,
-  DESCRIPTION character varying(100),
-  ID_PERSON numeric(18,0) NOT NULL,
-  CONSTRAINT PK_PHONES PRIMARY KEY (ID_PHONE),
-  CONSTRAINT FK_PHONES_PERSON FOREIGN KEY (ID_PERSON)
-      REFERENCES DMES.SC_PERSON (ID_PERSON) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_person_observations (
+    id_person_observations numeric(18,0) NOT NULL,
+    tittle character varying(200) NOT NULL,
+    observation character varying(2000) NOT NULL,
+    id_person numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_PHONES
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_ROLES
+ALTER TABLE dmes.sc_person_observations OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_ROLES;
+--
+-- Name: sc_person_specifications; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-CREATE TABLE DMES.SC_ROLES
-(
-  ID_ROLE numeric(18,0) NOT NULL,
-  NAME character varying(100) NOT NULL,
-  DESCRIPTION character varying(2000),
-  CREATION_DATE date NOT NULL,
-  MODIFY_DATE date,
-  CONSTRAINT PK_SC_ROLES PRIMARY KEY (ID_ROLE)
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_person_specifications (
+    id_person_specifications numeric(18,0) NOT NULL,
+    tittle character varying(200) NOT NULL,
+    specification character varying(2000) NOT NULL,
+    id_person numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_ROLES
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_SERVICES_OR_PRODUCTS
+ALTER TABLE dmes.sc_person_specifications OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_SERVICES_OR_PRODUCTS;
+--
+-- Name: sc_phones; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-CREATE TABLE DMES.SC_SERVICES_OR_PRODUCTS
-(
-  ID_SERVICE_OR_PRODUCTS numeric(18,0) NOT NULL,
-  NAME_SERVICE_OR_PRODUCT character varying(100) NOT NULL,
-  COST numeric(18,2) NOT NULL,
-  GUARANTEE character varying(2000),
-  DESCRIPTION character varying(2000),
-  AMOUNT numeric(18,0) NOT NULL,
-  ID_PARTNER numeric(18,0) NOT NULL,
-  TYPE character varying(100) NOT NULL,
-  CONSTRAINT PK_SERVICE_OR_PRODUCT PRIMARY KEY (ID_SERVICE_OR_PRODUCTS),
-  CONSTRAINT FK_SERVICE_OR_PRODUCT_PARTNER FOREIGN KEY (ID_PARTNER)
-      REFERENCES DMES.SC_PARTNER (ID_PARTNER) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_phones (
+    id_phone numeric(18,0) NOT NULL,
+    number_phone numeric(18,0) NOT NULL,
+    description character varying(100),
+    id_person numeric(18,0) NOT NULL
 );
-ALTER TABLE DMES.SC_SERVICES_OR_PRODUCTS
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_SUBMODULE_PERMISSION
+ALTER TABLE dmes.sc_phones OWNER TO "sipPrueba";
 
--- Table: DMES.SC_USERS
+--
+-- Name: sc_roles; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
--- DROP TABLE DMES.SC_USERS;
-
-CREATE TABLE DMES.SC_USERS
-(
-  id_user numeric(18,0) NOT NULL,
-  id_person numeric(18,0) NOT NULL,
-  ID_ROLEe numeric(18,0) NOT NULL,
-  login character varying(100) NOT NULL,
-  password character varying(100) NOT NULL,
-  creation_date date NOT NULL,
-  modify_date date,
-  CONSTRAINT PK_USERS PRIMARY KEY (id_user),
-  CONSTRAINT FK_PERSON FOREIGN KEY (id_person)
-      REFERENCES DMES.SC_PERSON (ID_PERSON) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT FK_ROLE FOREIGN KEY (ID_ROLEe)
-      REFERENCES DMES.SC_ROLES (ID_ROLE) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_roles (
+    id_role numeric(18,0) NOT NULL,
+    name character varying(100) NOT NULL,
+    description character varying(2000),
+    creation_date date NOT NULL,
+    modify_date date
 );
-ALTER TABLE DMES.SC_USERS
-  OWNER TO "sipPrueba";
 
 
--- Table: DMES.SC_WORK_EXPERIENCE
+ALTER TABLE dmes.sc_roles OWNER TO "sipPrueba";
 
--- DROP TABLE DMES.SC_WORK_EXPERIENCE;
+--
+-- Name: sc_services_or_products; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-CREATE TABLE DMES.SC_WORK_EXPERIENCE
-(
-  ID_WORK_EXPERIENCE numeric(18,0) NOT NULL,
-  ID_COMPANY numeric(18,0) NOT NULL,
-  INIT_DATE date NOT NULL,
-  END_DATE date NOT NULL,
-  ID_EMPLOYEE numeric(18,0) NOT NULL,
-  CONSTRAINT PK_WORK_EXPERIENCE PRIMARY KEY (ID_WORK_EXPERIENCE),
-  CONSTRAINT FK_WORK_EXPERIENCE_COMPANY FOREIGN KEY (ID_COMPANY)
-      REFERENCES DMES.SC_COMPANY (ID_COMPANY) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT FK_WORK_EXPERIENCE_EMPLOYEE FOREIGN KEY (ID_EMPLOYEE)
-      REFERENCES DMES.SC_EMPLOYEE (ID_EMPLOYEE) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_services_or_products (
+    id_service_or_products numeric(18,0) NOT NULL,
+    name_service_or_product character varying(100) NOT NULL,
+    cost numeric(18,2) NOT NULL,
+    guarantee character varying(2000),
+    description character varying(2000),
+    amount numeric(18,0) NOT NULL,
+    id_partner numeric(18,0) NOT NULL,
+    type character varying(100) NOT NULL
 );
-ALTER TABLE DMES.SC_WORK_EXPERIENCE
-  OWNER TO "sipPrueba";
 
 
+ALTER TABLE dmes.sc_services_or_products OWNER TO "sipPrueba";
 
+--
+-- Name: sc_users; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
 
-
--- Table: DMES.SC_MODULE_PERMISSION
-
--- DROP TABLE DMES.SC_MODULE_PERMISSION;
-
-CREATE TABLE DMES.SC_Module_permission (id_module_permission numeric(18) NOT NULL, 
-"name" varchar(100) NOT NULL, description varchar(2000), icone varchar(2000), "type" varchar(50),
- id_father numeric(18), page varchar(50), PRIMARY KEY (id_module_permission));
-
-
-
-
--- Table: DMES.SC_MODULE_PERMISSION_BY_ROLE
-
--- DROP TABLE DMES.SC_MODULE_PERMISSION_BY_ROLE;
-
-CREATE TABLE DMES.SC_MODULE_PERMISSION_BY_ROLE
-(
-  ID_MODULE_PERMISSION_BY_ROLE numeric(18,0) NOT NULL,
-  ID_ROLEE numeric(18,0) NOT NULL,
-  ID_TYPE character varying(5),
-  ID_MODULE_PERMISSION numeric(18,0) NOT NULL,
-  CONSTRAINT PK_MODULE_PERMISSION_BY_ROLE PRIMARY KEY (ID_MODULE_PERMISSION_BY_ROLE),
-  CONSTRAINT FK_MODULE_PERMISSION FOREIGN KEY (ID_MODULE_PERMISSION)
-      REFERENCES DMES.SC_MODULE_PERMISSION (ID_MODULE_PERMISSION) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT FK_MODULE_PERMISSION_BY_ROLE_FOR_ROLE FOREIGN KEY (ID_ROLEE)
-      REFERENCES DMES.SC_ROLES (ID_ROLE) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
+CREATE TABLE sc_users (
+    id_user numeric(18,0) NOT NULL,
+    id_person numeric(18,0) NOT NULL,
+    id_role numeric(18,0) NOT NULL,
+    login character varying(100) NOT NULL,
+    password character varying(100) NOT NULL,
+    creation_date date NOT NULL,
+    modify_date date
 );
-ALTER TABLE DMES.SC_MODULE_PERMISSION_BY_ROLE
-  OWNER TO "sipPrueba";
+
+
+ALTER TABLE dmes.sc_users OWNER TO "sipPrueba";
+
+--
+-- Name: sc_work_experience; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+CREATE TABLE sc_work_experience (
+    id_work_experience numeric(18,0) NOT NULL,
+    id_company numeric(18,0) NOT NULL,
+    init_date date NOT NULL,
+    end_date date NOT NULL,
+    id_employee numeric(18,0) NOT NULL
+);
+
+
+ALTER TABLE dmes.sc_work_experience OWNER TO "sipPrueba";
+
+--
+-- Data for Name: sc_company; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
 
 
 
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (1, 'Visibilidad de Planta', NULL, 'bar.png', 'Home', -1, 'mainMenu');
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (2, 'Visibilidad de Planta', NULL, 'oee.png', 'Folder', 1, NULL);
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (3, 'Programación de Orden de Fabricación', NULL, 'ord.png', 'Folder', 1, NULL);
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (4, 'estión de la Calidad y la Trazabilidad', NULL, 'cal.png', 'Folder', 1, NULL);
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (5, 'Gestión del Mantenimiento', NULL, 'man.png', 'Folder', 1, NULL);
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (6, 'Gestión de los Recursos', NULL, 'rec.png', 'Folder', 1, NULL);
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (7, 'Configuraciones', NULL, 'confi.png', 'Folder', 1, NULL);
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (9, 'Recursos Humanos', '', NULL, 'Folder', 7, NULL);
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (10, 'Recursos Materiales', NULL, NULL, 'Folder', 7, NULL);
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (8, 'Cerrar Sesión', NULL, 'salir.png', 'Folder', 1, 'exit');
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (11, 'Empleados', NULL, NULL, 'Item', 9, 'employee');
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (12, 'Proveedores', NULL, NULL, 'Item', 9, 'partner');
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (13, 'Usuarios y Permisos', '', '', 'Folder', 7, '');
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (14, 'Usuarios', '', NULL, 'Item', 13, 'user');
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (15, 'Grupos y Roles', NULL, '', 'Item', 13, 'roles');
-INSERT INTO dmes.sc_module_permission (id_module_permission, "name", description, icone, "type", id_father, page) 
-	VALUES (16, 'Permisos por Grupo', NULL, '', 'Item', 13, 'permission');
+--
+-- Data for Name: sc_competencies; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
 
 
 
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (1, 1, 'CRUD', 1);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (2, 1, 'CRUD', 2);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (3, 1, 'CRUD', 3);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (4, 1, 'CRUD', 4);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (5, 1, 'CRUD', 5);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (6, 1, 'CRUD', 6);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (7, 1, 'CRUD', 7);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (8, 1, 'CRUD', 8);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (9, 1, 'CRUD', 9);
+--
+-- Data for Name: sc_employee; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
 
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (10, 1, 'CRUD', 10);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (11, 1, 'CRUD', 11);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (12, 1, 'CRUD', 12);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (13, 1, 'CRUD', 13);
 
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (14, 1, 'CRUD', 14);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (15, 1, 'CRUD', 15);
-INSERT INTO DMES.SC_MODULE_PERMISSION_BY_ROLE (ID_MODULE_PERMISSION_BY_ROLE, ID_ROLE, ID_TYPE, ID_MODULE_PERMISSION) 
-	VALUES (16, 1, 'CRUD', 16);
 
-INSERT INTO dmes.sc_roles (id_role, "name", description, creation_date, modify_date) 
-	VALUES (1, 'Administrator', NULL, '2014-09-26', NULL);
+--
+-- Data for Name: sc_mails; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
 
-INSERT INTO dmes.sc_users (id_user, id_person, id_role, login, password, creation_date, modify_date) 
-	VALUES (1, 1, 1, 'guschaor', '4e991c769a2b9a881189cd86c160b604', '2014-07-26', NULL);
 
+
+--
+-- Data for Name: sc_module_permission; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (10, 'Recursos Materiales', NULL, NULL, 'Folder', 7, NULL);
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (1, 'Visibilidad de Planta', NULL, 'bar.png', 'Home', -1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (2, 'Visibilidad de Planta', NULL, 'oee.png', 'Folder', 1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (3, 'Programación de Orden de Fabricación', NULL, 'ord.png', 'Folder', 1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (4, 'estión de la Calidad y la Trazabilidad', NULL, 'cal.png', 'Folder', 1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (5, 'Gestión del Mantenimiento', NULL, 'man.png', 'Folder', 1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (6, 'Gestión de los Recursos', NULL, 'rec.png', 'Folder', 1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (7, 'Configuraciones', NULL, 'confi.png', 'Folder', 1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (9, 'Recursos Humanos', '', NULL, 'Folder', 7, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (8, 'Cerrar Sesión', NULL, 'salir.png', 'Folder', 1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (11, 'Empleados', NULL, NULL, 'Item', 9, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (12, 'Proveedores', NULL, NULL, 'Item', 9, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (13, 'Usuarios y Permisos', '', '', 'Folder', 7, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (14, 'Usuarios', '', NULL, 'Item', 13, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (15, 'Grupos y Roles', NULL, '', 'Item', 13, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (16, 'Permisos por Grupo', NULL, '', 'Item', 13, 'Help.jsf');
+
+
+--
+-- Data for Name: sc_module_permission_by_role; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1, 1, 'CRUD', 1);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2, 1, 'CRUD', 2);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (3, 1, 'CRUD', 3);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (4, 1, 'CRUD', 4);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (5, 1, 'CRUD', 5);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (6, 1, 'CRUD', 6);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (7, 1, 'CRUD', 7);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (8, 1, 'CRUD', 8);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (9, 1, 'CRUD', 9);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (10, 1, 'CRUD', 10);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (11, 1, 'CRUD', 11);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (12, 1, 'CRUD', 12);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (13, 1, 'CRUD', 13);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (14, 1, 'CRUD', 14);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (15, 1, 'CRUD', 15);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (16, 1, 'CRUD', 16);
+
+
+--
+-- Data for Name: sc_partner; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+
+
+--
+-- Data for Name: sc_person; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date) VALUES (1, 'Gustavo Adolfo', 'Chavarro Ortiz', 26, 'Colombia', 'Cali', NULL, 'Carrera 21 # 13-16', NULL, NULL, '/', '2014-09-26', NULL);
+
+
+--
+-- Data for Name: sc_person_documentation_attached; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+
+
+--
+-- Data for Name: sc_person_observations; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+
+
+--
+-- Data for Name: sc_person_specifications; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+
+
+--
+-- Data for Name: sc_phones; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+
+
+--
+-- Data for Name: sc_roles; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VALUES (1, 'Administrator', NULL, '2014-09-26', NULL);
+
+
+--
+-- Data for Name: sc_services_or_products; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+
+
+--
+-- Data for Name: sc_users; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+INSERT INTO sc_users (id_user, id_person, id_role, login, password, creation_date, modify_date) VALUES (1, 1, 1, 'guschaor', '4e991c769a2b9a881189cd86c160b604', '2014-07-26', NULL);
+
+
+--
+-- Data for Name: sc_work_experience; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
+--
+
+
+
+--
+-- Name: pk_company; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_company
+    ADD CONSTRAINT pk_company PRIMARY KEY (id_company);
+
+
+--
+-- Name: pk_competencies; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_competencies
+    ADD CONSTRAINT pk_competencies PRIMARY KEY (id_competencies);
+
+
+--
+-- Name: pk_employee; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_employee
+    ADD CONSTRAINT pk_employee PRIMARY KEY (id_employee);
+
+
+--
+-- Name: pk_mails; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_mails
+    ADD CONSTRAINT pk_mails PRIMARY KEY (id_mail);
+
+
+--
+-- Name: pk_module_permission_by_role; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_module_permission_by_role
+    ADD CONSTRAINT pk_module_permission_by_role PRIMARY KEY (id_module_permission_by_role);
+
+
+--
+-- Name: pk_partner; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_partner
+    ADD CONSTRAINT pk_partner PRIMARY KEY (id_partner);
+
+
+--
+-- Name: pk_person; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_person
+    ADD CONSTRAINT pk_person PRIMARY KEY (id_person);
+
+
+--
+-- Name: pk_person_documentation_attached; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_person_documentation_attached
+    ADD CONSTRAINT pk_person_documentation_attached PRIMARY KEY (id_person_documentation_attached);
+
+
+--
+-- Name: pk_person_observations; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_person_observations
+    ADD CONSTRAINT pk_person_observations PRIMARY KEY (id_person_observations);
+
+
+--
+-- Name: pk_person_specifications; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_person_specifications
+    ADD CONSTRAINT pk_person_specifications PRIMARY KEY (id_person_specifications);
+
+
+--
+-- Name: pk_phones; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_phones
+    ADD CONSTRAINT pk_phones PRIMARY KEY (id_phone);
+
+
+--
+-- Name: pk_sc_module_permission; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_module_permission
+    ADD CONSTRAINT pk_sc_module_permission PRIMARY KEY (id_module_permission);
+
+
+--
+-- Name: pk_sc_roles; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_roles
+    ADD CONSTRAINT pk_sc_roles PRIMARY KEY (id_role);
+
+
+--
+-- Name: pk_service_or_product; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_services_or_products
+    ADD CONSTRAINT pk_service_or_product PRIMARY KEY (id_service_or_products);
+
+
+--
+-- Name: pk_users; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_users
+    ADD CONSTRAINT pk_users PRIMARY KEY (id_user);
+
+
+--
+-- Name: pk_work_experience; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_work_experience
+    ADD CONSTRAINT pk_work_experience PRIMARY KEY (id_work_experience);
+
+
+--
+-- Name: fk_employee_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_employee
+    ADD CONSTRAINT fk_employee_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- Name: fk_mails_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_mails
+    ADD CONSTRAINT fk_mails_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- Name: fk_module_permission; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_module_permission_by_role
+    ADD CONSTRAINT fk_module_permission FOREIGN KEY (id_module_permission) REFERENCES sc_module_permission(id_module_permission);
+
+
+--
+-- Name: fk_module_permission_by_role_for_role; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_module_permission_by_role
+    ADD CONSTRAINT fk_module_permission_by_role_for_role FOREIGN KEY (id_role) REFERENCES sc_roles(id_role);
+
+
+--
+-- Name: fk_partner_company; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_partner
+    ADD CONSTRAINT fk_partner_company FOREIGN KEY (id_company) REFERENCES sc_company(id_company);
+
+
+--
+-- Name: fk_partner_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_partner
+    ADD CONSTRAINT fk_partner_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- Name: fk_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_users
+    ADD CONSTRAINT fk_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- Name: fk_person_documentation_attached_for_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_person_documentation_attached
+    ADD CONSTRAINT fk_person_documentation_attached_for_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- Name: fk_person_observation_for_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_person_observations
+    ADD CONSTRAINT fk_person_observation_for_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- Name: fk_person_specifications_for_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_person_specifications
+    ADD CONSTRAINT fk_person_specifications_for_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- Name: fk_phones_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_phones
+    ADD CONSTRAINT fk_phones_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- Name: fk_role; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_users
+    ADD CONSTRAINT fk_role FOREIGN KEY (id_role) REFERENCES sc_roles(id_role);
+
+
+--
+-- Name: fk_service_or_product_partner; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_services_or_products
+    ADD CONSTRAINT fk_service_or_product_partner FOREIGN KEY (id_partner) REFERENCES sc_partner(id_partner);
+
+
+--
+-- Name: fk_work_experience_company; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_work_experience
+    ADD CONSTRAINT fk_work_experience_company FOREIGN KEY (id_company) REFERENCES sc_company(id_company);
+
+
+--
+-- Name: fk_work_experience_employee; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_work_experience
+    ADD CONSTRAINT fk_work_experience_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
+
+
+--
+-- Name: id_competencies_employee; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_competencies
+    ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
+
+
+--
+-- PostgreSQL database dump complete
+--
