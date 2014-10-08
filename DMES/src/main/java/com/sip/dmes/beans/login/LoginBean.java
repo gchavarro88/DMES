@@ -7,7 +7,6 @@ package com.sip.dmes.beans.login;
 
 import com.sip.dmes.utilities.Utilities;
 import com.sip.dmes.beans.SessionBean;
-import com.sip.dmes.beans.template.TemplateBean;
 import com.sip.dmes.dao.bo.IScUsers;
 
 import com.sip.dmes.entitys.ScUsers;
