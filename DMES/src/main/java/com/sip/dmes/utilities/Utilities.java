@@ -1,27 +1,34 @@
-package com.carvajal.mci.utilities;
+package com.sip.dmes.utilities;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
- *
- * @author Gustavo
+ * Proyecto: DMES - Versión: 1.0
+ * @author (es): Gustavo Adolfo Chavarro Ortiz 
+ * @Funcionalidad: Esta clase está encargada contener aquellas funciones que 
+ * nos pueden ser utilies para diferentes clases o funcionalidades de la aplicación.
+ * @Modificado por:  
+ * @Funcionalidad agregada:
  */
 public class Utilities
 {
 
+    //Arreglo con números y letras para generar la encriptación
     private static final char[] CONSTS_HEX =
     {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
     };
 
     /**
-     *
-     * @param numero
-     * @param digitos
-     * @return
+     * Método encargado de redondear una cantidad recibida a un número de dígitos indicados
+     * @author: Gustavo Chavarro Ortiz
+     * @param numero valor a redondear
+     * @param digitos cantidad de digitos decimales a retornar
+     * @return double valor a retornar
      */
     public static double Redondear(double numero, int digitos)
     {
@@ -30,9 +37,10 @@ public class Utilities
     }
 
     /**
-     *
-     * @param value
-     * @return
+     * Método encargado de de verificar si una cadena esta vacia
+     * @author: Gustavo Chavarro Ortiz
+     * @param value valor de la cadena a verificar
+     * @return boolean indica si esta vacio o no
      */
     public static boolean isEmpty(String value)
     {
@@ -49,9 +57,10 @@ public class Utilities
     }
 
     /**
-     *
-     * @param value
-     * @return
+     * Método encargado de indicar si una cadena es totalmente numerica
+     * @author: Gustavo Chavarro Ortiz
+     * @param value cadena recibida a verificar
+     * @return boolean inidica si es numerico o no
      */
     public static boolean isNumeric(String value)
     {
@@ -67,9 +76,10 @@ public class Utilities
     }
 
     /**
-     *
-     * @param value
-     * @return
+     * Método encargado de indicar si una cadena es alfanumerica
+     * @author: Gustavo Chavarro Ortiz
+     * @param value cadena recibida a verificar
+     * @return boolean inidica si es alfanumerica o no
      */
     public static boolean isAlphaNumeric(String value)
     {
@@ -84,6 +94,12 @@ public class Utilities
         return result;
     }
 
+    /**
+     * Método encargado de indicar si una cadena es alfabetica
+     * @author: Gustavo Chavarro Ortiz
+     * @param value cadena recibida a verificar
+     * @return boolean inidica si es alfabetica o no
+     */
     public static boolean isAlphabetical(String value)
     {
         boolean result = false;
@@ -97,6 +113,12 @@ public class Utilities
         return result;
     }
 
+    /**
+     * Método encargado de indicar si una cadena es un email
+     * @author: Gustavo Chavarro Ortiz
+     * @param value cadena recibida a verificar
+     * @return boolean inidica si es un email o no
+     */
     public static boolean isEmail(String value)
     {
         boolean result = false;
@@ -110,6 +132,12 @@ public class Utilities
         return result;
     }
 
+    /**
+     * Método encargado de encriptar una cadena recibida
+     * @author: Gustavo Chavarro Ortiz
+     * @param stringAEncriptar cadena recibida a encriptar
+     * @return String valor de la candena encriptada
+     */
     public static String encriptaEnMD5(String stringAEncriptar)
     {
         try

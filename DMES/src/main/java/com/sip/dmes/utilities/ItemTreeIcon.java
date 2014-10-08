@@ -4,24 +4,38 @@ import java.io.Serializable;
 
 
 /**
- *
- * @author Gustavo
+ * Proyecto: DMES - Versión: 1.0
+ * @author (es): Gustavo Adolfo Chavarro Ortiz 
+ * @Funcionalidad: Esta clase está encargada de servir como objeto para un modelo
+ * de menú en un árbol, teniendo como atributos el nombre del nodo, el tipo de nodo,
+ * el icono del nodo, la página a la que hace referencia el nodo y la posición de la
+ * pestaña a la que hace referencia.
+ * @Modificado por:  
+ * @Funcionalidad agregada:
  */
 public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
 {
-    private String name;
+    private String name;//Nombre del nodo
+    //Tipo de nodo ejemplo: Home--> principal, Folder -->  directorio,
+    //Item --> hace referencia a objeto para invocar una pestaña
     private String type;
-    private String icone;
-    private String page;
-    private int position;
+    
+    private String icone;//Icono del nodo
+    private String page; //Página de la pestaña a la que hace referencia
+    private int position; //posición de la pestaña a la que hace referencia
 
+    /**
+     * Método constructor.
+     */
     public ItemTreeIcon(String name, String type, String icone)
     {
         this.name = name;
         this.type = type;
         this.icone = icone;
     }
-    
+    /**
+     * Método constructor.
+     */
     public ItemTreeIcon(String name, String type, String icone, String page)
     {
         this.name = name;
@@ -29,7 +43,9 @@ public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
         this.icone = icone;
         this.page = page;
     }
-
+    /**
+     * Método constructor.
+     */
     public ItemTreeIcon(String name, String type, String icone, String page, int position)
     {
         this.name = name;
@@ -38,7 +54,9 @@ public class ItemTreeIcon implements Serializable, Comparable<ItemTreeIcon>
         this.page = page;
         this.position = position;
     }
-
+    /**
+     * Métodos getters and setters.
+     */
     public int getPosition()
     {
         return position;

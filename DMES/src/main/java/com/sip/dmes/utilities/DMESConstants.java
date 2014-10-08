@@ -6,10 +6,16 @@
 package com.sip.dmes.utilities;
 
 /**
- *
- * @author gchavarro88
+ * Proyecto: DMES - Versión: 1.0
+ * @author (es): Gustavo Adolfo Chavarro Ortiz 
+ * @Funcionalidad: Esta clase está encargada de guardar todos los valores constantes
+ * utilizados por la aplicación.
+ * @Modificado por:  
+ * @Funcionalidad agregada:
  */
 public class DMESConstants
 {
+   //Mensaje que se mostrará en todas las tablas y grillas donde no existan datos
+   public static final String  MESSAGE_EMPTY_INFORMATION = "No existe información para visualizar.";
    
 }

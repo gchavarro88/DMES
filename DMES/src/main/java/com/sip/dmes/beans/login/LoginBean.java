@@ -5,8 +5,9 @@
  */
 package com.sip.dmes.beans.login;
 
-import com.carvajal.mci.utilities.Utilities;
+import com.sip.dmes.utilities.Utilities;
 import com.sip.dmes.beans.SessionBean;
+import com.sip.dmes.beans.template.TemplateBean;
 import com.sip.dmes.dao.bo.IScUsers;
 
 import com.sip.dmes.entitys.ScUsers;
@@ -15,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -30,23 +32,36 @@ public class LoginBean implements Serializable
     ScUsers scUser;// Objeto de tipo ScUsers donde se guardan los datos del usuario
     String login; // Variable donde se guarda el login ingresado por el cliente
     String password; //Variable donde se guarda el password ingresado por el cliente
-    SessionBean sessionBean;
+    SessionBean sessionBean;//Variable de sesion
+    private final static Logger log = Logger.getLogger(LoginBean.class);
+    
+    /**
+     * Método constructor.
+     */
     public LoginBean()
     { 
         
     } 
+    
+    /**
+     * Método postConstructor el cual inicia cuando la aplicación ya ha cargado.
+     */
     @PostConstruct
     public void initData()
     { 
+        //Validamos que la sesión ya haya sido iniciada y redireccionamos
+        log.info("Verificamos la sesión del usuario se encuentre activa");
         if(getSessionBean().getScUser() != null)
         {
             try 
             {
-                //FacesContext.getCurrentInstance().getExternalContext().dispatch("/SC_main_menu/mainMenu.xhtml");
+                log.info("Redireccionamos a la pantalla del menú principal");
+                //Redirección al mainFrame
+                FacesContext.getCurrentInstance().getExternalContext().dispatch("/SC_main_menu/mainMenu.jsf");
             }
             catch(Exception e)
             {
-                
+                log.error("Error la intentar verificar los datos de sesión del usuario", e);
             }
             
         }
@@ -59,29 +74,33 @@ public class LoginBean implements Serializable
      */
     public String doLogin()
     {
-        
+        log.info("Inicia el proceso de login");
         String result = "";
         if(getLogin() != null && getLogin().length() > 0 && getPassword() != null
                 && getPassword().length() > 0)
         {
             try
             {
+                log.info("Se consulta el usuario "+getLogin());
                 setScUser(scUsersServer.findByLogin(getLogin()));
                 if(getScUser() != null && getScUser().getPassword().
                         equals(Utilities.encriptaEnMD5(password)))
                 {
                     getSessionBean().setScUser(getScUser());
+                    log.info("Login exitoso, se redireccionará a la pantalla principal");
                     result = "loginIn";
                 }
                 else
                 {
                     addError(null, "Error en la autenticación", "El usuario o la contraseña no son válidos");
+                    log.info("Error en la autenticación, usuario o contraseñas no válidos");
                 }
             }
             catch(Exception e)
             {
                 addFatal(null, "Error de Sistema", "Su petición no pudo ser procesada, "
                         + "por favor comuniquese con el administrador o intente después");
+                log.error("Ocurrió un error al intentar realizar la autenticación", e);
             }
         }
         return result;

@@ -8,8 +8,14 @@ package com.sip.dmes.utilities;
 import java.io.Serializable;
 
 /**
- *
- * @author gchavarro88
+ * Proyecto: DMES - Versión: 1.0
+ * @author (es): Gustavo Adolfo Chavarro Ortiz 
+ * @Funcionalidad: Esta clase está encargada de servir como objeto para un modelo
+ * de pestañas en un panel, teniendo como atributos el nombre de la pestaña, la 
+ * url de la página a la que hace referencia y un atributo booleano que inidica
+ * si s epuede visualizar.
+ * @Modificado por:  
+ * @Funcionalidad agregada:
  */
 public class MainTabs implements Serializable
 {
@@ -17,7 +23,10 @@ public class MainTabs implements Serializable
     private int index;
     private String page;
     private boolean visible;
-
+    
+    /**
+    * Método constructor.
+    */
     public MainTabs(String title, int index, String page, boolean visible)
     {
         this.title = title;
@@ -25,7 +34,9 @@ public class MainTabs implements Serializable
         this.page = page;
         this.visible = visible;
     }
-
+    /**
+    * Métodos getters and setters.
+    */
     public String getTitle()
     {
         return title;
