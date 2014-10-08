@@ -14,7 +14,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -29,7 +28,6 @@ public class ScModulePermissionByRoleDao implements IScModulePermissionByRole
     private final static Logger log = Logger.getLogger(ScModulePermissionByRoleDao.class);
     
     @Override
-    @Transactional
     public List<ScModulePermissionByRole> getAllIScModulePermissionsByRole(ScRoles scRole) throws Exception
     {
         List<ScModulePermissionByRole> result = null;
@@ -42,6 +40,7 @@ public class ScModulePermissionByRoleDao implements IScModulePermissionByRole
         catch(Exception e)
         {
             log.error("Error intentando obtener los modulos por rol "+scRole.getName(), e);
+            e.printStackTrace();
         }
         return result;
     }
