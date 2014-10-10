@@ -10,7 +10,9 @@ import com.sip.dmes.dao.bo.IScMails;
 import com.sip.dmes.dao.bo.IScModulePermissionByRole;
 import com.sip.dmes.dao.bo.IScPerson;
 import com.sip.dmes.dao.bo.IScPhones;
+import com.sip.dmes.entitys.ScMails;
 import com.sip.dmes.entitys.ScPerson;
+import com.sip.dmes.entitys.ScPhones;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,12 +34,11 @@ public class PersonBean implements Serializable {
     private final static Logger log = Logger.getLogger(PersonBean.class);
 
     // interfacest par los crud basicos..
-    private IScPerson iScPerson;
-    private IScPhones iScPhones;
-    private IScMails iScMails;
-    
+    private IScPerson scPerson;
+    private ScPhones scPhones;
+    private ScMails scMails;
+
     //Objetos temporales para modificar
-    
     private List<ScPerson> scPersons;
     private List<ScPerson> scPersonsEliminar;
     private ScPerson nuevoPersona;
@@ -68,7 +69,7 @@ public class PersonBean implements Serializable {
     public void initData() {
         getScPersons();
 
-        log.info("Se cargo el contructor sin problemas con :" + scPersons.size());
+        log.info("Se cargo el contructor sin problemas con  :" + scPersons.size());
     }
 
     /**
@@ -123,12 +124,32 @@ public class PersonBean implements Serializable {
 
     public List<ScPerson> getScPersons() {
 
-        scPersons = iScPerson.getScPersons();
+        scPersons = scPerson.getScPersons();
         return scPersons;
     }
 
     public void setScPersons(List<ScPerson> scPersons) {
         this.scPersons = scPersons;
+    }
+
+    public IScPerson getScPerson() {
+        return scPerson;
+    }
+
+    public ScPhones getScPhones() {
+        return scPhones;
+    }
+
+    public ScMails getScMails() {
+        return scMails;
+    }
+
+    public List<ScPerson> getScPersonsEliminar() {
+        return scPersonsEliminar;
+    }
+
+    public ScPerson getNuevoPersona() {
+        return nuevoPersona;
     }
 
 }
