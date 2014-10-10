@@ -12,12 +12,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author user
  */
+
+  @Repository("IScMails")
     public class ScMailsDao  implements  IScMails{
     
     private final static Logger log = Logger.getLogger(ScMails.class);
