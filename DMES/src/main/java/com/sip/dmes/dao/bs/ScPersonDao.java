@@ -60,7 +60,8 @@ public class ScPersonDao implements IScPerson {
             entityManager.remove(ScPerson);
 
         } catch (Exception e) {
-            log.error("Error al borrar la persona", e.getCause());
+            
+            log.error("Error al borrar la persona ", e);
         }
 
     }
@@ -85,12 +86,14 @@ public class ScPersonDao implements IScPerson {
     @Override
     @Transactional
     public List<ScPerson> getScPersons() {
-
+        System.err.println("Estot en query");
         List<ScPerson> result = null;
         try {
 
             Query query = entityManager.createNamedQuery("ScPerson.findAll");
             result = (List<ScPerson>) (ScPerson) query.getResultList();
+            
+            System.err.println("Numero de personas :"+ result.size());
 
         } catch (Exception e) {
 

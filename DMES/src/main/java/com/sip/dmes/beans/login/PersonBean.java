@@ -5,6 +5,7 @@
  */
 package com.sip.dmes.beans.login;
 
+import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.beans.template.TemplateBean;
 import com.sip.dmes.dao.bo.IScMails;
 import com.sip.dmes.dao.bo.IScModulePermissionByRole;
@@ -34,42 +35,50 @@ public class PersonBean implements Serializable {
     private final static Logger log = Logger.getLogger(PersonBean.class);
 
     // interfacest par los crud basicos..
-    private IScPerson scPerson;
+    private IScPerson scPersonServer;
     private ScPhones scPhones;
     private ScMails scMails;
-
+    SessionBean sessionBean;//Variable de sesion
     //Objetos temporales para modificar
     private List<ScPerson> scPersons;
     private List<ScPerson> scPersonsEliminar;
     private ScPerson nuevoPersona;
     private ScPerson actualizarPessona;
 
-    public void guardar() {
+    public void app() {    }
+
+    public void delete() {
     }
 
-    public void eliminarBarios() {
+    public void mer() {
     }
 
-    public void actualizar() {
+   
+
+    public void appTelefono() {
     }
 
-    public void eliminar() {
+    public void appEmail() {
     }
 
-    public void agregarTelefono() {
-    }
-
-    public void agregarEmail() {
-    }
-
-    public void agregarEspecificacaciones() {
+    public void appEspecificacaciones() {
     }
 
     @PostConstruct
     public void initData() {
-        getScPersons();
 
-        log.info("Se cargo el contructor sin problemas con  :" + scPersons.size());
+        loadData();
+
+    }
+
+    public void loadData() {
+
+        try {
+            setScPersons(scPersonServer.getScPersons());
+        } catch (Exception e) {
+            log.error("Error al cargar la personas", e);
+        }
+
     }
 
     /**
@@ -122,9 +131,15 @@ public class PersonBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
 
-    public List<ScPerson> getScPersons() {
+    public IScPerson getScPersonServer() {
+        return scPersonServer;
+    }
 
-        scPersons = scPerson.getScPersons();
+    public void setScPersonServer(IScPerson scPersonServer) {
+        this.scPersonServer = scPersonServer;
+    }
+
+    public List<ScPerson> getScPersons() {
         return scPersons;
     }
 
@@ -132,24 +147,52 @@ public class PersonBean implements Serializable {
         this.scPersons = scPersons;
     }
 
-    public IScPerson getScPerson() {
-        return scPerson;
-    }
-
     public ScPhones getScPhones() {
         return scPhones;
+    }
+
+    public void setScPhones(ScPhones scPhones) {
+        this.scPhones = scPhones;
     }
 
     public ScMails getScMails() {
         return scMails;
     }
 
+    public void setScMails(ScMails scMails) {
+        this.scMails = scMails;
+    }
+
     public List<ScPerson> getScPersonsEliminar() {
         return scPersonsEliminar;
     }
 
+    public void setScPersonsEliminar(List<ScPerson> scPersonsEliminar) {
+        this.scPersonsEliminar = scPersonsEliminar;
+    }
+
     public ScPerson getNuevoPersona() {
         return nuevoPersona;
+    }
+
+    public void setNuevoPersona(ScPerson nuevoPersona) {
+        this.nuevoPersona = nuevoPersona;
+    }
+
+    public ScPerson getActualizarPessona() {
+        return actualizarPessona;
+    }
+
+    public void setActualizarPessona(ScPerson actualizarPessona) {
+        this.actualizarPessona = actualizarPessona;
+    }
+
+    public SessionBean getSessionBean() {
+        return sessionBean;
+    }
+
+    public void setSessionBean(SessionBean sessionBean) {
+        this.sessionBean = sessionBean;
     }
 
 }
