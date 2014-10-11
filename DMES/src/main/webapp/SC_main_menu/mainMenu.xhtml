@@ -10,6 +10,7 @@
     <f:view contentType="text/html">
         <h:head>
             <title>.:DMES:. - Menú Principal</title>
+            
             <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
             <script type="text/javascript">
                
@@ -100,7 +101,7 @@
                              
                     </h:form>
                           <script type="text/javascript">
-                            document.getElementById("lateral").style.height = (screen.height-280)+"px";
+                            document.getElementById("lateral").style.height = (screen.height-765)+"px";
                     </script>
                 </p:layoutUnit>
                 <p:layoutUnit position="center" 
@@ -118,7 +119,7 @@
                             
                             <p:tabView  id="tabMain" dynamic="true" var="tabs" 
                                     styleClass="tabViewMain" scrollable="true" 
-                                    value="#{templateBean.mainTabs}">
+                                    value="#{templateBean.mainTabs}" activeIndex="#{templateBean.activeIndex}">
                             
                             
                             

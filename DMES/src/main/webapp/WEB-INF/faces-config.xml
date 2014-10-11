@@ -66,6 +66,17 @@
     <managed-bean>
         <managed-bean-name>scrolesBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.security.ScrolesBean</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scRolesServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScRoles</property-class>
+            <value>#{scRolesServer}</value>
+        </managed-property>
     </managed-bean>
+    
 </faces-config>

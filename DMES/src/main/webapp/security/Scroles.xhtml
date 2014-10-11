@@ -8,12 +8,70 @@
       >
     <h:head>
         <title>Facelet Title</title>
+        
+        <link href="/SIP_THEME/theme.css" rel="stylesheet" />
+        
     </h:head>
     <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                      draggable="false" closable="false" resizable="false">
+                <p:graphicImage value="/images/loadBar.gif"/>
+            </p:dialog>
         <div>
-            <p:dataTable id="scrolesDataTable" draggableColumns="true" emptyMessage="" >
-                
+            <h:form id="formRoles">
+                <p:dataTable id="scrolesDataTable" draggableColumns="true" emptyMessage="" 
+                         value="#{scrolesBean.rolesList}" var="roles"
+                         paginator="true" rows="15"  
+                         pageLinks="40"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowKey="#{roles.idRole}"
+                         resizableColumns="true" 
+                         liveResize="true" rowsPerPageTemplate="15,30,50" 
+                         selectionMode="single" paginatorPosition="top">
+                <f:facet name="header">
+                    <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  >
+                        <p:tooltip for="btnAdd" value="Agregar un Grupo"/>
+                    </p:commandButton>
+                </f:facet>
+                <p:column headerText="Administración">
+                    <center>
+                        <p:commandButton icon="ui-icon-pencil" id="btnEdit">
+                            <p:tooltip for="btnEdit" value="Editar Grupo"/>
+                        </p:commandButton>
+                        <p:spacer width="10"/>
+                        <p:commandButton icon="ui-icon-close" id="btnDelete">
+                            <p:tooltip for="btnDelete" value="Eliminar Grupo"/>
+                        </p:commandButton>
+                    </center>
+                </p:column>
+                <p:column headerText="ID" sortBy="#{roles.idRole}">    
+                    <center>
+                        #{roles.idRole}
+                    </center>
+                </p:column>
+                <p:column id="columnRolName" headerText="Rol" sortBy="#{roles.name}">    
+                    <p:tooltip for="columnRolName" value="#{roles.name}"/>
+                    <center>
+                        #{roles.name}
+                    </center>
+                </p:column>
+                <p:column id="columnRolDescription" headerText="Descripción" sortBy="#{roles.description}">    
+                    <p:tooltip for="columnRolDescription" value="#{roles.description}"/>
+                    <center>
+                        #{roles.description}
+                    </center>
+                </p:column>
+                <p:column id="columnRolCreationDate" headerText="Fecha de Creación" sortBy="#{roles.creationDate}">    
+                    <p:tooltip for="columnRolDescription" value="#{roles.creationDate}"/>
+                    <center>
+                        #{roles.creationDate}
+                    </center>
+                </p:column>
+                    
             </p:dataTable>
+            </h:form>
         </div>
         
     </h:body>

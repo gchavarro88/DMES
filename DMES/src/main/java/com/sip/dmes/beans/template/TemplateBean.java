@@ -40,16 +40,16 @@ import org.primefaces.model.menu.MenuModel;
 public class TemplateBean implements Serializable
 {
 
-    private final static Logger log = Logger.getLogger(TemplateBean.class);
+    private final static Logger log = Logger.getLogger(TemplateBean.class); //Variable de logger que permite guardar registro de la aplicación
     private TreeNode root; //Nodo base del árbol del menú
-    private TabView tabView;
-    private IScModulePermissionByRole scModulePermissionByRoleServer;
-    private SessionBean sessionBean;
-    private List<MainTabs> mainTabsRecord;
-    private List<MainTabs> mainTabs;
-    private HashMap<String, Integer> mapTabs;
-    private int activeIndex;
-    private MenuModel model;
+    private TabView tabView; //Pestaña seleccionada
+    private IScModulePermissionByRole scModulePermissionByRoleServer; //Interfaz de la persistencia de permisos de modulo por rol
+    private SessionBean sessionBean; //Bean de sesion
+    private List<MainTabs> mainTabsRecord; //Lista de pestañas almacenadas
+    private List<MainTabs> mainTabs; //Lista de pestaña que se visualizará en el main frame
+    private HashMap<String, Integer> mapTabs; //Mapa de pestañas
+    private int activeIndex; //pestaña activa
+    private MenuModel model; //Modelo de menu para cerrar pestañas
     
 
     /** 

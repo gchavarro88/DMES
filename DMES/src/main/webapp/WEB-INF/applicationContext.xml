@@ -34,9 +34,9 @@
     
     
     <!--Beans --> 
-    <!--    <bean id="serverParameter" class="com.carvajal.mci.dao.ParameterImpl"></bean>-->
     <bean id="scUsersServer" class="com.sip.dmes.dao.bs.ScUsersDao"></bean>
     <bean id="scModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScModulePermissionByRoleDao"></bean>
+    <bean id="scRolesServer" class="com.sip.dmes.dao.bs.ScRolesDao"></bean>
     <!-- <bean id="scSubModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScSubmodulePermissionByRoleDao"></bean>-->
 
     <bean id="scPersonServer" class="com.sip.dmes.dao.bs.ScPersonDao"></bean>

@@ -26,12 +26,12 @@
             <groupId>unknown.binary</groupId>
             <artifactId>cglib-2.2</artifactId>
             <version>SNAPSHOT</version>
-        </dependency>-->
+        </dependency>-->  
         <dependency>  
-            <groupId>org.primefaces.themes</groupId>  
-            <artifactId>all-themes</artifactId>  
-            <version>1.0.10</version>  
-        </dependency>  
+            <groupId>com.sip.dmes.theme</groupId>  
+            <artifactId>sipTheme</artifactId>  
+            <version>1.0</version>  
+        </dependency> 
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
@@ -76,7 +76,11 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>all-themes</artifactId>
+            <version>1.0.7</version>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
