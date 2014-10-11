@@ -60,7 +60,9 @@ public class TemplateBean implements Serializable
     { 
         
     }
-    
+    /**
+     * Método encargado de construir la data incial del Main Frame de la aplicación.
+     */
     @PostConstruct
     public void initData()
     {
