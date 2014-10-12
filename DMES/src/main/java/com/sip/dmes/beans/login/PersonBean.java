@@ -42,18 +42,17 @@ public class PersonBean implements Serializable {
     //Objetos temporales para modificar
     private List<ScPerson> scPersons;
     private List<ScPerson> scPersonsEliminar;
-    private ScPerson nuevoPersona;
-    private ScPerson actualizarPessona;
+    private ScPerson selectedPerson;
+    private ScPerson merPerson;
 
-    public void app() {    }
+    public void app() {
+    }
 
     public void delete() {
     }
 
     public void mer() {
     }
-
-   
 
     public void appTelefono() {
     }
@@ -171,20 +170,20 @@ public class PersonBean implements Serializable {
         this.scPersonsEliminar = scPersonsEliminar;
     }
 
-    public ScPerson getNuevoPersona() {
-        return nuevoPersona;
+    public ScPerson getSelectedPerson() {
+        return selectedPerson;
     }
 
-    public void setNuevoPersona(ScPerson nuevoPersona) {
-        this.nuevoPersona = nuevoPersona;
+    public void setSelectedPerson(ScPerson selectedPerson) {
+        this.selectedPerson = selectedPerson;
     }
 
-    public ScPerson getActualizarPessona() {
-        return actualizarPessona;
+    public ScPerson getMerPerson() {
+        return merPerson;
     }
 
-    public void setActualizarPessona(ScPerson actualizarPessona) {
-        this.actualizarPessona = actualizarPessona;
+    public void setMerPerson(ScPerson merPerson) {
+        this.merPerson = merPerson;
     }
 
     public SessionBean getSessionBean() {
