@@ -78,5 +78,22 @@
             <value>#{scRolesServer}</value>
         </managed-property>
     </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>personBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.login.PersonBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
     
+           <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scPersonServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPerson</property-class>
+            <value>#{scPersonServer}</value>
+        </managed-property>
+    </managed-bean>
+
 </faces-config>
