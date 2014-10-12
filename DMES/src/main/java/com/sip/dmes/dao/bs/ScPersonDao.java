@@ -77,7 +77,7 @@ public class ScPersonDao implements IScPerson {
 
         } catch (Exception e) {
 
-            log.error("Error intentando buscar la persona", e.getCause());
+            log.error("Error intentando buscar la persona",e);
         }
 
         return result;
@@ -91,13 +91,13 @@ public class ScPersonDao implements IScPerson {
         try {
 
             Query query = entityManager.createNamedQuery("ScPerson.findAll");
-            result = (List<ScPerson>) (ScPerson) query.getResultList();
+            result =  query.getResultList();
             
             System.err.println("Numero de personas :"+ result.size());
 
         } catch (Exception e) {
 
-            log.error("Error consulta todas las personas", e.getCause());
+            log.error("Error consulta todas las personas", e);
         }
 
         return result;
