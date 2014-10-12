@@ -19,6 +19,58 @@
                 <p:graphicImage value="/images/loadBar.gif"/>
             </p:dialog>
         <div>
+            <p:dialog id="dialogRolesSave" widgetVar="dialogRolesSave" width="400" height="400"
+                      closable="true" draggable="true" dynamic="true" header="Crear Grupos y Roles"
+                      hideEffect="explode" modal="true" showEffect="explode">
+                <table width="98%" cellspacing="30">
+                            <tr>
+                                <td width="20%" align="right">
+                                    <p:outputLabel  for="tfNameRol" value="Nombre del Grupo:"/>
+                                </td>
+                                <td width="80%" align="left">
+                                    <p:inputText    id="tfNameRol"  value="#{scrolesBean.scRolesAdd.name}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="20%" align="right">
+                                    <p:outputLabel  for="tfDescriptionRol" value="Descripción:"/>
+                                </td>
+                                <td width="80%" align="left">
+                                    <p:inputTextarea    id="tfDescriptionRol"  
+                                    value="#{scrolesBean.scRolesAdd.description}" />                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <p:dataTable id="dataTablePermissions" value="#{scrolesBean.listAllPermissions}"
+                                    paginator="true" rows="10"  var="permissions"
+                                    pageLinks="40"
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowKey="#{permissions.idModulePermission}"
+                                    resizableColumns="true" 
+                                    liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                    paginatorPosition="top" selection="#{scrolesBean.listPermissionsAdd}">
+                                        
+                                        <p:column selectionMode="multiple" width="16"/>
+                                        <p:column headerText="Permiso" >
+                                            <p:outputLabel value="Gestionar #{permissions.name}"/>
+                                        </p:column> 
+                                    </p:dataTable>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <p:commandButton value="Guardar" actionListener="#{scrolesBean.saveRole()}"  
+                                                     onsuccess="PF('dialogRolesSave').hide()"/>
+                                    <p:spacer width="20"/>
+                                
+                                    <p:commandButton value="Cancelar" actionListener="#{scrolesBean.cleanFields()}" 
+                                                     oncomplete="PF('dialogRolesSave').hide()"/>
+                                </td>
+                            </tr>
+                        </table>
+            </p:dialog>
             <h:form id="formRoles">
                 <p:dataTable id="scrolesDataTable" draggableColumns="true" emptyMessage="" 
                          value="#{scrolesBean.rolesList}" var="roles"
@@ -27,11 +79,12 @@
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowKey="#{roles.idRole}"
-                         resizableColumns="true" 
+                         resizableColumns="true" selection="#{scrolesBean.scRolesSelected}"
                          liveResize="true" rowsPerPageTemplate="15,30,50" 
                          selectionMode="single" paginatorPosition="top">
                 <f:facet name="header">
-                    <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  >
+                    <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                    oncomplete="PF('dialogRolesSave').show()">
                         <p:tooltip for="btnAdd" value="Agregar un Grupo"/>
                     </p:commandButton>
                 </f:facet>

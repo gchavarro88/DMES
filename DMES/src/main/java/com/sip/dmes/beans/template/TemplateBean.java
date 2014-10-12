@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.el.MethodExpression;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.tabview.TabView;
@@ -341,7 +343,54 @@ public class TemplateBean implements Serializable
                 facesContext.getELContext(), expression, returnType, parameterTypes);
     }
 
-    
+     
+    /**
+     * Método encargado de visualizar un  mensaje en la pantalla de tipo informativo
+     * @param actionEvent Evento de donde es llamado
+     * @param tittle Título del mensaje
+     * @param message cuerpo del mensaje
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void addInfo(ActionEvent actionEvent, String tittle, String message)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, tittle, message));
+    }
+
+    /**
+     * Método encargado de visualizar un  mensaje en la pantalla de tipo Advertencia
+     * @param actionEvent Evento de donde es llamado
+     * @param tittle Título del mensaje
+     * @param message cuerpo del mensaje
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void addWarn(ActionEvent actionEvent, String tittle, String message)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, tittle, message));
+    }
+
+    /**
+     * Método encargado de visualizar un  mensaje en la pantalla de tipo Error
+     * @param actionEvent Evento de donde es llamado
+     * @param tittle Título del mensaje
+     * @param message cuerpo del mensaje
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void addError(ActionEvent actionEvent, String tittle, String message)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, tittle, message));
+    }
+
+    /**
+     * Método encargado de visualizar un  mensaje en la pantalla de tipo Fatal
+     * @param actionEvent Evento de donde es llamado
+     * @param tittle Título del mensaje
+     * @param message cuerpo del mensaje
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void addFatal(ActionEvent actionEvent, String tittle, String message)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
+    }
     
     
     

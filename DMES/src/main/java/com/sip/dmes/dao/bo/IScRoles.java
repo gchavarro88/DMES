@@ -14,6 +14,12 @@ import java.util.List;
  */
 public interface IScRoles
 {
+    public void createRole(ScRoles scRoles)throws Exception;
+    
+    public void updateRole(ScRoles scRoles)throws Exception;
+    
+    public void deleteteRole(ScRoles scRoles)throws Exception;
+    
     public List<ScRoles> getAllRoles()throws Exception;
     
 }

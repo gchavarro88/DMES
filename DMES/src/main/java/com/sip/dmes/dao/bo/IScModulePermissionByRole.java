@@ -15,5 +15,11 @@ import java.util.List;
  */
 public interface IScModulePermissionByRole
 {
+    public void createModulePermissionByRole(ScModulePermissionByRole modulePermissionByRole) throws Exception;
+    
+    public void updateModulePermissionByRole(ScModulePermissionByRole modulePermissionByRole) throws Exception;
+    
+    public void deleteModulePermissionByRole(ScModulePermissionByRole modulePermissionByRole) throws Exception;
+    
     public List<ScModulePermissionByRole> getAllIScModulePermissionsByRole(ScRoles scRole) throws Exception;
 }

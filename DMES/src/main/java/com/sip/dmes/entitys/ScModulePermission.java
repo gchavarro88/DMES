@@ -32,7 +32,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScModulePermission.findByName", query = "SELECT s FROM ScModulePermission s WHERE s.name = :name"),
     @NamedQuery(name = "ScModulePermission.findByDescription", query = "SELECT s FROM ScModulePermission s WHERE s.description = :description"),
     @NamedQuery(name = "ScModulePermission.findByIcone", query = "SELECT s FROM ScModulePermission s WHERE s.icone = :icone"),
-    @NamedQuery(name = "ScModulePermission.findByType", query = "SELECT s FROM ScModulePermission s WHERE s.type = :type")
+    @NamedQuery(name = "ScModulePermission.findByType", query = "SELECT s FROM ScModulePermission s WHERE s.type = :type"),
+    
 })
 public class ScModulePermission implements Serializable
 {

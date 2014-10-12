@@ -45,7 +45,47 @@ public class ScRolesDao implements IScRoles
         }
         return result;
     }
-    
+
+    @Override
+    public void createRole(ScRoles scRoles) throws Exception
+    {
+        try
+        {
+            entityManager.persist(scRoles);
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando crear un nuevo grupo o rol");
+        }
+    }
+
+    @Override
+    public void updateRole(ScRoles scRoles) throws Exception
+    {
+        try
+        {
+            entityManager.merge(scRoles);
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando actualizar un grupo o rol");
+        }
+    }
+
+    @Override
+    public void deleteteRole(ScRoles scRoles) throws Exception
+    {
+        try
+        {
+            entityManager.remove(scRoles);
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando eliminar un grupo o rol");
+        }
+    }
+
+   
     
     
 }

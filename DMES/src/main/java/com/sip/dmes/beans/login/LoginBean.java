@@ -153,13 +153,7 @@ public class LoginBean implements Serializable
     {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
-    /**
-     * Método encargado de convertir una lista en un mapa
-     * @param ordersList lista de pedidos a convertir
-     * @return Mapa de pedidos donde su key es el id del pedido
-     * @author: Gustavo Adolfo Chavarro Ortiz
-     */
-    
+   
     /**
      *Métodos Getters And Setters de la Clase.
      */
