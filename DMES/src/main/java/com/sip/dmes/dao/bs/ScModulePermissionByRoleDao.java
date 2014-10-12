@@ -14,6 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -43,6 +44,48 @@ public class ScModulePermissionByRoleDao implements IScModulePermissionByRole
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public void createModulePermissionByRole(ScModulePermissionByRole modulePermissionByRole) throws Exception
+    {
+        try
+        {
+            entityManager.persist(modulePermissionByRole);
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar crear un nuevo permiso de modulo por rol ",e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateModulePermissionByRole(ScModulePermissionByRole modulePermissionByRole) throws Exception
+    {
+        try
+        {
+            entityManager.merge(modulePermissionByRole);
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar actualizar un permiso de modulo por rol ",e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteModulePermissionByRole(ScModulePermissionByRole modulePermissionByRole) throws Exception
+    {
+        try
+        {
+            entityManager.remove(modulePermissionByRole);
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar eliminar un permiso de modulo por rol ",e);
+        }
     }
     
 }
