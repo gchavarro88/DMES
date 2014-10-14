@@ -8,31 +8,149 @@
       >
 
     <f:view contentType="text/html">
+        <h:head>
+            <title>Facelet Title</title>
 
+            <link href="/SIP_THEME/theme.css" rel="stylesheet" />
+
+        </h:head>
         <h:body>
-
-            <h:head>
-                <title>.:DMES - Login:.</title>
-                <!--            <meta charset="utf-8"/>
-                            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>-->
-                <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/style.css"/>
-            </h:head>
-
-            <h:form>
+            <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                      draggable="false" closable="false" resizable="false">
+                <p:graphicImage value="/images/loadBar.gif"/>
+            </p:dialog>
 
 
 
-                <p:dataTable var="person" value="#{personBean.scPersons}">
+            <h:form id="form">
+
+
+
+                <p:dialog id="dialogPersonSave" widgetVar="dialogPersonSave" width="400" height="400"
+                          closable="true" draggable="true" dynamic="true" header="Crear Personas"
+                          hideEffect="explode" modal="true" showEffect="explode">
+
+                    <h3>Basic</h3>
+                    <p:panelGrid  columns="2">
+                        <f:facet name="header">
+                            <p:graphicImage name="demo/images/misc/kobe.png" />
+                        </f:facet>
+
+                        <p:outputLabel for="tfIdPerson" value="Id" />
+                        <p:inputText  id="tfIdPerson" required="true" requiredMessage="El campo Id es obligatorio"    value="#{personBean.merPerson.idPerson}"/>
+
+                        <p:outputLabel value="Nombre" />
+                        <p:inputText   required="true" requiredMessage="El campo nombre es obligatorio"   value="#{personBean.merPerson.firstName}"/>
+
+                        <p:outputLabel value="Apellido" />
+                        <p:inputText   required="true" requiredMessage="El campo apellido es obligatorio"    value="#{personBean.merPerson.lastName}"/>
+
+                        <p:outputLabel value="Edad"/>
+                        <p:inputText  required="true" requiredMessage="El campo edad es obligatorio"  maxlength="2"   value="#{personBean.merPerson.age}"/>
+
+
+
+                        <p:outputLabel value="Pais" />
+                        <p:inputText   required="true" requiredMessage="El campo pais es obligatorio"   value="#{personBean.merPerson.country}"/>
+
+                        <p:outputLabel value="Ciudad" />
+                        <p:inputText   required="true" requiredMessage="El campo ciudad es obligatorio"    value="#{personBean.merPerson.city}"/>
+
+                        <p:outputLabel value="Direccion" />
+                        <p:inputText  required="true" requiredMessage="El campo direccion es obligatorio"     value="#{personBean.merPerson.domicilie}"/>
+
+                        <p:outputLabel value="Inf. Personal" />
+                        <p:inputText      value="#{personBean.merPerson.personalInformation}"/>
+
+                        <f:facet name="footer">
+
+                            <p:commandButton value="Guardar" actionListener="#{personBean.app()}"   update=":form:tablaPerson"
+                                             onsuccess="PF('dialogPersonSave').hide()"/>
+                            <p:spacer width="20"/>
+
+                            <p:commandButton value="Cancelar" actionListener="#{personBean.cleanFields()}" 
+                                             oncomplete="PF('dialogPersonSave').hide()"/>
+                        </f:facet>
+
+                    </p:panelGrid>
+                </p:dialog>
+
+                <p:dialog header="Person Info" widgetVar="dialogPesonInf" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="personDetail" style="text-align:center;">
+                        <p:panelGrid  columns="2" rendered="#{not empty personBean.selectedPerson}" columnClasses="label,value">
+                            <p:outputLabel value="Id:"/>
+                            <p:outputLabel value="#{personBean.selectedPerson.idPerson}" />
+
+                        </p:panelGrid>
+                    </p:outputPanel> 
+
+                </p:dialog>
+                <p:dataTable 
+                    id="tablaPerson" 
+                    var="person" 
+                    value="#{personBean.scPersons}"
+                    rowKey="#{person.idPerson}"
+                    draggableColumns="true" emptyMessage="" 
+                    paginator="true" rows="15"  
+                    pageLinks="40"
+                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                    liveResize="true" rowsPerPageTemplate="15,30,50" 
+                    selectionMode="single" paginatorPosition="top" >
+
+                    <f:facet name="header">
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                         oncomplete="PF('dialogPersonSave').show()">
+                            <p:tooltip for="btnAdd" value="Agregar una persona"/>
+                        </p:commandButton>
+                    </f:facet>
+
                     <p:column headerText="Id">
-                        <h:outputText value="#{person.id}" />
+                        <h:outputText value="#{person.idPerson}" />
                     </p:column>
 
+                    <p:column headerText="Nombre">
+                        <h:outputText value="#{person.firstName}" />
+                    </p:column>
+
+                    <p:column headerText="Apellido">
+                        <h:outputText value="#{person.lastName}" />
+                    </p:column>
+
+                    <p:column headerText="Edad">
+                        <h:outputText value="#{person.age}" />
+                    </p:column>
+
+
+                    <p:column headerText="Pais">
+                        <h:outputText value="#{person.country}" />
+                    </p:column>
+
+
+                    <p:column headerText="Ciudad">
+                        <h:outputText value="#{person.city}" />
+                    </p:column>
+
+                    <p:column headerText="Direccion">
+                        <h:outputText value="#{person.domicilie}" />
+                    </p:column>
+
+                    <p:column headerText="Estudios">
+                        <h:outputText value="#{person.studies}" />
+                    </p:column>
+
+                    <p:column headerText="Inf personal">
+                        <h:outputText value="#{person.personalInformation}" />
+                    </p:column>
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update=":form:personDetail" oncomplete="PF('dialogPesonInf').show()" icon="ui-icon-search" title="View">
+                            <f:setPropertyActionListener value="#{person}" target="#{personBean.selectedPerson}" />
+                        </p:commandButton>
+                    </p:column>
                 </p:dataTable>
 
-
             </h:form>
-
-
         </h:body>
     </f:view>
 
