@@ -24,18 +24,18 @@ public class ScPersonDao implements IScPerson {
 
     @PersistenceContext()
     EntityManager entityManager;
-    
+
     private final static Logger log = Logger.getLogger(ScPerson.class);
 
     @Override
     @Transactional
     public void addScPerson(ScPerson ScPerson) {
-
+      
         try {
             entityManager.persist(ScPerson);
-        } catch  {
-            log.error("Error al intentar guardar una persona", e
-       
+
+        } catch (Exception e) {
+            log.error("Error guardar la persona", e);
         }
 
     }
@@ -43,6 +43,7 @@ public class ScPersonDao implements IScPerson {
     @Override
     @Transactional
     public void updateScPerson(ScPerson ScPerson) {
+
         try {
             entityManager.merge(ScPerson);
 
@@ -55,13 +56,13 @@ public class ScPersonDao implements IScPerson {
     @Override
     @Transactional
     public void deleteScPerson(ScPerson ScPerson) {
+
         try {
             entityManager.remove(ScPerson);
 
         } catch (Exception e) {
 
             log.error("Error al borrar la persona ", e);
-
         }
 
     }
@@ -73,13 +74,11 @@ public class ScPersonDao implements IScPerson {
         try {
 
             Query query = entityManager.createNamedQuery("ScPerson.findByIdPerson");
-            query.setParameter("idPerson", idPerson);
             result = (ScPerson) query.getSingleResult();
 
         } catch (Exception e) {
 
             log.error("Error intentando buscar la persona", e);
-
         }
 
         return result;
@@ -93,8 +92,9 @@ public class ScPersonDao implements IScPerson {
         try {
 
             Query query = entityManager.createNamedQuery("ScPerson.findAll");
-
             result = query.getResultList();
+
+            System.err.println("Numero de personas :" + result.size());
 
         } catch (Exception e) {
 
@@ -102,9 +102,9 @@ public class ScPersonDao implements IScPerson {
         }
 
         return result;
-
     }
 
+    
     @Override
     public List<ScPerson> findPersonWithOutUser() throws Exception {
         List<ScPerson> result = null;
