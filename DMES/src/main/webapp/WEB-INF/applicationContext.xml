@@ -41,4 +41,10 @@
     <!-- <bean id="scSubModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScSubmodulePermissionByRoleDao"></bean>-->
     <bean id="scModulePermissionServer" class="com.sip.dmes.dao.bs.ScModulePermissionDao"></bean>
     <bean id="scPersonServer" class="com.sip.dmes.dao.bs.ScPersonDao"></bean>
+    <bean id="scPhonesServer" class="com.sip.dmes.dao.bs.ScPhonesDao"></bean>
+    <bean id="scMailsServer" class="com.sip.dmes.dao.bs.ScMailsDao"></bean>
+    <bean id="scPersonDocumentationAttachedServer" class="com.sip.dmes.dao.bs.ScPersonDocumentationAttachedDao"></bean>
+    <bean id="scPersonObservationsServer" class="com.sip.dmes.dao.bs.ScPersonObservationsDao"></bean>
+    <bean id="scPersonSpecificationsServer" class="com.sip.dmes.dao.bs.ScPersonSpecificationsDao"></bean>
+    
 </beans>
