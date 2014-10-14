@@ -51,6 +51,7 @@ public interface IScPerson {
      */
     public List<ScPerson> getScPersons();
     
+ 
     //Consulta de las personas que aun no tienen Usuario
     public List<ScPerson> findPersonWithOutUser() throws Exception;
 
