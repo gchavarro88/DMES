@@ -107,4 +107,22 @@ public class ScPersonDao implements IScPerson
         return result;
     }
 
+    @Override
+    public List<ScPerson> findPersonWithOutUser() throws Exception
+    {
+        List<ScPerson> result = null;
+        try
+        {
+            Query query = entityManager.createNativeQuery("SELECT p.* FROM dmes.SC_PERSON p WHERE p.ID_PERSON NOT IN\n" +
+                            "(SELECT u.ID_PERSON FROM dmes.SC_USERS u )");
+            result = (List<ScPerson>) query.getResultList();
+            
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando consultar las personas que no tienen usuario ",e);
+        }
+        return result;
+    }
+
 }

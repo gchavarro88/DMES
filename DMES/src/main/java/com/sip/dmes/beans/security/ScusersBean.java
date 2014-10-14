@@ -6,8 +6,10 @@
 package com.sip.dmes.beans.security;
 
 import com.sip.dmes.beans.SessionBean;
+import com.sip.dmes.dao.bo.IScPerson;
 import com.sip.dmes.dao.bo.IScRoles;
 import com.sip.dmes.dao.bo.IScUsers;
+import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScRoles;
 import com.sip.dmes.entitys.ScUsers;
 import java.util.List;
@@ -24,8 +26,10 @@ public class ScusersBean
     private IScRoles scRolesServer; //Interfaz de la persistencia de roles
     private SessionBean sessionBean; //Bean de sesion
     private List<ScRoles> rolesList;
+    private List<ScPerson> personsList;
     private List<ScUsers> usersList;
     private IScUsers scUsersServer;
+     private IScPerson scPersonServer;
     
     /**
      * Creates a new instance of ScusersBean
@@ -56,7 +60,26 @@ public class ScusersBean
         }
         
     }
-
+    
+    
+    public void fillListUsersAvailables()
+    {
+        try
+        {
+            if(getPersonsList() == null)
+            {
+                setPersonsList(getScPersonServer().);
+            }
+        }
+        catch (Exception e)
+        {
+        }
+    }
+    
+    /**
+     * Métodos Getters And Setters.
+     */
+    
     public IScRoles getScRolesServer()
     {
         return scRolesServer;
@@ -106,11 +129,27 @@ public class ScusersBean
     {
         this.scUsersServer = scUsersServer;
     }
+
+    public IScPerson getScPersonServer()
+    {
+        return scPersonServer;
+    }
+
+    public void setScPersonServer(IScPerson scPersonServer)
+    {
+        this.scPersonServer = scPersonServer;
+    }
+
+    public List<ScPerson> getPersonsList()
+    {
+        return personsList;
+    }
+
+    public void setPersonsList(List<ScPerson> personsList)
+    {
+        this.personsList = personsList;
+    }
     
     
-    
-    /**
-     * Métodos Getters And Setters.
-     */
     
 }

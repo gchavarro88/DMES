@@ -3,38 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sip.dmes.beans.login;
+package com.sip.dmes.beans.security;
 
 import com.sip.dmes.beans.SessionBean;
-import com.sip.dmes.beans.template.TemplateBean;
-import com.sip.dmes.dao.bo.IScMails;
-import com.sip.dmes.dao.bo.IScModulePermissionByRole;
 import com.sip.dmes.dao.bo.IScPerson;
-import com.sip.dmes.dao.bo.IScPhones;
 import com.sip.dmes.entitys.ScMails;
 import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScPhones;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
-import org.primefaces.component.tabview.TabView;
-import org.primefaces.model.TreeNode;
 
 /**
  *
  * @author user
  */
-public class PersonBean implements Serializable {
+public class PersonBean implements Serializable
+{
 
     private final static Logger log = Logger.getLogger(PersonBean.class);
 
-    // interfacest par los crud basicos..
     private IScPerson scPersonServer;
     private ScPhones scPhones;
     private ScMails scMails;
@@ -45,37 +37,48 @@ public class PersonBean implements Serializable {
     private ScPerson selectedPerson;
     private ScPerson merPerson;
 
-    public void app() {
+    public void app()
+    {
     }
 
-    public void delete() {
+    public void delete()
+    {
     }
 
-    public void mer() {
+    public void mer()
+    {
     }
 
-    public void appTelefono() {
+    public void appTelefono()
+    {
     }
 
-    public void appEmail() {
+    public void appEmail()
+    {
     }
 
-    public void appEspecificacaciones() {
+    public void appEspecificacaciones()
+    {
     }
 
     @PostConstruct
-    public void initData() {
+    public void initData()
+    {
 
         loadData();
 
     }
 
-    public void loadData() {
+    public void loadData()
+    {
 
-        try {
-            setScPersons(scPersonServer.getScPersons());
-        } catch (Exception e) {
-            log.error("Error al cargar la personas", e);
+        try
+        {
+            setScPersons(getScPersonServer().getScPersons());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al cargar las personas", e);
         }
 
     }
@@ -83,114 +86,138 @@ public class PersonBean implements Serializable {
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo
      * informativo
-     *
+     * <p>
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
+     * <p>
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void addInfo(ActionEvent actionEvent, String tittle, String message) {
+    public void addInfo(ActionEvent actionEvent, String tittle, String message)
+    {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, tittle, message));
     }
 
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo
      * Advertencia
-     *
+     * <p>
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
+     * <p>
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void addWarn(ActionEvent actionEvent, String tittle, String message) {
+    public void addWarn(ActionEvent actionEvent, String tittle, String message)
+    {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, tittle, message));
     }
 
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo Error
-     *
+     * <p>
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
+     * <p>
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void addError(ActionEvent actionEvent, String tittle, String message) {
+    public void addError(ActionEvent actionEvent, String tittle, String message)
+    {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, tittle, message));
     }
 
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo Fatal
-     *
+     * <p>
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
+     * <p>
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void addFatal(ActionEvent actionEvent, String tittle, String message) {
+    public void addFatal(ActionEvent actionEvent, String tittle, String message)
+    {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
 
-    public IScPerson getScPersonServer() {
+    public IScPerson getScPersonServer()
+    {
         return scPersonServer;
     }
 
-    public void setScPersonServer(IScPerson scPersonServer) {
+    public void setScPersonServer(IScPerson scPersonServer)
+    {
         this.scPersonServer = scPersonServer;
     }
 
-    public List<ScPerson> getScPersons() {
+    public List<ScPerson> getScPersons()
+    {
         return scPersons;
     }
 
-    public void setScPersons(List<ScPerson> scPersons) {
+    public void setScPersons(List<ScPerson> scPersons)
+    {
         this.scPersons = scPersons;
     }
 
-    public ScPhones getScPhones() {
+    public ScPhones getScPhones()
+    {
         return scPhones;
     }
 
-    public void setScPhones(ScPhones scPhones) {
+    public void setScPhones(ScPhones scPhones)
+    {
         this.scPhones = scPhones;
     }
 
-    public ScMails getScMails() {
+    public ScMails getScMails()
+    {
         return scMails;
     }
 
-    public void setScMails(ScMails scMails) {
+    public void setScMails(ScMails scMails)
+    {
         this.scMails = scMails;
     }
 
-    public List<ScPerson> getScPersonsEliminar() {
+    public List<ScPerson> getScPersonsEliminar()
+    {
         return scPersonsEliminar;
     }
 
-    public void setScPersonsEliminar(List<ScPerson> scPersonsEliminar) {
+    public void setScPersonsEliminar(List<ScPerson> scPersonsEliminar)
+    {
         this.scPersonsEliminar = scPersonsEliminar;
     }
 
-    public ScPerson getSelectedPerson() {
+    public ScPerson getSelectedPerson()
+    {
         return selectedPerson;
     }
 
-    public void setSelectedPerson(ScPerson selectedPerson) {
+    public void setSelectedPerson(ScPerson selectedPerson)
+    {
         this.selectedPerson = selectedPerson;
     }
 
-    public ScPerson getMerPerson() {
+    public ScPerson getMerPerson()
+    {
         return merPerson;
     }
 
-    public void setMerPerson(ScPerson merPerson) {
+    public void setMerPerson(ScPerson merPerson)
+    {
         this.merPerson = merPerson;
     }
 
-    public SessionBean getSessionBean() {
+    public SessionBean getSessionBean()
+    {
         return sessionBean;
     }
 
-    public void setSessionBean(SessionBean sessionBean) {
+    public void setSessionBean(SessionBean sessionBean)
+    {
         this.sessionBean = sessionBean;
     }
 

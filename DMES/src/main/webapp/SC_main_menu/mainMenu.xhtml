@@ -80,7 +80,7 @@
                         
                                     <p:tree id="treeMenu" value="#{templateBean.root}" var="nodeMenu" 
                                             selectionMode="single"
-                                            style="border: 0px; text-align: left; height: 600px; font-size: 10px; vertical-align: middle; cursor: default;" 
+                                            style="border: 0px; text-align: left; font-size: 10px; vertical-align: middle; cursor: default;" 
                                             animate="true"  highlight="true" dynamic="true" >
                                         
                                         <p:treeNode type="Home" styleClass="divItemTreeMenu" >
@@ -100,10 +100,12 @@
                                     </p:tree>
                              
                     </h:form>
-                          <script type="text/javascript">
-                            document.getElementById("lateral").style.height = (screen.height-765)+"px";
-                    </script>
+                         
                 </p:layoutUnit>
+                 <script type="text/javascript">
+                            document.getElementById("lateral").style.height ="2px";
+                            
+                    </script>
                 <p:layoutUnit position="center" 
                               styleClass="layoutBordes">
 <!--                </div>
@@ -117,7 +119,7 @@
                                 </p:tieredMenu>
                             </f:facet>
                             
-                            <p:tabView  id="tabMain" dynamic="true" var="tabs" 
+                            <p:tabView  id="tabMain" dynamic="true" var="tabs"
                                     styleClass="tabViewMain" scrollable="true" 
                                     value="#{templateBean.mainTabs}" activeIndex="#{templateBean.activeIndex}">
                             
@@ -131,19 +133,21 @@
 
                                     </iframe>
                                 
-                                
+                                <script type="text/javascript">
+                                    document.getElementById("frameEmpleados").style.height = (screen.height-350)+"px";
+                                </script>
                             </p:tab>
-<!--                                        <script type="text/javascript">
-                            document.getElementById("frameEmpleados").style.height = (screen.height-250)+"px";
-                            document.getElementById("frameProveedores").style.height = (screen.height-250)+"px";
-                        </script>-->
+                                
                         </p:tabView>
+                            <script type="text/javascript">
+                            document.getElementById("formMainTabs:tabMain").style.height = (screen.height-315)+"px";
+                    </script>
                                  </p:panel>   
                     </h:form>
 <!--                </div>-->
-<!--            </div>
+<!--            </div> -->
                 
-                        -->
+                          
                </p:layoutUnit>      
             
 </p:layout>
