@@ -7,11 +7,6 @@ package com.sip.dmes.dao.bo;
 
 import com.sip.dmes.entitys.ScPerson;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
@@ -19,8 +14,7 @@ import javax.persistence.Persistence;
  */
 public interface IScPerson {
 
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("DMES_PersistenceUnit");
-
+    
     /**
      * Add ScPerson
      *
@@ -45,13 +39,15 @@ public interface IScPerson {
     /**
      * Get ScPerson
      *
-     * @param int ScPerson Id
+     * @param idPerson
+     * @return ScPerson
      */
-    public ScPerson getScPersonById(int id);
+    public ScPerson getScPersonById(long idPerson);
 
     /**
      * Get ScPerson List
      *
+     * @return 
      */
     public List<ScPerson> getScPersons();
 

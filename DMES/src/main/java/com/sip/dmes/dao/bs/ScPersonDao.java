@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author user
  */
 @Repository(value = "IScPerson")
-public class ScPersonDao implements IScPerson {
+public class ScPersonDao implements IScPerson
+{
 
     private final static Logger log = Logger.getLogger(ScPerson.class);
     @PersistenceContext()
@@ -28,75 +29,78 @@ public class ScPersonDao implements IScPerson {
 
     @Override
     @Transactional
-    public void addScPerson(ScPerson ScPerson) {
-
-        try {
+    public void addScPerson(ScPerson ScPerson)
+    {
+        try
+        {
             entityManager.persist(ScPerson);
-
-        } catch (Exception e) {
-            log.error("Error guardar la persona", e.getCause());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar guardar una persona", e);
         }
 
     }
 
     @Override
     @Transactional
-    public void updateScPerson(ScPerson ScPerson) {
-
-        try {
+    public void updateScPerson(ScPerson ScPerson)
+    {
+        try
+        {
             entityManager.merge(ScPerson);
-
-        } catch (Exception e) {
-            log.error("Error actualizar la persona", e.getCause());
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentar actualizar una persona", e);
         }
 
     }
 
     @Override
     @Transactional
-    public void deleteScPerson(ScPerson ScPerson) {
-
-        try {
+    public void deleteScPerson(ScPerson ScPerson)
+    {
+        try
+        {
             entityManager.remove(ScPerson);
-
-        } catch (Exception e) {
-            
-            log.error("Error al borrar la persona ", e);
         }
-
+        catch (Exception e)
+        {
+            log.error("Error al intentar eliminar una persona", e);
+        }
     }
 
     @Override
     @Transactional
-    public ScPerson getScPersonById(int id) {
+    public ScPerson getScPersonById(long idPerson)
+    {
         ScPerson result = null;
-        try {
-
+        try
+        {
             Query query = entityManager.createNamedQuery("ScPerson.findByIdPerson");
+            query.setParameter("idPerson", idPerson);
             result = (ScPerson) query.getSingleResult();
-
-        } catch (Exception e) {
-
-            log.error("Error intentando buscar la persona",e);
         }
-
+        catch (Exception e)
+        {
+            log.error("Error intentando consultar la persona por edad", e);
+        }
         return result;
     }
 
     @Override
     @Transactional
-    public List<ScPerson> getScPersons() {
-        System.err.println("Estot en query");
+    public List<ScPerson> getScPersons()
+    {
         List<ScPerson> result = null;
-        try {
-
+        try
+        {
             Query query = entityManager.createNamedQuery("ScPerson.findAll");
             result =  query.getResultList();
-            
-            System.err.println("Numero de personas :"+ result.size());
-
-        } catch (Exception e) {
-
+        }
+        catch (Exception e)
+        {
             log.error("Error consulta todas las personas", e);
         }
 
