@@ -20,107 +20,101 @@ import org.springframework.transaction.annotation.Transactional;
  * @author user
  */
 @Repository(value = "IScPerson")
-public class ScPersonDao implements IScPerson
-{
+public class ScPersonDao implements IScPerson {
 
-    private final static Logger log = Logger.getLogger(ScPerson.class);
     @PersistenceContext()
     EntityManager entityManager;
+    
+    private final static Logger log = Logger.getLogger(ScPerson.class);
 
     @Override
     @Transactional
-    public void addScPerson(ScPerson ScPerson)
-    {
-        try
-        {
+    public void addScPerson(ScPerson ScPerson) {
+
+        try {
             entityManager.persist(ScPerson);
-        }
-        catch (Exception e)
-        {
-            log.error("Error al intentar guardar una persona", e);
+        } catch  {
+            log.error("Error al intentar guardar una persona", e
+       
         }
 
     }
 
     @Override
     @Transactional
-    public void updateScPerson(ScPerson ScPerson)
-    {
-        try
-        {
+    public void updateScPerson(ScPerson ScPerson) {
+        try {
             entityManager.merge(ScPerson);
-        }
-        catch (Exception e)
-        {
-            log.error("Error intentar actualizar una persona", e);
+
+        } catch (Exception e) {
+            log.error("Error actualizar la persona", e);
         }
 
     }
 
     @Override
     @Transactional
-    public void deleteScPerson(ScPerson ScPerson)
-    {
-        try
-        {
+    public void deleteScPerson(ScPerson ScPerson) {
+        try {
             entityManager.remove(ScPerson);
+
+        } catch (Exception e) {
+
+            log.error("Error al borrar la persona ", e);
+
         }
-        catch (Exception e)
-        {
-            log.error("Error al intentar eliminar una persona", e);
-        }
+
     }
 
     @Override
     @Transactional
-    public ScPerson getScPersonById(long idPerson)
-    {
+    public ScPerson getScPersonById(int id) {
         ScPerson result = null;
-        try
-        {
+        try {
+
             Query query = entityManager.createNamedQuery("ScPerson.findByIdPerson");
             query.setParameter("idPerson", idPerson);
             result = (ScPerson) query.getSingleResult();
+
+        } catch (Exception e) {
+
+            log.error("Error intentando buscar la persona", e);
+
         }
-        catch (Exception e)
-        {
-            log.error("Error intentando consultar la persona por edad", e);
-        }
+
         return result;
     }
 
     @Override
     @Transactional
-    public List<ScPerson> getScPersons()
-    {
+    public List<ScPerson> getScPersons() {
+
         List<ScPerson> result = null;
-        try
-        {
+        try {
+
             Query query = entityManager.createNamedQuery("ScPerson.findAll");
-            result =  query.getResultList();
-        }
-        catch (Exception e)
-        {
+
+            result = query.getResultList();
+
+        } catch (Exception e) {
+
             log.error("Error consulta todas las personas", e);
         }
 
         return result;
+
     }
 
     @Override
-    public List<ScPerson> findPersonWithOutUser() throws Exception
-    {
+    public List<ScPerson> findPersonWithOutUser() throws Exception {
         List<ScPerson> result = null;
-        try
-        {
-            Query query = entityManager.createNativeQuery("SELECT p.* FROM dmes.SC_PERSON p WHERE p.ID_PERSON NOT IN\n" +
-                            "(SELECT u.ID_PERSON FROM dmes.SC_USERS u )");
+        try {
+            Query query = entityManager.createNativeQuery("SELECT p.* FROM dmes.SC_PERSON p WHERE p.ID_PERSON NOT IN\n"
+                    + "(SELECT u.ID_PERSON FROM dmes.SC_USERS u )");
             result = (List<ScPerson>) query.getResultList();
-            
-        }
-        catch (Exception e)
-        {
-            log.error("Error intentando consultar las personas que no tienen usuario ",e);
+
+        } catch (Exception e) {
+            log.error("Error intentando consultar las personas que no tienen usuario ", e);
         }
         return result;
     }
