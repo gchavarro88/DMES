@@ -121,8 +121,8 @@
     
     <managed-bean>
         <managed-bean-name>personBean</managed-bean-name>
-        <managed-bean-class>com.sip.dmes.beans.security.PersonBean</managed-bean-class>
-    
+        <managed-bean-class>com.sip.dmes.beans.login.PersonBean</managed-bean-class>
+       
         <managed-bean-scope>view</managed-bean-scope>
            <managed-property>
             <property-name>sessionBean</property-name>
@@ -133,6 +133,36 @@
             <property-name>scPersonServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScPerson</property-class>
             <value>#{scPersonServer}</value>
-        </managed-property></managed-bean>
+        </managed-property>
+        
+          <managed-property>
+            <property-name>scPhonesServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPhones</property-class>
+            <value>#{scPhonesServer}</value>
+        </managed-property>
+        
+          <managed-property>
+            <property-name>scMailsServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPhones</property-class>
+            <value>#{scMailsServer}</value>
+        </managed-property>
+        
+         <managed-property>
+            <property-name>scPersonDocumentationAttachedServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPersonDocumentationAttached</property-class>
+            <value>#{scPersonDocumentationAttachedServer}</value>
+        </managed-property>
+         <managed-property>
+            <property-name>scPersonObservationsServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPersonObservations</property-class>
+            <value>#{scPersonObservationsServer}</value>
+        </managed-property>
+         <managed-property>
+            <property-name>scPersonSpecificationsServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPersonSpecifications</property-class>
+            <value>#{scPersonSpecificationsServer}</value>
+        </managed-property>
+    </managed-bean>
+ 
     
 </faces-config>
