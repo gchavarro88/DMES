@@ -685,3 +685,30 @@ ALTER TABLE ONLY sc_competencies
 --
 -- PostgreSQL database dump complete
 --
+
+CREATE SEQUENCE dmes.sqscusers
+   INCREMENT 1
+   START 2
+   MINVALUE 1
+   MAXVALUE 11111111111111111;
+ALTER SEQUENCE dmes.sqscusers
+  OWNER TO "sipPrueba";
+
+
+
+CREATE SEQUENCE dmes.sqscroles
+   INCREMENT 1
+   START 2
+   MINVALUE 1
+   MAXVALUE 111111111111111111;
+ALTER SEQUENCE dmes.sqscroles
+  OWNER TO "sipPrueba";
+
+
+CREATE SEQUENCE dmes.sqscmodulespermissionbyrole
+   INCREMENT 1
+   START 17
+   MINVALUE 1
+   MAXVALUE 111111111111111111;
+ALTER SEQUENCE dmes.sqscmodulespermissionbyrole
+  OWNER TO "sipPrueba";
