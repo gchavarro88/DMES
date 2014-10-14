@@ -5,7 +5,9 @@
  */
 package com.sip.dmes.dao.bo;
 
+import com.sip.dmes.entitys.ScRoles;
 import com.sip.dmes.entitys.ScUsers;
+import java.util.List;
 
 /**
  *
@@ -14,5 +16,15 @@ import com.sip.dmes.entitys.ScUsers;
 public interface IScUsers
 {
     public ScUsers findByLogin(String login) throws Exception; 
+    
+    public void createUser(ScUsers scUsers)throws Exception; 
+    
+    public void deleteUser(ScUsers scUsers)throws Exception; 
+    
+    public void deleteUsersByRole(ScRoles scRoles)throws Exception; 
+    
+    public void updateUser(ScUsers scUsers)throws Exception; 
+    
+    public List<ScUsers> findAll()throws Exception; 
        
 }

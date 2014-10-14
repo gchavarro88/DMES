@@ -31,14 +31,15 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScModulePermissionByRole.findAll", query = "SELECT s FROM ScModulePermissionByRole s"),
     @NamedQuery(name = "ScModulePermissionByRole.findByIdRole", query = "SELECT s FROM ScModulePermissionByRole s WHERE s.idRole = :idRole"),
     @NamedQuery(name = "ScModulePermissionByRole.findByIdModulePermissionByRole", query = "SELECT s FROM ScModulePermissionByRole s WHERE s.idModulePermissionByRole = :idModulePermissionByRole"),
-    @NamedQuery(name = "ScModulePermissionByRole.findByIdType", query = "SELECT s FROM ScModulePermissionByRole s WHERE s.idType = :idType")
+    @NamedQuery(name = "ScModulePermissionByRole.findByIdType", query = "SELECT s FROM ScModulePermissionByRole s WHERE s.idType = :idType"),
+    @NamedQuery(name = "ScModulePermissionByRole.deleteByRole", query = "DELETE FROM ScModulePermissionByRole s WHERE s.idRole = :idRole")
 })
 public class ScModulePermissionByRole implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "sqscmodulespermissionbyrole")
-    @SequenceGenerator(name = "sqscmodulespermissionbyrole", sequenceName = "sqscmodulespermissionbyrole", allocationSize = 1)
+    @GeneratedValue(generator = "dmes.sqscmodulespermissionbyrole")
+    @SequenceGenerator(name = "dmes.sqscmodulespermissionbyrole", sequenceName = "dmes.sqscmodulespermissionbyrole", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_module_permission_by_role")

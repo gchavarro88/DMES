@@ -53,6 +53,7 @@ public class ScModulePermissionByRoleDao implements IScModulePermissionByRole
         try
         {
             entityManager.persist(modulePermissionByRole);
+            entityManager.flush();
         }
         catch(Exception e)
         {
@@ -67,6 +68,7 @@ public class ScModulePermissionByRoleDao implements IScModulePermissionByRole
         try
         {
             entityManager.merge(modulePermissionByRole);
+            entityManager.flush();
         }
         catch(Exception e)
         {
@@ -81,10 +83,30 @@ public class ScModulePermissionByRoleDao implements IScModulePermissionByRole
         try
         {
             entityManager.remove(modulePermissionByRole);
+            entityManager.flush();
         }
         catch(Exception e)
         {
             log.error("Error al intentar eliminar un permiso de modulo por rol ",e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteModulePermissionByRole(ScRoles scRoles) throws Exception
+    {
+        int rowsResult = 0;
+        try
+        {
+            
+            Query query = entityManager.createNamedQuery("ScModulePermissionByRole.deleteByRole");
+            query.setParameter("idRole", scRoles);
+            rowsResult = query.executeUpdate();
+            entityManager.flush();
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar eliminar los permisos de un rol ",e);
         }
     }
     

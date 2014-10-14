@@ -36,14 +36,15 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScUsers.findByLogin", query = "SELECT s FROM ScUsers s WHERE s.login = :login"),
     @NamedQuery(name = "ScUsers.findByPassword", query = "SELECT s FROM ScUsers s WHERE s.password = :password"),
     @NamedQuery(name = "ScUsers.findByCreationDate", query = "SELECT s FROM ScUsers s WHERE s.creationDate = :creationDate"),
-    @NamedQuery(name = "ScUsers.findByModifyDate", query = "SELECT s FROM ScUsers s WHERE s.modifyDate = :modifyDate")
+    @NamedQuery(name = "ScUsers.findByModifyDate", query = "SELECT s FROM ScUsers s WHERE s.modifyDate = :modifyDate"),
+    @NamedQuery(name = "ScUsers.deleteByRole", query = "DELETE FROM ScUsers s WHERE s.idRole = :idRole")
 })
 public class ScUsers implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "scusers")
-    @SequenceGenerator(name = "scusers", sequenceName = "scusers", allocationSize = 1)
+    @GeneratedValue(generator = "dmes.sqscusers")
+    @SequenceGenerator(name = "dmes.sqscusers", sequenceName = "dmes.sqscusers", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_user")

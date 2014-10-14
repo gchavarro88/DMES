@@ -29,13 +29,30 @@ public class ScModulePermissionDao implements IScModulePermission
     
     @Override
     @Transactional
-    public List<ScModulePermission> findAllModulesPermission(String type) throws Exception
+    public List<ScModulePermission> findAllModulesPermissionByType(String type) throws Exception
     {
         List<ScModulePermission> result = null;
         try
         {
             Query query = entityManager.createNamedQuery("ScModulePermission.findByType");
             query.setParameter("type", type);
+            result = query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar todos los permisos por módulo de cada tipo");
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<ScModulePermission> findAllModulesPermission() throws Exception
+    {
+        List<ScModulePermission> result = null;
+        try
+        {
+            Query query = entityManager.createNamedQuery("ScModulePermission.findAll");
             result = query.getResultList();
         }
         catch (Exception e)

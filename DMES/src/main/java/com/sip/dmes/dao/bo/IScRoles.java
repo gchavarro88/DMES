@@ -18,7 +18,7 @@ public interface IScRoles
     
     public void updateRole(ScRoles scRoles)throws Exception;
     
-    public void deleteteRole(ScRoles scRoles)throws Exception;
+    public void deleteteRoleById(ScRoles scRoles)throws Exception;
     
     public List<ScRoles> getAllRoles()throws Exception;
     

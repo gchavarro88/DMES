@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui"      
       >
     <h:head>
-        <title>.:DMES:. - Roles y Grupos</title>
+        <title>.:DMES:. - Usuarios</title>
     </h:head>
     <h:body>
         <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
@@ -160,6 +160,7 @@
             </p:dialog>
 <!--            finaliza el dialogo para eliminar registros            -->
 
+
 <!--           inicial el dialogo para visualizar un rol           -->
             <p:dialog id="dialogRolesView" widgetVar="dialogRolesView" 
                                   closable="true" draggable="true" dynamic="true" header="Detalle de Grupos y Roles"
@@ -228,19 +229,20 @@
             </p:dialog>
 <!--           finaliza el dialogo para visualizar un rol           -->
 
+
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
-            <h:form id="formRoles">
-                <p:dataTable id="scrolesDataTable" draggableColumns="true" emptyMessage="" 
-                         value="#{scrolesBean.rolesList}" var="roles"
+            <h:form id="formUsers">
+                <p:dataTable id="scUsersDataTable" draggableColumns="true" emptyMessage="" 
+                         value="#{scusersBean.usersList}" var="user"
                          paginator="true" rows="15"  
                          pageLinks="40"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowKey="#{roles.idRole}"
-                         resizableColumns="true" selection="#{scrolesBean.scRolesSelected}"
+                         rowKey="#{user.idUser}"
+                         resizableColumns="true" selection=""
                          liveResize="true" rowsPerPageTemplate="15,30,50" 
                          selectionMode="single" paginatorPosition="top"
-                         sortBy="#{roles.name}">
+                         sortBy="#{}">
                 <f:facet name="header">
                     <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
                     oncomplete="PF('dialogRolesSave').show()">
@@ -248,7 +250,6 @@
                     </p:commandButton>
                 </f:facet>
                 <p:ajax event="rowSelect" listener="#{scrolesBean.getModulePermissionsByRoleSelectedView()}" 
-                        update=":formViewScRole" oncomplete="PF('dialogRolesView').show()"/>
                 <p:column headerText="Administración">
                     <center>
                         <p:commandButton icon="ui-icon-pencil" id="btnEdit" 

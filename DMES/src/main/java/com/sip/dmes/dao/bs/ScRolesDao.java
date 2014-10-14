@@ -5,9 +5,7 @@
  */
 package com.sip.dmes.dao.bs;
 
-import com.sip.dmes.dao.bo.IScModulePermissionByRole;
 import com.sip.dmes.dao.bo.IScRoles;
-import com.sip.dmes.entitys.ScModulePermissionByRole;
 import com.sip.dmes.entitys.ScRoles;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -47,24 +45,28 @@ public class ScRolesDao implements IScRoles
     }
 
     @Override
+    @Transactional
     public void createRole(ScRoles scRoles) throws Exception
     {
         try
-        {
+        { 
             entityManager.persist(scRoles);
+            entityManager.flush();
         }
         catch (Exception e)
         {
-            log.error("Error intentando crear un nuevo grupo o rol");
+            log.error("Error intentando crear un nuevo grupo o rol", e);
         }
     }
 
     @Override
+    @Transactional
     public void updateRole(ScRoles scRoles) throws Exception
     {
         try
         {
             entityManager.merge(scRoles);
+            entityManager.flush();
         }
         catch (Exception e)
         {
@@ -73,11 +75,15 @@ public class ScRolesDao implements IScRoles
     }
 
     @Override
-    public void deleteteRole(ScRoles scRoles) throws Exception
+    @Transactional
+    public void deleteteRoleById(ScRoles scRoles) throws Exception
     {
+        int rowsDelete = 0;
         try
         {
-            entityManager.remove(scRoles);
+            Query query = entityManager.createNamedQuery("ScRoles.deleteByIdRole");
+            query.setParameter("idRole", scRoles.getIdRole());
+            rowsDelete = query.executeUpdate();
         }
         catch (Exception e)
         {

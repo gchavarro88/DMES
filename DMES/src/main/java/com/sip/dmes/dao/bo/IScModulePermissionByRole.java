@@ -21,5 +21,7 @@ public interface IScModulePermissionByRole
     
     public void deleteModulePermissionByRole(ScModulePermissionByRole modulePermissionByRole) throws Exception;
     
+    public void deleteModulePermissionByRole(ScRoles scRoles) throws Exception;
+    
     public List<ScModulePermissionByRole> getAllIScModulePermissionsByRole(ScRoles scRole) throws Exception;
 }

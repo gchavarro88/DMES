@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface IScModulePermission
 {
-    public List<ScModulePermission> findAllModulesPermission(String type) throws Exception;
+    public List<ScModulePermission> findAllModulesPermissionByType(String type) throws Exception;
     
+    public List<ScModulePermission> findAllModulesPermission() throws Exception;
 }
