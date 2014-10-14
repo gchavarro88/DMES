@@ -20,6 +20,15 @@
             <to-view-id>/SC_main_menu/mainMenu.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>/SC_main_menu/mainMenu.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>exit</from-outcome>
+            <to-view-id>/Login.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
     <managed-bean>
         <managed-bean-name>templateBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.template.TemplateBean</managed-bean-class>
@@ -35,6 +44,7 @@
             <value>#{scModulePermissionByRoleServer}</value>
         </managed-property>
     </managed-bean>
+    
     <managed-bean>
         <managed-bean-name>loginBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.login.LoginBean</managed-bean-class>
@@ -56,13 +66,7 @@
         <managed-bean-class>com.sip.dmes.beans.SessionBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
-    <navigation-rule>
-        <from-view-id>/SC_main_menu/mainMenu.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>exit</from-outcome>
-            <to-view-id>/Login.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
+    
     <managed-bean>
         <managed-bean-name>scrolesBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.security.ScrolesBean</managed-bean-class>
@@ -77,13 +81,48 @@
             <property-class>com.sip.dmes.dao.bo.IScRoles</property-class>
             <value>#{scRolesServer}</value>
         </managed-property>
+        <managed-property>
+            <property-name>scUsersServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScUsers</property-class>
+            <value>#{scUsersServer}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scModulePermissionServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScModulePermission</property-class>
+            <value>#{scModulePermissionServer}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scModulePermissionByRoleServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScModulePermissionByRole</property-class>
+            <value>#{scModulePermissionByRoleServer}</value>
+        </managed-property>
     </managed-bean>
 
     <managed-bean>
+        <managed-bean-name>scusersBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.security.ScusersBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scRolesServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScRoles</property-class>
+            <value>#{scRolesServer}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scUsersServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScUsers</property-class>
+            <value>#{scUsersServer}</value>
+        </managed-property>
+    </managed-bean>
+    
+    <managed-bean>
         <managed-bean-name>personBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.login.PersonBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    
+        <managed-bean-scope>view</managed-bean-scope>
            <managed-property>
             <property-name>sessionBean</property-name>
             <property-class>com.sip.dmes.beans.SessionBean</property-class>
@@ -95,5 +134,5 @@
             <value>#{scPersonServer}</value>
         </managed-property>
     </managed-bean>
-
+    
 </faces-config>
