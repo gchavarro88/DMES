@@ -33,7 +33,7 @@ public class ScPersonSpecificationsDao implements IScPersonSpecifications {
             entityManager.persist(ScPersonSpecifications);
 
         } catch (Exception e) {
-            log.error("Error guardar la persona", e.getCause());
+            log.error("Error guardar la especificaciones", e.getCause());
         }
 
     }
@@ -46,7 +46,7 @@ public class ScPersonSpecificationsDao implements IScPersonSpecifications {
             entityManager.merge(ScPersonSpecifications);
 
         } catch (Exception e) {
-            log.error("Error actualizar la persona", e.getCause());
+            log.error("Error actualizar la especificaciones", e.getCause());
         }
 
     }
@@ -59,7 +59,7 @@ public class ScPersonSpecificationsDao implements IScPersonSpecifications {
             entityManager.remove(ScPersonSpecifications);
 
         } catch (Exception e) {
-            log.error("Error al borrar la persona", e.getCause());
+            log.error("Error al borrar la especificaciones", e.getCause());
         }
 
     }
@@ -70,12 +70,13 @@ public class ScPersonSpecificationsDao implements IScPersonSpecifications {
         ScPersonSpecifications result = null;
         try {
 
-            Query query = entityManager.createNamedQuery("ScPersonSpecifications.findByIdPerson");
+            Query query = entityManager.createNamedQuery("ScPersonSpecifications.findByIdPersonSpecifications");
+            query.setParameter("idPersonSpecifications", id);
             result = (ScPersonSpecifications) query.getSingleResult();
 
         } catch (Exception e) {
 
-            log.error("Error intentando buscar la persona", e.getCause());
+            log.error("Error intentando buscar la especificaciones", e.getCause());
         }
 
         return result;
@@ -89,11 +90,11 @@ public class ScPersonSpecificationsDao implements IScPersonSpecifications {
         try {
 
             Query query = entityManager.createNamedQuery("ScPersonSpecifications.findAll");
-            result = (List<ScPersonSpecifications>) (ScPersonSpecifications) query.getResultList();
+            result =  query.getResultList();
 
         } catch (Exception e) {
 
-            log.error("Error consulta todas las personas", e.getCause());
+            log.error("Error consulta todas las especificaciones", e.getCause());
         }
 
         return result;

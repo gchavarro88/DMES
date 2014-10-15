@@ -72,7 +72,9 @@ import org.springframework.transaction.annotation.Transactional;
         ScMails result = null;
         try {
 
-            Query query = entityManager.createNamedQuery("ScMails.findByIdPerson");
+            Query query = entityManager.createNamedQuery("SScMails.findByIdMail");
+            query.setParameter("idMail", id);
+            
             result = (ScMails) query.getSingleResult();
 
         } catch (Exception e) {
@@ -91,7 +93,7 @@ import org.springframework.transaction.annotation.Transactional;
         try {
 
             Query query = entityManager.createNamedQuery("ScMails.findAll");
-            result = (List<ScMails>) (ScMails) query.getResultList();
+            result =  query.getResultList();
 
         } catch (Exception e) {
 

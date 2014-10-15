@@ -74,6 +74,7 @@ public class ScPersonDao implements IScPerson {
         try {
 
             Query query = entityManager.createNamedQuery("ScPerson.findByIdPerson");
+            query.setParameter("idPerson", id);
             result = (ScPerson) query.getSingleResult();
 
         } catch (Exception e) {

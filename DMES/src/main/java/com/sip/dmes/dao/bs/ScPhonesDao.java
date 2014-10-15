@@ -72,7 +72,8 @@ public class ScPhonesDao implements IScPhones{
         ScPhones result = null;
         try {
 
-            Query query = entityManager.createNamedQuery("ScPhones.findByIdPerson");
+            Query query = entityManager.createNamedQuery("ScPhones.findByIdPhone");
+            query.setParameter("idPhone", id);
             result = (ScPhones) query.getSingleResult();
 
         } catch (Exception e) {
@@ -91,7 +92,7 @@ public class ScPhonesDao implements IScPhones{
         try {
 
             Query query = entityManager.createNamedQuery("ScPhones.findAll");
-            result = (List<ScPhones>) (ScPhones) query.getResultList();
+            result = query.getResultList();
 
         } catch (Exception e) {
 

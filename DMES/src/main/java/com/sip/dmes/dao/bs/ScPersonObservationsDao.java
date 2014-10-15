@@ -33,7 +33,7 @@ public class ScPersonObservationsDao implements IScPersonObservations {
             entityManager.persist(ScPersonObservations);
 
         } catch (Exception e) {
-            log.error("Error guardar la persona", e.getCause());
+            log.error("Error guardar la observasion", e.getCause());
         }
 
     }
@@ -46,7 +46,7 @@ public class ScPersonObservationsDao implements IScPersonObservations {
             entityManager.merge(ScPersonObservations);
 
         } catch (Exception e) {
-            log.error("Error actualizar la persona", e.getCause());
+            log.error("Error actualizar la observasion", e.getCause());
         }
 
     }
@@ -59,7 +59,7 @@ public class ScPersonObservationsDao implements IScPersonObservations {
             entityManager.remove(ScPersonObservations);
 
         } catch (Exception e) {
-            log.error("Error al borrar la persona", e.getCause());
+            log.error("Error al borrar la observasion", e.getCause());
         }
 
     }
@@ -70,12 +70,13 @@ public class ScPersonObservationsDao implements IScPersonObservations {
         ScPersonObservations result = null;
         try {
 
-            Query query = entityManager.createNamedQuery("ScPersonObservations.findByIdPerson");
+            Query query = entityManager.createNamedQuery("ScPersonObservations.findByIdPersonObservations");
+            query.setParameter("idPersonObservations", id);
             result = (ScPersonObservations) query.getSingleResult();
 
         } catch (Exception e) {
 
-            log.error("Error intentando buscar la persona", e.getCause());
+            log.error("Error intentando buscar la observasion", e.getCause());
         }
 
         return result;
@@ -89,11 +90,11 @@ public class ScPersonObservationsDao implements IScPersonObservations {
         try {
 
             Query query = entityManager.createNamedQuery("ScPersonObservations.findAll");
-            result = (List<ScPersonObservations>) (ScPersonObservations) query.getResultList();
+            result =  query.getResultList();
 
         } catch (Exception e) {
 
-            log.error("Error consulta todas las personas", e.getCause());
+            log.error("Error consulta todas las observasion", e.getCause());
         }
 
         return result;
@@ -111,7 +112,7 @@ public class ScPersonObservationsDao implements IScPersonObservations {
 
         } catch (Exception e) {
 
-            log.error("Error consulta toda la observaciones de una persona", e);
+            log.error("Error consulta toda la observaciones de una observasion", e);
         }
 
         return result;
