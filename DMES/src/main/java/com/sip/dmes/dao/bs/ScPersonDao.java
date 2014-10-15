@@ -69,7 +69,7 @@ public class ScPersonDao implements IScPerson {
 
     @Override
     @Transactional
-    public ScPerson getScPersonById(int id) {
+    public ScPerson getScPersonById(long id) {
         ScPerson result = null;
         try {
 

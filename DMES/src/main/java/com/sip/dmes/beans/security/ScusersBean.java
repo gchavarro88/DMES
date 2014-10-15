@@ -12,6 +12,8 @@ import com.sip.dmes.dao.bo.IScUsers;
 import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScRoles;
 import com.sip.dmes.entitys.ScUsers;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
@@ -29,7 +31,7 @@ public class ScusersBean
     private List<ScPerson> personsList;
     private List<ScUsers> usersList;
     private IScUsers scUsersServer;
-     private IScPerson scPersonServer;
+    private IScPerson scPersonServer;
     
     /**
      * Creates a new instance of ScusersBean
@@ -43,6 +45,8 @@ public class ScusersBean
     public void initData()
     {
         fillListUsers();
+        fillListRoles();
+        fillListPersonsAvailables();
     }
     
     public void fillListUsers()
@@ -62,13 +66,28 @@ public class ScusersBean
     }
     
     
-    public void fillListUsersAvailables()
+    public void fillListPersonsAvailables()
     {
         try
         {
             if(getPersonsList() == null)
             {
-                setPersonsList(getScPersonServer().);
+                setPersonsList(getScPersonServer().findPersonWithOutUser());
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las personas que no cuentan con un usuario",e);
+        }
+    }
+    
+    public void fillListRoles()
+    {
+        try
+        {
+            if(getRolesList() == null)
+            {
+                setRolesList(getScRolesServer().getAllRoles());
             }
         }
         catch (Exception e)
@@ -76,10 +95,41 @@ public class ScusersBean
         }
     }
     
+    public String getFormatDate(Date date)
+    {
+        String result = "";
+        String patron = "dd-MM-yyyy";
+        result = getFormatDateGlobal(patron, date);
+        return result;
+    }
+    
+    /**
+     * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
+     * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón
+     * recibido
+     * <p>
+     * @param pattern patrón del formato de la fecha
+     * @param date fecha a visualizar
+     * <p>
+     * @return valor de la fecha en el formato indicado por el patrón de tipo
+     * String
+     * <p>
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public String getFormatDateGlobal(String pattern, Date date)
+    {
+        String result = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        if (date != null)
+        {
+            result = simpleDateFormat.format(date);
+        }
+        return result;
+    } 
+    
     /**
      * Métodos Getters And Setters.
      */
-    
     public IScRoles getScRolesServer()
     {
         return scRolesServer;

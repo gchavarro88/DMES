@@ -107,7 +107,6 @@ public class ScUsersDao implements IScUsers
             log.error("Error al intentar actualizar un usuario ",e );
         }
     }
-
     @Override
     @Transactional
     public List<ScUsers> findAll() throws Exception

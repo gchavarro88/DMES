@@ -103,7 +103,7 @@
                          
                 </p:layoutUnit>
                  <script type="text/javascript">
-                            document.getElementById("lateral").style.height ="2px";
+                            document.getElementById("lateral").style.height = (60)+"px";
                             
                     </script>
                 <p:layoutUnit position="center" 
@@ -111,7 +111,7 @@
 <!--                </div>
                 <div id="divTabs" style=" width:75%; float: right;" >-->
                     <h:form id="formMainTabs">
-                        <p:panel style="padding: 0px; margin: 0px; float: top;">
+                        <p:panel style="padding: 0px; margin: 0px;">
                             <f:facet name="header">
                                 <p:commandButton id="tabsMenu" icon="ui-icon-gear"/>
                                 <p:tieredMenu overlay="true" trigger="tabsMenu" my="right top" at="left top"  
@@ -126,7 +126,7 @@
                             
                             
                             
-                            <p:tab id="tbEmpleados" title="#{tabs.title}" rendered="true" >
+                            <p:tab id="tbEmpleados" title="#{tabs.title}" rendered="true"  >
                                 
                                     
                                     <iframe id="frameEmpleados" src="#{tabs.page}" scrolling="true" class="iframeTab" >
@@ -134,13 +134,13 @@
                                     </iframe>
                                 
                                 <script type="text/javascript">
-                                    document.getElementById("frameEmpleados").style.height = (screen.height-350)+"px";
+                                    document.getElementById("frameEmpleados").style.height = (screen.height-300)+"px";
                                 </script>
                             </p:tab>
                                 
                         </p:tabView>
                             <script type="text/javascript">
-                            document.getElementById("formMainTabs:tabMain").style.height = (screen.height-315)+"px";
+                            document.getElementById("formMainTabs:tabMain").style.height = (screen.height-250)+"px";
                     </script>
                                  </p:panel>   
                     </h:form>
