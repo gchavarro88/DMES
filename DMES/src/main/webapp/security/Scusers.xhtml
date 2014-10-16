@@ -16,7 +16,63 @@
                 <p:graphicImage value="/images/loadBar.gif"/>
             </p:dialog>
         <div>
+            <!--         Dialogo para guardar nuevos Usuarios         -->
+            <p:dialog id="dialogUserSave" widgetVar="dialogUserSave" width="400" height="400"
+                      closable="true" draggable="true" dynamic="true" header="Crear Usuarios"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                <h:form id="formSaveScRole">
+                    <p:wizard backLabel="Atrás" flowListener="#{scusersBean.onFlowProcess}" 
+                              nextLabel="Siguiente" showNavBar="true" showStepStatus="true" >
+                        <p:tab title="Datos del Usuario" id="tabUSer">
+                             <table width="98%" cellspacing="30">
+                                <tr>
+                                    <td width="20%" align="right">
+                                        <p:outputLabel  for="tfNameUSer" value="Nombre de Usuario"/>
+                                    </td>
+                                    <td width="80%" align="left">
+                                        <p:inputText    id="tfNameUSer"  value="#{scusersBean.userAdd.login}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" align="right">
+                                        <p:outputLabel  for="tfPassword1" value="Contraseña"/>
+                                    </td>
+                                    <td width="80%" align="left">
+                                        <p:password  id="tfPassword1" value="#{scusersBean.userAdd.password}" />                                    
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td width="20%" align="right">
+                                        <p:outputLabel  for="tfPassword2" value="Repita la Contraseña"/>
+                                    </td>
+                                    <td width="80%" align="left">
+                                        <p:password  id="tfPassword2" value="#{scusersBean.password2}" />                                    
+                                    </td>
+                                </tr>
+                             </table>
+                        </p:tab>
+                        <p:tab title="Persona" id="tabPerson">
+                            <p:dataTable id="dataTablePersons" value="#{scusersBean.personsList}"
+                                             paginator="true" rows="10"  var="persons"
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowKey="#{persons.idPerson}"
+                                             resizableColumns="true" 
+                                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                             sortBy="#{persons.lastName} #{persons.firstName}"
+                                             paginatorPosition="top" selection="#{scusersBean.personSelectedAdd}">
 
+                                    <p:column selectionMode="single" width="16"/>
+                                    <p:column headerText="Personas Disponibles" >
+                                        <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
+                                    </p:column> 
+                                </p:dataTable>
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+            </p:dialog>
+<!--         finaliza el dialogo para guardar Usuarios               -->
 
 
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
@@ -35,8 +91,8 @@
                          >
                 <f:facet name="header">
                     <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
-                    oncomplete="PF('dialogRolesSave').show()">
-                        <p:tooltip for="btnAdd" value="Agregar un Grupo"/>
+                    oncomplete="PF('dialogUserSave').show()">
+                        <p:tooltip for="btnAdd" value="Agregar un Usuario"/>
                     </p:commandButton>
                 </f:facet>
                 

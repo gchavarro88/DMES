@@ -30,7 +30,7 @@ import org.primefaces.model.TreeNode;
  *
  * @author user
  */
-public class PersonBean implements Serializable {
+public class PersonBean {
     
     private final static Logger log = Logger.getLogger(PersonBean.class);
 

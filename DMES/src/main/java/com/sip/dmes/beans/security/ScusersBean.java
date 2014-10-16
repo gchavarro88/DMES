@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -30,8 +31,14 @@ public class ScusersBean
     private List<ScRoles> rolesList;
     private List<ScPerson> personsList;
     private List<ScUsers> usersList;
+    private ScUsers userAdd;
+    private ScUsers userUpdate;
+    private ScPerson personSelectedAdd;
+    private ScRoles roleSelectedAdd;
+    private ScRoles roleSelectedUpdate;
     private IScUsers scUsersServer;
     private IScPerson scPersonServer;
+    private String password2;
     
     /**
      * Creates a new instance of ScusersBean
@@ -47,6 +54,7 @@ public class ScusersBean
         fillListUsers();
         fillListRoles();
         fillListPersonsAvailables();
+        setPersonSelectedAdd(new ScPerson());
     }
     
     public void fillListUsers()
@@ -94,6 +102,14 @@ public class ScusersBean
         {
         }
     }
+    
+    public String onFlowProcess(FlowEvent event) 
+    {    
+            return event.getNewStep();
+    }
+    
+    
+    
     
     public String getFormatDate(Date date)
     {
@@ -198,6 +214,66 @@ public class ScusersBean
     public void setPersonsList(List<ScPerson> personsList)
     {
         this.personsList = personsList;
+    }
+
+    public ScUsers getUserAdd()
+    {
+        return userAdd;
+    }
+
+    public void setUserAdd(ScUsers userAdd)
+    {
+        this.userAdd = userAdd;
+    }
+
+    public ScUsers getUserUpdate()
+    {
+        return userUpdate;
+    }
+
+    public void setUserUpdate(ScUsers userUpdate)
+    {
+        this.userUpdate = userUpdate;
+    }
+
+    public String getPassword2()
+    {
+        return password2;
+    }
+
+    public void setPassword2(String password2)
+    {
+        this.password2 = password2;
+    }
+
+    public ScPerson getPersonSelectedAdd()
+    {
+        return personSelectedAdd;
+    }
+
+    public void setPersonSelectedAdd(ScPerson personSelectedAdd)
+    {
+        this.personSelectedAdd = personSelectedAdd;
+    }
+
+    public ScRoles getRoleSelectedAdd()
+    {
+        return roleSelectedAdd;
+    }
+
+    public void setRoleSelectedAdd(ScRoles roleSelectedAdd)
+    {
+        this.roleSelectedAdd = roleSelectedAdd;
+    }
+
+    public ScRoles getRoleSelectedUpdate()
+    {
+        return roleSelectedUpdate;
+    }
+
+    public void setRoleSelectedUpdate(ScRoles roleSelectedUpdate)
+    {
+        this.roleSelectedUpdate = roleSelectedUpdate;
     }
     
     
