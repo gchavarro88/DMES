@@ -11,7 +11,6 @@
         <h:head>
             <title>Facelet Title</title>
 
-            <link href="/SIP_THEME/theme.css" rel="stylesheet" />
 
         </h:head>
         <h:body>
@@ -20,72 +19,376 @@
                       draggable="false" closable="false" resizable="false">
                 <p:graphicImage value="/images/loadBar.gif"/>
             </p:dialog>
-
-
-
-            <h:form id="form">
-
-
-
-                <p:dialog id="dialogPersonSave" widgetVar="dialogPersonSave" width="400" height="400"
-                          closable="true" draggable="true" dynamic="true" header="Crear Personas"
-                          hideEffect="explode" modal="true" showEffect="explode">
-
-                    <h3>Basic</h3>
-                    <p:panelGrid  columns="2">
-                        <f:facet name="header">
-                            <p:graphicImage name="demo/images/misc/kobe.png" />
-                        </f:facet>
-
-                        <p:outputLabel for="tfIdPerson" value="Id" />
-                        <p:inputText  id="tfIdPerson" required="true" requiredMessage="El campo Id es obligatorio"    value="#{personBean.merPerson.idPerson}"/>
-
-                        <p:outputLabel value="Nombre" />
-                        <p:inputText   required="true" requiredMessage="El campo nombre es obligatorio"   value="#{personBean.merPerson.firstName}"/>
-
-                        <p:outputLabel value="Apellido" />
-                        <p:inputText   required="true" requiredMessage="El campo apellido es obligatorio"    value="#{personBean.merPerson.lastName}"/>
-
-                        <p:outputLabel value="Edad"/>
-                        <p:inputText  required="true" requiredMessage="El campo edad es obligatorio"  maxlength="2"   value="#{personBean.merPerson.age}"/>
-
-
-
-                        <p:outputLabel value="Pais" />
-                        <p:inputText   required="true" requiredMessage="El campo pais es obligatorio"   value="#{personBean.merPerson.country}"/>
-
-                        <p:outputLabel value="Ciudad" />
-                        <p:inputText   required="true" requiredMessage="El campo ciudad es obligatorio"    value="#{personBean.merPerson.city}"/>
-
-                        <p:outputLabel value="Direccion" />
-                        <p:inputText  required="true" requiredMessage="El campo direccion es obligatorio"     value="#{personBean.merPerson.domicilie}"/>
-
-                        <p:outputLabel value="Inf. Personal" />
-                        <p:inputText      value="#{personBean.merPerson.personalInformation}"/>
-
-                        <f:facet name="footer">
-
-                            <p:commandButton value="Guardar" actionListener="#{personBean.app()}"   update=":form:tablaPerson"
-                                             onsuccess="PF('dialogPersonSave').hide()"/>
-                            <p:spacer width="20"/>
-
-                            <p:commandButton value="Cancelar" actionListener="#{personBean.cleanFields()}" 
-                                             oncomplete="PF('dialogPersonSave').hide()"/>
-                        </f:facet>
+        <p:dialog header="Person Info" widgetVar="dialogPersonInf" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <h:form id="personDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty personBean.selectedPerson}" columnClasses="label,value">
+                        <p:outputLabel value="Id:"/>
+                        <p:outputLabel value="#{personBean.selectedPerson.idPerson}" />
 
                     </p:panelGrid>
-                </p:dialog>
+                </h:form>> 
 
-                <p:dialog header="Person Info" widgetVar="dialogPesonInf" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                    <p:outputPanel id="personDetail" style="text-align:center;">
-                        <p:panelGrid  columns="2" rendered="#{not empty personBean.selectedPerson}" columnClasses="label,value">
-                            <p:outputLabel value="Id:"/>
-                            <p:outputLabel value="#{personBean.selectedPerson.idPerson}" />
+            </p:dialog>
 
-                        </p:panelGrid>
-                    </p:outputPanel> 
+            <p:dialog id="dialogPersonDelete" widgetVar="dialogPersonDelete" 
+                      closable="true" draggable="true" dynamic="true" header="Eliminar Grupos y Roles"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="false">
+                <h:form id="formDeletePerson">
+                    <table width="100%" cellspacing="30" style="padding: 0px; margin: 0px;">
+                        <tr>
+                            <td>
+                        <p:outputLabel value="¿Desea eliminar ala persona con cedula : #{personBean.selectedPerson.idPerson}?" />
+                        </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                        <p:commandButton value="Eliminar" actionListener="#{personBean.deletePerson()}"  
+                                         onsuccess="PF('dialogPersonDelete').hide()"
+                                         update=":formPerson:tablaPerson"/>
+                        <p:spacer width="20"/>
 
-                </p:dialog>
+                        <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonDelete').hide()"
+                                         update="@this"/>
+                        </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            <p:dialog   widgetVar="dialogPersonSave" width="500" height="500" 
+                        closable="true" draggable="true" dynamic="true" header="Crear Personas"
+                        hideEffect="explode" modal="true" showEffect="explode">
+
+                <h:form id="formCreatePersona">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:wizard    flowListener="#{personBean.onFlowProcess}">
+                        <p:tab  id="tabPersona" title="Personal">
+                            <p:panel header="Datos Basicos">
+                                <p:messages />
+                                <p:panelGrid  columns="4">
+                                    <f:facet name="header">
+                                        <p:graphicImage name="demo/images/misc/kobe.png" />
+                                    </f:facet>
+
+                                    <p:outputLabel  value="Cedula" />
+                                    <p:inputText   required="true" requiredMessage="El campo Id es obligatorio"    value="#{personBean.merPerson.idPerson}"/>
+
+                                    <p:outputLabel value="Nombre" />
+                                    <p:inputText   required="true" requiredMessage="El campo nombre es obligatorio"   value="#{personBean.merPerson.firstName}"/>
+
+                                    <p:outputLabel value="Apellido" />
+                                    <p:inputText   required="true" requiredMessage="El campo apellido es obligatorio"    value="#{personBean.merPerson.lastName}"/>
+
+                                    <p:outputLabel value="Edad"/>
+                                    <p:inputText  required="true" requiredMessage="El campo edad es obligatorio"  maxlength="2"   value="#{personBean.merPerson.age}"/>
+
+                                    <p:outputLabel value="Pais" />
+                                    <p:inputText   required="true" requiredMessage="El campo pais es obligatorio"   value="#{personBean.merPerson.country}"/>
+
+                                    <p:outputLabel value="Ciudad" />
+                                    <p:inputText   required="true" requiredMessage="El campo ciudad es obligatorio"    value="#{personBean.merPerson.city}"/>
+
+                                    <p:outputLabel value="Direccion" />
+                                    <p:inputText  required="true" requiredMessage="El campo direccion es obligatorio"     value="#{personBean.merPerson.domicilie}"/>
+
+                                    <p:outputLabel value="Inf. Personal" />
+                                    <p:inputText      value="#{personBean.merPerson.personalInformation}"/>
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab id="tabPhone" title="Telefonos">
+                            <p:panel id="paPhone" >
+                                <p:panel  header="Telefono" >
+                                    <p:dataTable id="dataPhone" var="phone"  editable="true" value="#{personBean.selectedPersonPhone}">
+                                        <p:ajax event="rowEdit" listener="#{personBean.onRowEditPhone}" update=":formCreatePersona:msgs" />
+                                        <p:ajax event="rowEditCancel" listener="#{personBean.onRowCancelPhone}" update=":formCreatePersona:msgs" />
+
+                                        <p:column headerText="Numero">
+
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{phone.numberPhone}" /></f:facet>
+                                                <f:facet name="input"><p:inputText  value="#{phone.numberPhone}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+
+                                        <p:column headerText="Descripcion">
+
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{phone.description}" /></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInput" value="#{phone.description}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column style="width:32px">
+                                            <p:rowEditor />
+                                        </p:column>
+
+                                    </p:dataTable>
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel  value="Telefono" />
+                                        <p:inputText   required="true" requiredMessage="El campo telefono es obligatorio"    value="#{personBean.merPhone.numberPhone}"/>
+
+                                        <p:outputLabel value="Descripcion" />
+                                        <p:inputText    requiredMessage="El campo descripcion es obligatorio"   value="#{personBean.merPhone.description}"/>
+
+                                        <p:commandButton value="Guardar" actionListener="#{personBean.savePhone()}"   update=":formCreatePersona:paPhone"/>
+
+                                        <p:commandButton value="Borrar Campos" actionListener="#{personBean.resetDateContact()}" update=":formCreatePersona:paPhone"/>
+                                    </p:panelGrid>
+                                </p:panel>
+                            </p:panel>
+
+                        </p:tab>
+
+
+                        <p:tab id="tabMail" title="Mail">
+                            <p:panel id="paMail" >
+                                <p:panel  header="Mail" >
+                                    <p:dataTable id="dataMail" var="mail"  editable="true" value="#{personBean.selectedPersonMail}">
+                                        <p:ajax event="rowEdit" listener="#{personBean.onRowEditMail}" update=":formCreatePersona:msgs" />
+                                        <p:ajax event="rowEditCancel" listener="#{personBean.onRowCancelMail}" update=":formCreatePersona:msgs" />
+
+                                        <p:column headerText="Descripcion">
+
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{mail.description}" /></f:facet>
+                                                <f:facet name="input"><p:inputText  value="#{mail.description}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+
+                                        <p:column headerText="Mail">
+
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{mail.mail}" /></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInput" value="#{mail.mail}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column style="width:32px">
+                                            <p:rowEditor />
+                                        </p:column>
+
+                                    </p:dataTable>
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel  value="Mail" />
+                                        <p:inputText   required="true" requiredMessage="El dirrecion del correos es obligatoria"    value="#{personBean.merMail.mail}"/>
+
+                                        <p:outputLabel value="Descripcion" />
+                                        <p:inputText    requiredMessage="El campo descripcion es obligatorio"   value="#{personBean.merMail.description}"/>
+
+                                        <p:commandButton value="Guardar" actionListener="#{personBean.saveMail()}"   update=":formCreatePersona:paMail"/>
+
+                                        <p:commandButton value="Borrar Campos" actionListener="#{personBean.resetDateContact()}" update=":formCreatePersona:paMail"/>
+                                    </p:panelGrid>
+                                </p:panel>
+                            </p:panel>
+
+                        </p:tab>
+
+
+                        <p:tab id="tabObservations" title="Observaciones">
+                            <p:panel id="paObservations" >
+                                <p:panel  header="Observaciones" >
+                                    <p:dataTable id="dataObservaciones" var="observaciones"  editable="true" value="#{personBean.selectedPersonScPersonObservations}">
+                                        <p:ajax event="rowEdit" listener="#{personBean.onRowEditScPersonObservations}" update=":formCreatePersona:msgs" />
+                                        <p:ajax event="rowEditCancel" listener="#{personBean.onRowCancelScPersonObservations}" update=":formCreatePersona:msgs" />
+
+                                        <p:column headerText="Titulo">
+
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{observaciones.tittle}" /></f:facet>
+                                                <f:facet name="input"><p:inputText  value="#{observaciones.tittle}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+
+                                        <p:column headerText="Observacion">
+
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{observaciones.observation}" /></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInput" value="#{observaciones.observation}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column style="width:32px">
+                                            <p:rowEditor />
+                                        </p:column>
+
+                                    </p:dataTable>
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel  value="Titulo" />
+                                        <p:inputText   required="true" requiredMessage="El titulo es obligatorio"    value="#{personBean.merScPersonObservations.tittle}"/>
+
+                                        <p:outputLabel value="Observacion" />
+                                        <p:inputText    requiredMessage="El campo descripcion es obligatorio"   value="#{personBean.merScPersonObservations.observation}"/>
+
+                                        <p:commandButton value="Guardar" actionListener="#{personBean.saveScPersonObservations()}"   update=":formCreatePersona:paObservations"/>
+
+                                        <p:commandButton value="Borrar Campos" actionListener="#{personBean.resetDateContact()}" update=":formCreatePersona:paObservations"/>
+                                    </p:panelGrid>
+                                </p:panel>
+                            </p:panel>
+
+                        </p:tab>
+
+
+
+                        <p:tab id="tabSpecifications" title="Especificaciones">
+                            <p:panel id="paSpecifications" >
+                                <p:panel  header="Observaciones" >
+                                    <p:dataTable id="dataSpecifications" var="specifications"  editable="true" value="#{personBean.selectedPersonScPersonSpecifications}">
+                                        <p:ajax event="rowEdit" listener="#{personBean.onRowEditScPersonSpecifications}" update=":formCreatePersona:msgs" />
+                                        <p:ajax event="rowEditCancel" listener="#{personBean.onRowCancelScPersonSpecifications}" update=":formCreatePersona:msgs" />
+
+                                        <p:column headerText="Titulo">
+
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{specifications.tittle}" /></f:facet>
+                                                <f:facet name="input"><p:inputText  value="#{specifications.tittle}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+
+                                        <p:column headerText="Especificaciones">
+
+                                            <p:cellEditor>
+                                                <f:facet name="output"><h:outputText value="#{specifications.specification}" /></f:facet>
+                                                <f:facet name="input"><p:inputText id="modelInput" value="#{specifications.specification}" style="width:100%"/></f:facet>
+                                            </p:cellEditor>
+                                        </p:column>
+                                        <p:column style="width:32px">
+                                            <p:rowEditor />
+                                        </p:column>
+
+                                    </p:dataTable>
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel  value="Titulo" />
+                                        <p:inputText   required="true" requiredMessage="El titulo es obligatorio"    value="#{personBean.merScPersonSpecifications.tittle}"/>
+
+                                        <p:outputLabel value="Especificacion" />
+                                        <p:inputText    requiredMessage="El campo especificacion es obligatorio"   value="#{personBean.merScPersonSpecifications.specification}"/>
+
+                                        <p:commandButton value="Guardar" actionListener="#{personBean.saveScPersonSpecifications()}"   update=":formCreatePersona:paSpecifications"/>
+
+                                        <p:commandButton value="Borrar Campos" actionListener="#{personBean.resetDateContact()}" update=":formCreatePersona:paSpecifications"/>
+                                    </p:panelGrid>
+                                </p:panel>
+                            </p:panel>
+
+                        </p:tab>
+
+
+                        <p:tab id="tabSave" title="Comfirmar">
+                            <p:panelGrid columns="2">
+
+                                <p:panel header="Foto" ></p:panel>
+                                <p:panel header="Datos Basicos" >
+                                    <p:panelGrid columns="4">
+                                        <p:outputLabel  value="Cedula" />
+                                        <p:inputText   disabled="true"   value="#{personBean.merPerson.idPerson}"/>
+
+                                        <p:outputLabel value="Nombre" />
+                                        <p:inputText   disabled="true"  value="#{personBean.merPerson.firstName}"/>
+
+                                        <p:outputLabel value="Apellido" />
+                                        <p:inputText   disabled="true"    value="#{personBean.merPerson.lastName}"/>
+
+                                        <p:outputLabel value="Edad"/>
+                                        <p:inputText  disabled="true"   value="#{personBean.merPerson.age}"/>
+
+                                        <p:outputLabel value="Pais" />
+                                        <p:inputText  disabled="true"  value="#{personBean.merPerson.country}"/>
+
+                                        <p:outputLabel value="Ciudad" />
+                                        <p:inputText   disabled="true"  value="#{personBean.merPerson.city}"/>
+
+                                        <p:outputLabel value="Direccion" />
+                                        <p:inputText  disabled="true"   value="#{personBean.merPerson.domicilie}"/>
+
+                                        <p:outputLabel value="Inf. Personal" />
+                                        <p:inputText    disabled="true"  value="#{personBean.merPerson.personalInformation}"/>
+                                    </p:panelGrid>
+                                </p:panel>
+
+                                <p:panel header="Telefonos">
+                                    <p:dataTable id="dataPhoneInf" var="phone"  value="#{personBean.selectedPersonPhone}">
+                                        <p:column headerText="Numero">
+                                            <h:outputText value="#{phone.numberPhone}" />
+                                        </p:column>
+
+                                        <p:column headerText="Descripcion">
+
+                                            <h:outputText value="#{phone.description}" />
+
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </p:panel > 
+
+                                <p:panel header="Mails">
+                                    <p:dataTable id="dataMailInf" var="mail"  value="#{personBean.selectedPersonMail}">
+                                        <p:column headerText="Mail">
+                                            <h:outputText value="#{mail.mail}" />
+                                        </p:column>
+
+                                        <p:column headerText="Descripcion">
+
+                                            <h:outputText value="#{mail.description}" />
+
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:panel>
+
+
+                                <p:panel header="Obervaciones">
+                                    <p:dataTable id="dataObservationsInf" var="observations"  value="#{personBean.selectedPersonScPersonObservations}">
+                                        <p:column headerText="Titulo">
+                                            <h:outputText value="#{observations.tittle}" />
+                                        </p:column>
+
+                                        <p:column headerText="Observacion">
+
+                                            <h:outputText value="#{observations.observation}" />
+
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:panel>
+
+                                <p:panel header="Especificaciones">
+                                    <p:dataTable id="dataSpecificationsInf" var="specifications"  value="#{personBean.selectedPersonScPersonSpecifications}">
+                                        <p:column headerText="Titulo">
+                                            <h:outputText value="#{specifications.tittle}" />
+                                        </p:column>
+
+                                        <p:column headerText="Especificaion">
+
+                                            <h:outputText value="#{specifications.specification}" />
+
+                                        </p:column>
+
+                                    </p:dataTable>
+
+                                </p:panel>
+                                <p:panel>
+
+                                    <p:commandButton value="Guardar" actionListener="#{personBean.savePerson()}"   update=":form:tablaPerson"
+                                                     onsuccess="PF('dialogPersonSave').hide()"/>
+                                    <p:spacer width="20"/>
+
+                                    <p:commandButton value="Cancelar" actionListener="#{personBean.cleanFields()}" 
+                                                     oncomplete="PF('dialogPersonSave').hide()"/>
+                                </p:panel>
+
+                            </p:panelGrid>
+
+                        </p:tab>
+                    </p:wizard>
+
+                </h:form>
+            </p:dialog>
+
+
+            <h:form id="formPerson">
+     
                 <p:dataTable 
                     id="tablaPerson" 
                     var="person" 
@@ -96,7 +399,7 @@
                     pageLinks="40"
                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                     {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                    liveResize="true" rowsPerPageTemplate="15,30,50" 
+                    liveResize="true" rowsPerPageTemplate="10,20,30"
                     selectionMode="single" paginatorPosition="top" >
 
                     <f:facet name="header">
@@ -105,6 +408,24 @@
                             <p:tooltip for="btnAdd" value="Agregar una persona"/>
                         </p:commandButton>
                     </f:facet>
+
+                    <p:column headerText="Administración">
+                        <center>
+                            <p:commandButton  id="btnSe"  update=":personDetail" oncomplete="PF('dialogPersonInf').show()" icon="ui-icon-search" title="View">
+                                <f:setPropertyActionListener value="#{person}" target="#{personBean.selectedPerson}" />
+                                <p:tooltip for="btnSe" value="Ver la Persona"/>
+                            </p:commandButton>
+
+                            <p:spacer width="10"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" 
+
+                                             update=":formDeletePerson" oncomplete="PF('dialogPersonDelete').show()">
+                                <p:tooltip for="btnDelete" value="Eliminar Persona"/>
+                                <f:setPropertyActionListener value="#{person}" target="#{personBean.selectedPerson}" />
+                            </p:commandButton>
+                        </center>
+
+                    </p:column>
 
                     <p:column headerText="Id">
                         <h:outputText value="#{person.idPerson}" />
@@ -143,11 +464,7 @@
                     <p:column headerText="Inf personal">
                         <h:outputText value="#{person.personalInformation}" />
                     </p:column>
-                    <p:column style="width:32px;text-align: center">
-                        <p:commandButton update=":form:personDetail" oncomplete="PF('dialogPesonInf').show()" icon="ui-icon-search" title="View">
-                            <f:setPropertyActionListener value="#{person}" target="#{personBean.selectedPerson}" />
-                        </p:commandButton>
-                    </p:column>
+
                 </p:dataTable>
 
             </h:form>
