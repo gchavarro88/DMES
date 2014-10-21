@@ -147,7 +147,7 @@
         
           <managed-property>
             <property-name>scMailsServer</property-name>
-            <property-class>com.sip.dmes.dao.bo.IScPhones</property-class>
+            <property-class>com.sip.dmes.dao.bo.IScMails</property-class>
             <value>#{scMailsServer}</value>
         </managed-property>
         
