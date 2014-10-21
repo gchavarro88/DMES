@@ -68,7 +68,7 @@ public class ScUsersDao implements IScUsers
         try
         {
             entityManager.remove(scUsers);
-            entityManager.flush();
+             
         }
         catch (Exception e)
         {
