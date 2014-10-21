@@ -9,11 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,7 +25,7 @@ import javax.validation.constraints.Size;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "sc_person_specifications")
+@Table(name = "sc_person_specifications" , schema = "dmes")
 @NamedQueries(
 {
     @NamedQuery(name = "ScPersonSpecifications.findAll", query = "SELECT s FROM ScPersonSpecifications s"),
@@ -38,6 +40,8 @@ public class ScPersonSpecifications implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_person_specifications")
+    @GeneratedValue(generator = "dmes.sqscpersonspecifications")
+    @SequenceGenerator(name = "dmes.sqscpersonspecifications", sequenceName = "dmes.sqscpersonspecifications", allocationSize = 1)
     private Long idPersonSpecifications;
     @Basic(optional = false)
     @NotNull
