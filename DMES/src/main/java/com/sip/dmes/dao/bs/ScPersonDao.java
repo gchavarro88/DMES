@@ -20,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author user
  */
 @Repository(value = "IScPerson")
-public class ScPersonDao implements IScPerson
-{
+public class ScPersonDao implements IScPerson {
 
     @PersistenceContext()
     EntityManager entityManager;
@@ -30,16 +29,12 @@ public class ScPersonDao implements IScPerson
 
     @Override
     @Transactional
-    public void addScPerson(ScPerson ScPerson)
-    {
+    public void addScPerson(ScPerson ScPerson) {
 
-        try
-        {
+        try {
             entityManager.persist(ScPerson);
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("Error guardar la persona", e);
         }
 
@@ -47,16 +42,12 @@ public class ScPersonDao implements IScPerson
 
     @Override
     @Transactional
-    public void updateScPerson(ScPerson ScPerson)
-    {
+    public void updateScPerson(ScPerson ScPerson) {
 
-        try
-        {
+        try {
             entityManager.merge(ScPerson);
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("Error actualizar la persona", e);
         }
 
@@ -64,37 +55,35 @@ public class ScPersonDao implements IScPerson
 
     @Override
     @Transactional
-    public void deleteScPerson(ScPerson ScPerson)
-    {
+    public void deleteScPerson(ScPerson ScPerson) {
 
-        try
-        {
-            entityManager.remove(ScPerson);
+        int rowsDelete = 0;
+        try {
+            Query query = entityManager.createNamedQuery("ScRoles.deleteByIdRole");
+            query.setParameter("idPerson", ScPerson.getIdPerson());
+            rowsDelete = query.executeUpdate();
+            
+              }
+            catch (Exception e) {
 
-        }
-        catch (Exception e)
-        {
-
+ 
             log.error("Error al borrar la persona ", e);
-        }
+        
 
+        }
     }
 
     @Override
     @Transactional
-    public ScPerson getScPersonById(long id)
-    {
+    public ScPerson getScPersonById(long id) {
         ScPerson result = null;
-        try
-        {
+        try {
 
             Query query = entityManager.createNamedQuery("ScPerson.findByIdPerson");
             query.setParameter("idPerson", id);
             result = (ScPerson) query.getSingleResult();
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
             log.error("Error intentando buscar la persona", e);
         }
@@ -104,37 +93,30 @@ public class ScPersonDao implements IScPerson
 
     @Override
     @Transactional
-    public List<ScPerson> getScPersons()
-    {
+    public List<ScPerson> getScPersons() {
 
         List<ScPerson> result = null;
-        try
-        {
+        try {
 
             Query query = entityManager.createNamedQuery("ScPerson.findAll");
             result = query.getResultList();
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
+            log.error("Error al cargar la lista de personas", e);
         }
 
         return result;
     }
 
     @Override
-    public List<ScPerson> findPersonWithOutUser() throws Exception
-    {
+    public List<ScPerson> findPersonWithOutUser() throws Exception {
         List result = null;
-        try
-        {
+        try {
             Query query = entityManager.createNativeQuery("SELECT p.* FROM dmes.SC_PERSON p WHERE p.ID_PERSON NOT IN\n"
                     + "(SELECT u.ID_PERSON FROM dmes.SC_USERS u )");
-            result =  query.getResultList();
+            result = query.getResultList();
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("Error intentando consultar las personas que no tienen usuario ", e);
         }
         return result;
