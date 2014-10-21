@@ -49,7 +49,7 @@ public class ScPerson implements Serializable
 {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList;
-    
+     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonObservations> scPersonObservationsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
@@ -116,8 +116,7 @@ public class ScPerson implements Serializable
     @Column(name = "modify_date")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScUsers> scUsersList;
+    
 
     public ScPerson()
     {
@@ -271,15 +270,6 @@ public class ScPerson implements Serializable
         this.modifyDate = modifyDate;
     }
 
-    public List<ScUsers> getScUsersList()
-    {
-        return scUsersList;
-    }
-
-    public void setScUsersList(List<ScUsers> scUsersList)
-    {
-        this.scUsersList = scUsersList;
-    }
 
     @Override
     public int hashCode()

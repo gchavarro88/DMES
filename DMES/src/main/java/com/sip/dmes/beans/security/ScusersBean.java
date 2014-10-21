@@ -13,6 +13,7 @@ import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScRoles;
 import com.sip.dmes.entitys.ScUsers;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -80,13 +81,32 @@ public class ScusersBean
         {
             if(getPersonsList() == null)
             {
-                setPersonsList(getScPersonServer().findPersonWithOutUser());
+                List personsWithOutUser = getScPersonServer().findPersonWithOutUser();
+                if(personsWithOutUser != null)
+                {
+                    setPersonsList(new ArrayList<ScPerson>());
+                    for (Object object : personsWithOutUser)
+                    {
+                        getPersonsList().add(ObjectToScPerson(object));
+                    }
+                }
             }
         }
         catch (Exception e)
         {
             log.error("Error al intentar consultar las personas que no cuentan con un usuario",e);
         }
+    }
+    
+    
+    public ScPerson ObjectToScPerson(Object object)
+    {
+        Object[] objectList = ((Object[]) object);
+        ScPerson newPerson = new ScPerson();
+        newPerson.setIdPerson(Long.parseLong(objectList[0].toString()));
+        newPerson.setFirstName(objectList[1].toString());
+        newPerson.setLastName(objectList[2].toString());
+        return newPerson;
     }
     
     public void fillListRoles()
@@ -105,7 +125,7 @@ public class ScusersBean
     
     public String onFlowProcess(FlowEvent event) 
     {    
-            return event.getNewStep();
+            return event.getNewStep(); 
     }
     
     
