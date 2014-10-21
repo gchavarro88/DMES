@@ -21,6 +21,8 @@ public interface IScUsers
     
     public void deleteUser(ScUsers scUsers)throws Exception; 
     
+    public void deleteUserById(ScUsers scUsers)throws Exception; 
+    
     public void deleteUsersByRole(ScRoles scRoles)throws Exception; 
     
     public void updateUser(ScUsers scUsers)throws Exception; 

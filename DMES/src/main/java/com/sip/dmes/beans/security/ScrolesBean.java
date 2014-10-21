@@ -322,7 +322,6 @@ public class ScrolesBean
         catch (Exception e)
         {
             log.error("Error intentando eliminar un rol", e);
-            e.printStackTrace();
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }

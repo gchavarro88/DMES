@@ -9,14 +9,21 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScPerson;
 import com.sip.dmes.dao.bo.IScRoles;
 import com.sip.dmes.dao.bo.IScUsers;
+import com.sip.dmes.entitys.ScModulePermission;
+import com.sip.dmes.entitys.ScModulePermissionByRole;
 import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScRoles;
 import com.sip.dmes.entitys.ScUsers;
+import com.sip.dmes.utilities.DMESConstants;
+import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
 import org.primefaces.event.FlowEvent;
 
@@ -34,12 +41,17 @@ public class ScusersBean
     private List<ScUsers> usersList;
     private ScUsers userAdd;
     private ScUsers userUpdate;
+    private ScUsers userSelected;
     private ScPerson personSelectedAdd;
     private ScRoles roleSelectedAdd;
     private ScRoles roleSelectedUpdate;
     private IScUsers scUsersServer;
     private IScPerson scPersonServer;
     private String password2;
+    private final String TAB_PERSONS = "tabPerson";
+    private final String TAB_USERS = "tabUser";
+    private final String TAB_ROLES = "tabRoles";
+    private final String TAB_CONFIRM = "tabAccept";
     
     /**
      * Creates a new instance of ScusersBean
@@ -56,6 +68,8 @@ public class ScusersBean
         fillListRoles();
         fillListPersonsAvailables();
         setPersonSelectedAdd(new ScPerson());
+        setRoleSelectedAdd(new ScRoles());
+        setUserAdd(new ScUsers());
     }
     
     public void fillListUsers()
@@ -123,12 +137,134 @@ public class ScusersBean
         }
     }
     
-    public String onFlowProcess(FlowEvent event) 
+    public String onFlowProcessSaveUser(FlowEvent event) 
     {    
+        if(event.getOldStep().equals(TAB_USERS))
+        {
+            
+            if(!Utilities.isAlphaNumeric(getUserAdd().getPassword()))
+            {
+                addError(null, "Error al crear el usuario", "El password no debe contener carácteres especiales");
+                return TAB_USERS;
+            }
+            else if(getUserAdd().getPassword().length() < 4)
+            {
+                addError(null, "Error al crear el usuario", "El password debe tener un mínimo de (4) cuatro carácteres ");
+                return TAB_USERS;
+            }
+            for(ScUsers users: getUsersList())
+            {
+                if(getUserAdd().getLogin().equalsIgnoreCase(users.getLogin()))
+                {
+                    addError(null, "Error al crear el usuario", "El nombre de usuario ya existe!");
+                    return TAB_USERS;
+                }
+            }
+        }
+        else if(event.getOldStep().equals(TAB_PERSONS))
+        {
+            if(getPersonSelectedAdd() == null || getPersonSelectedAdd().getIdPerson() == null)
+            {
+                addError(null, "Error al crear el usuario", "Debe seleccionar una persona");
+                return TAB_PERSONS;
+            }
+        }
+        else if(event.getOldStep().equals(TAB_ROLES))
+        {
+            if(getRoleSelectedAdd() == null || getRoleSelectedAdd().getIdRole() == null)
+            {
+                addError(null, "Error al crear el usuario", "Debe seleccionar un grupo o rol");
+                return TAB_ROLES;
+            }
+        }
+        
+        
             return event.getNewStep(); 
     }
     
+    public void cleanFields()
+    {
+        setPersonSelectedAdd(new ScPerson());
+        setRoleSelectedAdd(new ScRoles());
+        setUserAdd(new ScUsers());
+    }
+    public void saveUser()
+    {
+        log.info("Se iniciará la creación de un nuevo usuario");
+        try
+        {
+            if(getUserAdd() != null)
+            {
+                getUserAdd().setCreationDate(new Date());
+                getUserAdd().setIdPerson(getPersonSelectedAdd());
+                getUserAdd().setIdRole(getRoleSelectedAdd());
+                getUserAdd().setPassword(Utilities.encriptaEnMD5(getUserAdd().getPassword()));
+                getScUsersServer().createUser(getUserAdd());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                getUsersList().add(getUserAdd());
+                cleanFields();
+                log.info("Se guardo el usuario con total exito");
+            }
+        }catch(Exception e)
+        {
+            log.error("Error al crear el usuario",e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+        
     
+    }
+    
+    public void getUserByDataTable(ScUsers userSelected)
+    {
+        try
+        {
+            if(userSelected != null)
+            {
+                setUserSelected(userSelected);
+            }
+        }
+        catch(Exception e)
+        {
+            log.error("Error intentando asignar el usuario seleccionado para operaciones de CRUD",e);
+        }
+    }
+    
+    public void deleteUser()
+    {
+        try
+        {
+            if(getUserSelected()!= null)
+            {
+                getScUsersServer().deleteUserById(getUserSelected());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                for(ScUsers users: getUsersList())
+                {
+                    if(users.getIdUser() == getUserSelected().getIdUser())
+                    {
+                        getUsersList().remove(getUserSelected());
+                        break;
+                    }
+                }
+                setPersonsList(null);
+                fillListPersonsAvailables();
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando eliminar un rol", e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    
+    public String getCurrentDate()
+    {
+        
+        String result = "";
+        String patron = "dd-MM-yyyy HH:mm:ss";
+        result = getFormatDateGlobal(patron, new Date());
+        return result;
+    }
     
     
     public String getFormatDate(Date date)
@@ -162,6 +298,54 @@ public class ScusersBean
         }
         return result;
     } 
+    
+     /**
+     * Método encargado de visualizar un  mensaje en la pantalla de tipo informativo
+     * @param actionEvent Evento de donde es llamado
+     * @param tittle Título del mensaje
+     * @param message cuerpo del mensaje
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void addInfo(ActionEvent actionEvent, String tittle, String message)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, tittle, message));
+    }
+
+    /**
+     * Método encargado de visualizar un  mensaje en la pantalla de tipo Advertencia
+     * @param actionEvent Evento de donde es llamado
+     * @param tittle Título del mensaje
+     * @param message cuerpo del mensaje
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void addWarn(ActionEvent actionEvent, String tittle, String message)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, tittle, message));
+    }
+
+    /**
+     * Método encargado de visualizar un  mensaje en la pantalla de tipo Error
+     * @param actionEvent Evento de donde es llamado
+     * @param tittle Título del mensaje
+     * @param message cuerpo del mensaje
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void addError(ActionEvent actionEvent, String tittle, String message)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, tittle, message));
+    }
+
+    /**
+     * Método encargado de visualizar un  mensaje en la pantalla de tipo Fatal
+     * @param actionEvent Evento de donde es llamado
+     * @param tittle Título del mensaje
+     * @param message cuerpo del mensaje
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void addFatal(ActionEvent actionEvent, String tittle, String message)
+    {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
+    }
     
     /**
      * Métodos Getters And Setters.
@@ -294,6 +478,14 @@ public class ScusersBean
     public void setRoleSelectedUpdate(ScRoles roleSelectedUpdate)
     {
         this.roleSelectedUpdate = roleSelectedUpdate;
+    }
+
+    public ScUsers getUserSelected() {
+        return userSelected;
+    }
+
+    public void setUserSelected(ScUsers userSelected) {
+        this.userSelected = userSelected;
     }
     
     

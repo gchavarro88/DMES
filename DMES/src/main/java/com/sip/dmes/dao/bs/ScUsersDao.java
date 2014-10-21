@@ -92,6 +92,9 @@ public class ScUsersDao implements IScUsers
             log.error("Error al intentar eliminar los usuarios de un determinado rol",e);
         }
     }
+    
+    
+    
 
     @Override
     @Transactional
@@ -122,6 +125,24 @@ public class ScUsersDao implements IScUsers
             log.error("Error al intentar consultar todos los usuarios", e);
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserById(ScUsers scUsers) throws Exception 
+    {
+        int rows = -1;
+        try 
+        {
+            Query query = entityManager.createNamedQuery("ScUsers.deleteByIdUser");
+            query.setParameter("idUser", scUsers.getIdUser());
+            rows = query.executeUpdate(); 
+        } 
+        catch (Exception e) 
+        {
+            log.error("Error intentando borrar el usuario", e);
+            throw e;
+        }
     }
     
 }

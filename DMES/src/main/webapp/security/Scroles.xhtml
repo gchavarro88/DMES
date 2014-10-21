@@ -120,7 +120,7 @@
                         <tr>
                             <td colspan="2" align="center">
                                 <p:commandButton value="Guardar" actionListener="#{scrolesBean.updateRole()}"  
-                                                 onsuccess="PF('dialogRolesUpdate').hide()"
+                                                 onsuccess="PF('dialogRolesUpdate').hide()" 
                                                  update="@this,:formRoles:scrolesDataTable,tfNameRolUpdate,tfDescriptionRolUpdate"/>
                                 <p:spacer width="20"/>
 
@@ -141,7 +141,7 @@
                     <table width="100%" cellspacing="30" style="padding: 0px; margin: 0px;">
                         <tr>
                             <td>
-                                <p:outputLabel value="¿Desea eliminar grupo #{scrolesBean.scRolesSelected.name}?" />
+                                <p:outputLabel value="¿Desea eliminar el grupo #{scrolesBean.scRolesSelected.name}?" />
                             </td>
                         </tr>
                         <tr>
