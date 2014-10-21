@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
             entityManager.persist(ScMails);
 
         } catch (Exception e) {
-            log.error("Error guardar la email", e.getCause());
+            log.error("Error guardar la email", e);
         }
 
     }
@@ -48,7 +48,7 @@ import org.springframework.transaction.annotation.Transactional;
             entityManager.merge(ScMails);
 
         } catch (Exception e) {
-            log.error("Error actualizar la email", e.getCause());
+            log.error("Error actualizar la email", e);
         }
 
     }
@@ -61,7 +61,7 @@ import org.springframework.transaction.annotation.Transactional;
             entityManager.remove(ScMails);
 
         } catch (Exception e) {
-            log.error("Error al borrar la email", e.getCause());
+            log.error("Error al borrar la email", e);
         }
 
     }
@@ -79,7 +79,7 @@ import org.springframework.transaction.annotation.Transactional;
 
         } catch (Exception e) {
 
-            log.error("Error intentando buscar la email", e.getCause());
+            log.error("Error intentando buscar la email", e);
         }
 
         return result;
@@ -97,7 +97,7 @@ import org.springframework.transaction.annotation.Transactional;
 
         } catch (Exception e) {
 
-            log.error("Error consulta todas las email", e.getCause());
+            log.error("Error consulta todas las email", e);
         }
 
         return result;
