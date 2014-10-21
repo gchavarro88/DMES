@@ -20,9 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author user
  */
 @Repository("IScPhones")
-public class ScPhonesDao implements IScPhones{
-  
-    
+public class ScPhonesDao implements IScPhones {
+
     private final static Logger log = Logger.getLogger(ScPhones.class);
     @PersistenceContext()
     EntityManager entityManager;
@@ -32,7 +31,9 @@ public class ScPhonesDao implements IScPhones{
     public void addScPhones(ScPhones ScPhones) {
 
         try {
+        
             entityManager.persist(ScPhones);
+            entityManager.flush();
 
         } catch (Exception e) {
             log.error("Error guardar la telefono", e.getCause());
@@ -46,6 +47,7 @@ public class ScPhonesDao implements IScPhones{
 
         try {
             entityManager.merge(ScPhones);
+            entityManager.flush();
 
         } catch (Exception e) {
             log.error("Error actualizar la telefono", e.getCause());
@@ -59,6 +61,7 @@ public class ScPhonesDao implements IScPhones{
 
         try {
             entityManager.remove(ScPhones);
+            entityManager.flush();
 
         } catch (Exception e) {
             log.error("Error al borrar la telefono", e.getCause());
