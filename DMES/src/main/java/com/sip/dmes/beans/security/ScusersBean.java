@@ -38,6 +38,7 @@ public class ScusersBean
     private SessionBean sessionBean; //Bean de sesion
     private List<ScRoles> rolesList;
     private List<ScPerson> personsList;
+    private List<ScPerson> personsListUpdate;
     private List<ScUsers> usersList;
     private ScUsers userAdd;
     private ScUsers userUpdate;
@@ -48,6 +49,7 @@ public class ScusersBean
     private IScUsers scUsersServer;
     private IScPerson scPersonServer;
     private String password2;
+    private String updatePassword2;
     private final String TAB_PERSONS = "tabPerson";
     private final String TAB_USERS = "tabUser";
     private final String TAB_ROLES = "tabRoles";
@@ -182,6 +184,51 @@ public class ScusersBean
             return event.getNewStep(); 
     }
     
+    public String onFlowProcessUpdateUser(FlowEvent event) 
+    {    
+        if(event.getOldStep().equals(TAB_USERS))
+        {
+            
+            if(!Utilities.isAlphaNumeric(getUserAdd().getPassword()))
+            {
+                addError(null, "Error al crear el usuario", "El password no debe contener carácteres especiales");
+                return TAB_USERS;
+            }
+            else if(getUserAdd().getPassword().length() < 4)
+            {
+                addError(null, "Error al crear el usuario", "El password debe tener un mínimo de (4) cuatro carácteres ");
+                return TAB_USERS;
+            }
+            for(ScUsers users: getUsersList())
+            {
+                if(getUserAdd().getLogin().equalsIgnoreCase(users.getLogin()))
+                {
+                    addError(null, "Error al crear el usuario", "El nombre de usuario ya existe!");
+                    return TAB_USERS;
+                }
+            }
+        }
+        else if(event.getOldStep().equals(TAB_PERSONS))
+        {
+            if(getPersonSelectedAdd() == null || getPersonSelectedAdd().getIdPerson() == null)
+            {
+                addError(null, "Error al crear el usuario", "Debe seleccionar una persona");
+                return TAB_PERSONS;
+            }
+        }
+        else if(event.getOldStep().equals(TAB_ROLES))
+        {
+            if(getRoleSelectedAdd() == null || getRoleSelectedAdd().getIdRole() == null)
+            {
+                addError(null, "Error al crear el usuario", "Debe seleccionar un grupo o rol");
+                return TAB_ROLES;
+            }
+        }
+        
+        
+            return event.getNewStep(); 
+    }
+    
     public void cleanFields()
     {
         setPersonSelectedAdd(new ScPerson());
@@ -212,6 +259,51 @@ public class ScusersBean
         }
         
     
+    }
+    
+    
+    public void updateUser()
+    {
+        log.info("Se iniciará la actualización de un usuario");
+        try
+        {
+            if(getUserUpdate()!= null)
+            {
+                getUserUpdate().setModifyDate(new Date());
+                getUserUpdate().setPassword(Utilities.encriptaEnMD5(getUserUpdate().getPassword()));
+                getScUsersServer().updateUser(getUserAdd());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                log.info("Se actualizó el usuario con total exito");
+            }
+        }catch(Exception e)
+        {
+            log.error("Error al actualizar el usuario",e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+        
+    
+    }
+    
+    public void getUserByDataTableUpdate(ScUsers userSelected)
+    {
+        try
+        {
+            if(userSelected != null)
+            {
+                setUserUpdate(userSelected);
+                setUpdatePassword2(userSelected.getPassword());
+                if(getPersonsList() != null)
+                {
+                    setPersonsListUpdate(getPersonsList());
+                    getPersonsListUpdate().add(userSelected.getIdPerson());
+                }
+            }
+            
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando asignar el usuario seleccionado para operaciones de CRUD",e);
+        }
     }
     
     public void getUserByDataTable(ScUsers userSelected)
@@ -486,6 +578,26 @@ public class ScusersBean
 
     public void setUserSelected(ScUsers userSelected) {
         this.userSelected = userSelected;
+    }
+
+    public String getUpdatePassword2()
+    {
+        return updatePassword2;
+    }
+
+    public void setUpdatePassword2(String updatePassword2)
+    {
+        this.updatePassword2 = updatePassword2;
+    }
+
+    public List<ScPerson> getPersonsListUpdate()
+    {
+        return personsListUpdate;
+    }
+
+    public void setPersonsListUpdate(List<ScPerson> personsListUpdate)
+    {
+        this.personsListUpdate = personsListUpdate;
     }
     
     
