@@ -50,10 +50,17 @@ public class ScusersBean
     private IScPerson scPersonServer;
     private String password2;
     private String updatePassword2;
+    private String lastUser;
+    private String lastPassword;
     private final String TAB_PERSONS = "tabPerson";
     private final String TAB_USERS = "tabUser";
     private final String TAB_ROLES = "tabRoles";
     private final String TAB_CONFIRM = "tabAccept";
+    private final String TAB_PERSONS_UPDATE = "tabPersonUpdate";
+    private final String TAB_USERS_UPDATE = "tabUserUpdate";
+    private final String TAB_ROLES_UPDATE = "tabRolesUpdate";
+    private final String TAB_CONFIRM_UPDATE = "tabAcceptUpdate";
+    
     
     /**
      * Creates a new instance of ScusersBean
@@ -87,10 +94,10 @@ public class ScusersBean
         {
             log.error("Error al intentar consultar todos los usuarios ",e);
         }
-        
+         
     }
     
-    
+      
     public void fillListPersonsAvailables()
     {
         try
@@ -109,7 +116,7 @@ public class ScusersBean
             }
         }
         catch (Exception e)
-        {
+        { 
             log.error("Error al intentar consultar las personas que no cuentan con un usuario",e);
         }
     }
@@ -176,57 +183,63 @@ public class ScusersBean
             if(getRoleSelectedAdd() == null || getRoleSelectedAdd().getIdRole() == null)
             {
                 addError(null, "Error al crear el usuario", "Debe seleccionar un grupo o rol");
-                return TAB_ROLES;
+                return TAB_ROLES; 
             }
         }
         
         
             return event.getNewStep(); 
     }
-    
+     
     public String onFlowProcessUpdateUser(FlowEvent event) 
-    {    
-        if(event.getOldStep().equals(TAB_USERS))
+    {   
+        if(event.getOldStep().equals(TAB_USERS_UPDATE))
         {
-            
-            if(!Utilities.isAlphaNumeric(getUserAdd().getPassword()))
+            if(getUserUpdate().getPassword() != null && getUserUpdate().getPassword().length() > 0)
             {
-                addError(null, "Error al crear el usuario", "El password no debe contener carácteres especiales");
-                return TAB_USERS;
+                
+                if(!Utilities.isAlphaNumeric(getUserUpdate().getPassword()))
+                {
+                    addError(null, "Error al actualizar el usuario", "El password no debe contener carácteres especiales");
+                    return TAB_USERS_UPDATE;
+                }
+                else if(getUserUpdate().getPassword() != null && getUserUpdate().getPassword().length() < 4)
+                {
+                    addError(null, "Error al actualizar el usuario", "El password debe tener un mínimo de (4) cuatro carácteres ");
+                    return TAB_USERS_UPDATE;
+                }
             }
-            else if(getUserAdd().getPassword().length() < 4)
+            else
             {
-                addError(null, "Error al crear el usuario", "El password debe tener un mínimo de (4) cuatro carácteres ");
-                return TAB_USERS;
+                getUserUpdate().setPassword(lastPassword);
             }
             for(ScUsers users: getUsersList())
             {
-                if(getUserAdd().getLogin().equalsIgnoreCase(users.getLogin()))
+                if(getUserUpdate().getLogin().equalsIgnoreCase(users.getLogin()) &&
+                        !getUserUpdate().getLogin().equalsIgnoreCase(getLastUser()))
                 {
-                    addError(null, "Error al crear el usuario", "El nombre de usuario ya existe!");
-                    return TAB_USERS;
+                    addError(null, "Error al actualizar el usuario", "El nombre de usuario ya existe!");
+                    return TAB_USERS_UPDATE;
                 }
             }
         }
-        else if(event.getOldStep().equals(TAB_PERSONS))
+        else if(event.getOldStep().equals(TAB_PERSONS_UPDATE))
         {
-            if(getPersonSelectedAdd() == null || getPersonSelectedAdd().getIdPerson() == null)
+            if(getUserUpdate() == null || getUserUpdate().getIdPerson() == null)
             {
                 addError(null, "Error al crear el usuario", "Debe seleccionar una persona");
-                return TAB_PERSONS;
+                return TAB_PERSONS_UPDATE;
             }
         }
-        else if(event.getOldStep().equals(TAB_ROLES))
+        else if(event.getOldStep().equals(TAB_ROLES_UPDATE))
         {
-            if(getRoleSelectedAdd() == null || getRoleSelectedAdd().getIdRole() == null)
+            if(getUserUpdate() == null || getUserUpdate().getIdRole() == null)
             {
                 addError(null, "Error al crear el usuario", "Debe seleccionar un grupo o rol");
-                return TAB_ROLES;
+                return TAB_ROLES_UPDATE;
             }
         }
-        
-        
-            return event.getNewStep(); 
+        return event.getNewStep(); 
     }
     
     public void cleanFields()
@@ -252,14 +265,14 @@ public class ScusersBean
                 cleanFields();
                 log.info("Se guardo el usuario con total exito");
             }
-        }catch(Exception e)
+        }catch(Exception e) 
         {
             log.error("Error al crear el usuario",e);
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
-        
+          
     
-    }
+    } 
     
     
     public void updateUser()
@@ -268,20 +281,21 @@ public class ScusersBean
         try
         {
             if(getUserUpdate()!= null)
-            {
+            {   
                 getUserUpdate().setModifyDate(new Date());
-                getUserUpdate().setPassword(Utilities.encriptaEnMD5(getUserUpdate().getPassword()));
-                getScUsersServer().updateUser(getUserAdd());
+                if(!getUserUpdate().getPassword().equals(lastPassword))
+                {
+                    getUserUpdate().setPassword(Utilities.encriptaEnMD5(getUserUpdate().getPassword()));
+                }
+                getScUsersServer().updateUser(getUserUpdate());
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                 log.info("Se actualizó el usuario con total exito");
             }
-        }catch(Exception e)
+        }catch(Exception e) 
         {
             log.error("Error al actualizar el usuario",e);
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
-        
-    
     }
     
     public void getUserByDataTableUpdate(ScUsers userSelected)
@@ -292,8 +306,11 @@ public class ScusersBean
             {
                 setUserUpdate(userSelected);
                 setUpdatePassword2(userSelected.getPassword());
+                setLastUser(userSelected.getLogin());
+                setLastPassword(userSelected.getPassword());
                 if(getPersonsList() != null)
-                {
+                {   
+                    setPersonsListUpdate(new ArrayList<ScPerson>());
                     setPersonsListUpdate(getPersonsList());
                     getPersonsListUpdate().add(userSelected.getIdPerson());
                 }
@@ -598,6 +615,22 @@ public class ScusersBean
     public void setPersonsListUpdate(List<ScPerson> personsListUpdate)
     {
         this.personsListUpdate = personsListUpdate;
+    }
+
+    public String getLastUser() {
+        return lastUser;
+    }
+
+    public void setLastUser(String lastUser) {
+        this.lastUser = lastUser;
+    }
+
+    public String getLastPassword() {
+        return lastPassword;
+    }
+
+    public void setLastPassword(String lastPassword) {
+        this.lastPassword = lastPassword;
     }
     
     
