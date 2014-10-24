@@ -311,7 +311,10 @@ public class ScusersBean
                 if(getPersonsList() != null)
                 {   
                     setPersonsListUpdate(new ArrayList<ScPerson>());
-                    setPersonsListUpdate(getPersonsList());
+                    for(ScPerson person: getPersonsList())
+                    {
+                        getPersonsListUpdate().add(person);
+                    }
                     getPersonsListUpdate().add(userSelected.getIdPerson());
                 }
             }

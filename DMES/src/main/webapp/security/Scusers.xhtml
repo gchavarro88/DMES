@@ -133,7 +133,7 @@
                                             oncomplete="PF('wizardSave').loadStep('tabUser', false)"
                                                             />
                                             <p:spacer width="30"/>
-                                            <p:commandButton id="btnCancelUser" value="Cancelar" oncomplete="PF('dialogUserSave').hide()"
+                                            <p:commandButton id="btnCancelUser" value="Cancelar" oncomplete="PF('dialogUserSave').hide();PF('wizardSave').loadStep('tabUser', false)"
                                                              actionListener="#{scusersBean.cleanFields()}"/>
                                         </td>
                                     </tr>
@@ -296,10 +296,11 @@
                                         <td width="98%" colspan="2">
                                             <p:commandButton id="btnSaveUserUpdate" value="Actualizar Usuario" onsuccess="PF('dialogUserUpdate').hide()"
                                             actionListener="#{scusersBean.updateUser()}" update=":formUsers:scUsersDataTable,:formWizardUpdate"
-                                            oncomplete="PF('wizardUpdate').loadStep('tabUser', false)"
+                                            oncomplete="PF('wizardUpdate').loadStep('tabUserUpdate', false)"
                                                             />
                                             <p:spacer width="30"/>
-                                            <p:commandButton id="btnCancelUserUpdate" value="Cancelar" oncomplete="PF('dialogUserUpdate').hide()"
+                                            <p:commandButton id="btnCancelUserUpdate" value="Cancelar" 
+                                                             oncomplete="PF('dialogUserUpdate').hide();PF('wizardUpdate').loadStep('tabUserUpdate', false)"
                                                              />
                                         </td>
                                     </tr>
