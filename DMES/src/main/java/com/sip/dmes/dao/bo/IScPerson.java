@@ -20,7 +20,7 @@ public interface IScPerson {
      *
      * @param ScPerson ScPerson
      */
-    public void addScPerson(ScPerson ScPerson);
+    public void createScPerson(ScPerson ScPerson);
 
     /**
      * Update ScPerson
@@ -49,7 +49,7 @@ public interface IScPerson {
      *
      * @return 
      */
-    public List<ScPerson> getScPersons();
+    public List<ScPerson> getAllScPersons();
     
  
     //Consulta de las personas que aun no tienen Usuario

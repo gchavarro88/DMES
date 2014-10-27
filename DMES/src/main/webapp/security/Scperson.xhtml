@@ -27,9 +27,9 @@
 
                 <h:form id="formWizard">
                     <p:wizard  flowListener="#{scpersonBean.onFlowProcessSavePerson}" id="wizardSave" widgetVar="wizardSave">
-                        <p:tab title="Datos del Tercero" id="tabBasicDataSave" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Datos Básicos" id="tabBasicDataSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del Tercero">
-                            <p:panel header="Datos Básicos" >
+                            <p:panel header="Datos Básicos del Tercero" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="10%" align="right">
@@ -110,9 +110,9 @@
                                 </table>
                             </p:panel>
                         </p:tab> 
-                        <p:tab title="Teléfonos del Tercero" id="tabPhonesSave" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Teléfonos" id="tabPhonesSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los Teléfonos del Tercero">
-                            <p:panel header="Teléfonos" >
+                            <p:panel header="Teléfonos del Tercero" >
                               
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -124,7 +124,7 @@
                                                 </td>
                                                 <td width="60%">
                                                 <p:inputMask id="tfPhoneSave" value="#{scpersonBean.phoneAdd.numberPhone}" mask="9999999999"/>
-                                                <p:tooltip for="tfPhoneSave" value="Ingrese sólo números"/>
+                                                <p:tooltip for="tfPhoneSave" value="Ingrese sólo números, teniendo en cuenta el operador de cada número ejemplo 0325142402"/>
                                                 </td>
                                                 </tr>
                                                 <tr>
@@ -184,9 +184,9 @@
                                  
                             </p:panel>
                         </p:tab>
-                        <p:tab title="Correos del Tercero" id="tabMailsSave" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Correos" id="tabMailsSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los Correos del Tercero">
-                            <p:panel header="Correos" >
+                            <p:panel header="Correos del Tercero" >
                               
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -257,9 +257,321 @@
                                 </table>
                             </p:panel>
                         </p:tab>
+                        <p:tab title="Observaciones" id="tabObservationSave" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las Observaciones del Tercero">
+                            <p:panel header="Observaciones del Tercero" >
+                              
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                        <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfObservationTittleSave" value="Título"/>
+                                                </td>
+                                                <td width="60%">
+                                                <p:inputText id="tfObservationTittleSave" value="#{scpersonBean.personObservationsAdd.tittle}"/>
+                                                <p:tooltip for="tfObservationTittleSave" value="Ingrese el título de la observación a Realizar"/>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                <p:outputLabel for="tfObservationSave" value="Observación"/>
+                                                </td>
+                                                <td width="60%">
+                                                <p:inputTextarea id="tfObservationSave" value="#{scpersonBean.personObservationsAdd.observation}"/>
+                                                
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfObservationSave,tfObservationTittleSave,dataTableObservations"
+                                                            actionListener="#{scpersonBean.saveObservationsByPerson()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                        <p:dataTable id="dataTableObservations"
+                                                             var="observations" 
+                                                             value="#{scpersonBean.personObservationsList}"
+                                                             rowKey="#{observations.idPersonObservations}"
+                                                             draggableColumns="true"
+                                                             paginator="true" rows="15"  
+                                                             pageLinks="40" editable="true"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                             paginatorPosition="top"
+                                                             sortBy="#{observations.tittle}">
+                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditObservations}" />
+                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelObservations}" />
+                                            <p:column headerText="Título" sortBy="#{observations.tittle}">
+                                                        <p:cellEditor>
+                                                            <f:facet name="output"><h:outputText value="#{observations.tittle}" /></f:facet>
+                                                            <f:facet name="input"><p:inputText value="#{observations.tittle}" style="width:100%"/></f:facet>
+                                                        </p:cellEditor>
+                                                    </p:column>
+                                                    <p:column headerText="Observación" sortBy="#{observations.observation}">
+                                                        <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{observations.observation}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{observations.observation}" style="width:100%"/></f:facet>
+                                                        </p:cellEditor>
+                                                    </p:column>
+                                                    <p:column style="width:32px">
+                                                        <p:rowEditor />
+                                                    </p:column>
+                                                </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Especificaciones" id="tabSpecificationsSave" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las Espeficaciones del Tercero">
+                            <p:panel header="Especificaciones del Tercero" >
+                              
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                        <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfSpecificationTittleSave" value="Título"/>
+                                                </td>
+                                                <td width="60%">
+                                                <p:inputText id="tfSpecificationTittleSave" value="#{scpersonBean.personSpecificationsAdd.tittle}"/>
+                                                <p:tooltip for="tfSpecificationTittleSave" value="Ingrese el título de la Espeficación a Realizar"/>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                <p:outputLabel for="tfSpecificationSave" value="Especificación"/>
+                                                </td>
+                                                <td width="60%">
+                                                <p:inputTextarea id="tfSpecificationSave" value="#{scpersonBean.personSpecificationsAdd.specification}"/>
+                                                
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfSpecificationTittleSave,tfSpecificationSave,dataTableSpecifications"
+                                                            actionListener="#{scpersonBean.saveSpecificationsByPerson()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                        <p:dataTable id="dataTableSpecifications"
+                                                             var="specifications" 
+                                                             value="#{scpersonBean.personSpecificationsList}"
+                                                             rowKey="#{specifications.idPersonSpecifications}"
+                                                             draggableColumns="true"
+                                                             paginator="true" rows="15"  
+                                                             pageLinks="40" editable="true"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                             paginatorPosition="top"
+                                                             sortBy="#{specifications.tittle}">
+                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditSpecifications}" />
+                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelSpecifications}" />
+                                            <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                        <p:cellEditor>
+                                                            <f:facet name="output"><h:outputText value="#{specifications.tittle}" /></f:facet>
+                                                            <f:facet name="input"><p:inputText value="#{specifications.tittle}" style="width:100%"/></f:facet>
+                                                        </p:cellEditor>
+                                                    </p:column>
+                                                    <p:column headerText="Especificación" sortBy="#{specifications.specification}">
+                                                        <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{specifications.specification}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{specifications.specification}" style="width:100%"/></f:facet>
+                                                        </p:cellEditor>
+                                                    </p:column>
+                                                    <p:column style="width:32px">
+                                                        <p:rowEditor />
+                                                    </p:column>
+                                                </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Documentación" id="tabDocumentationsSave" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para la Documentación del Tercero">
+                            <p:panel header="Documentación del Tercero" >
+                              
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                    <h:form id="formLoadFiles" enctype="multipart/form-data" >
+                                        <table width="100%" cellspacing="10">
+                                            <tr>
+                                                <td width="40%" >
+                                            <p:outputLabel for="tfDocumentationTittleSave" value="Título"/>
+                                        </td>
+                                        <td width="60%">
+                                        <p:inputText id="tfDocumentationTittleSave" value="#{scpersonBean.personSpecificationsAdd.tittle}"/>
+                                        <p:tooltip for="tfDocumentationTittleSave" value="Ingrese el título del documento a cargar"/>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="40%">
+                                        <p:outputLabel for="tfDocumentationSave" value="Documento"/>
+                                        </td>
+                                        <td width="60%">
+                                        <p:fileUpload id="tfDocumentationSave" style="background: #000; color: #FFF; width: 100%" label="Examinar" mode="simple" 
+                                                      value="#{scpersonBean.upLoadFile}"
+                                                      />
+
+                                        </td>
+                                        </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" ajax="false" disabled="true"
+                                                            update="tfDocumentationTittleSave,tfDocumentationSave,dataTableDocumentation"
+                                                            actionListener="#{scpersonBean.uploadFile()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                    </h:form>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                        <p:dataTable id="dataTableDocumentation"
+                                                             var="documentation" 
+                                                             value="#{scpersonBean.personDocumentationAttachedsList}"
+                                                             rowKey="#{documentation.idPersonDocumentationAttached}"
+                                                             draggableColumns="true"
+                                                             paginator="true" rows="15"  
+                                                             pageLinks="40" editable="true"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                             paginatorPosition="top"
+                                                             sortBy="#{documentation.tittle}">
+                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditDocumentations}" />
+                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelDocumentations}" />
+                                            <p:column headerText="Título" sortBy="#{documentation.tittle}">
+                                                        <p:cellEditor>
+                                                            <f:facet name="output"><h:outputText value="#{documentation.tittle}" /></f:facet>
+                                                            <f:facet name="input"><p:inputText value="#{documentation.tittle}" style="width:100%"/></f:facet>
+                                                        </p:cellEditor>
+                                                    </p:column>
+                                            <p:column headerText="Fecha de Creación" sortBy="#{documentation.creationDate}">
+                                                <h:outputText value="#{documentation.creationDate}" />
+                                            </p:column>
+                                            <p:column style="width:32px">
+                                                <p:rowEditor />
+                                            </p:column>
+                                        </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Confirmar" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para Confirmar los Cambios del Tercero">
+                            <p:panel header="Datos del Tercero" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowLastName" value="Apellidos"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowLastName" value="#{scpersonBean.personAdd.lastName}"/>
+                                        </td>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowFirstName" value="Nombres"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowFirstName" value="#{scpersonBean.personAdd.firstName}"/>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowAge" value="Edad"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowAge" value="#{scpersonBean.personAdd.age}"/>
+                                        </td>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowDomicilie" value="Dirección"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowDomicilie" value="#{scpersonBean.personAdd.domicilie}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowCountry" value="País"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowCountry" value="#{scpersonBean.personAdd.country}"/>
+                                        </td>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowCity" value="Ciudad"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowCity" value="#{scpersonBean.personAdd.city}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowDescription" value="País"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowDescription" value="#{scpersonBean.personAdd.description}"/>
+                                            <p:tooltip for="lblShowDescription" value="#{scpersonBean.personAdd.description}"/>
+                                        </td>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowStudies" value="Estudios"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowStudies" value="#{scpersonBean.personAdd.studies}"/>
+                                            <p:tooltip for="lblShowStudies" value="#{scpersonBean.personAdd.studies}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowPersonalInformation" value="Información Personal"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowPersonalInformation" value="#{scpersonBean.personAdd.personalInformation}"/>
+                                            <p:tooltip for="lblShowPersonalInformation" value="#{scpersonBean.personAdd.personalInformation}"/>
+                                        </td>
+                                        <td width="10%">
+                                            <p:outputLabel for="lblShowCreationDate" value="Fecha De Creación"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:outputLabel id="lblShowCreationDate" value="#{scpersonBean.personAdd.creationDate}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <center>
+                                                <p:commandButton value="Guardar" onsuccess="PF('dialogPersonSave').hide();PF('wizardSave').loadStep('tabBasicDataSave', false)" 
+                                                                 actionListener="#{scpersonBean.savePerson()}" 
+                                                                 update=":formPerson:dataTablePersons,:formWizard"/>
+                                                <p:spacer width="20"/>
+                                                <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonSave').hide();PF('wizardSave').loadStep('tabBasicDataSave', false)" />
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
                     </p:wizard>
                 </h:form>
-
+                
             </p:dialog>
             <!--         finaliza el dialogo para guardar Usuarios               -->
             
@@ -316,7 +628,7 @@
 
                     <p:column headerText="Edad" sortBy="#{person.age}">
                         <p:outputLabel value="#{person.age}" id="lblAge"/>
-                        <p:tooltip for="lblAge" value="#{person.age}"/>
+                        <p:tooltip for="lblAge" value="#{person.age}"/> 
                     </p:column>
 
                     <p:column headerText="Pais" sortBy="#{person.country}">

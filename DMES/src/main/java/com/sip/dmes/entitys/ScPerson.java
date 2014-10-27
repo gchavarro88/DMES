@@ -50,18 +50,7 @@ import javax.validation.constraints.Size;
 })
 public class ScPerson implements Serializable
 {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList;
-     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPersonObservations> scPersonObservationsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScMails> scMailsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPhones> scPhonesList;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPersonSpecifications> scPersonSpecificationsList;
+   
     private static final long serialVersionUID = 1L;
     
     @GeneratedValue(generator = "dmes.sqscpersons")
@@ -122,7 +111,19 @@ public class ScPerson implements Serializable
     @Column(name = "modify_date")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
+     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList;
+     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPersonObservations> scPersonObservationsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScMails> scMailsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPhones> scPhonesList;
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
+    private List<ScPersonSpecifications> scPersonSpecificationsList;
 
     public ScPerson()
     {
@@ -133,7 +134,9 @@ public class ScPerson implements Serializable
         this.idPerson = idPerson;
     }
 
-    public ScPerson(Long idPerson, String firstName, String lastName, short age, String country, String city, String domicilie, String pathPhoto, Date creationDate)
+    public ScPerson(Long idPerson, String firstName, String lastName, 
+            short age, String country, String city, String domicilie, 
+            String pathPhoto, Date creationDate)
     {
         this.idPerson = idPerson;
         this.firstName = firstName;

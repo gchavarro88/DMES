@@ -6,6 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -53,6 +56,9 @@ public class ScPersonDocumentationAttached implements Serializable
     @Size(min = 1, max = 2000)
     @Column(name = "path")
     private String path;
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)
     private ScPerson idPerson;
@@ -113,34 +119,16 @@ public class ScPersonDocumentationAttached implements Serializable
         this.idPerson = idPerson;
     }
 
-    @Override
-    public int hashCode()
+    public Date getCreationDate()
     {
-        int hash = 0;
-        hash += (idPersonDocumentationAttached != null ? idPersonDocumentationAttached.hashCode() : 0);
-        return hash;
+        return creationDate;
     }
 
-    @Override
-    public boolean equals(Object object)
+    public void setCreationDate(Date creationDate)
     {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScPersonDocumentationAttached))
-        {
-            return false;
-        }
-        ScPersonDocumentationAttached other = (ScPersonDocumentationAttached) object;
-        if ((this.idPersonDocumentationAttached == null && other.idPersonDocumentationAttached != null) || (this.idPersonDocumentationAttached != null && !this.idPersonDocumentationAttached.equals(other.idPersonDocumentationAttached)))
-        {
-            return false;
-        }
-        return true;
+        this.creationDate = creationDate;
     }
 
-    @Override
-    public String toString()
-    {
-        return "com.sip.dmes.entitys.ScPersonDocumentationAttached[ idPersonDocumentationAttached=" + idPersonDocumentationAttached + " ]";
-    }
+
     
 }

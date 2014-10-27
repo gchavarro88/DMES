@@ -52,7 +52,7 @@ public class ScMails implements Serializable
     @Column(name = "description")
     private String description;
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private ScPerson idPerson;
 
     public ScMails()

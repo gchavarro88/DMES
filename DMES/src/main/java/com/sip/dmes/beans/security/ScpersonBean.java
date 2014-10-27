@@ -18,23 +18,26 @@ import com.sip.dmes.entitys.ScPersonDocumentationAttached;
 import com.sip.dmes.entitys.ScPersonObservations;
 import com.sip.dmes.entitys.ScPersonSpecifications;
 import com.sip.dmes.entitys.ScPhones;
+import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
  * @author user
  */
-public class ScpersonBean {
+public class ScpersonBean
+{
 
     private final static Logger log = Logger.getLogger(ScpersonBean.class);
 
@@ -50,6 +53,9 @@ public class ScpersonBean {
     private List<ScPerson> scPersons;
     private List<ScPerson> scPersonsUpdate;
     private List<ScPhones> personPhoneList;
+    private List<ScPersonObservations> personObservationsList;
+    private List<ScPersonSpecifications> personSpecificationsList;
+    private List<ScPersonDocumentationAttached> personDocumentationAttachedsList;
     private List<ScMails> personMailList;
     private List<ScPersonDocumentationAttached> personScPersonDocumentationAttachedList;
     private List<ScPersonObservations> personScPersonObservationsList;
@@ -58,32 +64,24 @@ public class ScpersonBean {
     private ScPerson personUpdate;
     private ScPhones phoneAdd;
     private ScMails mailAdd;
-    private ScPersonDocumentationAttached personDocumentationAttached;
-    private ScPersonObservations personObservations;
-    private ScPersonSpecifications personSpecifications;
-    //Datos primitivos
-    private String telephon;
-    private String telephonDescription;
-    private String mail;
-    private String MailDescription;
+    private ScPersonObservations personObservationsAdd;
+    private ScPersonSpecifications personSpecificationsAdd;
+    private ScPersonDocumentationAttached personDocumentationAttachedAdd;
+    private UploadedFile upLoadFile; //Objeto que permite traer un archivo que se copiará
+    private int MAX_SIZE_FILE;
+    private String EXTENSION_FILE;
     //Constantes
     private final String TAB_BASIC_DATA = "tabBasicDataSave";
-
+    private final String TAB_CONFIRM_SAVE = "tabConfirmSave";
     @PostConstruct
     public void initData()
     {
-
+ 
         fillPersonsList();
-        setPhoneAdd(new ScPhones());
-        setMailAdd(new ScMails());
-        setPersonAdd(new ScPerson());
-        setPersonPhoneList(new ArrayList<ScPhones>());
-        setPersonMailList(new ArrayList<ScMails>());
-        setPersonScPersonObservationsList(new ArrayList<ScPersonObservations>());
-        setPersonScPersonSpecifications(new ArrayList<ScPersonSpecifications>());
+        cleanValues();
 
     }
-    
+
     /**
      * Método encargado de cargar la lista de personas para mostrarse en la
      * tabla inicial
@@ -96,7 +94,7 @@ public class ScpersonBean {
         {
             if (getScPersons() == null)
             {
-                setScPersons(scPersonServer.getScPersons());
+                setScPersons(scPersonServer.getAllScPersons());
             }
         }
         catch (Exception e)
@@ -105,45 +103,113 @@ public class ScpersonBean {
         }
     }
 
-    public String onFlowProcessSavePerson(FlowEvent event) 
+    public void cleanValues()
     {
-        if(event.getOldStep().equalsIgnoreCase(TAB_BASIC_DATA))
+        setPhoneAdd(new ScPhones());
+        setMailAdd(new ScMails());
+        setPersonObservationsAdd(new ScPersonObservations());
+        setPersonSpecificationsAdd(new ScPersonSpecifications());
+        setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
+        setPersonAdd(new ScPerson());
+        setPersonObservationsList(new ArrayList<ScPersonObservations>());
+        setPersonSpecificationsList(new ArrayList<ScPersonSpecifications>());
+        setPersonDocumentationAttachedsList(new ArrayList<ScPersonDocumentationAttached>());
+        setPersonPhoneList(new ArrayList<ScPhones>());
+        setPersonMailList(new ArrayList<ScMails>());
+        setPersonScPersonObservationsList(new ArrayList<ScPersonObservations>());
+        setPersonScPersonSpecifications(new ArrayList<ScPersonSpecifications>());
+    }
+    public void savePerson()
+    {
+        try
         {
-            if(getPersonAdd().getLastName()== null || getPersonAdd().getLastName().length() < 1)
+            if(getPersonAdd() != null )
+            {
+                if(getPersonPhoneList() != null && !getPersonPhoneList().isEmpty())
+                {
+                    getPersonAdd().setScPhonesList(getPersonPhoneList());
+                }
+                if(getPersonMailList() != null && !getPersonMailList().isEmpty())
+                {
+                    getPersonAdd().setScMailsList(getPersonMailList());
+                }
+                if(getPersonObservationsList() != null && !getPersonObservationsList().isEmpty())
+                {
+                    getPersonAdd().setScPersonObservationsList(getPersonObservationsList());
+                }
+                if(getPersonSpecificationsList()!= null && !getPersonSpecificationsList().isEmpty())
+                {
+                    getPersonAdd().setScPersonSpecificationsList(getPersonSpecificationsList());
+                }
+                if(getPersonDocumentationAttachedsList()!= null && !getPersonDocumentationAttachedsList().isEmpty())
+                {
+                    getPersonAdd().setScPersonDocumentationAttachedList(getPersonDocumentationAttachedsList());
+                }
+                getPersonAdd().setPathPhoto("/");
+                getScPersonServer().createScPerson(getPersonAdd());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                getScPersons().add(getPersonAdd());
+                cleanValues();
+            }
+            else
+            {
+                log.error("Error al intentar crear un tercero");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar crear un tercero", e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    
+    }
+    
+    public String onFlowProcessSavePerson(FlowEvent event)
+    {
+        if (event.getOldStep().equalsIgnoreCase(TAB_BASIC_DATA))
+        {
+            if (getPersonAdd().getLastName() == null || getPersonAdd().getLastName().length() < 1)
             {
                 addError(null, "Error al crear un tercero", "Debe ingrear apellidos válidos");
                 return event.getOldStep();
             }
-            else if(getPersonAdd().getFirstName()== null || getPersonAdd().getFirstName().length() < 1)
+            else if (getPersonAdd().getFirstName() == null || getPersonAdd().getFirstName().length() < 1)
             {
                 addError(null, "Error al crear un tercero", "Debe ingrear nombres válidos");
                 return event.getOldStep();
             }
-            else if(getPersonAdd().getFirstName()== null || getPersonAdd().getFirstName().length() < 1)
+            else if (getPersonAdd().getFirstName() == null || getPersonAdd().getFirstName().length() < 1)
             {
                 addError(null, "Error al crear un tercero", "Debe ingrear nombres válidos");
                 return event.getOldStep();
             }
-            else if(getPersonAdd().getAge() < 18)
+            else if (getPersonAdd().getAge() < 18)
             {
                 addError(null, "Error al crear un tercero", "Debe ingresar una edad válida");
                 return event.getOldStep();
             }
-            else if(getPersonAdd().getDomicilie()== null || getPersonAdd().getDomicilie().length() < 1)
+            else if (getPersonAdd().getDomicilie() == null || getPersonAdd().getDomicilie().length() < 1)
             {
                 addError(null, "Error al crear un tercero", "Debe ingrear una dirección válida");
                 return event.getOldStep();
             }
         }
-        return event.getNewStep(); 
+        else if(event.getNewStep().equalsIgnoreCase(TAB_CONFIRM_SAVE))
+        {
+            getPersonAdd().setCreationDate(new Date());
+        }
+        
+        return event.getNewStep();
     }
-    
+
     public void savePhonesByPerson()
     {
-        if(getPersonPhoneList() != null)
+        if (getPersonPhoneList() != null)
         {
-            if(getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0)
+            if (getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0)
             {
+                getPhoneAdd().setIdPerson(getPersonAdd());
                 getPersonPhoneList().add(getPhoneAdd());
                 setPhoneAdd(new ScPhones());
             }
@@ -154,15 +220,16 @@ public class ScpersonBean {
             }
         }
     }
-    
+
     public void saveMailsByPerson()
     {
-        if(getPersonMailList()!= null)
+        if (getPersonMailList() != null)
         {
-            if(getMailAdd()!= null && getMailAdd().getMail().length() > 0)
+            if (getMailAdd() != null && getMailAdd().getMail().length() > 0)
             {
-                if(Utilities.isEmail(getMailAdd().getMail()))
+                if (Utilities.isEmail(getMailAdd().getMail()))
                 {
+                    getMailAdd().setIdPerson(getPersonAdd());
                     getPersonMailList().add(getMailAdd());
                     setMailAdd(new ScMails());
                 }
@@ -170,7 +237,7 @@ public class ScpersonBean {
                 {
                     addError(null, "Creación de correo", "El correo no tiene el formato indicado xxxxxxxx@xxxx.xxx");
                 }
-                
+
             }
             else
             {
@@ -179,131 +246,187 @@ public class ScpersonBean {
             }
         }
     }
- 
-    public void onRowEditPhones(RowEditEvent event) 
+    
+    public void saveSpecificationsByPerson()
+    {
+        if (getPersonSpecificationsList()!= null)
+        {
+            if (getPersonSpecificationsAdd()!= null && getPersonSpecificationsAdd().getTittle().length() > 0)
+            {
+                if (getPersonSpecificationsAdd().getSpecification().length() > 0)
+                {
+                    getPersonSpecificationsAdd().setIdPerson(getPersonAdd());
+                    getPersonSpecificationsList().add(getPersonSpecificationsAdd());
+                    setPersonSpecificationsAdd(new ScPersonSpecifications());
+                }
+                else
+                {
+                    addError(null, "Creación de correo", "Debe ingresar una especificación válida");
+                }
+            }
+            else
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar un título de especificación válido");
+                setPersonSpecificationsAdd(new ScPersonSpecifications());
+            }
+        }
+    }
+
+    /**
+     * Método encargado de subir el archivo y copiarlo al servidor, para posteriormente
+     * dejar un registro en la base de datos.
+     * @param option permite decidir si se hará un copiado sencillo o especial
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     * @throws java.io.IOException
+     */
+    public void uploadFile() throws Exception
+    {
+       long MegabytesChangeToBytes = ((1024)*(1024));
+       
+    }
+    
+    public void saveObservationsByPerson()
+    {
+        if (getPersonObservationsList()!= null)
+        {
+            if (getPersonObservationsAdd()!= null && getPersonObservationsAdd().getTittle().length() > 0)
+            {
+                if (getPersonObservationsAdd().getObservation().length() > 0)
+                {
+                    getPersonObservationsAdd().setIdPerson(getPersonAdd());
+                    getPersonObservationsList().add(getPersonObservationsAdd());
+                    setPersonObservationsAdd(new ScPersonObservations());
+                }
+                else
+                {
+                    addError(null, "Creación de correo", "Debe ingresar una observación válida");
+                }
+            }
+            else
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar un título de observación válido");
+                setPersonObservationsAdd(new ScPersonObservations());
+            }
+        }
+    }
+    public void onRowEditPhones(RowEditEvent event)
     {
         log.info("Se editó un teléfono de la lista para terceros a crear");
         addInfo(null, "Crear Teléfono", "Se editó satisfactoriamente el teléfono");
     }
-     
-    public void onRowCancelPhones(RowEditEvent event) 
+
+    public void onRowCancelPhones(RowEditEvent event)
     {
         log.info("Se canceló la edición de un teléfono de la lista para terceros a crear");
         addWarn(null, "Crear Teléfono", "Se canceló la edición del teléfono");
     }
+    public void onRowEditObservations(RowEditEvent event)
+    {
+        log.info("Se editó una observación de la lista para terceros a crear");
+        addInfo(null, "Crear Observación", "Se editó satisfactoriamente la observación");
+    }
+
+    public void onRowCancelObservations(RowEditEvent event)
+    {
+        log.info("Se canceló la edición de una observación de la lista para terceros a crear");
+        addWarn(null, "Crear Observación", "Se canceló la edición de la observación");
+    }
     
-    public void onRowEditMails(RowEditEvent event) 
+    public void onRowEditSpecifications(RowEditEvent event)
+    {
+        log.info("Se editó una especificación de la lista para terceros a crear");
+        addInfo(null, "Crear Especificación", "Se editó satisfactoriamente la especificación");
+    }
+
+    public void onRowCancelSpecifications(RowEditEvent event)
+    {
+        log.info("Se canceló la edición de una especificación de la lista para terceros a crear");
+        addWarn(null, "Crear Especificación", "Se canceló la edición de la especificación");
+    }
+    
+    public void onRowEditDocumentations(RowEditEvent event)
+    {
+        log.info("Se editó un documento de la lista para terceros a crear");
+        addInfo(null, "Crear Documento", "Se editó satisfactoriamente el documento");
+    }
+
+    public void onRowCancelDocumentations(RowEditEvent event)
+    {
+        log.info("Se canceló la edición del documento de la lista para terceros a crear");
+        addWarn(null, "Crear Documento", "Se canceló la edición del documento");
+    }
+    
+    public void onRowEditMails(RowEditEvent event)
     {
         log.info("Se editó el correo de la lista para terceros a crear");
         addInfo(null, "Crear Correo", "Se editó satisfactoriamente el correo");
     }
-     
-    public void onRowCancelMails(RowEditEvent event) 
+
+    public void onRowCancelMails(RowEditEvent event)
     {
         log.info("Se canceló la edición de un correo de la lista para terceros a crear");
         addWarn(null, "Crear Correo", "Se canceló la edición del correo");
     }
+
     
-
-    /**
-     * Método encargado de monitoriar el flujo del wizar y crear los nuevos
-     * objetos para el mismo informativo
-     *
-     * @param actionEvent Evento de donde es llamado
-     * @param tittle Título del mensaje
-     * @param message cuerpo del mensaje
-     * @author: Cristian Chaparro
-     */
-//    public String onFlowProcess(FlowEvent event) {
-//        //log.info("El evento paso" + event.getNewStep());
-//
-//        if (event.getOldStep().equals("tabPersona")) {
-//
-//            try {
-//
-//            } catch (Exception e) {
-//            }
-//
-//        }
-//        if (event.getNewStep().equals("tabPhone")) {
-//
-//            setMerPhone(new ScPhones());
-//            getMerPhone().setIdPerson(getMerPerson());
-//
-//        }
-//
-//        if (event.getNewStep().equals("tabMail")) {
-//            setMerMail(new ScMails());
-//            getMerMail().setIdPerson(getMerPerson());
-//        }
-//
-//        if (event.getNewStep().equals("tabObservations")) {
-//            setMerScPersonObservations(new ScPersonObservations());
-//            getMerScPersonObservations().setIdPerson(getMerPerson());
-//        }
-//
-//        if (event.getNewStep().equals("tabSpecifications")) {
-//            setMerScPersonSpecifications(new ScPersonSpecifications());
-//            getMerScPersonSpecifications().setIdPerson(getMerPerson());
-//        }
-//        return event.getNewStep();
-//    }
-
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo
      * informativo
-     *
+     * <p>
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void addInfo(ActionEvent actionEvent, String tittle, String message) {
+    public void addInfo(ActionEvent actionEvent, String tittle, String message)
+    {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, tittle, message));
     }
 
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo
      * Advertencia
-     *
+     * <p>
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void addWarn(ActionEvent actionEvent, String tittle, String message) {
+    public void addWarn(ActionEvent actionEvent, String tittle, String message)
+    {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, tittle, message));
     }
 
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo Error
-     *
+     * <p>
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void addError(ActionEvent actionEvent, String tittle, String message) {
+    public void addError(ActionEvent actionEvent, String tittle, String message)
+    {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, tittle, message));
     }
 
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo Fatal
-     *
+     * <p>
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void addFatal(ActionEvent actionEvent, String tittle, String message) {
+    public void addFatal(ActionEvent actionEvent, String tittle, String message)
+    {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
 
-    
-
     /**
      * Métodos Getters And Setters.
-     **/
+     *
+     */
     public IScPerson getScPersonServer()
     {
         return scPersonServer;
@@ -484,75 +607,95 @@ public class ScpersonBean {
         this.mailAdd = mailAdd;
     }
 
-    public ScPersonDocumentationAttached getPersonDocumentationAttached()
+    public List<ScPersonObservations> getPersonObservationsList()
     {
-        return personDocumentationAttached;
+        return personObservationsList;
     }
 
-    public void setPersonDocumentationAttached(ScPersonDocumentationAttached personDocumentationAttached)
+    public void setPersonObservationsList(List<ScPersonObservations> personObservationsList)
     {
-        this.personDocumentationAttached = personDocumentationAttached;
+        this.personObservationsList = personObservationsList;
     }
 
-    public ScPersonObservations getPersonObservations()
+    public List<ScPersonSpecifications> getPersonSpecificationsList()
     {
-        return personObservations;
+        return personSpecificationsList;
     }
 
-    public void setPersonObservations(ScPersonObservations personObservations)
+    public void setPersonSpecificationsList(List<ScPersonSpecifications> personSpecificationsList)
     {
-        this.personObservations = personObservations;
+        this.personSpecificationsList = personSpecificationsList;
     }
 
-    public ScPersonSpecifications getPersonSpecifications()
+    public List<ScPersonDocumentationAttached> getPersonDocumentationAttachedsList()
     {
-        return personSpecifications;
+        return personDocumentationAttachedsList;
     }
 
-    public void setPersonSpecifications(ScPersonSpecifications personSpecifications)
+    public void setPersonDocumentationAttachedsList(List<ScPersonDocumentationAttached> personDocumentationAttachedsList)
     {
-        this.personSpecifications = personSpecifications;
+        this.personDocumentationAttachedsList = personDocumentationAttachedsList;
     }
 
-    public String getTelephon()
+    public ScPersonObservations getPersonObservationsAdd()
     {
-        return telephon;
+        return personObservationsAdd;
     }
 
-    public void setTelephon(String telephon)
+    public void setPersonObservationsAdd(ScPersonObservations personObservationsAdd)
     {
-        this.telephon = telephon;
+        this.personObservationsAdd = personObservationsAdd;
     }
 
-    public String getTelephonDescription()
+    public ScPersonSpecifications getPersonSpecificationsAdd()
     {
-        return telephonDescription;
+        return personSpecificationsAdd;
     }
 
-    public void setTelephonDescription(String telephonDescription)
+    public void setPersonSpecificationsAdd(ScPersonSpecifications personSpecificationsAdd)
     {
-        this.telephonDescription = telephonDescription;
+        this.personSpecificationsAdd = personSpecificationsAdd;
     }
 
-    public String getMail()
+    public ScPersonDocumentationAttached getPersonDocumentationAttachedAdd()
     {
-        return mail;
+        return personDocumentationAttachedAdd;
     }
 
-    public void setMail(String mail)
+    public void setPersonDocumentationAttachedAdd(ScPersonDocumentationAttached personDocumentationAttachedAdd)
     {
-        this.mail = mail;
+        this.personDocumentationAttachedAdd = personDocumentationAttachedAdd;
     }
 
-    public String getMailDescription()
+    public UploadedFile getUpLoadFile()
     {
-        return MailDescription;
+        return upLoadFile;
     }
 
-    public void setMailDescription(String MailDescription)
+    public void setUpLoadFile(UploadedFile upLoadFile)
     {
-        this.MailDescription = MailDescription;
+        this.upLoadFile = upLoadFile;
     }
-    
+
+    public int getMAX_SIZE_FILE()
+    {
+        return MAX_SIZE_FILE;
+    }
+
+    public void setMAX_SIZE_FILE(int MAX_SIZE_FILE)
+    {
+        this.MAX_SIZE_FILE = MAX_SIZE_FILE;
+    }
+
+    public String getEXTENSION_FILE()
+    {
+        return EXTENSION_FILE;
+    }
+
+    public void setEXTENSION_FILE(String EXTENSION_FILE)
+    {
+        this.EXTENSION_FILE = EXTENSION_FILE;
+    }
+
     
 }
