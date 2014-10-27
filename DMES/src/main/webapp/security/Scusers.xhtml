@@ -389,7 +389,8 @@
                              sortBy="#{user.login}"
                              >
                     <f:facet name="header">
-                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  actionListener="#{scusersBean.fillListPersonsAvailables()}"
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                         actionListener="#{scusersBean.fillListPersonsAvailables()}"
                                          oncomplete="PF('dialogUserSave').show()">
                             <p:tooltip for="btnAdd" value="Agregar un Usuario"/>
                         </p:commandButton>
@@ -427,8 +428,7 @@
                             <p:tooltip for="lblNames" value="#{user.idPerson.lastName} #{user.idPerson.firstName}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnRolName" headerText="Grupo o Rol" 
-                              sortBy="#{user.idRole.name}">    
+                    <p:column id="columnRolName" headerText="Grupo o Rol" sortBy="#{user.idRole.name}">    
                         <center>
                             <p:outputLabel value="#{user.idRole.name}" id="lblRoleName"/>
                             <p:tooltip for="lblRoleName" value="#{user.idRole.name}"/>

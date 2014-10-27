@@ -125,8 +125,8 @@
     </managed-bean>
     
     <managed-bean>
-        <managed-bean-name>personBean</managed-bean-name>
-        <managed-bean-class>com.sip.dmes.beans.login.PersonBean</managed-bean-class>
+        <managed-bean-name>scpersonBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.security.ScpersonBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
            <managed-property>
             <property-name>sessionBean</property-name>
@@ -165,8 +165,7 @@
             <property-name>scPersonSpecificationsServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScPersonSpecifications</property-class>
             <value>#{scPersonSpecificationsServer}</value>
-        </managed-property>
-    </managed-bean>
+        </managed-property></managed-bean>
  
     
 </faces-config>

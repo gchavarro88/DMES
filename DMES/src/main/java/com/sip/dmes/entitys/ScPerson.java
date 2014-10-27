@@ -12,10 +12,12 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,6 +63,9 @@ public class ScPerson implements Serializable
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonSpecifications> scPersonSpecificationsList;
     private static final long serialVersionUID = 1L;
+    
+    @GeneratedValue(generator = "dmes.sqscpersons")
+    @SequenceGenerator(name = "dmes.sqscpersons", sequenceName = "dmes.sqscpersons", allocationSize = 1)
     @Id
     @Basic(optional = false)
     @NotNull
@@ -294,12 +299,6 @@ public class ScPerson implements Serializable
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "com.sip.dmes.entitys.ScPerson[ idPerson=" + idPerson + " ]";
     }
 
     public List<ScPersonDocumentationAttached> getScPersonDocumentationAttachedList()
