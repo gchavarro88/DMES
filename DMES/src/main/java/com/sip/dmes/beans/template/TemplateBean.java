@@ -52,6 +52,11 @@ public class TemplateBean implements Serializable
     private HashMap<String, Integer> mapTabs; //Mapa de pestañas
     private int activeIndex; //pestaña activa
     private MenuModel model; //Modelo de menu para cerrar pestañas
+    private final String NODE_EXIT = "Cerrar Sesión";
+    private final String NODE_EXIT_ICON = "salir.png";
+    private final String NODE_EXIT_PAGE = "exit";
+    private final String NODE_EXIT_TYPE = "Folder";
+    private final Long NODE_EXIT_ID_FATHER = 1l;
     
 
     /** 
@@ -62,7 +67,7 @@ public class TemplateBean implements Serializable
     { 
         
     }
-    /**
+    /** 
      * Método encargado de construir la data incial del Main Frame de la aplicación.
      */
     @PostConstruct
@@ -166,6 +171,11 @@ public class TemplateBean implements Serializable
                     mapScModulePermissions.put(scModulePermissionSelected.getIdModulePermission().getIdModulePermission(),
                             nodeIteractive);
                 }
+                DefaultTreeNode nodeFather = mapScModulePermissions.get(NODE_EXIT_ID_FATHER);
+                nodeIteractive = new DefaultTreeNode(new ItemTreeIcon(NODE_EXIT, NODE_EXIT_TYPE, 
+                        NODE_EXIT_ICON, NODE_EXIT_PAGE, -1), nodeFather);
+                nodeIteractive.setType(NODE_EXIT_TYPE);
+                
             }
         }
         catch(Exception e)
