@@ -602,14 +602,14 @@
                                             <p:outputLabel  for="tfLastNameUpdate" value="Apellidos"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputText    id="tfLastNameUpdate"  value="#{scpersonBean.personAdd.lastName}"
+                                        <p:inputText    id="tfLastNameUpdate"  value="#{scpersonBean.personUpdate.lastName}"
                                         required="true" requiredMessage="Campo obligatorio debe ingresar los apellidos del tercero"/>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfFirstNameUpdate" value="Nombres"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputText    id="tfFirstNameUpdate"  value="#{scpersonBean.personAdd.firstName}"
+                                        <p:inputText    id="tfFirstNameUpdate"  value="#{scpersonBean.personUpdate.firstName}"
                                         required="true" requiredMessage="Campo obligatorio debe ingresar los nombres del tercero"/>
                                         </td>
                                     </tr>
@@ -618,53 +618,53 @@
                                             <p:outputLabel  for="tfAgeUpdate" value="Edad"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputMask    id="tfAgeUpdate"  value="#{scpersonBean.personAdd.age}"
+                                        <p:inputMask    id="tfAgeUpdate"  value="#{scpersonBean.personUpdate.age}"
                                                         mask="99" required="true" requiredMessage="Campo obligatorio debe ingresar la edad del tercero"/>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfCountry" value="País"/>
+                                            <p:outputLabel  for="tfCountryUpdate" value="País"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputText    id="tfCountry"  value="#{scpersonBean.personAdd.country}"
+                                        <p:inputText    id="tfCountryUpdate"  value="#{scpersonBean.personUpdate.country}"
                                                             required="true" requiredMessage="Campo obligatorio debe ingresar el país de nacionalidad del tercero"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfCity" value="Ciudad"/>
+                                            <p:outputLabel  for="tfCityUpdate" value="Ciudad"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputText    id="tfCity"  value="#{scpersonBean.personAdd.city}"
+                                        <p:inputText    id="tfCityUpdate"  value="#{scpersonBean.personUpdate.city}"
                                                             required="true" requiredMessage="Campo obligatorio debe ingresar la ciudad del tercero"/>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfDomicilie" value="Dirección"/>
+                                            <p:outputLabel  for="tfDomicilieUpdate" value="Dirección"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputText    id="tfDomicilie"  value="#{scpersonBean.personAdd.domicilie}"
+                                        <p:inputText    id="tfDomicilieUpdate"  value="#{scpersonBean.personUpdate.domicilie}"
                                                             required="true" requiredMessage="Campo obligatorio debe ingresar la dirección del tercero"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                            <p:outputLabel  for="tfDescriptionUpdate" value="Descripción"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputTextarea    id="tfDescription"  value="#{scpersonBean.personAdd.description}"/>
+                                        <p:inputTextarea    id="tfDescriptionUpdate"  value="#{scpersonBean.personUpdate.description}"/>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfPersonalInformation" value="Información Personal"/>
+                                            <p:outputLabel  for="tfPersonalInformationUpdate" value="Información Personal"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputTextarea    id="tfPersonalInformation"  value="#{scpersonBean.personAdd.personalInformation}"/>
+                                        <p:inputTextarea    id="tfPersonalInformationUpdate"  value="#{scpersonBean.personUpdate.personalInformation}"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfStudies" value="Estudios"/>
+                                            <p:outputLabel  for="tfStudiesUpdate" value="Estudios"/>
                                         </td>
                                         <td width="40%" align="left">
-                                        <p:inputTextarea    id="tfStudies"  value="#{scpersonBean.personAdd.studies}"/>
+                                        <p:inputTextarea    id="tfStudiesUpdate"  value="#{scpersonBean.personUpdate.studies}"/>
                                         </td>
                                         <td width="10%" align="right">
                                             
@@ -676,7 +676,7 @@
                                 </table>
                             </p:panel>
                         </p:tab> 
-                        <p:tab title="Teléfonos" id="tabPhonesSave" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Teléfonos" id="tabPhonesUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los Teléfonos del Tercero">
                             <p:panel header="Teléfonos del Tercero" >
                               
@@ -686,26 +686,26 @@
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
-                                                <p:outputLabel for="tfPhoneSave" value="Teléfono"/>
+                                                <p:outputLabel for="tfPhoneUpdate" value="Teléfono"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputMask id="tfPhoneSave" value="#{scpersonBean.phoneAdd.numberPhone}" mask="9999999999"/>
-                                                <p:tooltip for="tfPhoneSave" value="Ingrese sólo números, teniendo en cuenta el operador de cada número ejemplo 0325142402"/>
+                                                <p:inputMask id="tfPhoneUpdate" value="#{scpersonBean.personUpdate.numberPhone}" mask="9999999999"/>
+                                                <p:tooltip for="tfPhoneUpdate" value="Ingrese sólo números, teniendo en cuenta el operador de cada número ejemplo 0325142402"/>
                                                 </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="40%">
-                                                <p:outputLabel for="tfPhoneDescriptionSave" value="Descripción"/>
+                                                <p:outputLabel for="tfPhoneDescriptionUpdate" value="Descripción"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputTextarea id="tfPhoneDescriptionSave" value="#{scpersonBean.phoneAdd.description}"/>
+                                                <p:inputTextarea id="tfPhoneDescriptionUpdate" value="#{scpersonBean.personUpdate.description}"/>
                                                 
                                                 </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
-                                                            <p:commandButton value="Guardar" update="tfPhoneSave,tfPhoneDescriptionSave,dataTablePhones"
+                                                            <p:commandButton value="Guardar" update="tfPhoneUpdate,tfPhoneDescriptionUpdate,dataTablePhonesUpdate"
                                                             actionListener="#{scpersonBean.savePhonesByPerson()}"/>
                                                         </center>
                                                     </td>
@@ -714,9 +714,9 @@
                                             </table>
                                         </td>
                                         <td width="60%" align="center" valign="top">
-                                        <p:dataTable id="dataTablePhones" 
+                                        <p:dataTable id="dataTablePhonesUpdate" 
                                                              var="phones" 
-                                                             value="#{scpersonBean.personPhoneList}"
+                                                             value="#{scpersonBean.personUpdate.scPhonesList}"
                                                              rowKey="#{phones.idPhone}"
                                                              paginator="true" rows="15"  
                                                              pageLinks="40" editable="true"
@@ -1189,7 +1189,8 @@
                     <p:column headerText="Administración">
                         <center>
                             <p:commandButton  id="btnEdit"  actionListener="#{scpersonBean.getPersonByDataTable(person)}"
-                              icon="ui-icon-pencil">
+                            icon="ui-icon-pencil" update=":formWizardUpdate:wizardUpdate"
+                            oncomplete="PF('dialogPersonUpdate').show()"                  >
                                 <p:tooltip for="btnEdit" value="Editar un Tercero"/>
                             </p:commandButton>
 
