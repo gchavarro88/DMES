@@ -32,7 +32,8 @@ import javax.persistence.SequenceGenerator;
             @NamedQuery(name = "ScPhones.findAll", query = "SELECT s FROM ScPhones s"),
             @NamedQuery(name = "ScPhones.findByIdPhone", query = "SELECT s FROM ScPhones s WHERE s.idPhone = :idPhone"),
             @NamedQuery(name = "ScPhones.findByNumberPhone", query = "SELECT s FROM ScPhones s WHERE s.numberPhone = :numberPhone"),
-            @NamedQuery(name = "ScPhones.findByDescription", query = "SELECT s FROM ScPhones s WHERE s.description = :description")
+            @NamedQuery(name = "ScPhones.findByDescription", query = "SELECT s FROM ScPhones s WHERE s.description = :description"),
+            @NamedQuery(name = "ScPhones.deleteByPerson", query = "DELETE FROM ScPhones s WHERE s.idPerson = :idPerson")
         })
 public class ScPhones implements Serializable {
 

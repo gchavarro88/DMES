@@ -63,6 +63,7 @@ public class ScpersonBean
     private ScPerson personAdd;
     private ScPerson personUpdate;
     private ScPhones phoneAdd;
+    private ScPerson personSelected;
     private ScMails mailAdd;
     private ScPersonObservations personObservationsAdd;
     private ScPersonSpecifications personSpecificationsAdd;
@@ -221,6 +222,7 @@ public class ScpersonBean
         }
     }
 
+    
     public void saveMailsByPerson()
     {
         if (getPersonMailList() != null)
@@ -309,6 +311,107 @@ public class ScpersonBean
             }
         }
     }
+    
+    
+    public String onFlowProcessUpdatePerson(FlowEvent event)
+    {
+        if (event.getOldStep().equalsIgnoreCase(TAB_BASIC_DATA))
+        {
+            if (getPersonAdd().getLastName() == null || getPersonAdd().getLastName().length() < 1)
+            {
+                addError(null, "Error al crear un tercero", "Debe ingrear apellidos válidos");
+                return event.getOldStep();
+            }
+            else if (getPersonAdd().getFirstName() == null || getPersonAdd().getFirstName().length() < 1)
+            {
+                addError(null, "Error al crear un tercero", "Debe ingrear nombres válidos");
+                return event.getOldStep();
+            }
+            else if (getPersonAdd().getFirstName() == null || getPersonAdd().getFirstName().length() < 1)
+            {
+                addError(null, "Error al crear un tercero", "Debe ingrear nombres válidos");
+                return event.getOldStep();
+            }
+            else if (getPersonAdd().getAge() < 18)
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar una edad válida");
+                return event.getOldStep();
+            }
+            else if (getPersonAdd().getDomicilie() == null || getPersonAdd().getDomicilie().length() < 1)
+            {
+                addError(null, "Error al crear un tercero", "Debe ingrear una dirección válida");
+                return event.getOldStep();
+            }
+        }
+        else if(event.getNewStep().equalsIgnoreCase(TAB_CONFIRM_SAVE))
+        {
+            getPersonAdd().setCreationDate(new Date());
+        }
+        
+        return event.getNewStep();
+    }
+    
+    public void deletePerson()
+    {
+        if(getPersonSelected() != null)
+        {
+            try
+            {
+                getScPersonServer().deleteScPerson(getPersonSelected());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                for(ScPerson personDelete: getScPersons())
+                {
+                    if(personDelete.getIdPerson() == getPersonSelected().getIdPerson())
+                    {
+                        getScPersons().remove(personDelete);
+                        break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                log.info("Error intentando eliminar a una persona", e);
+                addError(null, "Error al intentar eliminar un tercero", 
+                        "Debe revisar si el terceron no tiene dependencias de Empleados, Usuarios, o Asociados");
+            }
+        }
+        else
+        {
+            log.info("Error intentando eliminar a una persona");
+            addError(null, "Error al intentar eliminar un tercero", "Debe revisar si el terceron no tiene dependencias de Empleados, Usuarios, o Asociados");
+        }
+    }
+    
+    
+    public void getPersonByDataTable(ScPerson scPersonSelected)
+    {
+        try
+        {
+            if(scPersonSelected != null)
+            {
+                setPersonSelected(scPersonSelected);
+            }
+            else
+            {
+                log.error("Error intentando asignar el tercero seleccionado para operaciones de CRUD");
+                addError(null, "Error al intentar seleccionar un tercero", "No se ha seleccionado un tercero para operaciones de crud");
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando asignar el tercero seleccionado para operaciones de CRUD",e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void onRowEditPhones(RowEditEvent event)
     {
         log.info("Se editó un teléfono de la lista para terceros a crear");
@@ -695,6 +798,16 @@ public class ScpersonBean
     public void setEXTENSION_FILE(String EXTENSION_FILE)
     {
         this.EXTENSION_FILE = EXTENSION_FILE;
+    }
+
+    public ScPerson getPersonSelected()
+    {
+        return personSelected;
+    }
+
+    public void setPersonSelected(ScPerson personSelected)
+    {
+        this.personSelected = personSelected;
     }
 
     

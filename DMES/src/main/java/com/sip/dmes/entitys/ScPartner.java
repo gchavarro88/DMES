@@ -38,7 +38,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScPartner.findByPosition", query = "SELECT s FROM ScPartner s WHERE s.position = :position"),
     @NamedQuery(name = "ScPartner.findByWebPage", query = "SELECT s FROM ScPartner s WHERE s.webPage = :webPage"),
     @NamedQuery(name = "ScPartner.findByCreationDate", query = "SELECT s FROM ScPartner s WHERE s.creationDate = :creationDate"),
-    @NamedQuery(name = "ScPartner.findByModifyDate", query = "SELECT s FROM ScPartner s WHERE s.modifyDate = :modifyDate")
+    @NamedQuery(name = "ScPartner.findByModifyDate", query = "SELECT s FROM ScPartner s WHERE s.modifyDate = :modifyDate"),
+    @NamedQuery(name = "ScPartner.deleteByPerson", query = "DELETE FROM ScPartner s WHERE s.idPerson = :idPerson")
 })
 public class ScPartner implements Serializable
 {

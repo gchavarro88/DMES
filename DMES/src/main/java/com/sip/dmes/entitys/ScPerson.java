@@ -62,6 +62,10 @@ public class ScPerson implements Serializable
     private Long idPerson;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "identification")
+    private Long identification;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "first_name")
     private String firstName;
@@ -114,14 +118,12 @@ public class ScPerson implements Serializable
      
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList;
-     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonObservations> scPersonObservationsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScMails> scMailsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPhones> scPhonesList;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
     private List<ScPersonSpecifications> scPersonSpecificationsList;
 
@@ -354,6 +356,16 @@ public class ScPerson implements Serializable
     public void setScPersonSpecificationsList(List<ScPersonSpecifications> scPersonSpecificationsList)
     {
         this.scPersonSpecificationsList = scPersonSpecificationsList;
+    }
+
+    public Long getIdentification()
+    {
+        return identification;
+    }
+
+    public void setIdentification(Long identification)
+    {
+        this.identification = identification;
     }
     
 }

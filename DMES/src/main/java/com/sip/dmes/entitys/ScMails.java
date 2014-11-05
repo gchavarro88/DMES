@@ -31,7 +31,8 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScMails.findAll", query = "SELECT s FROM ScMails s"),
     @NamedQuery(name = "ScMails.findByIdMail", query = "SELECT s FROM ScMails s WHERE s.idMail = :idMail"),
     @NamedQuery(name = "ScMails.findByMail", query = "SELECT s FROM ScMails s WHERE s.mail = :mail"),
-    @NamedQuery(name = "ScMails.findByDescription", query = "SELECT s FROM ScMails s WHERE s.description = :description")
+    @NamedQuery(name = "ScMails.findByDescription", query = "SELECT s FROM ScMails s WHERE s.description = :description"),
+    @NamedQuery(name = "ScMails.deleteByPerson", query = "DELETE FROM ScMails s WHERE s.idPerson = :idPerson")
 })
 public class ScMails implements Serializable
 {

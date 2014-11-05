@@ -64,7 +64,22 @@ public class ScPersonDao implements IScPerson
         int rowsDelete = 0;
         try
         {
-            Query query = entityManager.createNamedQuery("ScRoles.deleteByIdRole");
+            Query query = entityManager.createNamedQuery("ScMails.deleteByPerson");
+            query.setParameter("idPerson", ScPerson);
+            rowsDelete = query.executeUpdate();
+            query = entityManager.createNamedQuery("ScPhones.deleteByPerson");
+            query.setParameter("idPerson", ScPerson);
+            rowsDelete = query.executeUpdate();
+            query = entityManager.createNamedQuery("ScPersonDocumentationAttached.deleteByPerson");
+            query.setParameter("idPerson", ScPerson);
+            rowsDelete = query.executeUpdate();
+            query = entityManager.createNamedQuery("ScPersonObservations.deleteByPerson");
+            query.setParameter("idPerson", ScPerson);
+            rowsDelete = query.executeUpdate();
+            query = entityManager.createNamedQuery("ScPersonSpecifications.deleteByPerson");
+            query.setParameter("idPerson", ScPerson);
+            rowsDelete = query.executeUpdate();
+            query = entityManager.createNamedQuery("ScPerson.deleteByIdPerson");
             query.setParameter("idPerson", ScPerson.getIdPerson());
             rowsDelete = query.executeUpdate();
         }
