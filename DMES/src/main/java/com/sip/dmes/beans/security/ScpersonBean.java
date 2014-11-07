@@ -57,9 +57,11 @@ public class ScpersonBean
     private List<ScPersonSpecifications> personSpecificationsList;
     private List<ScPersonDocumentationAttached> personDocumentationAttachedsList;
     private List<ScMails> personMailList;
-    private List<ScPersonDocumentationAttached> personScPersonDocumentationAttachedList;
-    private List<ScPersonObservations> personScPersonObservationsList;
-    private List<ScPersonSpecifications> personScPersonSpecifications;
+    private List<ScPhones> personPhoneListBk;
+    private List<ScPersonObservations> personObservationsListBk;
+    private List<ScPersonSpecifications> personSpecificationsListBk;
+    private List<ScPersonDocumentationAttached> personDocumentationAttachedsListBk;
+    private List<ScMails> personMailListBk;
     private ScPerson personAdd;
     private ScPerson personUpdate;
     private ScPhones phoneAdd;
@@ -68,11 +70,17 @@ public class ScpersonBean
     private ScPersonObservations personObservationsAdd;
     private ScPersonSpecifications personSpecificationsAdd;
     private ScPersonDocumentationAttached personDocumentationAttachedAdd;
+    
     private UploadedFile upLoadFile; //Objeto que permite traer un archivo que se copiará
     private int MAX_SIZE_FILE;
     private String EXTENSION_FILE;
     //Constantes
     private final String TAB_BASIC_DATA = "tabBasicDataSave";
+    private final String TAB_PHONES_SAVE = "tabPhonesSave";
+    private final String TAB_MAILS_SAVE = "tabMailsSave";
+    private final String TAB_OBSERVATIONS_SAVE = "tabObservationSave";
+    private final String TAB_SPECIFICATIONS_SAVE = "tabSpecificationsSave";
+    private final String TAB_DOCUMENTATIONS_SAVE = "tabDocumentationsSave";
     private final String TAB_CONFIRM_SAVE = "tabConfirmSave";
     @PostConstruct
     public void initData()
@@ -117,8 +125,11 @@ public class ScpersonBean
         setPersonDocumentationAttachedsList(new ArrayList<ScPersonDocumentationAttached>());
         setPersonPhoneList(new ArrayList<ScPhones>());
         setPersonMailList(new ArrayList<ScMails>());
-        setPersonScPersonObservationsList(new ArrayList<ScPersonObservations>());
-        setPersonScPersonSpecifications(new ArrayList<ScPersonSpecifications>());
+        setPersonObservationsList(new ArrayList<ScPersonObservations>());
+        setPersonSpecificationsListBk(new ArrayList<ScPersonSpecifications>());
+        setPersonDocumentationAttachedsListBk(new ArrayList<ScPersonDocumentationAttached>());
+        setPersonPhoneListBk(new ArrayList<ScPhones>());
+        setPersonMailListBk(new ArrayList<ScMails>());
     }
     public void savePerson()
     {
@@ -213,6 +224,12 @@ public class ScpersonBean
                 getPhoneAdd().setIdPerson(getPersonAdd());
                 getPersonPhoneList().add(getPhoneAdd());
                 setPhoneAdd(new ScPhones());
+                ScPhones data = new ScPhones();
+                data.setIdPerson(getPersonAdd());
+                data.setDescription(getPhoneAdd().getDescription());
+                data.setNumberPhone(getPhoneAdd().getNumberPhone());
+                getPersonPhoneListBk().add(data);
+                
             }
             else
             {
@@ -234,6 +251,7 @@ public class ScpersonBean
                     getMailAdd().setIdPerson(getPersonAdd());
                     getPersonMailList().add(getMailAdd());
                     setMailAdd(new ScMails());
+                    getPersonMailListBk().add(getMailAdd());
                 }
                 else
                 {
@@ -260,6 +278,7 @@ public class ScpersonBean
                     getPersonSpecificationsAdd().setIdPerson(getPersonAdd());
                     getPersonSpecificationsList().add(getPersonSpecificationsAdd());
                     setPersonSpecificationsAdd(new ScPersonSpecifications());
+                    getPersonSpecificationsListBk().add(getPersonSpecificationsAdd());
                 }
                 else
                 {
@@ -298,6 +317,7 @@ public class ScpersonBean
                     getPersonObservationsAdd().setIdPerson(getPersonAdd());
                     getPersonObservationsList().add(getPersonObservationsAdd());
                     setPersonObservationsAdd(new ScPersonObservations());
+                    setPersonObservationsListBk(new ArrayList<ScPersonObservations>(getPersonObservationsList()));
                 }
                 else
                 {
@@ -414,8 +434,23 @@ public class ScpersonBean
     
     public void onRowEditPhones(RowEditEvent event)
     {
-        log.info("Se editó un teléfono de la lista para terceros a crear");
-        addInfo(null, "Crear Teléfono", "Se editó satisfactoriamente el teléfono");
+        ScPhones phoneEdit = (ScPhones)event.getObject();
+        if(phoneEdit != null)
+        {
+            if(phoneEdit.getNumberPhone() > 0 && (phoneEdit.getNumberPhone()+"").length() == 10)
+            {
+                log.info("Se editó un teléfono de la lista para terceros a crear");
+                addInfo(null, "Crear Teléfono", "Se editó satisfactoriamente el teléfono");
+                setPersonPhoneListBk(new ArrayList<ScPhones>());
+            }
+            else
+            {
+                log.error("Error al intentar editar un teléfono");
+                addError(null, "Editar Teléfono", "Debe ingresar un número valido");
+            }
+        
+        }
+        
     }
 
     public void onRowCancelPhones(RowEditEvent event)
@@ -461,8 +496,21 @@ public class ScpersonBean
     
     public void onRowEditMails(RowEditEvent event)
     {
-        log.info("Se editó el correo de la lista para terceros a crear");
-        addInfo(null, "Crear Correo", "Se editó satisfactoriamente el correo");
+        ScMails mailEdit = (ScMails) event.getObject();
+        if(mailEdit != null)
+        {
+            if(mailEdit.getMail().length() > 0 && Utilities.isEmail(mailEdit.getMail()))
+            {
+                log.info("Se editó el correo de la lista para terceros a crear");
+                addInfo(null, "Crear Correo", "Se editó satisfactoriamente el correo");
+            }
+            else
+            {
+                log.error("Error al intentar actualizar un correo");
+                addError(null, "Error al modificar el correo", "Debe ingresar un correo válido");
+                mailEdit.setMail("");
+            }
+        }
     }
 
     public void onRowCancelMails(RowEditEvent event)
@@ -640,36 +688,6 @@ public class ScpersonBean
         this.personMailList = personMailList;
     }
 
-    public List<ScPersonDocumentationAttached> getPersonScPersonDocumentationAttachedList()
-    {
-        return personScPersonDocumentationAttachedList;
-    }
-
-    public void setPersonScPersonDocumentationAttachedList(List<ScPersonDocumentationAttached> personScPersonDocumentationAttachedList)
-    {
-        this.personScPersonDocumentationAttachedList = personScPersonDocumentationAttachedList;
-    }
-
-    public List<ScPersonObservations> getPersonScPersonObservationsList()
-    {
-        return personScPersonObservationsList;
-    }
-
-    public void setPersonScPersonObservationsList(List<ScPersonObservations> personScPersonObservationsList)
-    {
-        this.personScPersonObservationsList = personScPersonObservationsList;
-    }
-
-    public List<ScPersonSpecifications> getPersonScPersonSpecifications()
-    {
-        return personScPersonSpecifications;
-    }
-
-    public void setPersonScPersonSpecifications(List<ScPersonSpecifications> personScPersonSpecifications)
-    {
-        this.personScPersonSpecifications = personScPersonSpecifications;
-    }
-
     public ScPerson getPersonAdd()
     {
         return personAdd;
@@ -810,5 +828,55 @@ public class ScpersonBean
         this.personSelected = personSelected;
     }
 
-    
+    public List<ScPhones> getPersonPhoneListBk()
+    {
+        return personPhoneListBk;
+    }
+
+    public void setPersonPhoneListBk(List<ScPhones> personPhoneListBk)
+    {
+        this.personPhoneListBk = personPhoneListBk;
+    }
+
+    public List<ScPersonObservations> getPersonObservationsListBk()
+    {
+        return personObservationsListBk;
+    }
+
+    public void setPersonObservationsListBk(List<ScPersonObservations> personObservationsListBk)
+    {
+        this.personObservationsListBk = personObservationsListBk;
+    }
+
+    public List<ScPersonSpecifications> getPersonSpecificationsListBk()
+    {
+        return personSpecificationsListBk;
+    }
+
+    public void setPersonSpecificationsListBk(List<ScPersonSpecifications> personSpecificationsListBk)
+    {
+        this.personSpecificationsListBk = personSpecificationsListBk;
+    }
+
+    public List<ScPersonDocumentationAttached> getPersonDocumentationAttachedsListBk()
+    {
+        return personDocumentationAttachedsListBk;
+    }
+
+    public void setPersonDocumentationAttachedsListBk(List<ScPersonDocumentationAttached> personDocumentationAttachedsListBk)
+    {
+        this.personDocumentationAttachedsListBk = personDocumentationAttachedsListBk;
+    }
+
+    public List<ScMails> getPersonMailListBk()
+    {
+        return personMailListBk;
+    }
+
+    public void setPersonMailListBk(List<ScMails> personMailListBk)
+    {
+        this.personMailListBk = personMailListBk;
+    }
+
+   
 }

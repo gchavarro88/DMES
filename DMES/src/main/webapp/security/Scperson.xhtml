@@ -27,6 +27,7 @@
 
                 <h:form id="formWizard">
                     <p:wizard  flowListener="#{scpersonBean.onFlowProcessSavePerson}" id="wizardSave" widgetVar="wizardSave">
+<!--                        Pestaña de datos básicos a guardar-->
                         <p:tab title="Datos Básicos" id="tabBasicDataSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del Tercero">
                             <p:panel header="Datos Básicos del Tercero" >
@@ -114,6 +115,7 @@
                                 </table>
                             </p:panel>
                         </p:tab> 
+<!--                        pestaña de telefonos a guardar-->
                         <p:tab title="Teléfonos" id="tabPhonesSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los Teléfonos del Tercero">
                             <p:panel header="Teléfonos del Tercero" >
@@ -163,12 +165,13 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{phones.idPhone}">
-                                                    <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditPhones}" />
+                                                    <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditPhones}" update="dataTablePhones"/>
                                                     <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelPhones}" />
                                                     <p:column headerText="Teléfono" sortBy="#{phones.numberPhone}">
                                                         <p:cellEditor>
                                                             <f:facet name="output"><h:outputText value="#{phones.numberPhone}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{phones.numberPhone}" style="width:100%"/></f:facet>
+                                                            <f:facet name="input"><p:inputMask mask="9999999999" value="#{phones.numberPhone}" required="true"
+                                                            requiredMessage="Debe ingresar un número válido" style="width:100%"/></f:facet>
                                                         </p:cellEditor>
                                                     </p:column>
                                                     <p:column headerText="Descripción" sortBy="#{phones.description}">
@@ -187,6 +190,7 @@
                                  
                             </p:panel>
                         </p:tab>
+<!--                        pestaña de correos a guardar-->
                         <p:tab title="Correos" id="tabMailsSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los Correos del Tercero">
                             <p:panel header="Correos del Tercero" >
@@ -200,7 +204,7 @@
                                                 <p:outputLabel for="tfMailSave" value="Correo"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputText id="tfMailSave" value="#{scpersonBean.mailAdd.mail}"/>
+                                                <p:inputText id="tfMailSave" value="#{scpersonBean.mailAdd.mail}" />
                                                 <p:tooltip for="tfMailSave" value="Ingrese un correo con el formato xxxxxxxx@xxxxx.xxx"/>
                                                 </td>
                                                 </tr>
@@ -238,10 +242,11 @@
                                                              sortBy="#{mails.idMail}">
                                             <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditMails}" />
                                             <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelMails}" />
-                                            <p:column headerText="Teléfono" sortBy="#{mails.mail}">
+                                            <p:column headerText="Correo" sortBy="#{mails.mail}">
                                                         <p:cellEditor>
                                                             <f:facet name="output"><h:outputText value="#{mails.mail}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{mails.mail}" style="width:100%"/></f:facet>
+                                                            <f:facet name="input"><p:inputText value="#{mails.mail}" style="width:100%"
+                                                            required="true" requiredMessage="Debe ingresar un correo válido"/></f:facet>
                                                         </p:cellEditor>
                                                     </p:column>
                                                     <p:column headerText="Descripción" sortBy="#{mails.description}">
@@ -259,6 +264,7 @@
                                 </table>
                             </p:panel>
                         </p:tab>
+<!--                        pestaña de observaciones a guardar-->
                         <p:tab title="Observaciones" id="tabObservationSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las Observaciones del Tercero">
                             <p:panel header="Observaciones del Tercero" >
@@ -331,6 +337,7 @@
                                 </table>
                             </p:panel>
                         </p:tab>
+<!--                        pestaña de especificaciones a guardar-->
                         <p:tab title="Especificaciones" id="tabSpecificationsSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las Espeficaciones del Tercero">
                             <p:panel header="Especificaciones del Tercero" >
@@ -403,6 +410,7 @@
                                 </table>
                             </p:panel>
                         </p:tab>
+<!--                        pestaña de documentacion-->
                         <p:tab title="Documentación" id="tabDocumentationsSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para la Documentación del Tercero">
                             <p:panel header="Documentación del Tercero" >

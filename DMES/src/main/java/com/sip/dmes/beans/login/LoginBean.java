@@ -91,12 +91,14 @@ public class LoginBean implements Serializable
                 }
                 else
                 {
+                    setPassword("");
                     addError(null, "Error en la autenticación", "El usuario o la contraseña no son válidos");
                     log.info("Error en la autenticación, usuario o contraseñas no válidos");
                 }
             }
             catch(Exception e)
             {
+                setPassword("");
                 addFatal(null, "Error de Sistema", "Su petición no pudo ser procesada, "
                         + "por favor comuniquese con el administrador o intente después");
                 log.error("Ocurrió un error al intentar realizar la autenticación", e);
