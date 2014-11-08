@@ -831,7 +831,8 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <p:tab title="Observaciones" id="tabObservationSave" titleStyleClass="tabTittleSavePerson" 
+<!--            pestaña para actualizar las observaciones-->
+                        <p:tab title="Observaciones" id="tabObservationUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las Observaciones del Tercero">
                             <p:panel header="Observaciones del Tercero" >
                               
@@ -841,27 +842,27 @@
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
-                                                <p:outputLabel for="tfObservationTittleSave" value="Título"/>
+                                                <p:outputLabel for="tfObservationTittleUpdate" value="Título"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputText id="tfObservationTittleSave" value="#{scpersonBean.personObservationsAdd.tittle}"/>
-                                                <p:tooltip for="tfObservationTittleSave" value="Ingrese el título de la observación a Realizar"/>
+                                                <p:inputText id="tfObservationTittleUpdate" value="#{scpersonBean.personObservationsAdd.tittle}"/>
+                                                <p:tooltip for="tfObservationTittleUpdate" value="Ingrese el título de la observación a Realizar"/>
                                                 </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="40%">
-                                                <p:outputLabel for="tfObservationSave" value="Observación"/>
+                                                <p:outputLabel for="tfObservationUpdate" value="Observación"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputTextarea id="tfObservationSave" value="#{scpersonBean.personObservationsAdd.observation}"/>
+                                                <p:inputTextarea id="tfObservationUpdate" value="#{scpersonBean.personObservationsAdd.observation}"/>
                                                 
                                                 </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
-                                                            <p:commandButton value="Guardar" update="tfObservationSave,tfObservationTittleSave,dataTableObservations"
-                                                            actionListener="#{scpersonBean.saveObservationsByPerson()}"/>
+                                                            <p:commandButton value="Guardar" update="tfObservationUpdate,tfObservationTittleUpdate,dataTableObservationsUpdate"
+                                                            actionListener="#{scpersonBean.updateObservationsByPerson()}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -869,9 +870,9 @@
                                             </table>
                                         </td>
                                         <td width="60%" align="center" valign="top">
-                                        <p:dataTable id="dataTableObservations"
+                                        <p:dataTable id="dataTableObservationsUpdate"
                                                              var="observations" 
-                                                             value="#{scpersonBean.personObservationsList}"
+                                                             value="#{scpersonBean.personUpdate.scPersonObservationsList}"
                                                              rowKey="#{observations.idPersonObservations}"
                                                              paginator="true" rows="15"  
                                                              pageLinks="40" editable="true"
@@ -903,7 +904,8 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <p:tab title="Especificaciones" id="tabSpecificationsSave" titleStyleClass="tabTittleSavePerson" 
+<!--        pestaña para actualizar las especificaciones-->
+                        <p:tab title="Especificaciones" id="tabSpecificationsUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las Espeficaciones del Tercero">
                             <p:panel header="Especificaciones del Tercero" >
                               
@@ -913,27 +915,27 @@
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
-                                                <p:outputLabel for="tfSpecificationTittleSave" value="Título"/>
+                                                <p:outputLabel for="tfSpecificationTittleUpdate" value="Título"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputText id="tfSpecificationTittleSave" value="#{scpersonBean.personSpecificationsAdd.tittle}"/>
-                                                <p:tooltip for="tfSpecificationTittleSave" value="Ingrese el título de la Espeficación a Realizar"/>
+                                                <p:inputText id="tfSpecificationTittleUpdate" value="#{scpersonBean.personSpecificationsAdd.tittle}"/>
+                                                <p:tooltip for="tfSpecificationTittleUpdate" value="Ingrese el título de la Espeficación a Realizar"/>
                                                 </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="40%">
-                                                <p:outputLabel for="tfSpecificationSave" value="Especificación"/>
+                                                <p:outputLabel for="tfSpecificationUpdate" value="Especificación"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputTextarea id="tfSpecificationSave" value="#{scpersonBean.personSpecificationsAdd.specification}"/>
+                                                <p:inputTextarea id="tfSpecificationUpdate" value="#{scpersonBean.personSpecificationsAdd.specification}"/>
                                                 
                                                 </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
-                                                            <p:commandButton value="Guardar" update="tfSpecificationTittleSave,tfSpecificationSave,dataTableSpecifications"
-                                                            actionListener="#{scpersonBean.saveSpecificationsByPerson()}"/>
+                                                            <p:commandButton value="Guardar" update="tfSpecificationTittleUpdate,tfSpecificationUpdate,dataTableSpecificationsUpdate"
+                                                            actionListener="#{scpersonBean.updateSpecificationsByPerson()}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -941,9 +943,9 @@
                                             </table>
                                         </td>
                                         <td width="60%" align="center" valign="top">
-                                        <p:dataTable id="dataTableSpecifications"
+                                        <p:dataTable id="dataTableSpecificationsUpdate"
                                                              var="specifications" 
-                                                             value="#{scpersonBean.personSpecificationsList}"
+                                                             value="#{scpersonBean.personUpdate.scPersonSpecificationsList}"
                                                              rowKey="#{specifications.idPersonSpecifications}"
                                                              paginator="true" rows="15"  
                                                              pageLinks="40" editable="true"
@@ -975,7 +977,8 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <p:tab title="Documentación" id="tabDocumentationsSave" titleStyleClass="tabTittleSavePerson" 
+<!--pestaña para actualizar los documentos-->
+                        <p:tab title="Documentación" id="tabDocumentationsUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para la Documentación del Tercero">
                             <p:panel header="Documentación del Tercero" >
                               
@@ -986,19 +989,19 @@
                                         <table width="100%" cellspacing="10">
                                             <tr>
                                                 <td width="40%" >
-                                            <p:outputLabel for="tfDocumentationTittleSave" value="Título"/>
+                                            <p:outputLabel for="tfDocumentationTittleUpdate" value="Título"/>
                                         </td>
                                         <td width="60%">
-                                        <p:inputText id="tfDocumentationTittleSave" value="#{scpersonBean.personSpecificationsAdd.tittle}"/>
-                                        <p:tooltip for="tfDocumentationTittleSave" value="Ingrese el título del documento a cargar"/>
+                                        <p:inputText id="tfDocumentationTittleUpdate" value="#{scpersonBean.personSpecificationsAdd.tittle}"/>
+                                        <p:tooltip for="tfDocumentationTittleUpdate" value="Ingrese el título del documento a cargar"/>
                                         </td>
                                         </tr>
                                         <tr>
                                             <td width="40%">
-                                        <p:outputLabel for="tfDocumentationSave" value="Documento"/>
+                                        <p:outputLabel for="tfDocumentationUpdate" value="Documento"/>
                                         </td>
                                         <td width="60%">
-                                        <p:fileUpload id="tfDocumentationSave" style="background: #000; color: #FFF; width: 100%" label="Examinar" mode="simple" 
+                                        <p:fileUpload id="tfDocumentationUpdate" style="background: #000; color: #FFF; width: 100%" label="Examinar" mode="simple" 
                                                       value="#{scpersonBean.upLoadFile}"
                                                       />
 
@@ -1008,7 +1011,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" ajax="false" disabled="true"
-                                                            update="tfDocumentationTittleSave,tfDocumentationSave,dataTableDocumentation"
+                                                            update="tfDocumentationTittleUpdate,tfDocumentationUpdate,dataTableDocumentationUpdate"
                                                             actionListener="#{scpersonBean.uploadFile()}"/>
                                                         </center>
                                                     </td>
@@ -1018,9 +1021,9 @@
                                     </h:form>
                                         </td>
                                         <td width="60%" align="center" valign="top">
-                                        <p:dataTable id="dataTableDocumentation"
+                                        <p:dataTable id="dataTableDocumentationUpdate"
                                                              var="documentation" 
-                                                             value="#{scpersonBean.personDocumentationAttachedsList}"
+                                                             value="#{scpersonBean.personUpdate.scPersonDocumentationAttachedList}"
                                                              rowKey="#{documentation.idPersonDocumentationAttached}"
                                                              paginator="true" rows="15"  
                                                              pageLinks="40" editable="true"
@@ -1049,91 +1052,91 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <p:tab title="Confirmar" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Confirmar" id="tabConfirmUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para Confirmar los Cambios del Tercero">
                             <p:panel header="Datos del Tercero" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowLastName" value="Apellidos"/>
+                                            <p:outputLabel for="lblShowLastNameUpdate" value="Apellidos"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowLastName" value="#{scpersonBean.personAdd.lastName}"/>
+                                            <p:outputLabel id="lblShowLastNameUpdate" value="#{scpersonBean.personUpdate.lastName}"/>
                                         </td>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowFirstName" value="Nombres"/>
+                                            <p:outputLabel for="lblShowFirstNameUpdate" value="Nombres"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowFirstName" value="#{scpersonBean.personAdd.firstName}"/>
+                                            <p:outputLabel id="lblShowFirstNameUpdate" value="#{scpersonBean.personUpdate.firstName}"/>
                                         </td>
                                     </tr> 
                                     <tr>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowAge" value="Edad"/>
+                                            <p:outputLabel for="lblShowAgeUpdate" value="Edad"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowAge" value="#{scpersonBean.personAdd.age}"/>
+                                            <p:outputLabel id="lblShowAgeUpdate" value="#{scpersonBean.personUpdate.age}"/>
                                         </td>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowDomicilie" value="Dirección"/>
+                                            <p:outputLabel for="lblShowDomicilieUpdate" value="Dirección"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowDomicilie" value="#{scpersonBean.personAdd.domicilie}"/>
+                                            <p:outputLabel id="lblShowDomicilieUpdate" value="#{scpersonBean.personUpdate.domicilie}"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowCountry" value="País"/>
+                                            <p:outputLabel for="lblShowCountryUpdate" value="País"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowCountry" value="#{scpersonBean.personAdd.country}"/>
+                                            <p:outputLabel id="lblShowCountryUpdate" value="#{scpersonBean.personUpdate.country}"/>
                                         </td>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowCity" value="Ciudad"/>
+                                            <p:outputLabel for="lblShowCityUpdate" value="Ciudad"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowCity" value="#{scpersonBean.personAdd.city}"/>
+                                            <p:outputLabel id="lblShowCityUpdate" value="#{scpersonBean.personUpdate.city}"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowDescription" value="Descripción"/>
+                                            <p:outputLabel for="lblShowDescriptionUpdate" value="Descripción"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowDescription" value="#{scpersonBean.personAdd.description}"/>
-                                            <p:tooltip for="lblShowDescription" value="#{scpersonBean.personAdd.description}"/>
+                                            <p:outputLabel id="lblShowDescriptionUpdate" value="#{scpersonBean.personUpdate.description}"/>
+                                            <p:tooltip for="lblShowDescriptionUpdate" value="#{scpersonBean.personUpdate.description}"/>
                                         </td>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowStudies" value="Estudios"/>
+                                            <p:outputLabel for="lblShowStudiesUpdate" value="Estudios"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowStudies" value="#{scpersonBean.personAdd.studies}"/>
-                                            <p:tooltip for="lblShowStudies" value="#{scpersonBean.personAdd.studies}"/>
+                                            <p:outputLabel id="lblShowStudiesUpdate" value="#{scpersonBean.personUpdate.studies}"/>
+                                            <p:tooltip for="lblShowStudiesUpdate" value="#{scpersonBean.personUpdate.studies}"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowPersonalInformation" value="Información Personal"/>
+                                            <p:outputLabel for="lblShowPersonalInformationUpdate" value="Información Personal"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowPersonalInformation" value="#{scpersonBean.personAdd.personalInformation}"/>
-                                            <p:tooltip for="lblShowPersonalInformation" value="#{scpersonBean.personAdd.personalInformation}"/>
+                                            <p:outputLabel id="lblShowPersonalInformationUpdate" value="#{scpersonBean.personUpdate.personalInformation}"/>
+                                            <p:tooltip for="lblShowPersonalInformationUpdate" value="#{scpersonBean.personUpdate.personalInformation}"/>
                                         </td>
                                         <td width="10%">
-                                            <p:outputLabel for="lblShowCreationDate" value="Fecha De Creación"/>
+                                            <p:outputLabel for="lblShowCreationDateUpdate" value="Fecha De Creación"/>
                                         </td>
                                         <td width="40%">
-                                            <p:outputLabel id="lblShowCreationDate" value="#{scpersonBean.personAdd.creationDate}"/>
+                                            <p:outputLabel id="lblShowCreationDateUpdate" value="#{scpersonBean.personUpdate.creationDate}"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">
                                             <center>
-                                                <p:commandButton value="Guardar" onsuccess="PF('dialogPersonSave').hide();PF('wizardSave').loadStep('tabBasicDataSave', false)" 
+                                                <p:commandButton value="Guardar" onsuccess="PF('dialogPersonUpdate').hide();PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)" 
                                                                  actionListener="#{scpersonBean.savePerson()}" 
-                                                                 update=":formPerson:dataTablePersons,:formWizard"/>
+                                                                 update=":formPerson:dataTablePersons,:formWizardUpdate"/>
                                                 <p:spacer width="20"/>
-                                                <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonSave').hide();PF('wizardSave').loadStep('tabBasicDataSave', false)" />
+                                                <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonUpdate').hide();PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)" />
                                             </center>
                                         </td>
                                     </tr>

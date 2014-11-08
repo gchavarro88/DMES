@@ -267,32 +267,7 @@ public class ScpersonBean
         }
     }
     
-    public void updateMailsByPerson()
-    {
-        if (getPersonMailList() != null)
-        {
-            if (getMailAdd() != null && getMailAdd().getMail().length() > 0)
-            {
-                if (Utilities.isEmail(getMailAdd().getMail()))
-                {
-                    getMailAdd().setIdPerson(getPersonAdd());
-                    getPersonUpdate().getScMailsList().add(getMailAdd());
-                    setMailAdd(new ScMails());
-                    getPersonMailListBk().add(getMailAdd());
-                }
-                else
-                {
-                    addError(null, "Creación de correo", "El correo no tiene el formato indicado xxxxxxxx@xxxx.xxx");
-                }
-
-            }
-            else
-            {
-                addError(null, "Error al crear un tercero", "Debe ingresar un correo válido");
-                setMailAdd(new ScMails());
-            }
-        }
-    }
+    
     
     public void saveSpecificationsByPerson()
     {
@@ -400,7 +375,7 @@ public class ScpersonBean
     
     public void updatePhonesByPerson()
     {
-        if (getPhoneAdd() !=  null)
+        if (getPhoneAdd() !=  null && getPersonUpdate().getScPhonesList() != null)
         {
             if (getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0)
             {
@@ -422,6 +397,85 @@ public class ScpersonBean
         }
     }
     
+    public void updateMailsByPerson()
+    {
+        if (getMailAdd()!= null && getPersonUpdate().getScMailsList() != null )
+        {
+            if (getMailAdd() != null && getMailAdd().getMail().length() > 0)
+            {
+                if (Utilities.isEmail(getMailAdd().getMail()))
+                {
+                    getMailAdd().setIdPerson(getPersonAdd());
+                    getPersonUpdate().getScMailsList().add(getMailAdd());
+                    setMailAdd(new ScMails());
+                    getPersonMailListBk().add(getMailAdd());
+                }
+                else
+                {
+                    addError(null, "Creación de correo", "El correo no tiene el formato indicado xxxxxxxx@xxxx.xxx");
+                }
+
+            }
+            else
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar un correo válido");
+                setMailAdd(new ScMails());
+            }
+        }
+    }
+    
+    public void updateSpecificationsByPerson()
+    {
+        if (getPersonUpdate().getScPersonSpecificationsList() != null && getPersonSpecificationsAdd() != null)
+        {
+            if (getPersonSpecificationsAdd()!= null && getPersonSpecificationsAdd().getTittle().length() > 0)
+            {
+                if (getPersonSpecificationsAdd().getSpecification().length() > 0)
+                {
+                    getPersonSpecificationsAdd().setIdPerson(getPersonAdd());
+                    getPersonUpdate().getScPersonSpecificationsList().add(getPersonSpecificationsAdd());
+                    setPersonSpecificationsAdd(new ScPersonSpecifications());
+                    getPersonSpecificationsListBk().add(getPersonSpecificationsAdd());
+                }
+                else
+                {
+                    addError(null, "Creación de correo", "Debe ingresar una especificación válida");
+                }
+            }
+            else
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar un título de especificación válido");
+                setPersonSpecificationsAdd(new ScPersonSpecifications());
+            }
+        }
+    }
+    
+    
+    public void updateObservationsByPerson()
+    {
+        if (getPersonUpdate().getScPersonObservationsList() != null && getPersonObservationsAdd()!= null)
+        {
+            if (getPersonObservationsAdd()!= null && getPersonObservationsAdd().getTittle().length() > 0)
+            {
+                if (getPersonObservationsAdd().getObservation().length() > 0)
+                {
+                    getPersonObservationsAdd().setIdPerson(getPersonAdd());
+                    getPersonUpdate().getScPersonObservationsList().add(getPersonObservationsAdd());
+                    setPersonObservationsAdd(new ScPersonObservations());
+                    setPersonObservationsListBk(new ArrayList<ScPersonObservations>(getPersonObservationsList()));
+                }
+                else
+                {
+                    addError(null, "Creación de correo", "Debe ingresar una observación válida");
+                }
+            }
+            else
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar un título de observación válido");
+                setPersonObservationsAdd(new ScPersonObservations());
+            }
+        }
+    }
     public void deletePerson()
     {
         if(getPersonSelected() != null)
