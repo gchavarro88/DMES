@@ -267,6 +267,33 @@ public class ScpersonBean
         }
     }
     
+    public void updateMailsByPerson()
+    {
+        if (getPersonMailList() != null)
+        {
+            if (getMailAdd() != null && getMailAdd().getMail().length() > 0)
+            {
+                if (Utilities.isEmail(getMailAdd().getMail()))
+                {
+                    getMailAdd().setIdPerson(getPersonAdd());
+                    getPersonUpdate().getScMailsList().add(getMailAdd());
+                    setMailAdd(new ScMails());
+                    getPersonMailListBk().add(getMailAdd());
+                }
+                else
+                {
+                    addError(null, "Creación de correo", "El correo no tiene el formato indicado xxxxxxxx@xxxx.xxx");
+                }
+
+            }
+            else
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar un correo válido");
+                setMailAdd(new ScMails());
+            }
+        }
+    }
+    
     public void saveSpecificationsByPerson()
     {
         if (getPersonSpecificationsList()!= null)
@@ -371,6 +398,30 @@ public class ScpersonBean
         return event.getNewStep();
     }
     
+    public void updatePhonesByPerson()
+    {
+        if (getPhoneAdd() !=  null)
+        {
+            if (getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0)
+            {
+                getPhoneAdd().setIdPerson(getPersonAdd());
+                getPersonUpdate().getScPhonesList().add(getPhoneAdd());
+                setPhoneAdd(new ScPhones());
+                ScPhones data = new ScPhones();
+                data.setIdPerson(getPersonAdd());
+                data.setDescription(getPhoneAdd().getDescription());
+                data.setNumberPhone(getPhoneAdd().getNumberPhone());
+                getPersonPhoneListBk().add(data);
+                
+            }
+            else
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar un número telefónico válido");
+                setPhoneAdd(new ScPhones());
+            }
+        }
+    }
+    
     public void deletePerson()
     {
         if(getPersonSelected() != null)
@@ -424,6 +475,26 @@ public class ScpersonBean
         }
     }
     
+    public void getPersonByUpdateDataTable(ScPerson scPersonSelected)
+    {
+        try
+        {
+            if(scPersonSelected != null)
+            {
+                setPersonUpdate(scPersonSelected);
+            }
+            else
+            {
+                log.error("Error intentando asignar el tercero seleccionado para operaciones de CRUD");
+                addError(null, "Error al intentar seleccionar un tercero", "No se ha seleccionado un tercero para operaciones de crud");
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando asignar el tercero seleccionado para operaciones de CRUD",e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
     
     
     

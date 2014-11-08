@@ -20,7 +20,7 @@
             </p:dialog>
         
             <!--         Dialogo para guardar nuevos Usuarios         -->
-            <p:dialog id="dialogPersonSave" widgetVar="dialogPersonSave"
+            <p:dialog id="dialogPersonSave" widgetVar="dialogPersonSave" position="center top" width="800"
                       closable="true" draggable="true" dynamic="true" header="Crear Terceros"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
@@ -594,7 +594,7 @@
             <!--         finaliza el dialogo para guardar Usuarios               -->
             
             <!--         Dialogo para actualizar Usuarios         -->
-            <p:dialog id="dialogPersonUpdate" widgetVar="dialogPersonUpdate"
+            <p:dialog id="dialogPersonUpdate" widgetVar="dialogPersonUpdate" position="center top" width="800"
                       closable="true" draggable="true" dynamic="true" header="Actualizar Terceros"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
@@ -684,6 +684,7 @@
                                 </table>
                             </p:panel>
                         </p:tab> 
+<!--                        pestaña para actualizar los telefonos-->
                         <p:tab title="Teléfonos" id="tabPhonesUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los Teléfonos del Tercero">
                             <p:panel header="Teléfonos del Tercero" >
@@ -697,7 +698,7 @@
                                                 <p:outputLabel for="tfPhoneUpdate" value="Teléfono"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputMask id="tfPhoneUpdate" value="#{scpersonBean.personUpdate.numberPhone}" mask="9999999999"/>
+                                                <p:inputMask id="tfPhoneUpdate" value="#{scpersonBean.phoneAdd.numberPhone}" mask="9999999999"/>
                                                 <p:tooltip for="tfPhoneUpdate" value="Ingrese sólo números, teniendo en cuenta el operador de cada número ejemplo 0325142402"/>
                                                 </td>
                                                 </tr>
@@ -706,7 +707,7 @@
                                                 <p:outputLabel for="tfPhoneDescriptionUpdate" value="Descripción"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputTextarea id="tfPhoneDescriptionUpdate" value="#{scpersonBean.personUpdate.description}"/>
+                                                <p:inputTextarea id="tfPhoneDescriptionUpdate" value="#{scpersonBean.phoneAdd.description}"/>
                                                 
                                                 </td>
                                                 </tr>
@@ -714,7 +715,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfPhoneUpdate,tfPhoneDescriptionUpdate,dataTablePhonesUpdate"
-                                                            actionListener="#{scpersonBean.savePhonesByPerson()}"/>
+                                                            actionListener="#{scpersonBean.updatePhonesByPerson()}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -757,7 +758,8 @@
                                  
                             </p:panel>
                         </p:tab>
-                        <p:tab title="Correos" id="tabMailsSave" titleStyleClass="tabTittleSavePerson" 
+<!--pestaña para actualizar correos-->
+                        <p:tab title="Correos" id="tabMailsUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los Correos del Tercero">
                             <p:panel header="Correos del Tercero" >
                               
@@ -767,27 +769,27 @@
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
-                                                <p:outputLabel for="tfMailSave" value="Correo"/>
+                                                <p:outputLabel for="tfMailUpdate" value="Correo"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputText id="tfMailSave" value="#{scpersonBean.mailAdd.mail}"/>
-                                                <p:tooltip for="tfMailSave" value="Ingrese un correo con el formato xxxxxxxx@xxxxx.xxx"/>
+                                                <p:inputText id="tfMailUpdate" value="#{scpersonBean.mailAdd.mail}"/>
+                                                <p:tooltip for="tfMailUpdate" value="Ingrese un correo con el formato xxxxxxxx@xxxxx.xxx"/>
                                                 </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="40%">
-                                                <p:outputLabel for="tfMailDescriptionSave" value="Descripción"/>
+                                                <p:outputLabel for="tfMailDescriptionUpdate" value="Descripción"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputTextarea id="tfMailDescriptionSave" value="#{scpersonBean.mailAdd.description}"/>
+                                                <p:inputTextarea id="tfMailDescriptionUpdate" value="#{scpersonBean.mailAdd.description}"/>
                                                 
                                                 </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
-                                                            <p:commandButton value="Guardar" update="tfMailSave,tfMailDescriptionSave,dataTableMails"
-                                                            actionListener="#{scpersonBean.saveMailsByPerson()}"/>
+                                                            <p:commandButton value="Guardar" update="tfMailUpdate,tfMailDescriptionUpdate,dataTableMailsUpdate"
+                                                            actionListener="#{scpersonBean.updateMailsByPerson()}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -795,9 +797,9 @@
                                             </table>
                                         </td>
                                         <td width="60%" align="center" valign="top">
-                                        <p:dataTable id="dataTableMails"
+                                        <p:dataTable id="dataTableMailsUpdate"
                                                              var="mails" 
-                                                             value="#{scpersonBean.personMailList}"
+                                                             value="#{scpersonBean.personUpdate.scMailsList}"
                                                              rowKey="#{mails.idMail}"
                                                              paginator="true" rows="15"  
                                                              pageLinks="40" editable="true"
@@ -1196,7 +1198,7 @@
 
                     <p:column headerText="Administración">
                         <center>
-                            <p:commandButton  id="btnEdit"  actionListener="#{scpersonBean.getPersonByDataTable(person)}"
+                            <p:commandButton  id="btnEdit"  actionListener="#{scpersonBean.getPersonByUpdateDataTable(person)}"
                             icon="ui-icon-pencil" update=":formWizardUpdate:wizardUpdate"
                             oncomplete="PF('dialogPersonUpdate').show()"                  >
                                 <p:tooltip for="btnEdit" value="Editar un Tercero"/>

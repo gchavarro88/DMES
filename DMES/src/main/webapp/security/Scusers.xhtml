@@ -8,6 +8,7 @@
     <h:head>
         <title>.:DMES:. - Usuarios</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        
     </h:head>
     <h:body style="background-color: #000;">
         <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
@@ -17,8 +18,8 @@
         </p:dialog>
         <div>
             <!--         Dialogo para guardar nuevos Usuarios         -->
-            <p:dialog id="dialogUserSave" widgetVar="dialogUserSave" draggable="true" width="400"
-                      closable="true"  header="Crear Usuarios" position="center"
+            <p:dialog id="dialogUserSave" widgetVar="dialogUserSave" draggable="true" 
+                      closable="true"  header="Crear Usuarios" position="center top" width="450"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
 
@@ -149,7 +150,7 @@
 
             
             <!--             inicia el dialogo para elimianr registros           -->
-            <p:dialog id="dialogUsersDelete" widgetVar="dialogUsersDelete" 
+            <p:dialog id="dialogUsersDelete" widgetVar="dialogUsersDelete" position="center top" 
                       closable="true" draggable="true" dynamic="true" header="Eliminar Usuarios"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="false">
                 <h:form id="formDeleteScUser">
@@ -176,7 +177,7 @@
 <!--            finaliza el dialogo para eliminar registros            -->
 
 <!--         Dialogo para Actualizar  Usuarios         -->
-            <p:dialog id="dialogUserUpdate" widgetVar="dialogUserUpdate"
+            <p:dialog id="dialogUserUpdate" widgetVar="dialogUserUpdate" position="center top" width="450"
                       closable="true" draggable="true" dynamic="true" header="Actualizar Usuarios"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
@@ -255,8 +256,7 @@
                                          resizableColumns="true" 
                                          liveResize="true" rowsPerPageTemplate="10,20,30" 
                                          sortBy="#{roles.name}"
-                                         scrollable="true"
-                                         scrollHeight="260" selectionMode="single"
+                                         selectionMode="single"
                                          paginatorPosition="top" selection="#{scusersBean.userUpdate.idRole}">
                                 <p:ajax event="rowSelect" update=":formWizardUpdate:dataTableRolesUpdate"/>
                                 <p:column selectionMode="single" width="16"/>
@@ -314,7 +314,7 @@
             <!--         finaliza el dialogo para actualizar Usuarios               -->
 
 <!--           inicial el dialogo para visualizar un rol           -->
-            <p:dialog id="dialogUsersView" widgetVar="dialogUsersView" 
+            <p:dialog id="dialogUsersView" widgetVar="dialogUsersView" position="center top" width="450"
                                   closable="true" draggable="true" dynamic="true" header="Detalle de Usuarios"
                                   hideEffect="explode" modal="true" showEffect="explode" resizable="true"
                                   >
