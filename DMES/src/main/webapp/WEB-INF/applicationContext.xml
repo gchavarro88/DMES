@@ -37,7 +37,6 @@
     <bean id="scUsersServer" class="com.sip.dmes.dao.bs.ScUsersDao"></bean>
     <bean id="scModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScModulePermissionByRoleDao"></bean>
     <bean id="scRolesServer" class="com.sip.dmes.dao.bs.ScRolesDao"></bean>
-    
     <!-- <bean id="scSubModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScSubmodulePermissionByRoleDao"></bean>-->
     <bean id="scModulePermissionServer" class="com.sip.dmes.dao.bs.ScModulePermissionDao"></bean>
     <bean id="scPersonServer" class="com.sip.dmes.dao.bs.ScPersonDao"></bean>
@@ -46,5 +45,6 @@
     <bean id="scPersonDocumentationAttachedServer" class="com.sip.dmes.dao.bs.ScPersonDocumentationAttachedDao"></bean>
     <bean id="scPersonObservationsServer" class="com.sip.dmes.dao.bs.ScPersonObservationsDao"></bean>
     <bean id="scPersonSpecificationsServer" class="com.sip.dmes.dao.bs.ScPersonSpecificationsDao"></bean>
+    <bean id="scEmployeeServer" class="com.sip.dmes.dao.bs.ScEmployeeDao"></bean>
     
 </beans>

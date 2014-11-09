@@ -82,6 +82,17 @@ public class ScpersonBean
     private final String TAB_SPECIFICATIONS_SAVE = "tabSpecificationsSave";
     private final String TAB_DOCUMENTATIONS_SAVE = "tabDocumentationsSave";
     private final String TAB_CONFIRM_SAVE = "tabConfirmSave";
+    private final String TAB_BASIC_DATA_UPDATE = "tabBasicDataUpdate";
+    private final String TAB_PHONES_UPDATE = "tabPhonesUpdate";
+    private final String TAB_MAILS_UPDATE = "tabMailsUpdate";
+    private final String TAB_OBSERVATIONS_UPDATE = "tabObservationUpdate";
+    private final String TAB_SPECIFICATIONS_UPDATE = "tabSpecificationsUpdate";
+    private final String TAB_DOCUMENTATIONS_UPDATE = "tabDocumentationsUpdate";
+    private final String TAB_CONFIRM_UPDATE = "tabConfirmUpdate";
+    
+    
+    
+    
     @PostConstruct
     public void initData()
     {
@@ -183,17 +194,17 @@ public class ScpersonBean
         {
             if (getPersonAdd().getLastName() == null || getPersonAdd().getLastName().length() < 1)
             {
-                addError(null, "Error al crear un tercero", "Debe ingrear apellidos válidos");
+                addError(null, "Error al crear un tercero", "Debe ingresar apellidos válidos");
                 return event.getOldStep();
             }
             else if (getPersonAdd().getFirstName() == null || getPersonAdd().getFirstName().length() < 1)
             {
-                addError(null, "Error al crear un tercero", "Debe ingrear nombres válidos");
+                addError(null, "Error al crear un tercero", "Debe ingresar nombres válidos");
                 return event.getOldStep();
             }
             else if (getPersonAdd().getFirstName() == null || getPersonAdd().getFirstName().length() < 1)
             {
-                addError(null, "Error al crear un tercero", "Debe ingrear nombres válidos");
+                addError(null, "Error al crear un tercero", "Debe ingresar nombres válidos");
                 return event.getOldStep();
             }
             else if (getPersonAdd().getAge() < 18)
@@ -203,7 +214,7 @@ public class ScpersonBean
             }
             else if (getPersonAdd().getDomicilie() == null || getPersonAdd().getDomicilie().length() < 1)
             {
-                addError(null, "Error al crear un tercero", "Debe ingrear una dirección válida");
+                addError(null, "Error al crear un tercero", "Debe ingresar una dirección válida");
                 return event.getOldStep();
             }
         }
@@ -337,37 +348,37 @@ public class ScpersonBean
     
     public String onFlowProcessUpdatePerson(FlowEvent event)
     {
-        if (event.getOldStep().equalsIgnoreCase(TAB_BASIC_DATA))
+        if (event.getOldStep().equalsIgnoreCase(TAB_BASIC_DATA_UPDATE))
         {
-            if (getPersonAdd().getLastName() == null || getPersonAdd().getLastName().length() < 1)
+            if (getPersonUpdate().getLastName() == null || getPersonUpdate().getLastName().length() < 1)
             {
-                addError(null, "Error al crear un tercero", "Debe ingrear apellidos válidos");
+                addError(null, "Error al actualizar un tercero", "Debe ingresar apellidos válidos");
                 return event.getOldStep();
             }
-            else if (getPersonAdd().getFirstName() == null || getPersonAdd().getFirstName().length() < 1)
+            else if (getPersonUpdate().getFirstName() == null || getPersonUpdate().getFirstName().length() < 1)
             {
-                addError(null, "Error al crear un tercero", "Debe ingrear nombres válidos");
+                addError(null, "Error al actualizar un tercero", "Debe ingresar nombres válidos");
                 return event.getOldStep();
             }
-            else if (getPersonAdd().getFirstName() == null || getPersonAdd().getFirstName().length() < 1)
+            else if (getPersonUpdate().getFirstName() == null || getPersonUpdate().getFirstName().length() < 1)
             {
-                addError(null, "Error al crear un tercero", "Debe ingrear nombres válidos");
+                addError(null, "Error al actualizar un tercero", "Debe ingresar nombres válidos");
                 return event.getOldStep();
             }
-            else if (getPersonAdd().getAge() < 18)
+            else if (getPersonUpdate().getAge() < 18)
             {
-                addError(null, "Error al crear un tercero", "Debe ingresar una edad válida");
+                addError(null, "Error al actualizar un tercero", "Debe ingresar una edad válida");
                 return event.getOldStep();
             }
-            else if (getPersonAdd().getDomicilie() == null || getPersonAdd().getDomicilie().length() < 1)
+            else if (getPersonUpdate().getDomicilie() == null || getPersonUpdate().getDomicilie().length() < 1)
             {
-                addError(null, "Error al crear un tercero", "Debe ingrear una dirección válida");
+                addError(null, "Error al actualizar un tercero", "Debe ingresar una dirección válida");
                 return event.getOldStep();
             }
         }
-        else if(event.getNewStep().equalsIgnoreCase(TAB_CONFIRM_SAVE))
+        else if(event.getNewStep().equalsIgnoreCase(TAB_CONFIRM_UPDATE))
         {
-            getPersonAdd().setCreationDate(new Date());
+            getPersonUpdate().setModifyDate(new Date());
         }
         
         return event.getNewStep();
@@ -379,11 +390,11 @@ public class ScpersonBean
         {
             if (getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0)
             {
-                getPhoneAdd().setIdPerson(getPersonAdd());
+                getPhoneAdd().setIdPerson(getPersonUpdate());
                 getPersonUpdate().getScPhonesList().add(getPhoneAdd());
                 setPhoneAdd(new ScPhones());
                 ScPhones data = new ScPhones();
-                data.setIdPerson(getPersonAdd());
+                data.setIdPerson(getPersonUpdate());
                 data.setDescription(getPhoneAdd().getDescription());
                 data.setNumberPhone(getPhoneAdd().getNumberPhone());
                 getPersonPhoneListBk().add(data);
@@ -405,7 +416,7 @@ public class ScpersonBean
             {
                 if (Utilities.isEmail(getMailAdd().getMail()))
                 {
-                    getMailAdd().setIdPerson(getPersonAdd());
+                    getMailAdd().setIdPerson(getPersonUpdate());
                     getPersonUpdate().getScMailsList().add(getMailAdd());
                     setMailAdd(new ScMails());
                     getPersonMailListBk().add(getMailAdd());
@@ -432,7 +443,7 @@ public class ScpersonBean
             {
                 if (getPersonSpecificationsAdd().getSpecification().length() > 0)
                 {
-                    getPersonSpecificationsAdd().setIdPerson(getPersonAdd());
+                    getPersonSpecificationsAdd().setIdPerson(getPersonUpdate());
                     getPersonUpdate().getScPersonSpecificationsList().add(getPersonSpecificationsAdd());
                     setPersonSpecificationsAdd(new ScPersonSpecifications());
                     getPersonSpecificationsListBk().add(getPersonSpecificationsAdd());
@@ -459,7 +470,7 @@ public class ScpersonBean
             {
                 if (getPersonObservationsAdd().getObservation().length() > 0)
                 {
-                    getPersonObservationsAdd().setIdPerson(getPersonAdd());
+                    getPersonObservationsAdd().setIdPerson(getPersonUpdate());
                     getPersonUpdate().getScPersonObservationsList().add(getPersonObservationsAdd());
                     setPersonObservationsAdd(new ScPersonObservations());
                     setPersonObservationsListBk(new ArrayList<ScPersonObservations>(getPersonObservationsList()));
@@ -476,6 +487,38 @@ public class ScpersonBean
             }
         }
     }
+    
+    public void updatePerson()
+    {
+        try
+        {
+            if(getPersonUpdate() != null )
+            {
+                getScPersonServer().updateScPerson(getPersonUpdate());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                for(ScPerson person: getScPersons())
+                {
+                    if(person.getIdPerson()== getPersonUpdate().getIdPerson())
+                    {
+                        person = getPersonUpdate();
+                        break;
+                    }
+                }
+                cleanValues();
+            }
+            else
+            {
+                log.error("Error al intentar actualizar un tercero");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar actualizar un tercero", e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
     public void deletePerson()
     {
         if(getPersonSelected() != null)

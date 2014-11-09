@@ -138,34 +138,50 @@
             <property-class>com.sip.dmes.dao.bo.IScPerson</property-class>
             <value>#{scPersonServer}</value>
         </managed-property>
-        
-          <managed-property>
+        <managed-property>
             <property-name>scPhonesServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScPhones</property-class>
             <value>#{scPhonesServer}</value>
         </managed-property>
-        
-          <managed-property>
+        <managed-property>
             <property-name>scMailsServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScMails</property-class>
             <value>#{scMailsServer}</value>
         </managed-property>
-        
-         <managed-property>
+        <managed-property>
             <property-name>scPersonDocumentationAttachedServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScPersonDocumentationAttached</property-class>
             <value>#{scPersonDocumentationAttachedServer}</value>
         </managed-property>
-         <managed-property>
+        <managed-property>
             <property-name>scPersonObservationsServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScPersonObservations</property-class>
             <value>#{scPersonObservationsServer}</value>
         </managed-property>
-         <managed-property>
+        <managed-property>
             <property-name>scPersonSpecificationsServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScPersonSpecifications</property-class>
             <value>#{scPersonSpecificationsServer}</value>
         </managed-property></managed-bean>
- 
-    
+        
+        <managed-bean>
+        <managed-bean-name>scemployeesBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.resources.humans.ScemployeesBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scEmployeeServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScEmployee</property-class>
+            <value>#{scEmployeeServer}</value>
+        </managed-property> 
+        <managed-property>
+            <property-name>scPersonServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPerson</property-class>
+            <value>#{scPersonServer}</value>
+        </managed-property>
+    </managed-bean>
 </faces-config>

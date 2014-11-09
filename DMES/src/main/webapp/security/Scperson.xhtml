@@ -600,7 +600,7 @@
 
 
                 <h:form id="formWizardUpdate">
-                    <p:wizard  flowListener="#{scpersonBean.onFlowProcessSavePerson}" id="wizardUpdate" widgetVar="wizardUpdate">
+                    <p:wizard  flowListener="#{scpersonBean.onFlowProcessUpdatePerson}" id="wizardUpdate" widgetVar="wizardUpdate">
                         <p:tab title="Datos Básicos" id="tabBasicDataUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del Tercero">
                             <p:panel header="Datos Básicos del Tercero" >
@@ -1133,7 +1133,7 @@
                                         <td colspan="4">
                                             <center>
                                                 <p:commandButton value="Guardar" onsuccess="PF('dialogPersonUpdate').hide();PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)" 
-                                                                 actionListener="#{scpersonBean.savePerson()}" 
+                                                                 actionListener="#{scpersonBean.updatePerson()}" 
                                                                  update=":formPerson:dataTablePersons,:formWizardUpdate"/>
                                                 <p:spacer width="20"/>
                                                 <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonUpdate').hide();PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)" />
@@ -1215,9 +1215,9 @@
                             </p:commandButton>
                         </center>
                     </p:column>
-
-                    <p:column headerText="ID" sortBy="#{person.idPerson}">
-                        <h:outputText value="#{person.idPerson}" />
+                    
+                    <p:column headerText="ID" sortBy="#{person.identification}">
+                        <h:outputText value="#{person.identification}" />
                     </p:column>
                     
                     <p:column headerText="Apellidos" sortBy="#{person.lastName}">

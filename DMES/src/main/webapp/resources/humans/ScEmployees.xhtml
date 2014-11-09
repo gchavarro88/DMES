@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>.:DMES:. - Empleados</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        
+    </h:head>
+    <h:body style="background-color: #000;">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div>
+           
+            
+            
+            
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            <h:form id="formEmployees">
+                <p:dataTable id="scEmployeesDataTable" draggableColumns="true" emptyMessage="" 
+                             value="#{scemployeesBean.employeesList}" var="employees"
+                             paginator="true" rows="15"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{employees.idEmployee}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             selectionMode="single" paginatorPosition="top" selection="#{scemployeesBean.employeeSelected}"
+                             sortBy="#{employees.idPerson.lastName} #{employees.idPerson.firstName}"
+                             >
+                    <f:facet name="header">
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                         oncomplete="PF('dialogUserSave').show()">
+                            <p:tooltip for="btnAdd" value="Agregar un Empleado"/>
+                        </p:commandButton>
+                    </f:facet>
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogUsersView').show()"/>
+                    <p:column headerText="Administración">
+                        <center>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" 
+                                             oncomplete="PF('dialogUserUpdate').show()"  
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar Empleado"/>
+                            </p:commandButton>
+                            <p:spacer width="10"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogUsersDelete').show()"
+                                             >
+                                <p:tooltip for="btnDelete" value="Eliminar Empleado"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>
+                    <p:column headerText="Cédula" sortBy="#{employees.idPerson.identification}">    
+                        <center>
+                            <p:outputLabel value="#{employees.idPerson.identification}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnNames" headerText="Nombre" sortBy="#{employees.idPerson.lastName} #{employees.idPerson.firstName}">    
+                        <center>
+                            <p:outputLabel value="#{employees.idPerson.lastName} #{employees.idPerson.firstName}" id="lblNames"/>
+                            <p:tooltip for="lblNames" value="#{employees.idPerson.lastName} #{employees.idPerson.firstName}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnPosition" headerText="Cargo" sortBy="#{employees.position}">    
+                        <center>
+                            <p:outputLabel value="#{employees.position}" id="lblPosition"/>
+                            <p:tooltip for="lblPosition" value="#{employees.position}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnRolName" headerText="" sortBy="#{employees.admissionDate}">    
+                        <center>
+                            <p:outputLabel value="#{employees.admissionDate}" id="lblAdmissionDate"/>
+                            <p:tooltip for="lblAdmissionDate" value="#{scusersBean.getFormatDate(employees.admissionDate)}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnUserCreationDate" headerText="Formación" sortBy="#{employees.formation}">    
+                        <center>
+                            <p:outputLabel value="#{employees.formation}" id="lblFormation"/>
+                            <p:tooltip for="lblFormation" value="#{employees.formation}"/>
+                        </center>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </div>
+
+    </h:body>
+</html>
+

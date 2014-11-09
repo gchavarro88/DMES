@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -98,9 +99,9 @@ public class ScEmployee implements Serializable
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)
     private ScPerson idPerson;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployee")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployee", fetch = FetchType.EAGER)
     private List<ScWorkExperience> scWorkExperienceList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployee")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEmployee", fetch = FetchType.EAGER)
     private List<ScCompetencies> scCompetenciesList;
 
     public ScEmployee()

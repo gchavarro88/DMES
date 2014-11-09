@@ -7,50 +7,15 @@ package com.sip.dmes.dao.bo;
 
 import com.sip.dmes.entitys.ScEmployee;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
-/**
- *
- * @author user
- */
-public interface IScEmployee {
+public interface IScEmployee 
+{
+    public void createEmployee(ScEmployee employee)throws Exception;
     
+    public void updateEmployee(ScEmployee employee)throws Exception;
     
-     EntityManagerFactory emf = Persistence.createEntityManagerFactory("DMES_PersistenceUnit");
+    public void deleteteEmployeeById(ScEmployee employee)throws Exception;
+    
+    public List<ScEmployee> getAllEmployees()throws Exception;
 
-      /**
-     * Add ScEmployee
-     *
-     * @param  ScEmployee ScEmployee
-     */
-    public void addScEmployee(ScEmployee ScEmployee);
- 
-    /**
-     * Update ScEmployee
-     *
-     * @param  ScEmployee ScEmployee
-     */
-    public void updateScEmployee(ScEmployee ScEmployee);
- 
-    /**
-     * Delete ScEmployee
-     *
-     * @param  ScEmployee ScEmployee
-     */
-    public void deleteScEmployee(ScEmployee ScEmployee);
- 
-    /**
-     * Get ScEmployee
-     *
-     * @param  int ScEmployee Id
-     */
-    public ScEmployee getScEmployeeById(int id);
- 
-    /**
-     * Get ScEmployee List
-     *
-     */
-    public List<ScEmployee> getScEmployees();
-    
 }
