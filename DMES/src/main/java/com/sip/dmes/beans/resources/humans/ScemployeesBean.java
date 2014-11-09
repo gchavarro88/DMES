@@ -15,6 +15,7 @@ import com.sip.dmes.utilities.DMESConstants;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -48,7 +49,7 @@ public class ScemployeesBean
     {
         
     }
-    
+    @PostConstruct
     public void initData()
     {
         fillListEmployee();

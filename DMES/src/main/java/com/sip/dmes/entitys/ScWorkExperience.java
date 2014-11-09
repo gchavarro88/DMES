@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "sc_work_experience")
+@Table(name = "sc_work_experience", schema = "dmes")
 @NamedQueries(
 {
     @NamedQuery(name = "ScWorkExperience.findAll", query = "SELECT s FROM ScWorkExperience s"),
