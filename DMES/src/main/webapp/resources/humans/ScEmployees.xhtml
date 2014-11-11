@@ -20,7 +20,188 @@
            
             
             
-            
+            <!--         Dialogo para guardar nuevos Empleados         -->
+            <p:dialog id="dialogEmployeeSave" widgetVar="dialogEmployeeSave" draggable="true" 
+                      closable="true"  header="Crear Usuarios" position="center top" width="450"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                <h:form id="formWizard">
+                    <p:wizard  flowListener="#{scemployeesBean.onFlowProcessSaveEmployee}" id="wizardSave" widgetVar="wizardSave">
+                        <p:tab title="Tercero" id="tabPerson" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar el tercero">
+                            <p:panel header="Agregar Tercero" style="text-align: center;">
+                                <p:dataTable id="dataTablePersons" value="#{scemployeesBean.personsList}"
+                                             paginator="true" rows="10"  var="persons"
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowKey="#{persons.idPerson}"
+                                             resizableColumns="true" 
+                                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                             sortBy="#{persons.lastName} #{persons.firstName}"
+                                             paginatorPosition="top" selection="#{scemployeesBean.personAdd}"
+                                             >
+                                    <p:column selectionMode="single" width="16"/>
+                                    <p:column headerText="Personas Disponibles">
+                                        <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
+                                    </p:column> 
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Datos del Empleado" id="tabEmployee" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del empleado">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfPositionSave" value="Cargo"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfPositionSave"  value="#{scemployeesBean.employeeAdd.position}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el cargo del empleado"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfFormationSave" value="Formación"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfFormation"  value="#{scemployeesBean.employeeAdd.formation}"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfSalarySave" value="Salario"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfSalarySave"  value="#{scemployeesBean.employeeAdd.salary}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el salario del empleado"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfHourValueSave" value="Valor Hora"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfHourValueSave"  value="#{scemployeesBean.employeeAdd.hourValue}"
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor de la hora del empleado"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfPorcentageSave" value="Porcentaje de Rango del Cargo"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfPorcentageSave"  value="#{scemployeesBean.employeeAdd.porcentage}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el porcentaje del rango del empleado"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfHourValueSave" value="Cantidad de Rango del Cargo"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfHourValueSave"  value="#{scemployeesBean.employeeAdd.amount}"
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar la cantidad del rango el empleado"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfadmitionDate" value="Fecha de Ingreso"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputMask  id="tfadmitionDate" value="#{scusersBean.password2}" mask="99/99/9999"
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar la fecha de admisión del empleado"
+                                            />                                    
+                                            <p:tooltip for="tfadmitionDate" value="Debe ingresar una fecha con el formato dd/mm/aaaa"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfFormation" value="Formación"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfFormation"  value="#{scemployeesBean.employeeAdd.formation}"/>                                
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="Persona" id="tabPerson" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar la persona a la que se le va asignar el usuario">
+                            <p:panel header="Agregar Persona" style="text-align: center;">
+                                <p:dataTable id="dataTablePersons" value="#{scusersBean.personsList}"
+                                             paginator="true" rows="10"  var="persons"
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowKey="#{persons.idPerson}"
+                                             resizableColumns="true" 
+                                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                             sortBy="#{persons.lastName} #{persons.firstName}"
+                                             paginatorPosition="top" selection="#{scusersBean.personSelectedAdd}"
+                                             >
+                                    <p:column selectionMode="single" width="16"/>
+                                    <p:column headerText="Personas Disponibles">
+                                        <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
+                                    </p:column> 
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Grupos y Roles" id="tabRoles" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para seleccionar el grupo o rol que se le va a asignar al usuario">
+                        <p:panel header="Agregar Grupo y Rol" style="text-align: center;">
+                            <p:dataTable id="dataTableRoles" value="#{scusersBean.rolesList}"
+                                         paginator="true" rows="10"  var="roles"
+                                         pageLinks="40"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowKey="#{roles.idRole}"
+                                         resizableColumns="true" 
+                                         liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                         sortBy="#{roles.name}"
+                                         scrollable="true"
+                                         scrollHeight="260"
+                                         paginatorPosition="top" selection="#{scusersBean.roleSelectedAdd}">
+                                <p:column selectionMode="single" width="16"/>
+                                <p:column headerText="Roles Activos" >
+                                    <p:outputLabel value="#{roles.name}"/>
+                                </p:column> 
+                            </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab title="Confirmar datos" id="tabAccept" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para confirmar los datos del usuario a crear">
+                            <p:panel header="Crear Usuario" style="text-align: center;">
+                                <table width="98%" cellspacing="10" style="text-align: center;">
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Nombre de Usuario:" /> </td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.userAdd.login}"/> </td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Grupo o Rol:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.roleSelectedAdd.name}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Tercero:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.personSelectedAdd.lastName} #{scusersBean.personSelectedAdd.firstName}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Fecha de Creación:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.getCurrentDate()}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="98%" colspan="2">
+                                            <p:commandButton id="btnSaveUser" value="Guardar Usuario" onsuccess="PF('dialogUserSave').hide()"
+                                            actionListener="#{scusersBean.saveUser()}" update=":formUsers:scUsersDataTable,:formWizard"
+                                            oncomplete="PF('wizardSave').loadStep('tabUser', false)"
+                                                            />
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelUser" value="Cancelar" oncomplete="PF('dialogUserSave').hide();PF('wizardSave').loadStep('tabUser', false)"
+                                                             actionListener="#{scusersBean.cleanFields()}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+
+            </p:dialog>
+            <!--         finaliza el dialogo para guardar Usuarios               -->
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formEmployees">
                 <p:dataTable id="scEmployeesDataTable" draggableColumns="true" emptyMessage="" 

@@ -11,7 +11,9 @@ import com.sip.dmes.dao.bo.IScPerson;
 import com.sip.dmes.dao.bs.ScEmployeeDao;
 import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScPerson;
+
 import com.sip.dmes.utilities.DMESConstants;
+import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -73,6 +76,20 @@ public class ScemployeesBean
     }
 
     
+    
+
+    
+    public String onFlowProcessSaveEmployee(FlowEvent event) 
+    {    
+        if(event.getOldStep().equals(""))
+        {
+            
+            
+        }
+        
+        
+            return event.getNewStep(); 
+    }
     
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y

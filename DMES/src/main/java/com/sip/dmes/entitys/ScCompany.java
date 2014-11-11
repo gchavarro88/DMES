@@ -48,10 +48,6 @@ public class ScCompany implements Serializable
     @Size(max = 2000)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCompany")
-    private List<ScWorkExperience> scWorkExperienceList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCompany")
-    private List<ScPartner> scPartnerList;
 
     public ScCompany()
     {
@@ -98,26 +94,7 @@ public class ScCompany implements Serializable
         this.description = description;
     }
 
-    public List<ScWorkExperience> getScWorkExperienceList()
-    {
-        return scWorkExperienceList;
-    }
-
-    public void setScWorkExperienceList(List<ScWorkExperience> scWorkExperienceList)
-    {
-        this.scWorkExperienceList = scWorkExperienceList;
-    }
-
-    public List<ScPartner> getScPartnerList()
-    {
-        return scPartnerList;
-    }
-
-    public void setScPartnerList(List<ScPartner> scPartnerList)
-    {
-        this.scPartnerList = scPartnerList;
-    }
-
+   
     @Override
     public int hashCode()
     {
