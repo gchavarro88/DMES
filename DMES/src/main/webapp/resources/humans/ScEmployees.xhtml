@@ -91,10 +91,10 @@
                                                 required="true" requiredMessage="Campo obligatorio debe ingresar el porcentaje del rango del empleado"/>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfHourValueSave" value="Cantidad de Rango del Cargo"/>
+                                            <p:outputLabel  for="tfRangeAmount" value="Cantidad de Rango del Cargo"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfHourValueSave"  value="#{scemployeesBean.employeeAdd.amount}"
+                                            <p:inputText    id="tfRangeAmount"  value="#{scemployeesBean.employeeAdd.amount}"
                                             required="true" requiredMessage="Campo obligatorio debe ingresar la cantidad del rango el empleado"/>                                
                                         </td>
                                     </tr>
@@ -108,95 +108,102 @@
                                             />                                    
                                             <p:tooltip for="tfadmitionDate" value="Debe ingresar una fecha con el formato dd/mm/aaaa"/>
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfFormation" value="Formación"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="tfFormation"  value="#{scemployeesBean.employeeAdd.formation}"/>                                
+                                        <td colspan="2">
+                                            
                                         </td>
                                     </tr>
                                 </table>
                             </p:panel>
                         </p:tab> 
-                        <p:tab title="Persona" id="tabPerson" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para seleccionar la persona a la que se le va asignar el usuario">
-                            <p:panel header="Agregar Persona" style="text-align: center;">
-                                <p:dataTable id="dataTablePersons" value="#{scusersBean.personsList}"
-                                             paginator="true" rows="10"  var="persons"
-                                             pageLinks="40"
-                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             rowKey="#{persons.idPerson}"
-                                             resizableColumns="true" 
-                                             liveResize="true" rowsPerPageTemplate="10,20,30" 
-                                             sortBy="#{persons.lastName} #{persons.firstName}"
-                                             paginatorPosition="top" selection="#{scusersBean.personSelectedAdd}"
-                                             >
-                                    <p:column selectionMode="single" width="16"/>
-                                    <p:column headerText="Personas Disponibles">
-                                        <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
-                                    </p:column> 
-                                </p:dataTable>
-                            </p:panel>
-                        </p:tab>
-                        <p:tab title="Grupos y Roles" id="tabRoles" titleStyleClass="tabTittleSavePerson"
-                               titletip="Pestaña para seleccionar el grupo o rol que se le va a asignar al usuario">
-                        <p:panel header="Agregar Grupo y Rol" style="text-align: center;">
-                            <p:dataTable id="dataTableRoles" value="#{scusersBean.rolesList}"
-                                         paginator="true" rows="10"  var="roles"
-                                         pageLinks="40"
-                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         rowKey="#{roles.idRole}"
-                                         resizableColumns="true" 
-                                         liveResize="true" rowsPerPageTemplate="10,20,30" 
-                                         sortBy="#{roles.name}"
-                                         scrollable="true"
-                                         scrollHeight="260"
-                                         paginatorPosition="top" selection="#{scusersBean.roleSelectedAdd}">
-                                <p:column selectionMode="single" width="16"/>
-                                <p:column headerText="Roles Activos" >
-                                    <p:outputLabel value="#{roles.name}"/>
-                                </p:column> 
-                            </p:dataTable>
-                            </p:panel>
-                        </p:tab>
-
-                        <p:tab title="Confirmar datos" id="tabAccept" titleStyleClass="tabTittleSavePerson"
-                               titletip="Pestaña para confirmar los datos del usuario a crear">
-                            <p:panel header="Crear Usuario" style="text-align: center;">
-                                <table width="98%" cellspacing="10" style="text-align: center;">
+                        <p:tab title="Experiencia Laboral" id="tabWorkExperiencie" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para ingresar la experiencia laboral del empleado">
+                            <p:panel header="Agregar Experiencia Laboral" style="text-align: center;">
+                                <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td align="left" width="40%"><p:outputLabel value="Nombre de Usuario:" /> </td>
-                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.userAdd.login}"/> </td>
-                                    </tr> 
-                                    <tr>
-                                        <td align="left" width="40%"><p:outputLabel value="Grupo o Rol:"/></td>
-                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.roleSelectedAdd.name}"/></td>
-                                    </tr> 
-                                    <tr>
-                                        <td align="left" width="40%"><p:outputLabel value="Tercero:"/></td>
-                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.personSelectedAdd.lastName} #{scusersBean.personSelectedAdd.firstName}"/></td>
-                                    </tr> 
-                                    <tr>
-                                        <td align="left" width="40%"><p:outputLabel value="Fecha de Creación:"/></td>
-                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.getCurrentDate()}"/></td>
-                                    </tr> 
-                                    <tr>
-                                        <td width="98%" colspan="2">
-                                            <p:commandButton id="btnSaveUser" value="Guardar Usuario" onsuccess="PF('dialogUserSave').hide()"
-                                            actionListener="#{scusersBean.saveUser()}" update=":formUsers:scUsersDataTable,:formWizard"
-                                            oncomplete="PF('wizardSave').loadStep('tabUser', false)"
-                                                            />
-                                            <p:spacer width="30"/>
-                                            <p:commandButton id="btnCancelUser" value="Cancelar" oncomplete="PF('dialogUserSave').hide();PF('wizardSave').loadStep('tabUser', false)"
-                                                             actionListener="#{scusersBean.cleanFields()}"/>
+                                        <td width="40%">
+                                        <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfNameCompany" value="Nombre de la Empresa"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputText id="tfNameCompany" value="#{scemployeesBean.workExperienceAdd.idCompany.name}"
+                                                                 required="true" requiredMessage="Debe ingresar el nombre de la experiencia laboral"/>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                <p:outputLabel for="tfCompanyDescription" value="Descripción de la Empresa"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputTextarea id="tfCompanyDescription" value="#{scemployeesBean.workExperienceAdd.idCompany.description}"/>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfInitDate" value="Fecha de Inicio"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:calendar id="tfInitDate" value="#{scemployeesBean.workExperienceAdd.initDate}" 
+                                                        pattern="dd/MM/yyyy" effect="explode" required="true" requiredMessage="Debe ingresar la fecha inicial de la experiencia laboral"/>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                <p:outputLabel for="tfInitEnd" value="Fecha de Retiro"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:calendar id="tfInitEnd" value="#{scemployeesBean.workExperienceAdd.endDate}" 
+                                                        pattern="dd/MM/yyyy" effect="explode" required="true" requiredMessage="Debe ingresar la fecha de retiro de la experiencia laboral"/>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfNameCompany,tfInitDate,tfInitEnd,dataTableWorkExperiencies"
+                                                                             actionListener="#{scemployeesBean.saveWorkExperiencieAdd()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                        <p:dataTable id="dataTableWorkExperiencies" 
+                                                             var="workExperiencies" 
+                                                             value="#{scemployeesBean.workExperiencesListAdd}"
+                                                             rowKey="#{workExperiencies.idWorkExperience}"
+                                                             paginator="true" rows="15"  
+                                                             pageLinks="40" editable="true"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                             paginatorPosition="top"
+                                                             sortBy="#{workExperiencies.idWorkExperience}">
+                                                    <p:column style="width:32px">
+                                                        <p:commandButton icon="ui-icon-close" update="dataTableWorkExperiencies"
+                                                                         actionListener="#{scemployeesBean.removeWorkExperiencie(workExperiencies)}">
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                    <p:column headerText="Empresa" sortBy="#{workExperiencies.idCompany.name}">
+                                                        <p:outputLabel value="#{workExperiencies.idCompany.name}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Descripción" sortBy="#{workExperiencies.idCompany.name}">
+                                                        <p:outputLabel value="#{workExperiencies.idCompany.description}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Fecha de Inicio" sortBy="#{workExperiencies.idCompany.name}">
+                                                        <p:outputLabel value="#{workExperiencies.initDate}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Fecha de Retiro" sortBy="#{workExperiencies.idCompany.name}">
+                                                        <p:outputLabel value="#{workExperiencies.endDate}"/>
+                                                    </p:column>
+                                                </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
                             </p:panel>
-
                         </p:tab>
+                        
                     </p:wizard>
                 </h:form>
 
@@ -218,20 +225,19 @@
                              >
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
-                                         oncomplete="PF('dialogUserSave').show()">
+                                         oncomplete="PF('dialogEmployeeSave').show()">
                             <p:tooltip for="btnAdd" value="Agregar un Empleado"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogUsersView').show()"/>
+                    <p:ajax event="rowSelect" />
                     <p:column headerText="Administración">
                         <center>
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit" 
-                                             oncomplete="PF('dialogUserUpdate').show()"  
                                              >
                                 <p:tooltip for="btnEdit" value="Editar Empleado"/>
                             </p:commandButton>
                             <p:spacer width="10"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogUsersDelete').show()"
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" 
                                              >
                                 <p:tooltip for="btnDelete" value="Eliminar Empleado"/>
                             </p:commandButton>

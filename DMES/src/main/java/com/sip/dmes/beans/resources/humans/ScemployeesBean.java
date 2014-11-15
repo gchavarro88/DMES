@@ -9,12 +9,15 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScEmployee;
 import com.sip.dmes.dao.bo.IScPerson;
 import com.sip.dmes.dao.bs.ScEmployeeDao;
+import com.sip.dmes.entitys.ScCompetencies;
 import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScPerson;
+import com.sip.dmes.entitys.ScWorkExperience;
 
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -39,6 +42,12 @@ public class ScemployeesBean
     private ScEmployee employeeAdd;
     private ScEmployee employeeSelected;
     private ScEmployee employeeUpdate;
+    private ScWorkExperience workExperienceAdd;
+    private ScWorkExperience workExperienceUpdate;
+    private ScCompetencies competenciesAdd;
+    private ScCompetencies competenciesUpdate;
+    private List<ScCompetencies> competenciesListAdd;
+    private List<ScWorkExperience> workExperiencesListAdd;
     private List<ScPerson> personsList;
     private List<ScEmployee> employeesList;
     private final static Logger log = Logger.getLogger(ScemployeesBean.class);
@@ -52,11 +61,13 @@ public class ScemployeesBean
     {
         
     }
+    
+    
     @PostConstruct
     public void initData()
     {
+        cleanValues();
         fillListEmployee();
-        
     }
     
     public void fillListEmployee()
@@ -74,8 +85,44 @@ public class ScemployeesBean
             }
         }
     }
-
     
+    
+    public void fillListPersons()
+    {
+        try
+        {
+            if(getPersonsList() == null)
+            {
+                List personsWithOutEmployee = getScPersonServer().findPersonWithOutPartnerOrEmployee();
+                if(personsWithOutEmployee != null)
+                {
+                    setPersonsList(new ArrayList<ScPerson>());
+                }
+            }
+        }
+        catch (Exception e)
+        { 
+            log.error("Error al intentar consultar las personas que no cuentan con un usuario",e);
+        }
+    
+    }
+
+    public void cleanValues()
+    {
+        setPersonAdd(new ScPerson());
+        setPersonUpdate(new ScPerson());
+        setEmployeeAdd(new ScEmployee());
+        setEmployeeSelected(new ScEmployee());
+        setEmployeeUpdate(new ScEmployee());
+        setWorkExperienceAdd(new ScWorkExperience());
+        setWorkExperienceUpdate(new ScWorkExperience());
+        setCompetenciesAdd(new ScCompetencies());
+        setCompetenciesUpdate(new ScCompetencies());
+        setCompetenciesListAdd(new ArrayList<ScCompetencies>());
+        setWorkExperiencesListAdd(new ArrayList<ScWorkExperience>());
+        setPersonsList(new ArrayList<ScPerson>());
+        setEmployeesList(new ArrayList<ScEmployee>());
+    }
     
 
     
@@ -90,6 +137,40 @@ public class ScemployeesBean
         
             return event.getNewStep(); 
     }
+    
+    public void saveWorkExperiencieAdd()
+    {
+        if(getWorkExperienceAdd() != null && getWorkExperiencesListAdd() != null)
+        {
+            getWorkExperienceAdd().setIdEmployee(getEmployeeAdd());
+            getWorkExperiencesListAdd().add(getWorkExperienceAdd());
+            addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
+        }
+        else
+        {
+            log.error("Error al intentar agregar una experiencia laboral");
+            addError(null, "Error al Agregar una Experiencia Laboral ", "No se pudo agregar la experiencia laboral");
+        }
+    }
+    
+    public void removeWorkExperiencie(ScWorkExperience workExperienceDelete)
+    {
+        if(getWorkExperiencesListAdd() != null)
+        {
+            for(ScWorkExperience workExperienceList: getWorkExperiencesListAdd())
+            {
+                if(workExperienceList.getIdCompany().getName().
+                    equalsIgnoreCase(workExperienceDelete.getIdCompany().getName()))
+                {
+                    getWorkExperiencesListAdd().remove(workExperienceList);
+                    addInfo(null, "Experiencia Laboral Eliminada", "Se eliminó la experiencia laboral con éxito");
+                    break;
+                }
+            }
+        }
+    }
+    
+    
     
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
@@ -263,6 +344,66 @@ public class ScemployeesBean
     public void setEmployeeSelected(ScEmployee employeeSelected)
     {
         this.employeeSelected = employeeSelected;
+    }
+
+    public ScWorkExperience getWorkExperienceAdd()
+    {
+        return workExperienceAdd;
+    }
+
+    public void setWorkExperienceAdd(ScWorkExperience workExperienceAdd)
+    {
+        this.workExperienceAdd = workExperienceAdd;
+    }
+
+    public ScWorkExperience getWorkExperienceUpdate()
+    {
+        return workExperienceUpdate;
+    }
+
+    public void setWorkExperienceUpdate(ScWorkExperience workExperienceUpdate)
+    {
+        this.workExperienceUpdate = workExperienceUpdate;
+    }
+
+    public ScCompetencies getCompetenciesAdd()
+    {
+        return competenciesAdd;
+    }
+
+    public void setCompetenciesAdd(ScCompetencies competenciesAdd)
+    {
+        this.competenciesAdd = competenciesAdd;
+    }
+
+    public ScCompetencies getCompetenciesUpdate()
+    {
+        return competenciesUpdate;
+    }
+
+    public void setCompetenciesUpdate(ScCompetencies competenciesUpdate)
+    {
+        this.competenciesUpdate = competenciesUpdate;
+    }
+
+    public List<ScCompetencies> getCompetenciesListAdd()
+    {
+        return competenciesListAdd;
+    }
+
+    public void setCompetenciesListAdd(List<ScCompetencies> competenciesListAdd)
+    {
+        this.competenciesListAdd = competenciesListAdd;
+    }
+
+    public List<ScWorkExperience> getWorkExperiencesListAdd()
+    {
+        return workExperiencesListAdd;
+    }
+
+    public void setWorkExperiencesListAdd(List<ScWorkExperience> workExperiencesListAdd)
+    {
+        this.workExperiencesListAdd = workExperiencesListAdd;
     }
     
     
