@@ -27,11 +27,11 @@ public class ScEmployeeDao implements IScEmployee
     private final static Logger log = Logger.getLogger(ScEmployeeDao.class);
 
     @Override
-    @Transactional
+    @Transactional 
     public void createEmployee(ScEmployee employee) throws Exception
     {
         try
-        {
+        { 
             entityManager.persist(employee);
         }
         catch (Exception e)
@@ -58,9 +58,18 @@ public class ScEmployeeDao implements IScEmployee
     @Transactional
     public void deleteteEmployeeById(ScEmployee employee) throws Exception
     {
+        int rows = -1;
         try
         {
-            entityManager.remove(employee);
+            Query query = entityManager.createNamedQuery("ScCompetencies.deleteByIdEmployee");
+            query.setParameter("idEmployee", employee);
+            rows = query.executeUpdate();
+            query = entityManager.createNamedQuery("ScWorkExperience.deleteByIdEmployee");
+            query.setParameter("idEmployee", employee);
+            rows = query.executeUpdate();
+            query = entityManager.createNamedQuery("ScEmployee.deleteByIdEmployee");
+            query.setParameter("idEmployee", employee.getIdEmployee());
+            rows = query.executeUpdate();
         }
         catch (Exception e)
         {

@@ -9,11 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,12 +31,15 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScCompetencies.findAll", query = "SELECT s FROM ScCompetencies s"),
     @NamedQuery(name = "ScCompetencies.findByIdCompetencies", query = "SELECT s FROM ScCompetencies s WHERE s.idCompetencies = :idCompetencies"),
     @NamedQuery(name = "ScCompetencies.findByTittle", query = "SELECT s FROM ScCompetencies s WHERE s.tittle = :tittle"),
-    @NamedQuery(name = "ScCompetencies.findByDescription", query = "SELECT s FROM ScCompetencies s WHERE s.description = :description")
+    @NamedQuery(name = "ScCompetencies.findByDescription", query = "SELECT s FROM ScCompetencies s WHERE s.description = :description"),
+    @NamedQuery(name = "ScCompetencies.deleteByIdEmployee", query = "DELETE FROM ScCompetencies s WHERE s.idEmployee = :idEmployee")
 })
 public class ScCompetencies implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqsccompetencies")
+    @SequenceGenerator(name = "dmes.sqsccompetencies", sequenceName = "dmes.sqsccompetencies", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_competencies")

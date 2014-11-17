@@ -75,9 +75,8 @@ public class ScPartner implements Serializable
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)
     private ScPerson idPerson;
-    @JoinColumn(name = "id_company", referencedColumnName = "id_company")
-    @ManyToOne(optional = false)
-    private ScCompany idCompany;
+    @Column(name = "company_name")
+    private String companyName;
 
     public ScPartner()
     {
@@ -176,15 +175,16 @@ public class ScPartner implements Serializable
         this.idPerson = idPerson;
     }
 
-    public ScCompany getIdCompany()
+    public String getCompanyName()
     {
-        return idCompany;
+        return companyName;
     }
 
-    public void setIdCompany(ScCompany idCompany)
+    public void setCompanyName(String companyName)
     {
-        this.idCompany = idCompany;
+        this.companyName = companyName;
     }
+
 
     @Override
     public int hashCode()

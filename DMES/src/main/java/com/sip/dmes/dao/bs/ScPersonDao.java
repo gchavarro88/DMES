@@ -145,6 +145,23 @@ public class ScPersonDao implements IScPerson
             log.error("Error intentando consultar las personas que no tienen usuario ", e);
         }
         return result;
-    }
+    } 
 
+    @Override
+    public List findPersonWithOutPartnerOrEmployee() throws Exception
+    {
+        List result = null;
+        try
+        {
+            Query query = entityManager.createNativeQuery("SELECT p.* FROM dmes.SC_PERSON p WHERE p.ID_PERSON NOT IN\n"
+                    + "(SELECT e.ID_PERSON FROM dmes.SC_EMPLOYEE e ) AND p.ID_PERSON NOT IN \n"
+                    + "(SELECT a.ID_PERSON FROM dmes.SC_PARTNER a )");
+            result = query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando consultar las personas que no tienen asociado un empleado o un proveedor ", e);
+        }
+        return result;
+    }
 }

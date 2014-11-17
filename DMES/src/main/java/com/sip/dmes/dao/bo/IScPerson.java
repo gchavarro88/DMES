@@ -54,5 +54,8 @@ public interface IScPerson {
  
     //Consulta de las personas que aun no tienen Usuario
     public List findPersonWithOutUser() throws Exception;
+    
+    //Consulta de las personas que aun no tienen Usuario
+    public List findPersonWithOutPartnerOrEmployee() throws Exception;
 
 }

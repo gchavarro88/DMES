@@ -10,11 +10,13 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,12 +33,15 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "ScWorkExperience.findAll", query = "SELECT s FROM ScWorkExperience s"),
     @NamedQuery(name = "ScWorkExperience.findByIdWorkExperience", query = "SELECT s FROM ScWorkExperience s WHERE s.idWorkExperience = :idWorkExperience"),
     @NamedQuery(name = "ScWorkExperience.findByInitDate", query = "SELECT s FROM ScWorkExperience s WHERE s.initDate = :initDate"),
-    @NamedQuery(name = "ScWorkExperience.findByEndDate", query = "SELECT s FROM ScWorkExperience s WHERE s.endDate = :endDate")
+    @NamedQuery(name = "ScWorkExperience.findByEndDate", query = "SELECT s FROM ScWorkExperience s WHERE s.endDate = :endDate"),
+    @NamedQuery(name = "ScWorkExperience.deleteByIdEmployee", query = "DELETE FROM ScWorkExperience s WHERE s.idEmployee = :idEmployee")
 })
 public class ScWorkExperience implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqscworkexperience")
+    @SequenceGenerator(name = "dmes.sqscworkexperience", sequenceName = "dmes.sqscworkexperience", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_work_experience")
@@ -54,9 +59,8 @@ public class ScWorkExperience implements Serializable
     @JoinColumn(name = "id_employee", referencedColumnName = "id_employee")
     @ManyToOne(optional = false)
     private ScEmployee idEmployee;
-    @JoinColumn(name = "id_company", referencedColumnName = "id_company")
-    @ManyToOne(optional = false)
-    private ScCompany idCompany;
+    @Column(name = "company_name")
+    private String companyName;
 
     public ScWorkExperience()
     {
@@ -114,16 +118,17 @@ public class ScWorkExperience implements Serializable
         this.idEmployee = idEmployee;
     }
 
-    public ScCompany getIdCompany()
+    public String getCompanyName()
     {
-        return idCompany;
+        return companyName;
     }
 
-    public void setIdCompany(ScCompany idCompany)
+    public void setCompanyName(String companyName)
     {
-        this.idCompany = idCompany;
+        this.companyName = companyName;
     }
 
+    
     @Override
     public int hashCode()
     {

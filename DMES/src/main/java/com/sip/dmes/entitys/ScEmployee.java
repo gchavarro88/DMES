@@ -14,12 +14,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,12 +49,15 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScEmployee.findByAmount", query = "SELECT s FROM ScEmployee s WHERE s.amount = :amount"),
     @NamedQuery(name = "ScEmployee.findByCreationDate", query = "SELECT s FROM ScEmployee s WHERE s.creationDate = :creationDate"),
     @NamedQuery(name = "ScEmployee.findByModifyDate", query = "SELECT s FROM ScEmployee s WHERE s.modifyDate = :modifyDate"),
-    @NamedQuery(name = "ScEmployee.deleteByPerson", query = "DELETE FROM ScEmployee s WHERE s.idPerson = :idPerson")
+    @NamedQuery(name = "ScEmployee.deleteByPerson", query = "DELETE FROM ScEmployee s WHERE s.idPerson = :idPerson"),
+    @NamedQuery(name = "ScEmployee.deleteByIdEmployee", query = "DELETE FROM ScEmployee s WHERE s.idEmployee = :idEmployee")
 })
 public class ScEmployee implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqscemployee")
+    @SequenceGenerator(name = "dmes.sqscemployee", sequenceName = "dmes.sqscemployee", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_employee")

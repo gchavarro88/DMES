@@ -9,8 +9,6 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScPerson;
 import com.sip.dmes.dao.bo.IScRoles;
 import com.sip.dmes.dao.bo.IScUsers;
-import com.sip.dmes.entitys.ScModulePermission;
-import com.sip.dmes.entitys.ScModulePermissionByRole;
 import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScRoles;
 import com.sip.dmes.entitys.ScUsers;
@@ -257,6 +255,7 @@ public class ScusersBean
             {
                 getUserAdd().setCreationDate(new Date());
                 getUserAdd().setIdPerson(getPersonSelectedAdd());
+                getPersonsList().remove(getPersonSelectedAdd());
                 getUserAdd().setIdRole(getRoleSelectedAdd());
                 getUserAdd().setPassword(Utilities.encriptaEnMD5(getUserAdd().getPassword()));
                 getScUsersServer().createUser(getUserAdd());
@@ -288,6 +287,7 @@ public class ScusersBean
                     getUserUpdate().setPassword(Utilities.encriptaEnMD5(getUserUpdate().getPassword()));
                 }
                 getScUsersServer().updateUser(getUserUpdate());
+                getPersonsList().remove(getUserUpdate().getIdPerson());
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                 log.info("Se actualizó el usuario con total exito");
             }
@@ -310,12 +310,7 @@ public class ScusersBean
                 setLastPassword(userSelected.getPassword());
                 if(getPersonsList() != null)
                 {   
-                    setPersonsListUpdate(new ArrayList<ScPerson>());
-                    for(ScPerson person: getPersonsList())
-                    {
-                        getPersonsListUpdate().add(person);
-                    }
-                    getPersonsListUpdate().add(userSelected.getIdPerson());
+                    getPersonsList().add(userSelected.getIdPerson());
                 }
             }
             

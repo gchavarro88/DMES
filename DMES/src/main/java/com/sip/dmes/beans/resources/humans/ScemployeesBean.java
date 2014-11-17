@@ -9,6 +9,7 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScEmployee;
 import com.sip.dmes.dao.bo.IScPerson;
 import com.sip.dmes.dao.bs.ScEmployeeDao;
+import com.sip.dmes.entitys.ScCompany;
 import com.sip.dmes.entitys.ScCompetencies;
 import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScPerson;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -53,6 +55,9 @@ public class ScemployeesBean
     private final static Logger log = Logger.getLogger(ScemployeesBean.class);
     
     
+    
+    private final String TAB_CONFIRM_SAVE = "tabAcceptSave";
+    
 
     /**
      * Creates a new instance of ScemployeesBean
@@ -68,7 +73,8 @@ public class ScemployeesBean
     {
         cleanValues();
         fillListEmployee();
-    }
+        fillListPersons();
+    }   
     
     public void fillListEmployee()
     {
@@ -88,15 +94,19 @@ public class ScemployeesBean
     
     
     public void fillListPersons()
-    {
+    { 
         try
-        {
+        { 
             if(getPersonsList() == null)
             {
                 List personsWithOutEmployee = getScPersonServer().findPersonWithOutPartnerOrEmployee();
                 if(personsWithOutEmployee != null)
                 {
                     setPersonsList(new ArrayList<ScPerson>());
+                    for (Object object : personsWithOutEmployee)
+                    {
+                        getPersonsList().add(ObjectToScPerson(object));
+                    }
                 }
             }
         }
@@ -106,7 +116,15 @@ public class ScemployeesBean
         }
     
     }
-
+    
+    public void numericValidation(String field)
+    {
+        if(!Utilities.isNumeric(field))
+        {
+            addError(null, "Valor no numérico", "Debe ingresar un valor numérico, "
+                    + "de lo contrario no podrá ir al siguiente paso");
+        }
+    }
     public void cleanValues()
     {
         setPersonAdd(new ScPerson());
@@ -120,18 +138,34 @@ public class ScemployeesBean
         setCompetenciesUpdate(new ScCompetencies());
         setCompetenciesListAdd(new ArrayList<ScCompetencies>());
         setWorkExperiencesListAdd(new ArrayList<ScWorkExperience>());
-        setPersonsList(new ArrayList<ScPerson>());
-        setEmployeesList(new ArrayList<ScEmployee>());
+        //setPersonsList(new ArrayList<ScPerson>());
+        //setEmployeesList(new ArrayList<ScEmployee>());
     }
     
-
+    public ScPerson ObjectToScPerson(Object object)
+    {
+        Object[] objectList = ((Object[]) object);
+        ScPerson newPerson = new ScPerson();
+        newPerson.setIdPerson(Long.parseLong(objectList[0].toString()));
+        newPerson.setFirstName(objectList[1].toString());
+        newPerson.setLastName(objectList[2].toString());
+        newPerson.setAge(Short.parseShort(objectList[3].toString()));
+        newPerson.setCountry(objectList[4].toString());
+        newPerson.setCity(objectList[5].toString());
+        newPerson.setPersonalInformation(objectList[6] !=null ? objectList[6].toString():"");
+        newPerson.setDomicilie(objectList[7].toString());
+        newPerson.setStudies(objectList[8] !=null ? objectList[8].toString():"");
+        newPerson.setDescription(objectList[9] !=null ? objectList[9].toString():"");
+        newPerson.setPathPhoto(objectList[10] !=null ? objectList[10].toString():"/");
+        newPerson.setIdentification(Long.parseLong(objectList[13].toString()));
+        return newPerson;
+    }
     
     public String onFlowProcessSaveEmployee(FlowEvent event) 
     {    
-        if(event.getOldStep().equals(""))
+        if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
         {
-            
-            
+            getEmployeeAdd().setCreationDate(new Date());
         }
         
         
@@ -144,6 +178,7 @@ public class ScemployeesBean
         {
             getWorkExperienceAdd().setIdEmployee(getEmployeeAdd());
             getWorkExperiencesListAdd().add(getWorkExperienceAdd());
+            setWorkExperienceAdd(new ScWorkExperience());
             addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
         }
         else
@@ -155,22 +190,133 @@ public class ScemployeesBean
     
     public void removeWorkExperiencie(ScWorkExperience workExperienceDelete)
     {
+        int i=0;
         if(getWorkExperiencesListAdd() != null)
         {
             for(ScWorkExperience workExperienceList: getWorkExperiencesListAdd())
             {
-                if(workExperienceList.getIdCompany().getName().
-                    equalsIgnoreCase(workExperienceDelete.getIdCompany().getName()))
-                {
-                    getWorkExperiencesListAdd().remove(workExperienceList);
-                    addInfo(null, "Experiencia Laboral Eliminada", "Se eliminó la experiencia laboral con éxito");
-                    break;
-                }
+                    if(workExperienceList.getCompanyName().
+                    equalsIgnoreCase(workExperienceDelete.getCompanyName()))
+                    {
+                        getWorkExperiencesListAdd().remove(i);
+                        addInfo(null, "Experiencia Laboral Eliminada", "Se eliminó la experiencia laboral con éxito");
+                        break;
+                    }
+                    i++;
             }
         }
     }
     
     
+    public void saveCompetencieAdd()
+    {
+        if(getCompetenciesAdd() != null && getCompetenciesListAdd()!= null)
+        {
+            getCompetenciesAdd().setIdEmployee(getEmployeeAdd());
+            getCompetenciesListAdd().add(getCompetenciesAdd());
+            setCompetenciesAdd(new ScCompetencies());
+            addInfo(null, "Competencia Agregada", "Se agregó la competencia con éxito");
+        }
+        else
+        {
+            log.error("Error al intentar agregar una competencia");
+            addError(null, "Error al Agregar una Competencia ", "No se pudo agregar la competencia");
+        }
+    }
+    
+    public void removeCompetencie(ScCompetencies competencies)
+    {
+        int i=0;
+        if(getWorkExperiencesListAdd() != null)
+        {
+            for(ScCompetencies competenciesList: getCompetenciesListAdd())
+            {
+                    if(competenciesList.getTittle().equals(competencies.getTittle()))
+                    {
+                        getCompetenciesListAdd().remove(i);
+                        addInfo(null, "Compentencia Eliminada", "Se eliminó la competencia con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
+    
+    public void saveEmployee()
+    {
+        if(getEmployeeAdd() != null)
+        {
+            if(getPersonAdd() != null)
+            {
+                getEmployeeAdd().setIdPerson(getPersonAdd());
+            }
+            if(!getWorkExperiencesListAdd().isEmpty())
+            {
+                getEmployeeAdd().setScWorkExperienceList(getWorkExperiencesListAdd());
+            }
+            if(!getCompetenciesListAdd().isEmpty())
+            {
+                getEmployeeAdd().setScCompetenciesList(getCompetenciesListAdd());
+            }
+            try
+            {
+                getEmployeeAdd().setActive('Y');
+                getScEmployeeServer().createEmployee(getEmployeeAdd());
+                getPersonsList().remove(getPersonAdd());
+                getEmployeesList().add(getEmployeeAdd());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                cleanValues();
+            }
+            catch(Exception e)
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error("Error al intentar crear un nuevo empleado",e);
+            }
+        }
+    
+    }
+    
+    public void getEmployeeByDataTable(ScEmployee employeeSelected)
+    {
+        try
+        {
+            if(employeeSelected != null)
+            {
+                setEmployeeSelected(employeeSelected);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando asignar el empleado seleccionado para operaciones de CRUD",e);
+        }
+    }
+    
+    
+    public void deleteEmployee()
+    {
+        try
+        {
+            if(getEmployeeSelected() != null)
+            {
+                for(ScEmployee employee: getEmployeesList())
+                {
+                    if(Objects.equals(employee.getIdEmployee(), getEmployeeSelected().getIdEmployee()))
+                    {
+                        getScEmployeeServer().deleteteEmployeeById(getEmployeeSelected());
+                        getEmployeesList().remove(getEmployeeSelected());
+                        addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                    }
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar eliminar un empleado", e);
+        }
+    
+    }
     
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
@@ -195,6 +341,14 @@ public class ScemployeesBean
         }
         return result;
     } 
+    
+    public String getFormatDate(Date date)
+    {
+        String result = "";
+        String patron = "dd-MM-yyyy";
+        result = getFormatDateGlobal(patron, date);
+        return result;
+    }
     
     /**
      * Método encargado de visualizar un  mensaje en la pantalla de tipo informativo

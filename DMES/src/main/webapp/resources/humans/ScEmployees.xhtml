@@ -17,93 +17,105 @@
             <p:graphicImage value="/images/loadBar.gif"/>
         </p:dialog>
         <div>
-           
-            
-            
             <!--         Dialogo para guardar nuevos Empleados         -->
             <p:dialog id="dialogEmployeeSave" widgetVar="dialogEmployeeSave" draggable="true" 
-                      closable="true"  header="Crear Usuarios" position="center top" width="450"
+                      closable="true"  header="Crear Usuarios" position="center top" width="750"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizard">
                     <p:wizard  flowListener="#{scemployeesBean.onFlowProcessSaveEmployee}" id="wizardSave" widgetVar="wizardSave">
                         <p:tab title="Tercero" id="tabPerson" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para seleccionar el tercero">
-                            <p:panel header="Agregar Tercero" style="text-align: center;">
+                            
+                            <p:panel header="Agregar Tercero" style="text-align: center; width: 100%;">
+                            <center>    
                                 <p:dataTable id="dataTablePersons" value="#{scemployeesBean.personsList}"
-                                             paginator="true" rows="10"  var="persons"
-                                             pageLinks="40"
-                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             rowKey="#{persons.idPerson}"
-                                             resizableColumns="true" 
-                                             liveResize="true" rowsPerPageTemplate="10,20,30" 
-                                             sortBy="#{persons.lastName} #{persons.firstName}"
-                                             paginatorPosition="top" selection="#{scemployeesBean.personAdd}"
-                                             >
+                                         paginator="true" rows="10"  var="persons"
+                                         pageLinks="40" style="width: 400px;"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowKey="#{persons.idPerson}"
+                                         resizableColumns="true" 
+                                         liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                         sortBy="#{persons.lastName} #{persons.firstName}"
+                                         paginatorPosition="top" selection="#{scemployeesBean.personAdd}"
+                                         >
                                     <p:column selectionMode="single" width="16"/>
                                     <p:column headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
                                     </p:column> 
                                 </p:dataTable>
+                            </center>
                             </p:panel>
+                            
                         </p:tab>
+<!--                        datos basicos del empleado-->
                         <p:tab title="Datos del Empleado" id="tabEmployee" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del empleado">
                             <p:panel header="Datos Básicos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="10%" align="right">
+                                        <td width="20%" align="right">
                                             <p:outputLabel  for="tfPositionSave" value="Cargo"/>
                                         </td>
-                                        <td width="40%" align="left">
+                                        <td width="30%" align="left">
                                             <p:inputText    id="tfPositionSave"  value="#{scemployeesBean.employeeAdd.position}"
-                                                required="true" requiredMessage="Campo obligatorio debe ingresar el cargo del empleado"/>
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el cargo del empleado">
+                                            
+                                            </p:inputText>
                                         </td>
-                                        <td width="10%" align="right">
+                                        <td width="20%" align="right">
                                             <p:outputLabel  for="tfFormationSave" value="Formación"/>
                                         </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="tfFormation"  value="#{scemployeesBean.employeeAdd.formation}"/>                                
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfFormationSave"  value="#{scemployeesBean.employeeAdd.formation}"/>                                
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
+                                        <td width="20%" align="right">
                                             <p:outputLabel  for="tfSalarySave" value="Salario"/>
                                         </td>
-                                        <td width="40%" align="left">
+                                        <td width="30%" align="left">
                                             <p:inputText    id="tfSalarySave"  value="#{scemployeesBean.employeeAdd.salary}"
-                                                required="true" requiredMessage="Campo obligatorio debe ingresar el salario del empleado"/>
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar el salario del empleado">
+                                            
+                                            </p:inputText>
                                         </td>
-                                        <td width="10%" align="right">
+                                        <td width="20%" align="right">
                                             <p:outputLabel  for="tfHourValueSave" value="Valor Hora"/>
                                         </td>
-                                        <td width="40%" align="left">
+                                        <td width="30%" align="left">
                                             <p:inputText    id="tfHourValueSave"  value="#{scemployeesBean.employeeAdd.hourValue}"
-                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor de la hora del empleado"/>                                
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor de la hora del empleado">
+                                            
+                                            </p:inputText>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
+                                        <td width="20%" align="right">
                                             <p:outputLabel  for="tfPorcentageSave" value="Porcentaje de Rango del Cargo"/>
                                         </td>
-                                        <td width="40%" align="left">
+                                        <td width="30%" align="left">
                                             <p:inputText    id="tfPorcentageSave"  value="#{scemployeesBean.employeeAdd.porcentage}"
-                                                required="true" requiredMessage="Campo obligatorio debe ingresar el porcentaje del rango del empleado"/>
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el porcentaje del rango del empleado">
+                                                
+                                            </p:inputText>
                                         </td>
-                                        <td width="10%" align="right">
+                                        <td width="20%" align="right">
                                             <p:outputLabel  for="tfRangeAmount" value="Cantidad de Rango del Cargo"/>
                                         </td>
-                                        <td width="40%" align="left">
+                                        <td width="30%" align="left">
                                             <p:inputText    id="tfRangeAmount"  value="#{scemployeesBean.employeeAdd.amount}"
-                                            required="true" requiredMessage="Campo obligatorio debe ingresar la cantidad del rango el empleado"/>                                
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar la cantidad del rango el empleado">                               
+                                                
+                                            </p:inputText>    
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
+                                        <td width="20%" align="right">
                                             <p:outputLabel  for="tfadmitionDate" value="Fecha de Ingreso"/>
                                         </td>
-                                        <td width="40%" align="left">
-                                            <p:inputMask  id="tfadmitionDate" value="#{scusersBean.password2}" mask="99/99/9999"
+                                        <td width="30%" align="left">
+                                            <p:calendar  id="tfadmitionDate" value="#{scemployeesBean.employeeAdd.admissionDate}" pattern="dd/MM/yyyy"
                                             required="true" requiredMessage="Campo obligatorio debe ingresar la fecha de admisión del empleado"
                                             />                                    
                                             <p:tooltip for="tfadmitionDate" value="Debe ingresar una fecha con el formato dd/mm/aaaa"/>
@@ -115,28 +127,21 @@
                                 </table>
                             </p:panel>
                         </p:tab> 
+<!--                        experiencia laboral           -->
                         <p:tab title="Experiencia Laboral" id="tabWorkExperiencie" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para ingresar la experiencia laboral del empleado">
                             <p:panel header="Agregar Experiencia Laboral" style="text-align: center;">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="40%">
+                                        <td width="30%">
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
                                                 <p:outputLabel for="tfNameCompany" value="Nombre de la Empresa"/>
                                                 </td>
                                                 <td width="60%">
-                                                    <p:inputText id="tfNameCompany" value="#{scemployeesBean.workExperienceAdd.idCompany.name}"
-                                                                 required="true" requiredMessage="Debe ingresar el nombre de la experiencia laboral"/>
-                                                </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="40%">
-                                                <p:outputLabel for="tfCompanyDescription" value="Descripción de la Empresa"/>
-                                                </td>
-                                                <td width="60%">
-                                                    <p:inputTextarea id="tfCompanyDescription" value="#{scemployeesBean.workExperienceAdd.idCompany.description}"/>
+                                                    <p:inputText id="tfNameCompany" value="#{scemployeesBean.workExperienceAdd.companyName}"
+                                                                 />
                                                 </td>
                                                 </tr>
                                                 <tr>
@@ -145,7 +150,7 @@
                                                 </td>
                                                 <td width="60%">
                                                     <p:calendar id="tfInitDate" value="#{scemployeesBean.workExperienceAdd.initDate}" 
-                                                        pattern="dd/MM/yyyy" effect="explode" required="true" requiredMessage="Debe ingresar la fecha inicial de la experiencia laboral"/>
+                                                        pattern="dd/MM/yyyy" effect="explode" />
                                                 </td>
                                                 </tr>
                                                 <tr>
@@ -154,7 +159,7 @@
                                                 </td>
                                                 <td width="60%">
                                                     <p:calendar id="tfInitEnd" value="#{scemployeesBean.workExperienceAdd.endDate}" 
-                                                        pattern="dd/MM/yyyy" effect="explode" required="true" requiredMessage="Debe ingresar la fecha de retiro de la experiencia laboral"/>
+                                                        pattern="dd/MM/yyyy" effect="explode" />
                                                 </td>
                                                 </tr>
                                                 <tr>
@@ -168,9 +173,10 @@
                                                 
                                             </table>
                                         </td>
-                                        <td width="60%" align="center" valign="top">
-                                        <p:dataTable id="dataTableWorkExperiencies" 
-                                                             var="workExperiencies" 
+                                        <td width="70%" align="center" valign="top">
+                                            
+                                                <p:dataTable id="dataTableWorkExperiencies" 
+                                                             var="workExperiencies" style="width: 370px;"
                                                              value="#{scemployeesBean.workExperiencesListAdd}"
                                                              rowKey="#{workExperiencies.idWorkExperience}"
                                                              paginator="true" rows="15"  
@@ -181,21 +187,86 @@
                                                              paginatorPosition="top"
                                                              sortBy="#{workExperiencies.idWorkExperience}">
                                                     <p:column style="width:32px">
-                                                        <p:commandButton icon="ui-icon-close" update="dataTableWorkExperiencies"
-                                                                         actionListener="#{scemployeesBean.removeWorkExperiencie(workExperiencies)}">
+                                                        <p:commandButton icon="ui-icon-close" update="dataTableWorkExperiencies" title="Eliminar experiencia laboral"
+                                                                         process=":formWizard:dataTableWorkExperiencies" actionListener="#{scemployeesBean.removeWorkExperiencie(workExperiencies)}" >
                                                         </p:commandButton>
                                                     </p:column>
-                                                    <p:column headerText="Empresa" sortBy="#{workExperiencies.idCompany.name}">
-                                                        <p:outputLabel value="#{workExperiencies.idCompany.name}"/>
+                                                    <p:column headerText="Empresa" sortBy="#{workExperiencies.companyName}">
+                                                        <p:outputLabel value="#{workExperiencies.companyName}"/>
                                                     </p:column>
-                                                    <p:column headerText="Descripción" sortBy="#{workExperiencies.idCompany.name}">
-                                                        <p:outputLabel value="#{workExperiencies.idCompany.description}"/>
+                                                    <p:column headerText="Fecha de Inicio" sortBy="#{scemployeesBean.getFormatDate(workExperiencies.initDate)}">
+                                                        <p:outputLabel value="#{scemployeesBean.getFormatDate(workExperiencies.initDate)}"/>
                                                     </p:column>
-                                                    <p:column headerText="Fecha de Inicio" sortBy="#{workExperiencies.idCompany.name}">
-                                                        <p:outputLabel value="#{workExperiencies.initDate}"/>
+                                                    <p:column headerText="Fecha de Retiro" sortBy="#{scemployeesBean.getFormatDate(workExperiencies.endDate)}">
+                                                        <p:outputLabel value="#{scemployeesBean.getFormatDate(workExperiencies.endDate)}"/>
                                                     </p:column>
-                                                    <p:column headerText="Fecha de Retiro" sortBy="#{workExperiencies.idCompany.name}">
-                                                        <p:outputLabel value="#{workExperiencies.endDate}"/>
+                                                </p:dataTable>
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+<!--                        compentencias -->
+                        <p:tab title="Competencias" id="tabCompetencie" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para ingresar las competencias del empleado">
+                            <p:panel header="Agregar Compentencia" style="text-align: center;">
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="30%">
+                                        <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfCompentencieTittle" value="Título"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputText id="tfCompentencieTittle" value="#{scemployeesBean.competenciesAdd.tittle}"
+                                                                 />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfCompetencieDescription" value="Descripción"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputTextarea id="tfCompetencieDescription" value="#{scemployeesBean.competenciesAdd.description}" 
+                                                     />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfCompentencieTittle,tfCompetencieDescription,dataTableCompetencies"
+                                                                             actionListener="#{scemployeesBean.saveCompetencieAdd()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </td>
+                                        <td width="70%" align="center" valign="top">
+                                            
+                                                <p:dataTable id="dataTableCompetencies" 
+                                                             var="competencies" style="width: 370px;"
+                                                             value="#{scemployeesBean.competenciesListAdd}"
+                                                             rowKey="#{competencies.idCompetencies}"
+                                                             paginator="true" rows="15"  
+                                                             pageLinks="40" editable="true"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                             paginatorPosition="top"
+                                                             sortBy="#{competencies.idCompetencies}">
+                                                    <p:column style="width:32px">
+                                                        <p:commandButton icon="ui-icon-close" update="dataTableCompetencies" title="Eliminar competencia"
+                                                                         process=":formWizard:dataTableCompetencies" actionListener="#{scemployeesBean.removeCompetencie(competencies)}" >
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                    <p:column headerText="Título" sortBy="#{competencies.tittle}">
+                                                        <p:outputLabel value="#{competencies.tittle}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Descripción" sortBy="#{competencies.description}">
+                                                        <p:outputLabel value="#{competencies.description}"/>
                                                     </p:column>
                                                 </p:dataTable>
                                         </td>
@@ -203,12 +274,135 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        
+<!--                        confirmar datos al guardar-->
+                        <p:tab title="Confirmar datos" id="tabAcceptSave" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para confirmar los datos del empleado a crear">
+                            <p:panel header="Crear Empleado" style="text-align: center;">
+                                <table width="98%" cellspacing="10" style="text-align: center;">
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Nombre"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scemployeesBean.personAdd.lastName} #{scemployeesBean.personAdd.firstName}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Identificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scemployeesBean.personAdd.identification}"/>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scemployeesBean.employeeAdd.position}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel value="Formación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.employeeAdd.formation}"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel value="Salario"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.employeeAdd.salary}"/>
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel value="Valor Hora"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scemployeesBean.employeeAdd.hourValue}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel value="Porcentaje de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.employeeAdd.porcentage}"/>
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel value="Cantidad de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel   value="#{scemployeesBean.employeeAdd.amount}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel value="Fecha de Ingreso"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.getFormatDate(scemployeesBean.employeeAdd.admissionDate)}"/>
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel value="Fecha de Creación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.getFormatDate(scemployeesBean.employeeAdd.creationDate)}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="98%" colspan="2">
+                                            <p:commandButton id="btnSaveUser" value="Guardar Usuario" onsuccess="PF('dialogEmployeeSave').hide()"
+                                                             actionListener="#{scemployeesBean.saveEmployee()}" update=":formEmployees:scEmployeesDataTable,:formWizard"
+                                            oncomplete="PF('wizardSave').loadStep('tabPerson', false)"/>
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelUser" value="Cancelar" oncomplete="PF('dialogEmployeeSave').hide();PF('wizardSave').loadStep('tabPerson', false)"
+                                                             actionListener="#{scemployeesBean.cleanValues()}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+
+                        </p:tab>
                     </p:wizard>
                 </h:form>
 
             </p:dialog>
             <!--         finaliza el dialogo para guardar Usuarios               -->
+            
+            
+            <!--             inicia el dialogo para elimianr registros           -->
+            <p:dialog id="dialogEmployeeDelete" widgetVar="dialogEmployeeDelete" position="center top" 
+                      closable="true" draggable="true" dynamic="true" header="Eliminar Empleados"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="false">
+                <h:form id="formDeleteScEmployee">
+                    <table width="100%" cellspacing="30" style="padding: 0px; margin: 0px;">
+                        <tr>
+                            <td>
+                                <p:outputLabel value="¿Desea eliminar el empleado 
+                                #{scemployeesBean.employeeSelected.idPerson.lastName} #{scemployeesBean.employeeSelected.idPerson.firstName}?" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <p:commandButton value="Eliminar" actionListener="#{scemployeesBean.deleteEmployee()}"  
+                                                 onsuccess="PF('dialogEmployeeDelete').hide()"
+                                                 update="@this,:formEmployees:scEmployeesDataTable"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" oncomplete="PF('dialogEmployeeDelete').hide()"
+                                                 update="@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+<!--            finaliza el dialogo para eliminar registros            -->
+
+
+
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formEmployees">
                 <p:dataTable id="scEmployeesDataTable" draggableColumns="true" emptyMessage="" 
@@ -237,7 +431,9 @@
                                 <p:tooltip for="btnEdit" value="Editar Empleado"/>
                             </p:commandButton>
                             <p:spacer width="10"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete" 
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formDeleteScEmployee"
+                                             oncomplete="PF('dialogEmployeeDelete').show()"
+                            actionListener="#{scemployeesBean.getEmployeeByDataTable(employees)}"
                                              >
                                 <p:tooltip for="btnDelete" value="Eliminar Empleado"/>
                             </p:commandButton>
@@ -260,10 +456,10 @@
                             <p:tooltip for="lblPosition" value="#{employees.position}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnRolName" headerText="" sortBy="#{employees.admissionDate}">    
+                    <p:column id="columnRolName" headerText="Fecha de Ingreso" sortBy="#{employees.admissionDate}">    
                         <center>
-                            <p:outputLabel value="#{employees.admissionDate}" id="lblAdmissionDate"/>
-                            <p:tooltip for="lblAdmissionDate" value="#{scusersBean.getFormatDate(employees.admissionDate)}"/>
+                            <p:outputLabel value="#{scemployeesBean.getFormatDate(employees.admissionDate)}" id="lblAdmissionDate"/>
+                            <p:tooltip for="lblAdmissionDate" value="#{scemployeesBean.getFormatDate(employees.admissionDate)}"/>
                         </center>
                     </p:column>
                     <p:column id="columnUserCreationDate" headerText="Formación" sortBy="#{employees.formation}">    
