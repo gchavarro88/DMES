@@ -8,8 +8,6 @@ package com.sip.dmes.beans.resources.humans;
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScEmployee;
 import com.sip.dmes.dao.bo.IScPerson;
-import com.sip.dmes.dao.bs.ScEmployeeDao;
-import com.sip.dmes.entitys.ScCompany;
 import com.sip.dmes.entitys.ScCompetencies;
 import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScPerson;
@@ -51,6 +49,7 @@ public class ScemployeesBean
     private List<ScCompetencies> competenciesListAdd;
     private List<ScWorkExperience> workExperiencesListAdd;
     private List<ScPerson> personsList;
+    private List<ScPerson> personsListUpdate;
     private List<ScEmployee> employeesList;
     private final static Logger log = Logger.getLogger(ScemployeesBean.class);
     
@@ -172,6 +171,17 @@ public class ScemployeesBean
             return event.getNewStep(); 
     }
     
+    public String onFlowProcessUpdateEmployee(FlowEvent event) 
+    {    
+//        if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
+//        {
+//            getEmployeeAdd().setCreationDate(new Date());
+//        }
+        
+        
+            return event.getNewStep(); 
+    }
+    
     public void saveWorkExperiencieAdd()
     {
         if(getWorkExperienceAdd() != null && getWorkExperiencesListAdd() != null)
@@ -284,7 +294,6 @@ public class ScemployeesBean
             {
                 setEmployeeSelected(employeeSelected);
             }
-            
         }
         catch (Exception e)
         {
@@ -292,6 +301,111 @@ public class ScemployeesBean
         }
     }
     
+    public void removeWorkExperiencieUpdate(ScWorkExperience workExperienceDelete)
+    {
+        int i=0;
+        if(getEmployeeSelected().getScWorkExperienceList() != null)
+        {
+            for(ScWorkExperience workExperienceList: getEmployeeSelected().getScWorkExperienceList())
+            {
+                    if(workExperienceList.getCompanyName().
+                    equalsIgnoreCase(workExperienceDelete.getCompanyName()))
+                    {
+                        getEmployeeSelected().getScWorkExperienceList().remove(i);
+                        addInfo(null, "Experiencia Laboral Eliminada", "Se eliminó la experiencia laboral con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
+    
+    public void updateWorkExperiencieAdd()
+    {
+        if(getWorkExperienceAdd() != null && getEmployeeSelected().getScWorkExperienceList() != null)
+        {
+            getWorkExperienceAdd().setIdEmployee(getEmployeeSelected());
+            getEmployeeSelected().getScWorkExperienceList().add(getWorkExperienceAdd());
+            setWorkExperienceAdd(new ScWorkExperience());
+            addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
+        }
+        else
+        {
+            log.error("Error al intentar agregar una experiencia laboral");
+            addError(null, "Error al Agregar una Experiencia Laboral ", "No se pudo agregar la experiencia laboral");
+        }
+    }
+    
+    public void updateCompetencieAdd()
+    {
+        if(getCompetenciesAdd() != null && getEmployeeSelected().getScCompetenciesList()!= null)
+        {
+            getCompetenciesAdd().setIdEmployee(getEmployeeSelected());
+            getEmployeeSelected().getScCompetenciesList().add(getCompetenciesAdd());
+            setCompetenciesAdd(new ScCompetencies());
+            addInfo(null, "Competencia Agregada", "Se agregó la competencia con éxito");
+        }
+        else
+        {
+            log.error("Error al intentar agregar una competencia");
+            addError(null, "Error al Agregar una Competencia ", "No se pudo agregar la competencia");
+        }
+    }
+    
+    public void removeCompetencieUpdate(ScCompetencies competencies)
+    {
+        int i=0;
+        if(getEmployeeSelected().getScCompetenciesList() != null)
+        {
+            for(ScCompetencies competenciesList: getEmployeeSelected().getScCompetenciesList())
+            {
+                    if(competenciesList.getTittle().equals(competencies.getTittle()))
+                    {
+                        getEmployeeSelected().getScCompetenciesList().remove(i);
+                        addInfo(null, "Compentencia Eliminada", "Se eliminó la competencia con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
+    
+    public void updateEmployee()
+    {
+        if(getEmployeeSelected()!= null)
+        {
+            try
+            {
+                getEmployeeSelected().setActive('Y');
+                getScEmployeeServer().updateEmployee(getEmployeeSelected());
+                getPersonsListUpdate().remove(getEmployeeSelected().getIdPerson());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                cleanValues();
+            }
+            catch(Exception e)
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error("Error al intentar crear un nuevo empleado",e);
+            }
+        }
+    }
+    
+    public void getEmployeeByDataTableUpdate(ScEmployee employeeSelected)
+    {
+        try
+        {
+            if(employeeSelected != null)
+            {
+                setEmployeeSelected(employeeSelected);
+                setPersonsListUpdate(getPersonsList());
+                getPersonsListUpdate().add(employeeSelected.getIdPerson());
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando asignar el empleado seleccionado para operaciones de CRUD",e);
+        }
+    }
     
     public void deleteEmployee()
     {
@@ -306,6 +420,7 @@ public class ScemployeesBean
                         getScEmployeeServer().deleteteEmployeeById(getEmployeeSelected());
                         getEmployeesList().remove(getEmployeeSelected());
                         addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                        getPersonsList().add(getEmployeeSelected().getIdPerson());
                     }
                 }
             }
@@ -558,6 +673,16 @@ public class ScemployeesBean
     public void setWorkExperiencesListAdd(List<ScWorkExperience> workExperiencesListAdd)
     {
         this.workExperiencesListAdd = workExperiencesListAdd;
+    }
+
+    public List<ScPerson> getPersonsListUpdate()
+    {
+        return personsListUpdate;
+    }
+
+    public void setPersonsListUpdate(List<ScPerson> personsListUpdate)
+    {
+        this.personsListUpdate = personsListUpdate;
     }
     
     
