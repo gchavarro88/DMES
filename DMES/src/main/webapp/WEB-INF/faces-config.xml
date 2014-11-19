@@ -184,4 +184,9 @@
             <value>#{scPersonServer}</value>
         </managed-property>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>scpartnersBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.resources.humans.ScpartnersBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>

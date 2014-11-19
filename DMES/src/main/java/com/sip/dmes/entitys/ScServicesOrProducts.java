@@ -34,6 +34,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScServicesOrProducts.findByGuarantee", query = "SELECT s FROM ScServicesOrProducts s WHERE s.guarantee = :guarantee"),
     @NamedQuery(name = "ScServicesOrProducts.findByDescription", query = "SELECT s FROM ScServicesOrProducts s WHERE s.description = :description"),
     @NamedQuery(name = "ScServicesOrProducts.findByAmount", query = "SELECT s FROM ScServicesOrProducts s WHERE s.amount = :amount"),
+    @NamedQuery(name = "ScServicesOrProducts.deleteByPartnerId", query = "DELETE FROM ScServicesOrProducts s WHERE s.idPartner = :idPartner"),
     @NamedQuery(name = "ScServicesOrProducts.findByType", query = "SELECT s FROM ScServicesOrProducts s WHERE s.type = :type")
 })
 public class ScServicesOrProducts implements Serializable

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>.:DMES:. - Proveedores</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        
+    </h:head>
+    <h:body style="background-color: #000;">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div>
+            
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            <h:form id="formPartners">
+                <p:dataTable id="scPartnersDataTable" draggableColumns="true" emptyMessage="" 
+                             value="#{scpartnersBean.partnerList}" var="partners"
+                             paginator="true" rows="15"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{partners.idPartner}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             selectionMode="single" paginatorPosition="top" selection="#{scpartnersBean.partnerSelected}"
+                             sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}"
+                             >
+                    <f:facet name="header">
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: left;"  
+                                         oncomplete="PF('dialogEmployeeSave').show()">
+                            <p:tooltip for="btnAdd" value="Agregar un Empleado"/>
+                        </p:commandButton>
+                    </f:facet>
+<!--                    campos con data-->
+                    <p:column headerText="Cédula" sortBy="#{partners.idPerson.identification}">    
+                        <center>
+                            <p:outputLabel value="#{partners.idPerson.identification}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnNames" headerText="Nombre Proveedor" sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}">    
+                        <center>
+                            <p:outputLabel value="#{partners.idPerson.lastName} #{partners.idPerson.firstName}" id="lblNames"/>
+                            <p:tooltip for="lblNames" value="#{partners.idPerson.lastName} #{partners.idPerson.firstName}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnPosition" headerText="Cargo" sortBy="#{partners.position}">    
+                        <center>
+                            <p:outputLabel value="#{partners.position}" id="lblPosition"/>
+                            <p:tooltip for="lblPosition" value="#{partners.position}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnCompany" headerText="Empresa" sortBy="#{partners.companyName}">    
+                        <center>
+                            <p:outputLabel value="#{partners.companyName}" id="lblCompanyName"/>
+                            <p:tooltip for="lblCompanyName" value="#{partners.companyName}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnWebCompany" headerText="Web Corporativa" sortBy="#{partners.webPage}">    
+                        <center>
+                            <p:outputLabel value="#{partners.webPage}" id="lblWebCompany"/>
+                            <p:tooltip for="lblWebCompany" value="#{partners.webPage}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnDateRegister" headerText="Fecha de Registro" sortBy="#{partners.creationDate}">    
+                        <center>
+                            <p:outputLabel value="#{partners.creationDate}" id="lblDateRegister"/>
+                            <p:tooltip for="lblDateRegister" value="#{partners.creationDate}"/>
+                        </center>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+
+    </h:body>
+</html>
+

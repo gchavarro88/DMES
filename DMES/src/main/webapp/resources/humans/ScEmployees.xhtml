@@ -54,7 +54,7 @@
                             <p:panel header="Datos Básicos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfPositionSave" value="Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -63,7 +63,7 @@
                                             
                                             </p:inputText>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfFormationSave" value="Formación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -71,7 +71,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfSalarySave" value="Salario"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -80,7 +80,7 @@
                                             
                                             </p:inputText>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfHourValueSave" value="Valor Hora"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -91,7 +91,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfPorcentageSave" value="Porcentaje de Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -100,7 +100,7 @@
                                                 
                                             </p:inputText>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfRangeAmount" value="Cantidad de Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -111,7 +111,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfadmitionDate" value="Fecha de Ingreso"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -280,14 +280,14 @@
                             <p:panel header="Crear Empleado" style="text-align: center;">
                                 <table width="98%" cellspacing="10" style="text-align: center;">
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  value="Nombre"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel  value="#{scemployeesBean.personAdd.lastName} #{scemployeesBean.personAdd.firstName}"/>
                                             
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  value="Identificación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -296,14 +296,14 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  value="Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel  value="#{scemployeesBean.employeeAdd.position}"/>
                                             
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Formación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -311,13 +311,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Salario"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel value="#{scemployeesBean.employeeAdd.salary}"/>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Valor Hora"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -325,13 +325,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Porcentaje de Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel value="#{scemployeesBean.employeeAdd.porcentage}"/>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Cantidad de Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -339,13 +339,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Fecha de Ingreso"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel value="#{scemployeesBean.getFormatDate(scemployeesBean.employeeAdd.admissionDate)}"/>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Fecha de Creación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -442,7 +442,7 @@
                             <p:panel header="Datos Básicos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfPositionUpdate" value="Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -451,7 +451,7 @@
                                             
                                             </p:inputText>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfFormationUpdate" value="Formación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -459,7 +459,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfSalaryUpdate" value="Salario"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -468,7 +468,7 @@
                                             
                                             </p:inputText>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfHourValueUpdate" value="Valor Hora"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -479,7 +479,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfPorcentageUpdate" value="Porcentaje de Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -488,7 +488,7 @@
                                                 
                                             </p:inputText>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfRangeAmountUpdate" value="Cantidad de Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -499,7 +499,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  for="tfadmitionDateUpdate" value="Fecha de Ingreso"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -670,14 +670,14 @@
                             <p:panel header="Crear Empleado" style="text-align: center;">
                                 <table width="98%" cellspacing="10" style="text-align: center;">
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  value="Nombre"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel  value="#{scemployeesBean.employeeSelected.idPerson.lastName} #{scemployeesBean.employeeSelected.idPerson.firstName}"/>
                                             
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  value="Identificación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -686,14 +686,14 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel  value="Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel  value="#{scemployeesBean.employeeSelected.position}"/>
                                             
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Formación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -701,13 +701,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Salario"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel value="#{scemployeesBean.employeeSelected.salary}"/>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Valor Hora"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -715,13 +715,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Porcentaje de Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel value="#{scemployeesBean.employeeSelected.porcentage}"/>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Cantidad de Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -729,13 +729,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Fecha de Ingreso"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:outputLabel value="#{scemployeesBean.getFormatDate(scemployeesBean.employeeSelected.admissionDate)}"/>
                                         </td>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Fecha de Creación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -743,7 +743,7 @@
                                         </td>
                                     </tr>
                                      <tr>
-                                        <td width="20%" align="right">
+                                        <td width="20%" align="left">
                                             <p:outputLabel value="Fecha de Modificación"/>
                                         </td>
                                         <td width="30%" align="left">
@@ -771,6 +771,151 @@
                 </h:form>
             </p:dialog>
             <!--         finaliza el dialogo para actualizar Usuarios               -->
+            
+            
+<!--            inicial el dialogo para ver en detalle un empleado-->
+                <p:dialog id="dialogEmployeeView" widgetVar="dialogEmployeeView" draggable="true" 
+                      header="Visualización en Detalle de Empleados" position="center top" width="750"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                    <h:form id="formWizardView">
+                        <p:tabView dynamic="true" >
+                            <p:tab title="Datos Básicos">
+                                <table>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Nombre"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scemployeesBean.employeeSelected.idPerson.lastName} #{scemployeesBean.employeeSelected.idPerson.firstName}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Identificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scemployeesBean.employeeSelected.idPerson.identification}"/>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scemployeesBean.employeeSelected.position}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Formación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.employeeSelected.formation}"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Salario"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.employeeSelected.salary}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Valor Hora"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scemployeesBean.employeeSelected.hourValue}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Porcentaje de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.employeeSelected.porcentage}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Cantidad de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel   value="#{scemployeesBean.employeeSelected.amount}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Ingreso"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.getFormatDate(scemployeesBean.employeeSelected.admissionDate)}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Creación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.getFormatDate(scemployeesBean.employeeSelected.creationDate)}"/>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Modificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scemployeesBean.getFormatDate(scemployeesBean.employeeSelected.modifyDate)}"/>
+                                        </td>
+                                         <td colspan="2">
+                                        
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:tab>
+                            <p:tab title="Experiencias Laborales" > 
+                                <p:dataTable 
+                                            var="workExperiencies" style="width: 370px;"
+                                            value="#{scemployeesBean.employeeSelected.scWorkExperienceList}"
+                                            rowKey="#{workExperiencies.idWorkExperience}"
+                                            paginator="true" rows="15"  
+                                            pageLinks="40" editable="true"
+                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                            {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            liveResize="true" rowsPerPageTemplate="15,30,50"
+                                            paginatorPosition="top"
+                                            sortBy="#{workExperiencies.idWorkExperience}">
+                                   
+                                   <p:column headerText="Empresa" sortBy="#{workExperiencies.companyName}">
+                                       <p:outputLabel value="#{workExperiencies.companyName}"/>
+                                   </p:column>
+                                   <p:column headerText="Fecha de Inicio" sortBy="#{scemployeesBean.getFormatDate(workExperiencies.initDate)}">
+                                       <p:outputLabel value="#{scemployeesBean.getFormatDate(workExperiencies.initDate)}"/>
+                                   </p:column>
+                                   <p:column headerText="Fecha de Retiro" sortBy="#{scemployeesBean.getFormatDate(workExperiencies.endDate)}">
+                                       <p:outputLabel value="#{scemployeesBean.getFormatDate(workExperiencies.endDate)}"/>
+                                   </p:column>
+                               </p:dataTable>
+                            </p:tab>
+                            <p:tab title="Competencias"> 
+                                <p:dataTable 
+                                            var="competencies" style="width: 370px;"
+                                            value="#{scemployeesBean.employeeSelected.scCompetenciesList}"
+                                            rowKey="#{competencies.idCompetencies}"
+                                            paginator="true" rows="15"  
+                                            pageLinks="40" editable="true"
+                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                            {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            liveResize="true" rowsPerPageTemplate="15,30,50"
+                                            paginatorPosition="top"
+                                            sortBy="#{competencies.idCompetencies}">
+                                   
+                                   <p:column headerText="Título" sortBy="#{competencies.tittle}">
+                                       <p:outputLabel value="#{competencies.tittle}"/>
+                                   </p:column>
+                                   <p:column headerText="Descripción" sortBy="#{competencies.description}">
+                                       <p:outputLabel value="#{competencies.description}"/>
+                                   </p:column>
+                                </p:dataTable>
+                            </p:tab>
+                        </p:tabView>
+                    </h:form>
+                </p:dialog>
+<!--            finaliza el dialgo para ver en detalle un empleado-->
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formEmployees">
                 <p:dataTable id="scEmployeesDataTable" draggableColumns="true" emptyMessage="" 
@@ -786,12 +931,14 @@
                              sortBy="#{employees.idPerson.lastName} #{employees.idPerson.firstName}"
                              >
                     <f:facet name="header">
-                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: left;"  
                                          oncomplete="PF('dialogEmployeeSave').show()">
                             <p:tooltip for="btnAdd" value="Agregar un Empleado"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" />
+                    <p:ajax event="rowSelect" listener="#{scemployeesBean.getEmployeeByDataTable(employees)}" 
+                            update=":formWizardView"
+                            oncomplete="PF('dialogEmployeeView').show()"/>
                     <p:column headerText="Administración">
                         <center>
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizardUpdate" onstart="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
@@ -813,7 +960,7 @@
                             <p:outputLabel value="#{employees.idPerson.identification}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnNames" headerText="Nombre" sortBy="#{employees.idPerson.lastName} #{employees.idPerson.firstName}">    
+                    <p:column id="columnNames" headerText="Nombre Empleado" sortBy="#{employees.idPerson.lastName} #{employees.idPerson.firstName}">    
                         <center>
                             <p:outputLabel value="#{employees.idPerson.lastName} #{employees.idPerson.firstName}" id="lblNames"/>
                             <p:tooltip for="lblNames" value="#{employees.idPerson.lastName} #{employees.idPerson.firstName}"/>

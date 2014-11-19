@@ -411,6 +411,7 @@ public class ScemployeesBean
     {
         try
         {
+            int i=0;
             if(getEmployeeSelected() != null)
             {
                 for(ScEmployee employee: getEmployeesList())
@@ -418,10 +419,11 @@ public class ScemployeesBean
                     if(Objects.equals(employee.getIdEmployee(), getEmployeeSelected().getIdEmployee()))
                     {
                         getScEmployeeServer().deleteteEmployeeById(getEmployeeSelected());
-                        getEmployeesList().remove(getEmployeeSelected());
+                        getEmployeesList().remove(i);
                         addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                         getPersonsList().add(getEmployeeSelected().getIdPerson());
                     }
+                    i++;
                 }
             }
         }
@@ -588,7 +590,7 @@ public class ScemployeesBean
     public List<ScPerson> getPersonsList()
     {
         return personsList;
-    }
+    } 
 
     public void setPersonsList(List<ScPerson> personsList)
     {
@@ -598,7 +600,7 @@ public class ScemployeesBean
     public List<ScEmployee> getEmployeesList()
     {
         return employeesList;
-    }
+    } 
 
     public void setEmployeesList(List<ScEmployee> employeesList)
     {
