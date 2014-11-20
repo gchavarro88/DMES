@@ -354,11 +354,11 @@
                                     </tr>
                                     <tr>
                                         <td width="98%" colspan="2">
-                                            <p:commandButton id="btnSaveUser" value="Guardar Usuario" onsuccess="PF('dialogEmployeeSave').hide()"
+                                            <p:commandButton id="btnSaveEmployee" value="Guardar Empleado" onsuccess="PF('dialogEmployeeSave').hide()"
                                                              actionListener="#{scemployeesBean.saveEmployee()}" update=":formEmployees:scEmployeesDataTable,:formWizard"
                                             oncomplete="PF('wizardSave').loadStep('tabPerson', false)"/>
                                             <p:spacer width="30"/>
-                                            <p:commandButton id="btnCancelUser" value="Cancelar" oncomplete="PF('dialogEmployeeSave').hide();PF('wizardSave').loadStep('tabPerson', false)"
+                                            <p:commandButton id="btnCancelEmployee" value="Cancelar" oncomplete="PF('dialogEmployeeSave').hide();PF('wizardSave').loadStep('tabPerson', false)"
                                                              actionListener="#{scemployeesBean.cleanValues()}"/>
                                         </td>
                                     </tr>
@@ -665,7 +665,7 @@
                             </p:panel>
                         </p:tab>
 <!--                        confirmar datos al guardar-->
-                        <p:tab title="Confirmar datos" id="tabAcceptSave" titleStyleClass="tabTittleSavePerson"
+                        <p:tab title="Confirmar datos" id="tabAcceptUpdate" titleStyleClass="tabTittleSavePerson"
                                titletip="Pestaña para confirmar los datos del empleado a crear">
                             <p:panel header="Crear Empleado" style="text-align: center;">
                                 <table width="98%" cellspacing="10" style="text-align: center;">

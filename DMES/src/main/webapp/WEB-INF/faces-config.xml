@@ -188,5 +188,20 @@
         <managed-bean-name>scpartnersBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.resources.humans.ScpartnersBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scPartnerServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPartner</property-class>
+            <value>#{scPartnerServer}</value>
+        </managed-property> 
+        <managed-property>
+            <property-name>scPersonServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPerson</property-class>
+            <value>#{scPersonServer}</value>
+        </managed-property>
     </managed-bean>
 </faces-config>

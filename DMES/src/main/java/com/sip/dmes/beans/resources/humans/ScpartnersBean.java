@@ -8,11 +8,16 @@ package com.sip.dmes.beans.resources.humans;
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScPartner;
 import com.sip.dmes.dao.bo.IScPerson;
+import com.sip.dmes.entitys.ScCompetencies;
+import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScServicesOrProducts;
+import com.sip.dmes.entitys.ScWorkExperience;
 import com.sip.dmes.utilities.DMESConstants;
+import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,6 +25,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -38,10 +44,12 @@ public class ScpartnersBean
     private ScPartner partnerUpdate;
     private ScServicesOrProducts servicesOrProductsAdd;
     private ScServicesOrProducts servicesOrProductsUpdate;
-    private List<ScServicesOrProducts> competenciesListAdd;
+    private List<ScServicesOrProducts> servicesOrProductsList;
     private List<ScPerson> personsList;
     private List<ScPerson> personsListUpdate;
     private List<ScPartner> partnerList;
+    private final String TAB_CONFIRM_SAVE = "tabAcceptSave";
+    private final String TAB_CONFIRM_UPDATE = "tabAcceptUpdate";
     private final static Logger log = Logger.getLogger(ScpartnersBean.class);
     /**
      * Creates a new instance of ScpartnersBean
@@ -54,9 +62,8 @@ public class ScpartnersBean
     public void initData()
     {
         fillListPartners();
-//        cleanValues();
-//        fillListEmployee();
-//        fillListPersons();
+        fillListPersons();
+        cleanValues();
     }   
     
      
@@ -74,6 +81,142 @@ public class ScpartnersBean
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
         }
+    }
+    
+    public void fillListPersons()
+    { 
+        try
+        { 
+            if(getPersonsList() == null)
+            {
+                List personsWithOutEmployee = getScPersonServer().findPersonWithOutPartnerOrEmployee();
+                if(personsWithOutEmployee != null)
+                {
+                    setPersonsList(new ArrayList<ScPerson>());
+                    for (Object object : personsWithOutEmployee)
+                    {
+                        getPersonsList().add(ObjectToScPerson(object));
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        { 
+            log.error("Error al intentar consultar las personas que no cuentan con un usuario",e);
+        }
+    
+    }
+    
+    public void numericValidation(String field)
+    {
+        if(!Utilities.isNumeric(field))
+        {
+            addError(null, "Valor no numérico", "Debe ingresar un valor numérico, "
+                    + "de lo contrario no podrá ir al siguiente paso");
+        }
+    }
+    public void cleanValues()
+    {
+        setPersonAdd(new ScPerson());
+        setPersonUpdate(new ScPerson());
+        setPartnerAdd(new ScPartner());
+        setPartnerSelected(new ScPartner());
+        setPartnerUpdate(new ScPartner());
+        setServicesOrProductsAdd(new ScServicesOrProducts());
+        setServicesOrProductsUpdate(new ScServicesOrProducts());
+        setServicesOrProductsList(new ArrayList<ScServicesOrProducts>());
+     
+    }
+    
+    public ScPerson ObjectToScPerson(Object object)
+    {
+        Object[] objectList = ((Object[]) object);
+        ScPerson newPerson = new ScPerson();
+        newPerson.setIdPerson(Long.parseLong(objectList[0].toString()));
+        newPerson.setFirstName(objectList[1].toString());
+        newPerson.setLastName(objectList[2].toString());
+        newPerson.setAge(Short.parseShort(objectList[3].toString()));
+        newPerson.setCountry(objectList[4].toString());
+        newPerson.setCity(objectList[5].toString());
+        newPerson.setPersonalInformation(objectList[6] !=null ? objectList[6].toString():"");
+        newPerson.setDomicilie(objectList[7].toString());
+        newPerson.setStudies(objectList[8] !=null ? objectList[8].toString():"");
+        newPerson.setDescription(objectList[9] !=null ? objectList[9].toString():"");
+        newPerson.setPathPhoto(objectList[10] !=null ? objectList[10].toString():"/");
+        newPerson.setIdentification(Long.parseLong(objectList[13].toString()));
+        return newPerson;
+    }
+    public void saveProductOrServiceAdd()
+    {
+        if(getServicesOrProductsAdd() != null && getServicesOrProductsAdd() != null)
+        {
+            getServicesOrProductsAdd().setIdPartner(getPartnerAdd());
+            getServicesOrProductsList().add(getServicesOrProductsAdd());
+            setServicesOrProductsAdd(new ScServicesOrProducts());
+            addInfo(null, "Producto o Servicio Agregado", "Se agregó el producto o servicio con éxito");
+        }
+        else
+        {
+            log.error("Error al intentar agregar un producto o servicio");
+            addError(null, "Error al Agregar Producto o Servicio ", "No se pudo agregar el producto o servicio");
+        }
+    }
+    
+    public void removeProductOrServiceSave(ScServicesOrProducts servicesOrProducts)
+    {
+        int i=0;
+        if(getServicesOrProductsList() != null)
+        {
+            for(ScServicesOrProducts scServicesOrProducts: getServicesOrProductsList())
+            {
+                    if(scServicesOrProducts.getNameServiceOrProduct().equals(servicesOrProducts.getNameServiceOrProduct()))
+                    {
+                        getServicesOrProductsList().remove(i);
+                        addInfo(null, "Servicio o Producto Eliminado", "Se eliminó el servicio o producto con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
+    public void savePartner()
+    {
+        if(getPartnerAdd()!= null)
+        {
+            if(getPersonAdd() != null)
+            {
+                getPartnerAdd().setIdPerson(getPersonAdd());
+            }
+            if(!getServicesOrProductsList().isEmpty())
+            {
+                getPartnerAdd().setScServicesOrProductsList(getServicesOrProductsList());
+            }
+            try
+            {
+                getPartnerAdd().setActive("Y");
+                getScPartnerServer().createPartner(getPartnerAdd());
+                getPersonsList().remove(getPersonAdd());
+                getPartnerList().add(getPartnerAdd());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                cleanValues();
+            }
+            catch(Exception e)
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error("Error al intentar crear un nuevo proveedor",e);
+            }
+        }
+    
+    }
+    public String onFlowProcessSavePartner(FlowEvent event) 
+    {    
+        if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
+        {
+            getPartnerAdd().setCreationDate(new Date());
+        }
+        
+        
+            return event.getNewStep(); 
     }
     
     
@@ -259,15 +402,16 @@ public class ScpartnersBean
         this.servicesOrProductsUpdate = servicesOrProductsUpdate;
     }
 
-    public List<ScServicesOrProducts> getCompetenciesListAdd()
+    public List<ScServicesOrProducts> getServicesOrProductsList()
     {
-        return competenciesListAdd;
+        return servicesOrProductsList;
     }
 
-    public void setCompetenciesListAdd(List<ScServicesOrProducts> competenciesListAdd)
+    public void setServicesOrProductsList(List<ScServicesOrProducts> servicesOrProductsList)
     {
-        this.competenciesListAdd = competenciesListAdd;
+        this.servicesOrProductsList = servicesOrProductsList;
     }
+
 
     public List<ScPerson> getPersonsList()
     {

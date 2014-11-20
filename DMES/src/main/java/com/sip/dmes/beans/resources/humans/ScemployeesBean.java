@@ -56,6 +56,7 @@ public class ScemployeesBean
     
     
     private final String TAB_CONFIRM_SAVE = "tabAcceptSave";
+    private final String TAB_CONFIRM_UPDATE = "tabAcceptUpdate";
     
 
     /**
@@ -173,10 +174,10 @@ public class ScemployeesBean
     
     public String onFlowProcessUpdateEmployee(FlowEvent event) 
     {    
-//        if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
-//        {
-//            getEmployeeAdd().setCreationDate(new Date());
-//        }
+        if(event.getNewStep().equals(TAB_CONFIRM_UPDATE))
+        {
+            getEmployeeSelected().setModifyDate(new Date());
+        }
         
         
             return event.getNewStep(); 
