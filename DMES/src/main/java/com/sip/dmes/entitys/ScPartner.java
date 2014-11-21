@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -74,7 +75,7 @@ public class ScPartner implements Serializable
     @Column(name = "modify_date")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartner", fetch = FetchType.EAGER)
     private List<ScServicesOrProducts> scServicesOrProductsList;
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)

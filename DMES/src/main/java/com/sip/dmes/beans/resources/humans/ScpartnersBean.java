@@ -151,7 +151,7 @@ public class ScpartnersBean
     }
     public void saveProductOrServiceAdd()
     {
-        if(getServicesOrProductsAdd() != null && getServicesOrProductsAdd() != null)
+        if(getServicesOrProductsAdd() != null)
         {
             if(getServicesOrProductsAdd().getNameServiceOrProduct() != null 
                     && getServicesOrProductsAdd().getNameServiceOrProduct().length() > 0)
@@ -187,6 +187,7 @@ public class ScpartnersBean
             addError(null, "Error al Agregar Producto o Servicio ", "No se pudo agregar el producto o servicio");
         }
     }
+    
     
     public void removeProductOrServiceSave(ScServicesOrProducts servicesOrProducts)
     {
@@ -230,7 +231,7 @@ public class ScpartnersBean
             {
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 log.error("Error al intentar crear un nuevo proveedor",e);
-            }
+            } 
         }
     
     }
@@ -253,6 +254,118 @@ public class ScpartnersBean
             return event.getNewStep(); 
     }
     
+    public void updateProductOrServiceAdd()
+    {
+        if(getServicesOrProductsAdd() != null)
+        {
+            if(getServicesOrProductsAdd().getNameServiceOrProduct() != null 
+                    && getServicesOrProductsAdd().getNameServiceOrProduct().length() > 0)
+            {
+                if(getServicesOrProductsAdd().getCost() != null && getServicesOrProductsAdd().getCost().doubleValue() > 0)
+                {
+                    if(getServicesOrProductsAdd().getAmount() > 0)
+                    {
+                        getServicesOrProductsAdd().setIdPartner(getPartnerAdd());
+                        getPartnerSelected().getScServicesOrProductsList().add(getServicesOrProductsAdd());
+                        setServicesOrProductsAdd(new ScServicesOrProducts());
+                        addInfo(null, "Producto o Servicio Agregado", "Se agregó el producto o servicio con éxito");
+                    }
+                    else
+                    {
+                        addError(null, "Error al Agregar Producto o Servicio", "Debe ingresar una cantidad válida");
+                    }
+                }
+                else
+                {
+                    addError(null, "Error al Agregar Producto o Servicio", "Debe ingresar un costo válido");
+                }
+            }
+            else
+            {
+                addError(null, "Error al Agregar Producto o Servicio", "Debe ingresar un nombre de producto válido");
+            }
+            
+        }
+        else
+        {
+            log.error("Error al intentar agregar un producto o servicio");
+            addError(null, "Error al Agregar Producto o Servicio ", "No se pudo agregar el producto o servicio");
+        }
+    }
+    
+    public void removeProductOrServiceUpdate(ScServicesOrProducts servicesOrProducts)
+    {
+        int i=0;
+        if(getPartnerSelected() != null)
+        { 
+            for(ScServicesOrProducts scServicesOrProducts: getPartnerSelected().getScServicesOrProductsList())
+            {
+                    if(scServicesOrProducts.getNameServiceOrProduct().equals(servicesOrProducts.getNameServiceOrProduct()))
+                    {
+                        getPartnerSelected().getScServicesOrProductsList().remove(i);
+                        addInfo(null, "Servicio o Producto Eliminado", "Se eliminó el servicio o producto con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        } 
+    }
+    public void updatePartner()
+    {
+        if(getPartnerSelected()!= null)
+        {
+            try  
+            {
+                getPartnerSelected().setActive("Y");
+                getScPartnerServer().updatePartner(getPartnerSelected());
+                getPersonsList().remove(getPartnerSelected().getIdPerson());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                cleanValues();
+            }
+            catch(Exception e)
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error("Error al intentar actualizar un nuevo proveedor",e);
+            }
+        }
+    
+    }
+    
+    public String onFlowProcessUpdatePartner(FlowEvent event) 
+    {     
+        if(event.getOldStep().equals(TAB_PERSON_UPDATE))
+        {
+            if(getPartnerSelected().getIdPerson()== null || getPartnerSelected().getIdPerson().getLastName().length() < 1)
+            {
+                addError(null, "Error al intentar actualizar un nuevo proveedor", "Debe seleccionar un tercero");
+                return event.getOldStep();
+            } 
+        }
+        if(event.getNewStep().equals(TAB_CONFIRM_UPDATE))
+        {
+            getPartnerSelected().setModifyDate(new Date());
+        }
+        
+        
+            return event.getNewStep(); 
+    }
+    
+    public void getPartnerByDataTableUpdate(ScPartner partnerSelected)
+    {
+        try
+        { 
+            if(partnerSelected != null)
+            {
+                setPartnerSelected(partnerSelected);
+                setPersonsListUpdate(getPersonsList());
+                getPersonsListUpdate().add(partnerSelected.getIdPerson());
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando asignar el proveedor seleccionado para operaciones de CRUD",e);
+        }
+    }
     
     
     public void getPartnerByDataTable(ScPartner partner)

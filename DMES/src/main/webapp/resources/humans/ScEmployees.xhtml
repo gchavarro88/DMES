@@ -19,7 +19,7 @@
         <div>
             <!--         Dialogo para guardar nuevos Empleados         -->
             <p:dialog id="dialogEmployeeSave" widgetVar="dialogEmployeeSave" draggable="true" 
-                      closable="true"  header="Crear Usuarios" position="center top" width="750"
+                      closable="true"  header="Crear Empleados" position="center top" width="750"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizard">
                     <p:wizard  flowListener="#{scemployeesBean.onFlowProcessSaveEmployee}" id="wizardSave" widgetVar="wizardSave">
@@ -406,7 +406,7 @@
 
             <!--         Dialogo para actualizar nuevos Empleados         -->
             <p:dialog id="dialogEmployeeUpdate" widgetVar="dialogEmployeeUpdate" draggable="true" 
-                      header="Actualizar Usuarios" position="center top" width="750"
+                      header="Actualizar Empleados" position="center top" width="750"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizardUpdate">
                     <p:wizard  flowListener="#{scemployeesBean.onFlowProcessUpdateEmployee}" id="wizardUpdate" widgetVar="wizardUpdate">
@@ -933,7 +933,7 @@
                              sortBy="#{employees.idPerson.lastName} #{employees.idPerson.firstName}"
                              >
                     <f:facet name="header">
-                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: left;"  
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
                                          oncomplete="PF('dialogEmployeeSave').show()">
                             <p:tooltip for="btnAdd" value="Agregar un Empleado"/>
                         </p:commandButton>

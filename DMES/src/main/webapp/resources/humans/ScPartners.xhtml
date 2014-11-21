@@ -213,7 +213,7 @@
 <!--                        confirmar datos al guardar-->
                         <p:tab title="Confirmar datos" id="tabAcceptSave" titleStyleClass="tabTittleSavePerson"
                                titletip="Pestaña para confirmar los datos del proveedor a crear">
-                            <p:panel header="Crear Empleado" style="text-align: center;">
+                            <p:panel header="Crear Proveedor" style="text-align: center;">
                                 <table width="98%" cellspacing="10" style="text-align: center;">
                                     <tr>
                                         <td width="20%" align="left">
@@ -307,6 +307,270 @@
             </p:dialog>
             <!--            finaliza el dialogo para eliminar registros            -->
             
+            <!--         Dialogo para actualizar nuevos Proveedores         -->
+            <p:dialog id="dialogPartnerUpdate" widgetVar="dialogPartnerUpdate" draggable="true" 
+                      closable="true"  header="Actualizar Proveedores" position="center top" width="750"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                <h:form id="formWizardUpdate">
+                    <p:wizard  flowListener="#{scpartnersBean.onFlowProcessSavePartner}" id="wizardUpdate" widgetVar="wizardUpdate">
+                        <p:tab title="Tercero" id="tabPersonUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar el tercero">
+                            
+                            <p:panel header="Actualizar Tercero" style="text-align: center; width: 100%;">
+                            <center>    
+                                <p:dataTable id="dataTablePersonsUpdate" value="#{scpartnersBean.personsList}"
+                                         paginator="true" rows="10"  var="persons"
+                                         pageLinks="40" style="width: 400px;"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowKey="#{persons.idPerson}"
+                                         resizableColumns="true" 
+                                         liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                         sortBy="#{persons.lastName} #{persons.firstName}"
+                                         paginatorPosition="top" selection="#{scpartnersBean.partnerSelected.idPerson}"
+                                         selectionMode="single"
+                                         >
+                                    <p:ajax event="rowSelect" update=":formWizardUpdate:dataTablePersonsUpdate"/>
+                                    <p:column selectionMode="single" width="16"/>
+                                    <p:column headerText="Personas Disponibles">
+                                        <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
+                                    </p:column> 
+                                </p:dataTable>
+                            </center>
+                            </p:panel>
+                            
+                        </p:tab>
+<!--                        datos basicos del proveedor-->
+                        <p:tab title="Datos del Proveedor" id="tabPartnerUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del proveedor">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  for="tfPositionUpdate" value="Cargo"/>
+                                        </td>
+                                        <td width="60%" align="left">
+                                            <p:inputText    id="tfPositionUpdate"  value="#{scpartnersBean.partnerSelected.position}" 
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el cargo del proveedor">
+                                            </p:inputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  for="tfCompanyUpdate" value="Empresa"/>
+                                        </td>
+                                        <td width="60%" align="left">
+                                            <p:inputText    id="tfCompanyUpdate"  value="#{scpartnersBean.partnerSelected.companyName}"
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar la empresa del proveedor"/>                                
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  for="tfWebCompanyUpdate" value="Web Corporativa"/>
+                                        </td>
+                                        <td width="60%" align="left">
+                                            <p:inputText    id="tfWebCompanyUpdate"  value="#{scpartnersBean.partnerSelected.webPage}">
+                                                <p:watermark  for="tfWebCompanyUpdate" value="www.sipingenieria.com.co"/>
+                                            </p:inputText>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+<!--                        productos y servicios        -->
+                        <p:tab title="Productos o Servicios" id="tabProductOrServicesUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para ingresar los productos o servicios ofrecidos por el proveedor">
+                            <p:panel header="Actualizar Productos o Servicios" style="text-align: center;">
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="30%">
+                                        <table width="100%" cellspacing="10">
+                                                <tr>
+                                                <td width="40%" >
+                                                    <p:outputLabel for="tfNameProductUpdate" value="Nombre del Producto"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputText id="tfNameProductUpdate" value="#{scpartnersBean.servicesOrProductsAdd.nameServiceOrProduct}"
+                                                                 
+                                                                 />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                <td width="40%" >
+                                                    <p:outputLabel for="tfcostProductUpdate" value="Costo del Producto"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputText id="tfcostProductUpdate" value="#{scpartnersBean.servicesOrProductsAdd.cost}"
+                                                                 
+                                                                 />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                <td width="40%" >
+                                                    <p:outputLabel for="tfAmountUpdate" value="Cantidad"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputText id="tfAmountUpdate" value="#{scpartnersBean.servicesOrProductsAdd.amount}"
+                                                                 
+                                                                 />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                <td width="40%" >
+                                                    <p:outputLabel for="tfTypeUpdate" value="Tipo"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:selectOneMenu  id="tfTypeUpdate" value="#{scpartnersBean.servicesOrProductsAdd.type}" >
+                                                        <f:selectItem itemValue="Producto" itemLabel="Producto"/>
+                                                        <f:selectItem itemValue="Servicio" itemLabel="Servicio"/>
+                                                    </p:selectOneMenu>
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                <td width="40%" >
+                                                    <p:outputLabel for="tfguaranteeUpdate" value="Garantía"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputTextarea  id="tfguaranteeUpdate" value="#{scpartnersBean.servicesOrProductsAdd.guarantee}"
+                                                                 />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                <td width="40%" >
+                                                    <p:outputLabel for="tfDescriptionUpdate" value="Descripción"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputTextarea  id="tfDescriptionUpdate" value="#{scpartnersBean.servicesOrProductsAdd.description}"
+                                                                 />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" 
+                                                                update="tfNameProductUpdate,tfcostProductUpdate,tfAmountUpdate,tfTypeUpdate,tfguaranteeUpdate,tfDescriptionUpdate,dataTableProductsOrServicesUpdate"
+                                                                actionListener="#{scpartnersBean.updateProductOrServiceAdd()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </td>
+                                        <td width="70%" align="center" valign="top">
+                                            
+                                                <p:dataTable id="dataTableProductsOrServicesUpdate" 
+                                                             var="serviceOrProducts" style="width: 370px;"
+                                                             value="#{scpartnersBean.partnerSelected.scServicesOrProductsList}"
+                                                             rowKey="#{serviceOrProducts.idServiceOrProducts}"
+                                                             paginator="true" rows="15"  
+                                                             pageLinks="40" editable="true"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                             paginatorPosition="top"
+                                                             sortBy="#{serviceOrProducts.idServiceOrProducts}">
+                                                    <p:column style="width:32px">
+                                                        <p:commandButton icon="ui-icon-close" update="dataTableProductsOrServicesUpdate" title="Eliminar Servicio o Producto"
+                                                                         process=":formWizardUpdate:dataTableProductsOrServicesUpdate" actionListener="#{scpartnersBean.removeProductOrServiceUpdate(serviceOrProducts)}" >
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                    <p:column headerText="Nombre del Producto" sortBy="#{serviceOrProducts.nameServiceOrProduct}">
+                                                        <p:outputLabel value="#{serviceOrProducts.nameServiceOrProduct}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Tipo" sortBy="#{serviceOrProducts.type}">
+                                                        <p:outputLabel value="#{serviceOrProducts.type}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Cantidad" sortBy="#{serviceOrProducts.amount}">
+                                                        <p:outputLabel value="#{serviceOrProducts.amount}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Costo" sortBy="#{serviceOrProducts.cost}">
+                                                        <p:outputLabel value="#{serviceOrProducts.cost}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Garantía" sortBy="#{serviceOrProducts.guarantee}">
+                                                        <p:outputLabel value="#{serviceOrProducts.cost}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Descripción" sortBy="#{serviceOrProducts.description}">
+                                                        <p:outputLabel value="#{serviceOrProducts.description}"/>
+                                                    </p:column>
+                                                </p:dataTable>
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+<!--                        confirmar datos al guardar-->
+                        <p:tab title="Confirmar datos" id="tabAcceptUpdate" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para confirmar los datos del proveedor a Actualiar">
+                            <p:panel header="Actualizar Proveedor" style="text-align: center;">
+                                <table width="98%" cellspacing="10" style="text-align: center;">
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Nombre"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scpartnersBean.partnerSelected.idPerson.lastName} #{scpartnersBean.partnerSelected.idPerson.firstName}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Identificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scpartnersBean.partnerSelected.idPerson.identification}"/>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scpartnersBean.partnerSelected.position}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Empresa"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scpartnersBean.partnerSelected.companyName}"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Web Corporativa"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scpartnersBean.partnerSelected.webPage}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Modificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scpartnersBean.getFormatDate(scpartnersBean.partnerSelected.modifyDate)}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="98%" colspan="2">
+                                            <p:commandButton id="btnUpdatePartner" value="Guardar Proveedor" onsuccess="PF('dialogPartnerUpdate').hide()"
+                                                             actionListener="#{scpartnersBean.updatePartner()}" update=":formPartners:scPartnersDataTable,:formWizardUpdate"
+                                            oncomplete="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"/>
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelPartnerUpdate" value="Cancelar" oncomplete="PF('dialogPartnerUpdate').hide();PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
+                                                             actionListener="#{scpartnersBean.cleanValues()}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+            </p:dialog>
+            <!--         finaliza el dialogo para guardar Proveedores               -->
+            
+            
+            
+            
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formPartners">
                 <p:dataTable id="scPartnersDataTable" draggableColumns="true" emptyMessage="" 
@@ -322,13 +586,18 @@
                              sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}"
                              >
                     <f:facet name="header">
-                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: left;"  
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
                                          oncomplete="PF('dialogPartnerSave').show()">
                             <p:tooltip for="btnAdd" value="Agregar un Proveedor"/>
                         </p:commandButton>
                     </f:facet>
                     <p:column headerText="Administración">
                         <center>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizardUpdate" onstart="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
+                                             oncomplete="PF('dialogPartnerUpdate').show()"
+                                             actionListener="#{scpartnersBean.getPartnerByDataTableUpdate(partners)}">
+                                <p:tooltip for="btnEdit" value="Editar Empleado"/>
+                            </p:commandButton>
                             <p:spacer width="10"/>
                             <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formDeleteScPartner"
                                              oncomplete="PF('dialogPartnerDelete').show()"
