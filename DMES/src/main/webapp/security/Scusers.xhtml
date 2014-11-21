@@ -76,7 +76,9 @@
                                              liveResize="true" rowsPerPageTemplate="10,20,30" 
                                              sortBy="#{persons.lastName} #{persons.firstName}"
                                              paginatorPosition="top" selection="#{scusersBean.personSelectedAdd}"
+                                             selectionMode="single"
                                              >
+                                    <p:ajax event="rowSelect" update=":formWizard:dataTablePersons"/>
                                     <p:column selectionMode="single" width="16"/>
                                     <p:column headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
@@ -97,8 +99,9 @@
                                          liveResize="true" rowsPerPageTemplate="10,20,30" 
                                          sortBy="#{roles.name}"
                                          scrollable="true"
-                                         scrollHeight="260"
+                                         scrollHeight="260" selectionMode="single"
                                          paginatorPosition="top" selection="#{scusersBean.roleSelectedAdd}">
+                                <p:ajax event="rowSelect" update=":formWizard:dataTableRoles"/>
                                 <p:column selectionMode="single" width="16"/>
                                 <p:column headerText="Roles Activos" >
                                     <p:outputLabel value="#{roles.name}"/>

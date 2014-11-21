@@ -38,7 +38,9 @@
                                          liveResize="true" rowsPerPageTemplate="10,20,30" 
                                          sortBy="#{persons.lastName} #{persons.firstName}"
                                          paginatorPosition="top" selection="#{scemployeesBean.personAdd}"
+                                         selectionMode="single"
                                          >
+                                    <p:ajax event="rowSelect" update=":formWizard:dataTablePersons"/>
                                     <p:column selectionMode="single" width="16"/>
                                     <p:column headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
@@ -425,7 +427,7 @@
                                          paginatorPosition="top" selection="#{scemployeesBean.employeeSelected.idPerson}"
                                          selectionMode="single"
                                          >
-                                    <p:ajax event="rowSelect" update="dataTablePersonsUpdate"/>
+                                    <p:ajax event="rowSelect" update=":formWizardUpdate:dataTablePersonsUpdate"/>
                                     <p:column selectionMode="single" width="16"/>
                                     <p:column headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
@@ -645,7 +647,7 @@
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
-                                                             paginatorPosition="top"
+                                                             paginatorPosition="top" 
                                                              sortBy="#{competencies.idCompetencies}">
                                                     <p:column style="width:32px">
                                                         <p:commandButton icon="ui-icon-close" update="dataTableCompetenciesUpdate" title="Eliminar competencia"

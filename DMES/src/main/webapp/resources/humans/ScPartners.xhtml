@@ -38,7 +38,9 @@
                                          liveResize="true" rowsPerPageTemplate="10,20,30" 
                                          sortBy="#{persons.lastName} #{persons.firstName}"
                                          paginatorPosition="top" selection="#{scpartnersBean.personAdd}"
+                                         selectionMode="single"
                                          >
+                                    <p:ajax event="rowSelect" update=":formWizard:dataTablePersons"/>
                                     <p:column selectionMode="single" width="16"/>
                                     <p:column headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
@@ -78,7 +80,7 @@
                                             <p:outputLabel  for="tfWebCompany" value="Web Corporativa"/>
                                         </td>
                                         <td width="60%" align="left">
-                                            <p:inputText    id="tfWebCompany"  value="#{scemployeesBean.employeeAdd.salary}">
+                                            <p:inputText    id="tfWebCompany"  value="#{scpartnersBean.partnerAdd.webPage}">
                                                 <p:watermark  for="tfWebCompany" value="www.sipingenieria.com.co"/>
                                             </p:inputText>
                                         </td>
@@ -100,7 +102,7 @@
                                                 </td>
                                                 <td width="60%">
                                                     <p:inputText id="tfNameProductSave" value="#{scpartnersBean.servicesOrProductsAdd.nameServiceOrProduct}"
-                                                                 required="true" requiredMessage="Debe ingresar el nombre del producto o servicio"
+                                                                 
                                                                  />
                                                 </td>
                                                 </tr>
@@ -110,7 +112,7 @@
                                                 </td>
                                                 <td width="60%">
                                                     <p:inputText id="tfcostProductSave" value="#{scpartnersBean.servicesOrProductsAdd.cost}"
-                                                                 required="true" requiredMessage="Debe ingresar el costo del producto"
+                                                                 
                                                                  />
                                                 </td>
                                                 </tr>
@@ -120,7 +122,7 @@
                                                 </td>
                                                 <td width="60%">
                                                     <p:inputText id="tfAmountSave" value="#{scpartnersBean.servicesOrProductsAdd.amount}"
-                                                                 required="true" requiredMessage="Debe ingresar la cantidad del producto o servicio"
+                                                                 
                                                                  />
                                                 </td>
                                                 </tr>
@@ -170,14 +172,14 @@
                                                 <p:dataTable id="dataTableProductsOrServicesSave" 
                                                              var="serviceOrProducts" style="width: 370px;"
                                                              value="#{scpartnersBean.servicesOrProductsList}"
-                                                             rowKey="#{serviceOrProducts.idPartner}"
+                                                             rowKey="#{serviceOrProducts.idServiceOrProducts}"
                                                              paginator="true" rows="15"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
-                                                             sortBy="#{serviceOrProducts.idPartner}">
+                                                             sortBy="#{serviceOrProducts.idServiceOrProducts}">
                                                     <p:column style="width:32px">
                                                         <p:commandButton icon="ui-icon-close" update="dataTableProductsOrServicesSave" title="Eliminar Servicio o Producto"
                                                                          process=":formWizard:dataTableProductsOrServicesSave" actionListener="#{scpartnersBean.removeProductOrServiceSave(serviceOrProducts)}" >
@@ -277,7 +279,33 @@
             </p:dialog>
             <!--         finaliza el dialogo para guardar Proveedores               -->
             
-            
+             <!--             inicia el dialogo para elimianr registros           -->
+            <p:dialog id="dialogPartnerDelete" widgetVar="dialogPartnerDelete" position="center top" 
+                      closable="true" draggable="true" dynamic="true" header="Eliminar Proveedores"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="false">
+                <h:form id="formDeleteScPartner">
+                    <table width="100%" cellspacing="30" style="padding: 0px; margin: 0px;">
+                        <tr>
+                            <td>
+                                <p:outputLabel value="¿Desea eliminar el proveedor 
+                                #{scpartnersBean.partnerSelected.idPerson.lastName} #{scpartnersBean.partnerSelected.idPerson.firstName}?" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <p:commandButton value="Eliminar" actionListener="#{scpartnersBean.deletePartner()}"  
+                                                 onsuccess="PF('dialogPartnerDelete').hide()"
+                                                 update="@this,:formPartners:scPartnersDataTable"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" oncomplete="PF('dialogPartnerDelete').hide()"
+                                                 update="@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para eliminar registros            -->
             
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formPartners">
@@ -299,7 +327,17 @@
                             <p:tooltip for="btnAdd" value="Agregar un Proveedor"/>
                         </p:commandButton>
                     </f:facet>
-                    
+                    <p:column headerText="Administración">
+                        <center>
+                            <p:spacer width="10"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formDeleteScPartner"
+                                             oncomplete="PF('dialogPartnerDelete').show()"
+                                             actionListener="#{scpartnersBean.getPartnerByDataTable(partners)}"
+                                             >
+                                <p:tooltip for="btnDelete" value="Eliminar Proveedor"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>	
 <!--                    campos con data-->
                     <p:column headerText="Cédula" sortBy="#{partners.idPerson.identification}">    
                         <center>
@@ -333,7 +371,7 @@
                     <p:column id="columnDateRegister" headerText="Fecha de Registro" sortBy="#{partners.creationDate}">    
                         <center>
                             <p:outputLabel value="#{partners.creationDate}" id="lblDateRegister"/>
-                            <p:tooltip for="lblDateRegister" value="#{partners.creationDate}"/>
+                            <p:tooltip for="lblDateRegister" value="#{scpartnersBean.getFormatDate(partners.creationDate)}"/>
                         </center>
                     </p:column>
                 </p:dataTable>

@@ -10,11 +10,13 @@ import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -42,6 +44,8 @@ public class ScServicesOrProducts implements Serializable
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @GeneratedValue(generator = "dmes.sqscservicesorproducts")
+    @SequenceGenerator(name = "dmes.sqscservicesorproducts", sequenceName = "dmes.sqscservicesorproducts", allocationSize = 1)
     @NotNull
     @Column(name = "id_service_or_products")
     private Long idServiceOrProducts;
@@ -172,34 +176,6 @@ public class ScServicesOrProducts implements Serializable
         this.idPartner = idPartner;
     }
 
-    @Override
-    public int hashCode()
-    {
-        int hash = 0;
-        hash += (idServiceOrProducts != null ? idServiceOrProducts.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object)
-    {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScServicesOrProducts))
-        {
-            return false;
-        }
-        ScServicesOrProducts other = (ScServicesOrProducts) object;
-        if ((this.idServiceOrProducts == null && other.idServiceOrProducts != null) || (this.idServiceOrProducts != null && !this.idServiceOrProducts.equals(other.idServiceOrProducts)))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "com.sip.dmes.entitys.ScServicesOrProducts[ idServiceOrProducts=" + idServiceOrProducts + " ]";
-    }
+    
     
 }

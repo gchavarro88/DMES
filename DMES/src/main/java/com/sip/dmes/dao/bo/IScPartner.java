@@ -25,5 +25,7 @@ public interface IScPartner
     
     public void createPartner(ScPartner scPartner) throws Exception;
     
+    public void deletePartnerById(ScPartner scPartner) throws Exception;
+    
     
 }

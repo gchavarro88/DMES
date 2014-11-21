@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -50,6 +51,8 @@ public class ScpartnersBean
     private List<ScPartner> partnerList;
     private final String TAB_CONFIRM_SAVE = "tabAcceptSave";
     private final String TAB_CONFIRM_UPDATE = "tabAcceptUpdate";
+    private final String TAB_PERSON_SAVE = "tabPerson";
+    private final String TAB_PERSON_UPDATE = "tabPersonUpdate";
     private final static Logger log = Logger.getLogger(ScpartnersBean.class);
     /**
      * Creates a new instance of ScpartnersBean
@@ -150,10 +153,33 @@ public class ScpartnersBean
     {
         if(getServicesOrProductsAdd() != null && getServicesOrProductsAdd() != null)
         {
-            getServicesOrProductsAdd().setIdPartner(getPartnerAdd());
-            getServicesOrProductsList().add(getServicesOrProductsAdd());
-            setServicesOrProductsAdd(new ScServicesOrProducts());
-            addInfo(null, "Producto o Servicio Agregado", "Se agregó el producto o servicio con éxito");
+            if(getServicesOrProductsAdd().getNameServiceOrProduct() != null 
+                    && getServicesOrProductsAdd().getNameServiceOrProduct().length() > 0)
+            {
+                if(getServicesOrProductsAdd().getCost() != null && getServicesOrProductsAdd().getCost().doubleValue() > 0)
+                {
+                    if(getServicesOrProductsAdd().getAmount() > 0)
+                    {
+                        getServicesOrProductsAdd().setIdPartner(getPartnerAdd());
+                        getServicesOrProductsList().add(getServicesOrProductsAdd());
+                        setServicesOrProductsAdd(new ScServicesOrProducts());
+                        addInfo(null, "Producto o Servicio Agregado", "Se agregó el producto o servicio con éxito");
+                    }
+                    else
+                    {
+                        addError(null, "Error al Agregar Producto o Servicio", "Debe ingresar una cantidad válida");
+                    }
+                }
+                else
+                {
+                    addError(null, "Error al Agregar Producto o Servicio", "Debe ingresar un costo válido");
+                }
+            }
+            else
+            {
+                addError(null, "Error al Agregar Producto o Servicio", "Debe ingresar un nombre de producto válido");
+            }
+            
         }
         else
         {
@@ -166,7 +192,7 @@ public class ScpartnersBean
     {
         int i=0;
         if(getServicesOrProductsList() != null)
-        {
+        { 
             for(ScServicesOrProducts scServicesOrProducts: getServicesOrProductsList())
             {
                     if(scServicesOrProducts.getNameServiceOrProduct().equals(servicesOrProducts.getNameServiceOrProduct()))
@@ -177,7 +203,7 @@ public class ScpartnersBean
                     }
                     i++;
             }
-        }
+        } 
     }
     public void savePartner()
     {
@@ -191,7 +217,7 @@ public class ScpartnersBean
             {
                 getPartnerAdd().setScServicesOrProductsList(getServicesOrProductsList());
             }
-            try
+            try  
             {
                 getPartnerAdd().setActive("Y");
                 getScPartnerServer().createPartner(getPartnerAdd());
@@ -210,6 +236,14 @@ public class ScpartnersBean
     }
     public String onFlowProcessSavePartner(FlowEvent event) 
     {    
+        if(event.getOldStep().equals(TAB_PERSON_SAVE))
+        {
+            if(getPersonAdd() == null || getPersonAdd().getLastName().length() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo proveedor", "Debe seleccionar un tercero");
+                return event.getOldStep();
+            }
+        }
         if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
         {
             getPartnerAdd().setCreationDate(new Date());
@@ -219,6 +253,51 @@ public class ScpartnersBean
             return event.getNewStep(); 
     }
     
+    
+    
+    public void getPartnerByDataTable(ScPartner partner)
+    {
+        try
+        {
+            if(partner != null)
+            {
+                setPartnerSelected(partner);
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando asignar el proveedor seleccionado para operaciones de CRUD",e);
+        }
+    }
+    
+    public void deletePartner()
+    {
+        try
+        {
+            int i=0;
+            if(getPartnerSelected()!= null)
+            {
+                for(ScPartner partner: getPartnerList())
+                {
+                    if(Objects.equals(partner.getIdPartner(), getPartnerSelected().getIdPartner()))
+                    {
+                        getScPartnerServer().deletePartnerById(getPartnerSelected());
+                        getPartnerList().remove(i);
+                        addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                        getPersonsList().add(getPartnerSelected().getIdPerson());
+                        break;
+                    }
+                    i++;
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar eliminar un proveedor", e);
+        }
+    
+    }
     
 /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y

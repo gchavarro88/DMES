@@ -54,7 +54,8 @@ public class ScemployeesBean
     private final static Logger log = Logger.getLogger(ScemployeesBean.class);
     
     
-    
+    private final String TAB_PERSON_SAVE = "tabPerson";
+    private final String TAB_PERSON_UPDATE = "tabPersonUpdate";
     private final String TAB_CONFIRM_SAVE = "tabAcceptSave";
     private final String TAB_CONFIRM_UPDATE = "tabAcceptUpdate";
     
@@ -163,6 +164,14 @@ public class ScemployeesBean
     
     public String onFlowProcessSaveEmployee(FlowEvent event) 
     {    
+        if(event.getOldStep().equals(TAB_PERSON_SAVE))
+        {
+            if(getPersonAdd() == null || getPersonAdd().getLastName().length() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "Debe seleccionar un tercero");
+                return event.getOldStep();
+            }
+        }
         if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
         {
             getEmployeeAdd().setCreationDate(new Date());
@@ -423,6 +432,7 @@ public class ScemployeesBean
                         getEmployeesList().remove(i);
                         addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                         getPersonsList().add(getEmployeeSelected().getIdPerson());
+                        break;
                     }
                     i++;
                 }

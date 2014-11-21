@@ -78,6 +78,7 @@ public class ScPartnerDao implements IScPartner
     }
 
     @Override
+    @Transactional
     public void deletePartner(ScPartner scPartner) throws Exception
     {
         int rows = 0;
@@ -95,8 +96,9 @@ public class ScPartnerDao implements IScPartner
             log.error("Error al intentar eliminar un proveedor", e);
         }
     }
-
-    @Override
+ 
+    @Override 
+    @Transactional
     public void createPartner(ScPartner scPartner) throws Exception
     {
         try
@@ -106,6 +108,26 @@ public class ScPartnerDao implements IScPartner
         catch (Exception e)
         {
             log.error("Error al intentar crear un proveedor", e);
+        }
+    }
+
+    @Override
+    public void deletePartnerById(ScPartner scPartner) throws Exception
+    {
+        int rows = -1;
+        try
+        {
+            Query query = entityManager.createNamedQuery("ScServicesOrProducts.deleteByPartnerId");
+            query.setParameter("idPartner", scPartner.getIdPartner());
+            rows = query.executeUpdate();
+            query = entityManager.createNamedQuery("ScPartner.deleteByPerson");
+            query.setParameter("idPerson", scPartner.getIdPerson());
+            rows = query.executeUpdate();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar eliminar un proveedor y todas sus dependencias"
+                    + "", e);
         }
     }
 
