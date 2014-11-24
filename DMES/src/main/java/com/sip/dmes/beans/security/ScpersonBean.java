@@ -20,6 +20,12 @@ import com.sip.dmes.entitys.ScPersonSpecifications;
 import com.sip.dmes.entitys.ScPhones;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,8 +78,8 @@ public class ScpersonBean
     private ScPersonDocumentationAttached personDocumentationAttachedAdd;
     
     private UploadedFile upLoadFile; //Objeto que permite traer un archivo que se copiará
-    private int MAX_SIZE_FILE;
-    private String EXTENSION_FILE;
+    private int MAX_SIZE_FILE = 5;//Tamaño en megas del archivo
+    private String EXTENSION_FILE = "txt,docx,xml,doc,xls,xlsx,pdf,ppt,pptx,pps,ppsx,gif,jpeg,jpg,png";
     //Constantes
     private final String TAB_BASIC_DATA = "tabBasicDataSave";
     private final String TAB_PHONES_SAVE = "tabPhonesSave";
@@ -316,8 +322,117 @@ public class ScpersonBean
     public void uploadFile() throws Exception
     {
        long MegabytesChangeToBytes = ((1024)*(1024));
+       if(getUpLoadFile() != null)
+       {
+           if(getUpLoadFile().getSize() <= (MegabytesChangeToBytes*MAX_SIZE_FILE))
+           {
+               int indexExtension = (getUpLoadFile().getFileName().indexOf(".")+1);
+               String extension = getUpLoadFile().getFileName().substring(indexExtension, getUpLoadFile().getFileName().length());
+               if(EXTENSION_FILE.contains(extension))
+               {
+                   String systemOperating = System.getProperty("os.name");
+                   String fileSeparator = System.getProperty("file.separator");
+                   String path ="";
+                   String fileNameFolder = getSessionBean().getScUser().getIdPerson().getLastName()+
+                           "_"+getSessionBean().getScUser().getIdPerson().getLastName();
+                   if(!fileSeparator.equals("/"))
+                   {
+                       fileSeparator += fileSeparator;
+                   }
+                   path = System.getProperty("user.home")+fileSeparator+fileNameFolder;
+                   File folder = new File(path);
+                   folder.mkdirs();
+                   Date dateFile =  new Date();
+                   fileNameFolder += getFormatDateGlobal("yyyyMMddHHmmss", dateFile);
+                   File file = new File(path+fileSeparator+fileNameFolder);
+                   if(writeFile(getUpLoadFile().getInputstream(), file))
+                   {
+                       getPersonDocumentationAttachedAdd().setCreationDate(dateFile);
+                       getPersonDocumentationAttachedAdd().setPath(path+fileSeparator+fileNameFolder);
+                       getPersonDocumentationAttachedAdd().setIdPerson(getPersonAdd());
+                       getPersonDocumentationAttachedsList().add(getPersonDocumentationAttachedAdd());
+                       addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                       setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
+                   }
+                   else
+                   {
+                       addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                       log.error("Error al intentar escribir el archivo");
+                   }
+               }
+               else
+               {
+                   addError(null, "Error al subir un archivo", "La extensión no coincide con las extensiones permitidas: "+EXTENSION_FILE);
+                   log.error("Error al intentar subir un archivo, extensión no incluida en la lista de permitidas");
+               }
+           }
+           else
+           {
+               addError(null, "Error al subir un archivo", "El tamaño sobrepasa el límite puesto de "+MAX_SIZE_FILE+" MB");
+               log.error("Error al intentar subir un archivo, tamaño excedido");
+           }
+       }
+       else
+       {
+           addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+           log.error("Error al intentar subir un archivo");
+       }
        
     }
+    
+    public void removeDocumentationSaved(ScPersonDocumentationAttached documentation)
+    {
+        int i = 0;
+        for(ScPersonDocumentationAttached documentationAttached: getPersonDocumentationAttachedsList())
+        {
+            if( documentationAttached.getTittle().equals(documentation.getTittle()))
+            {
+                File file = new File(documentation.getPath());
+                file.delete();
+                getPersonDocumentationAttachedsList().remove(i);
+                addInfo(null, "Creación de un Tercero", "El archivo se borró exitosamente");
+                break;
+            }
+            i++;
+        }
+    }
+    
+    
+    /**
+     * Método encargado de recibir una entrada de datos y un archivo para posteriormente
+     * escribir los datos en el archivo.
+     * @param dataIn entrada de datos a escribir
+     * @param newFile archivo nuevo en el que se escribiran los datos
+     * @return valor booleano indicando si el proceso de escritura se realizó satisfactoriamente
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public boolean writeFile(InputStream dataIn, File newFile) throws IOException
+    {
+        boolean result = false;
+        try
+        {
+            OutputStream outputStream = new FileOutputStream(newFile);
+            byte[] buffer = new byte[1024];
+            int len;
+            while((len = dataIn.read(buffer)) > 0)
+            { 
+                outputStream.write(buffer, 0, len);
+            }
+            outputStream.flush();
+            outputStream.close();
+            dataIn.close();
+            result = true;
+        }
+        catch(IOException e)
+        {
+            
+            e.printStackTrace();
+            throw e;
+        }
+        return result;
+    }
+    
+    
     
     public void saveObservationsByPerson()
     {
@@ -687,7 +802,37 @@ public class ScpersonBean
         addWarn(null, "Crear Correo", "Se canceló la edición del correo");
     }
 
+    public String getFormatDate(Date date)
+    {
+        String result = "";
+        String patron = "dd-MM-yyyy";
+        result = getFormatDateGlobal(patron, date);
+        return result;
+    }
     
+    /**
+     * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
+     * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón
+     * recibido
+     * <p>
+     * @param pattern patrón del formato de la fecha
+     * @param date fecha a visualizar
+     * <p>
+     * @return valor de la fecha en el formato indicado por el patrón de tipo
+     * String
+     * <p>
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public String getFormatDateGlobal(String pattern, Date date)
+    {
+        String result = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        if (date != null)
+        {
+            result = simpleDateFormat.format(date);
+        }
+        return result;
+    } 
     /**
      * Método encargado de visualizar un mensaje en la pantalla de tipo
      * informativo
@@ -938,7 +1083,7 @@ public class ScpersonBean
 
     public ScPersonSpecifications getPersonSpecificationsAdd()
     {
-        return personSpecificationsAdd;
+        return personSpecificationsAdd; 
     }
 
     public void setPersonSpecificationsAdd(ScPersonSpecifications personSpecificationsAdd)
