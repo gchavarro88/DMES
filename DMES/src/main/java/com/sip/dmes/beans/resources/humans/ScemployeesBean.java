@@ -58,6 +58,8 @@ public class ScemployeesBean
     private final String TAB_PERSON_UPDATE = "tabPersonUpdate";
     private final String TAB_CONFIRM_SAVE = "tabAcceptSave";
     private final String TAB_CONFIRM_UPDATE = "tabAcceptUpdate";
+    private final String TAB_EMPLOYEE_SAVE = "tabEmployee";
+    private final String TAB_EMPLOYEE_UPDATE = "tabEmployeeUpdate";
     
 
     /**
@@ -172,6 +174,14 @@ public class ScemployeesBean
                 return event.getOldStep();
             }
         }
+        if(event.getOldStep().equals(TAB_EMPLOYEE_SAVE))
+        {
+            if(getEmployeeAdd().getSalary().doubleValue() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "El salario debe ser mayor 0");
+                return event.getOldStep();
+            }
+        }
         if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
         {
             getEmployeeAdd().setCreationDate(new Date());
@@ -187,7 +197,18 @@ public class ScemployeesBean
         {
             getEmployeeSelected().setModifyDate(new Date());
         }
-        
+        if(event.getOldStep().equals(TAB_EMPLOYEE_UPDATE))
+        {
+            if(getEmployeeSelected().getSalary().doubleValue() < 1)
+            {
+                addError(null, "Error al intentar actualizar un nuevo empleado", "El salario debe ser mayor 0");
+            }
+        }
+        if(event.getNewStep().equals(TAB_CONFIRM_UPDATE))
+        {
+            getEmployeeSelected().setModifyDate(new Date());
+            return event.getOldStep();
+        }
         
             return event.getNewStep(); 
     }
