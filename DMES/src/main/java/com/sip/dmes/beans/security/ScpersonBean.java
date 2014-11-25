@@ -34,6 +34,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.UploadedFile;
@@ -178,7 +179,8 @@ public class ScpersonBean
                 getScPersonServer().createScPerson(getPersonAdd());
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                 getScPersons().add(getPersonAdd());
-                cleanValues();
+                cleanValues(); 
+                RequestContext.getCurrentInstance().execute("PF('wizardSave').loadStep('tabBasicDataSave', false)");
             }
             else
             {
@@ -191,7 +193,7 @@ public class ScpersonBean
             log.error("Error al intentar crear un tercero", e);
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
-    
+        
     }
     
     public String onFlowProcessSavePerson(FlowEvent event)
@@ -289,11 +291,11 @@ public class ScpersonBean
     public void saveSpecificationsByPerson()
     {
         if (getPersonSpecificationsList()!= null)
-        {
+        { 
             if (getPersonSpecificationsAdd()!= null && getPersonSpecificationsAdd().getTittle().length() > 0)
             {
                 if (getPersonSpecificationsAdd().getSpecification().length() > 0)
-                {
+                { 
                     getPersonSpecificationsAdd().setIdPerson(getPersonAdd());
                     getPersonSpecificationsList().add(getPersonSpecificationsAdd());
                     setPersonSpecificationsAdd(new ScPersonSpecifications());
@@ -304,7 +306,7 @@ public class ScpersonBean
                     addError(null, "Creación de correo", "Debe ingresar una especificación válida");
                 }
             }
-            else
+            else 
             {
                 addError(null, "Error al crear un tercero", "Debe ingresar un título de especificación válido");
                 setPersonSpecificationsAdd(new ScPersonSpecifications());
@@ -321,7 +323,7 @@ public class ScpersonBean
      */
     public void uploadFile() throws Exception
     {
-       long MegabytesChangeToBytes = ((1024)*(1024));
+       long MegabytesChangeToBytes = ((1024)*(1024));  
        if(getUpLoadFile() != null)
        {
            if(getUpLoadFile().getSize() <= (MegabytesChangeToBytes*MAX_SIZE_FILE))
@@ -334,7 +336,7 @@ public class ScpersonBean
                    String fileSeparator = System.getProperty("file.separator");
                    String path ="";
                    String fileNameFolder = getSessionBean().getScUser().getIdPerson().getLastName()+
-                           "_"+getSessionBean().getScUser().getIdPerson().getLastName();
+                           "_"+getSessionBean().getScUser().getIdPerson().getFirstName();
                    if(!fileSeparator.equals("/"))
                    {
                        fileSeparator += fileSeparator;
@@ -343,7 +345,7 @@ public class ScpersonBean
                    File folder = new File(path);
                    folder.mkdirs();
                    Date dateFile =  new Date();
-                   fileNameFolder += getFormatDateGlobal("yyyyMMddHHmmss", dateFile);
+                   fileNameFolder = getUpLoadFile().getFileName()+"_"+getFormatDateGlobal("yyyyMMddHHmmss", dateFile)+"."+extension;
                    File file = new File(path+fileSeparator+fileNameFolder);
                    if(writeFile(getUpLoadFile().getInputstream(), file))
                    {
@@ -351,8 +353,9 @@ public class ScpersonBean
                        getPersonDocumentationAttachedAdd().setPath(path+fileSeparator+fileNameFolder);
                        getPersonDocumentationAttachedAdd().setIdPerson(getPersonAdd());
                        getPersonDocumentationAttachedsList().add(getPersonDocumentationAttachedAdd());
-                       addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                       addInfo(null, "Cargue de Archivos", "Se cargó el archivo con éxito");
                        setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
+                       
                    }
                    else
                    {
@@ -377,7 +380,75 @@ public class ScpersonBean
            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
            log.error("Error al intentar subir un archivo");
        }
-       
+       RequestContext.getCurrentInstance().execute("PF('dialogPersonSave').show()");
+    }
+    /**
+     * Método encargado de subir el archivo y copiarlo al servidor, para posteriormente
+     * dejar un registro en la base de datos.
+     * @param option permite decidir si se hará un copiado sencillo o especial
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     * @throws java.io.IOException
+     */
+    public void uploadFileUpdate() throws Exception 
+    {
+       long MegabytesChangeToBytes = ((1024)*(1024));  
+       if(getUpLoadFile() != null) 
+       { 
+           if(getUpLoadFile().getSize() <= (MegabytesChangeToBytes*MAX_SIZE_FILE))
+           {
+               int indexExtension = (getUpLoadFile().getFileName().indexOf(".")+1);
+               String extension = getUpLoadFile().getFileName().substring(indexExtension, getUpLoadFile().getFileName().length());
+               if(EXTENSION_FILE.contains(extension))
+               {
+                   String systemOperating = System.getProperty("os.name");
+                   String fileSeparator = System.getProperty("file.separator");  
+                   String path ="";
+                   String fileNameFolder = getSessionBean().getScUser().getIdPerson().getLastName()+
+                           "_"+getSessionBean().getScUser().getIdPerson().getFirstName();
+                   if(!fileSeparator.equals("/"))
+                   {
+                       fileSeparator += fileSeparator;
+                   }
+                   path = System.getProperty("user.home")+fileSeparator+fileNameFolder;
+                   File folder = new File(path);
+                   folder.mkdirs();
+                   Date dateFile =  new Date();
+                   fileNameFolder = getUpLoadFile().getFileName()+"_"+getFormatDateGlobal("yyyyMMddHHmmss", dateFile)+"."+extension;
+                   File file = new File(path+fileSeparator+fileNameFolder);
+                   if(writeFile(getUpLoadFile().getInputstream(), file))
+                   {
+                       getPersonDocumentationAttachedAdd().setCreationDate(dateFile);
+                       getPersonDocumentationAttachedAdd().setPath(path+fileSeparator+fileNameFolder);
+                       getPersonDocumentationAttachedAdd().setIdPerson(getPersonUpdate());
+                       getPersonUpdate().getScPersonDocumentationAttachedList().add(getPersonDocumentationAttachedAdd());
+                       addInfo(null, "Cargue de Archivos", "Se cargó el archivo con éxito");
+                       setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
+                       
+                   }
+                   else
+                   {
+                       addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                       log.error("Error al intentar escribir el archivo");
+                   }
+               }
+               else
+               {
+                   addError(null, "Error al subir un archivo", "La extensión no coincide con las extensiones permitidas: "+EXTENSION_FILE);
+                   log.error("Error al intentar subir un archivo, extensión no incluida en la lista de permitidas");
+               }
+           }
+           else
+           {
+               addError(null, "Error al subir un archivo", "El tamaño sobrepasa el límite puesto de "+MAX_SIZE_FILE+" MB");
+               log.error("Error al intentar subir un archivo, tamaño excedido");
+           }
+       }
+       else
+       {
+           addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+           log.error("Error al intentar subir un archivo");
+       }
+       RequestContext.getCurrentInstance().execute("PF('dialogPersonUpdate').show()");
     }
     
     public void removeDocumentationSaved(ScPersonDocumentationAttached documentation)
@@ -397,6 +468,23 @@ public class ScpersonBean
         }
     }
     
+    
+    public void removeDocumentationUpdate(ScPersonDocumentationAttached documentation)
+    {
+        int i = 0;
+        for(ScPersonDocumentationAttached documentationAttached: getPersonUpdate().getScPersonDocumentationAttachedList())
+        {
+            if( documentationAttached.getTittle().equals(documentation.getTittle()))
+            {
+                File file = new File(documentation.getPath());
+                file.delete();
+                getPersonUpdate().getScPersonDocumentationAttachedList().remove(i);
+                addInfo(null, "Actualización de un Tercero", "El archivo se borró exitosamente");
+                break;
+            }
+            i++;
+        }
+    }
     
     /**
      * Método encargado de recibir una entrada de datos y un archivo para posteriormente
@@ -620,6 +708,7 @@ public class ScpersonBean
                     }
                 }
                 cleanValues();
+                RequestContext.getCurrentInstance().execute("PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)");
             }
             else
             {

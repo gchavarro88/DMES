@@ -25,8 +25,8 @@
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
 
-                <h:form id="formWizard" enctype="multipart/form-data">
-                    <p:wizard  flowListener="#{scpersonBean.onFlowProcessSavePerson}" id="wizardSave" widgetVar="wizardSave">
+                <h:form id="formWizard" enctype="multipart/form-data" >
+                    <p:wizard  flowListener="#{scpersonBean.onFlowProcessSavePerson}" id="wizardSave" widgetVar="wizardSave" >
 <!--                        Pestaña de datos básicos a guardar-->
                         <p:tab title="Datos Básicos" id="tabBasicDataSave" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del Tercero">
@@ -411,8 +411,8 @@
                             </p:panel>
                         </p:tab>
 <!--                        pestaña de documentacion-->
-                        <p:tab title="Documentación" id="tabDocumentationsSave" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para la Documentación del Tercero">
+                        <p:tab title="Documentación y Confirmar" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para la Documentación del Tercero y Confirmar los Cambios">
                             <p:panel header="Documentación del Tercero" >
                               
                                 <table width="98%" cellspacing="10" >
@@ -426,7 +426,7 @@
                                         </td>
                                         <td width="60%">
                                         <p:inputText id="tfDocumentationTittleSave" value="#{scpersonBean.personDocumentationAttachedAdd.tittle}"
-                                                     required="true" requiredMessage="Debe ingresar título del documento a cargar"/>
+                                                   />
                                         <p:tooltip for="tfDocumentationTittleSave" value="Ingrese el título del documento a cargar"/>
                                         </td>
                                         </tr>
@@ -445,7 +445,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" ajax="false" 
-                                                            update="tfDocumentationTittleSave,tfDocumentationSave,dataTableDocumentation"
+                                                            update="tfDocumentationTittleSave,dataTableDocumentation"
                                                             actionListener="#{scpersonBean.uploadFile()}"/>
                                                         </center>
                                                     </td>
@@ -475,19 +475,14 @@
                                                 <h:outputText value="#{documentation.tittle}" />
                                             </p:column>
                                             <p:column headerText="Fecha de Creación" sortBy="#{documentation.creationDate}">
-                                                <h:outputText value="#{documentation.creationDate}" />
+                                                <h:outputText value="#{scpersonBean.getFormatDate(documentation.creationDate)}" />
                                             </p:column>
-                                            <p:column style="width:32px">
-                                                
-                                            </p:column>
+                                           
                                         </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
                             </p:panel>
-                        </p:tab>
-                        <p:tab title="Confirmar" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para Confirmar los Cambios del Tercero">
                             <p:panel header="Datos del Tercero" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -577,18 +572,18 @@
                                     <tr>
                                         <td colspan="4">
                                             <center>
-                                                <p:commandButton value="Guardar" onsuccess="PF('dialogPersonSave').hide();PF('wizardSave').loadStep('tabBasicDataSave', false)" 
-                                                                 actionListener="#{scpersonBean.savePerson()}" 
+                                                <p:commandButton value="Guardar Tercero" onsuccess="PF('dialogPersonSave').hide();PF('wizardSave').loadStep('tabBasicDataSave', false)" 
+                                                                 actionListener="#{scpersonBean.savePerson()}" ajax="false"
                                                                  update=":formPerson:dataTablePersons,:formWizard"/>
                                                 <p:spacer width="20"/>
-                                                <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonSave').hide();PF('wizardSave').loadStep('tabBasicDataSave', false)" />
+                                                <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonSave').hide();PF('wizardSave').loadStep('tabBasicDataSave', false)" ajax="false"/>
                                             </center>
                                         </td>
                                     </tr>
                                 </table>
                             </p:panel>
                         </p:tab>
-                    </p:wizard>
+                   </p:wizard>
                 </h:form>
                 
             </p:dialog>
@@ -600,7 +595,7 @@
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
 
-                <h:form id="formWizardUpdate">
+                <h:form id="formWizardUpdate" enctype="multipart/form-data">
                     <p:wizard  flowListener="#{scpersonBean.onFlowProcessUpdatePerson}" id="wizardUpdate" widgetVar="wizardUpdate">
                         <p:tab title="Datos Básicos" id="tabBasicDataUpdate" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del Tercero">
@@ -979,21 +974,21 @@
                             </p:panel>
                         </p:tab>
 <!--pestaña para actualizar los documentos-->
-                        <p:tab title="Documentación" id="tabDocumentationsUpdate" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para la Documentación del Tercero">
+                        <p:tab title="Documentación y Confirmar" id="tabConfirmUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para la Documentación del Tercero y Confirmar los Cambios">
                             <p:panel header="Documentación del Tercero" >
                               
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="40%">
-                                    <h:form id="formLoadFiles" enctype="multipart/form-data" >
+                                    
                                         <table width="100%" cellspacing="10">
                                             <tr>
                                                 <td width="40%" >
                                             <p:outputLabel for="tfDocumentationTittleUpdate" value="Título"/>
                                         </td>
                                         <td width="60%">
-                                        <p:inputText id="tfDocumentationTittleUpdate" value="#{scpersonBean.personSpecificationsAdd.tittle}"/>
+                                        <p:inputText id="tfDocumentationTittleUpdate" value="#{scpersonBean.personDocumentationAttachedAdd.tittle}"/>
                                         <p:tooltip for="tfDocumentationTittleUpdate" value="Ingrese el título del documento a cargar"/>
                                         </td>
                                         </tr>
@@ -1011,15 +1006,15 @@
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
-                                                            <p:commandButton value="Guardar" ajax="false" disabled="true"
-                                                            update="tfDocumentationTittleUpdate,tfDocumentationUpdate,dataTableDocumentationUpdate"
-                                                            actionListener="#{scpersonBean.uploadFile()}"/>
+                                                            <p:commandButton value="Guardar" ajax="false" 
+                                                            update="tfDocumentationTittleUpdate,dataTableDocumentationUpdate"
+                                                            actionListener="#{scpersonBean.uploadFileUpdate()}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
                                                 
                                             </table>
-                                    </h:form>
+                                    
                                         </td>
                                         <td width="60%" align="center" valign="top">
                                         <p:dataTable id="dataTableDocumentationUpdate"
@@ -1033,28 +1028,22 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{documentation.tittle}">
-                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditDocumentations}" />
-                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelDocumentations}" />
-                                            <p:column headerText="Título" sortBy="#{documentation.tittle}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{documentation.tittle}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{documentation.tittle}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                            <p:column headerText="Fecha de Creación" sortBy="#{documentation.creationDate}">
-                                                <h:outputText value="#{documentation.creationDate}" />
-                                            </p:column>
                                             <p:column style="width:32px">
-                                                <p:rowEditor />
+                                                        <p:commandButton icon="ui-icon-close" update="dataTableDocumentationUpdate" title="Eliminar documento"
+                                                                         process=":formWizardUpdate:dataTableDocumentationUpdate" actionListener="#{scpersonBean.removeDocumentationUpdate(documentation)}" >
+                                                        </p:commandButton>
+                                                    </p:column>
+                                            <p:column headerText="Título" sortBy="#{documentation.tittle}">
+                                                <h:outputText value="#{documentation.tittle}" />
+                                            </p:column>
+                                            <p:column headerText="Fecha de Creación" sortBy="#{documentation.creationDate}">
+                                                <h:outputText value="#{scpersonBean.getFormatDate(documentation.creationDate)}" />
                                             </p:column>
                                         </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
                             </p:panel>
-                        </p:tab>
-                        <p:tab title="Confirmar" id="tabConfirmUpdate" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para Confirmar los Cambios del Tercero">
                             <p:panel header="Datos del Tercero" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -1134,16 +1123,17 @@
                                         <td colspan="4">
                                             <center>
                                                 <p:commandButton value="Guardar" onsuccess="PF('dialogPersonUpdate').hide();PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)" 
-                                                                 actionListener="#{scpersonBean.updatePerson()}" 
+                                                                 actionListener="#{scpersonBean.updatePerson()}" ajax="false"
                                                                  update=":formPerson:dataTablePersons,:formWizardUpdate"/>
                                                 <p:spacer width="20"/>
-                                                <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonUpdate').hide();PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)" />
+                                                <p:commandButton value="Cancelar" oncomplete="PF('dialogPersonUpdate').hide();PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)" ajax="false"/>
                                             </center>
                                         </td>
                                     </tr>
                                 </table>
                             </p:panel>
                         </p:tab>
+                        
                     </p:wizard>
                 </h:form>
                 
