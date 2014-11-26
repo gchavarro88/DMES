@@ -155,35 +155,28 @@
                                         </td>
                                         <td width="60%" align="center" valign="top">
                                         <p:dataTable id="dataTablePhones" 
-                                                             var="phones" 
-                                                             value="#{scpersonBean.personPhoneList}"
-                                                             rowKey="#{phones.idPhone}"
-                                                             paginator="true" rows="15"  
-                                                             pageLinks="40" editable="true"
-                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
-                                                             paginatorPosition="top"
-                                                             sortBy="#{phones.idPhone}">
-                                                    <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditPhones}" update="dataTablePhones"/>
-                                                    <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelPhones}" />
-                                                    <p:column headerText="Teléfono" sortBy="#{phones.numberPhone}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{phones.numberPhone}" /></f:facet>
-                                                            <f:facet name="input"><p:inputMask mask="9999999999" value="#{phones.numberPhone}" required="true"
-                                                            requiredMessage="Debe ingresar un número válido" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column headerText="Descripción" sortBy="#{phones.description}">
-                                                        <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{phones.description}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{phones.description}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column style="width:32px">
-                                                        <p:rowEditor />
-                                                    </p:column>
-                                                </p:dataTable>
+                                                    var="phones" 
+                                                    value="#{scpersonBean.personPhoneList}"
+                                                    rowKey="#{phones.idPhone}"
+                                                    paginator="true" rows="15"  
+                                                    pageLinks="40" editable="true"
+                                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                    {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                    liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                    paginatorPosition="top"
+                                                    sortBy="#{phones.idPhone}">
+                                            <p:column style="width:32px">
+                                                <p:commandButton icon="ui-icon-close" update="dataTablePhones" title="Eliminar Teléfono"
+                                                                 process=":formWizard:dataTablePhones" actionListener="#{scpersonBean.removePhonesByPerson(phones)}" >
+                                                </p:commandButton>
+                                            </p:column>
+                                           <p:column headerText="Teléfono" sortBy="#{phones.numberPhone}">
+                                               <p:outputLabel value="#{phones.numberPhone}"/>
+                                           </p:column>
+                                           <p:column headerText="Descripción" sortBy="#{phones.description}">
+                                               <p:outputLabel    value="#{phones.description}"/>
+                                           </p:column>
+                                       </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
@@ -240,23 +233,16 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{mails.idMail}">
-                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditMails}" />
-                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelMails}" />
-                                            <p:column headerText="Correo" sortBy="#{mails.mail}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{mails.mail}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{mails.mail}" style="width:100%"
-                                                            required="true" requiredMessage="Debe ingresar un correo válido"/></f:facet>
-                                                        </p:cellEditor>
+                                                    <p:column style="width:32px">
+                                                        <p:commandButton icon="ui-icon-close" update="dataTableMails" title="Eliminar Correo"
+                                                                         process=":formWizard:dataTableMails" actionListener="#{scpersonBean.removeMailsByPerson(mails)}" >
+                                                        </p:commandButton>
+                                                    </p:column>         
+                                                    <p:column headerText="Correo" sortBy="#{mails.mail}">
+                                                        <p:outputLabel  value="#{mails.mail}"/>
                                                     </p:column>
                                                     <p:column headerText="Descripción" sortBy="#{mails.description}">
-                                                        <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{mails.description}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{mails.description}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column style="width:32px">
-                                                        <p:rowEditor />
+                                                        <p:outputLabel value="#{mails.description}"/>
                                                     </p:column>
                                                 </p:dataTable>
                                         </td>
@@ -314,24 +300,19 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{observations.tittle}">
-                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditObservations}" />
-                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelObservations}" />
+                                            <p:column style="width:32px">
+                                                <p:commandButton icon="ui-icon-close" update="dataTableObservations" title="Eliminar Observaciones"
+                                                                 process=":formWizard:dataTableObservations" 
+                                                                 actionListener="#{scpersonBean.removeObservationsByPerson(observations)}" >
+                                                </p:commandButton>
+                                            </p:column>
                                             <p:column headerText="Título" sortBy="#{observations.tittle}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{observations.tittle}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{observations.tittle}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column headerText="Observación" sortBy="#{observations.observation}">
-                                                        <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{observations.observation}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{observations.observation}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column style="width:32px">
-                                                        <p:rowEditor />
-                                                    </p:column>
-                                                </p:dataTable>
+                                                <p:outputLabel value="#{observations.tittle}"/>
+                                            </p:column>
+                                            <p:column headerText="Observación" sortBy="#{observations.observation}">
+                                                <p:outputLabel value="#{observations.observation}"/>
+                                            </p:column>
+                                        </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
@@ -387,24 +368,20 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{specifications.tittle}">
-                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditSpecifications}" />
-                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelSpecifications}" />
-                                            <p:column headerText="Título" sortBy="#{specifications.tittle}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{specifications.tittle}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{specifications.tittle}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column headerText="Especificación" sortBy="#{specifications.specification}">
-                                                        <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{specifications.specification}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{specifications.specification}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column style="width:32px">
-                                                        <p:rowEditor />
-                                                    </p:column>
-                                                </p:dataTable>
+                                                <p:column style="width:32px">
+                                                   <p:commandButton icon="ui-icon-close" update="dataTableSpecifications" title="Eliminar Observaciones"
+                                                                    process=":formWizard:dataTableSpecifications" 
+                                                                    actionListener="#{scpersonBean.removeSpecificationsByPerson(specifications)}" >
+                                                   </p:commandButton>
+                                               </p:column>
+                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                    <p:outputLabel value="#{specifications.tittle}"/>
+                                                </p:column>
+                                                <p:column headerText="Especificación" sortBy="#{specifications.specification}">
+                                                    <p:outputLabel value="#{specifications.specification}"/>
+                                                </p:column>
+                                                    
+                                        </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
@@ -694,7 +671,7 @@
                                                 <p:outputLabel for="tfPhoneUpdate" value="Teléfono"/>
                                                 </td>
                                                 <td width="60%">
-                                                <p:inputMask id="tfPhoneUpdate" value="#{scpersonBean.phoneAdd.numberPhone}" mask="9999999999"/>
+                                                <p:inputText id="tfPhoneUpdate" value="#{scpersonBean.phoneAdd.numberPhone}"/>
                                                 <p:tooltip for="tfPhoneUpdate" value="Ingrese sólo números, teniendo en cuenta el operador de cada número ejemplo 0325142402"/>
                                                 </td>
                                                 </tr>
@@ -730,24 +707,18 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{phones.idPhone}">
-                                                    <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditPhones}" />
-                                                    <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelPhones}" />
-                                                    <p:column headerText="Teléfono" sortBy="#{phones.numberPhone}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{phones.numberPhone}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{phones.numberPhone}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column headerText="Descripción" sortBy="#{phones.description}">
-                                                        <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{phones.description}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{phones.description}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column style="width:32px">
-                                                        <p:rowEditor />
-                                                    </p:column>
-                                                </p:dataTable>
+                                            <p:column style="width:32px">
+                                                <p:commandButton icon="ui-icon-close" update="dataTablePhonesUpdate" title="Eliminar Teléfono"
+                                                                 process=":formWizardUpdate:dataTablePhonesUpdate" actionListener="#{scpersonBean.removePhonesByPersonUpdate(phones)}" >
+                                                </p:commandButton>
+                                            </p:column>
+                                           <p:column headerText="Teléfono" sortBy="#{phones.numberPhone}">
+                                               <p:outputLabel value="#{phones.numberPhone}"/>
+                                           </p:column>
+                                           <p:column headerText="Descripción" sortBy="#{phones.description}">
+                                               <p:outputLabel    value="#{phones.description}"/>
+                                           </p:column>
+                                        </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
@@ -804,24 +775,18 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{mails.idMail}">
-                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditMails}" />
-                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelMails}" />
-                                            <p:column headerText="Teléfono" sortBy="#{mails.mail}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{mails.mail}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{mails.mail}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column headerText="Descripción" sortBy="#{mails.description}">
-                                                        <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{mails.description}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{mails.description}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column style="width:32px">
-                                                        <p:rowEditor />
-                                                    </p:column>
-                                                </p:dataTable>
+                                            <p:column style="width:32px">
+                                                <p:commandButton icon="ui-icon-close" update="dataTableMailsUpdate" title="Eliminar Correo"
+                                                                 process=":formWizardUpdate:dataTableMailsUpdate" actionListener="#{scpersonBean.removeMailsByPersonUpdate(mails)}" >
+                                                </p:commandButton>
+                                            </p:column>         
+                                            <p:column headerText="Correo" sortBy="#{mails.mail}">
+                                                <p:outputLabel  value="#{mails.mail}"/>
+                                            </p:column>
+                                            <p:column headerText="Descripción" sortBy="#{mails.description}">
+                                                <p:outputLabel value="#{mails.description}"/>
+                                            </p:column>
+                                        </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
@@ -877,23 +842,18 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{observations.tittle}">
-                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditObservations}" />
-                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelObservations}" />
-                                            <p:column headerText="Título" sortBy="#{observations.tittle}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{observations.tittle}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{observations.tittle}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column headerText="Observación" sortBy="#{observations.observation}">
-                                                        <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{observations.observation}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{observations.observation}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column style="width:32px">
-                                                        <p:rowEditor />
-                                                    </p:column>
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableObservationsUpdate" title="Eliminar Observaciones"
+                                                                     process=":formWizardUpdate:dataTableObservationsUpdate" 
+                                                                     actionListener="#{scpersonBean.removeObservationsByPersonUpdate(observations)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Título" sortBy="#{observations.tittle}">
+                                                    <p:outputLabel value="#{observations.tittle}"/>
+                                                </p:column>
+                                                <p:column headerText="Observación" sortBy="#{observations.observation}">
+                                                    <p:outputLabel value="#{observations.observation}"/>
+                                                </p:column>
                                                 </p:dataTable>
                                         </td>
                                     </tr>
@@ -950,23 +910,18 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{specifications.tittle}">
-                                            <p:ajax event="rowEdit" listener="#{scpersonBean.onRowEditSpecifications}" />
-                                            <p:ajax event="rowEditCancel" listener="#{scpersonBean.onRowCancelSpecifications}" />
-                                            <p:column headerText="Título" sortBy="#{specifications.tittle}">
-                                                        <p:cellEditor>
-                                                            <f:facet name="output"><h:outputText value="#{specifications.tittle}" /></f:facet>
-                                                            <f:facet name="input"><p:inputText value="#{specifications.tittle}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column headerText="Especificación" sortBy="#{specifications.specification}">
-                                                        <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{specifications.specification}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{specifications.specification}" style="width:100%"/></f:facet>
-                                                        </p:cellEditor>
-                                                    </p:column>
-                                                    <p:column style="width:32px">
-                                                        <p:rowEditor />
-                                                    </p:column>
+                                            <p:column style="width:32px">
+                                                   <p:commandButton icon="ui-icon-close" update="dataTableSpecificationsUpdate" title="Eliminar Observaciones"
+                                                                    process=":formWizardUpdate:dataTableSpecificationsUpdate" 
+                                                                    actionListener="#{scpersonBean.removeSpecificationsByPersonUpdate(specifications)}" >
+                                                   </p:commandButton>
+                                               </p:column>
+                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                    <p:outputLabel value="#{specifications.tittle}"/>
+                                                </p:column>
+                                                <p:column headerText="Especificación" sortBy="#{specifications.specification}">
+                                                    <p:outputLabel value="#{specifications.specification}"/>
+                                                </p:column>
                                                 </p:dataTable>
                                         </td>
                                     </tr>

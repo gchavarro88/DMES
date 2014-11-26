@@ -18,6 +18,7 @@ import com.sip.dmes.entitys.ScPersonDocumentationAttached;
 import com.sip.dmes.entitys.ScPersonObservations;
 import com.sip.dmes.entitys.ScPersonSpecifications;
 import com.sip.dmes.entitys.ScPhones;
+import com.sip.dmes.entitys.ScWorkExperience;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.io.File;
@@ -200,7 +201,12 @@ public class ScpersonBean
     {
         if (event.getOldStep().equalsIgnoreCase(TAB_BASIC_DATA))
         {
-            if (getPersonAdd().getLastName() == null || getPersonAdd().getLastName().length() < 1)
+            if (getPersonAdd().getIdentification() <= 0 || (getPersonAdd().getIdentification()+"").contains("."))
+            {
+                addError(null, "Error al crear un tercero", "Debe ingresar un número de cédula válido. Ejemplo: 16343434");
+                return event.getOldStep();
+            }
+            else if (getPersonAdd().getLastName() == null || getPersonAdd().getLastName().length() < 1)
             {
                 addError(null, "Error al crear un tercero", "Debe ingresar apellidos válidos");
                 return event.getOldStep();
@@ -238,7 +244,7 @@ public class ScpersonBean
     {
         if (getPersonPhoneList() != null)
         {
-            if (getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0)
+            if (getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0 && (getPhoneAdd().getNumberPhone()+"").length() >= 7 )
             {
                 getPhoneAdd().setIdPerson(getPersonAdd());
                 getPersonPhoneList().add(getPhoneAdd());
@@ -252,12 +258,29 @@ public class ScpersonBean
             }
             else
             {
-                addError(null, "Error al crear un tercero", "Debe ingresar un número telefónico válido");
+                addError(null, "Error al crear un tercero", "Debe ingresar un número telefónico válido, ejemplo: 3017001704");
                 setPhoneAdd(new ScPhones());
             }
         }
     }
 
+    public void removePhonesByPerson(ScPhones phones)
+    {
+        int i=0;
+        if(getPersonPhoneList() != null)
+        {
+            for(ScPhones phonesSelected: getPersonPhoneList())
+            {
+                    if(phonesSelected.getNumberPhone() == phones.getNumberPhone())
+                    {
+                        getPersonPhoneList().remove(i);
+                        addInfo(null, "Teléfono Eliminado", "Se eliminó el número telefónico con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
     
     public void saveMailsByPerson()
     {
@@ -283,10 +306,26 @@ public class ScpersonBean
                 addError(null, "Error al crear un tercero", "Debe ingresar un correo válido");
                 setMailAdd(new ScMails());
             }
-        }
+        } 
     }
     
-    
+    public void removeMailsByPerson(ScMails mails)
+    {
+        int i=0;
+        if(getPersonMailList() != null)
+        {
+            for(ScMails mailsSelected: getPersonMailList())
+            {
+                    if(mailsSelected.getMail().equals(mails.getMail()))
+                    {
+                        getPersonMailList().remove(i);
+                        addInfo(null, "Teléfono Eliminado", "Se eliminó el mail con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
     
     public void saveSpecificationsByPerson()
     {
@@ -314,6 +353,24 @@ public class ScpersonBean
         }
     }
 
+    public void removeSpecificationsByPerson(ScPersonSpecifications personSpecifications)
+    {
+        int i=0;
+        if(getPersonSpecificationsList() != null)
+        {
+            for(ScPersonSpecifications personSpecificationsSelected: getPersonSpecificationsList())
+            {
+                    if(personSpecificationsSelected.getSpecification().equals(personSpecifications.getSpecification()))
+                    {
+                        getPersonSpecificationsList().remove(i);
+                        addInfo(null, "Especificación Eliminado", "Se eliminó la especificación con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
+    
     /**
      * Método encargado de subir el archivo y copiarlo al servidor, para posteriormente
      * dejar un registro en la base de datos.
@@ -548,7 +605,23 @@ public class ScpersonBean
         }
     }
     
-    
+    public void removeObservationsByPerson(ScPersonObservations personObservations)
+    {
+        int i=0;
+        if(getPersonSpecificationsList() != null)
+        {
+            for(ScPersonObservations personObservationsSelected: getPersonObservationsList())
+            {
+                    if(personObservationsSelected.getObservation().equals(personObservations.getObservation()))
+                    {
+                        getPersonObservationsList().remove(i);
+                        addInfo(null, "Observación Eliminada", "Se eliminó la observación con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
     public String onFlowProcessUpdatePerson(FlowEvent event)
     {
         if (event.getOldStep().equalsIgnoreCase(TAB_BASIC_DATA_UPDATE))
@@ -591,7 +664,7 @@ public class ScpersonBean
     {
         if (getPhoneAdd() !=  null && getPersonUpdate().getScPhonesList() != null)
         {
-            if (getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0)
+            if (getPhoneAdd() != null && getPhoneAdd().getNumberPhone() > 0 && (getPhoneAdd().getNumberPhone()+"").length() >= 7 )
             {
                 getPhoneAdd().setIdPerson(getPersonUpdate());
                 getPersonUpdate().getScPhonesList().add(getPhoneAdd());
@@ -605,8 +678,26 @@ public class ScpersonBean
             }
             else
             {
-                addError(null, "Error al crear un tercero", "Debe ingresar un número telefónico válido");
+                addError(null, "Error al crear un tercero", "Debe ingresar un número telefónico válido. Ejemplo 3017001704");
                 setPhoneAdd(new ScPhones());
+            }
+        }
+    }
+    
+    public void removePhonesByPersonUpdate(ScPhones phones)
+    {
+        int i=0;
+        if(getPersonUpdate().getScPhonesList() != null)
+        {
+            for(ScPhones phonesSelected: getPersonUpdate().getScPhonesList())
+            {
+                    if(phonesSelected.getNumberPhone() == phones.getNumberPhone())
+                    {
+                        getPersonUpdate().getScPhonesList().remove(i);
+                        addInfo(null, "Teléfono Eliminado", "Se eliminó el número telefónico con éxito");
+                        break;
+                    }
+                    i++;
             }
         }
     }
@@ -638,6 +729,24 @@ public class ScpersonBean
         }
     }
     
+    public void removeMailsByPersonUpdate(ScMails mails)
+    {
+        int i=0;
+        if(getPersonUpdate().getScMailsList()!= null)
+        {
+            for(ScMails mailsSelected: getPersonUpdate().getScMailsList())
+            {
+                    if(mailsSelected.getMail().equals(mails.getMail()))
+                    {
+                        getPersonUpdate().getScMailsList().remove(i);
+                        addInfo(null, "Teléfono Eliminado", "Se eliminó el mail con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
+    
     public void updateSpecificationsByPerson()
     {
         if (getPersonUpdate().getScPersonSpecificationsList() != null && getPersonSpecificationsAdd() != null)
@@ -664,6 +773,23 @@ public class ScpersonBean
         }
     }
     
+    public void removeSpecificationsByPersonUpdate(ScPersonSpecifications personSpecifications)
+    {
+        int i=0;
+        if(getPersonUpdate().getScPersonSpecificationsList() != null)
+        {
+            for(ScPersonSpecifications personSpecificationsSelected: getPersonUpdate().getScPersonSpecificationsList())
+            {
+                    if(personSpecificationsSelected.getSpecification().equals(personSpecifications.getSpecification()))
+                    {
+                        getPersonUpdate().getScPersonSpecificationsList().remove(i);
+                        addInfo(null, "Especificación Eliminado", "Se eliminó la especificación con éxito");
+                        break;
+                    }
+                    i++;
+            }
+        }
+    }
     
     public void updateObservationsByPerson()
     {
@@ -682,11 +808,29 @@ public class ScpersonBean
                 {
                     addError(null, "Creación de correo", "Debe ingresar una observación válida");
                 }
-            }
+            } 
             else
             {
                 addError(null, "Error al crear un tercero", "Debe ingresar un título de observación válido");
                 setPersonObservationsAdd(new ScPersonObservations());
+            }
+        }
+    }
+    
+    public void removeObservationsByPersonUpdate(ScPersonObservations personObservations)
+    {
+        int i=0;
+        if(getPersonUpdate().getScPersonObservationsList() != null)
+        {
+            for(ScPersonObservations personObservationsSelected: getPersonUpdate().getScPersonObservationsList())
+            {
+                    if(personObservationsSelected.getObservation().equals(personObservations.getObservation()))
+                    {
+                        getPersonUpdate().getScPersonObservationsList().remove(i);
+                        addInfo(null, "Observación Eliminada", "Se eliminó la observación con éxito");
+                        break;
+                    }
+                    i++;
             }
         }
     }
