@@ -103,7 +103,7 @@
                                             </p:inputText>
                                         </td>
                                         <td width="20%" align="left">
-                                            <p:outputLabel  for="tfRangeAmount" value="Cantidad de Rango del Cargo"/>
+                                            <p:outputLabel  for="tfRangeAmount" value="Rango del Cargo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfRangeAmount"  value="#{scemployeesBean.employeeAdd.amount}"
@@ -135,11 +135,11 @@
                             <p:panel header="Agregar Experiencia Laboral" style="text-align: center;">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="30%">
+                                        <td >
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
-                                                <p:outputLabel for="tfNameCompany" value="Nombre de la Empresa"/>
+                                                <p:outputLabel for="tfNameCompany" value="Nombre de la Empresa*"/>
                                                 </td>
                                                 <td width="60%">
                                                     <p:inputText id="tfNameCompany" value="#{scemployeesBean.workExperienceAdd.companyName}"
@@ -148,7 +148,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td width="40%" >
-                                                <p:outputLabel for="tfInitDate" value="Fecha de Inicio"/>
+                                                <p:outputLabel for="tfInitDate" value="Fecha de Inicio*"/>
                                                 </td>
                                                 <td width="60%">
                                                     <p:calendar id="tfInitDate" value="#{scemployeesBean.workExperienceAdd.initDate}" 
@@ -157,7 +157,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td width="40%">
-                                                <p:outputLabel for="tfInitEnd" value="Fecha de Retiro"/>
+                                                <p:outputLabel for="tfInitEnd" value="Fecha de Retiro*"/>
                                                 </td>
                                                 <td width="60%">
                                                     <p:calendar id="tfInitEnd" value="#{scemployeesBean.workExperienceAdd.endDate}" 
@@ -175,10 +175,11 @@
                                                 
                                             </table>
                                         </td>
-                                        <td width="70%" align="center" valign="top">
-                                            
-                                                <p:dataTable id="dataTableWorkExperiencies" 
-                                                             var="workExperiencies" style="width: 370px;"
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p:dataTable id="dataTableWorkExperiencies" 
+                                                             var="workExperiencies" 
                                                              value="#{scemployeesBean.workExperiencesListAdd}"
                                                              rowKey="#{workExperiencies.idWorkExperience}"
                                                              paginator="true" rows="15"  
@@ -203,9 +204,9 @@
                                                         <p:outputLabel value="#{scemployeesBean.getFormatDate(workExperiencies.endDate)}"/>
                                                     </p:column>
                                                 </p:dataTable>
-                                            
                                         </td>
                                     </tr>
+                                    
                                 </table>
                             </p:panel>
                         </p:tab>
@@ -215,7 +216,7 @@
                             <p:panel header="Agregar Compentencia" style="text-align: center;">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="30%">
+                                        <td >
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
@@ -246,10 +247,11 @@
                                                 
                                             </table>
                                         </td>
-                                        <td width="70%" align="center" valign="top">
-                                            
-                                                <p:dataTable id="dataTableCompetencies" 
-                                                             var="competencies" style="width: 370px;"
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p:dataTable id="dataTableCompetencies" 
+                                                             var="competencies" 
                                                              value="#{scemployeesBean.competenciesListAdd}"
                                                              rowKey="#{competencies.idCompetencies}"
                                                              paginator="true" rows="15"  
@@ -273,6 +275,9 @@
                                                 </p:dataTable>
                                         </td>
                                     </tr>
+                                            
+                                                
+                                        
                                 </table>
                             </p:panel>
                         </p:tab>
@@ -524,7 +529,7 @@
                             <p:panel header="Actualizar Experiencia Laboral" style="text-align: center;">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="30%">
+                                        <td>
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
@@ -563,11 +568,12 @@
                                                 </tr>
                                                 
                                             </table>
-                                        </td>
-                                        <td width="70%" align="center" valign="top">
-                                            
-                                                <p:dataTable id="dataTableWorkExperienciesUpdate" 
-                                                             var="workExperiencies" style="width: 370px;"
+                                        </td>    
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p:dataTable id="dataTableWorkExperienciesUpdate" 
+                                                             var="workExperiencies"
                                                              value="#{scemployeesBean.employeeSelected.scWorkExperienceList}"
                                                              rowKey="#{workExperiencies.idWorkExperience}"
                                                              paginator="true" rows="15"  
@@ -591,8 +597,7 @@
                                                     <p:column headerText="Fecha de Retiro" sortBy="#{scemployeesBean.getFormatDate(workExperiencies.endDate)}">
                                                         <p:outputLabel value="#{scemployeesBean.getFormatDate(workExperiencies.endDate)}"/>
                                                     </p:column>
-                                                </p:dataTable>
-                                            
+                                            </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
@@ -605,7 +610,7 @@
                             <p:panel header="Actualizar Compentencia" style="text-align: center;">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="30%">
+                                        <td>
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                     <td width="40%" >
@@ -636,33 +641,34 @@
                                                 
                                             </table>
                                         </td>
-                                        <td width="70%" align="center" valign="top">
-                                            
-                                                <p:dataTable id="dataTableCompetenciesUpdate" 
-                                                             var="competencies" style="width: 370px;"
-                                                             value="#{scemployeesBean.employeeSelected.scCompetenciesList}"
-                                                             rowKey="#{competencies.idCompetencies}"
-                                                             paginator="true" rows="15"  
-                                                             pageLinks="40" editable="true"
-                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
-                                                             paginatorPosition="top" 
-                                                             sortBy="#{competencies.idCompetencies}">
-                                                    <p:column style="width:32px">
-                                                        <p:commandButton icon="ui-icon-close" update="dataTableCompetenciesUpdate" title="Eliminar competencia"
-                                                                         process=":formWizardUpdate:dataTableCompetenciesUpdate" actionListener="#{scemployeesBean.removeCompetencieUpdate(competencies)}" >
-                                                        </p:commandButton>
-                                                    </p:column>
-                                                    <p:column headerText="Título" sortBy="#{competencies.tittle}">
-                                                        <p:outputLabel value="#{competencies.tittle}"/>
-                                                    </p:column>
-                                                    <p:column headerText="Descripción" sortBy="#{competencies.description}">
-                                                        <p:outputLabel value="#{competencies.description}"/>
-                                                    </p:column>
-                                                </p:dataTable>
-                                        </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <p:dataTable id="dataTableCompetenciesUpdate" 
+                                                         var="competencies" 
+                                                         value="#{scemployeesBean.employeeSelected.scCompetenciesList}"
+                                                         rowKey="#{competencies.idCompetencies}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top" 
+                                                         sortBy="#{competencies.idCompetencies}">
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableCompetenciesUpdate" title="Eliminar competencia"
+                                                                     process=":formWizardUpdate:dataTableCompetenciesUpdate" actionListener="#{scemployeesBean.removeCompetencieUpdate(competencies)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Título" sortBy="#{competencies.tittle}">
+                                                    <p:outputLabel value="#{competencies.tittle}"/>
+                                                </p:column>
+                                                <p:column headerText="Descripción" sortBy="#{competencies.description}">
+                                                    <p:outputLabel value="#{competencies.description}"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>      
                                 </table>
                             </p:panel>
                         </p:tab>
@@ -871,7 +877,7 @@
                             </p:tab>
                             <p:tab title="Experiencias Laborales" > 
                                 <p:dataTable 
-                                            var="workExperiencies" style="width: 370px;"
+                                            var="workExperiencies"
                                             value="#{scemployeesBean.employeeSelected.scWorkExperienceList}"
                                             rowKey="#{workExperiencies.idWorkExperience}"
                                             paginator="true" rows="15"  
@@ -895,7 +901,7 @@
                             </p:tab>
                             <p:tab title="Competencias"> 
                                 <p:dataTable 
-                                            var="competencies" style="width: 370px;"
+                                            var="competencies"
                                             value="#{scemployeesBean.employeeSelected.scCompetenciesList}"
                                             rowKey="#{competencies.idCompetencies}"
                                             paginator="true" rows="15"  

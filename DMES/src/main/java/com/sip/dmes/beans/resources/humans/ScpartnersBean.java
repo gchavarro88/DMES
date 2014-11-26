@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ */  
 package com.sip.dmes.beans.resources.humans;
 
 import com.sip.dmes.beans.SessionBean;
@@ -10,7 +10,7 @@ import com.sip.dmes.dao.bo.IScPartner;
 import com.sip.dmes.dao.bo.IScPerson;
 import com.sip.dmes.entitys.ScCompetencies;
 import com.sip.dmes.entitys.ScEmployee;
-import com.sip.dmes.entitys.ScPartner;
+import com.sip.dmes.entitys.ScPartner; 
 import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScServicesOrProducts;
 import com.sip.dmes.entitys.ScWorkExperience;
@@ -356,6 +356,8 @@ public class ScpartnersBean
         { 
             if(partnerSelected != null)
             {
+                setPersonsList(null);
+                fillListPersons();
                 setPartnerSelected(partnerSelected);
                 setPersonsListUpdate(getPersonsList());
                 getPersonsListUpdate().add(partnerSelected.getIdPerson());

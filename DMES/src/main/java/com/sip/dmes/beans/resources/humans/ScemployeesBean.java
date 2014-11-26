@@ -178,7 +178,22 @@ public class ScemployeesBean
         {
             if(getEmployeeAdd().getSalary().doubleValue() < 1)
             {
-                addError(null, "Error al intentar crear un nuevo empleado", "El salario debe ser mayor 0");
+                addError(null, "Error al intentar crear un nuevo empleado", "El salario debe ser mayor que 0");
+                return event.getOldStep();
+            }
+            else if(getEmployeeAdd().getHourValue().doubleValue() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser mayor que 0");
+                return event.getOldStep();
+            }
+            else if(getEmployeeAdd().getAmount().doubleValue() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "El rango del cargo debe ser mayor que 0");
+                return event.getOldStep();
+            }
+            else if(getEmployeeAdd().getPorcentage().doubleValue() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "El porcentaje rango del cargo debe ser mayor que 0");
                 return event.getOldStep();
             }
         }
@@ -201,7 +216,22 @@ public class ScemployeesBean
         {
             if(getEmployeeSelected().getSalary().doubleValue() < 1)
             {
-                addError(null, "Error al intentar actualizar un nuevo empleado", "El salario debe ser mayor 0");
+                addError(null, "Error al intentar actualizar un nuevo empleado", "El salario debe ser mayor que 0");
+            }
+            else if(getEmployeeSelected().getHourValue().doubleValue() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser mayor que 0");
+                return event.getOldStep();
+            }
+            else if(getEmployeeSelected().getAmount().doubleValue() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "El rango del cargo debe ser mayor que 0");
+                return event.getOldStep();
+            }
+            else if(getEmployeeSelected().getPorcentage().doubleValue() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "El porcentaje rango del cargo debe ser mayor que 0");
+                return event.getOldStep();
             }
         }
             return event.getNewStep(); 
@@ -211,15 +241,23 @@ public class ScemployeesBean
     {
         if(getWorkExperienceAdd() != null && getWorkExperiencesListAdd() != null)
         {
-            getWorkExperienceAdd().setIdEmployee(getEmployeeAdd());
-            getWorkExperiencesListAdd().add(getWorkExperienceAdd());
-            setWorkExperienceAdd(new ScWorkExperience());
-            addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
+            if(getWorkExperienceAdd().getInitDate().before(getWorkExperienceAdd().getEndDate()))
+            {
+                getWorkExperienceAdd().setIdEmployee(getEmployeeAdd());
+                getWorkExperiencesListAdd().add(getWorkExperienceAdd());
+                setWorkExperienceAdd(new ScWorkExperience());
+                addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
+            }
+            else
+            {
+                log.error("Error al intentar agregar una experiencia laboral");
+                addError(null, "Error al Agregar una Experiencia Laboral ", "La fecha inicial debe ser menor a la fecha final");
+            }
         }
         else
         {
             log.error("Error al intentar agregar una experiencia laboral");
-            addError(null, "Error al Agregar una Experiencia Laboral ", "No se pudo agregar la experiencia laboral");
+            addError(null, "Error al Agregar una Experiencia Laboral ", "Debe ingresar el nombre de la empresa");
         }
     }
     
@@ -349,10 +387,18 @@ public class ScemployeesBean
     {
         if(getWorkExperienceAdd() != null && getEmployeeSelected().getScWorkExperienceList() != null)
         {
-            getWorkExperienceAdd().setIdEmployee(getEmployeeSelected());
-            getEmployeeSelected().getScWorkExperienceList().add(getWorkExperienceAdd());
-            setWorkExperienceAdd(new ScWorkExperience());
-            addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
+            if(getWorkExperienceAdd().getInitDate().before(getWorkExperienceAdd().getEndDate()))
+            {
+                getWorkExperienceAdd().setIdEmployee(getEmployeeSelected());
+                getEmployeeSelected().getScWorkExperienceList().add(getWorkExperienceAdd());
+                setWorkExperienceAdd(new ScWorkExperience());
+                addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
+            }
+            else
+            {
+                log.error("Error al intentar agregar una experiencia laboral");
+                addError(null, "Error al Agregar una Experiencia Laboral ", "La fecha inicial debe ser menor a la fecha final");
+            }
         }
         else
         {
@@ -421,6 +467,8 @@ public class ScemployeesBean
         {
             if(employeeSelected != null)
             {
+                setPersonsList(null);
+                fillListPersons();
                 setEmployeeSelected(employeeSelected);
                 setPersonsListUpdate(getPersonsList());
                 getPersonsListUpdate().add(employeeSelected.getIdPerson());

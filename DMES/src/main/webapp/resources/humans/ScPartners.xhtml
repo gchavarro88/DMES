@@ -94,43 +94,42 @@
                             <p:panel header="Agregar Productos o Servicios" style="text-align: center;">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="30%">
+                                        <td>
                                         <table width="100%" cellspacing="10">
                                                 <tr>
-                                                <td width="40%" >
-                                                    <p:outputLabel for="tfNameProductSave" value="Nombre del Producto"/>
+                                                <td width="20%" >
+                                                    <p:outputLabel for="tfNameProductSave" value="Nombre del P/S*"/>
+                                                    <p:tooltip for="tfNameProductSave" value="Nombre del Producto o Servicio"/>
                                                 </td>
-                                                <td width="60%">
+                                                <td width="30%">
                                                     <p:inputText id="tfNameProductSave" value="#{scpartnersBean.servicesOrProductsAdd.nameServiceOrProduct}"
                                                                  
                                                                  />
                                                 </td>
-                                                </tr>
-                                                <tr>
-                                                <td width="40%" >
-                                                    <p:outputLabel for="tfcostProductSave" value="Costo del Producto"/>
+                                                <td width="20%" >
+                                                    <p:outputLabel for="tfcostProductSave" value="Costo del Producto*"/>
+                                                    <p:tooltip for="tfcostProductSave" value="Costo del Producto o Servicio"/>
                                                 </td>
-                                                <td width="60%">
+                                                <td width="30%">
                                                     <p:inputText id="tfcostProductSave" value="#{scpartnersBean.servicesOrProductsAdd.cost}"
                                                                  
                                                                  />
                                                 </td>
                                                 </tr>
                                                 <tr>
-                                                <td width="40%" >
-                                                    <p:outputLabel for="tfAmountSave" value="Cantidad"/>
+                                                <td width="20%" >
+                                                    <p:outputLabel for="tfAmountSave" value="Cantidad*"/>
+                                                    <p:tooltip for="tfAmountSave" value="Cantidad del Producto o Servicio"/>
                                                 </td>
-                                                <td width="60%">
+                                                <td width="30%">
                                                     <p:inputText id="tfAmountSave" value="#{scpartnersBean.servicesOrProductsAdd.amount}"
                                                                  
                                                                  />
                                                 </td>
-                                                </tr>
-                                                <tr>
-                                                <td width="40%" >
+                                                <td width="20%" >
                                                     <p:outputLabel for="tfTypeSave" value="Tipo"/>
                                                 </td>
-                                                <td width="60%">
+                                                <td width="30%">
                                                     <p:selectOneMenu  id="tfTypeSave" value="#{scpartnersBean.servicesOrProductsAdd.type}" >
                                                         <f:selectItem itemValue="Producto" itemLabel="Producto"/>
                                                         <f:selectItem itemValue="Servicio" itemLabel="Servicio"/>
@@ -138,25 +137,23 @@
                                                 </td>
                                                 </tr>
                                                 <tr>
-                                                <td width="40%" >
+                                                <td width="20%" >
                                                     <p:outputLabel for="tfguaranteeSave" value="Garantía"/>
                                                 </td>
-                                                <td width="60%">
+                                                <td width="30%">
                                                     <p:inputTextarea  id="tfguaranteeSave" value="#{scpartnersBean.servicesOrProductsAdd.guarantee}"
                                                                  />
                                                 </td>
-                                                </tr>
-                                                <tr>
-                                                <td width="40%" >
+                                                <td width="20%" >
                                                     <p:outputLabel for="tfDescriptionSave" value="Descripción"/>
                                                 </td>
-                                                <td width="60%">
+                                                <td width="30%">
                                                     <p:inputTextarea  id="tfDescriptionSave" value="#{scpartnersBean.servicesOrProductsAdd.description}"
                                                                  />
                                                 </td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="2">
+                                                    <td colspan="4">
                                                         <center>
                                                             <p:commandButton value="Guardar" 
                                                                 update="tfNameProductSave,tfcostProductSave,tfAmountSave,tfTypeSave,tfguaranteeSave,tfDescriptionSave,dataTableProductsOrServicesSave"
@@ -167,10 +164,11 @@
                                                 
                                             </table>
                                         </td>
-                                        <td width="70%" align="center" valign="top">
-                                            
-                                                <p:dataTable id="dataTableProductsOrServicesSave" 
-                                                             var="serviceOrProducts" style="width: 370px;"
+                                    </tr>
+                                    <tr>
+                                        <td >
+                                            <p:dataTable id="dataTableProductsOrServicesSave" 
+                                                             var="serviceOrProducts" 
                                                              value="#{scpartnersBean.servicesOrProductsList}"
                                                              rowKey="#{serviceOrProducts.idServiceOrProducts}"
                                                              paginator="true" rows="15"  
@@ -204,7 +202,6 @@
                                                         <p:outputLabel value="#{serviceOrProducts.description}"/>
                                                     </p:column>
                                                 </p:dataTable>
-                                            
                                         </td>
                                     </tr>
                                 </table>
@@ -384,11 +381,12 @@
                             <p:panel header="Actualizar Productos o Servicios" style="text-align: center;">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="30%">
+                                        <td>
                                         <table width="100%" cellspacing="10">
                                                 <tr>
                                                 <td width="40%" >
-                                                    <p:outputLabel for="tfNameProductUpdate" value="Nombre del Producto"/>
+                                                    <p:outputLabel for="tfNameProductUpdate" value="Nombre del Producto*"/>
+                                                    <p:tooltip for="tfNameProductUpdate" value="Nombre del Producto o Servicio"/>
                                                 </td>
                                                 <td width="60%">
                                                     <p:inputText id="tfNameProductUpdate" value="#{scpartnersBean.servicesOrProductsAdd.nameServiceOrProduct}"
@@ -398,7 +396,8 @@
                                                 </tr>
                                                 <tr>
                                                 <td width="40%" >
-                                                    <p:outputLabel for="tfcostProductUpdate" value="Costo del Producto"/>
+                                                    <p:outputLabel for="tfcostProductUpdate" value="Costo del Producto*"/>
+                                                    <p:tooltip for="tfcostProductUpdate" value="Costo del Producto o Servicio"/>
                                                 </td>
                                                 <td width="60%">
                                                     <p:inputText id="tfcostProductUpdate" value="#{scpartnersBean.servicesOrProductsAdd.cost}"
@@ -408,7 +407,8 @@
                                                 </tr>
                                                 <tr>
                                                 <td width="40%" >
-                                                    <p:outputLabel for="tfAmountUpdate" value="Cantidad"/>
+                                                    <p:outputLabel for="tfAmountUpdate" value="Cantidad*"/>
+                                                    <p:tooltip for="tfAmountUpdate" value="Cantidad del Producto o Servicio"/>
                                                 </td>
                                                 <td width="60%">
                                                     <p:inputText id="tfAmountUpdate" value="#{scpartnersBean.servicesOrProductsAdd.amount}"
@@ -457,10 +457,11 @@
                                                 
                                             </table>
                                         </td>
-                                        <td width="70%" align="center" valign="top">
-                                            
-                                                <p:dataTable id="dataTableProductsOrServicesUpdate" 
-                                                             var="serviceOrProducts" style="width: 370px;"
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                         <p:dataTable id="dataTableProductsOrServicesUpdate" 
+                                                             var="serviceOrProducts"
                                                              value="#{scpartnersBean.partnerSelected.scServicesOrProductsList}"
                                                              rowKey="#{serviceOrProducts.idServiceOrProducts}"
                                                              paginator="true" rows="15"  
@@ -470,31 +471,30 @@
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{serviceOrProducts.idServiceOrProducts}">
-                                                    <p:column style="width:32px">
-                                                        <p:commandButton icon="ui-icon-close" update="dataTableProductsOrServicesUpdate" title="Eliminar Servicio o Producto"
-                                                                         process=":formWizardUpdate:dataTableProductsOrServicesUpdate" actionListener="#{scpartnersBean.removeProductOrServiceUpdate(serviceOrProducts)}" >
-                                                        </p:commandButton>
-                                                    </p:column>
-                                                    <p:column headerText="Nombre del Producto" sortBy="#{serviceOrProducts.nameServiceOrProduct}">
-                                                        <p:outputLabel value="#{serviceOrProducts.nameServiceOrProduct}"/>
-                                                    </p:column>
-                                                    <p:column headerText="Tipo" sortBy="#{serviceOrProducts.type}">
-                                                        <p:outputLabel value="#{serviceOrProducts.type}"/>
-                                                    </p:column>
-                                                    <p:column headerText="Cantidad" sortBy="#{serviceOrProducts.amount}">
-                                                        <p:outputLabel value="#{serviceOrProducts.amount}"/>
-                                                    </p:column>
-                                                    <p:column headerText="Costo" sortBy="#{serviceOrProducts.cost}">
-                                                        <p:outputLabel value="#{serviceOrProducts.cost}"/>
-                                                    </p:column>
-                                                    <p:column headerText="Garantía" sortBy="#{serviceOrProducts.guarantee}">
-                                                        <p:outputLabel value="#{serviceOrProducts.cost}"/>
-                                                    </p:column>
-                                                    <p:column headerText="Descripción" sortBy="#{serviceOrProducts.description}">
-                                                        <p:outputLabel value="#{serviceOrProducts.description}"/>
-                                                    </p:column>
-                                                </p:dataTable>
-                                            
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableProductsOrServicesUpdate" title="Eliminar Servicio o Producto"
+                                                                     process=":formWizardUpdate:dataTableProductsOrServicesUpdate" actionListener="#{scpartnersBean.removeProductOrServiceUpdate(serviceOrProducts)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Nombre del Producto" sortBy="#{serviceOrProducts.nameServiceOrProduct}">
+                                                    <p:outputLabel value="#{serviceOrProducts.nameServiceOrProduct}"/>
+                                                </p:column>
+                                                <p:column headerText="Tipo" sortBy="#{serviceOrProducts.type}">
+                                                    <p:outputLabel value="#{serviceOrProducts.type}"/>
+                                                </p:column>
+                                                <p:column headerText="Cantidad" sortBy="#{serviceOrProducts.amount}">
+                                                    <p:outputLabel value="#{serviceOrProducts.amount}"/>
+                                                </p:column>
+                                                <p:column headerText="Costo" sortBy="#{serviceOrProducts.cost}">
+                                                    <p:outputLabel value="#{serviceOrProducts.cost}"/>
+                                                </p:column>
+                                                <p:column headerText="Garantía" sortBy="#{serviceOrProducts.guarantee}">
+                                                    <p:outputLabel value="#{serviceOrProducts.cost}"/>
+                                                </p:column>
+                                                <p:column headerText="Descripción" sortBy="#{serviceOrProducts.description}">
+                                                    <p:outputLabel value="#{serviceOrProducts.description}"/>
+                                                </p:column>
+                                            </p:dataTable>   
                                         </td>
                                     </tr>
                                 </table>
