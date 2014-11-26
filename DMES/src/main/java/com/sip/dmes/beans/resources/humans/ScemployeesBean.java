@@ -188,7 +188,7 @@ public class ScemployeesBean
         }
         
         
-            return event.getNewStep(); 
+            return event.getNewStep();  
     }
     
     public String onFlowProcessUpdateEmployee(FlowEvent event) 
@@ -204,12 +204,6 @@ public class ScemployeesBean
                 addError(null, "Error al intentar actualizar un nuevo empleado", "El salario debe ser mayor 0");
             }
         }
-        if(event.getNewStep().equals(TAB_CONFIRM_UPDATE))
-        {
-            getEmployeeSelected().setModifyDate(new Date());
-            return event.getOldStep();
-        }
-        
             return event.getNewStep(); 
     }
     
