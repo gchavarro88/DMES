@@ -149,6 +149,7 @@ public class ScpersonBean
         setPersonDocumentationAttachedsListBk(new ArrayList<ScPersonDocumentationAttached>());
         setPersonPhoneListBk(new ArrayList<ScPhones>());
         setPersonMailListBk(new ArrayList<ScMails>());
+
     }
     public void savePerson()
     {
@@ -181,7 +182,7 @@ public class ScpersonBean
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                 getScPersons().add(getPersonAdd());
                 cleanValues(); 
-                RequestContext.getCurrentInstance().execute("PF('wizardSave').loadStep('tabBasicDataSave', false)");
+                
             }
             else
             {
@@ -852,7 +853,7 @@ public class ScpersonBean
                     }
                 }
                 cleanValues();
-                RequestContext.getCurrentInstance().execute("PF('wizardUpdate').loadStep('tabBasicDataUpdate', false)");
+                
             }
             else
             {
