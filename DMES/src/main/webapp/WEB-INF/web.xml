@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <context-param>
+<!--    <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
-    </context-param>
+    </context-param>-->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -19,10 +19,10 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-    <context-param>
+<!--    <context-param>
         <param-name>primefaces.UPLOADER</param-name>
         <param-value>auto</param-value>
-    </context-param>
+    </context-param>-->
        <listener>
              <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
        </listener>
@@ -45,7 +45,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/Login.xhtml</welcome-file>
+        <welcome-file>Login.xhtml</welcome-file>
     </welcome-file-list>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
@@ -60,7 +60,7 @@
     <context-param>  
         <param-name>primefaces.THEME</param-name>  
         <param-value>sipTheme</param-value>  
-    </context-param>
+    </context-param> 
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
