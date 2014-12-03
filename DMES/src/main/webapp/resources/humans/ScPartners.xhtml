@@ -691,7 +691,8 @@
                              selectionMode="single" paginatorPosition="top" selection="#{scpartnersBean.partnerSelected}"
                              sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}"
                              >
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogPartnerView').show()" 
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogPartnerView').show()"
+                            update=":formWizardView"  />
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
                                          oncomplete="PF('dialogPartnerSave').show()">

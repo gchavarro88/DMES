@@ -30,7 +30,7 @@ import org.primefaces.event.FlowEvent;
 
 /**
  *
- * @author guschavor 
+ * @author guschavor  
  */
 public class ScpartnersBean
 {
