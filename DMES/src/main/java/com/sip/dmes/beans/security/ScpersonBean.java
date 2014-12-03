@@ -100,7 +100,7 @@ public class ScpersonBean
     
     
     
-    
+     
     @PostConstruct
     public void initData()
     {
@@ -109,7 +109,7 @@ public class ScpersonBean
         cleanValues();
 
     }
-
+ 
     /**
      * Método encargado de cargar la lista de personas para mostrarse en la
      * tabla inicial
@@ -130,7 +130,7 @@ public class ScpersonBean
             log.error("Error al intentar cargar la personas en el método inicial", e);
         }
     }
-
+  
     public void cleanValues()
     {
         setPhoneAdd(new ScPhones());
@@ -897,8 +897,8 @@ public class ScpersonBean
             log.info("Error intentando eliminar a una persona");
             addError(null, "Error al intentar eliminar un tercero", "Debe revisar si el terceron no tiene dependencias de Empleados, Usuarios, o Asociados");
         }
-    }
-    
+    } 
+     
     
     public void getPersonByDataTable(ScPerson scPersonSelected)
     {

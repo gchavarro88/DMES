@@ -994,14 +994,14 @@
                       header="Visualización en Detalle de Terceros" position="center top" width="750"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                     <h:form id="formWizardView">
-                        <p:tabView dynamic="true" >
+                        <p:tabView dynamic="true" activeIndex="0">
                             <p:tab title="Datos Básicos">
                                 <table>
                                     <tr>
                                         <td width="20%" align="left">
                                             <p:outputLabel  value="Nombre"/>
                                         </td>
-                                        <td width="30%" align="left">
+                                        <td width="30%" align="left"> 
                                         <p:outputLabel  value="#{scpersonBean.personSelected.lastName} #{scpersonBean.personSelected.firstName}"/>
                                             
                                         </td>
@@ -1174,7 +1174,7 @@
                         </p:tabView>
                     </h:form>
                 </p:dialog>
-<!--            finaliza el dialgo para ver en detalle un empleado-->
+<!--            finaliza el dialgo para ver en detalle un tercero-->
             <h:form id="formPerson">
                 <p:growl autoUpdate="true" showDetail="true" life="8000" />
                 <p:dataTable 
@@ -1189,16 +1189,18 @@
                     {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                     liveResize="true" rowsPerPageTemplate="15,30,50"
                     selectionMode="single" paginatorPosition="top"
+                    selection="#{scpersonBean.personSelected}"
                     sortBy="#{person.lastName} #{person.firstName}">
-                    
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogPersonView').show()" 
+                            
+                            update=":formWizardView" />
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"
                                          oncomplete="PF('dialogPersonSave').show()">
                             <p:tooltip for="btnAdd" value="Agregar una Tercero"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" listener="#{scpersonBean.getPersonByUpdateDataTable(person)}" 
-                            oncomplete="PF('dialogPersonView').show()" update=":formWizardView"/>
+                    
                     <p:column headerText="Administración">
                         <center>
                             <p:commandButton  id="btnEdit"  actionListener="#{scpersonBean.getPersonByUpdateDataTable(person)}"

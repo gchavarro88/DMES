@@ -70,9 +70,9 @@
                                                  update="@this,tfNameRol,tfDescriptionRol,dataTablePermissions"/>
                             </td>
                         </tr>
-                    </table>
+                    </table> 
                 </h:form>
-            </p:dialog>
+            </p:dialog> 
 <!--         finaliza el dialogo para guardar roles               -->
 
 <!--         Inicia el dialogo para actualizar roles              -->
@@ -80,8 +80,8 @@
                       closable="true" draggable="true" dynamic="true" header="Actualizar Grupos y Roles"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formUpdateScRole">
-                    <table width="98%" cellspacing="30">
-                        <tr>
+                    <table cellspacing="30">
+                        <tr> 
                             <td width="20%" align="right">
                                 <p:outputLabel  for="tfNameRolUpdate" value="Nombre del Grupo:"/>
                             </td>
@@ -161,7 +161,7 @@
 <!--            finaliza el dialogo para eliminar registros            -->
 
 <!--           inicial el dialogo para visualizar un rol           -->
-            <p:dialog id="dialogRolesView" widgetVar="dialogRolesView" position="center top" width="450"
+            <p:dialog id="dialogRolesView" widgetVar="dialogRolesView" position="center top" 
                                   closable="true" draggable="true" dynamic="true" header="Detalle de Grupos y Roles"
                                   hideEffect="explode" modal="true" showEffect="explode" resizable="true"
                                   >
@@ -199,7 +199,7 @@
                         <tr>
                             <td colspan="4" align="center">
                                 <p:dataTable id="dataTablePermissionsUpdate" value="#{scrolesBean.listAllPermissions}"
-                                    style="width: 600px;"
+                                    style="width: 400px;"
                                     paginator="true" rows="10"  var="permissions"
                                     pageLinks="40"
                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
