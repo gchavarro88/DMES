@@ -1150,7 +1150,7 @@
                                    </p:column>
                                 </p:dataTable>
                             </p:tab>
-                            <p:tab title="Correos"> 
+                            <p:tab title="Especificaciones"> 
                                 <p:dataTable 
                                             var="specifications"
                                             value="#{scpersonBean.personSelected.scPersonSpecificationsList}"
@@ -1164,10 +1164,10 @@
                                             sortBy="#{specifications.idPersonSpecifications}">
                                    
                                     <p:column headerText="Título" sortBy="#{specifications.tittle}">
-                                       <p:outputLabel value="#{mails.mail}"/>
+                                       <p:outputLabel value="#{specifications.tittle}"/>
                                    </p:column>
-                                    <p:column headerText="Descripción" sortBy="#{mails.description}">
-                                        <p:outputLabel value="#{mails.description}"/>
+                                    <p:column headerText="Especificación" sortBy="#{specifications.specification}">
+                                        <p:outputLabel value="#{specifications.specification}"/>
                                    </p:column>
                                 </p:dataTable>
                             </p:tab>
@@ -1197,7 +1197,8 @@
                             <p:tooltip for="btnAdd" value="Agregar una Tercero"/>
                         </p:commandButton>
                     </f:facet>
-
+                    <p:ajax event="rowSelect" listener="#{scpersonBean.getPersonByUpdateDataTable(person)}" 
+                            oncomplete="PF('dialogPersonView').show()" update=":formWizardView"/>
                     <p:column headerText="Administración">
                         <center>
                             <p:commandButton  id="btnEdit"  actionListener="#{scpersonBean.getPersonByUpdateDataTable(person)}"

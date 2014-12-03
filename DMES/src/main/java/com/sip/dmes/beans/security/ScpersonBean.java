@@ -908,7 +908,7 @@ public class ScpersonBean
             {
                 setPersonSelected(scPersonSelected);
             }
-            else
+            else 
             {
                 log.error("Error intentando asignar el tercero seleccionado para operaciones de CRUD");
                 addError(null, "Error al intentar seleccionar un tercero", "No se ha seleccionado un tercero para operaciones de crud");
@@ -924,7 +924,7 @@ public class ScpersonBean
     public void getPersonByUpdateDataTable(ScPerson scPersonSelected)
     {
         try
-        {
+        { 
             if(scPersonSelected != null)
             {
                 setPersonUpdate(scPersonSelected);

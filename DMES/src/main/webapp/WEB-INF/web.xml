@@ -43,7 +43,7 @@
         <session-timeout>
             30
         </session-timeout>
-    </session-config>
+    </session-config> 
     <welcome-file-list>
         <welcome-file>Login.xhtml</welcome-file>
     </welcome-file-list>
