@@ -637,87 +637,39 @@
                             <p:tab title="Productos y Servicios"> 
                                 <p:dataTable 
                                             var="productsOrServices"
-                                            value="#{scpartnersBean.partnerSelected. }"
-                                            rowKey="#{phones.idPhone}"
+                                            value="#{scpartnersBean.partnerSelected.scServicesOrProductsList }"
+                                            rowKey="#{productsOrServices.idServiceOrProducts}"
                                             paginator="true" rows="15"  
                                             pageLinks="40" editable="true"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                             liveResize="true" rowsPerPageTemplate="15,30,50"
-                                            paginatorPosition="top"
-                                            sortBy="#{phones.idPhone}">
-                                   
-                                    <p:column headerText="Número Telefónico" sortBy="#{phones.numberPhone}">
-                                       <p:outputLabel value="#{phones.numberPhone}"/>
+                                            paginatorPosition="top" selectionMode="single"
+                                            sortBy="#{productsOrServices.idServiceOrProducts}">
+                                            
+                                    <p:column headerText="Nombre del P/S" sortBy="#{productsOrServices.nameServiceOrProduct}">
+                                       <p:outputLabel value="#{productsOrServices.nameServiceOrProduct}"/>
                                    </p:column>
-                                    <p:column headerText="Descripción" sortBy="#{phones.description}">
-                                       <p:outputLabel value="#{phones.description}"/>
+                                    <p:column headerText="Tipo" sortBy="#{productsOrServices.type}">
+                                       <p:outputLabel value="#{productsOrServices.type}"/>
                                    </p:column>
+                                    <p:column headerText="Descripción" sortBy="#{productsOrServices.description}">
+                                       <p:outputLabel id="lblDescriptionView" value="#{productsOrServices.description}"/>
+                                       <p:tooltip for="lblDescriptionView" value="#{productsOrServices.description}"/>
+                                   </p:column>
+                                    <p:column headerText="Cantidad" sortBy="#{productsOrServices.amount}">
+                                       <p:outputLabel value="#{productsOrServices.amount}"/>
+                                   </p:column>
+                                    <p:column headerText="Costo" sortBy="#{productsOrServices.cost}">
+                                       <p:outputLabel value="#{productsOrServices.cost}"/>
+                                   </p:column>
+                                    <p:column headerText="Garantía" sortBy="#{productsOrServices.guarantee}">
+                                       <p:outputLabel id="lblGuaranteeView" value="#{productsOrServices.guarantee}"/>
+                                       <p:tooltip for="lblGuaranteeView" value="#{productsOrServices.guarantee}"/>
+                                    </p:column>
                                </p:dataTable>
                             </p:tab>
-                            <p:tab title="Correos"> 
-                                <p:dataTable 
-                                            var="mails"
-                                            value="#{scpersonBean.personSelected.scMailsList}"
-                                            rowKey="#{mails.idMail}"
-                                            paginator="true" rows="15"  
-                                            pageLinks="40" editable="true"
-                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                            {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                            liveResize="true" rowsPerPageTemplate="15,30,50"
-                                            paginatorPosition="top"
-                                            sortBy="#{mails.idMail}">
-                                   
-                                    <p:column headerText="Correo" sortBy="#{mails.mail}">
-                                       <p:outputLabel value="#{mails.mail}"/>
-                                   </p:column>
-                                    <p:column headerText="Descripción" sortBy="#{mails.description}">
-                                        <p:outputLabel value="#{mails.description}"/>
-                                   </p:column>
-                                </p:dataTable>
-                            </p:tab>
-                            <p:tab title="Observaciones"> 
-                                <p:dataTable 
-                                            var="observations"
-                                            value="#{scpersonBean.personSelected.scPersonObservationsList}"
-                                            rowKey="#{observations.idPersonObservations}"
-                                            paginator="true" rows="15"  
-                                            pageLinks="40" editable="true"
-                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                            {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                            liveResize="true" rowsPerPageTemplate="15,30,50"
-                                            paginatorPosition="top"
-                                            sortBy="#{observations.idPersonObservations}">
-                                   
-                                    <p:column headerText="Título" sortBy="#{observations.tittle}">
-                                       <p:outputLabel value="#{mails.mail}"/>
-                                   </p:column>
-                                    <p:column headerText="Observación" sortBy="#{observations.observation}">
-                                        <p:outputLabel value="#{observations.observation}"/>
-                                   </p:column>
-                                </p:dataTable>
-                            </p:tab>
-                            <p:tab title="Especificaciones"> 
-                                <p:dataTable 
-                                            var="specifications"
-                                            value="#{scpersonBean.personSelected.scPersonSpecificationsList}"
-                                            rowKey="#{specifications.idPersonSpecifications}"
-                                            paginator="true" rows="15"  
-                                            pageLinks="40" editable="true"
-                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                            {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                            liveResize="true" rowsPerPageTemplate="15,30,50"
-                                            paginatorPosition="top"
-                                            sortBy="#{specifications.idPersonSpecifications}">
-                                   
-                                    <p:column headerText="Título" sortBy="#{specifications.tittle}">
-                                       <p:outputLabel value="#{specifications.tittle}"/>
-                                   </p:column>
-                                    <p:column headerText="Especificación" sortBy="#{specifications.specification}">
-                                        <p:outputLabel value="#{specifications.specification}"/>
-                                   </p:column>
-                                </p:dataTable>
-                            </p:tab>
+                            
                         </p:tabView>
                     </h:form>
                 </p:dialog>
@@ -738,6 +690,7 @@
                              selectionMode="single" paginatorPosition="top" selection="#{scpartnersBean.partnerSelected}"
                              sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}"
                              >
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogPartnerView').show()" 
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
                                          oncomplete="PF('dialogPartnerSave').show()">
