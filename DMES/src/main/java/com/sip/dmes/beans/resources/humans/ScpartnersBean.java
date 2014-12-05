@@ -32,7 +32,7 @@ import org.primefaces.event.FlowEvent;
  *
  * @author guschavor  
  */
-public class ScpartnersBean
+public class ScpartnersBean 
 {
 
     private SessionBean sessionBean;
@@ -265,7 +265,7 @@ public class ScpartnersBean
                 {
                     if(getServicesOrProductsAdd().getAmount() > 0)
                     {
-                        getServicesOrProductsAdd().setIdPartner(getPartnerAdd());
+                        getServicesOrProductsAdd().setIdPartner(getPartnerSelected());
                         getPartnerSelected().getScServicesOrProductsList().add(getServicesOrProductsAdd());
                         setServicesOrProductsAdd(new ScServicesOrProducts());
                         addInfo(null, "Producto o Servicio Agregado", "Se agregó el producto o servicio con éxito");
