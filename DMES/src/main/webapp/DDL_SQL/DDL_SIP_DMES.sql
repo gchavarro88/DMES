@@ -1,56 +1,20 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 9.3.5
--- Dumped by pg_dump version 9.3.5
--- Started on 2014-12-02 22:58:20
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-
-DROP DATABASE "DMES";
---
--- TOC entry 2239 (class 1262 OID 24576)
--- Name: DMES; Type: DATABASE; Schema: -; Owner: -
---
-
-CREATE DATABASE "DMES" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'Spanish_Spain.1252' LC_CTYPE = 'Spanish_Spain.1252';
-
-
-\connect "DMES"
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-
---
--- TOC entry 6 (class 2615 OID 24578)
--- Name: dmes; Type: SCHEMA; Schema: -; Owner: -
---
-
 CREATE SCHEMA dmes;
 
 
+ALTER SCHEMA dmes OWNER TO "sipPrueba";
+
 --
--- TOC entry 219 (class 3079 OID 11750)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+-- TOC entry 198 (class 3079 OID 12648)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2240 (class 0 OID 0)
--- Dependencies: 219
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+-- TOC entry 3015 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -61,11 +25,6 @@ SET search_path = dmes, pg_catalog;
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- TOC entry 201 (class 1259 OID 25008)
--- Name: sc_class_type; Type: TABLE; Schema: dmes; Owner: -; Tablespace: 
---
 
 CREATE TABLE sc_class_type (
     id_class_type numeric(18,0) NOT NULL,
