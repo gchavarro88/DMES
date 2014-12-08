@@ -851,6 +851,22 @@ ALTER TABLE dmes.sqscservicesorproducts OWNER TO "sipPrueba";
 -- Name: sqscusers; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
+CREATE SEQUENCE dmes.sqsctools
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 111111111111111111
+  START 1
+  CACHE 1;
+
+
+ALTER TABLE dmes.sqsctools
+  OWNER TO "sipPrueba";
+
+--
+-- TOC entry 198 (class 1259 OID 24678)
+-- Name: sqscusers; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
+--
+
 CREATE SEQUENCE sqscusers
     START WITH 2
     INCREMENT BY 1
