@@ -47,5 +47,7 @@
     <bean id="scPersonSpecificationsServer" class="com.sip.dmes.dao.bs.ScPersonSpecificationsDao"></bean>
     <bean id="scEmployeeServer" class="com.sip.dmes.dao.bs.ScEmployeeDao"></bean>
     <bean id="scPartnerServer" class="com.sip.dmes.dao.bs.ScPartnerDao"></bean>
+    <bean id="scClassTypeServer" class="com.sip.dmes.dao.bs.ScClassTypeDao"></bean>
+    <bean id="scTypeServer" class="com.sip.dmes.dao.bs.ScTypeDao"></bean>
     
 </beans>
