@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author gchavarro88
+ * @author carlos guzman
  */
 @Entity
 @Table(name = "sc_class_type", schema = "dmes")

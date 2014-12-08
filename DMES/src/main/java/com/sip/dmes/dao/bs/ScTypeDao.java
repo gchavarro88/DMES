@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author gchavarro88
+ * @author carlos guzman
  */
 @Repository(value = "IScType")
 public class ScTypeDao implements IScType
@@ -53,7 +53,7 @@ public class ScTypeDao implements IScType
         try
         {
             Query query  = entityManager.createNamedQuery("ScType.findByIdType");
-            query.setParameter("idType", scType.getIdType());
+            query.setParameter("idType", scType);
             result = (ScType) query.getSingleResult();
         }
         catch(Exception e)
