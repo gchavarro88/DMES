@@ -49,5 +49,6 @@
     <bean id="scPartnerServer" class="com.sip.dmes.dao.bs.ScPartnerDao"></bean>
     <bean id="scClassTypeServer" class="com.sip.dmes.dao.bs.ScClassTypeDao"></bean>
     <bean id="scTypeServer" class="com.sip.dmes.dao.bs.ScTypeDao"></bean>
+    <bean id="scCostCenterServer" class="com.sip.dmes.dao.bs.ScCostCenterDao"></bean>
     
 </beans>
