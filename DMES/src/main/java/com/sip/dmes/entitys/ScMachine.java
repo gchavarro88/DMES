@@ -34,7 +34,7 @@ import javax.validation.constraints.Size;
 {
     @NamedQuery(name = "ScMachine.findAll", query = "SELECT s FROM ScMachine s"),
     @NamedQuery(name = "ScMachine.findByIdMachine", query = "SELECT s FROM ScMachine s WHERE s.idMachine = :idMachine"),
-    @NamedQuery(name = "ScMachine.findByIdMachineFather", query = "SELECT s FROM ScMachine s WHERE s.idMachineFather = :idMachineFather"),
+    @NamedQuery(name = "ScMachine.findByIdMachineFather", query = "SELECT s FROM ScMachine s WHERE s.idMachineFather = :idMachine"),
     @NamedQuery(name = "ScMachine.findByMachine", query = "SELECT s FROM ScMachine s WHERE s.machine = :machine"),
     @NamedQuery(name = "ScMachine.findByCreationDate", query = "SELECT s FROM ScMachine s WHERE s.creationDate = :creationDate"),
     @NamedQuery(name = "ScMachine.findByModifyDate", query = "SELECT s FROM ScMachine s WHERE s.modifyDate = :modifyDate"),
