@@ -48,7 +48,7 @@ public class ScType implements Serializable
     @SequenceGenerator(name = "dmes.sqtype", sequenceName = "dmes.sqtype", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
-    @Column(name = "idType")
+    @Column(name = "id_Type")
     private Long idType;
     @Basic(optional = false)
     @NotNull
