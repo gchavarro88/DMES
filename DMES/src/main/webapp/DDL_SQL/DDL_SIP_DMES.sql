@@ -200,7 +200,7 @@ CREATE TABLE sc_machine (
     id_type_potential numeric(18,0) NOT NULL,
     id_type_width numeric(18,0) NOT NULL,
     width numeric(18,0) NOT NULL,
-    long numeric(18,0) NOT NULL,
+    longMachine numeric(18,0) NOT NULL,
     id_type_long numeric(18,0) NOT NULL,
     voltage numeric(18,0) NOT NULL,
     id_type_voltage numeric(18,0) NOT NULL,
