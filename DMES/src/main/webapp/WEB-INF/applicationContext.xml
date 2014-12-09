@@ -52,5 +52,6 @@
     <bean id="scCostCenterServer" class="com.sip.dmes.dao.bs.ScCostCenterDao"></bean>
     <bean id="scToolsServer" class="com.sip.dmes.dao.bs.ScToolsDao"></bean>
     <bean id="scPartsAndConsumablesServer" class="com.sip.dmes.dao.bs.ScPartsAndConsumablesDao"></bean>
+    <bean id="scMachineServer" class="com.sip.dmes.dao.bs.ScMachineDao"></bean>
     
 </beans>
