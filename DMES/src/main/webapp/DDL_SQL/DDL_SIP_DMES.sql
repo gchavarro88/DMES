@@ -204,7 +204,7 @@ CREATE TABLE sc_machine (
     id_type_long numeric(18,0) NOT NULL,
     voltage numeric(18,0) NOT NULL,
     id_type_voltage numeric(18,0) NOT NULL,
-    current numeric(18,0) NOT NULL,
+    currentMachine numeric(18,0) NOT NULL,
     id_type_current numeric(18,0) NOT NULL,
     dimensions_observation character varying(2000) NOT NULL,
     notes_custom_field character varying(2000) NOT NULL,
