@@ -50,5 +50,7 @@
     <bean id="scClassTypeServer" class="com.sip.dmes.dao.bs.ScClassTypeDao"></bean>
     <bean id="scTypeServer" class="com.sip.dmes.dao.bs.ScTypeDao"></bean>
     <bean id="scCostCenterServer" class="com.sip.dmes.dao.bs.ScCostCenterDao"></bean>
+    <bean id="scToolsServer" class="com.sip.dmes.dao.bs.ScToolsDao"></bean>
+    <bean id="scPartsAndConsumablesServer" class="com.sip.dmes.dao.bs.ScPartsAndConsumablesDao"></bean>
     
 </beans>
