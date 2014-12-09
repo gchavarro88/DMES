@@ -189,7 +189,7 @@ CREATE TABLE sc_machine (
     series character varying(100) NOT NULL,
     lifespan numeric(18,0) NOT NULL,
     id_type_priority numeric(18,0) NOT NULL,
-    id_type_lifespan numeric(18,2) NOT NULL,
+    id_type_lifespan numeric(18,0) NOT NULL,
     id_cost_center numeric(18,0) NOT NULL,
     id_partner numeric(18,0) NOT NULL,
     weight numeric(18,0) NOT NULL,
