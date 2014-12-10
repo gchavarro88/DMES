@@ -238,7 +238,7 @@ CREATE TABLE sc_maintenance_plan (
     id_maintenance_plan numeric(18,0) NOT NULL,
     maintenance_plan character varying(100) NOT NULL,
     id_type_maintenance numeric(18,0) NOT NULL,
-    "id_type_hand work_classification" numeric(18,0) NOT NULL,
+    id_type_hand_work_classification numeric(18,0) NOT NULL,
     id_type_priority numeric(18,0) NOT NULL,
     frequency numeric(18,0) NOT NULL,
     id_type_frequency numeric(18,0) NOT NULL,
