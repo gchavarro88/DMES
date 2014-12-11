@@ -683,10 +683,10 @@ ALTER TABLE dmes.sqscmodulespermissionbyrole OWNER TO "sipPrueba";
 
 --
 -- TOC entry 214 (class 1259 OID 25169)
--- Name: sqscoperating conditions; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
+-- Name: sqscoperatingconditions; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
-CREATE SEQUENCE "sqscoperatingconditions"
+CREATE SEQUENCE sqscoperatingconditions
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -694,7 +694,7 @@ CREATE SEQUENCE "sqscoperatingconditions"
     CACHE 1;
 
 
-ALTER TABLE dmes."sqscoperating conditions" OWNER TO "sipPrueba";
+ALTER TABLE dmes.sqscoperatingconditions OWNER TO "sipPrueba";
 
 --
 -- TOC entry 190 (class 1259 OID 24662)
