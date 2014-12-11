@@ -249,7 +249,9 @@ CREATE TABLE sc_maintenance_plan (
     id_type_downtime numeric(18,0),
     id_type_unit_unemployment numeric(18,0),
     id_tool numeric(18,0) NOT NULL,
-    id_parts_and_consumables numeric(18,0) NOT NULL
+    id_parts_and_consumables numeric(18,0) NOT NULL,
+    creation_date date NOT NULL,
+    modify_date date,
 );
 
 
