@@ -55,5 +55,7 @@
     <bean id="scMachineServer" class="com.sip.dmes.dao.bs.ScMachineDao"></bean>
     <bean id="scPhotoServer" class="com.sip.dmes.dao.bs.ScPhotoDao"></bean>
     <bean id="scDocumentsServer" class="com.sip.dmes.dao.bs.ScDocumentsDao"></bean>
+    <bean id="scOperatingConditionsServer" class="com.sip.dmes.dao.bs.ScOperatingConditionsDao"></bean>
+    <bean id="scMaintenancePlanServer" class="com.sip.dmes.dao.bs.ScMaintenancePlanDao"></bean>
     
 </beans>
