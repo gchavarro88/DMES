@@ -64,7 +64,7 @@ public class ScMachine implements Serializable
     private ScType idTypeCoast;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 1000000000)
     @Column(name = "cost")
     private BigDecimal cost;
     @Basic(optional = false)
