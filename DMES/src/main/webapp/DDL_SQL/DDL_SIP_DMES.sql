@@ -686,7 +686,7 @@ ALTER TABLE dmes.sqscmodulespermissionbyrole OWNER TO "sipPrueba";
 -- Name: sqscoperating conditions; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
-CREATE SEQUENCE "sqscoperating conditions"
+CREATE SEQUENCE "sqscoperatingconditions"
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
