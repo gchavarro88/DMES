@@ -5,7 +5,6 @@
  */
 package com.sip.dmes.dao.bs;
 
-import com.sip.dmes.beans.template.TemplateBean;
 import com.sip.dmes.dao.bo.IScType;
 import com.sip.dmes.entitys.ScClassType;
 import com.sip.dmes.entitys.ScType;
@@ -53,7 +52,7 @@ public class ScTypeDao implements IScType
         try
         {
             Query query  = entityManager.createNamedQuery("ScType.findByIdType");
-            query.setParameter("idType", scType);
+            query.setParameter("idType", scType.getIdType());
             result = (ScType) query.getSingleResult();
         }
         catch(Exception e)
@@ -88,13 +87,13 @@ public class ScTypeDao implements IScType
         List<ScType> result = null;
         try
         {
-            Query query  = entityManager.createNamedQuery("ScClassType.findByClassType");
+            Query query  = entityManager.createNamedQuery("ScType.findByIdClassType");
             query.setParameter("idClassType", scClassType);
             result = (List<ScType> )  query.getResultList();
         }
         catch(Exception e)
         {
-            log.error("Error intentando consultar el tipo", e.getCause());
+            log.error("Error intentando consultar el tipo por clase tipo", e.getCause());
         }
         return result;
     }
