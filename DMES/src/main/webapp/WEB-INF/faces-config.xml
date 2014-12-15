@@ -204,4 +204,51 @@
             <value>#{scPersonServer}</value>
         </managed-property>
     </managed-bean>
+    
+     <managed-bean>
+        <managed-bean-name>scmachinesBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.resources.materials.ScmachinesBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+         <managed-property>
+            <property-name>scEmployeeServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScEmployee</property-class>
+            <value>#{scEmployeeServer}</value>
+        </managed-property> 
+        <managed-property>
+            <property-name>scPersonServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPerson</property-class>
+            <value>#{scPersonServer}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scMachineServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScMachine</property-class>
+            <value>#{scMachineServer}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scTypeServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScType</property-class>
+            <value>#{scTypeServer}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scClassTypeServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScClassType</property-class>
+            <value>#{scClassTypeServer}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scCostCenterServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScCostCenter</property-class>
+            <value>#{scCostCenterServer}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>scPartnerServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScPartner</property-class>
+            <value>#{scPartnerServer}</value>
+        </managed-property>
+     
+    </managed-bean>
 </faces-config>
