@@ -21,5 +21,11 @@ public class DMESConstants
    public static final String  MESSAGE_TITTLE_ERROR_ADMINISTRATOR = "Error de Sistema";
    public static final String  MESSAGE_TITTLE_SUCCES = "Operación Exitosa";
    public static final String  MESSAGE_SUCCES = "Se realizó la operación con total éxito";
+   
+   //id clase tipos
+   public static final Long scClassTypeClassification=1L;
+   public static final Long scClassTypePriority=2L;
+   public static final Long scClassTypeLifeSpan=3L;
+   public static final Long scClassTypeCost=4L;
 }
  
