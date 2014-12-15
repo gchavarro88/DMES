@@ -61,7 +61,7 @@ public class ScMachine implements Serializable
     private ScType idTypeClassification;
     @JoinColumn(name = "id_type_cost", referencedColumnName = "id_type")
     @ManyToOne(optional = false)
-    private ScType idTypeCoast;
+    private ScType idTypeCost;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1000000000)
@@ -191,11 +191,11 @@ public class ScMachine implements Serializable
         this.idMachine = idMachine;
     }
 
-    public ScMachine(Long idMachine, String machine, ScType idTypeClassification, ScType idTypeCoast, BigDecimal cost, String location, String comments, Date creationDate, Date modifyDate, String brand, String series, Long lifespan, ScType idTypeLifespan, ScType idTypePriority, ScCostCenter idCostCenter, ScPartner idPartner, Long weight, ScType idTypeWeight, Long high, ScType idTypeHigh, Long potential, ScType idTypePotential, Long width, ScType idTypeWidth, Long longMachine, ScType idTypeLong, Long voltage, ScType idTypeVoltage, Long currentMachine, ScType idTypeCurrent, String dimensionsObservation, String notesCustomField, ScMachine idMachineFather) {
+    public ScMachine(Long idMachine, String machine, ScType idTypeClassification, ScType idTypeCost, BigDecimal cost, String location, String comments, Date creationDate, Date modifyDate, String brand, String series, Long lifespan, ScType idTypeLifespan, ScType idTypePriority, ScCostCenter idCostCenter, ScPartner idPartner, Long weight, ScType idTypeWeight, Long high, ScType idTypeHigh, Long potential, ScType idTypePotential, Long width, ScType idTypeWidth, Long longMachine, ScType idTypeLong, Long voltage, ScType idTypeVoltage, Long currentMachine, ScType idTypeCurrent, String dimensionsObservation, String notesCustomField, ScMachine idMachineFather) {
         this.idMachine = idMachine;
         this.machine = machine;
         this.idTypeClassification = idTypeClassification;
-        this.idTypeCoast = idTypeCoast;
+        this.idTypeCost = idTypeCost;
         this.cost = cost;
         this.location = location;
         this.comments = comments;
@@ -281,12 +281,12 @@ public class ScMachine implements Serializable
         this.idTypeClassification = idTypeClassification;
     }
 
-    public ScType getIdTypeCoast() {
-        return idTypeCoast;
+    public ScType getIdTypeCost() {
+        return idTypeCost;
     }
 
-    public void setIdTypeCoast(ScType idTypeCoast) {
-        this.idTypeCoast = idTypeCoast;
+    public void setIdTypeCost(ScType idTypeCost) {
+        this.idTypeCost = idTypeCost;
     }
 
     public BigDecimal getCost() {
