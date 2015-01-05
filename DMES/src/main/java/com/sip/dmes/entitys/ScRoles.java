@@ -7,19 +7,24 @@ package com.sip.dmes.entitys;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,6 +44,8 @@ import javax.validation.constraints.Size;
 })
 public class ScRoles implements Serializable
 {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRole", fetch = FetchType.EAGER)
+    private List<ScUsers> scUsersList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscroles")
@@ -160,6 +167,17 @@ public class ScRoles implements Serializable
     public String toString()
     {
         return "com.sip.dmes.entitys.ScRoles[ idRole=" + idRole + " ]";
+    }
+
+    @XmlTransient
+    public List<ScUsers> getScUsersList()
+    {
+        return scUsersList;
+    }
+
+    public void setScUsersList(List<ScUsers> scUsersList)
+    {
+        this.scUsersList = scUsersList;
     }
     
 }

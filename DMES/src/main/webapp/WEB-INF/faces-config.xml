@@ -69,7 +69,8 @@
     
     <managed-bean>
         <managed-bean-name>scrolesBean</managed-bean-name>
-        <managed-bean-class>com.sip.dmes.beans.security.ScrolesBean</managed-bean-class>
+        <managed-bean-class>com.sip.dmes.beans.security.SfrolesBean</managed-bean-class>
+    
         <managed-bean-scope>view</managed-bean-scope>
         <managed-property>
             <property-name>sessionBean</property-name>
@@ -95,8 +96,7 @@
             <property-name>scModulePermissionByRoleServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScModulePermissionByRole</property-class>
             <value>#{scModulePermissionByRoleServer}</value>
-        </managed-property>
-    </managed-bean>
+        </managed-property></managed-bean>
 
     <managed-bean>
         <managed-bean-name>scusersBean</managed-bean-name>

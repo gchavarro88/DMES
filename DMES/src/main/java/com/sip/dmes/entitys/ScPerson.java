@@ -24,6 +24,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -51,6 +52,14 @@ import javax.validation.constraints.Size;
 })
 public class ScPerson implements Serializable
 {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "identification")
+    private long identification;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
+    private List<ScDocuments> scDocumentsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
+    private List<ScUsers> scUsersList;
    
     private static final long serialVersionUID = 1L;
     
@@ -61,10 +70,6 @@ public class ScPerson implements Serializable
     @NotNull
     @Column(name = "id_person")
     private Long idPerson;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "identification")
-    private Long identification;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -117,8 +122,7 @@ public class ScPerson implements Serializable
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
      
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
-    private List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
     private List<ScPersonObservations> scPersonObservationsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
@@ -307,16 +311,6 @@ public class ScPerson implements Serializable
         return true;
     }
 
-    public List<ScPersonDocumentationAttached> getScPersonDocumentationAttachedList()
-    {
-        return scPersonDocumentationAttachedList;
-    }
-
-    public void setScPersonDocumentationAttachedList(List<ScPersonDocumentationAttached> scPersonDocumentationAttachedList)
-    {
-        this.scPersonDocumentationAttachedList = scPersonDocumentationAttachedList;
-    }
-
    
     public List<ScPersonObservations> getScPersonObservationsList()
     {
@@ -359,14 +353,36 @@ public class ScPerson implements Serializable
         this.scPersonSpecificationsList = scPersonSpecificationsList;
     }
 
-    public Long getIdentification()
+    public long getIdentification()
     {
         return identification;
     }
 
-    public void setIdentification(Long identification)
+    public void setIdentification(long identification)
     {
         this.identification = identification;
+    }
+
+    @XmlTransient
+    public List<ScDocuments> getScDocumentsList()
+    {
+        return scDocumentsList;
+    }
+
+    public void setScDocumentsList(List<ScDocuments> scDocumentsList)
+    {
+        this.scDocumentsList = scDocumentsList;
+    }
+
+    @XmlTransient
+    public List<ScUsers> getScUsersList()
+    {
+        return scUsersList;
+    }
+
+    public void setScUsersList(List<ScUsers> scUsersList)
+    {
+        this.scUsersList = scUsersList;
     }
     
 }

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"      
+      >
+    <h:head>
+        <title>.:DMES:. - Cargue de Documentos por Usuario</title>
+    </h:head>
+    <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                      draggable="false" closable="false" resizable="false">
+                <p:graphicImage value="/images/loadBar.gif"/>
+            </p:dialog>
+        <div>
+
+
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            <h:form id="formDocumentsByUser">
+                <p:dataTable id="fsDocumentsByUser" draggableColumns="true" emptyMessage="" 
+                         value="" var="documents"
+                         paginator="true" rows="15"  
+                         pageLinks="40"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowKey=""
+                         resizableColumns="true" selection=""
+                         liveResize="true" rowsPerPageTemplate="15,30,50" 
+                         selectionMode="single" paginatorPosition="top"
+                         sortBy="">
+                <f:facet name="header">
+                    <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                    oncomplete="">
+                        <p:tooltip for="btnAdd" value="Cargar un Documento"/>
+                    </p:commandButton>
+                </f:facet>
+                
+                <p:column headerText="Administración">
+                    <center>
+                        <p:commandButton icon="ui-icon-arrowthickstop-1-s" id="btnDownload" 
+                        actionListener=""
+                        oncomplete="" update="">
+                            <p:tooltip for="btnDownload" value="Descargar Documento"/>
+                        </p:commandButton>
+                        <p:spacer width="10"/>
+                        <p:commandButton icon="ui-icon-close" id="btnDelete" 
+                        actionListener="" 
+                        update="" oncomplete="">
+                            <p:tooltip for="btnDelete" value="Eliminar Documento"/>
+                        </p:commandButton>
+                    </center>
+                </p:column>
+                <p:column id="columnTittle" headerText="Título" sortBy="">    
+                    <center>
+                        <p:outputLabel value=""/>
+                    </center>
+                </p:column>
+                <p:column id="columnSize" headerText="Tamaño" sortBy="">    
+                    <center>
+                        <p:outputLabel value=""/>
+                    </center>
+                </p:column>
+                <p:column id="columnDocument" headerText="Documento" sortBy="">    
+                    <center>
+                        <p:outputLabel value=""/>
+                    </center>
+                </p:column>
+                <p:column id="columnDate" headerText="Fecha de Creación" sortBy="">    
+                    <center>
+                        <p:outputLabel value=""/>
+                    </center>
+                </p:column>
+            </p:dataTable>
+            </h:form>
+        </div>
+        
+    </h:body>
+</html>
+

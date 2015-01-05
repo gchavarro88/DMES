@@ -1,15 +1,18 @@
+package com.sip.dmes.beans.loadFiles;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sip.dmes.beans.security;
+
 
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScModulePermission;
 import com.sip.dmes.dao.bo.IScModulePermissionByRole;
 import com.sip.dmes.dao.bo.IScRoles;
 import com.sip.dmes.dao.bo.IScUsers;
+import com.sip.dmes.entitys.ScDocuments;
 import com.sip.dmes.entitys.ScModulePermission;
 import com.sip.dmes.entitys.ScModulePermissionByRole;
 import com.sip.dmes.entitys.ScRoles;
@@ -24,35 +27,33 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
  * @author gchavarro88
  */
-public class ScrolesBean
+public class FsdocumentsByUserBean
 {
 
-    private final static Logger log = Logger.getLogger(SfrolesBean.class); //Variable de logger que permite guardar registro de la aplicación
+    private final static Logger log = Logger.getLogger(FsdocumentsByUserBean.class); //Variable de logger que permite guardar registro de la aplicación
+    private SessionBean sessionBean; //Bean de sesion
+    private List<ScDocuments> documentList;
     private IScRoles scRolesServer; //Interfaz de la persistencia de roles
     private IScModulePermission scModulePermissionServer;
-    private SessionBean sessionBean; //Bean de sesion
-    private List<ScRoles> rolesList;
-    private List<ScModulePermission> listPermissionsAdd;
-    private List<ScModulePermission> listAllPermissions;
-    private List<ScModulePermission> listGlobalPermissions;
-    private ScRoles scRolesAdd;
-    private ScRoles scRolesSelected;
-    private IScModulePermissionByRole scModulePermissionByRoleServer; //Interfaz de la persistencia de permisos de modulo por rol
-    private IScUsers scUsersServer;
-    private final String TYPE_PERMISSION = "Item";
-    private HashMap<Long, ScModulePermission> mapsModulesPermission;
-    private List<ScModulePermission> listPermissionsUpdate;
-    private HashMap<String, ScRoles> mapRoles;
+    private ScDocuments scRolesAdd;
+    private ScDocuments scRolesSelected;
+
     
+    
+    //Constantes
+    private UploadedFile upLoadFile; //Objeto que permite traer un archivo que se copiará
+    private int MAX_SIZE_FILE = 5;//Tamaño en megas del archivo
+    private String EXTENSION_FILE = "txt,docx,xml,doc,xls,xlsx,pdf,ppt,pptx,pps,ppsx,gif,jpeg,jpg,png";
     /**
      * Creates a new instance of ScrolesBean
      */
-    public ScrolesBean()
+    public FsdocumentsByUserBean()
     {
         
     } 
@@ -325,6 +326,77 @@ public class ScrolesBean
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+    
+    /**
+     * Método encargado de subir el archivo y copiarlo al servidor, para posteriormente
+     * dejar un registro en la base de datos.
+     * @param option permite decidir si se hará un copiado sencillo o especial
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     * @throws java.io.IOException
+     */
+    public void uploadFile() throws Exception
+    {
+//       long MegabytesChangeToBytes = ((1024)*(1024));  
+//       if(getUpLoadFile() != null)
+//       {
+//           if(getUpLoadFile().getSize() <= (MegabytesChangeToBytes*MAX_SIZE_FILE))
+//           {
+//               int indexExtension = (getUpLoadFile().getFileName().indexOf(".")+1);
+//               String extension = getUpLoadFile().getFileName().substring(indexExtension, getUpLoadFile().getFileName().length());
+//               if(EXTENSION_FILE.contains(extension))
+//               {
+//                   String systemOperating = System.getProperty("os.name");
+//                   String fileSeparator = System.getProperty("file.separator");
+//                   String path ="";
+//                   String fileNameFolder = getSessionBean().getScUser().getIdPerson().getLastName()+
+//                           "_"+getSessionBean().getScUser().getIdPerson().getFirstName();
+//                   if(!fileSeparator.equals("/"))
+//                   {
+//                       fileSeparator += fileSeparator;
+//                   }
+//                   path = System.getProperty("user.home")+fileSeparator+fileNameFolder;
+//                   File folder = new File(path);
+//                   folder.mkdirs();
+//                   Date dateFile =  new Date();
+//                   fileNameFolder = getUpLoadFile().getFileName()+"_"+getFormatDateGlobal("yyyyMMddHHmmss", dateFile)+"."+extension;
+//                   File file = new File(path+fileSeparator+fileNameFolder);
+//                   if(writeFile(getUpLoadFile().getInputstream(), file))
+//                   {
+//                       getPersonDocumentationAttachedAdd().setCreationDate(dateFile);
+//                       getPersonDocumentationAttachedAdd().setPath(path+fileSeparator+fileNameFolder);
+//                       getPersonDocumentationAttachedAdd().setIdPerson(getPersonAdd());
+//                       getPersonDocumentationAttachedsList().add(getPersonDocumentationAttachedAdd());
+//                       addInfo(null, "Cargue de Archivos", "Se cargó el archivo con éxito");
+//                       setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
+//                       
+//                   }
+//                   else
+//                   {
+//                       addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+//                       log.error("Error al intentar escribir el archivo");
+//                   }
+//               }
+//               else
+//               {
+//                   addError(null, "Error al subir un archivo", "La extensión no coincide con las extensiones permitidas: "+EXTENSION_FILE);
+//                   log.error("Error al intentar subir un archivo, extensión no incluida en la lista de permitidas");
+//               }
+//           }
+//           else
+//           {
+//               addError(null, "Error al subir un archivo", "El tamaño sobrepasa el límite puesto de "+MAX_SIZE_FILE+" MB");
+//               log.error("Error al intentar subir un archivo, tamaño excedido");
+//           }
+//       }
+//       else
+//       {
+//           addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+//           log.error("Error al intentar subir un archivo");
+//       }
+//       RequestContext.getCurrentInstance().execute("PF('dialogPersonSave').show()");
+    }
+    
+    
     public String getFormatDate(Date date)
     {
         String result = "";
