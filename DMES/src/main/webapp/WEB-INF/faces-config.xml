@@ -149,11 +149,6 @@
             <value>#{scMailsServer}</value>
         </managed-property>
         <managed-property>
-            <property-name>scPersonDocumentationAttachedServer</property-name>
-            <property-class>com.sip.dmes.dao.bo.IScPersonDocumentationAttached</property-class>
-            <value>#{scPersonDocumentationAttachedServer}</value>
-        </managed-property>
-        <managed-property>
             <property-name>scPersonObservationsServer</property-name>
             <property-class>com.sip.dmes.dao.bo.IScPersonObservations</property-class>
             <value>#{scPersonObservationsServer}</value>
@@ -205,7 +200,7 @@
         </managed-property>
     </managed-bean>
     
-     <managed-bean>
+<!--     <managed-bean>
         <managed-bean-name>scmachinesBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.resources.materials.ScmachinesBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
@@ -250,5 +245,22 @@
             <value>#{scPartnerServer}</value>
         </managed-property>
      
+    </managed-bean>-->
+    
+    
+    <managed-bean>
+        <managed-bean-name>fsDocumentsByUserBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.loadFiles.FsdocumentsByUserBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>fsDocumentsServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IFsDocuments</property-class>
+            <value>#{fsDocumentsServer}</value>
+        </managed-property>
     </managed-bean>
 </faces-config>

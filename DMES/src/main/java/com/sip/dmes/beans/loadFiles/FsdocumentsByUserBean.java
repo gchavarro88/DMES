@@ -8,6 +8,7 @@ package com.sip.dmes.beans.loadFiles;
 
 
 import com.sip.dmes.beans.SessionBean;
+import com.sip.dmes.dao.bo.IFsDocuments;
 import com.sip.dmes.dao.bo.IScModulePermission;
 import com.sip.dmes.dao.bo.IScModulePermissionByRole;
 import com.sip.dmes.dao.bo.IScRoles;
@@ -38,18 +39,22 @@ public class FsdocumentsByUserBean
 
     private final static Logger log = Logger.getLogger(FsdocumentsByUserBean.class); //Variable de logger que permite guardar registro de la aplicación
     private SessionBean sessionBean; //Bean de sesion
+    private IFsDocuments fsDocumentsServer;
+    
     private List<ScDocuments> documentList;
-    private IScRoles scRolesServer; //Interfaz de la persistencia de roles
-    private IScModulePermission scModulePermissionServer;
-    private ScDocuments scRolesAdd;
-    private ScDocuments scRolesSelected;
-
+    private ScDocuments scDocumentsAdd;
+    private ScDocuments scDocumentsSelected;
+    
     
     
     //Constantes
     private UploadedFile upLoadFile; //Objeto que permite traer un archivo que se copiará
     private int MAX_SIZE_FILE = 5;//Tamaño en megas del archivo
     private String EXTENSION_FILE = "txt,docx,xml,doc,xls,xlsx,pdf,ppt,pptx,pps,ppsx,gif,jpeg,jpg,png";
+    
+    
+    
+    
     /**
      * Creates a new instance of ScrolesBean
      */
@@ -60,272 +65,276 @@ public class FsdocumentsByUserBean
     @PostConstruct
     public void initData()
     {
-        fillAllRoles();
-        fillAllModulesPermission();
-        setScRolesAdd(new ScRoles());
+        fillAllDocumentsByUser();
     }
     
-    public void fillAllRoles()
+    public void fillAllDocumentsByUser()
     {
         try
         {
-            if(getRolesList() == null)
+            if(getDocumentList() == null)
             {
-                setRolesList(getScRolesServer().getAllRoles());
-                fillMapRoles();
+                getFsDocumentsServer().getAllDocumentsByUser(getSessionBean().getScUser());
             }
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar los roles", e);
+            log.error("Error al intentar consultar los documentos para el usuario "+getSessionBean().getScUser(), e);
         }
     }
     
-    public void fillAllModulesPermission()
+    public void cleanFieldSave()
     {
-        try
-        {
-            if(getListAllPermissions()== null)
-            {
-                setListAllPermissions(getScModulePermissionServer().findAllModulesPermissionByType(TYPE_PERMISSION));
-                setListGlobalPermissions(getScModulePermissionServer().findAllModulesPermission());
-                setMapsModulesPermission(new HashMap<Long, ScModulePermission>());
-                for(ScModulePermission modulePermission: getListGlobalPermissions())
-                {
-                    mapsModulesPermission.put(modulePermission.getIdModulePermission(), modulePermission);
-                }
-            }
-        }
-        catch(Exception e)
-        {
-            log.error("Error al intentar consultar los permisos de cada módulos", e);
-        }
-    }
-    
-    public void fillMapRoles()
-    {
-        setMapRoles(new HashMap<String, ScRoles>());
-        for(ScRoles roles: getRolesList())
-        {
-            getMapRoles().put(roles.getName(), roles);
-        }
-    }
-    public void cleanFieldsSave()
-    {
-        setScRolesAdd(new ScRoles());
-        setListPermissionsAdd(new ArrayList<ScModulePermission>());
-    }
-    
-    public void saveRole()
-    {
-        try
-        {
-            if(getScRolesAdd() != null)
-            {
-                getScRolesAdd().setName(getScRolesAdd().getName().trim());
-                getScRolesAdd().setName(getScRolesAdd().getName().toUpperCase());
-                if(getScRolesAdd().getName() != null && getScRolesAdd().getName().length() > 0)
-                {
-                    if((!getMapRoles().containsKey(getScRolesAdd().getName())))
-                    {
-                        if(getListPermissionsAdd() != null && getListPermissionsAdd().size() > 0)
-                        {
-                            getScRolesAdd().setCreationDate(new Date());
-                            getScRolesServer().createRole(getScRolesAdd());
-                            getRolesList().add(getScRolesAdd());
-                            for(ScModulePermission modulePermission: getListPermissionsAdd())
-                            {
-
-                                ScModulePermissionByRole modulePermissionByRole = new ScModulePermissionByRole();
-                                modulePermissionByRole.setIdModulePermission(modulePermission);
-                                modulePermissionByRole.setIdRole(getScRolesAdd());
-                                modulePermissionByRole.setIdType("CRUD");
-                                insertFathersModulesPermission(modulePermission, getScRolesAdd());
-                                getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRole);
-
-                            }
-                            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-                            fillMapRoles();
-                            cleanFieldsSave();
-                        }
-                        else
-                        {
-                            addError(null, "Error de permisos por grupo", "Debe seleccionar al menos un permiso para crear el rol");
-                        }
-                    }
-                    else
-                    {
-                        addError(null, "Error nombre de grupo", "El nombre de grupo o rol ya existe");
-                    }
-                }
-                else
-                {
-                    addError(null, "Error del nombre del grupo", "Debe ingresar un nombre válido para el grupo o rol");
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error intentando guardar un nuevo rol", e);
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-        }
-    
-    }
-    
-    public void updateRole()
-    {
-        try
-        {
-            if(getScRolesSelected()!= null)
-            {
-                getScRolesSelected().setName(getScRolesSelected().getName().trim());
-                getScRolesSelected().setName(getScRolesSelected().getName().toUpperCase());
-                if(getScRolesSelected().getName() != null && getScRolesSelected().getName().length() > 0)
-                {
-                    
-                    if(getListPermissionsUpdate()!= null && getListPermissionsUpdate().size() > 0)
-                    {
-
-                        getScModulePermissionByRoleServer().deleteModulePermissionByRole(getScRolesSelected());
-                        getScRolesSelected().setModifyDate(new Date());
-                        getScRolesServer().updateRole(getScRolesSelected());
-                        for(ScModulePermission modulePermission: getListPermissionsUpdate())
-                        {
-
-                            ScModulePermissionByRole modulePermissionByRole = new ScModulePermissionByRole();
-                            modulePermissionByRole.setIdModulePermission(modulePermission);
-                            modulePermissionByRole.setIdRole(getScRolesSelected());
-                            modulePermissionByRole.setIdType("CRUD");
-                            insertFathersModulesPermission(modulePermission, getScRolesSelected());
-                            getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRole);
-
-                        }
-                        fillMapRoles();
-                        addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-                    }
-                    else
-                    {
-                        addError(null, "Error de permisos por grupo", "Debe seleccionar al menos un permiso para actualizar el rol");
-                    }
-                }
-                else
-                {
-                    addError(null, "Error del nombre del grupo", "Debe ingresar un nombre válido para el grupo o rol");
-                }
-                
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error intentando guardar un nuevo rol", e);
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-        }
-        setScRolesSelected(new ScRoles());
-        setListPermissionsUpdate(new ArrayList<ScModulePermission>());
-        setRolesList(null);
-        fillAllRoles();
-    }
-
-    public void insertFathersModulesPermission(ScModulePermission modulePermission, ScRoles scRole)
-    {
-        try
-        {
-            if(modulePermission != null)
-            {
-                if(getMapsModulesPermission().containsKey(modulePermission.getFather()))
-                {
-                    ScModulePermission modulePermissionFather = getMapsModulesPermission().get(modulePermission.getFather());
-                    ScModulePermissionByRole modulePermissionByRoleFather = new ScModulePermissionByRole();
-                    modulePermissionByRoleFather.setIdModulePermission(modulePermissionFather);
-                    modulePermissionByRoleFather.setIdRole(scRole);
-                    modulePermissionByRoleFather.setIdType("CRUD");
-                    
-                    if(getMapsModulesPermission().containsKey(modulePermissionFather.getFather()))
-                    {
-                        insertFathersModulesPermission(modulePermissionFather, scRole);
-                    }
-                    getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRoleFather);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error intentando insertar un modulo de permiso padre",e);
-        }
+        setScDocumentsAdd(new ScDocuments());
     }
     
     
-    
-    public void getModulePermissionsByRoleSelected(ScRoles roleSelected)
-    {
-        try
-        {
-            if(roleSelected != null)
-            {
-                setScRolesSelected(roleSelected);
-                setListPermissionsUpdate(new ArrayList<ScModulePermission>());
-                for(ScModulePermissionByRole modulePermissionByRole: getScModulePermissionByRoleServer()
-                        .getAllIScModulePermissionsByRole(roleSelected))
-                {
-                    getListPermissionsUpdate().add(modulePermissionByRole.getIdModulePermission());
-                }
-            }
-        }
-        catch(Exception e)
-        {
-            log.error("Error intentando consultar los permisos de modulo por rol",e);
-        }
-    }
-    
-    public void getModulePermissionsByRoleSelectedView()
-    {
-        try
-        {
-            if(getScRolesSelected() != null)
-            {
-                setScRolesSelected(getScRolesSelected());
-                setListPermissionsUpdate(new ArrayList<ScModulePermission>());
-                for(ScModulePermissionByRole modulePermissionByRole: getScModulePermissionByRoleServer()
-                        .getAllIScModulePermissionsByRole(getScRolesSelected()))
-                {
-                    getListPermissionsUpdate().add(modulePermissionByRole.getIdModulePermission());
-                }
-            }
-        }
-        catch(Exception e)
-        {
-            log.error("Error intentando consultar los permisos de modulo por rol",e);
-        }
-    }
-    
-    public void deleteRole()
-    {
-        try
-        {
-            if(getScRolesSelected()!= null)
-            {
-                getScModulePermissionByRoleServer().deleteModulePermissionByRole(getScRolesSelected());
-                getScUsersServer().deleteUsersByRole(getScRolesSelected());
-                getScRolesServer().deleteteRoleById(getScRolesSelected());
-                for(ScRoles roles: getRolesList())
-                {
-                    if(roles.getIdRole() == getScRolesSelected().getIdRole())
-                    {
-                        getRolesList().remove(roles);
-                        break;
-                    }
-                }
-                
-                fillMapRoles();
-                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error intentando eliminar un rol", e);
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-        }
-    }
+//    
+//    public void fillAllModulesPermission()
+//    {
+//        try
+//        {
+//            if(getListAllPermissions()== null)
+//            {
+//                setListAllPermissions(getScModulePermissionServer().findAllModulesPermissionByType(TYPE_PERMISSION));
+//                setListGlobalPermissions(getScModulePermissionServer().findAllModulesPermission());
+//                setMapsModulesPermission(new HashMap<Long, ScModulePermission>());
+//                for(ScModulePermission modulePermission: getListGlobalPermissions())
+//                {
+//                    mapsModulesPermission.put(modulePermission.getIdModulePermission(), modulePermission);
+//                }
+//            }
+//        }
+//        catch(Exception e)
+//        {
+//            log.error("Error al intentar consultar los permisos de cada módulos", e);
+//        }
+//    }
+//    
+//    public void fillMapRoles()
+//    {
+//        setMapRoles(new HashMap<String, ScRoles>());
+//        for(ScRoles roles: getRolesList())
+//        {
+//            getMapRoles().put(roles.getName(), roles);
+//        }
+//    }
+//    public void cleanFieldsSave()
+//    {
+//        setScRolesAdd(new ScRoles());
+//        setListPermissionsAdd(new ArrayList<ScModulePermission>());
+//    }
+//    
+//    public void saveRole()
+//    {
+//        try
+//        {
+//            if(getScRolesAdd() != null)
+//            {
+//                getScRolesAdd().setName(getScRolesAdd().getName().trim());
+//                getScRolesAdd().setName(getScRolesAdd().getName().toUpperCase());
+//                if(getScRolesAdd().getName() != null && getScRolesAdd().getName().length() > 0)
+//                {
+//                    if((!getMapRoles().containsKey(getScRolesAdd().getName())))
+//                    {
+//                        if(getListPermissionsAdd() != null && getListPermissionsAdd().size() > 0)
+//                        {
+//                            getScRolesAdd().setCreationDate(new Date());
+//                            getScRolesServer().createRole(getScRolesAdd());
+//                            getRolesList().add(getScRolesAdd());
+//                            for(ScModulePermission modulePermission: getListPermissionsAdd())
+//                            {
+//
+//                                ScModulePermissionByRole modulePermissionByRole = new ScModulePermissionByRole();
+//                                modulePermissionByRole.setIdModulePermission(modulePermission);
+//                                modulePermissionByRole.setIdRole(getScRolesAdd());
+//                                modulePermissionByRole.setIdType("CRUD");
+//                                insertFathersModulesPermission(modulePermission, getScRolesAdd());
+//                                getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRole);
+//
+//                            }
+//                            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+//                            fillMapRoles();
+//                            cleanFieldsSave();
+//                        }
+//                        else
+//                        {
+//                            addError(null, "Error de permisos por grupo", "Debe seleccionar al menos un permiso para crear el rol");
+//                        }
+//                    }
+//                    else
+//                    {
+//                        addError(null, "Error nombre de grupo", "El nombre de grupo o rol ya existe");
+//                    }
+//                }
+//                else
+//                {
+//                    addError(null, "Error del nombre del grupo", "Debe ingresar un nombre válido para el grupo o rol");
+//                }
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            log.error("Error intentando guardar un nuevo rol", e);
+//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+//        }
+//    
+//    }
+//    
+//    public void updateRole()
+//    {
+//        try
+//        {
+//            if(getScRolesSelected()!= null)
+//            {
+//                getScRolesSelected().setName(getScRolesSelected().getName().trim());
+//                getScRolesSelected().setName(getScRolesSelected().getName().toUpperCase());
+//                if(getScRolesSelected().getName() != null && getScRolesSelected().getName().length() > 0)
+//                {
+//                    
+//                    if(getListPermissionsUpdate()!= null && getListPermissionsUpdate().size() > 0)
+//                    {
+//
+//                        getScModulePermissionByRoleServer().deleteModulePermissionByRole(getScRolesSelected());
+//                        getScRolesSelected().setModifyDate(new Date());
+//                        getScRolesServer().updateRole(getScRolesSelected());
+//                        for(ScModulePermission modulePermission: getListPermissionsUpdate())
+//                        {
+//
+//                            ScModulePermissionByRole modulePermissionByRole = new ScModulePermissionByRole();
+//                            modulePermissionByRole.setIdModulePermission(modulePermission);
+//                            modulePermissionByRole.setIdRole(getScRolesSelected());
+//                            modulePermissionByRole.setIdType("CRUD");
+//                            insertFathersModulesPermission(modulePermission, getScRolesSelected());
+//                            getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRole);
+//
+//                        }
+//                        fillMapRoles();
+//                        addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+//                    }
+//                    else
+//                    {
+//                        addError(null, "Error de permisos por grupo", "Debe seleccionar al menos un permiso para actualizar el rol");
+//                    }
+//                }
+//                else
+//                {
+//                    addError(null, "Error del nombre del grupo", "Debe ingresar un nombre válido para el grupo o rol");
+//                }
+//                
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            log.error("Error intentando guardar un nuevo rol", e);
+//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+//        }
+//        setScRolesSelected(new ScRoles());
+//        setListPermissionsUpdate(new ArrayList<ScModulePermission>());
+//        setRolesList(null);
+//        fillAllRoles();
+//    }
+//
+//    public void insertFathersModulesPermission(ScModulePermission modulePermission, ScRoles scRole)
+//    {
+//        try
+//        {
+//            if(modulePermission != null)
+//            {
+//                if(getMapsModulesPermission().containsKey(modulePermission.getFather()))
+//                {
+//                    ScModulePermission modulePermissionFather = getMapsModulesPermission().get(modulePermission.getFather());
+//                    ScModulePermissionByRole modulePermissionByRoleFather = new ScModulePermissionByRole();
+//                    modulePermissionByRoleFather.setIdModulePermission(modulePermissionFather);
+//                    modulePermissionByRoleFather.setIdRole(scRole);
+//                    modulePermissionByRoleFather.setIdType("CRUD");
+//                    
+//                    if(getMapsModulesPermission().containsKey(modulePermissionFather.getFather()))
+//                    {
+//                        insertFathersModulesPermission(modulePermissionFather, scRole);
+//                    }
+//                    getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRoleFather);
+//                }
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            log.error("Error intentando insertar un modulo de permiso padre",e);
+//        }
+//    }
+//    
+//    
+//    
+//    public void getModulePermissionsByRoleSelected(ScRoles roleSelected)
+//    {
+//        try
+//        {
+//            if(roleSelected != null)
+//            {
+//                setScRolesSelected(roleSelected);
+//                setListPermissionsUpdate(new ArrayList<ScModulePermission>());
+//                for(ScModulePermissionByRole modulePermissionByRole: getScModulePermissionByRoleServer()
+//                        .getAllIScModulePermissionsByRole(roleSelected))
+//                {
+//                    getListPermissionsUpdate().add(modulePermissionByRole.getIdModulePermission());
+//                }
+//            }
+//        }
+//        catch(Exception e)
+//        {
+//            log.error("Error intentando consultar los permisos de modulo por rol",e);
+//        }
+//    }
+//    
+//    public void getModulePermissionsByRoleSelectedView()
+//    {
+//        try
+//        {
+//            if(getScRolesSelected() != null)
+//            {
+//                setScRolesSelected(getScRolesSelected());
+//                setListPermissionsUpdate(new ArrayList<ScModulePermission>());
+//                for(ScModulePermissionByRole modulePermissionByRole: getScModulePermissionByRoleServer()
+//                        .getAllIScModulePermissionsByRole(getScRolesSelected()))
+//                {
+//                    getListPermissionsUpdate().add(modulePermissionByRole.getIdModulePermission());
+//                }
+//            }
+//        }
+//        catch(Exception e)
+//        {
+//            log.error("Error intentando consultar los permisos de modulo por rol",e);
+//        }
+//    }
+//    
+//    public void deleteRole()
+//    {
+//        try
+//        {
+//            if(getScRolesSelected()!= null)
+//            {
+//                getScModulePermissionByRoleServer().deleteModulePermissionByRole(getScRolesSelected());
+//                getScUsersServer().deleteUsersByRole(getScRolesSelected());
+//                getScRolesServer().deleteteRoleById(getScRolesSelected());
+//                for(ScRoles roles: getRolesList())
+//                {
+//                    if(roles.getIdRole() == getScRolesSelected().getIdRole())
+//                    {
+//                        getRolesList().remove(roles);
+//                        break;
+//                    }
+//                }
+//                
+//                fillMapRoles();
+//                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            log.error("Error intentando eliminar un rol", e);
+//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+//        }
+//    }
     
     /**
      * Método encargado de subir el archivo y copiarlo al servidor, para posteriormente
@@ -476,18 +485,6 @@ public class FsdocumentsByUserBean
     {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
-    /**
-     * Métodos Getters And Setters.
-     */
-    public IScRoles getScRolesServer()
-    {
-        return scRolesServer;
-    }
-
-    public void setScRolesServer(IScRoles scRolesServer)
-    {
-        this.scRolesServer = scRolesServer;
-    }
 
     public SessionBean getSessionBean()
     {
@@ -499,124 +496,79 @@ public class FsdocumentsByUserBean
         this.sessionBean = sessionBean;
     }
 
-    public List<ScRoles> getRolesList()
+    public List<ScDocuments> getDocumentList()
     {
-        return rolesList;
+        return documentList;
     }
 
-    public void setRolesList(List<ScRoles> rolesList)
+    public void setDocumentList(List<ScDocuments> documentList)
     {
-        this.rolesList = rolesList;
+        this.documentList = documentList;
     }
 
-    public List<ScModulePermission> getListPermissionsAdd()
+    public ScDocuments getScDocumentsAdd()
     {
-        return listPermissionsAdd;
+        return scDocumentsAdd;
     }
 
-    public void setListPermissionsAdd(List<ScModulePermission> listPermissionsAdd)
+    public void setScDocumentsAdd(ScDocuments scDocumentsAdd)
     {
-        this.listPermissionsAdd = listPermissionsAdd;
+        this.scDocumentsAdd = scDocumentsAdd;
     }
 
-    public List<ScModulePermission> getListAllPermissions()
+    public ScDocuments getScDocumentsSelected()
     {
-        return listAllPermissions;
+        return scDocumentsSelected;
     }
 
-    public void setListAllPermissions(List<ScModulePermission> listAllPermissions)
+    public void setScDocumentsSelected(ScDocuments scDocumentsSelected)
     {
-        this.listAllPermissions = listAllPermissions;
+        this.scDocumentsSelected = scDocumentsSelected;
+    }
+    /**
+     * Métodos Getters And Setters.
+     */
+    
+    
+    public UploadedFile getUpLoadFile()
+    {
+        return upLoadFile;
     }
 
-    public IScModulePermission getScModulePermissionServer()
+    public void setUpLoadFile(UploadedFile upLoadFile)
     {
-        return scModulePermissionServer;
+        this.upLoadFile = upLoadFile;
     }
 
-    public void setScModulePermissionServer(IScModulePermission scModulePermissionServer)
+    public int getMAX_SIZE_FILE()
     {
-        this.scModulePermissionServer = scModulePermissionServer;
+        return MAX_SIZE_FILE;
     }
 
-    public ScRoles getScRolesAdd()
+    public void setMAX_SIZE_FILE(int MAX_SIZE_FILE)
     {
-        return scRolesAdd;
+        this.MAX_SIZE_FILE = MAX_SIZE_FILE;
     }
 
-    public void setScRolesAdd(ScRoles scRolesAdd)
+    public String getEXTENSION_FILE()
     {
-        this.scRolesAdd = scRolesAdd;
+        return EXTENSION_FILE;
     }
 
-    public ScRoles getScRolesSelected()
+    public void setEXTENSION_FILE(String EXTENSION_FILE)
     {
-        return scRolesSelected;
+        this.EXTENSION_FILE = EXTENSION_FILE;
     }
 
-    public void setScRolesSelected(ScRoles scRolesSelected)
+    public IFsDocuments getFsDocumentsServer()
     {
-        this.scRolesSelected = scRolesSelected;
+        return fsDocumentsServer;
     }
 
-    public IScModulePermissionByRole getScModulePermissionByRoleServer()
+    public void setFsDocumentsServer(IFsDocuments fsDocumentsServer)
     {
-        return scModulePermissionByRoleServer;
+        this.fsDocumentsServer = fsDocumentsServer;
     }
-
-    public void setScModulePermissionByRoleServer(IScModulePermissionByRole scModulePermissionByRoleServer)
-    {
-        this.scModulePermissionByRoleServer = scModulePermissionByRoleServer;
-    }
-
-    public HashMap<Long, ScModulePermission> getMapsModulesPermission()
-    {
-        return mapsModulesPermission;
-    }
-
-    public void setMapsModulesPermission(HashMap<Long, ScModulePermission> mapsModulesPermission)
-    {
-        this.mapsModulesPermission = mapsModulesPermission;
-    }
-
-    public List<ScModulePermission> getListGlobalPermissions()
-    {
-        return listGlobalPermissions;
-    }
-
-    public void setListGlobalPermissions(List<ScModulePermission> listGlobalPermissions)
-    {
-        this.listGlobalPermissions = listGlobalPermissions;
-    }
-
-    public List<ScModulePermission> getListPermissionsUpdate()
-    {
-        return listPermissionsUpdate;
-    }
-
-    public void setListPermissionsUpdate(List<ScModulePermission> listPermissionsUpdate)
-    {
-        this.listPermissionsUpdate = listPermissionsUpdate;
-    }
-
-    public HashMap<String, ScRoles> getMapRoles()
-    {
-        return mapRoles;
-    }
-
-    public void setMapRoles(HashMap<String, ScRoles> mapRoles)
-    {
-        this.mapRoles = mapRoles;
-    }
-
-    public IScUsers getScUsersServer()
-    {
-        return scUsersServer;
-    }
-
-    public void setScUsersServer(IScUsers scUsersServer)
-    {
-        this.scUsersServer = scUsersServer;
-    }
+    
     
 }

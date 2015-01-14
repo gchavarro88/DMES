@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScDocuments.findByDocumentPath", query = "SELECT s FROM ScDocuments s WHERE s.documentPath = :documentPath"),
     @NamedQuery(name = "ScDocuments.findByDocumentTittle", query = "SELECT s FROM ScDocuments s WHERE s.documentTittle = :documentTittle"),
     @NamedQuery(name = "ScDocuments.findByCreationDate", query = "SELECT s FROM ScDocuments s WHERE s.creationDate = :creationDate"),
-    @NamedQuery(name = "ScDocuments.findByDocumentName", query = "SELECT s FROM ScDocuments s WHERE s.documentName = :documentName")
+    @NamedQuery(name = "ScDocuments.findByDocumentName", query = "SELECT s FROM ScDocuments s WHERE s.documentName = :documentName"),
+    @NamedQuery(name = "ScDocuments.findByPerson", query = "SELECT s FROM ScDocuments s WHERE s.idPerson = :idPerson")
 })
 public class ScDocuments implements Serializable
 {
@@ -67,6 +68,11 @@ public class ScDocuments implements Serializable
     @Size(min = 1, max = 2000)
     @Column(name = "document_name")
     private String documentName;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2000)
+    @Column(name = "upload_by")
+    private String uploadBy;
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScPerson idPerson;
@@ -180,5 +186,16 @@ public class ScDocuments implements Serializable
     {
         return "com.sip.dmes.entitys.ScDocuments[ idDocument=" + idDocument + " ]";
     }
+
+    public String getUploadBy()
+    {
+        return uploadBy;
+    }
+
+    public void setUploadBy(String uploadBy)
+    {
+        this.uploadBy = uploadBy;
+    }
+    
     
 }

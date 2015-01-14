@@ -34,10 +34,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
-import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -52,7 +50,6 @@ public class ScpersonBean
     private IScPerson scPersonServer;
     private IScPhones scPhonesServer;
     private IScMails scMailsServer;
-    private IScPersonDocumentationAttached scPersonDocumentationAttachedServer;
     private IScPersonObservations scPersonObservationsServer;
     private IScPersonSpecifications scPersonSpecificationsServer;
     SessionBean sessionBean;//Variable de sesion
@@ -67,7 +64,7 @@ public class ScpersonBean
     private List<ScPhones> personPhoneListBk;
     private List<ScPersonObservations> personObservationsListBk;
     private List<ScPersonSpecifications> personSpecificationsListBk;
-    private List<ScPersonDocumentationAttached> personDocumentationAttachedsListBk;
+    
     private List<ScMails> personMailListBk;
     private ScPerson personAdd;
     private ScPerson personUpdate;
@@ -76,7 +73,7 @@ public class ScpersonBean
     private ScMails mailAdd;
     private ScPersonObservations personObservationsAdd;
     private ScPersonSpecifications personSpecificationsAdd;
-    private ScPersonDocumentationAttached personDocumentationAttachedAdd;
+   
     
     
     //Constantes
@@ -134,7 +131,7 @@ public class ScpersonBean
         setMailAdd(new ScMails());
         setPersonObservationsAdd(new ScPersonObservations());
         setPersonSpecificationsAdd(new ScPersonSpecifications());
-        setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
+//        setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
         setPersonAdd(new ScPerson());
         setPersonObservationsList(new ArrayList<ScPersonObservations>());
         setPersonSpecificationsList(new ArrayList<ScPersonSpecifications>());
@@ -143,7 +140,7 @@ public class ScpersonBean
         setPersonMailList(new ArrayList<ScMails>());
         setPersonObservationsList(new ArrayList<ScPersonObservations>());
         setPersonSpecificationsListBk(new ArrayList<ScPersonSpecifications>());
-        setPersonDocumentationAttachedsListBk(new ArrayList<ScPersonDocumentationAttached>());
+//        setPersonDocumentationAttachedsListBk(new ArrayList<ScPersonDocumentationAttached>());
         setPersonPhoneListBk(new ArrayList<ScPhones>());
         setPersonMailListBk(new ArrayList<ScMails>());
 
@@ -367,90 +364,6 @@ public class ScpersonBean
     }
     
     
-    /**
-     * Método encargado de subir el archivo y copiarlo al servidor, para posteriormente
-     * dejar un registro en la base de datos.
-     * @param option permite decidir si se hará un copiado sencillo o especial
-     * @author: Gustavo Adolfo Chavarro Ortiz
-     * @throws java.io.IOException
-     */
-    public void uploadFileUpdate() throws Exception 
-    {
-       long MegabytesChangeToBytes = ((1024)*(1024));  
-       if(getUpLoadFile() != null) 
-       { 
-           if(getUpLoadFile().getSize() <= (MegabytesChangeToBytes*MAX_SIZE_FILE))
-           {
-               int indexExtension = (getUpLoadFile().getFileName().indexOf(".")+1);
-               String extension = getUpLoadFile().getFileName().substring(indexExtension, getUpLoadFile().getFileName().length());
-               if(EXTENSION_FILE.contains(extension))
-               {
-                   String systemOperating = System.getProperty("os.name");
-                   String fileSeparator = System.getProperty("file.separator");  
-                   String path ="";
-                   String fileNameFolder = getSessionBean().getScUser().getIdPerson().getLastName()+
-                           "_"+getSessionBean().getScUser().getIdPerson().getFirstName();
-                   if(!fileSeparator.equals("/"))
-                   {
-                       fileSeparator += fileSeparator;
-                   }
-                   path = System.getProperty("user.home")+fileSeparator+fileNameFolder;
-                   File folder = new File(path);
-                   folder.mkdirs();
-                   Date dateFile =  new Date();
-                   fileNameFolder = getUpLoadFile().getFileName()+"_"+getFormatDateGlobal("yyyyMMddHHmmss", dateFile)+"."+extension;
-                   File file = new File(path+fileSeparator+fileNameFolder);
-                   if(writeFile(getUpLoadFile().getInputstream(), file))
-                   {
-                       getPersonDocumentationAttachedAdd().setCreationDate(dateFile);
-                       getPersonDocumentationAttachedAdd().setPath(path+fileSeparator+fileNameFolder);
-                       getPersonDocumentationAttachedAdd().setIdPerson(getPersonUpdate());
-                       addInfo(null, "Cargue de Archivos", "Se cargó el archivo con éxito");
-                       setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
-                       
-                   }
-                   else
-                   {
-                       addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                       log.error("Error al intentar escribir el archivo");
-                   }
-               }
-               else
-               {
-                   addError(null, "Error al subir un archivo", "La extensión no coincide con las extensiones permitidas: "+EXTENSION_FILE);
-                   log.error("Error al intentar subir un archivo, extensión no incluida en la lista de permitidas");
-               }
-           }
-           else
-           {
-               addError(null, "Error al subir un archivo", "El tamaño sobrepasa el límite puesto de "+MAX_SIZE_FILE+" MB");
-               log.error("Error al intentar subir un archivo, tamaño excedido");
-           }
-       }
-       else
-       {
-           addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-           log.error("Error al intentar subir un archivo");
-       }
-       RequestContext.getCurrentInstance().execute("PF('dialogPersonUpdate').show()");
-    }
-    
-    public void removeDocumentationSaved(ScPersonDocumentationAttached documentation)
-    {
-        int i = 0;
-        for(ScPersonDocumentationAttached documentationAttached: getPersonDocumentationAttachedsList())
-        {
-            if( documentationAttached.getTittle().equals(documentation.getTittle()))
-            {
-                File file = new File(documentation.getPath());
-                file.delete();
-                getPersonDocumentationAttachedsList().remove(i);
-                addInfo(null, "Creación de un Tercero", "El archivo se borró exitosamente");
-                break;
-            }
-            i++;
-        }
-    }
     
         
     /**
@@ -1064,16 +977,7 @@ public class ScpersonBean
         this.scMailsServer = scMailsServer;
     }
 
-    public IScPersonDocumentationAttached getScPersonDocumentationAttachedServer()
-    {
-        return scPersonDocumentationAttachedServer;
-    }
-
-    public void setScPersonDocumentationAttachedServer(IScPersonDocumentationAttached scPersonDocumentationAttachedServer)
-    {
-        this.scPersonDocumentationAttachedServer = scPersonDocumentationAttachedServer;
-    }
-
+    
     public IScPersonObservations getScPersonObservationsServer()
     {
         return scPersonObservationsServer;
@@ -1234,45 +1138,6 @@ public class ScpersonBean
         this.personSpecificationsAdd = personSpecificationsAdd;
     }
 
-    public ScPersonDocumentationAttached getPersonDocumentationAttachedAdd()
-    {
-        return personDocumentationAttachedAdd;
-    }
-
-    public void setPersonDocumentationAttachedAdd(ScPersonDocumentationAttached personDocumentationAttachedAdd)
-    {
-        this.personDocumentationAttachedAdd = personDocumentationAttachedAdd;
-    }
-
-    public UploadedFile getUpLoadFile()
-    {
-        return upLoadFile;
-    }
-
-    public void setUpLoadFile(UploadedFile upLoadFile)
-    {
-        this.upLoadFile = upLoadFile;
-    }
-
-    public int getMAX_SIZE_FILE()
-    {
-        return MAX_SIZE_FILE;
-    }
-
-    public void setMAX_SIZE_FILE(int MAX_SIZE_FILE)
-    {
-        this.MAX_SIZE_FILE = MAX_SIZE_FILE;
-    }
-
-    public String getEXTENSION_FILE()
-    {
-        return EXTENSION_FILE;
-    }
-
-    public void setEXTENSION_FILE(String EXTENSION_FILE)
-    {
-        this.EXTENSION_FILE = EXTENSION_FILE;
-    }
 
     public ScPerson getPersonSelected()
     {
@@ -1314,24 +1179,15 @@ public class ScpersonBean
         this.personSpecificationsListBk = personSpecificationsListBk;
     }
 
-    public List<ScPersonDocumentationAttached> getPersonDocumentationAttachedsListBk()
-    {
-        return personDocumentationAttachedsListBk;
-    }
 
-    public void setPersonDocumentationAttachedsListBk(List<ScPersonDocumentationAttached> personDocumentationAttachedsListBk)
+    public void setPersonMailListBk(List<ScMails> personMailListBk)
     {
-        this.personDocumentationAttachedsListBk = personDocumentationAttachedsListBk;
+        this.personMailListBk = personMailListBk;
     }
 
     public List<ScMails> getPersonMailListBk()
     {
         return personMailListBk;
-    }
-
-    public void setPersonMailListBk(List<ScMails> personMailListBk)
-    {
-        this.personMailListBk = personMailListBk;
     }
 
    

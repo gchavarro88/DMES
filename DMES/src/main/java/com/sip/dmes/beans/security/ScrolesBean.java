@@ -32,7 +32,7 @@ import org.apache.log4j.Logger;
 public class ScrolesBean
 {
 
-    private final static Logger log = Logger.getLogger(SfrolesBean.class); //Variable de logger que permite guardar registro de la aplicación
+    private final static Logger log = Logger.getLogger(ScrolesBean.class); //Variable de logger que permite guardar registro de la aplicación
     private IScRoles scRolesServer; //Interfaz de la persistencia de roles
     private IScModulePermission scModulePermissionServer;
     private SessionBean sessionBean; //Bean de sesion
