@@ -17,7 +17,35 @@
             </p:dialog>
         <div>
 
-
+<!--         Dialogo para guardar nuevos roles         -->
+        <p:dialog id="dialogSaveDocuments" widgetVar="dialogSaveDocuments" position="center top" width="500"
+                      closable="true" draggable="true" dynamic="true" header="Subir un Documento"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                <h:form id="formSaveScDocument" >
+                    <table width="98%" cellspacing="30">
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfTittle" value="Título del Documento:"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfTittle"  value="#{scrolesBean.scRolesAdd.name}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="fuLoadFile" value="Archivo:"/>
+                            </td>
+                            <td width="80%" align="left" >
+                                <p:fileUpload label="Examinar"  id="fuLoadFile"  mode="advanced" cancelLabel="Cancelar" uploadLabel="Cargar" dragDropSupport="false"
+                                              update="@this,messagesFU,tfTittle,fuLoadFile" allowTypes="/(\.|\/)()$/" />   
+                                <p:growl id="messagesFU" showDetail="true" />
+                            </td>
+                        </tr>
+                        
+                    </table> 
+                </h:form>
+            </p:dialog> 
+<!--         finaliza el dialogo para guardar roles               -->
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formDocumentsByUser">
                 <p:dataTable id="fsDocumentsByUser" draggableColumns="true" emptyMessage="No existe información para visualizar" 
@@ -33,7 +61,7 @@
                          sortBy="#{documents.idDocument}">
                 <f:facet name="header">
                     <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
-                    oncomplete="">
+                    oncomplete="PF('dialogSaveDocuments').show()">
                         <p:tooltip for="btnAdd" value="Cargar un Documento"/>
                     </p:commandButton>
                 </f:facet>
@@ -66,7 +94,7 @@
                         <p:outputLabel value="#{fsDocumentsByUserBean.getFormatDate(documents.creationDate)}"/>
                     </center>
                     </p:column>
-                    <p:column id="columnDate" headerText="Subido por" sortBy="#{documents.uploadBy}">    
+                    <p:column id="columnUser" headerText="Subido por" sortBy="#{documents.uploadBy}">    
                     <center>
                         <p:outputLabel value="#{documents.uploadBy}"/>
                     </center>

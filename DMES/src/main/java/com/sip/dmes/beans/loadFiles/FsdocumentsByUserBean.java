@@ -39,11 +39,11 @@ public class FsdocumentsByUserBean
 
     private final static Logger log = Logger.getLogger(FsdocumentsByUserBean.class); //Variable de logger que permite guardar registro de la aplicación
     private SessionBean sessionBean; //Bean de sesion
-    private IFsDocuments fsDocumentsServer;
+    private IFsDocuments fsDocumentsServer; //Bean para acceder al DAO de los documentos
     
-    private List<ScDocuments> documentList;
-    private ScDocuments scDocumentsAdd;
-    private ScDocuments scDocumentsSelected;
+    private List<ScDocuments> documentList;//Lista de documentos 
+    private ScDocuments scDocumentsAdd;//Documento a Agregar
+    private ScDocuments scDocumentsSelected; //Documento seleccionado
     
     
     
@@ -62,19 +62,28 @@ public class FsdocumentsByUserBean
     {
         
     } 
+    /**
+     * Método encargado de invocar los procedimientos iniciales para la primera vista 
+     * de la página.
+     * @author Gustavo Chavarro Ortiz
+     */
     @PostConstruct
     public void initData()
     {
         fillAllDocumentsByUser();
     }
     
+    /**
+     * Método encargado de llenar la tabla inicial de los documentos cargados por el usuario.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void fillAllDocumentsByUser()
     {
         try
         {
             if(getDocumentList() == null)
             {
-                getFsDocumentsServer().getAllDocumentsByUser(getSessionBean().getScUser());
+                setDocumentList(getFsDocumentsServer().getAllDocumentsByUser(getSessionBean().getScUser()));
             }
         }
         catch(Exception e)
@@ -83,6 +92,10 @@ public class FsdocumentsByUserBean
         }
     }
     
+    /**
+     * Método encargado de limpiar todas las variables temporales.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void cleanFieldSave()
     {
         setScDocumentsAdd(new ScDocuments());
