@@ -28,7 +28,7 @@
                                 <p:outputLabel  for="tfTittle" value="Título del Documento:"/>
                             </td>
                             <td width="80%" align="left">
-                                <p:inputText    id="tfTittle"  value="#{scrolesBean.scRolesAdd.name}"/>
+                                <p:inputText    id="tfTittle"  value="#{fsDocumentsByUserBean.scDocumentsAdd.documentTittle}"/>
                             </td>
                         </tr>
                         <tr>
@@ -37,7 +37,7 @@
                             </td>
                             <td width="80%" align="left" >
                                 <p:fileUpload label="Examinar"  id="fuLoadFile"  mode="advanced" cancelLabel="Cancelar" uploadLabel="Cargar" dragDropSupport="false"
-                                              update="@this,messagesFU,tfTittle,fuLoadFile" allowTypes="/(\.|\/)()$/" />   
+                                              />   
                                 <p:growl id="messagesFU" showDetail="true" />
                             </td>
                         </tr>

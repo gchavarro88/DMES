@@ -23,4 +23,6 @@ public interface IFsDocuments
     
     public List<ScDocuments> getAllDocumentsByUser(ScUsers  scUser)throws Exception;
     
+    public Object getInitialParameters() throws Exception;
+    
 }

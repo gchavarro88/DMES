@@ -18,11 +18,13 @@ import com.sip.dmes.entitys.ScModulePermission;
 import com.sip.dmes.entitys.ScModulePermissionByRole;
 import com.sip.dmes.entitys.ScRoles;
 import com.sip.dmes.utilities.DMESConstants;
+import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -50,8 +52,8 @@ public class FsdocumentsByUserBean
     //Constantes
     private UploadedFile upLoadFile; //Objeto que permite traer un archivo que se copiará
     private int MAX_SIZE_FILE = 5;//Tamaño en megas del archivo
-    private String EXTENSION_FILE = "txt,docx,xml,doc,xls,xlsx,pdf,ppt,pptx,pps,ppsx,gif,jpeg,jpg,png";
-    
+    private String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";
+    private String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
     
     
     
@@ -70,6 +72,7 @@ public class FsdocumentsByUserBean
     @PostConstruct
     public void initData()
     {
+        getinitalParameters();
         fillAllDocumentsByUser();
     }
     
@@ -92,6 +95,41 @@ public class FsdocumentsByUserBean
         }
     }
     
+    /**
+     * Método encargado de consultar los parámetros iniciales, para cargar archivos.
+     */
+    public void getinitalParameters()
+    {
+        try
+        {
+            //Consultamos la tabla de parámetros iniciales
+            Object object = getFsDocumentsServer().getInitialParameters();
+            //Extraemos la información en un arreglo
+            Object[] data = (Object[]) object;
+            if(data != null)
+            {
+                //Extraemos el valor por defecto del tamaño de los archivos
+                if(data.length > 0 && data[0] != null && !Utilities.isEmpty(data[0].toString()))
+                {
+                    MAX_SIZE_FILE = Integer.parseInt(data[0].toString());
+                }
+                //Extraemos el valor por defecto de los tipos permitidos
+                if(data.length > 1 && data[1] != null && !Utilities.isEmpty(data[1].toString()))
+                {
+                    EXTENSION_FILE = data[1].toString();
+                }
+                //Extraemos el valor por defecto la ruta donde se guardarán
+                if(data.length > 2 && data[2] != null &&!Utilities.isEmpty(data[2].toString()))
+                {
+                    PATH_FILE = data[2].toString();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            log.error("Error al intentar consultar los parámetros iniciales",ex);
+        }
+    }
     /**
      * Método encargado de limpiar todas las variables temporales.
      * @author Gustavo Chavarro Ortiz
