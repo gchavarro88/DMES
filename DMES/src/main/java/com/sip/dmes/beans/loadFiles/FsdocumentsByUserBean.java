@@ -9,27 +9,27 @@ package com.sip.dmes.beans.loadFiles;
 
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IFsDocuments;
-import com.sip.dmes.dao.bo.IScModulePermission;
-import com.sip.dmes.dao.bo.IScModulePermissionByRole;
-import com.sip.dmes.dao.bo.IScRoles;
-import com.sip.dmes.dao.bo.IScUsers;
 import com.sip.dmes.entitys.ScDocuments;
-import com.sip.dmes.entitys.ScModulePermission;
-import com.sip.dmes.entitys.ScModulePermissionByRole;
-import com.sip.dmes.entitys.ScRoles;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -46,7 +46,6 @@ public class FsdocumentsByUserBean
     private List<ScDocuments> documentList;//Lista de documentos 
     private ScDocuments scDocumentsAdd;//Documento a Agregar
     private ScDocuments scDocumentsSelected; //Documento seleccionado
-    
     
     
     //Constantes
@@ -73,6 +72,7 @@ public class FsdocumentsByUserBean
     public void initData()
     {
         getinitalParameters();
+        cleanFieldSave();
         fillAllDocumentsByUser();
     }
     
@@ -130,6 +130,169 @@ public class FsdocumentsByUserBean
             log.error("Error al intentar consultar los parámetros iniciales",ex);
         }
     }
+    
+    /**
+     * Método encargado de realizar la copia del archivo que se desea cargar.
+     * @param event Evento que trae el archvio cargado al servidor
+     */
+    public void handleFileUpload() {
+         //Validamos que el evento de copiado no sea nulo
+        int bytesToMegabytes = 10485760; //Valor de representación de 1megabytes a bytes
+        if(getScDocumentsAdd().getDocumentTittle() != null && getScDocumentsAdd().getDocumentTittle().length() > 0)
+        {
+            if(getUpLoadFile() != null )
+         {
+            String fileName = getUpLoadFile().getFileName(); //Extraemos el nombre del archivo
+            long fileSize    = getUpLoadFile().getSize(); //Extraemos el tamaño del archivo
+            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+            String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
+            if(fileSize > 0)
+            {
+                //Validamos que el archivo cumpla con el tamaño permitido
+                if(fileSize <=(MAX_SIZE_FILE*bytesToMegabytes))
+                {
+                    //Validamos que el archivo contenga los tipos permitidos
+                    if(EXTENSION_FILE.contains(fileType))
+                    {
+                        String firstName = getSessionBean().getScUser().getIdPerson().getFirstName().replaceAll(" ", "_");
+                        String lastName = getSessionBean().getScUser().getIdPerson().getLastName().replaceAll(" ", "_");
+                        String folderName = lastName+"_"+firstName;
+                        //Creamos el folder
+                        File folder = new File(PATH_FILE+"/"+folderName);
+                        folder.mkdirs();
+                        //Creamos el archivo con la ruta y el nombre de la carpeta
+                        File file = new File(folder+"/"+fileName);
+                        try
+                        {
+                            //Creamos el archivo y lo enviamos al metodo que lo escribe
+                            if(writeFile(getUpLoadFile().getInputstream(), file))
+                            {
+                                addLogDocument(folder.toString(), fileName);
+                                getDocumentList().add(getScDocumentsAdd());
+                                cleanFieldSave();
+                                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                            }
+                            //Si sucede un error al escribir el archivo
+                            else
+                            {
+                                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                            }   
+                        }
+                        catch (Exception e)
+                        {
+                            //Excepción de escritura
+                            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                            log.error("Error al itnentar crear un nuevo archivo", e);
+                        }
+                    }
+                    //El tipo no pertenece
+                    else
+                    {
+                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos "+EXTENSION_FILE);
+                    }
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo supera el límite de tamaño permitido "+MAX_SIZE_FILE+" MB");
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
+            }
+         }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe ingresar un título para el documento");
+        }
+         
+    }
+    
+    
+    /**
+     * Método encargado de guardar el registro de un archivo subido al sistema.
+     * @param path ruta del archivo subido
+     * @param fileName nombre del archivo subido
+     */
+    public void addLogDocument(String path, String fileName) throws Exception
+    {
+        getScDocumentsAdd().setDocumentPath(path);
+        getScDocumentsAdd().setCreationDate(new Date());
+        getScDocumentsAdd().setDocumentName(fileName);
+        getScDocumentsAdd().setIdPerson(getSessionBean().getScUser().getIdPerson());
+        getScDocumentsAdd().setUploadBy(getSessionBean().getScUser().getLogin());
+        getFsDocumentsServer().createDocument(getScDocumentsAdd());
+    }
+    /**
+     * Método encargado de recibir una entrada de datos y un archivo para posteriormente
+     * escribir los datos en el archivo.
+     * @param dataIn entrada de datos a escribir
+     * @param newFile archivo nuevo en el que se escribiran los datos
+     * @return valor booleano indicando si el proceso de escritura se realizó satisfactoriamente
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public boolean writeFile(InputStream dataIn, File newFile)
+    {
+        boolean result = false;
+        try
+        {
+            OutputStream outputStream = new FileOutputStream(newFile);
+            byte[] buffer = new byte[1024];
+            int len;
+            while((len = dataIn.read(buffer)) > 0)
+            { 
+                outputStream.write(buffer, 0, len);
+            }
+            outputStream.flush();
+            outputStream.close();
+            dataIn.close();
+            result = true;
+        }
+        catch(IOException e)
+        {
+            log.error("Error al intentar crear el archivo, metodo writeFile",e);
+        }
+        return result;
+    }
+    
+    public void downloadDocument(ScDocuments scDocumentsSelected)
+    {
+        try
+        {
+            String fileName = scDocumentsSelected.getDocumentName();
+            String path     = scDocumentsSelected.getDocumentPath();
+            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+            String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
+            File fileToDownload = new File(path+"/"+fileName);
+            InputStream inputStream = new FileInputStream(fileToDownload);
+            byte[] buffer = new byte[2048];
+            int offset = 0;
+            int numRead = 0;
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance()
+                    .getExternalContext().getResponse();
+            response.setContentType("application/"+fileType);
+            response.setHeader("Content-Disposition", "attachment;filename="+fileName);
+            OutputStream responseOutputStream = response.getOutputStream();
+
+            while ((numRead = inputStream.read(buffer)) > 0)
+            {
+                responseOutputStream.write(buffer, 0, numRead);
+            }
+            inputStream.close();
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+            FacesContext.getCurrentInstance().responseComplete();
+        }
+        catch(Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar descargar el archivo",e);
+        }
+        
+    
+    }
+    
     /**
      * Método encargado de limpiar todas las variables temporales.
      * @author Gustavo Chavarro Ortiz
@@ -137,323 +300,6 @@ public class FsdocumentsByUserBean
     public void cleanFieldSave()
     {
         setScDocumentsAdd(new ScDocuments());
-    }
-    
-    
-//    
-//    public void fillAllModulesPermission()
-//    {
-//        try
-//        {
-//            if(getListAllPermissions()== null)
-//            {
-//                setListAllPermissions(getScModulePermissionServer().findAllModulesPermissionByType(TYPE_PERMISSION));
-//                setListGlobalPermissions(getScModulePermissionServer().findAllModulesPermission());
-//                setMapsModulesPermission(new HashMap<Long, ScModulePermission>());
-//                for(ScModulePermission modulePermission: getListGlobalPermissions())
-//                {
-//                    mapsModulesPermission.put(modulePermission.getIdModulePermission(), modulePermission);
-//                }
-//            }
-//        }
-//        catch(Exception e)
-//        {
-//            log.error("Error al intentar consultar los permisos de cada módulos", e);
-//        }
-//    }
-//    
-//    public void fillMapRoles()
-//    {
-//        setMapRoles(new HashMap<String, ScRoles>());
-//        for(ScRoles roles: getRolesList())
-//        {
-//            getMapRoles().put(roles.getName(), roles);
-//        }
-//    }
-//    public void cleanFieldsSave()
-//    {
-//        setScRolesAdd(new ScRoles());
-//        setListPermissionsAdd(new ArrayList<ScModulePermission>());
-//    }
-//    
-//    public void saveRole()
-//    {
-//        try
-//        {
-//            if(getScRolesAdd() != null)
-//            {
-//                getScRolesAdd().setName(getScRolesAdd().getName().trim());
-//                getScRolesAdd().setName(getScRolesAdd().getName().toUpperCase());
-//                if(getScRolesAdd().getName() != null && getScRolesAdd().getName().length() > 0)
-//                {
-//                    if((!getMapRoles().containsKey(getScRolesAdd().getName())))
-//                    {
-//                        if(getListPermissionsAdd() != null && getListPermissionsAdd().size() > 0)
-//                        {
-//                            getScRolesAdd().setCreationDate(new Date());
-//                            getScRolesServer().createRole(getScRolesAdd());
-//                            getRolesList().add(getScRolesAdd());
-//                            for(ScModulePermission modulePermission: getListPermissionsAdd())
-//                            {
-//
-//                                ScModulePermissionByRole modulePermissionByRole = new ScModulePermissionByRole();
-//                                modulePermissionByRole.setIdModulePermission(modulePermission);
-//                                modulePermissionByRole.setIdRole(getScRolesAdd());
-//                                modulePermissionByRole.setIdType("CRUD");
-//                                insertFathersModulesPermission(modulePermission, getScRolesAdd());
-//                                getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRole);
-//
-//                            }
-//                            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-//                            fillMapRoles();
-//                            cleanFieldsSave();
-//                        }
-//                        else
-//                        {
-//                            addError(null, "Error de permisos por grupo", "Debe seleccionar al menos un permiso para crear el rol");
-//                        }
-//                    }
-//                    else
-//                    {
-//                        addError(null, "Error nombre de grupo", "El nombre de grupo o rol ya existe");
-//                    }
-//                }
-//                else
-//                {
-//                    addError(null, "Error del nombre del grupo", "Debe ingresar un nombre válido para el grupo o rol");
-//                }
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            log.error("Error intentando guardar un nuevo rol", e);
-//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-//        }
-//    
-//    }
-//    
-//    public void updateRole()
-//    {
-//        try
-//        {
-//            if(getScRolesSelected()!= null)
-//            {
-//                getScRolesSelected().setName(getScRolesSelected().getName().trim());
-//                getScRolesSelected().setName(getScRolesSelected().getName().toUpperCase());
-//                if(getScRolesSelected().getName() != null && getScRolesSelected().getName().length() > 0)
-//                {
-//                    
-//                    if(getListPermissionsUpdate()!= null && getListPermissionsUpdate().size() > 0)
-//                    {
-//
-//                        getScModulePermissionByRoleServer().deleteModulePermissionByRole(getScRolesSelected());
-//                        getScRolesSelected().setModifyDate(new Date());
-//                        getScRolesServer().updateRole(getScRolesSelected());
-//                        for(ScModulePermission modulePermission: getListPermissionsUpdate())
-//                        {
-//
-//                            ScModulePermissionByRole modulePermissionByRole = new ScModulePermissionByRole();
-//                            modulePermissionByRole.setIdModulePermission(modulePermission);
-//                            modulePermissionByRole.setIdRole(getScRolesSelected());
-//                            modulePermissionByRole.setIdType("CRUD");
-//                            insertFathersModulesPermission(modulePermission, getScRolesSelected());
-//                            getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRole);
-//
-//                        }
-//                        fillMapRoles();
-//                        addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-//                    }
-//                    else
-//                    {
-//                        addError(null, "Error de permisos por grupo", "Debe seleccionar al menos un permiso para actualizar el rol");
-//                    }
-//                }
-//                else
-//                {
-//                    addError(null, "Error del nombre del grupo", "Debe ingresar un nombre válido para el grupo o rol");
-//                }
-//                
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            log.error("Error intentando guardar un nuevo rol", e);
-//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-//        }
-//        setScRolesSelected(new ScRoles());
-//        setListPermissionsUpdate(new ArrayList<ScModulePermission>());
-//        setRolesList(null);
-//        fillAllRoles();
-//    }
-//
-//    public void insertFathersModulesPermission(ScModulePermission modulePermission, ScRoles scRole)
-//    {
-//        try
-//        {
-//            if(modulePermission != null)
-//            {
-//                if(getMapsModulesPermission().containsKey(modulePermission.getFather()))
-//                {
-//                    ScModulePermission modulePermissionFather = getMapsModulesPermission().get(modulePermission.getFather());
-//                    ScModulePermissionByRole modulePermissionByRoleFather = new ScModulePermissionByRole();
-//                    modulePermissionByRoleFather.setIdModulePermission(modulePermissionFather);
-//                    modulePermissionByRoleFather.setIdRole(scRole);
-//                    modulePermissionByRoleFather.setIdType("CRUD");
-//                    
-//                    if(getMapsModulesPermission().containsKey(modulePermissionFather.getFather()))
-//                    {
-//                        insertFathersModulesPermission(modulePermissionFather, scRole);
-//                    }
-//                    getScModulePermissionByRoleServer().createModulePermissionByRole(modulePermissionByRoleFather);
-//                }
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            log.error("Error intentando insertar un modulo de permiso padre",e);
-//        }
-//    }
-//    
-//    
-//    
-//    public void getModulePermissionsByRoleSelected(ScRoles roleSelected)
-//    {
-//        try
-//        {
-//            if(roleSelected != null)
-//            {
-//                setScRolesSelected(roleSelected);
-//                setListPermissionsUpdate(new ArrayList<ScModulePermission>());
-//                for(ScModulePermissionByRole modulePermissionByRole: getScModulePermissionByRoleServer()
-//                        .getAllIScModulePermissionsByRole(roleSelected))
-//                {
-//                    getListPermissionsUpdate().add(modulePermissionByRole.getIdModulePermission());
-//                }
-//            }
-//        }
-//        catch(Exception e)
-//        {
-//            log.error("Error intentando consultar los permisos de modulo por rol",e);
-//        }
-//    }
-//    
-//    public void getModulePermissionsByRoleSelectedView()
-//    {
-//        try
-//        {
-//            if(getScRolesSelected() != null)
-//            {
-//                setScRolesSelected(getScRolesSelected());
-//                setListPermissionsUpdate(new ArrayList<ScModulePermission>());
-//                for(ScModulePermissionByRole modulePermissionByRole: getScModulePermissionByRoleServer()
-//                        .getAllIScModulePermissionsByRole(getScRolesSelected()))
-//                {
-//                    getListPermissionsUpdate().add(modulePermissionByRole.getIdModulePermission());
-//                }
-//            }
-//        }
-//        catch(Exception e)
-//        {
-//            log.error("Error intentando consultar los permisos de modulo por rol",e);
-//        }
-//    }
-//    
-//    public void deleteRole()
-//    {
-//        try
-//        {
-//            if(getScRolesSelected()!= null)
-//            {
-//                getScModulePermissionByRoleServer().deleteModulePermissionByRole(getScRolesSelected());
-//                getScUsersServer().deleteUsersByRole(getScRolesSelected());
-//                getScRolesServer().deleteteRoleById(getScRolesSelected());
-//                for(ScRoles roles: getRolesList())
-//                {
-//                    if(roles.getIdRole() == getScRolesSelected().getIdRole())
-//                    {
-//                        getRolesList().remove(roles);
-//                        break;
-//                    }
-//                }
-//                
-//                fillMapRoles();
-//                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-//            }
-//        }
-//        catch (Exception e)
-//        {
-//            log.error("Error intentando eliminar un rol", e);
-//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-//        }
-//    }
-    
-    /**
-     * Método encargado de subir el archivo y copiarlo al servidor, para posteriormente
-     * dejar un registro en la base de datos.
-     * @param option permite decidir si se hará un copiado sencillo o especial
-     * @author: Gustavo Adolfo Chavarro Ortiz
-     * @throws java.io.IOException
-     */
-    public void uploadFile() throws Exception
-    {
-//       long MegabytesChangeToBytes = ((1024)*(1024));  
-//       if(getUpLoadFile() != null)
-//       {
-//           if(getUpLoadFile().getSize() <= (MegabytesChangeToBytes*MAX_SIZE_FILE))
-//           {
-//               int indexExtension = (getUpLoadFile().getFileName().indexOf(".")+1);
-//               String extension = getUpLoadFile().getFileName().substring(indexExtension, getUpLoadFile().getFileName().length());
-//               if(EXTENSION_FILE.contains(extension))
-//               {
-//                   String systemOperating = System.getProperty("os.name");
-//                   String fileSeparator = System.getProperty("file.separator");
-//                   String path ="";
-//                   String fileNameFolder = getSessionBean().getScUser().getIdPerson().getLastName()+
-//                           "_"+getSessionBean().getScUser().getIdPerson().getFirstName();
-//                   if(!fileSeparator.equals("/"))
-//                   {
-//                       fileSeparator += fileSeparator;
-//                   }
-//                   path = System.getProperty("user.home")+fileSeparator+fileNameFolder;
-//                   File folder = new File(path);
-//                   folder.mkdirs();
-//                   Date dateFile =  new Date();
-//                   fileNameFolder = getUpLoadFile().getFileName()+"_"+getFormatDateGlobal("yyyyMMddHHmmss", dateFile)+"."+extension;
-//                   File file = new File(path+fileSeparator+fileNameFolder);
-//                   if(writeFile(getUpLoadFile().getInputstream(), file))
-//                   {
-//                       getPersonDocumentationAttachedAdd().setCreationDate(dateFile);
-//                       getPersonDocumentationAttachedAdd().setPath(path+fileSeparator+fileNameFolder);
-//                       getPersonDocumentationAttachedAdd().setIdPerson(getPersonAdd());
-//                       getPersonDocumentationAttachedsList().add(getPersonDocumentationAttachedAdd());
-//                       addInfo(null, "Cargue de Archivos", "Se cargó el archivo con éxito");
-//                       setPersonDocumentationAttachedAdd(new ScPersonDocumentationAttached());
-//                       
-//                   }
-//                   else
-//                   {
-//                       addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-//                       log.error("Error al intentar escribir el archivo");
-//                   }
-//               }
-//               else
-//               {
-//                   addError(null, "Error al subir un archivo", "La extensión no coincide con las extensiones permitidas: "+EXTENSION_FILE);
-//                   log.error("Error al intentar subir un archivo, extensión no incluida en la lista de permitidas");
-//               }
-//           }
-//           else
-//           {
-//               addError(null, "Error al subir un archivo", "El tamaño sobrepasa el límite puesto de "+MAX_SIZE_FILE+" MB");
-//               log.error("Error al intentar subir un archivo, tamaño excedido");
-//           }
-//       }
-//       else
-//       {
-//           addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-//           log.error("Error al intentar subir un archivo");
-//       }
-//       RequestContext.getCurrentInstance().execute("PF('dialogPersonSave').show()");
     }
     
     
@@ -620,6 +466,5 @@ public class FsdocumentsByUserBean
     {
         this.fsDocumentsServer = fsDocumentsServer;
     }
-    
     
 }

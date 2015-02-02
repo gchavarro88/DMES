@@ -8,6 +8,15 @@
       >
     <h:head>
         <title>.:DMES:. - Cargue de Documentos por Usuario</title>
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+        </script>
     </h:head>
     <h:body>
         <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
@@ -18,30 +27,44 @@
         <div>
 
 <!--         Dialogo para guardar nuevos roles         -->
-        <p:dialog id="dialogSaveDocuments" widgetVar="dialogSaveDocuments" position="center top" width="500"
+        <p:dialog id="dialogSaveDocuments" widgetVar="dialogSaveDocuments" position="center top" 
                       closable="true" draggable="true" dynamic="true" header="Subir un Documento"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
-                <h:form id="formSaveScDocument" >
+                <h:form id="formSaveScDocument" enctype="multipart/form-data">
+                    
                     <table width="98%" cellspacing="30">
                         <tr>
                             <td width="20%" align="right">
                                 <p:outputLabel  for="tfTittle" value="Título del Documento:"/>
                             </td>
                             <td width="80%" align="left">
-                                <p:inputText    id="tfTittle"  value="#{fsDocumentsByUserBean.scDocumentsAdd.documentTittle}"/>
+                                <p:inputText    id="tfTittle"  value="#{fsDocumentsByUserBean.scDocumentsAdd.documentTittle}"
+                                                />
                             </td>
-                        </tr>
+                        </tr> 
                         <tr>
                             <td width="20%" align="right">
                                 <p:outputLabel  for="fuLoadFile" value="Archivo:"/>
                             </td>
                             <td width="80%" align="left" >
-                                <p:fileUpload label="Examinar"  id="fuLoadFile"  mode="advanced" cancelLabel="Cancelar" uploadLabel="Cargar" dragDropSupport="false"
+                                <p:fileUpload label="Examinar"  id="fuLoadFile" mode="simple" 
+                                              value="#{fsDocumentsByUserBean.upLoadFile}" 
+                                              update="messagesFU,tfTittle"
                                               />   
-                                <p:growl id="messagesFU" showDetail="true" />
+                                
                             </td>
                         </tr>
-                        
+                        <tr>
+                            <td width="20%" align="center" colspan="2">
+                                <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                                 ajax="false" actionListener="#{fsDocumentsByUserBean.handleFileUpload()}"
+                                                 oncomplete="PF('dialogSaveDocuments').hide()"/>
+                                <p:spacer width="30"/>
+                                <p:commandButton id="btnClean" value="Cancelar" icon="ui-icon-circle-close"
+                                                 ajax="false" actionListener="#{fsDocumentsByUserBean.cleanFieldSave()}"
+                                                 oncomplete="PF('dialogSaveDocuments').hide()"/>
+                            </td>
+                        </tr>
                     </table> 
                 </h:form>
             </p:dialog> 
@@ -69,7 +92,8 @@
                     <p:column headerText="Administración">
                     <center>
                         <p:commandButton icon="ui-icon-arrowthickstop-1-s" id="btnDownload" 
-                        oncomplete="" update="">
+                                         actionListener="#{fsDocumentsByUserBean.downloadDocument(documents)}"
+                                         ajax="false" onstart="start()" oncomplete="stop()">
                             <p:tooltip for="btnDownload" value="Descargar Documento"/>
                         </p:commandButton>
                         <p:spacer width="10"/>

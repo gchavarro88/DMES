@@ -34,7 +34,7 @@ public class FsDocumentsDao implements IFsDocuments
     public void createDocument(ScDocuments scDocuments) throws Exception
     {
         try
-        { 
+        {  
             entityManager.persist(scDocuments);
         }
         catch (Exception e)

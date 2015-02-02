@@ -56,10 +56,7 @@ public class ScPerson implements Serializable
     @NotNull
     @Column(name = "identification")
     private long identification;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
-    private List<ScDocuments> scDocumentsList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
-    private List<ScUsers> scUsersList;
+    
    
     private static final long serialVersionUID = 1L;
     
@@ -126,12 +123,16 @@ public class ScPerson implements Serializable
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
     private List<ScPersonObservations> scPersonObservationsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
+    private List<ScDocuments> scDocumentsList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
     private List<ScMails> scMailsList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
     private List<ScPhones> scPhonesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
     private List<ScPersonSpecifications> scPersonSpecificationsList;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
+    private List<ScUsers> scUsersList;
+    
     public ScPerson()
     {
     }
