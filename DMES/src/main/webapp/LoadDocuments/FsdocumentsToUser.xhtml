@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui"      
       >
     <h:head>
-        <title>.:DMES:. - Cargue de Documentos por Usuario</title>
+        <title>.:DMES:. - Cargue de Documentos a Usuario</title>
         <script type="text/javascript">
             function start() {
                 PF('statusDialog').show();
@@ -26,7 +26,7 @@
             </p:dialog>
         <div>
 
-<!--         Dialogo para guardar nuevos roles         -->
+<!--         Dialogo para guardar nuevos Documentos         -->
         <p:dialog id="dialogSaveDocuments" widgetVar="dialogSaveDocuments" position="center top" 
                       closable="true" draggable="true" dynamic="true" header="Subir un Documento"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
@@ -70,8 +70,8 @@
             </p:dialog> 
 <!--         finaliza el dialogo para guardar roles               -->
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
-            <h:form id="formDocumentsByUser">
-                <p:dataTable id="fsDocumentsByUser" draggableColumns="true" emptyMessage="No existe información para visualizar" 
+            <h:form id="formDocumentsToUser">
+                <p:dataTable id="fsDocumentsToUser" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                          value="#{fsDocumentsByUserBean.documentList}" var="documents"
                          paginator="true" rows="15"  
                          pageLinks="40"

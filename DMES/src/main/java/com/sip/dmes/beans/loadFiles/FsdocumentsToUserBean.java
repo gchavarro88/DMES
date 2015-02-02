@@ -10,6 +10,7 @@ package com.sip.dmes.beans.loadFiles;
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IFsDocuments;
 import com.sip.dmes.entitys.ScDocuments;
+import com.sip.dmes.entitys.ScUsers;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.io.File;
@@ -36,18 +37,18 @@ import org.primefaces.model.UploadedFile;
  *
  * @author gchavarro88
  */
-public class FsdocumentsByUserBean
+public class FsdocumentsToUserBean
 {
 
-    private final static Logger log = Logger.getLogger(FsdocumentsByUserBean.class); //Variable de logger que permite guardar registro de la aplicación
+    private final static Logger log = Logger.getLogger(FsdocumentsToUserBean.class); //Variable de logger que permite guardar registro de la aplicación
     private SessionBean sessionBean; //Bean de sesion
     private IFsDocuments fsDocumentsServer; //Bean para acceder al DAO de los documentos
     
     private List<ScDocuments> documentList;//Lista de documentos 
     private ScDocuments scDocumentsAdd;//Documento a Agregar
     private ScDocuments scDocumentsSelected; //Documento seleccionado
-    
-    
+    private List<ScUsers> usersList;//Lista de usuarios a cargar documento
+    private ScUsers userSelected; //Usuario seleccionado
     //Constantes
     private UploadedFile upLoadFile; //Objeto que permite traer un archivo que se copiará
     private int MAX_SIZE_FILE = 5;//Tamaño en megas del archivo
@@ -59,7 +60,7 @@ public class FsdocumentsByUserBean
     /**
      * Creates a new instance of ScrolesBean
      */
-    public FsdocumentsByUserBean()
+    public FsdocumentsToUserBean()
     {
         
     } 
@@ -73,25 +74,45 @@ public class FsdocumentsByUserBean
     {
         getinitalParameters();
         cleanFieldSave();
-        fillAllDocumentsByUser();
+        fillAllDocumentsToUser();
+        
     }
     
     /**
      * Método encargado de llenar la tabla inicial de los documentos cargados por el usuario.
      * @author Gustavo Chavarro Ortiz
      */
-    public void fillAllDocumentsByUser()
+    public void fillAllDocumentsToUser()
     {
         try
         {
             if(getDocumentList() == null)
             {
-                setDocumentList(getFsDocumentsServer().getAllDocumentsByUser(getSessionBean().getScUser()));
+                setDocumentList(getFsDocumentsServer().getAllDocumentsToUser(getSessionBean().getScUser()));
             }
         }
         catch(Exception e)
         {
             log.error("Error al intentar consultar los documentos para el usuario "+getSessionBean().getScUser(), e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la tabla inicial de los usuarios.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillAllUser()
+    {
+        try
+        {
+            if(getUsersList() == null)
+            {
+                setUsersList(getFsDocumentsServer().getUsersToDocuments(getSessionBean().getScUser()));
+            }
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los usuarios "+getSessionBean().getScUser(), e);
         }
     }
     
@@ -342,6 +363,7 @@ public class FsdocumentsByUserBean
     public void cleanFieldSave()
     {
         setScDocumentsAdd(new ScDocuments());
+        setUserSelected(new ScUsers());
     }
     
     
@@ -508,5 +530,26 @@ public class FsdocumentsByUserBean
     {
         this.fsDocumentsServer = fsDocumentsServer;
     }
+
+    public List<ScUsers> getUsersList()
+    {
+        return usersList;
+    }
+
+    public void setUsersList(List<ScUsers> usersList)
+    {
+        this.usersList = usersList;
+    }
+
+    public ScUsers getUserSelected()
+    {
+        return userSelected;
+    }
+
+    public void setUserSelected(ScUsers userSelected)
+    {
+        this.userSelected = userSelected;
+    }
+    
     
 }

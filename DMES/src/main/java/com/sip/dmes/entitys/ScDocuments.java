@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScDocuments.findByDocumentTittle", query = "SELECT s FROM ScDocuments s WHERE s.documentTittle = :documentTittle"),
     @NamedQuery(name = "ScDocuments.findByCreationDate", query = "SELECT s FROM ScDocuments s WHERE s.creationDate = :creationDate"),
     @NamedQuery(name = "ScDocuments.findByDocumentName", query = "SELECT s FROM ScDocuments s WHERE s.documentName = :documentName"),
-    @NamedQuery(name = "ScDocuments.findByPerson", query = "SELECT s FROM ScDocuments s WHERE s.idPerson = :idPerson")
+    @NamedQuery(name = "ScDocuments.findByPerson", query = "SELECT s FROM ScDocuments s WHERE s.idPerson = :idPerson"),
+    @NamedQuery(name = "ScDocuments.findToPerson", query = "SELECT s FROM ScDocuments s WHERE s.uploadBy = :scUser")
 })
 public class ScDocuments implements Serializable
 {
@@ -80,6 +81,8 @@ public class ScDocuments implements Serializable
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)
     private ScPerson idPerson;
+    @Column(name = "type_document")
+    private String typeDocument;
     
     public ScDocuments()
     {
@@ -157,6 +160,16 @@ public class ScDocuments implements Serializable
     public void setIdPerson(ScPerson idPerson)
     {
         this.idPerson = idPerson;
+    }
+
+    public String getTypeDocument()
+    {
+        return typeDocument;
+    }
+
+    public void setTypeDocument(String typeDocument)
+    {
+        this.typeDocument = typeDocument;
     }
 
     

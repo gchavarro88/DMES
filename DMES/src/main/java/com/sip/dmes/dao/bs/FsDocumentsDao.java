@@ -63,7 +63,7 @@ public class FsDocumentsDao implements IFsDocuments
     {
         try
         { 
-            entityManager.remove(scDocuments);
+            entityManager.remove(entityManager.contains(scDocuments)?scDocuments:entityManager.merge(scDocuments));
         }
         catch (Exception e)
         {
@@ -87,6 +87,24 @@ public class FsDocumentsDao implements IFsDocuments
         }
         return result;
     }
+    
+    @Override
+    public List<ScDocuments> getAllDocumentsToUser(ScUsers  scUser) throws Exception
+    {
+        List<ScDocuments> result = null;
+        try
+        {
+            Query query = entityManager.createNamedQuery("ScDocuments.findToPerson");
+            query.setParameter("scUser", scUser.getLogin());
+            result = (List<ScDocuments>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intetnar consultar los documentos por el usuario "+scUser);
+        }
+        return result;
+    }
+
 
     @Override
     public Object getInitialParameters() throws Exception
@@ -101,6 +119,23 @@ public class FsDocumentsDao implements IFsDocuments
         catch(Exception e)
         {
             log.error("Error al intentar consultar los parámetros iniciales para cargar archivos",e);
+        }
+        return result;
+    }
+
+    @Override
+    public  List<ScUsers> getUsersToDocuments(ScUsers scUser) throws Exception
+    {
+        List<ScUsers> result = null;
+        try
+        {
+            Query query = entityManager.createNamedQuery("ScUsers.findNotIdUser");
+            query.setParameter("idUser", scUser.getIdUser());
+            result = (List<ScUsers>) query.getResultList(); 
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar los usuariios para cargar archivos",e);
         }
         return result;
     }

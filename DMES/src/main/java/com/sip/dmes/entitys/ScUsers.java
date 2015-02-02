@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 {
     @NamedQuery(name = "ScUsers.findAll", query = "SELECT s FROM ScUsers s"),
     @NamedQuery(name = "ScUsers.findByIdUser", query = "SELECT s FROM ScUsers s WHERE s.idUser = :idUser"),
+    @NamedQuery(name = "ScUsers.findNotIdUser", query = "SELECT s FROM ScUsers s WHERE s.idUser != :idUser"),
     @NamedQuery(name = "ScUsers.findByLogin", query = "SELECT s FROM ScUsers s WHERE s.login = :login"),
     @NamedQuery(name = "ScUsers.findByPassword", query = "SELECT s FROM ScUsers s WHERE s.password = :password"),
     @NamedQuery(name = "ScUsers.findByCreationDate", query = "SELECT s FROM ScUsers s WHERE s.creationDate = :creationDate"),
