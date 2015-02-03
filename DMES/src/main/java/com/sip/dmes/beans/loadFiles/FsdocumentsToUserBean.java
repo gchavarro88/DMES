@@ -75,7 +75,7 @@ public class FsdocumentsToUserBean
         getinitalParameters();
         cleanFieldSave();
         fillAllDocumentsToUser();
-        
+        fillAllUser();
     }
     
     /**
@@ -161,73 +161,80 @@ public class FsdocumentsToUserBean
     public void handleFileUpload() {
          //Validamos que el evento de copiado no sea nulo
         int bytesToMegabytes = 10485760; //Valor de representación de 1megabytes a bytes
-        if(getScDocumentsAdd().getDocumentTittle() != null && getScDocumentsAdd().getDocumentTittle().length() > 0)
+        if(getUserSelected() != null)
         {
-            if(getUpLoadFile() != null )
-         {
-            String fileName = getUpLoadFile().getFileName(); //Extraemos el nombre del archivo
-            long fileSize    = getUpLoadFile().getSize(); //Extraemos el tamaño del archivo
-            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
-            String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
-            if(fileSize > 0)
+            if(getScDocumentsAdd().getDocumentTittle() != null && getScDocumentsAdd().getDocumentTittle().length() > 0)
             {
-                //Validamos que el archivo cumpla con el tamaño permitido
-                if(fileSize <=(MAX_SIZE_FILE*bytesToMegabytes))
+                if(getUpLoadFile() != null )
+             {
+                String fileName = getUpLoadFile().getFileName(); //Extraemos el nombre del archivo
+                long fileSize    = getUpLoadFile().getSize(); //Extraemos el tamaño del archivo
+                int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+                String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
+                if(fileSize > 0)
                 {
-                    //Validamos que el archivo contenga los tipos permitidos
-                    if(EXTENSION_FILE.contains(fileType))
+                    //Validamos que el archivo cumpla con el tamaño permitido
+                    if(fileSize <=(MAX_SIZE_FILE*bytesToMegabytes))
                     {
-                        String firstName = getSessionBean().getScUser().getIdPerson().getFirstName().replaceAll(" ", "_");
-                        String lastName = getSessionBean().getScUser().getIdPerson().getLastName().replaceAll(" ", "_");
-                        String folderName = lastName+"_"+firstName;
-                        //Creamos el folder
-                        File folder = new File(PATH_FILE+"/"+folderName);
-                        folder.mkdirs();
-                        //Creamos el archivo con la ruta y el nombre de la carpeta
-                        File file = new File(folder+"/"+fileName);
-                        try
+                        //Validamos que el archivo contenga los tipos permitidos
+                        if(EXTENSION_FILE.contains(fileType))
                         {
-                            //Creamos el archivo y lo enviamos al metodo que lo escribe
-                            if(writeFile(getUpLoadFile().getInputstream(), file))
+                            String firstName = getUserSelected().getIdPerson().getFirstName().replaceAll(" ", "_");
+                            String lastName = getUserSelected().getIdPerson().getLastName().replaceAll(" ", "_");
+                            String folderName = lastName+"_"+firstName;
+                            //Creamos el folder
+                            File folder = new File(PATH_FILE+"/"+folderName);
+                            folder.mkdirs();
+                            //Creamos el archivo con la ruta y el nombre de la carpeta
+                            File file = new File(folder+"/"+fileName);
+                            try
                             {
-                                addLogDocument(folder.toString(), fileName, getUpLoadFile().getContentType());
-                                getDocumentList().add(getScDocumentsAdd());
-                                
-                                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                                //Creamos el archivo y lo enviamos al metodo que lo escribe
+                                if(writeFile(getUpLoadFile().getInputstream(), file))
+                                {
+                                    addLogDocument(folder.toString(), fileName, getUpLoadFile().getContentType());
+                                    getDocumentList().add(getScDocumentsAdd());
+
+                                    addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                                }
+                                //Si sucede un error al escribir el archivo
+                                else
+                                {
+                                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                                }   
                             }
-                            //Si sucede un error al escribir el archivo
-                            else
+                            catch (Exception e)
                             {
+                                //Excepción de escritura
                                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                            }   
+                                log.error("Error al itnentar crear un nuevo archivo", e);
+                            }
                         }
-                        catch (Exception e)
+                        //El tipo no pertenece
+                        else
                         {
-                            //Excepción de escritura
-                            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                            log.error("Error al itnentar crear un nuevo archivo", e);
+                            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos "+EXTENSION_FILE);
                         }
                     }
-                    //El tipo no pertenece
                     else
                     {
-                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos "+EXTENSION_FILE);
+                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo supera el límite de tamaño permitido "+MAX_SIZE_FILE+" MB");
                     }
                 }
                 else
                 {
-                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo supera el límite de tamaño permitido "+MAX_SIZE_FILE+" MB");
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
                 }
+             }
             }
             else
             {
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe ingresar un título para el documento");
             }
-         }
         }
         else
         {
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe ingresar un título para el documento");
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe seleccionar el usuario al que se le cargará el archivo");
         }
          cleanFieldSave();
     }
@@ -245,7 +252,7 @@ public class FsdocumentsToUserBean
         getScDocumentsAdd().setCreationDate(new Date());
         getScDocumentsAdd().setDocumentName(fileName);
         getScDocumentsAdd().setTypeDocument(contentType);
-        getScDocumentsAdd().setIdPerson(getSessionBean().getScUser().getIdPerson());
+        getScDocumentsAdd().setIdPerson(getUserSelected().getIdPerson());
         getScDocumentsAdd().setUploadBy(getSessionBean().getScUser().getLogin());
         getFsDocumentsServer().createDocument(getScDocumentsAdd());
     }
@@ -364,6 +371,7 @@ public class FsdocumentsToUserBean
     {
         setScDocumentsAdd(new ScDocuments());
         setUserSelected(new ScUsers());
+        
     }
     
     

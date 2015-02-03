@@ -27,7 +27,7 @@
         <div>
 
 <!--         Dialogo para guardar nuevos Documentos         -->
-        <p:dialog id="dialogSaveDocuments" widgetVar="dialogSaveDocuments" position="center top" 
+            <p:dialog id="dialogSaveDocuments" widgetVar="dialogSaveDocuments" position="center top" height="450"
                       closable="true" draggable="true" dynamic="true" header="Subir un Documento"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formSaveScDocument" enctype="multipart/form-data">
@@ -38,7 +38,7 @@
                                 <p:outputLabel  for="tfTittle" value="Título del Documento:"/>
                             </td>
                             <td width="80%" align="left">
-                                <p:inputText    id="tfTittle"  value="#{fsDocumentsByUserBean.scDocumentsAdd.documentTittle}"
+                                <p:inputText    id="tfTittle"  value="#{fsDocumentsToUserBean.scDocumentsAdd.documentTittle}"
                                                 />
                             </td>
                         </tr> 
@@ -48,20 +48,42 @@
                             </td>
                             <td width="80%" align="left" >
                                 <p:fileUpload label="Examinar"  id="fuLoadFile" mode="simple" 
-                                              value="#{fsDocumentsByUserBean.upLoadFile}" 
+                                              value="#{fsDocumentsToUserBean.upLoadFile}" 
                                               update="messagesFU,tfTittle"
                                               />   
                                 
                             </td>
                         </tr>
                         <tr>
+                            <td colspan="2" align="center">
+                                <p:dataTable id="dataTableUser" emptyMessage="No existe información para visualizar"
+                                             value="#{fsDocumentsToUserBean.usersList}" var="users" 
+                                            paginator="true" rows="5"  pageLinks="40" 
+                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                            {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            rowKey="#{users.idUser}"
+                                            resizableColumns="true" selection="#{fsDocumentsToUserBean.userSelected}"
+                                            liveResize="true" rowsPerPageTemplate="4" 
+                                            paginatorPosition="top"
+                                            sortBy="#{users.idUser}">
+                                    <p:column selectionMode="single" style="width:16px;text-align:center">
+                                        
+                                    </p:column>
+                                    <p:column id="clName" sortBy="#{users.idPerson.lastName} #{users.idPerson.firstName}"
+                                              >
+                                        <p:outputLabel value="#{users.idPerson.lastName} #{users.idPerson.firstName}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </td>
+                        </tr>
+                        <tr>
                             <td width="20%" align="center" colspan="2">
                                 <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
-                                                 ajax="false" actionListener="#{fsDocumentsByUserBean.handleFileUpload()}"
+                                                 ajax="false" actionListener="#{fsDocumentsToUserBean.handleFileUpload()}"
                                                  oncomplete="PF('dialogSaveDocuments').hide()"/>
                                 <p:spacer width="30"/>
                                 <p:commandButton id="btnClean" value="Cancelar" icon="ui-icon-circle-close"
-                                                 ajax="false" actionListener="#{fsDocumentsByUserBean.cleanFieldSave()}"
+                                                 ajax="false" actionListener="#{fsDocumentsToUserBean.cleanFieldSave()}"
                                                  oncomplete="PF('dialogSaveDocuments').hide()"/>
                             </td>
                         </tr>
@@ -72,13 +94,13 @@
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formDocumentsToUser">
                 <p:dataTable id="fsDocumentsToUser" draggableColumns="true" emptyMessage="No existe información para visualizar" 
-                         value="#{fsDocumentsByUserBean.documentList}" var="documents"
+                         value="#{fsDocumentsToUserBean.documentList}" var="documents"
                          paginator="true" rows="15"  
                          pageLinks="40"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowKey="#{documents.idDocument}"
-                         resizableColumns="true" selection="#{fsDocumentsByUserBean.scDocumentsSelected}"
+                         resizableColumns="true" selection="#{fsDocumentsToUserBean.scDocumentsSelected}"
                          liveResize="true" rowsPerPageTemplate="15,30,50" 
                          selectionMode="single" paginatorPosition="top"
                          sortBy="#{documents.idDocument}">
@@ -92,14 +114,14 @@
                     <p:column headerText="Administración">
                     <center>
                         <p:commandButton icon="ui-icon-arrowthickstop-1-s" id="btnDownload" 
-                                         actionListener="#{fsDocumentsByUserBean.downloadDocument(documents)}"
+                                         actionListener="#{fsDocumentsToUserBean.downloadDocument(documents)}"
                                          ajax="false" onstart="start()" oncomplete="stop()">
                             <p:tooltip for="btnDownload" value="Descargar Documento"/>
                         </p:commandButton>
                         <p:spacer width="10"/>
                         <p:commandButton icon="ui-icon-close" id="btnDelete" 
-                                         actionListener="#{fsDocumentsByUserBean.deleteDocument(documents)}"
-                                         update="fsDocumentsByUser">
+                                         actionListener="#{fsDocumentsToUserBean.deleteDocument(documents)}"
+                                         update="fsDocumentsToUser">
                             <p:tooltip for="btnDelete" value="Eliminar Documento"/>
                         </p:commandButton>
                     </center>
@@ -114,9 +136,9 @@
                         <p:outputLabel value="#{documents.documentName}"/>
                     </center>
                     </p:column>
-                    <p:column id="columnDate" headerText="Fecha de Creación" sortBy="#{fsDocumentsByUserBean.getFormatDate(documents.creationDate)}">    
+                    <p:column id="columnDate" headerText="Fecha de Creación" sortBy="#{fsDocumentsToUserBean.getFormatDate(documents.creationDate)}">    
                     <center>
-                        <p:outputLabel value="#{fsDocumentsByUserBean.getFormatDate(documents.creationDate)}"/>
+                        <p:outputLabel value="#{fsDocumentsToUserBean.getFormatDate(documents.creationDate)}"/>
                     </center>
                     </p:column>
                     <p:column id="columnUser" headerText="Subido por" sortBy="#{documents.uploadBy}">    
