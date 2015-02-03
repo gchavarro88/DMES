@@ -141,7 +141,7 @@
                         <p:outputLabel value="#{fsDocumentsToUserBean.getFormatDate(documents.creationDate)}"/>
                     </center>
                     </p:column>
-                    <p:column id="columnUser" headerText="Subido por" sortBy="#{documents.uploadBy}">    
+                    <p:column id="columnUser" headerText="Subido a" sortBy="#{documents.idPerson.lastName} #{documents.idPerson.firstName}">    
                     <center>
                         <p:outputLabel value="#{documents.uploadBy}"/>
                     </center>
