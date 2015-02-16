@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>.:DMES:. - Insumos</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        
+    </h:head>
+    <h:body style="background-color: #000;">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div>
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            <h:form id="formInput">
+                <p:dataTable id="sc" draggableColumns="true" emptyMessage="No existe información para visualizar" 
+                             value="#{}" var="input"
+                             paginator="true" rows="15"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             selectionMode="single" paginatorPosition="top" selection="#{}"
+                             sortBy="#{}"
+                             >
+                    <f:facet name="header">
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                         
+                                         oncomplete="PF('dialogUserSave').show()">
+                            <p:tooltip for="btnAdd" value="Agregar un Usuario"/>
+                        </p:commandButton>
+                    </f:facet>
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogUsersView').show()"/>
+                    <p:column headerText="Administración">
+                        <center>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit"
+                                             oncomplete="PF('dialogUserUpdate').show()" 
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar Insumo"/>
+                            </p:commandButton>
+                            <p:spacer width="10"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogUsersDelete').show()"
+                                             >
+                                <p:tooltip for="btnDelete" value="Eliminar Insumo"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>
+                    <p:column headerText="Insumo" sortBy="" id="columnInputName">    
+                        <center>
+                            <p:outputLabel value="" id="lblInputName"/>
+                            <p:tooltip for="lblIntputName" value=""/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnAmount" headerText="Cantidad" sortBy="">    
+                        <center>
+                            <p:outputLabel value="" id="lblamount"/>
+                            <p:tooltip for="lblamount" value=""/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnStore" headerText="Almacen" sortBy="">    
+                        <center>
+                            <p:outputLabel value="" id="lblStore"/>
+                            <p:tooltip for="lblStore" value=""/>
+                        </center>
+                    </p:column>
+                    <p:column id="columPackingUnit" headerText="Und. Empaque" sortBy="">    
+                        <center>
+                            <p:outputLabel value="" id="lblPackingUnit"/>
+                            <p:tooltip for="lblPackingUnit" value=""/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnWeight" headerText="Peso" sortBy="">    
+                        <center>
+                            <p:outputLabel value="" id="lblWeight"/>
+                            <p:tooltip for="lblWeight" value=""/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnValue" headerText="Value" sortBy="">    
+                        <center>
+                            <p:outputLabel value="" id="lblValue"/>
+                            <p:tooltip for="lblValue" value=""/>
+                        </center>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+

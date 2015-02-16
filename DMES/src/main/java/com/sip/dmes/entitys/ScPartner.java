@@ -26,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -46,6 +47,8 @@ import javax.validation.constraints.Size;
 })
 public class ScPartner implements Serializable
 {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplierGuarantee")
+    private List<ScInput> scInputList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -219,6 +222,15 @@ public class ScPartner implements Serializable
     public String toString()
     {
         return "com.sip.dmes.entitys.ScPartner[ idPartner=" + idPartner + " ]";
+    }
+
+    @XmlTransient
+    public List<ScInput> getScInputList() {
+        return scInputList;
+    }
+
+    public void setScInputList(List<ScInput> scInputList) {
+        this.scInputList = scInputList;
     }
     
 }

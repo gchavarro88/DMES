@@ -232,4 +232,9 @@
             <value>#{fsDocumentsServer}</value>
         </managed-property>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>scInputBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.resources.materials.ScInputBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>
