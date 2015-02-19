@@ -32,4 +32,9 @@ public class ScInputBean
         
     }
     
+    /**
+     * Método encargado de 
+     */
+    
+    
 }
