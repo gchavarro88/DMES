@@ -9,6 +9,7 @@ import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScInputEquivalence;
 import java.util.List;
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -22,6 +23,7 @@ public class ScInputBean
     private List<ScInputDimension> dimensionInputList;//Lista de dimensiones del insumo
     private List<ScInputEquivalence> equivalenceInputList; //Lista de equivalencias del insumo
 //    private List<ScInput>
+   
     
     
     /**
@@ -33,8 +35,28 @@ public class ScInputBean
     }
     
     /**
-     * Método encargado de 
+     * Método encargado de mostrar los datos iniciales
      */
+    @PostConstruct
+    public void initData()
+    {
+        
+    
+    }
+    
+    public void fillListInputs()
+    {
+        try
+        {
+            
+        }
+        catch(Exception e)
+        {
+        
+        }
+    }
+    
+    
     
     
 }
