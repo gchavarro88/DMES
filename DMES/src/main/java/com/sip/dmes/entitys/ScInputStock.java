@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_input_stock")
+@Table(name = "sc_input_stock", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScInputStock.findAll", query = "SELECT s FROM ScInputStock s"),
@@ -65,9 +65,6 @@ public class ScInputStock implements Serializable {
     @NotNull
     @Column(name = "optime_stock")
     private long optimeStock;
-    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
-    @ManyToOne(optional = false)
-    private ScInput idInput;
     @JoinColumn(name = "id_store", referencedColumnName = "id_store")
     @ManyToOne(optional = false)
     private ScStore idStore;
@@ -143,14 +140,6 @@ public class ScInputStock implements Serializable {
 
     public void setOptimeStock(long optimeStock) {
         this.optimeStock = optimeStock;
-    }
-
-    public ScInput getIdInput() {
-        return idInput;
-    }
-
-    public void setIdInput(ScInput idInput) {
-        this.idInput = idInput;
     }
 
     public ScStore getIdStore() {

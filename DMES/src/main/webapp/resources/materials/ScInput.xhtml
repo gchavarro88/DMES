@@ -18,24 +18,83 @@
         </p:dialog>
         <div>
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            
+            
+            <p:dialog >
+                
+            </p:dialog>
+            <!--         Dialogo para guardar nuevos Insumos         -->
+            <p:dialog id="dialogInputSave" widgetVar="dialogInputSave" draggable="true" 
+                      closable="true"  header="Crear Insumos" position="center top" width="450"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                
+                <h:form id="formWizardSave" enctype="multipart/form-data" prependId="false">
+                
+                    <p:wizard  flowListener="#{scInputBean.onFlowProcessSaveInput}" id="wizardSave" widgetVar="wizardSave">
+                        <p:tab title="Datos del Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del insumo">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfNameInput" value="Nombre del Insumo"/>
+                                        </td>
+                                        <td width="80%" align="left">
+                                            <p:inputText    id="tfNameInput"  value="#{scInputBean.inputSave.description}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el nombre del insumo"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="btnPicture" value="Imagen"/>
+                                        </td>
+                                        <td width="80%" align="left">
+                                            <p:commandButton id="btnPicture" icon="ui-icon-image"  />                              
+                                            
+                                                  
+                                            <p:overlayPanel  showCloseIcon="true" for=":formWizardSave:btnPicture"
+                                                             showEffect="explode" id="pictureSave" widgetVar="pictureSave"
+                                                             >
+                                                
+                                                <h:inputFile label="Imagen del Insumo" value="#{scInputBean.pictureFile}">                                                    
+                                                </h:inputFile>
+                                                                  />   
+                                                    <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                                                     actionListener="#{scInputBean.handleFileUpload()}" ajax="false"
+                                                                     />
+                                                
+                                            </p:overlayPanel>
+                                            
+                                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                    </p:wizard>
+                </h:form>
+
+            </p:dialog>
+            <!--         finaliza el dialogo para guardar Insumos               -->
+            
             <h:form id="formInput">
                 <p:dataTable id="sc" draggableColumns="true" emptyMessage="No existe información para visualizar" 
-                             value="#{}" var="input"
+                             value="#{scInputBean.inputList}" var="input"
                              paginator="true" rows="15"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowKey="#{}"
+                             rowKey="#{input.idInput}"
                              resizableColumns="true" 
                              liveResize="true" rowsPerPageTemplate="15,30,50" 
-                             selectionMode="single" paginatorPosition="top" selection="#{}"
-                             sortBy="#{}"
+                             selectionMode="single" paginatorPosition="top" selection="#{scInputBean.inputSelected}"
+                             sortBy="#{input.idInput}"
                              >
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
                                          
-                                         oncomplete="PF('dialogUserSave').show()">
-                            <p:tooltip for="btnAdd" value="Agregar un Usuario"/>
+                                         oncomplete="PF('dialogInputSave').show()">
+                            <p:tooltip for="btnAdd" value="Agregar un Insumo"/>
                         </p:commandButton>
                     </f:facet>
                     <p:ajax event="rowSelect" oncomplete="PF('dialogUsersView').show()"/>
@@ -44,49 +103,56 @@
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit"
                                              oncomplete="PF('dialogUserUpdate').show()" 
                                              >
-                                <p:tooltip for="btnEdit" value="Editar Insumo"/>
+                                <p:tooltip for="btnEdit" value="Editar un Insumo"/>
                             </p:commandButton>
                             <p:spacer width="10"/>
                             <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogUsersDelete').show()"
                                              >
-                                <p:tooltip for="btnDelete" value="Eliminar Insumo"/>
+                                <p:tooltip for="btnDelete" value="Eliminar un Insumo"/>
                             </p:commandButton>
                         </center>
                     </p:column>
-                    <p:column headerText="Insumo" sortBy="" id="columnInputName">    
+                    <p:column headerText="Insumo" sortBy="#{input.description}" id="columnInputName">    
                         <center>
-                            <p:outputLabel value="" id="lblInputName"/>
-                            <p:tooltip for="lblIntputName" value=""/>
+                            <p:outputLabel value="#{input.description}" id="lblIntputName"/>
+                            <p:tooltip for="lblIntputName" value="#{input.description}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnAmount" headerText="Cantidad" sortBy="">    
+                    <p:column id="columnMark" headerText="Marca" sortBy="#{input.mark}">    
                         <center>
-                            <p:outputLabel value="" id="lblamount"/>
-                            <p:tooltip for="lblamount" value=""/>
+                            <p:outputLabel value="#{input.mark}" id="lblMark"/>
+                            <p:tooltip for="lblMark" value="#{input.mark}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnStore" headerText="Almacen" sortBy="">    
+                    <p:column id="columnSerie" headerText="Serie" sortBy="#{input.serie}">    
                         <center>
-                            <p:outputLabel value="" id="lblStore"/>
-                            <p:tooltip for="lblStore" value=""/>
+                            <p:outputLabel value="#{input.serie}" id="lblSerie"/>
+                            <p:tooltip for="lblSerie" value="#{input.serie}"/>
                         </center>
                     </p:column>
-                    <p:column id="columPackingUnit" headerText="Und. Empaque" sortBy="">    
+                    <p:column id="columnAmount" headerText="Cantidad" sortBy="#{input.inputStock.currentStock}">    
                         <center>
-                            <p:outputLabel value="" id="lblPackingUnit"/>
-                            <p:tooltip for="lblPackingUnit" value=""/>
+                            <p:outputLabel value="#{input.inputStock.currentStock}" id="lblamount"/>
+                            <p:tooltip for="lblamount" value="#{input.inputStock.currentStock}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnWeight" headerText="Peso" sortBy="">    
+                    <p:column id="columnStore" headerText="Almacen" sortBy="#{input.inputStock.idStore.name}">    
                         <center>
-                            <p:outputLabel value="" id="lblWeight"/>
-                            <p:tooltip for="lblWeight" value=""/>
+                            <p:outputLabel value="#{input.inputStock.idStore.name}" id="lblStore"/>
+                            <p:tooltip for="lblStore" value="#{input.inputStock.idStore.name}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnValue" headerText="Value" sortBy="">    
+                    <p:column id="columPackingUnit" headerText="Und. Empaque" sortBy="#{input.packingUnit}">    
                         <center>
-                            <p:outputLabel value="" id="lblValue"/>
-                            <p:tooltip for="lblValue" value=""/>
+                            <p:outputLabel value="#{input.packingUnit}" id="lblPackingUnit"/>
+                            <p:tooltip for="lblPackingUnit" value="#{input.packingUnit}"/>
+                        </center>
+                    </p:column>
+                    
+                    <p:column id="columnValue" headerText="Valor" sortBy="#{input.value}">    
+                        <center>
+                            <p:outputLabel value="#{input.value}" id="lblValue"/>
+                            <p:tooltip for="lblValue" value="#{input.value}"/>
                         </center>
                     </p:column>
                 </p:dataTable>

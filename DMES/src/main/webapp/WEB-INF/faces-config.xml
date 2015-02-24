@@ -236,5 +236,17 @@
         <managed-bean-name>scInputBean</managed-bean-name>
         <managed-bean-class>com.sip.dmes.beans.resources.materials.ScInputBean</managed-bean-class>
         <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+    </managed-property>
+    <managed-property>
+            <property-name>scInputServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScInput</property-class>
+            <value>#{scInputServer}</value>
+    </managed-property> 
     </managed-bean>
+    
+    
 </faces-config>

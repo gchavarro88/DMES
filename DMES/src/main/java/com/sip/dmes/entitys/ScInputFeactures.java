@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_input_feactures")
+@Table(name = "sc_input_feactures", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScInputFeactures.findAll", query = "SELECT s FROM ScInputFeactures s"),

@@ -32,10 +32,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_input")
+@Table(name = "sc_input", schema = "dmes")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "ScInput.findAll", query = "SELECT s FROM ScInput s"),
+@NamedQueries(
+{
+    @NamedQuery(name = "ScInput.findAll", query = "SELECT s FROM ScInput s ORDER BY s.creationDate DESC"),
     @NamedQuery(name = "ScInput.findByIdInput", query = "SELECT s FROM ScInput s WHERE s.idInput = :idInput"),
     @NamedQuery(name = "ScInput.findByTypeMaterial", query = "SELECT s FROM ScInput s WHERE s.typeMaterial = :typeMaterial"),
     @NamedQuery(name = "ScInput.findByExpiryDate", query = "SELECT s FROM ScInput s WHERE s.expiryDate = :expiryDate"),
@@ -43,8 +44,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScInput.findByMark", query = "SELECT s FROM ScInput s WHERE s.mark = :mark"),
     @NamedQuery(name = "ScInput.findByValue", query = "SELECT s FROM ScInput s WHERE s.value = :value"),
     @NamedQuery(name = "ScInput.findByPathPicture", query = "SELECT s FROM ScInput s WHERE s.pathPicture = :pathPicture"),
-    @NamedQuery(name = "ScInput.findBySerie", query = "SELECT s FROM ScInput s WHERE s.serie = :serie")})
-public class ScInput implements Serializable {
+    @NamedQuery(name = "ScInput.findBySerie", query = "SELECT s FROM ScInput s WHERE s.serie = :serie")
+})
+public class ScInput implements Serializable
+{
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -64,9 +68,8 @@ public class ScInput implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "packing_unit")
-    private long packingUnit;
-    @Basic(optional = false)
-    @NotNull
+    private String packingUnit;
+    @Basic(optional = false)    
     @Size(min = 1, max = 200)
     @Column(name = "mark")
     private String mark;
@@ -82,35 +85,53 @@ public class ScInput implements Serializable {
     @Size(min = 1, max = 2000)
     @Column(name = "serie")
     private String serie;
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
+    @Column(name = "description")
+    private String description;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
     private List<ScInputEquivalence> scInputEquivalenceList;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInputReferenced")
 //    private List<ScInputEquivalence> scInputEquivalenceList1;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
-    private List<ScInputDimension> scInputDimensionList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "scInput")
-    private ScInputSpecifications scInputSpecifications;
+    private List<ScInputDimension> scInputDimensionList; 
+//    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
+    private List<ScInputSpecifications> scInputSpecifications;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
     private List<ScInputObservations> scInputObservationsList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
     private List<ScInputFeactures> scInputFeacturesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
-    private List<ScInputStock> scInputStockList;
+    
     @JoinColumn(name = "cost_center", referencedColumnName = "id_cost_center")
     @ManyToOne(optional = false)
     private ScCostCenter costCenter;
+    @JoinColumn(name = "id_input_stock", referencedColumnName = "id_input_stock")
+    @ManyToOne(optional = false)
+    private ScInputStock inputStock;
+    @JoinColumn(name = "id_input_location", referencedColumnName = "id_input_location")
+    @ManyToOne(optional = false)
+    private ScInputLocation inputLocation;
     @JoinColumn(name = "supplier_guarantee", referencedColumnName = "id_partner")
     @ManyToOne(optional = false)
     private ScPartner supplierGuarantee;
 
-    public ScInput() {
+    public ScInput()
+    {
     }
 
-    public ScInput(Long idInput) {
+    public ScInput(Long idInput)
+    {
         this.idInput = idInput;
     }
 
-    public ScInput(Long idInput, String typeMaterial, Date expiryDate, long packingUnit, String mark, long value, String serie) {
+    public ScInput(Long idInput, String typeMaterial, Date expiryDate, String packingUnit, String mark, long value, String serie)
+    {
         this.idInput = idInput;
         this.typeMaterial = typeMaterial;
         this.expiryDate = expiryDate;
@@ -120,76 +141,94 @@ public class ScInput implements Serializable {
         this.serie = serie;
     }
 
-    public Long getIdInput() {
+    public Long getIdInput()
+    {
         return idInput;
     }
 
-    public void setIdInput(Long idInput) {
+    public void setIdInput(Long idInput)
+    {
         this.idInput = idInput;
     }
 
-    public String getTypeMaterial() {
+    public String getTypeMaterial()
+    {
         return typeMaterial;
     }
 
-    public void setTypeMaterial(String typeMaterial) {
+    public void setTypeMaterial(String typeMaterial)
+    {
         this.typeMaterial = typeMaterial;
     }
 
-    public Date getExpiryDate() {
+    public Date getExpiryDate()
+    {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(Date expiryDate)
+    {
         this.expiryDate = expiryDate;
     }
 
-    public long getPackingUnit() {
+    public String getPackingUnit()
+    {
         return packingUnit;
     }
 
-    public void setPackingUnit(long packingUnit) {
+    public void setPackingUnit(String packingUnit)
+    {
         this.packingUnit = packingUnit;
     }
 
-    public String getMark() {
+    public String getMark()
+    {
         return mark;
     }
 
-    public void setMark(String mark) {
+    public void setMark(String mark)
+    {
         this.mark = mark;
     }
 
-    public long getValue() {
+    public long getValue()
+    {
         return value;
     }
 
-    public void setValue(long value) {
+    public void setValue(long value)
+    {
         this.value = value;
     }
 
-    public String getPathPicture() {
+    public String getPathPicture()
+    {
         return pathPicture;
     }
 
-    public void setPathPicture(String pathPicture) {
+    public void setPathPicture(String pathPicture)
+    {
         this.pathPicture = pathPicture;
     }
 
-    public String getSerie() {
+    public String getSerie()
+    {
         return serie;
     }
 
-    public void setSerie(String serie) {
+    public void setSerie(String serie)
+    {
         this.serie = serie;
     }
 
     @XmlTransient
-    public List<ScInputEquivalence> getScInputEquivalenceList() {
+    public List<ScInputEquivalence> getScInputEquivalenceList()
+    {
         return scInputEquivalenceList;
     }
 
-    public void setScInputEquivalenceList(List<ScInputEquivalence> scInputEquivalenceList) {
+    public void setScInputEquivalenceList(List<ScInputEquivalence> scInputEquivalenceList)
+    {
         this.scInputEquivalenceList = scInputEquivalenceList;
     }
 
@@ -201,90 +240,141 @@ public class ScInput implements Serializable {
 //    public void setScInputEquivalenceList1(List<ScInputEquivalence> scInputEquivalenceList1) {
 //        this.scInputEquivalenceList1 = scInputEquivalenceList1;
 //    }
+//    @XmlTransient
+//    public List<ScInputDimension> getScInputDimensionList()
+//    {
+//        return scInputDimensionList;
+//    }
+//
+//    public void setScInputDimensionList(List<ScInputDimension> scInputDimensionList)
+//    {
+//        this.scInputDimensionList = scInputDimensionList;
+//    }
+//
+//    public ScInputSpecifications getScInputSpecifications()
+//    {
+//        return scInputSpecifications;
+//    }
+//
+//    public void setScInputSpecifications(ScInputSpecifications scInputSpecifications)
+//    {
+//        this.scInputSpecifications = scInputSpecifications;
+//    }
+//
+//    @XmlTransient
+//    public List<ScInputObservations> getScInputObservationsList()
+//    {
+//        return scInputObservationsList;
+//    }
+//
+//    public void setScInputObservationsList(List<ScInputObservations> scInputObservationsList)
+//    {
+//        this.scInputObservationsList = scInputObservationsList;
+//    }
+//
+//    @XmlTransient
+//    public List<ScInputFeactures> getScInputFeacturesList()
+//    {
+//        return scInputFeacturesList;
+//    }
+//
+//    public void setScInputFeacturesList(List<ScInputFeactures> scInputFeacturesList)
+//    {
+//        this.scInputFeacturesList = scInputFeacturesList;
+//    }
 
-    @XmlTransient
-    public List<ScInputDimension> getScInputDimensionList() {
-        return scInputDimensionList;
+    public ScInputStock getInputStock()
+    {
+        return inputStock;
     }
 
-    public void setScInputDimensionList(List<ScInputDimension> scInputDimensionList) {
-        this.scInputDimensionList = scInputDimensionList;
+    public void setInputStock(ScInputStock inputStock)
+    {
+        this.inputStock = inputStock;
     }
 
-    public ScInputSpecifications getScInputSpecifications() {
-        return scInputSpecifications;
+    public ScInputLocation getInputLocation()
+    {
+        return inputLocation;
     }
 
-    public void setScInputSpecifications(ScInputSpecifications scInputSpecifications) {
-        this.scInputSpecifications = scInputSpecifications;
+    public void setInputLocation(ScInputLocation inputLocation)
+    {
+        this.inputLocation = inputLocation;
     }
 
-    @XmlTransient
-    public List<ScInputObservations> getScInputObservationsList() {
-        return scInputObservationsList;
-    }
+    
 
-    public void setScInputObservationsList(List<ScInputObservations> scInputObservationsList) {
-        this.scInputObservationsList = scInputObservationsList;
-    }
-
-    @XmlTransient
-    public List<ScInputFeactures> getScInputFeacturesList() {
-        return scInputFeacturesList;
-    }
-
-    public void setScInputFeacturesList(List<ScInputFeactures> scInputFeacturesList) {
-        this.scInputFeacturesList = scInputFeacturesList;
-    }
-
-    @XmlTransient
-    public List<ScInputStock> getScInputStockList() {
-        return scInputStockList;
-    }
-
-    public void setScInputStockList(List<ScInputStock> scInputStockList) {
-        this.scInputStockList = scInputStockList;
-    }
-
-    public ScCostCenter getCostCenter() {
+    public ScCostCenter getCostCenter()
+    {
         return costCenter;
     }
 
-    public void setCostCenter(ScCostCenter costCenter) {
+    public void setCostCenter(ScCostCenter costCenter)
+    {
         this.costCenter = costCenter;
     }
 
-    public ScPartner getSupplierGuarantee() {
+    public ScPartner getSupplierGuarantee()
+    {
         return supplierGuarantee;
     }
 
-    public void setSupplierGuarantee(ScPartner supplierGuarantee) {
+    public void setSupplierGuarantee(ScPartner supplierGuarantee)
+    {
         this.supplierGuarantee = supplierGuarantee;
     }
 
+    public Date getCreationDate()
+    {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate)
+    {
+        this.creationDate = creationDate;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    
+    
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (idInput != null ? idInput.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScInput)) {
+        if (!(object instanceof ScInput))
+        {
             return false;
         }
         ScInput other = (ScInput) object;
-        if ((this.idInput == null && other.idInput != null) || (this.idInput != null && !this.idInput.equals(other.idInput))) {
+        if ((this.idInput == null && other.idInput != null) || (this.idInput != null && !this.idInput.equals(other.idInput)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "com.sip.dmes.entitys.ScInput[ idInput=" + idInput + " ]";
     }
-    
+
 }

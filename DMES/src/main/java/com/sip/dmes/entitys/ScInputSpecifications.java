@@ -12,9 +12,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_input_specifications")
+@Table(name = "sc_input_specifications", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScInputSpecifications.findAll", query = "SELECT s FROM ScInputSpecifications s"),
@@ -43,28 +43,30 @@ public class ScInputSpecifications implements Serializable {
     @NotNull
     @Column(name = "id_input_specifications")
     private Long idInputSpecifications;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2000)
     @Column(name = "description")
     private String description;
-    @Basic(optional = false)
+    
+    @Basic(optional = false)    
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "tittle")
     private String tittle;
-    @Basic(optional = false)
+    
+    @Basic(optional = false)    
     @NotNull
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_input")
-    private long idInput;
-    @JoinColumn(name = "id_input_specifications", referencedColumnName = "id_input", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private ScInput scInput;
+    
+    
+    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
+    @ManyToOne(optional = false)
+    private ScInput idInput;
+    
 
     public ScInputSpecifications() {
     }
@@ -73,7 +75,7 @@ public class ScInputSpecifications implements Serializable {
         this.idInputSpecifications = idInputSpecifications;
     }
 
-    public ScInputSpecifications(Long idInputSpecifications, String description, String tittle, Date creationDate, long idInput) {
+    public ScInputSpecifications(Long idInputSpecifications, String description, String tittle, Date creationDate, ScInput idInput) {
         this.idInputSpecifications = idInputSpecifications;
         this.description = description;
         this.tittle = tittle;
@@ -104,7 +106,7 @@ public class ScInputSpecifications implements Serializable {
     public void setTittle(String tittle) {
         this.tittle = tittle;
     }
-
+ 
     public Date getCreationDate() {
         return creationDate;
     }
@@ -113,21 +115,14 @@ public class ScInputSpecifications implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public long getIdInput() {
+    public ScInput getIdInput() {
         return idInput;
     }
 
-    public void setIdInput(long idInput) {
+    public void setIdInput(ScInput idInput) {
         this.idInput = idInput;
     }
 
-    public ScInput getScInput() {
-        return scInput;
-    }
-
-    public void setScInput(ScInput scInput) {
-        this.scInput = scInput;
-    }
 
     @Override
     public int hashCode() {

@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_input_equivalence")
+@Table(name = "sc_input_equivalence", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScInputEquivalence.findAll", query = "SELECT s FROM ScInputEquivalence s"),
@@ -38,9 +38,8 @@ public class ScInputEquivalence implements Serializable {
     @JoinColumn(name = "id_input", referencedColumnName = "id_input")
     @ManyToOne(optional = false)
     private ScInput idInput;
-    @JoinColumn(name = "id_input_referenced", referencedColumnName = "id_input")
-    @ManyToOne(optional = false)
-    private ScInput idInputReferenced;
+    @Column(name = "id_input_referenced")
+    private Long idInputReferenced;
 
     public ScInputEquivalence() {
     }
@@ -65,13 +64,17 @@ public class ScInputEquivalence implements Serializable {
         this.idInput = idInput;
     }
 
-    public ScInput getIdInputReferenced() {
+    public Long getIdInputReferenced()
+    {
         return idInputReferenced;
     }
 
-    public void setIdInputReferenced(ScInput idInputReferenced) {
+    public void setIdInputReferenced(Long idInputReferenced)
+    {
         this.idInputReferenced = idInputReferenced;
     }
+
+    
 
     @Override
     public int hashCode() {

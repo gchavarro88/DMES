@@ -48,7 +48,7 @@
     <bean id="scEmployeeServer" class="com.sip.dmes.dao.bs.ScEmployeeDao"></bean>
     <bean id="scPartnerServer" class="com.sip.dmes.dao.bs.ScPartnerDao"></bean>
     <bean id="fsDocumentsServer" class="com.sip.dmes.dao.bs.FsDocumentsDao"></bean>
-<!--    <bean id="scClassTypeServer" class="com.sip.dmes.dao.bs.ScClassTypeDao"></bean>
+    <bean id="scInputServer" class="com.sip.dmes.dao.bs.ScInputDao"></bean><!--
     <bean id="scTypeServer" class="com.sip.dmes.dao.bs.ScTypeDao"></bean>
     <bean id="scCostCenterServer" class="com.sip.dmes.dao.bs.ScCostCenterDao"></bean>
     <bean id="scToolsServer" class="com.sip.dmes.dao.bs.ScToolsDao"></bean>

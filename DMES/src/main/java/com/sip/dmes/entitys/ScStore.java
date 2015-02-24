@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_store")
+@Table(name = "sc_store", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScStore.findAll", query = "SELECT s FROM ScStore s"),
@@ -44,8 +44,7 @@ public class ScStore implements Serializable {
     @Size(min = 1, max = 2000)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idStore")
-    private List<ScInputStock> scInputStockList;
+    
 
     public ScStore() {
     }
@@ -75,14 +74,7 @@ public class ScStore implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
-    public List<ScInputStock> getScInputStockList() {
-        return scInputStockList;
-    }
-
-    public void setScInputStockList(List<ScInputStock> scInputStockList) {
-        this.scInputStockList = scInputStockList;
-    }
+    
 
     @Override
     public int hashCode() {

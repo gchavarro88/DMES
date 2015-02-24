@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_input_observations")
+@Table(name = "sc_input_observations", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScInputObservations.findAll", query = "SELECT s FROM ScInputObservations s"),
@@ -48,6 +48,7 @@ public class ScInputObservations implements Serializable {
     @Size(min = 1, max = 2000)
     @Column(name = "description")
     private String description;
+    
     @JoinColumn(name = "id_input", referencedColumnName = "id_input")
     @ManyToOne(optional = false)
     private ScInput idInput;

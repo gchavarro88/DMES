@@ -6,9 +6,7 @@
 package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IScInput;
-import com.sip.dmes.dao.bo.IScMails;
 import com.sip.dmes.entitys.ScInput;
-import com.sip.dmes.entitys.ScMails;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,10 +29,11 @@ public class ScInputDao  implements  IScInput
     EntityManager entityManager;
 
     @Override
+    
     public List<ScInput> getAllInputs() throws Exception
     {
         List<ScInput> result = null;
-        Query query  = entityManager.createNamedQuery("ScInput.findAll");
+        Query query  = entityManager.createNamedQuery("ScInput.findAll"); 
         try
         {
             result = (List<ScInput>) query.getResultList();
@@ -47,6 +46,7 @@ public class ScInputDao  implements  IScInput
     }
 
     @Override
+    @Transactional
     public void saveInput(ScInput input) throws Exception
     {
         try
@@ -60,6 +60,7 @@ public class ScInputDao  implements  IScInput
     }
 
     @Override
+    @Transactional
     public void deleteInput(ScInput input) throws Exception
     {
         try
@@ -73,6 +74,7 @@ public class ScInputDao  implements  IScInput
     }
 
     @Override
+    @Transactional
     public void updateInput(ScInput input) throws Exception
     {
         try
