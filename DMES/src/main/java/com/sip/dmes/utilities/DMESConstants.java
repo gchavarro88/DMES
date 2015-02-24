@@ -23,6 +23,8 @@ public class DMESConstants
    public static final String  MESSAGE_SUCCES = "Se realizó la operación con total éxito";
    public static final String  MESSAGE_TITTLE_ERROR_IMAGE = "La imagen no se pudo cargar";
    public static final String  MESSAGE__ERROR_IMAGE = "Debe seleccionar una imagen válida, que sea del tipo PNG, JPG o JPEG";
+   public static final String PATH_IMAGE_DEFAULT = System.getProperty("user.home")+"/imageNotAvailable.png";
+   
    //id clase tipos
    public static final Long scClassTypeClassification=1L;
    public static final Long scClassTypePriority=2L;
@@ -30,6 +32,10 @@ public class DMESConstants
    public static final Long scClassTypeCost=4L;
    public static final String TYPES_EXTENTIONS_IMAGES = "png,jpg,jpeg";
    
+   
+   
+   //Nombres de las carpetas reservadas del sistema
+   public static final String FILE_PATH_INPUTS = "inputs_filePath";
    
    
 }

@@ -20,15 +20,33 @@
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             
             
-            <p:dialog > 
+            <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
                 
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Insumo" value="#{scInputBean.pictureFile}" mode="simple"
+                                      >        
+                    </p:fileUpload>
+                                   
+                    <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                     actionListener="#{scInputBean.handleFileUpload()}" ajax="false" 
+                                     
+                                     >
+
+                    </p:commandButton> 
+                    </p:panelGrid>
+
+                </h:form>
             </p:dialog>
             <!--         Dialogo para guardar nuevos Insumos         -->
             <p:dialog id="dialogInputSave" widgetVar="dialogInputSave" draggable="true" 
                       closable="true"  header="Crear Insumos" position="center top" width="450"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 
-                <h:form id="formWizardSave" enctype="multipart/form-data" prependId="false">
+                <h:form id="formWizardSave" >
                 
                     <p:wizard  flowListener="#{scInputBean.onFlowProcessSaveInput}" id="wizardSave" widgetVar="wizardSave">
                         <p:tab title="Datos del Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
@@ -46,26 +64,13 @@
                                     </tr>
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="btnPicture" value="Imagen"/>
+                                            <p:outputLabel  value="Imagen"/>
                                         </td>
-                                        <td width="80%" align="left">
-                                            <p:commandButton id="btnPicture" icon="ui-icon-image"  />                              
-                                            
-                                                  
-                                            <p:overlayPanel  showCloseIcon="true" for=":formWizardSave:btnPicture"
-                                                             showEffect="explode" id="pictureSave" widgetVar="pictureSave"
-                                                             >
-                                                
-                                                <h:inputFile label="Imagen del Insumo" value="#{scInputBean.pictureFile}">                                                    
-                                                </h:inputFile>
-                                                                  />   
-                                                    <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
-                                                                     actionListener="#{scInputBean.handleFileUpload()}" ajax="false"
-                                                                     />
-                                                
-                                            </p:overlayPanel>
-                                            
-                                                            
+                                        <td width="80%" align="left" valign="middle">
+                                            <h:graphicImage value="/dynamic/?file=#{scInputBean.searchImage(scInputBean.inputSave)}" alt="Imagen no disponible" id="imageSave" 
+                                                            width="120" height="150"  />
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"/>                                       
                                         </td>
                                     </tr>
                                 </table>
