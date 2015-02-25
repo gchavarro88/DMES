@@ -6,11 +6,14 @@
 package com.sip.dmes.beans.resources.materials;
 
 import com.sip.dmes.beans.SessionBean;
+import com.sip.dmes.beans.resources.humans.ScpartnersBean;
 import com.sip.dmes.dao.bo.IScInput;
 import com.sip.dmes.dao.bs.ScInputDao;
+import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScInputEquivalence;
+import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.io.File;
@@ -18,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -44,14 +48,17 @@ public class ScInputBean
     private ScInput inputSave; //Insumo seleccionado para agregar
     private SessionBean sessionBean; //Bean de sesion
     private UploadedFile pictureFile; //Archivo que se copiara para la imagen del insumo
-    private String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
+    private ScCostCenter costCenterSave; //Centro de Costo para agregar
+    private List<ScPartner> partnersList;//Listado de proveedores
+    private List<ScCostCenter> costCenterList;//Listado de centros de costo
     //Persistencia
     private IScInput scInputServer; //Dao de persistencia del insumos
     
     
     private final static Logger log = Logger.getLogger(ScInputDao.class);
    
-    
+    //Constantes
+    private String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
     
     /**
      * Creates a new instance of ScInputBean
@@ -68,6 +75,8 @@ public class ScInputBean
     public void initData()
     {
         fillListInputs();
+        fillListPartners();
+        fillListCostCenter();
         cleanFieldsInit();
     }
     
@@ -87,7 +96,39 @@ public class ScInputBean
             log.error("Error al intentar consultar los insumos de la tabla", e);
         }
     }
+    /**
+     * Método encargado de llenar la lista de proveedores.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListPartners()
+    {
+        try
+        {
+            //Se consultan todos los proveedores existentes
+            setPartnersList(getScInputServer().getAllPartners());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los proveedores para los insumos", e);
+        }
+    }
     
+    /**
+     * Método encargado de llenar la lista de centros de costo.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListCostCenter()
+    {
+        try
+        {
+            //Se consultan todos los proveedores existentes
+            setCostCenterList(getScInputServer().getAllCostCenter());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los proveedores para los insumos", e);
+        }
+    }
     /**
      * Método encargado de vaciar los objetos.
      * @author Gustavo Chavarro Ortiz
@@ -96,8 +137,54 @@ public class ScInputBean
     {
         setInputSave(new ScInput());
         setInputSelected(new ScInput());
+        setCostCenterSave(new ScCostCenter());
     }
     
+    /**
+     * Método encargado de vaciar los objetos.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsCostCenter()
+    {
+        setCostCenterSave(new ScCostCenter());
+    }
+    
+    /**
+     * Método encargado de agregar un centro de costos.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addCostCenter()
+    {
+        try
+        {
+            if(getCostCenterSave() != null)
+            {
+                if(Utilities.isNumeric(getCostCenterSave().getCostCenter()))
+                {
+                    getCostCenterSave().setCreationDate(new Date());
+                    getScInputServer().saveCostCenter(getCostCenterSave());
+                    getCostCenterList().add(getCostCenterSave());
+                }
+                else
+                {
+                    log.error("Error al intentar crear el centro de costo desde insumos");
+                    addError(null, "Error al crear un centro de costos", "Debe ingresar solo números para el campo código del centro de costo");
+                }
+            }
+            else
+            {
+                log.error("Error al intentar crear el centro de costo desde insumos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar agregar un centro de costos desde insumos",e);
+        }
+    
+    }
     
     /**
      * Método encargado de llevar el flujo al guardar un insumo.
@@ -132,7 +219,7 @@ public class ScInputBean
                         String folderName = DMESConstants.FILE_PATH_INPUTS;
                         //Creamos el folder
                         File folder = new File(PATH_FILE+"/"+folderName);
-                        folder.mkdirs();
+                        folder.mkdirs(); 
                         //Creamos el archivo con la ruta y el nombre de la carpeta
                         File file = new File(folder+"/"+fileName);
                         try
@@ -182,9 +269,10 @@ public class ScInputBean
         {
             if(!Utilities.isEmpty(input.getPathPicture()))
             {
-                return input.getPathPicture();
+                //la constante me permite mapear imagenes externas
+                return DMESConstants.PATH_EXTERN_PICTURES+input.getPathPicture();
             }
-        }
+        } 
         return DMESConstants.PATH_IMAGE_DEFAULT;
     }
     
@@ -346,6 +434,36 @@ public class ScInputBean
     public void setPictureFile(UploadedFile pictureFile)
     {
         this.pictureFile = pictureFile;
+    }
+
+    public List<ScPartner> getPartnersList()
+    {
+        return partnersList;
+    }
+
+    public void setPartnersList(List<ScPartner> partnersList)
+    {
+        this.partnersList = partnersList;
+    }
+
+    public List<ScCostCenter> getCostCenterList()
+    {
+        return costCenterList;
+    }
+
+    public void setCostCenterList(List<ScCostCenter> costCenterList)
+    {
+        this.costCenterList = costCenterList;
+    }
+
+    public ScCostCenter getCostCenterSave()
+    {
+        return costCenterSave;
+    }
+
+    public void setCostCenterSave(ScCostCenter costCenterSave)
+    {
+        this.costCenterSave = costCenterSave;
     }
     
     

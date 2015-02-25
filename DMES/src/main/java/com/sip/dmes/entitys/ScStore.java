@@ -33,6 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScStore.findByIdStore", query = "SELECT s FROM ScStore s WHERE s.idStore = :idStore"),
     @NamedQuery(name = "ScStore.findByName", query = "SELECT s FROM ScStore s WHERE s.name = :name")})
 public class ScStore implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idStore")
+    private List<ScInputStock> scInputStockList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -99,6 +101,17 @@ public class ScStore implements Serializable {
     @Override
     public String toString() {
         return "com.sip.dmes.entitys.ScStore[ idStore=" + idStore + " ]";
+    }
+
+    @XmlTransient
+    public List<ScInputStock> getScInputStockList()
+    {
+        return scInputStockList;
+    }
+
+    public void setScInputStockList(List<ScInputStock> scInputStockList)
+    {
+        this.scInputStockList = scInputStockList;
     }
     
 }

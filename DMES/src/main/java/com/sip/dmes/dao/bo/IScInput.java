@@ -5,7 +5,9 @@
  */
 package com.sip.dmes.dao.bo;
 
+import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
+import com.sip.dmes.entitys.ScPartner;
 import java.util.List;
 
 /**
@@ -22,4 +24,9 @@ public interface IScInput
      
     public void updateInput(ScInput input) throws Exception;
     
+    public List<ScPartner> getAllPartners() throws Exception;
+    
+    public List<ScCostCenter > getAllCostCenter() throws Exception;
+    
+    public void saveCostCenter(ScCostCenter costCenter) throws Exception;
 }

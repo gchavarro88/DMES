@@ -88,7 +88,7 @@ public class ScCostCenterDao implements IScCostCenter
         try
         {
             Query query  = entityManager.createNamedQuery("ScCostCenter.findByNit");
-            query.setParameter("nit", scCostCenter.getNit());
+            query.setParameter("nit", scCostCenter.getDescription());
             result = (ScCostCenter) query.getSingleResult();
         }
         catch(Exception e)

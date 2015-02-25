@@ -12,43 +12,41 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author carlos guzman
+ * @author guschaor
  */
 @Entity
 @Table(name = "sc_cost_center", schema = "dmes")
+@XmlRootElement
 @NamedQueries(
 {
     @NamedQuery(name = "ScCostCenter.findAll", query = "SELECT s FROM ScCostCenter s"),
     @NamedQuery(name = "ScCostCenter.findByIdCostCenter", query = "SELECT s FROM ScCostCenter s WHERE s.idCostCenter = :idCostCenter"),
+    @NamedQuery(name = "ScCostCenter.findByDescription", query = "SELECT s FROM ScCostCenter s WHERE s.description = :description"),
     @NamedQuery(name = "ScCostCenter.findByCostCenter", query = "SELECT s FROM ScCostCenter s WHERE s.costCenter = :costCenter"),
-    @NamedQuery(name = "ScCostCenter.findByNit", query = "SELECT s FROM ScCostCenter s WHERE s.nit = :nit"),
     @NamedQuery(name = "ScCostCenter.findByCreationDate", query = "SELECT s FROM ScCostCenter s WHERE s.creationDate = :creationDate"),
-    @NamedQuery(name = "ScCostCenter.findByModifyDate", query = "SELECT s FROM ScCostCenter s WHERE s.modifyDate = :modifyDate"),
-    @NamedQuery(name = "ScCostCenter.deleteByidCostCenter", query = "DELETE FROM ScCostCenter s WHERE s.idCostCenter = :idCostCenter")
+    @NamedQuery(name = "ScCostCenter.findByModifyDate", query = "SELECT s FROM ScCostCenter s WHERE s.modifyDate = :modifyDate")
 })
 public class ScCostCenter implements Serializable
 {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "costCenter")
-    private List<ScInput> scInputList;
+    
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "dmes.sqsccostcenter")
-    @SequenceGenerator(name = "dmes.sqsccostcenter", sequenceName = "dmes.sqsccostcenter", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_cost_center")
@@ -56,8 +54,8 @@ public class ScCostCenter implements Serializable
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "nit")
-    private String nit;
+    @Column(name = "description")
+    private String description;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -71,21 +69,74 @@ public class ScCostCenter implements Serializable
     @Column(name = "modify_date")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
-
+    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
+    @ManyToOne(optional = false)
+    private ScInput idInput;
+    
     public ScCostCenter()
     {
     }
 
-    public ScCostCenter(Long idClassType)
+    public ScCostCenter(Long idCostCenter)
     {
         this.idCostCenter = idCostCenter;
     }
 
-    public ScCostCenter(Long idCostCenter, String nit, String costCenter, Date creationDate, Date modifyDate) {
+    public ScCostCenter(Long idCostCenter, String description, String costCenter, Date creationDate)
+    {
         this.idCostCenter = idCostCenter;
-        this.nit = nit;
-        this.costCenter=costCenter;
+        this.description = description;
+        this.costCenter = costCenter;
         this.creationDate = creationDate;
+    }
+
+    public Long getIdCostCenter()
+    {
+        return idCostCenter;
+    }
+
+    public void setIdCostCenter(Long idCostCenter)
+    {
+        this.idCostCenter = idCostCenter;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public String getCostCenter()
+    {
+        return costCenter;
+    }
+
+    public void setCostCenter(String costCenter)
+    {
+        this.costCenter = costCenter;
+    }
+
+    public Date getCreationDate()
+    {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate)
+    {
+        this.creationDate = creationDate;
+    }
+
+    public Date getModifyDate()
+    {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Date modifyDate)
+    {
         this.modifyDate = modifyDate;
     }
 
@@ -116,57 +167,15 @@ public class ScCostCenter implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScCostCenter[ idCostCenter=" + idCostCenter + " ]";
-    }
-
-    public Long getIdCostCenter() {
-        return idCostCenter;
-    }
-
-    public void setIdCostCenter(Long idCostCenter) {
-        this.idCostCenter = idCostCenter;
-    }
-
-    public String getNit() {
-        return nit;
-    }
-
-    public void setNit(String nit) {
-        this.nit = nit;
-    }
-
-    public String getCostCenter() {
-        return costCenter;
-    }
-
-    public void setCostCenter(String costCenter) {
-        this.costCenter = costCenter;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public Date getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
-    @XmlTransient
-    public List<ScInput> getScInputList() {
-        return scInputList;
-    }
-
-    public void setScInputList(List<ScInput> scInputList) {
-        this.scInputList = scInputList;
+        return idCostCenter.toString();
     }
 
    
+    public ScInput getIdInput() {
+        return idInput;
+    }
+
+    public void setIdInput(ScInput idInput) {
+        this.idInput = idInput;
+    }
 }

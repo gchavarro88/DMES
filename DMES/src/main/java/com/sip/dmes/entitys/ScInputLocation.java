@@ -6,16 +6,21 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScInputLocation.findByLocation", query = "SELECT s FROM ScInputLocation s WHERE s.location = :location"),
     @NamedQuery(name = "ScInputLocation.findByDescription", query = "SELECT s FROM ScInputLocation s WHERE s.description = :description")})
 public class ScInputLocation implements Serializable {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -45,6 +51,11 @@ public class ScInputLocation implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
+    @ManyToOne(optional = false)
+    private ScInput idInput;
+
+    
     public ScInputLocation() {
     }
 
@@ -105,5 +116,12 @@ public class ScInputLocation implements Serializable {
     public String toString() {
         return "com.sip.dmes.entitys.ScInputLocation[ idInputLocation=" + idInputLocation + " ]";
     }
-    
+
+    public ScInput getIdInput() {
+        return idInput;
+    }
+
+    public void setIdInput(ScInput idInput) {
+        this.idInput = idInput;
+    }
 }

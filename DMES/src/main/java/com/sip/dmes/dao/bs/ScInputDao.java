@@ -6,7 +6,9 @@
 package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IScInput;
+import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
+import com.sip.dmes.entitys.ScPartner;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -84,6 +86,52 @@ public class ScInputDao  implements  IScInput
         catch (Exception e)
         {
             log.error("Error al intentar hacer la persistencia de los insumos",e);
+        }
+    }
+
+    @Override
+    public List<ScPartner> getAllPartners() throws Exception
+    {
+        List<ScPartner> result = null;
+        Query query  = entityManager.createNamedQuery("ScPartner.findAll"); 
+        try
+        {
+            result = (List<ScPartner>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los proveedores",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScCostCenter> getAllCostCenter() throws Exception
+    {
+        List<ScCostCenter> result = null;
+        Query query  = entityManager.createNamedQuery("ScCostCenter.findAll"); 
+        try
+        {
+            result = (List<ScCostCenter>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los centros de costo",e);
+        }
+        return result;
+    }
+
+    @Override
+    public void saveCostCenter(ScCostCenter costCenter) throws Exception
+    {
+        try
+        {
+            entityManager.persist(costCenter);
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de un centro de costos",e);
+            throw e;
         }
     }
 

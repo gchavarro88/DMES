@@ -6,7 +6,9 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,9 +16,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,6 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScInputStock.findByTotalValue", query = "SELECT s FROM ScInputStock s WHERE s.totalValue = :totalValue"),
     @NamedQuery(name = "ScInputStock.findByOptimeStock", query = "SELECT s FROM ScInputStock s WHERE s.optimeStock = :optimeStock")})
 public class ScInputStock implements Serializable {
+   
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -68,7 +73,10 @@ public class ScInputStock implements Serializable {
     @JoinColumn(name = "id_store", referencedColumnName = "id_store")
     @ManyToOne(optional = false)
     private ScStore idStore;
-
+    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
+    @ManyToOne(optional = false)
+    private ScInput idInput;
+    
     public ScInputStock() {
     }
 
@@ -174,5 +182,12 @@ public class ScInputStock implements Serializable {
     public String toString() {
         return "com.sip.dmes.entitys.ScInputStock[ idInputStock=" + idInputStock + " ]";
     }
-    
+
+    public ScInput getIdInput() {
+        return idInput;
+    }
+
+    public void setIdInput(ScInput idInput) {
+        this.idInput = idInput;
+    }
 }

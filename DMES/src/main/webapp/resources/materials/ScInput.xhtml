@@ -18,8 +18,50 @@
         </p:dialog>
         <div>
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
-            
-            
+           
+            <p:dialog id="centerCostSave" widgetVar="centerCostSave" draggable="true" 
+                      closable="true"  header="Agregar un Centro de Costo" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formCostCenter">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAreaCostCenter" value="Nombre del Área"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAreaCostCenter"  value="#{scInputBean.costCenterSave.description}"
+                                required="true" requiredMessage="Campo obligatorio debe ingresar el área del centro de costos"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfcodigoCostCenter" value="Código"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfcodigoCostCenter"  value="#{scInputBean.costCenterSave.costCenter}"
+                                required="true" requiredMessage="Campo obligatorio debe ingresar el código del centro de costos"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                
+                            </td>
+                            <td width="80%" align="left">
+                                <p:commandButton value="Guardar" actionListener="#{scInputBean.addCostCenter()}"  
+                                                 onsuccess="PF('centerCostSave').hide()"
+                                                 update="@this,:formWizardSave:itemsCostCenter"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scInputBean.cleanFieldsCostCenter()}" 
+                                                 oncomplete="PF('centerCostSave').hide()"
+                                                 update="@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+<!--            Dialogo para subir imagenes width="10%" align="right" -->
             <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
                       closable="true"  header="Cargar Imagen..." position="center top" 
                       hideEffect="explode" modal="true" showEffect="explode" 
@@ -28,22 +70,18 @@
                 <h:form enctype="multipart/form-data" prependId="false">
                     <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
                         <p:fileUpload label="Imagen del Insumo" value="#{scInputBean.pictureFile}" mode="simple"
-                                      >        
+                               >       >        
                     </p:fileUpload>
                                    
                     <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
-                                     actionListener="#{scInputBean.handleFileUpload()}" ajax="false" 
-                                     
-                                     >
-
-                    </p:commandButton> 
+                                     actionListener="#{scInputBean.handleFileUpload()}" ajax="false" />
                     </p:panelGrid>
-
                 </h:form>
             </p:dialog>
+<!--            finaliza el dialogo para subir imagenes-->
             <!--         Dialogo para guardar nuevos Insumos         -->
             <p:dialog id="dialogInputSave" widgetVar="dialogInputSave" draggable="true" 
-                      closable="true"  header="Crear Insumos" position="center top" width="450"
+                      closable="true"  header="Crear Insumos" position="center top" width="600"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 
                 <h:form id="formWizardSave" >
@@ -54,23 +92,88 @@
                             <p:panel header="Datos Básicos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="20%" align="right">
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Imagen"/>
+                                        </td>
+                                        <td width="40%" align="left" valign="middle">
+                                            <h:graphicImage value="#{scInputBean.searchImage(scInputBean.inputSave)}" alt="Imagen no disponible" id="imageSave" 
+                                                            width="120" height="120"  />
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"/>                                       
+                                        </td>
+                                        <td colspan="2" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
                                             <p:outputLabel  for="tfNameInput" value="Nombre del Insumo"/>
                                         </td>
-                                        <td width="80%" align="left">
+                                        <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scInputBean.inputSave.description}"
                                                             required="true" requiredMessage="Campo obligatorio debe ingresar el nombre del insumo"/>
                                         </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:calendar    id="tfExpiryDate"  value="#{scInputBean.inputSave.expiryDate}" autocomplete="true"
+                                                           effect="explode" mask="true" pattern="dd/MM/yyyy"
+                                                            required="true" requiredMessage="Debe ingresar la fecha de caducidad"/>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  value="Imagen"/>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfTypeMaterial" value="Tipo de Material"/>
                                         </td>
-                                        <td width="80%" align="left" valign="middle">
-                                            <h:graphicImage value="/dynamic/?file=#{scInputBean.searchImage(scInputBean.inputSave)}" alt="Imagen no disponible" id="imageSave" 
-                                                            width="120" height="150"  />
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfTypeMaterial"  value="#{scInputBean.inputSave.typeMaterial}" autocomplete="true"
+                                                            required="true" requiredMessage="Debe ingresar el tipo de material" />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfValueInput" value="Valor"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfValueInput"  value="#{scInputBean.inputSave.value}" 
+                                                            required="true" requiredMessage="Debe ingresar el valor del insumo" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfMarkInput" value="Marca"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfMarkInput"  value="#{scInputBean.inputSave.mark}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la marca del insumo"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfSerieInput" value="Serie"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfSerieInput"  value="#{scInputBean.inputSave.serie}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la serie del insumo"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbSupplier" value="Proveedor y Garantías"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" 
+                                                             converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía">
+                                                
+                                                <f:selectItems value="#{scInputBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costo"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSave.costCenter}" 
+                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costo">
+                                                
+                                                <f:selectItems id="itemsCostCenter" value="#{scInputBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
+                                            </p:selectOneMenu>
                                             <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"/>                                       
+                                            <p:commandButton  id="btnAddCostCenter" icon="ui-icon-circle-plus"  oncomplete="PF('centerCostSave').show()" style="top: -6px;"/>
                                         </td>
                                     </tr>
                                 </table>

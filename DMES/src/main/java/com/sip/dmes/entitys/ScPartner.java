@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sc_partner", schema = "dmes")
 @NamedQueries(
 {
-    @NamedQuery(name = "ScPartner.findAll", query = "SELECT s FROM ScPartner s"),
+    @NamedQuery(name = "ScPartner.findAll", query = "SELECT s FROM ScPartner s ORDER BY s.companyName"),
     @NamedQuery(name = "ScPartner.findByIdPartner", query = "SELECT s FROM ScPartner s WHERE s.idPartner = :idPartner"),
     @NamedQuery(name = "ScPartner.findByActive", query = "SELECT s FROM ScPartner s WHERE s.active = :active"),
     @NamedQuery(name = "ScPartner.findByPosition", query = "SELECT s FROM ScPartner s WHERE s.position = :position"),
@@ -47,8 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ScPartner implements Serializable
 {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "supplierGuarantee")
-    private List<ScInput> scInputList;
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -85,7 +84,10 @@ public class ScPartner implements Serializable
     private ScPerson idPerson;
     @Column(name = "company_name")
     private String companyName;
-
+    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
+    @ManyToOne(optional = false)
+    private ScInput idInput;
+    
     public ScPartner()
     {
     }
@@ -177,7 +179,7 @@ public class ScPartner implements Serializable
     {
         return idPerson;
     }
-
+ 
     public void setIdPerson(ScPerson idPerson)
     {
         this.idPerson = idPerson;
@@ -191,6 +193,16 @@ public class ScPartner implements Serializable
     public void setCompanyName(String companyName)
     {
         this.companyName = companyName;
+    }
+
+    public ScInput getIdInput()
+    {
+        return idInput;
+    }
+
+    public void setIdInput(ScInput idInput)
+    {
+        this.idInput = idInput;
     }
 
 
@@ -221,16 +233,8 @@ public class ScPartner implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScPartner[ idPartner=" + idPartner + " ]";
+        return  idPartner + "";
     }
 
-    @XmlTransient
-    public List<ScInput> getScInputList() {
-        return scInputList;
-    }
-
-    public void setScInputList(List<ScInput> scInputList) {
-        this.scInputList = scInputList;
-    }
     
 }
