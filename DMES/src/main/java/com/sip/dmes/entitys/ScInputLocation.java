@@ -51,9 +51,7 @@ public class ScInputLocation implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
-    @ManyToOne(optional = false)
-    private ScInput idInput;
+  
 
     
     public ScInputLocation() {
@@ -112,16 +110,5 @@ public class ScInputLocation implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.sip.dmes.entitys.ScInputLocation[ idInputLocation=" + idInputLocation + " ]";
-    }
 
-    public ScInput getIdInput() {
-        return idInput;
-    }
-
-    public void setIdInput(ScInput idInput) {
-        this.idInput = idInput;
-    }
 }

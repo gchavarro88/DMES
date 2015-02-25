@@ -155,7 +155,7 @@ public class ScInputBean
      */
     public void addCostCenter()
     {
-        try
+        try 
         {
             if(getCostCenterSave() != null)
             {

@@ -122,11 +122,13 @@ public class ScInputDao  implements  IScInput
     }
 
     @Override
+    @Transactional
     public void saveCostCenter(ScCostCenter costCenter) throws Exception
     {
         try
         {
             entityManager.persist(costCenter);
+            entityManager.flush();
         }
         catch (Exception e)
         {

@@ -45,7 +45,7 @@ public class ScInputDimension implements Serializable {
     @Column(name = "id_input_dimension")
     private Long idInputDimension;
     @Size(max = 100)
-    @Column(name = "hight")
+    @Column(name = "hight") 
     private String hight;
     @Size(max = 100)
     @Column(name = "width")
@@ -151,13 +151,17 @@ public class ScInputDimension implements Serializable {
         this.observations = observations;
     }
 
-    public ScInput getIdInput() {
+    public ScInput getIdInput()
+    {
         return idInput;
     }
 
-    public void setIdInput(ScInput idInput) {
+    public void setIdInput(ScInput idInput)
+    { 
         this.idInput = idInput;
     }
+
+ 
 
     @Override
     public int hashCode() {

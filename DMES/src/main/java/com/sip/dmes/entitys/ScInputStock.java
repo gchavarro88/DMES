@@ -73,9 +73,6 @@ public class ScInputStock implements Serializable {
     @JoinColumn(name = "id_store", referencedColumnName = "id_store")
     @ManyToOne(optional = false)
     private ScStore idStore;
-    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
-    @ManyToOne(optional = false)
-    private ScInput idInput;
     
     public ScInputStock() {
     }
@@ -183,11 +180,4 @@ public class ScInputStock implements Serializable {
         return "com.sip.dmes.entitys.ScInputStock[ idInputStock=" + idInputStock + " ]";
     }
 
-    public ScInput getIdInput() {
-        return idInput;
-    }
-
-    public void setIdInput(ScInput idInput) {
-        this.idInput = idInput;
-    }
 }

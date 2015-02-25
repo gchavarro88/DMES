@@ -84,9 +84,7 @@ public class ScPartner implements Serializable
     private ScPerson idPerson;
     @Column(name = "company_name")
     private String companyName;
-    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
-    @ManyToOne(optional = false)
-    private ScInput idInput;
+    
     
     public ScPartner()
     {
@@ -195,15 +193,7 @@ public class ScPartner implements Serializable
         this.companyName = companyName;
     }
 
-    public ScInput getIdInput()
-    {
-        return idInput;
-    }
-
-    public void setIdInput(ScInput idInput)
-    {
-        this.idInput = idInput;
-    }
+   
 
 
     @Override

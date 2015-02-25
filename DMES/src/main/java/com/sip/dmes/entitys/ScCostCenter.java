@@ -12,12 +12,14 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,6 +49,8 @@ public class ScCostCenter implements Serializable
     
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqsccostcenter")
+    @SequenceGenerator(name = "dmes.sqsccostcenter", sequenceName = "dmes.sqsccostcenter", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_cost_center")
@@ -69,9 +73,7 @@ public class ScCostCenter implements Serializable
     @Column(name = "modify_date")
     @Temporal(TemporalType.DATE)
     private Date modifyDate;
-    @JoinColumn(name = "id_input", referencedColumnName = "id_input")
-    @ManyToOne(optional = false)
-    private ScInput idInput;
+    
     
     public ScCostCenter()
     {
@@ -170,12 +172,4 @@ public class ScCostCenter implements Serializable
         return idCostCenter.toString();
     }
 
-   
-    public ScInput getIdInput() {
-        return idInput;
-    }
-
-    public void setIdInput(ScInput idInput) {
-        this.idInput = idInput;
-    }
 }
