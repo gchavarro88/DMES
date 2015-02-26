@@ -7,6 +7,8 @@ package com.sip.dmes.dao.bo;
 
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
+import com.sip.dmes.entitys.ScInputLocation;
+import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import java.util.List;
 
@@ -28,5 +30,13 @@ public interface IScInput
     
     public List<ScCostCenter > getAllCostCenter() throws Exception;
     
+    public List<ScPackingUnit > getAllPackingUnits() throws Exception;
+    
+    public List<ScInputLocation > getAllInputLocations() throws Exception;
+    
     public void saveCostCenter(ScCostCenter costCenter) throws Exception;
+    
+    public void savePackingUnit(ScPackingUnit packingUnit) throws Exception;
+    
+    public void saveLocationInput(ScInputLocation inputLocation) throws Exception;
 }

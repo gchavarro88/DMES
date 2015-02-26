@@ -18,9 +18,9 @@
         </p:dialog>
         <div>
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
-           
+<!--           dialogo para crear un centro de costos-->
             <p:dialog id="centerCostSave" widgetVar="centerCostSave" draggable="true" 
-                      closable="true"  header="Agregar un Centro de Costo" position="center top" 
+                      closable="true"  header="Agregar un Centro de Costos" position="center top" 
                       hideEffect="explode" modal="true" showEffect="explode" 
                       >
                 <h:form id="formCostCenter">
@@ -61,6 +61,95 @@
                     </table>
                 </h:form>
             </p:dialog>
+<!--         fin  dialogo para crear un centro de costos-->
+<!--           dialogo para crear unidades de empaque-->
+            <p:dialog id="unitPackingSave" widgetVar="unitPackingSave" draggable="true" 
+                      closable="true"  header="Agregar una Unidad de Empaque" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formUnitPacking">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAcronym" value="Abreviatura"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAcronym"  value="#{scInputBean.packingUnitSave.acronym}"
+                                required="true" requiredMessage="Campo obligatorio debe ingresar la abreviatura de la unidad de empaque"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfDescriptionPacking" value="Descripción"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputTextarea    id="tfDescriptionPacking"  value="#{scInputBean.packingUnitSave.description}"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                
+                            </td>
+                            <td width="80%" align="left">
+                                <p:commandButton value="Guardar" actionListener="#{scInputBean.addPackingUnit()}"  
+                                                 onsuccess="PF('unitPackingSave').hide()"
+                                                 update="@this,:formWizardSave:cbPackingUnit"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scInputBean.cleanFieldsCostCenter()}" 
+                                                 oncomplete="PF('unitPackingSave').hide()"
+                                                 update="@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+<!--         fin  dialogo para crear localizaciones del insumo-->
+<!--           dialogo para crear unidades de empaque-->
+            <p:dialog id="inputLocationSave" widgetVar="inputLocationSave" draggable="true" 
+                      closable="true"  header="Agregar una Localización del Insumo" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formInputLocation">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfLocation" value="Localización"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfLocation"  value="#{scInputBean.inputLocationSave.location}"
+                                required="true" requiredMessage="Campo obligatorio debe ingresar la localización del insumo"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfDescriptionLocation" value="Descripción"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputTextarea    id="tfDescriptionLocation"  value="#{scInputBean.inputLocationSave.description}"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                
+                            </td>
+                            <td width="80%" align="left">
+                                <p:commandButton value="Guardar" actionListener="#{scInputBean.addInputLocations()}"  
+                                                 onsuccess="PF('inputLocationSave').hide()"
+                                                 update="@this,:formWizardSave:cbLocation"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scInputBean.cleanFieldsLocationInput()}" 
+                                                 oncomplete="PF('inputLocationSave').hide()"
+                                                 update="@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+<!--         fin  dialogo para crear localizaciones del insumo-->
 <!--            Dialogo para subir imagenes width="10%" align="right" -->
             <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
                       closable="true"  header="Cargar Imagen..." position="center top" 
@@ -81,7 +170,7 @@
 <!--            finaliza el dialogo para subir imagenes-->
             <!--         Dialogo para guardar nuevos Insumos         -->
             <p:dialog id="dialogInputSave" widgetVar="dialogInputSave" draggable="true" 
-                      closable="true"  header="Crear Insumos" position="center top" width="600"
+                      closable="true"  header="Crear Insumos" position="center top" width="700"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 
                 <h:form id="formWizardSave" >
@@ -157,23 +246,59 @@
                                             <p:outputLabel  for="cbSupplier" value="Proveedor y Garantías"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" 
-                                                             converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía">
-                                                
+                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" style="width: 80%;"
+                                                             converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un proveedor">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="0"/>
                                                 <f:selectItems value="#{scInputBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costo"/>
+                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costos"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSave.costCenter}" 
-                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costo">
-                                                
-                                                <f:selectItems id="itemsCostCenter" value="#{scInputBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
+                                            <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSave.costCenter}" style="width: 70%;" 
+                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un centro de costos">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="0"/>
+                                                <f:selectItems  value="#{scInputBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
                                             </p:selectOneMenu>
                                             <p:spacer width="5px"/>
                                             <p:commandButton  id="btnAddCostCenter" icon="ui-icon-circle-plus"  oncomplete="PF('centerCostSave').show()" style="top: -6px;"/>
+                                            <p:tooltip for="btnAddCostCenter" value="Agregue nuevos centros de costos"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfPackingUnit" value="Unidad de Empaque"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText id="tfPackingUnit" value="#{scInputBean.inputSave.packingUnit}"
+                                                         required="true" requiredMessage="Campo obligatorio debe ingresar unidad de empaque del insumo" style="width: 20px; "/>
+                                             <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.packingUnitSelected}" 
+                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="top: 6px;"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="0"/>
+                                                <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
+                                                
+                                            </p:selectOneMenu>
+                                             <p:spacer width="5px"/>
+                                                <p:commandButton  id="btnAddPackingUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitPackingSave').show()"/>
+                                                <p:tooltip for="btnAddPackingUnit" value="Agregue nuevas unidades de empaque"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbLocation" value="Localización"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSave.inputLocation}" style="width: 70%;" 
+                                                             converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="0"/>
+                                                <f:selectItems  value="#{scInputBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddLocationInput" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -6px;"/>
+                                            <p:tooltip for="btnAddLocationInput" value="Agregue nuevas localizaciones"/>
                                         </td>
                                     </tr>
                                 </table>

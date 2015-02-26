@@ -8,6 +8,8 @@ package com.sip.dmes.dao.bs;
 import com.sip.dmes.dao.bo.IScInput;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
+import com.sip.dmes.entitys.ScInputLocation;
+import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -135,6 +137,70 @@ public class ScInputDao  implements  IScInput
             log.error("Error al intentar hacer la persistencia de un centro de costos",e);
             throw e;
         }
+    }
+
+    @Override
+    @Transactional
+    public void savePackingUnit(ScPackingUnit packingUnit) throws Exception
+    {
+        try
+        {
+            entityManager.persist(packingUnit);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de una unidad de empaque",e);
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void saveLocationInput(ScInputLocation inputLocation) throws Exception
+    {
+        try
+        {
+            entityManager.persist(inputLocation);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de una localización de un insumo",e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<ScPackingUnit> getAllPackingUnits() throws Exception
+    {
+        List<ScPackingUnit> result = null;
+        Query query  = entityManager.createNamedQuery("ScPackingUnit.findAll"); 
+        try
+        {
+            result = (List<ScPackingUnit>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia las unidades de empaque",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScInputLocation> getAllInputLocations() throws Exception
+    {
+        List<ScInputLocation> result = null;
+        Query query  = entityManager.createNamedQuery("ScInputLocation.findAll"); 
+        try
+        {
+            result = (List<ScInputLocation>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia las localizaciones de insumo",e);
+        }
+        return result;
     }
 
 }

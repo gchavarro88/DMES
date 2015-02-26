@@ -10,12 +10,14 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sc_input_location", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ScInputLocation.findAll", query = "SELECT s FROM ScInputLocation s"),
+    @NamedQuery(name = "ScInputLocation.findAll", query = "SELECT s FROM ScInputLocation s ORDER BY s.location"),
     @NamedQuery(name = "ScInputLocation.findByIdInputLocation", query = "SELECT s FROM ScInputLocation s WHERE s.idInputLocation = :idInputLocation"),
     @NamedQuery(name = "ScInputLocation.findByLocation", query = "SELECT s FROM ScInputLocation s WHERE s.location = :location"),
     @NamedQuery(name = "ScInputLocation.findByDescription", query = "SELECT s FROM ScInputLocation s WHERE s.description = :description")})
@@ -38,6 +40,8 @@ public class ScInputLocation implements Serializable {
     
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqscinput")
+    @SequenceGenerator(name = "dmes.sqscinput", sequenceName = "dmes.sqscinput", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_input_location")
@@ -108,6 +112,12 @@ public class ScInputLocation implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return idInputLocation.toString();
     }
 
 

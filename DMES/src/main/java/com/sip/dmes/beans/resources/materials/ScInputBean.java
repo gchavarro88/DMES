@@ -6,13 +6,15 @@
 package com.sip.dmes.beans.resources.materials;
 
 import com.sip.dmes.beans.SessionBean;
-import com.sip.dmes.beans.resources.humans.ScpartnersBean;
 import com.sip.dmes.dao.bo.IScInput;
 import com.sip.dmes.dao.bs.ScInputDao;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScInputEquivalence;
+import com.sip.dmes.entitys.ScInputLocation;
+import com.sip.dmes.entitys.ScMeasureUnit;
+import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
@@ -21,13 +23,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.http.Part;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
@@ -46,11 +48,21 @@ public class ScInputBean
     private List<ScInputEquivalence> equivalenceInputList; //Lista de equivalencias del insumo
     private ScInput inputSelected; //Insumo seleccionado para consulta, edición o eliminación
     private ScInput inputSave; //Insumo seleccionado para agregar
+    private ScMeasureUnit measureUnitSave; //Unidad de medida seleccionado para agregar
+    private ScMeasureUnit measureUnitSelected; //Unidad de medida seleccionado para agregar al insumo
+    private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
+    private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
+    private ScInputLocation inputLocationSave; //Localizacion seleccionada para agregar
+    private ScInputLocation inputLocationSelected; //Localizacion seleccionada para agregar al insumo
     private SessionBean sessionBean; //Bean de sesion
     private UploadedFile pictureFile; //Archivo que se copiara para la imagen del insumo
     private ScCostCenter costCenterSave; //Centro de Costo para agregar
     private List<ScPartner> partnersList;//Listado de proveedores
     private List<ScCostCenter> costCenterList;//Listado de centros de costo
+    private List<ScMeasureUnit> measureUnitsList;//Lista de unidades de medida
+    private List<ScPackingUnit> packingUnitsList;//Lista de unidades de empaque
+    private List<ScInputLocation> inputLocationsList;//Lista de localizaciones
+    
     //Persistencia
     private IScInput scInputServer; //Dao de persistencia del insumos
     
@@ -77,6 +89,8 @@ public class ScInputBean
         fillListInputs();
         fillListPartners();
         fillListCostCenter();
+        fillListPackingUnit();
+        fillListInputLocation();
         cleanFieldsInit();
     }
     
@@ -129,6 +143,40 @@ public class ScInputBean
             log.error("Error al intentar consultar los proveedores para los insumos", e);
         }
     }
+    
+    /**
+     * Método encargado de llenar la lista de centros de costo.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListPackingUnit()
+    {
+        try
+        {
+            //Se consultan todos los proveedores existentes
+            setCostCenterList(getScInputServer().getAllCostCenter());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los proveedores para los insumos", e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de centros de costo.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListInputLocation()
+    {
+        try
+        {
+            //Se consultan todos los proveedores existentes
+            setCostCenterList(getScInputServer().getAllCostCenter());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los proveedores para los insumos", e);
+        }
+    }
     /**
      * Método encargado de vaciar los objetos.
      * @author Gustavo Chavarro Ortiz
@@ -138,6 +186,9 @@ public class ScInputBean
         setInputSave(new ScInput());
         setInputSelected(new ScInput());
         setCostCenterSave(new ScCostCenter());
+        setPackingUnitSave(new ScPackingUnit());
+        setInputLocationSave(new ScInputLocation());
+        setMeasureUnitSave(new ScMeasureUnit());
     }
     
     /**
@@ -147,6 +198,23 @@ public class ScInputBean
     public void cleanFieldsCostCenter()
     {
         setCostCenterSave(new ScCostCenter());
+    }
+    /**
+     * Método encargado de vaciar los objetos.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsPackingUnit()
+    {
+        setPackingUnitSave(new ScPackingUnit());
+    }
+    
+    /**
+     * Método encargado de vaciar los objetos.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsLocationInput()
+    {
+        setInputLocationSave(new ScInputLocation());
     }
     
     /**
@@ -163,17 +231,22 @@ public class ScInputBean
                 {
                     getCostCenterSave().setCreationDate(new Date());
                     getScInputServer().saveCostCenter(getCostCenterSave());
+                    if(getCostCenterList() == null)
+                    {
+                        setCostCenterList(new ArrayList<ScCostCenter>());
+                    }
                     getCostCenterList().add(getCostCenterSave());
+                    cleanFieldsCostCenter();
                 }
                 else
                 {
-                    log.error("Error al intentar crear el centro de costo desde insumos");
+                    log.error("Error al intentar crear el centro de costos desde insumos");
                     addError(null, "Error al crear un centro de costos", "Debe ingresar solo números para el campo código del centro de costo");
                 }
             }
             else
             {
-                log.error("Error al intentar crear el centro de costo desde insumos");
+                log.error("Error al intentar crear el centro de costos desde insumos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
             
@@ -184,6 +257,74 @@ public class ScInputBean
             log.error("Error al intentar agregar un centro de costos desde insumos",e);
         }
     
+    }
+    
+    /**
+     * Método encargado de agregar una unidad de empaque
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addPackingUnit()
+    {
+        try 
+        {
+            if(getPackingUnitSave()!= null)
+            {
+                
+                getScInputServer().savePackingUnit(getPackingUnitSave());
+                if(getPackingUnitsList() == null)
+                {
+                    setPackingUnitsList(new ArrayList<ScPackingUnit>());
+                }
+                getPackingUnitsList().add(getPackingUnitSave());
+                cleanFieldsPackingUnit();
+                
+            }
+            else
+            {
+                log.error("Error al intentar crear la unidad de empaque desde insumos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar crear la unidad de empaque desde insumos",e);
+        }
+    
+    }
+    
+    /**
+     * Método encargado de agregar una unidad de empaque
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addInputLocations()
+    {
+        try 
+        {
+            if(getInputLocationSave()!= null)
+            {
+                
+                getScInputServer().saveLocationInput(getInputLocationSave());
+                if(getInputLocationsList() == null)
+                {
+                    setInputLocationsList(new ArrayList<ScInputLocation>());
+                }
+                getInputLocationsList().add(getInputLocationSave());
+                cleanFieldsLocationInput();
+            }
+            else
+            {
+                log.error("Error al intentar crear la localización desde insumos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar crear la localización desde insumos",e);
+        }
     }
     
     /**
@@ -465,8 +606,95 @@ public class ScInputBean
     {
         this.costCenterSave = costCenterSave;
     }
-    
-    
-    
+
+    public ScMeasureUnit getMeasureUnitSave()
+    {
+        return measureUnitSave;
+    }
+
+    public void setMeasureUnitSave(ScMeasureUnit measureUnitSave)
+    {
+        this.measureUnitSave = measureUnitSave;
+    }
+
+    public List<ScMeasureUnit> getMeasureUnitsList()
+    {
+        return measureUnitsList;
+    }
+
+    public void setMeasureUnitsList(List<ScMeasureUnit> measureUnitsList)
+    {
+        this.measureUnitsList = measureUnitsList;
+    }
+
+    public ScMeasureUnit getMeasureUnitSelected()
+    {
+        return measureUnitSelected;
+    }
+
+    public void setMeasureUnitSelected(ScMeasureUnit measureUnitSelected)
+    {
+        this.measureUnitSelected = measureUnitSelected;
+    }
+
+    public ScPackingUnit getPackingUnitSave()
+    {
+        return packingUnitSave;
+    }
+
+    public void setPackingUnitSave(ScPackingUnit packingUnitSave)
+    {
+        this.packingUnitSave = packingUnitSave;
+    }
+
+    public ScPackingUnit getPackingUnitSelected()
+    {
+        return packingUnitSelected;
+    }
+
+    public void setPackingUnitSelected(ScPackingUnit packingUnitSelected)
+    {
+        this.packingUnitSelected = packingUnitSelected;
+    }
+
+    public List<ScPackingUnit> getPackingUnitsList()
+    {
+        return packingUnitsList;
+    }
+
+    public void setPackingUnitsList(List<ScPackingUnit> packingUnitsList)
+    {
+        this.packingUnitsList = packingUnitsList;
+    }
+
+    public ScInputLocation getInputLocationSave()
+    {
+        return inputLocationSave;
+    }
+
+    public void setInputLocationSave(ScInputLocation inputLocationSave)
+    {
+        this.inputLocationSave = inputLocationSave;
+    }
+
+    public ScInputLocation getInputLocationSelected()
+    {
+        return inputLocationSelected;
+    }
+
+    public void setInputLocationSelected(ScInputLocation inputLocationSelected)
+    {
+        this.inputLocationSelected = inputLocationSelected;
+    }
+
+    public List<ScInputLocation> getInputLocationsList()
+    {
+        return inputLocationsList;
+    }
+
+    public void setInputLocationsList(List<ScInputLocation> inputLocationsList)
+    {
+        this.inputLocationsList = inputLocationsList;
+    }
     
 }

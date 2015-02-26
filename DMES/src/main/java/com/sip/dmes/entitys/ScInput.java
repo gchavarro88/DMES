@@ -236,56 +236,49 @@ public class ScInput implements Serializable
         this.scInputEquivalenceList = scInputEquivalenceList;
     }
 
-//    @XmlTransient
-//    public List<ScInputEquivalence> getScInputEquivalenceList1() {
-//        return scInputEquivalenceList1;
-//    }
-//
-//    public void setScInputEquivalenceList1(List<ScInputEquivalence> scInputEquivalenceList1) {
-//        this.scInputEquivalenceList1 = scInputEquivalenceList1;
-//    }
-//    @XmlTransient
-//    public List<ScInputDimension> getScInputDimensionList()
-//    {
-//        return scInputDimensionList;
-//    }
-//
-//    public void setScInputDimensionList(List<ScInputDimension> scInputDimensionList)
-//    {
-//        this.scInputDimensionList = scInputDimensionList;
-//    }
-//
-//    public ScInputSpecifications getScInputSpecifications()
-//    {
-//        return scInputSpecifications;
-//    }
-//
-//    public void setScInputSpecifications(ScInputSpecifications scInputSpecifications)
-//    {
-//        this.scInputSpecifications = scInputSpecifications;
-//    }
-//
-//    @XmlTransient
-//    public List<ScInputObservations> getScInputObservationsList()
-//    {
-//        return scInputObservationsList;
-//    }
-//
-//    public void setScInputObservationsList(List<ScInputObservations> scInputObservationsList)
-//    {
-//        this.scInputObservationsList = scInputObservationsList;
-//    }
-//
-//    @XmlTransient
-//    public List<ScInputFeactures> getScInputFeacturesList()
-//    {
-//        return scInputFeacturesList;
-//    }
-//
-//    public void setScInputFeacturesList(List<ScInputFeactures> scInputFeacturesList)
-//    {
-//        this.scInputFeacturesList = scInputFeacturesList;
-//    }
+    
+    @XmlTransient
+    public List<ScInputDimension> getScInputDimensionList()
+    {
+        return scInputDimensionList;
+    }
+
+    public void setScInputDimensionList(List<ScInputDimension> scInputDimensionList)
+    {
+        this.scInputDimensionList = scInputDimensionList;
+    }
+
+    public List<ScInputSpecifications> getScInputSpecifications()
+    {
+        return scInputSpecifications;
+    }
+
+    public void setScInputSpecifications(List<ScInputSpecifications> scInputSpecifications)
+    {
+        this.scInputSpecifications = scInputSpecifications;
+    }
+
+    @XmlTransient
+    public List<ScInputObservations> getScInputObservationsList()
+    {
+        return scInputObservationsList;
+    }
+
+    public void setScInputObservationsList(List<ScInputObservations> scInputObservationsList)
+    {
+        this.scInputObservationsList = scInputObservationsList;
+    }
+
+    @XmlTransient
+    public List<ScInputFeactures> getScInputFeacturesList()
+    {
+        return scInputFeacturesList;
+    }
+
+    public void setScInputFeacturesList(List<ScInputFeactures> scInputFeacturesList)
+    {
+        this.scInputFeacturesList = scInputFeacturesList;
+    }
 
     public ScInputStock getInputStock()
     {

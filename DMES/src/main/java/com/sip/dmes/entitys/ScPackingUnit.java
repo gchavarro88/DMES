@@ -9,9 +9,11 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,13 +27,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sc_packing_unit", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ScPackingUnit.findAll", query = "SELECT s FROM ScPackingUnit s"),
+    @NamedQuery(name = "ScPackingUnit.findAll", query = "SELECT s FROM ScPackingUnit s ORDER BY s.acronym"),
     @NamedQuery(name = "ScPackingUnit.findByIdPacking", query = "SELECT s FROM ScPackingUnit s WHERE s.idPacking = :idPacking"),
     @NamedQuery(name = "ScPackingUnit.findByDescription", query = "SELECT s FROM ScPackingUnit s WHERE s.description = :description"),
     @NamedQuery(name = "ScPackingUnit.findByAcronym", query = "SELECT s FROM ScPackingUnit s WHERE s.acronym = :acronym")})
 public class ScPackingUnit implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqscpackingunit")
+    @SequenceGenerator(name = "dmes.sqscpackingunit", sequenceName = "dmes.sqscpackingunit", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_packing")
@@ -103,7 +107,7 @@ public class ScPackingUnit implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sip.dmes.entitys.ScPackingUnit[ idPacking=" + idPacking + " ]";
+        return idPacking.toString();
     }
     
 }
