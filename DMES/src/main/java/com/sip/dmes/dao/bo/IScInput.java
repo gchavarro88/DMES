@@ -10,6 +10,8 @@ import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputLocation;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
+import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScStore;
 import java.util.List;
 
 /**
@@ -34,9 +36,14 @@ public interface IScInput
     
     public List<ScInputLocation > getAllInputLocations() throws Exception;
     
+    public List<ScStore> getAllStores() throws Exception;
+    
+    public List<ScPriority> getAllPrioritys() throws Exception;
+    
     public void saveCostCenter(ScCostCenter costCenter) throws Exception;
     
     public void savePackingUnit(ScPackingUnit packingUnit) throws Exception;
     
     public void saveLocationInput(ScInputLocation inputLocation) throws Exception;
+
 }

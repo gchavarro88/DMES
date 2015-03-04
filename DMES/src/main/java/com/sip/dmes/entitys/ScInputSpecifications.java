@@ -62,12 +62,11 @@ public class ScInputSpecifications implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date creationDate;
     
-    
     @JoinColumn(name = "id_input", referencedColumnName = "id_input")
     @ManyToOne(optional = false)
     private ScInput idInput;
-    
 
+   
     public ScInputSpecifications() {
     }
 
@@ -75,12 +74,12 @@ public class ScInputSpecifications implements Serializable {
         this.idInputSpecifications = idInputSpecifications;
     }
 
-    public ScInputSpecifications(Long idInputSpecifications, String description, String tittle, Date creationDate, ScInput idInput) {
+    public ScInputSpecifications(Long idInputSpecifications, String description, String tittle, Date creationDate) {
         this.idInputSpecifications = idInputSpecifications;
         this.description = description;
         this.tittle = tittle;
         this.creationDate = creationDate;
-        this.idInput = idInput;
+      
     }
 
     public Long getIdInputSpecifications() {
@@ -115,15 +114,17 @@ public class ScInputSpecifications implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public ScInput getIdInput() {
+    public ScInput getIdInput()
+    {
         return idInput;
     }
 
-    public void setIdInput(ScInput idInput) {
+    public void setIdInput(ScInput idInput)
+    {
         this.idInput = idInput;
     }
 
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

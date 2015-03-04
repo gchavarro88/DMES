@@ -11,6 +11,8 @@ import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputLocation;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
+import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScStore;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -202,5 +204,40 @@ public class ScInputDao  implements  IScInput
         }
         return result;
     }
+
+    @Override
+    public List<ScStore> getAllStores() throws Exception
+    {
+        List<ScStore> result = null;
+        Query query  = entityManager.createNamedQuery("ScStore.findAll"); 
+        try
+        {
+            result = (List<ScStore>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los almacenes",e);
+        }
+        return result;
+    }
+
+
+    @Override
+    public List<ScPriority> getAllPrioritys() throws Exception
+    {
+        List<ScPriority> result = null;
+        Query query  = entityManager.createNamedQuery("ScPriority.findAll"); 
+        try
+        {
+            result = (List<ScPriority>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las prioridades",e);
+        }
+        return result;
+    }
+
+    
 
 }

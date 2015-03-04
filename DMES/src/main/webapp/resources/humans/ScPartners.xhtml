@@ -22,7 +22,8 @@
                       closable="true"  header="Crear Proveedores" position="center top" width="750"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizard">
-                    <p:wizard  flowListener="#{scpartnersBean.onFlowProcessSavePartner}" id="wizardSave" widgetVar="wizardSave">
+                    <p:wizard  flowListener="#{scpartnersBean.onFlowProcessSavePartner}" id="wizardSave" widgetVar="wizardSave"
+                               backLabel="Atras" nextLabel="Siguiente">
                         <p:tab title="Tercero" id="tabPerson" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para seleccionar el tercero">
                             

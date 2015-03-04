@@ -18,7 +18,372 @@
         </p:dialog>
         <div>
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
-<!--           dialogo para crear un centro de costos-->
+             <!--         Dialogo para guardar nuevos Insumos         -->
+            <p:dialog id="dialogInputSave" widgetVar="dialogInputSave" draggable="true" 
+                      closable="true"  header="Crear Insumos" position="center top" width="700"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                
+                <h:form id="formWizardSave" >
+                
+                    <p:wizard  flowListener="#{scInputBean.onFlowProcessSaveInput}" id="wizardSave" widgetVar="wizardSave" 
+                               backLabel="Atras" nextLabel="Siguiente">
+                        <p:tab title="Datos del Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del insumo">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Imagen"/>
+                                        </td>
+                                        <td width="40%" align="left" valign="middle">
+                                            <h:graphicImage value="#{scInputBean.searchImage(scInputBean.inputSave)}" alt="Imagen no disponible" id="imageSave" 
+                                                            width="120" height="120"  />
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"/>                                       
+                                        </td>
+                                        <td colspan="2" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfNameInput" value="Nombre del Insumo"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfNameInput"  value="#{scInputBean.inputSave.description}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el nombre del insumo"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:calendar    id="tfExpiryDate"  value="#{scInputBean.inputSave.expiryDate}" autocomplete="true"
+                                                           effect="explode" mask="true" pattern="dd/MM/yyyy"
+                                                            required="true" requiredMessage="Debe ingresar la fecha de caducidad"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfTypeMaterial" value="Tipo de Material"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfTypeMaterial"  value="#{scInputBean.inputSave.typeMaterial}" autocomplete="true"
+                                                            required="true" requiredMessage="Debe ingresar el tipo de material" />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfValueInput" value="Valor"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfValueInput"  value="#{scInputBean.inputSave.value}" 
+                                                            required="true" requiredMessage="Debe ingresar el valor del insumo" />
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfMarkInput" value="Marca"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfMarkInput"  value="#{scInputBean.inputSave.mark}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la marca del insumo"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfSerieInput" value="Serie"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfSerieInput"  value="#{scInputBean.inputSave.serie}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la serie del insumo"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbSupplier" value="Proveedor y Garantías"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" style="width: 80%;"
+                                                             converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un proveedor" effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="Seleccione" />
+                                                <f:selectItems value="#{scInputBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costos"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSave.costCenter}" style="width: 70%;" 
+                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un centro de costos" effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="Seleccione" />
+                                                <f:selectItems  value="#{scInputBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddCostCenter" icon="ui-icon-circle-plus"  oncomplete="PF('centerCostSave').show()" style="top: -8px;"/>
+                                            <p:tooltip for="btnAddCostCenter" value="Agregue nuevos centros de costos"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfPackingUnit" value="Unidad de Empaque"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText id="tfPackingUnit" value="#{scInputBean.inputSave.packingUnit}"
+                                                         required="true" requiredMessage="Campo obligatorio debe ingresar unidad de empaque del insumo" style="width: 20px; "/>
+                                             <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.packingUnitSelected}" 
+                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="top: 6px;"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="Seleccione"/>
+                                                <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
+                                                
+                                            </p:selectOneMenu>
+                                             <p:spacer width="5px"/>
+                                                <p:commandButton  id="btnAddPackingUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitPackingSave').show()" style="top: -2px;"/>
+                                                <p:tooltip for="btnAddPackingUnit" value="Agregue nuevas unidades de empaque"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbLocation" value="Localización"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSave.inputLocation}" style="width: 70%;" 
+                                                             converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una localización" effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="Seleccione" />
+                                                <f:selectItems  value="#{scInputBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddLocationInput" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -8px;"/>
+                                            <p:tooltip for="btnAddLocationInput" value="Agregue nuevas localizaciones"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfStore" value="Almacén"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSave.inputStock.idStore}" style="width: 80%;"
+                                                             converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
+                                                             height="140" >
+                                                <f:selectItem itemLabel="Seleccione" />
+                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfProirity" value="Prioridad"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="tfProirity"  value="#{scInputBean.inputSave.priority}" style="width: 80%;"
+                                                             converter="priorityConverter" converterMessage="Error en el tipo de dato de la prioridad"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una prioridad" effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="Seleccione" />
+                                                <f:selectItems value="#{scInputBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+<!--                        finaliza la pestaña para datos generales -->
+
+<!--                        inicia la pestaña para el stock y -->
+                        <p:tab title="Stock y Dimensiones" id="tabStock" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para el stock">
+                            <p:panel header="Stock" toggleable="true" toggleTitle="Presione para minimizar el panel de Stock">
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfMaximeStock" value="Stock Máximo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfMaximeStock"  value="#{scInputBean.inputSave.inputStock.maximeStock}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el máximo stock del insumo"/>
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfMinimeStock"  value="#{scInputBean.inputSave.inputStock.minimeStock}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el mínimo stock del insumo"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfCurrentStock" value="Stock Real"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfCurrentStock"  value="#{scInputBean.inputSave.inputStock.currentStock}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el stock real del insumo"/>
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfOptimeStock"  value="#{scInputBean.inputSave.inputStock.optimeStock}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el stock óptimo del insumo"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfPriceUnit" value="Precio Unidad"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfPriceUnit"  value="#{scInputBean.inputSave.inputStock.priceUnit}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el precio de unidad del insumo"/>
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfValueTotal"  value="#{scInputBean.inputSave.inputStock.totalValue}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor total del insumo"/>
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                            </p:panel>
+                            <p:panel header="Dimensiones" toggleable="true" toggleTitle="Presione para minimizar el panel de Dimensiones">
+                                <table width="98%" cellspacing="10"  >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfHigh" value="Altura"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfHigh"  value="#{scInputBean.inputSave.dimension.hight}"
+                                                            />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfWidth" value="Ancho"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfWidth"  value="#{scInputBean.inputSave.dimension.width}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfLarge" value="Largo"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfLarge"  value="#{scInputBean.inputSave.dimension.large}"
+                                                            />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfVolume" value="Volumen"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfVolume"  value="#{scInputBean.inputSave.dimension.volume}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfThickness" value="Grosor"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfThickness"  value="#{scInputBean.inputSave.dimension.thickness}"
+                                                            />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfRadio" value="Radio"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfRadio"  value="#{scInputBean.inputSave.dimension.radio}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfObservationsDimension" value="Observaciones"/>
+                                        </td>
+                                        <td colspan="3" width="80%">
+                                            <p:inputTextarea   id="tfObservationsDimension"  value="#{scInputBean.inputSave.dimension.observations}"
+                                                               style="width: 98%;"     />
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                            </p:panel>
+                        </p:tab>
+<!--                        finaliza pestaña para stock y dimensiones-->
+<!--                        inicia pestaña para especificaciones-->
+                        <p:tab title="Especificaciones" id="tabSpecifications" titleStyleClass="tabTittleSavePerson" 
+                        titletip="Pestaña para las especificaciones del insumo">
+                        <p:panel header="Especificaciones" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTittleSpecification" value="Título"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTittleSpecification" value="#{scInputBean.specificationsSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleSpecification" value="Ingrese el título de la especificacion a Realizar"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfSpecificationSave" value="Especificación"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfSpecificationSave" value="#{scInputBean.specificationsSave.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTittleSpecification,tfSpecificationSave,dataTableSpecificationSave"
+                                                                             actionListener="#{scInputBean.saveSpecification()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableSpecificationSave"
+                                                         var="specifications" 
+                                                         value="#{scInputBean.specificationListSave}"
+                                                         rowKey="#{specifications.tittle}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{specifications.tittle}">
+                                                <p:column style="width:32px">
+<!--                                                    <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Observaciones"
+                                                                     process="dataTableSpecificationSave" 
+                                                                     actionListener="#{scpersonBean.removeObservationsByPerson(observations)}" >
+                                                    </p:commandButton>-->
+                                                </p:column>
+                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                    <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
+                                                    <p:tooltip value="#{specifications.tittle}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column headerText="Observación" sortBy="#{specifications.description}">
+                                                    <p:outputLabel value="#{specifications.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{specifications.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+<!--                        finaliza pestaña para especificaciones-->
+                    </p:wizard>
+                </h:form>
+
+            </p:dialog>
+            <!--         finaliza el dialogo para guardar Insumos               -->
+            
+    <!--           dialogo para crear un centro de costos-->
             <p:dialog id="centerCostSave" widgetVar="centerCostSave" draggable="true" 
                       closable="true"  header="Agregar un Centro de Costos" position="center top" 
                       hideEffect="explode" modal="true" showEffect="explode" 
@@ -168,147 +533,7 @@
                 </h:form>
             </p:dialog>
 <!--            finaliza el dialogo para subir imagenes-->
-            <!--         Dialogo para guardar nuevos Insumos         -->
-            <p:dialog id="dialogInputSave" widgetVar="dialogInputSave" draggable="true" 
-                      closable="true"  header="Crear Insumos" position="center top" width="700"
-                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
-                
-                <h:form id="formWizardSave" >
-                
-                    <p:wizard  flowListener="#{scInputBean.onFlowProcessSaveInput}" id="wizardSave" widgetVar="wizardSave">
-                        <p:tab title="Datos del Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para los datos básicos del insumo">
-                            <p:panel header="Datos Básicos" >
-                                <table width="98%" cellspacing="10" >
-                                    <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  value="Imagen"/>
-                                        </td>
-                                        <td width="40%" align="left" valign="middle">
-                                            <h:graphicImage value="#{scInputBean.searchImage(scInputBean.inputSave)}" alt="Imagen no disponible" id="imageSave" 
-                                                            width="120" height="120"  />
-                                            <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"/>                                       
-                                        </td>
-                                        <td colspan="2" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre del Insumo"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="tfNameInput"  value="#{scInputBean.inputSave.description}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el nombre del insumo"/>
-                                        </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:calendar    id="tfExpiryDate"  value="#{scInputBean.inputSave.expiryDate}" autocomplete="true"
-                                                           effect="explode" mask="true" pattern="dd/MM/yyyy"
-                                                            required="true" requiredMessage="Debe ingresar la fecha de caducidad"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfTypeMaterial" value="Tipo de Material"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="tfTypeMaterial"  value="#{scInputBean.inputSave.typeMaterial}" autocomplete="true"
-                                                            required="true" requiredMessage="Debe ingresar el tipo de material" />
-                                        </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfValueInput" value="Valor"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="tfValueInput"  value="#{scInputBean.inputSave.value}" 
-                                                            required="true" requiredMessage="Debe ingresar el valor del insumo" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfMarkInput" value="Marca"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="tfMarkInput"  value="#{scInputBean.inputSave.mark}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la marca del insumo"/>
-                                        </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfSerieInput" value="Serie"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="tfSerieInput"  value="#{scInputBean.inputSave.serie}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la serie del insumo"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="cbSupplier" value="Proveedor y Garantías"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" style="width: 80%;"
-                                                             converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un proveedor">
-                                                <f:selectItem itemLabel="Seleccione" itemValue="0"/>
-                                                <f:selectItems value="#{scInputBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
-                                            </p:selectOneMenu>
-                                        </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costos"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSave.costCenter}" style="width: 70%;" 
-                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un centro de costos">
-                                                <f:selectItem itemLabel="Seleccione" itemValue="0"/>
-                                                <f:selectItems  value="#{scInputBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
-                                            </p:selectOneMenu>
-                                            <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnAddCostCenter" icon="ui-icon-circle-plus"  oncomplete="PF('centerCostSave').show()" style="top: -6px;"/>
-                                            <p:tooltip for="btnAddCostCenter" value="Agregue nuevos centros de costos"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfPackingUnit" value="Unidad de Empaque"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText id="tfPackingUnit" value="#{scInputBean.inputSave.packingUnit}"
-                                                         required="true" requiredMessage="Campo obligatorio debe ingresar unidad de empaque del insumo" style="width: 20px; "/>
-                                             <p:spacer width="5px"/>
-                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.packingUnitSelected}" 
-                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="top: 6px;"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque">
-                                                <f:selectItem itemLabel="Seleccione" itemValue="0"/>
-                                                <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
-                                                
-                                            </p:selectOneMenu>
-                                             <p:spacer width="5px"/>
-                                                <p:commandButton  id="btnAddPackingUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitPackingSave').show()"/>
-                                                <p:tooltip for="btnAddPackingUnit" value="Agregue nuevas unidades de empaque"/>
-                                        </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="cbLocation" value="Localización"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSave.inputLocation}" style="width: 70%;" 
-                                                             converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo">
-                                                <f:selectItem itemLabel="Seleccione" itemValue="0"/>
-                                                <f:selectItems  value="#{scInputBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
-                                            </p:selectOneMenu>
-                                            <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnAddLocationInput" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -6px;"/>
-                                            <p:tooltip for="btnAddLocationInput" value="Agregue nuevas localizaciones"/>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </p:panel>
-                        </p:tab> 
-                    </p:wizard>
-                </h:form>
-
-            </p:dialog>
-            <!--         finaliza el dialogo para guardar Insumos               -->
+           
             
             <h:form id="formInput">
                 <p:dataTable id="sc" draggableColumns="true" emptyMessage="No existe información para visualizar" 
@@ -363,18 +588,25 @@
                             <p:tooltip for="lblSerie" value="#{input.serie}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnAmount" headerText="Cantidad" sortBy="#{input.inputStock.currentStock}">    
-                        <center>
-                            <p:outputLabel value="#{input.inputStock.currentStock}" id="lblamount"/>
-                            <p:tooltip for="lblamount" value="#{input.inputStock.currentStock}"/>
-                        </center>
-                    </p:column>
                     <p:column id="columnStore" headerText="Almacen" sortBy="#{input.inputStock.idStore.name}">    
                         <center>
                             <p:outputLabel value="#{input.inputStock.idStore.name}" id="lblStore"/>
                             <p:tooltip for="lblStore" value="#{input.inputStock.idStore.name}"/>
                         </center>
                     </p:column>
+                    <p:column id="columnLocation" headerText="Localización" sortBy="#{input.inputLocation}">    
+                        <center>
+                            <p:outputLabel value="#{input.inputLocation}" id="lblLocation"/>
+                            <p:tooltip for="lblLocation" value="#{input.inputLocation}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnAmount" headerText="Cantidad" sortBy="#{input.inputStock.currentStock}">    
+                        <center>
+                            <p:outputLabel value="#{input.inputStock.currentStock}" id="lblamount"/>
+                            <p:tooltip for="lblamount" value="#{input.inputStock.currentStock}"/>
+                        </center>
+                    </p:column>
+                    
                     <p:column id="columPackingUnit" headerText="Und. Empaque" sortBy="#{input.packingUnit}">    
                         <center>
                             <p:outputLabel value="#{input.packingUnit}" id="lblPackingUnit"/>

@@ -97,12 +97,7 @@ public class ScInput implements Serializable
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
     private List<ScInputEquivalence> scInputEquivalenceList;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInputReferenced")
-//    private List<ScInputEquivalence> scInputEquivalenceList1;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
-    private List<ScInputDimension> scInputDimensionList; 
-//    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput")
     private List<ScInputSpecifications> scInputSpecifications;
     
@@ -118,6 +113,12 @@ public class ScInput implements Serializable
     @JoinColumn(name = "id_input_stock", referencedColumnName = "id_input_stock")
     @ManyToOne(optional = false)
     private ScInputStock inputStock;
+    @JoinColumn(name = "id_priority", referencedColumnName = "id_priority")
+    @ManyToOne(optional = false)
+    private ScPriority priority;
+    @JoinColumn(name = "id_input_dimension", referencedColumnName = "id_input_dimension")
+    @ManyToOne(optional = false)
+    private ScInputDimension dimension;
     @JoinColumn(name = "id_input_location", referencedColumnName = "id_input_location")
     @ManyToOne(optional = false)
     private ScInputLocation inputLocation;
@@ -236,18 +237,18 @@ public class ScInput implements Serializable
         this.scInputEquivalenceList = scInputEquivalenceList;
     }
 
+    public ScInputDimension getDimension()
+    {
+        return dimension;
+    }
+
+    public void setDimension(ScInputDimension dimension)
+    {
+        this.dimension = dimension;
+    }
+
     
-    @XmlTransient
-    public List<ScInputDimension> getScInputDimensionList()
-    {
-        return scInputDimensionList;
-    }
-
-    public void setScInputDimensionList(List<ScInputDimension> scInputDimensionList)
-    {
-        this.scInputDimensionList = scInputDimensionList;
-    }
-
+   
     public List<ScInputSpecifications> getScInputSpecifications()
     {
         return scInputSpecifications;
@@ -340,6 +341,16 @@ public class ScInput implements Serializable
     public void setDescription(String description)
     {
         this.description = description;
+    }
+
+    public ScPriority getPriority()
+    {
+        return priority;
+    }
+
+    public void setPriority(ScPriority priority)
+    {
+        this.priority = priority;
     }
 
     

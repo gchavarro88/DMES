@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sc_priority", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ScPriority.findAll", query = "SELECT s FROM ScPriority s"),
+    @NamedQuery(name = "ScPriority.findAll", query = "SELECT s FROM ScPriority s ORDER BY s.idPriority"),
     @NamedQuery(name = "ScPriority.findByIdPriority", query = "SELECT s FROM ScPriority s WHERE s.idPriority = :idPriority"),
     @NamedQuery(name = "ScPriority.findByName", query = "SELECT s FROM ScPriority s WHERE s.name = :name"),
     @NamedQuery(name = "ScPriority.findByDescription", query = "SELECT s FROM ScPriority s WHERE s.description = :description")})
@@ -45,7 +45,8 @@ public class ScPriority implements Serializable {
     @Column(name = "description")
     private String description;
 
-    public ScPriority() {
+    public ScPriority() 
+    {
     }
 
     public ScPriority(Long idPriority) {
@@ -103,7 +104,7 @@ public class ScPriority implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sip.dmes.entitys.ScPriority[ idPriority=" + idPriority + " ]";
+        return idPriority.toString();
     }
     
 }

@@ -40,8 +40,8 @@ public class ScInputLocation implements Serializable {
     
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "dmes.sqscinput")
-    @SequenceGenerator(name = "dmes.sqscinput", sequenceName = "dmes.sqscinput", allocationSize = 1)
+    @GeneratedValue(generator = "dmes.sqscinputlocation")
+    @SequenceGenerator(name = "dmes.sqscinputlocation", sequenceName = "dmes.sqscinputlocation", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_input_location")

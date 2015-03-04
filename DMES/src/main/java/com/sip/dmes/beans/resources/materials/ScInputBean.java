@@ -12,10 +12,16 @@ import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScInputEquivalence;
+import com.sip.dmes.entitys.ScInputFeactures;
 import com.sip.dmes.entitys.ScInputLocation;
+import com.sip.dmes.entitys.ScInputObservations;
+import com.sip.dmes.entitys.ScInputSpecifications;
+import com.sip.dmes.entitys.ScInputStock;
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
+import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScStore;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.io.File;
@@ -54,15 +60,27 @@ public class ScInputBean
     private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
     private ScInputLocation inputLocationSave; //Localizacion seleccionada para agregar
     private ScInputLocation inputLocationSelected; //Localizacion seleccionada para agregar al insumo
+    private ScStore storeSave; //Localizacion seleccionada para agregar
+    private ScStore storeSelected; //Localizacion seleccionada para agregar al insumo
+    private ScPriority prioritySave; //Prioridad seleccionada para agregar al insumo
     private SessionBean sessionBean; //Bean de sesion
     private UploadedFile pictureFile; //Archivo que se copiara para la imagen del insumo
     private ScCostCenter costCenterSave; //Centro de Costo para agregar
+    private ScInputSpecifications SpecificationsSave;//Especificación a guardar
+    private ScInputFeactures feacturesSave;//Característica a guardar
+    private ScInputObservations observationsSave;//Observación a guardar
     private List<ScPartner> partnersList;//Listado de proveedores
     private List<ScCostCenter> costCenterList;//Listado de centros de costo
     private List<ScMeasureUnit> measureUnitsList;//Lista de unidades de medida
     private List<ScPackingUnit> packingUnitsList;//Lista de unidades de empaque
     private List<ScInputLocation> inputLocationsList;//Lista de localizaciones
-    
+    private List<ScStore> storesList;//Lista de almacenes
+    private List<ScPriority> priorityList;//Lista de prioridades
+    private List<ScInputSpecifications> specificationListSave;//Lista de especificaciones a guardar
+    private List<ScInputFeactures> feacturesListSave;//Lista de características a guardar
+    private List<ScInputObservations> observationListSave;//Lista de observaciones a guardar
+    private List<ScInputEquivalence> equivalenceListSave;//Lista de equivalencias a guardar
+        
     //Persistencia
     private IScInput scInputServer; //Dao de persistencia del insumos
     
@@ -70,7 +88,14 @@ public class ScInputBean
     private final static Logger log = Logger.getLogger(ScInputDao.class);
    
     //Constantes
-    private String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
+    private final String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
+    //Tabs
+    private final String TAB_GENERAL = "tabGeneral";
+    private final String TAB_STOCK = "tabStock";
+    private final String TAB_SPECIFICATIONS = "tabSpecifications";
+    private final String TAB_FEACTURES = "tabFeactures";
+    private final String TAB_OBSERVATIONS = "tabObservations";
+    private final String TAB_EQUIVALENCE = "tabEquivalence";
     
     /**
      * Creates a new instance of ScInputBean
@@ -81,7 +106,7 @@ public class ScInputBean
     }
     
     /**
-     * Método encargado de mostrar los datos iniciales
+     * Método encargado de mostrar los datos iniciales.
      */
     @PostConstruct
     public void initData()
@@ -91,6 +116,8 @@ public class ScInputBean
         fillListCostCenter();
         fillListPackingUnit();
         fillListInputLocation();
+        fillListStore();
+        fillListPriority();
         cleanFieldsInit();
     }
     
@@ -145,7 +172,7 @@ public class ScInputBean
     }
     
     /**
-     * Método encargado de llenar la lista de centros de costo.
+     * Método encargado de llenar la lista de unidades de empaque.
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListPackingUnit()
@@ -153,16 +180,16 @@ public class ScInputBean
         try
         {
             //Se consultan todos los proveedores existentes
-            setCostCenterList(getScInputServer().getAllCostCenter());
+            setPackingUnitsList(getScInputServer().getAllPackingUnits());
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar los proveedores para los insumos", e);
+            log.error("Error al intentar consultar las unidades de empaque para los insumos", e);
         }
     }
     
     /**
-     * Método encargado de llenar la lista de centros de costo.
+     * Método encargado de llenar la lista de localizaciones.
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListInputLocation()
@@ -170,11 +197,45 @@ public class ScInputBean
         try
         {
             //Se consultan todos los proveedores existentes
-            setCostCenterList(getScInputServer().getAllCostCenter());
+            setInputLocationsList(getScInputServer().getAllInputLocations());
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar los proveedores para los insumos", e);
+            log.error("Error al intentar consultar las localizaciones para los insumos", e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de almacenes.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListStore()
+    {
+        try
+        {
+            //Se consultan todos almacenes disponibles
+            setStoresList(getScInputServer().getAllStores());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los almacenes para los insumos", e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de prioridades.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListPriority()
+    {
+        try
+        {
+            //Se consultan todos almacenes disponibles
+            setPriorityList(getScInputServer().getAllPrioritys());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar las prioridades para los insumos", e);
         }
     }
     /**
@@ -183,12 +244,22 @@ public class ScInputBean
      */
     public void cleanFieldsInit()
     {
-        setInputSave(new ScInput());
+        
         setInputSelected(new ScInput());
         setCostCenterSave(new ScCostCenter());
         setPackingUnitSave(new ScPackingUnit());
         setInputLocationSave(new ScInputLocation());
         setMeasureUnitSave(new ScMeasureUnit());
+        cleanInputSave();
+    }
+    public void cleanInputSave()
+    {
+        setInputSave(new ScInput());
+        //Creamos un stock para la siguiente pestaña
+        getInputSave().setInputStock(new ScInputStock());
+        //Creamos el objeto de dimension para la segunda pestaña
+        getInputSave().setDimension(new ScInputDimension());
+        cleanListSaves();
     }
     
     /**
@@ -206,6 +277,24 @@ public class ScInputBean
     public void cleanFieldsPackingUnit()
     {
         setPackingUnitSave(new ScPackingUnit());
+    }
+    
+    /**
+     * Método encargado de vaciar los objetos.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsStores()
+    {
+        setStoreSave(new ScStore());
+    }
+    
+    /**
+     * Método encargado de vaciar los objetos.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsPriority()
+    {
+        setPrioritySave(new ScPriority());
     }
     
     /**
@@ -292,8 +381,7 @@ public class ScInputBean
             log.error("Error al intentar crear la unidad de empaque desde insumos",e);
         }
     
-    }
-    
+    } 
     /**
      * Método encargado de agregar una unidad de empaque
      * @author Gustavo Chavarro Ortiz
@@ -327,6 +415,8 @@ public class ScInputBean
         }
     }
     
+   
+    
     /**
      * Método encargado de llevar el flujo al guardar un insumo.
      * @param event evento en el cual se encuentra el asistente para crear insumos
@@ -335,12 +425,240 @@ public class ScInputBean
      */
     public String onFlowProcessSaveInput(FlowEvent event) 
     {    
-//        if(event.getOldStep().equals(TAB_USERS))
-//        {
-//        }    
+        int packingUnit = -1;
+        if(event.getOldStep().equals(TAB_GENERAL))
+        {
+            if(getInputSave() != null)
+            {
+                //Validamos que el valor sea mayor que cero
+                if(getInputSave().getValue() <= 0)
+                {
+                    addError(null, "Error en el campo Valor del Insumo", "El Valor del Insumo debe ser un número mayor a cero");
+                    log.error("Error en el campo Valor del Insumo, El Valor del Insumo debe ser un número mayor a cero");
+                    return event.getOldStep();
+                }
+                //Validamos que el campo unidad de empaque sea numérico y diferente de vacío
+                else if(!Utilities.isEmpty(getInputSave().getPackingUnit()) &&
+                        Utilities.isNumeric(getInputSave().getPackingUnit()))
+                { 
+                    try
+                    {
+                        //Obtenemos el valor de la unidad de empaque
+                         packingUnit = Integer.parseInt(getInputSave().getPackingUnit());
+                         //Validamos que la unidad de empaque sea mayor a cero
+                        if(packingUnit <= 0)
+                        {
+                            addError(null, "Error en el campo Unidad de Empaque", "El Valor Unidad de Empaque debe ser un número mayor a cero");
+                            log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+                            return event.getOldStep();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        addError(null, "Error en el campo Unidad de Empaque", "El Valor Unidad de Empaque debe ser un número mayor a cero");
+                        log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+                        return event.getOldStep();
+                    }
+                    
+                }
+                else
+                {
+                    addError(null, "Error en el campo Unidad de Empaque", "El Valor Unidad de Empaque debe ser un número mayor a cero");
+                    log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+                    return event.getOldStep();
+                }
+            }
+            if(Utilities.isEmpty(getInputSave().getPathPicture()))
+            { 
+                getInputSave().setPathPicture(" ");
+            }
+            //Agregamos la fecha de creación del insumo
+            getInputSave().setCreationDate(new Date());
+            
+            //Modificamos la unidad de empaque con su unidad de medida
+//            getInputSave().setPackingUnit(packingUnit + getPackingUnitSelected().getAcronym());
+            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+            if(getInputSave().getExpiryDate().before(getInputSave().getCreationDate()))
+            {
+                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+        }
+        //Si pasamos de la pestaña de datos generales a stock y dimensiones
+        else if(event.getOldStep().equals(TAB_STOCK))
+        {
+            //Validamos que ninguno de los campos del stock sea vacio o negativo
+            if(getInputSave().getInputStock().getMaximeStock() <= 0)
+            {
+                addError(null, "Error en el campo Stock Máximo", "El Stock Máximo debe ser mayor que cero");
+                log.error("Error en el campo Stock Máximo, El Stock Máximo debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+            else if(getInputSave().getInputStock().getMinimeStock() <= 0)
+            {
+                addError(null, "Error en el campo Stock Mínimo", "El Stock Mínimo debe ser mayor que cero");
+                log.error("Error en el campo Stock Mínimo, El Stock Mínimo debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+            else if(getInputSave().getInputStock().getCurrentStock() <= 0)
+            {
+                addError(null, "Error en el campo Stock Real", "El Stock Real debe ser mayor que cero");
+                log.error("Error en el campo Stock Real, El Stock Real debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+            else if(getInputSave().getInputStock().getOptimeStock() <= 0)
+            {
+                addError(null, "Error en el campo Stock Óptimo", "El Stock Óptimo debe ser mayor que cero");
+                log.error("Error en el campo Stock Óptimo, El Stock Óptimo debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+            else if(getInputSave().getInputStock().getPriceUnit() <= 0)
+            {
+                addError(null, "Error en el campo Precio de Unidad", "El Precio de Unidad debe ser mayor que cero");
+                log.error("Error en el campo Precio de Unidad, El Precio de Unidad debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+            else if(getInputSave().getInputStock().getTotalValue() <= 0)
+            {
+                addError(null, "Error en el campo Valor Total", "El Valor Total debe ser mayor que cero");
+                log.error("Error en el campo Valor Total, El Valor Total debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+            //Validamos que las dimensiones sean correctas
+            else if(validateFieldsDoubles("Altura", getInputSave().getDimension().getHight()))
+            {
+                return event.getOldStep();
+            }
+            else if(validateFieldsDoubles("Ancho", getInputSave().getDimension().getWidth()))
+            {
+                return event.getOldStep();
+            }
+            else if(validateFieldsDoubles("Largo", getInputSave().getDimension().getLarge()))
+            {
+                return event.getOldStep();
+            }
+            else if(validateFieldsDoubles("Peso", getInputSave().getDimension().getWeight()))
+            {
+                return event.getOldStep();
+            }
+            else if(validateFieldsDoubles("Volumen", getInputSave().getDimension().getVolume()))
+            {
+                return event.getOldStep();
+            }
+            else if(validateFieldsDoubles("Grosor", getInputSave().getDimension().getThickness()))
+            {
+                return event.getOldStep();
+            }
+            else if(validateFieldsDoubles("Radio", getInputSave().getDimension().getRadio()))
+            {
+                return event.getOldStep();
+            }
+            //Creamos la lista de especificaciones para la tercer pestaña
+            
+        }
         return event.getNewStep(); 
     }
-/**
+    /**
+     * Método encargado de inicializar todas las listas para crear un insumo.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanListSaves()
+    {
+        setSpecificationsSave(new ScInputSpecifications());
+        setFeacturesSave(new ScInputFeactures());
+        setObservationsSave(new ScInputObservations());
+        
+        if(getSpecificationListSave() == null)
+        {
+            setSpecificationListSave(new ArrayList<ScInputSpecifications>());
+        }
+        if(getFeacturesListSave() == null)
+        {
+            setFeacturesListSave(new ArrayList<ScInputFeactures>());
+        }
+        if(getObservationListSave() == null)
+        {
+            setObservationListSave(new ArrayList<ScInputObservations>());
+        }
+        if(getEquivalenceListSave() == null)
+        {
+            setEquivalenceListSave(new ArrayList<ScInputEquivalence>());
+        }
+    }
+    
+    /**
+     * Método encargado de validar los campos doubles.
+     * @param nameField nombre del campo a evaluar
+     * @param value valor del campo a evaluar
+     * @return boolean si se puede validar o no 
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean validateFieldsDoubles(String nameField, String value)
+    {
+        boolean isInvalid = false;
+        if(!Utilities.isEmpty(value))
+            {
+                try
+                {
+                    double dimensionVariable = Double.parseDouble(value);
+                    if(dimensionVariable <= 0)
+                    {
+                        throw new Exception(nameField+" menor o igual a cero");
+                    }
+                }
+                catch (Exception e)
+                {
+                    isInvalid = true;
+                    addError(null, "Error en el campo "+nameField, "Debe ingresar un número mayor que cero y usar"
+                            + "como separador de decimales el punto, ejemplo: 3.24");
+                    log.error("Error en el campo "+nameField+", Debe ingresar un número mayor que cero y usar"
+                            + "como separador de decimales el punto, ejemplo: 3.24");
+                    
+                }
+            }
+        return isInvalid;
+    }
+    /**
+     * Método encargado de guardar temporalmente una especificación.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveSpecification()
+    {
+        if(getSpecificationsSave() != null)
+        {
+            if(!Utilities.isEmpty(getSpecificationsSave().getTittle()) && 
+                    !Utilities.isEmpty(getSpecificationsSave().getDescription()))
+            {
+                if(getSpecificationListSave() != null)
+                {
+                    //Guardamos exitosamente la especificación
+                    getSpecificationsSave().setCreationDate(new Date());
+                    getSpecificationsSave().setIdInput(getInputSave());
+                    getSpecificationListSave().add(getSpecificationsSave());
+                    setSpecificationsSave(new ScInputSpecifications());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una especificación", 
+                            "Debe ingresar los campos Título y Descripción de la especificación");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la especificación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
      * @param event Evento que trae el archvio cargado al servidor
      * @author: Gustavo Adolfo Chavarro Ortiz
@@ -696,5 +1014,126 @@ public class ScInputBean
     {
         this.inputLocationsList = inputLocationsList;
     }
+
+    public List<ScStore> getStoresList()
+    {
+        return storesList;
+    }
+
+    public void setStoresList(List<ScStore> storesList)
+    {
+        this.storesList = storesList;
+    }
+
+    public ScStore getStoreSave()
+    {
+        return storeSave;
+    }
+
+    public void setStoreSave(ScStore storeSave)
+    {
+        this.storeSave = storeSave;
+    }
+
+    public ScStore getStoreSelected()
+    {
+        return storeSelected;
+    }
+
+    public void setStoreSelected(ScStore storeSelected)
+    {
+        this.storeSelected = storeSelected;
+    }
+
+    public ScPriority getPrioritySave()
+    {
+        return prioritySave;
+    }
+
+    public void setPrioritySave(ScPriority prioritySave)
+    {
+        this.prioritySave = prioritySave;
+    }
+
+    public List<ScPriority> getPriorityList()
+    {
+        return priorityList;
+    }
+
+    public void setPriorityList(List<ScPriority> priorityList)
+    {
+        this.priorityList = priorityList;
+    }
+
+    public List<ScInputSpecifications> getSpecificationListSave()
+    {
+        return specificationListSave;
+    }
+
+    public void setSpecificationListSave(List<ScInputSpecifications> specificationListSave)
+    {
+        this.specificationListSave = specificationListSave;
+    }
+
+    public List<ScInputFeactures> getFeacturesListSave()
+    {
+        return feacturesListSave;
+    }
+
+    public void setFeacturesListSave(List<ScInputFeactures> feacturesListSave)
+    {
+        this.feacturesListSave = feacturesListSave;
+    }
+
+    public List<ScInputObservations> getObservationListSave()
+    {
+        return observationListSave;
+    }
+
+    public void setObservationListSave(List<ScInputObservations> observationListSave)
+    {
+        this.observationListSave = observationListSave;
+    }
+
+    public List<ScInputEquivalence> getEquivalenceListSave()
+    {
+        return equivalenceListSave;
+    }
+
+    public void setEquivalenceListSave(List<ScInputEquivalence> equivalenceListSave)
+    {
+        this.equivalenceListSave = equivalenceListSave;
+    }
+
+    public ScInputSpecifications getSpecificationsSave()
+    {
+        return SpecificationsSave;
+    }
+
+    public void setSpecificationsSave(ScInputSpecifications SpecificationsSave)
+    {
+        this.SpecificationsSave = SpecificationsSave;
+    }
+
+    public ScInputFeactures getFeacturesSave()
+    {
+        return feacturesSave;
+    }
+
+    public void setFeacturesSave(ScInputFeactures feacturesSave)
+    {
+        this.feacturesSave = feacturesSave;
+    }
+
+    public ScInputObservations getObservationsSave()
+    {
+        return observationsSave;
+    }
+
+    public void setObservationsSave(ScInputObservations observationsSave)
+    {
+        this.observationsSave = observationsSave;
+    }
+    
     
 }

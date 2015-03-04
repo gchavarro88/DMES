@@ -9,7 +9,7 @@ package com.sip.dmes.utilities;
 
 
 import com.sip.dmes.entitys.ScCostCenter;
-import com.sip.dmes.entitys.ScPackingUnit;
+import com.sip.dmes.entitys.ScPriority;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -20,8 +20,8 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Gustavo
  */
-@FacesConverter("packingUnitConverter")
-public class PackingUnitConverter implements Converter{
+@FacesConverter("priorityConverter")
+public class PriorityConverter implements Converter{
 
     /**
      *
@@ -33,20 +33,14 @@ public class PackingUnitConverter implements Converter{
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) 
     {
-        ScPackingUnit packingUnit = null;
+        ScPriority priority = null;
         if(value.length()>0)
         {   
-            FacesMessage msg = new FacesMessage("Error al convertir la unidad de empaque", "Formato no válido");
-            String campos[] = value.split(",");
-            if(campos.length > 1)
-            {
-                packingUnit = new ScPackingUnit(Long.parseLong(campos[0]));
-                packingUnit.setAcronym(campos[1]);
-            }
-            
+            FacesMessage msg = new FacesMessage("Error al convertir el centro de costo", "Formato no válido");
+            priority = new ScPriority(Long.parseLong(value));
         }
         
-        return packingUnit;
+        return priority;
     }
 
     /**
