@@ -7,7 +7,6 @@ package com.sip.dmes.beans.resources.materials;
 
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScClassType;
-import com.sip.dmes.dao.bo.IScCostCenter;
 import com.sip.dmes.dao.bo.IScEmployee;
 import com.sip.dmes.dao.bo.IScMachine;
 import com.sip.dmes.dao.bo.IScPartner;
@@ -62,8 +61,7 @@ public class ScmachinesBean
     private String typeLifeSpan;
     private Map<String,String> typesCost = new HashMap<String, String>();
     private String typeCost;
-    private IScCostCenter scCostCenterServer;
-    private Map<String,String> costCenters = new HashMap<String, String>();
+        private Map<String,String> costCenters = new HashMap<String, String>();
     private String costCenter;
     private IScPartner scPartnerServer;
     private Map<String,String> partners = new HashMap<String, String>();
@@ -241,12 +239,9 @@ public class ScmachinesBean
             {
                 try
                 {
-                    List<ScCostCenter> listCostCenter=getScCostCenterServer().getAllCostCenter();
+               
                    
-                    costCenters = new HashMap<String, String>();
-                    for (ScCostCenter costCenter : listCostCenter) {
-                       costCenters.put(costCenter.getCostCenter(),costCenter.getIdCostCenter().toString());
-                    }
+                    
 
                 }
                 catch (Exception e)
@@ -1086,13 +1081,6 @@ public class ScmachinesBean
         this.typeCost = typeCost;
     }
 
-    public IScCostCenter getScCostCenterServer() {
-        return scCostCenterServer;
-    }
-
-    public void setScCostCenterServer(IScCostCenter scCostCenterServer) {
-        this.scCostCenterServer = scCostCenterServer;
-    }
 
     public Map<String, String> getCostCenters() {
         return costCenters;

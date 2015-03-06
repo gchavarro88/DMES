@@ -357,10 +357,10 @@
                                                          paginatorPosition="top"
                                                          sortBy="#{specifications.tittle}">
                                                 <p:column style="width:32px">
-<!--                                                    <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Observaciones"
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Especificaciones"
                                                                      process="dataTableSpecificationSave" 
-                                                                     actionListener="#{scpersonBean.removeObservationsByPerson(observations)}" >
-                                                    </p:commandButton>-->
+                                                                     actionListener="#{scInputBean.deleteSpecifications(specifications)}" >
+                                                    </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{specifications.tittle}">
                                                     <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
@@ -377,6 +377,75 @@
                             </p:panel>
                         </p:tab>
 <!--                        finaliza pestaña para especificaciones-->
+<!--                        inicia pestaña para características-->
+                        <p:tab title="Características" id="tabFeactures" titleStyleClass="tabTittleSavePerson" 
+                        titletip="Pestaña para las características del insumo">
+                        <p:panel header="Características" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTittleFeacture" value="Título"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTittleFeacture" value="#{scInputBean.feacturesSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleFeacture" value="Ingrese el título de la especificacion a Realizar"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfFeactureSave" value="Característica"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfFeactureSave" value="#{scInputBean.feacturesSave.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTittleFeacture,tfFeactureSave,dataTableFeactureSave"
+                                                                             actionListener="#{scInputBean.saveFeacture()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableFeactureSave"
+                                                         var="feactures" 
+                                                         value="#{scInputBean.feacturesListSave}"
+                                                         rowKey="#{feactures.tittle}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{feactures.tittle}">
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableFeactureSave" title="Eliminar Características"
+                                                                     process="dataTableFeactureSave" 
+                                                                     actionListener="#{scInputBean.deleteFeactures(feactures)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Título" sortBy="#{feactures.tittle}">
+                                                    <p:outputLabel value="#{feactures.tittle}" id="outTittle"/>
+                                                    <p:tooltip value="#{feactures.tittle}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column headerText="Observación" sortBy="#{feactures.description}">
+                                                    <p:outputLabel value="#{feactures.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{feactures.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+<!--                        finaliza pestaña para características-->
                     </p:wizard>
                 </h:form>
 

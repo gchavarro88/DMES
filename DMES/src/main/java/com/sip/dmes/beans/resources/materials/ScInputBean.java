@@ -414,9 +414,119 @@ public class ScInputBean
             log.error("Error al intentar crear la localización desde insumos",e);
         }
     }
-    
-   
-    
+    /**
+     * Método encargado de guardar temporalmente una especificación.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveSpecification()
+    {
+        if(getSpecificationsSave() != null)
+        {
+            if(!Utilities.isEmpty(getSpecificationsSave().getTittle()) && 
+                    !Utilities.isEmpty(getSpecificationsSave().getDescription()))
+            {
+                if(getSpecificationListSave() != null)
+                {
+                    //Guardamos exitosamente la especificación
+                    getSpecificationsSave().setCreationDate(new Date());
+                    getSpecificationsSave().setIdInput(getInputSave());
+                    getSpecificationListSave().add(getSpecificationsSave());
+                    setSpecificationsSave(new ScInputSpecifications());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una especificación", 
+                            "Debe ingresar los campos Título y Descripción de la especificación");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la especificación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de borrar una especificación agregada a la lista para 
+     * guardar un inusmo.
+     * @param inputSpecifications especificación a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteSpecifications(ScInputSpecifications inputSpecifications)
+    {
+        if(getSpecificationListSave() != null && !getSpecificationListSave().isEmpty())
+        {
+            getSpecificationListSave().remove(inputSpecifications);
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de guardar temporalmente una característica.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveFeacture()
+    {
+        if(getFeacturesSave() != null)
+        {
+            if(!Utilities.isEmpty(getFeacturesSave().getTittle()) && 
+                    !Utilities.isEmpty(getFeacturesSave().getDescription()))
+            {
+                if(getFeacturesListSave() != null)
+                {
+                    //Guardamos exitosamente la especificación
+                    getFeacturesSave().setIdInput(getInputSave());
+                    getFeacturesListSave().add(getFeacturesSave());
+                    setFeacturesSave(new ScInputFeactures());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una característica", 
+                            "Debe ingresar los campos Título y Descripción de la característica");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la característica");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de borrar una característica agregada a la lista para 
+     * guardar un inusmo.
+     * @param feacture característica a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteFeactures(ScInputFeactures feacture)
+    {
+        if(getFeacturesListSave() != null && !getFeacturesListSave().isEmpty())
+        {
+            getFeacturesListSave().remove(feacture);
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
     /**
      * Método encargado de llevar el flujo al guardar un insumo.
      * @param event evento en el cual se encuentra el asistente para crear insumos
@@ -619,45 +729,7 @@ public class ScInputBean
             }
         return isInvalid;
     }
-    /**
-     * Método encargado de guardar temporalmente una especificación.
-     * @author Gustavo Chavarro Ortiz
-     */
-    public void saveSpecification()
-    {
-        if(getSpecificationsSave() != null)
-        {
-            if(!Utilities.isEmpty(getSpecificationsSave().getTittle()) && 
-                    !Utilities.isEmpty(getSpecificationsSave().getDescription()))
-            {
-                if(getSpecificationListSave() != null)
-                {
-                    //Guardamos exitosamente la especificación
-                    getSpecificationsSave().setCreationDate(new Date());
-                    getSpecificationsSave().setIdInput(getInputSave());
-                    getSpecificationListSave().add(getSpecificationsSave());
-                    setSpecificationsSave(new ScInputSpecifications());
-                }
-                else
-                {
-                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                }
-            }
-            else
-            {
-                addError(null, "Error al intentar guardar una especificación", 
-                            "Debe ingresar los campos Título y Descripción de la especificación");
-                    log.error("Error al intentar guardar una especificación, "
-                            + "Debe ingresar los campos Título y Descripción de la especificación");
-            }
-        }
-        else
-        {
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-        }
-    }
+    
     /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
      * @param event Evento que trae el archvio cargado al servidor
