@@ -61,6 +61,7 @@ public class ScInputBean
     private ScMeasureUnit measureUnitSaveLarge; //Unidad de medida seleccionado para agregar
     private ScMeasureUnit measureUnitSaveVolume; //Unidad de medida seleccionado para agregar
     private ScMeasureUnit measureUnitSaveThickness; //Unidad de medida seleccionado para agregar
+    private ScMeasureUnit measureUnitSaveWeight; //Unidad de medida seleccionado para agregar
     
     private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
     private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
@@ -857,18 +858,30 @@ public class ScInputBean
         int packingUnit = -1;
         if(event.getNewStep().equals(TAB_GENERAL))
         {
-            //Si vamos a la pestaña de datos generales volveremos acomodar la unidad y el empaque 
-            if(!Utilities.isEmpty(getInputSelected().getPackingUnit()))
-            {
-                String fields[] = getInputSelected().getPackingUnit().split(" ");
-                getInputSelected().setPackingUnit(fields[0]);
-            }
+            
         }
         
         
         return event.getNewStep(); 
     }
     
+    
+    /**
+     * Método encargado de llevar el flujo al actualizar un insumo.
+     * @param event evento en el cual se encuentra el asistente para actualizar insumos
+     * @return String al final retorna el nombre de la siguiente pestaña del asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessViewInput(FlowEvent event) 
+    {    
+        
+        return event.getNewStep(); 
+    }
+    /**
+     * Método encargado de realizar la persistencia de un insumo, guardando
+     * listas y objetos incluidos en el.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void saveInput()
     {
         //Valido que el insumo no sea nulo
@@ -894,11 +907,35 @@ public class ScInputBean
             {
                 if(getPackingUnitSave() != null)
                 {
-                    getInputSave().setPackingUnit(getInputSave().getPackingUnit()+" "+getPackingUnitSelected().getAcronym());
+                    getInputSave().setPackingUnit(getInputSave().getPackingUnit()+","+getPackingUnitSelected().getAcronym());
                 }
                 if(getMeasureUnitSaveHigh() != null)
                 {
-                    getInputSave().getDimension().setHight(getInputSave().getPackingUnit()+" "+getPackingUnitSelected().getAcronym());
+                    getInputSave().getDimension().setHight(getInputSave().getDimension().getHight()+","+getMeasureUnitSaveHigh().getAcronym());
+                }
+                if(getMeasureUnitSaveWidth()!= null)
+                {
+                    getInputSave().getDimension().setWidth(getInputSave().getDimension().getWidth()+","+getMeasureUnitSaveWidth().getAcronym());
+                }
+                if(getMeasureUnitSaveLarge() != null)
+                {
+                    getInputSave().getDimension().setLarge(getInputSave().getDimension().getLarge()+","+getMeasureUnitSaveLarge().getAcronym());
+                }
+                if(getMeasureUnitSaveWeight()!= null)
+                {
+                    getInputSave().getDimension().setWeight(getInputSave().getDimension().getWeight()+","+getMeasureUnitSaveWeight().getAcronym());
+                }
+                if(getMeasureUnitSaveVolume()!= null)
+                {
+                    getInputSave().getDimension().setVolume(getInputSave().getDimension().getVolume()+","+getMeasureUnitSaveVolume().getAcronym());
+                }
+                if(getMeasureUnitSaveThickness()!= null)
+                {
+                    getInputSave().getDimension().setThickness(getInputSave().getDimension().getThickness()+","+getMeasureUnitSaveThickness().getAcronym());
+                }
+                if(getMeasureUnitSaveRadio()!= null)
+                {
+                    getInputSave().getDimension().setRadio(getInputSave().getDimension().getRadio()+","+getMeasureUnitSaveRadio().getAcronym());
                 }
                 getScInputServer().saveInput(getInputSave());
                 getInputList().add(getInputSave());
@@ -914,6 +951,87 @@ public class ScInputBean
         }
     
     }
+    /**
+     * Método encargado de realizar la persistencia de un insumo, actualizando
+     * listas y objetos incluidos en el.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void updateInput()
+    {
+        //Valido que el insumo no sea nulo
+        if(getInputSelected()!= null)
+        {
+            //Almacenamos el insumo
+            try
+            {
+                if(getPackingUnitSave() != null)
+                {
+                    getInputSelected().setPackingUnit(getInputSelected().getPackingUnit()+","+getPackingUnitSelected().getAcronym());
+                }
+                if(getMeasureUnitSaveHigh() != null)
+                {
+                    getInputSelected().getDimension().setHight(getInputSelected().getDimension().getHight()+","+getMeasureUnitSaveHigh().getAcronym());
+                }
+                if(getMeasureUnitSaveWidth()!= null)
+                {
+                    getInputSelected().getDimension().setWidth(getInputSelected().getDimension().getWidth()+","+getMeasureUnitSaveWidth().getAcronym());
+                }
+                if(getMeasureUnitSaveLarge() != null)
+                {
+                    getInputSelected().getDimension().setLarge(getInputSelected().getDimension().getLarge()+","+getMeasureUnitSaveLarge().getAcronym());
+                }
+                if(getMeasureUnitSaveWeight()!= null)
+                {
+                    getInputSelected().getDimension().setWeight(getInputSelected().getDimension().getWeight()+","+getMeasureUnitSaveWeight().getAcronym());
+                }
+                if(getMeasureUnitSaveVolume()!= null)
+                {
+                    getInputSelected().getDimension().setVolume(getInputSelected().getDimension().getVolume()+","+getMeasureUnitSaveVolume().getAcronym());
+                }
+                if(getMeasureUnitSaveThickness()!= null)
+                {
+                    getInputSelected().getDimension().setThickness(getInputSelected().getDimension().getThickness()+","+getMeasureUnitSaveThickness().getAcronym());
+                }
+                if(getMeasureUnitSaveRadio()!= null)
+                {
+                    getInputSelected().getDimension().setRadio(getInputSelected().getDimension().getRadio()+","+getMeasureUnitSaveRadio().getAcronym());
+                }
+                getScInputServer().updateInput(getInputSelected());
+                cleanInputSave();
+            }
+            catch (Exception e)
+            {
+                log.error("Error actualizando el insumo", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanInputSave();
+            }
+            
+        }
+    
+    }
+    
+    /**
+     * Método encargado de eliminar un insumo.
+     * @autor Gustavo Chavarro Ortiz
+     */
+    public void deleteInput()
+    {
+        if(getInputSelected() != null)
+        {
+            try
+            {
+                getScInputServer().deleteInput(getInputSelected());
+                getInputList().remove(getInputSelected());
+            }
+            catch (Exception e)
+            {
+                log.error("Error eliminando el insumo", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanInputSave();
+            }
+        }
+    }
+    
     /**
      * Método encargado de inicializar todas las listas para crear un insumo.
      * @author Gustavo Chavarro Ortiz
@@ -981,78 +1099,77 @@ public class ScInputBean
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
     public void handleFileUpload(int option) {
-         //Validamos que el evento de copiado no sea nulo
-            if(getPictureFile() != null)
+        //Validamos que el evento de copiado no sea nulo
+        if (getPictureFile() != null)
+        {
+
+            String fileName = getPictureFile().getFileName(); //Extraemos el nombre del archivo
+            long fileSize = getPictureFile().getSize(); //Extraemos el tamaño del archivo
+            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+            String fileType = fileName.substring(positionLimitName + 1, fileName.length()); //Extraemos el tipo del archivo
+            //Validamos que el archivo contenga los tipos permitidos
+            if (DMESConstants.TYPES_EXTENTIONS_IMAGES.contains(fileType))
             {
-    
-                String fileName =  getPictureFile().getFileName(); //Extraemos el nombre del archivo
-                long fileSize    = getPictureFile().getSize(); //Extraemos el tamaño del archivo
-                int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
-                String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
-                    //Validamos que el archivo contenga los tipos permitidos
-                    if(DMESConstants.TYPES_EXTENTIONS_IMAGES.contains(fileType))
+                String folderName = DMESConstants.FILE_PATH_INPUTS;
+                //Creamos el folder
+                File folder = new File(PATH_FILE + "/" + folderName);
+                folder.mkdirs();
+                //Creamos el archivo con la ruta y el nombre de la carpeta
+                File file = new File(folder + "/" + fileName);
+                try
+                {
+                    //Creamos el archivo y lo enviamos al metodo que lo escribe
+                    if (writeFile(getPictureFile().getInputstream(), file))
                     {
-                        String folderName = DMESConstants.FILE_PATH_INPUTS;
-                        //Creamos el folder
-                        File folder = new File(PATH_FILE+"/"+folderName);
-                        folder.mkdirs(); 
-                        //Creamos el archivo con la ruta y el nombre de la carpeta
-                        File file = new File(folder+"/"+fileName);
-                        try
+                        switch (option)
                         {
-                            //Creamos el archivo y lo enviamos al metodo que lo escribe
-                            if(writeFile(getPictureFile().getInputstream(), file))
-                            {
-                                switch(option)
-                                {
-                                    case 1://opción para guardar
-                                        getInputSave().setPathPicture(file.getAbsolutePath());
-                                    break;
-                                    case 2://opción para actualizar
-                                        getInputSelected().setPathPicture(file.getAbsolutePath());
-                                    break;
-                                    default:
-                                    break;
-                                }
-                                //addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-                            }
-                            //Si sucede un error al escribir el archivo
-                            else
-                            {
-                                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                            }   
+                            case 1://opción para guardar
+                                getInputSave().setPathPicture(file.getAbsolutePath());
+                                break;
+                            case 2://opción para actualizar
+                                getInputSelected().setPathPicture(file.getAbsolutePath());
+                                break;
+                            default:
+                                break;
                         }
-                        catch (Exception e)
-                        {
-                            //Excepción de escritura
-                            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                            log.error("Error al intentar guardar la imagen", e);
-                        }
+                        //addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                     }
-                    //El tipo no pertenece
+                    //Si sucede un error al escribir el archivo
                     else
                     {
-                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos "+DMESConstants.TYPES_EXTENTIONS_IMAGES);
+                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
+                    //Excepción de escritura
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error("Error al intentar guardar la imagen", e);
                 }
-            switch(option)
-            {
-                case 1://opción para guardar
-                    RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
-                    RequestContext.getCurrentInstance().execute("PF('dialogInputSave').show()");
-                break;
-                case 2://opción para actualizar
-                    RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
-                    RequestContext.getCurrentInstance().execute("PF('dialogInputUpdate').show()");
-                break;
-                default:
-                break;
             }
-            
+            //El tipo no pertenece
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos " + DMESConstants.TYPES_EXTENTIONS_IMAGES);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
+        }
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
+                RequestContext.getCurrentInstance().execute("PF('dialogInputSave').show()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
+                RequestContext.getCurrentInstance().execute("PF('dialogInputUpdate').show()");
+                break;
+            default:
+                break;
+        }
     }
     
     /**
@@ -1073,6 +1190,17 @@ public class ScInputBean
         } 
         return DMESConstants.PATH_IMAGE_DEFAULT;
     }
+    
+    /**
+     * Método encargado de limpiar los campos para eliminar un insumo
+     * @param input insumo a eliminar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForDelete(ScInput input) 
+    {
+        setInputSelected(input);
+    }
+    
     /**
      * Método encargado de limpiar los campos para actualizar un insumo
      * @param input insumo a actualizar
@@ -1083,31 +1211,357 @@ public class ScInputBean
         setInputSelected(input);
         if(!Utilities.isEmpty(getInputSelected().getPackingUnit()))
         {
-            String fields[] = getInputSelected().getPackingUnit().split(" ");
-            getInputSelected().setPackingUnit(fields[0]);
-            for(ScPackingUnit packingUnit: getPackingUnitsList())
-            {
-                if(packingUnit.getAcronym().equals(fields[1]))
-                {
-                    setPackingUnitSelected(packingUnit);
-                    break;
-                }
-            }
+            valueToList(getInputSelected().getPackingUnit(), 1);
         }
-        
+        if(!Utilities.isEmpty(getInputSelected().getDimension().getHight()))
+        {
+            valueToList(getInputSelected().getDimension().getHight(), 2);
+        }
+        if(!Utilities.isEmpty(getInputSelected().getDimension().getWidth()))
+        {
+            valueToList(getInputSelected().getDimension().getWidth(), 3);
+        }
+        if(!Utilities.isEmpty(getInputSelected().getDimension().getLarge()))
+        {
+            valueToList(getInputSelected().getDimension().getLarge(), 4);
+        }
+        if(!Utilities.isEmpty(getInputSelected().getDimension().getWeight()))
+        {
+            valueToList(getInputSelected().getDimension().getWeight(), 5);
+        }
+        if(!Utilities.isEmpty(getInputSelected().getDimension().getVolume()))
+        {
+            valueToList(getInputSelected().getDimension().getVolume(), 6);
+        }
+        if(!Utilities.isEmpty(getInputSelected().getDimension().getThickness()))
+        {
+            valueToList(getInputSelected().getDimension().getThickness(), 7);
+        }
+        if(!Utilities.isEmpty(getInputSelected().getDimension().getRadio()))
+        {
+            valueToList(getInputSelected().getDimension().getRadio(), 8);
+        }
     }
-    
+    /**
+     * Método encargado de tomar un valor de un combo box unido por una coma (,)
+     * y ponerlo en los dos campos que aplican número y tipo de valor.
+     * @param value valor en cadena de texto a convertir
+     * @param option opción por la cual se hará la conversión dependiendo del campo
+     * @author Gustavo Chavarro Ortiz
+     */
     public void valueToList(String value, int option)
     {
-        String fields[] = value.split(value); //Dividimos el valor y su unidad
+        String fields[] = value.split(","); //Dividimos el valor y su unidad
         
         switch(option)//Seleccionamos la opción
         {
-        
+            case 1: //Ajustamos la unidad de empaque
+                
+                getInputSelected().setPackingUnit(fields[0]);
+                for(ScPackingUnit packingUnit: getPackingUnitsList())
+                {
+                    if(packingUnit.getAcronym().equals(fields[1]))
+                    {
+                        setPackingUnitSelected(packingUnit);
+                        break;
+                    }
+                }
+            break;
+            case 2://Ajustamos la altura
+                
+                getInputSelected().getDimension().setHight(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveHigh(measureUnit);
+                        break;
+                    }
+                }
+            break;
+            case 3://Ajustamos el ancho
+                
+                getInputSelected().getDimension().setWidth(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveWidth(measureUnit);
+                        break;
+                    }
+                }
+            break;    
+            case 4://Ajustamos el largo
+                
+                getInputSelected().getDimension().setLarge(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveLarge(measureUnit);
+                        break;
+                    }
+                }
+            break;
+            case 5://Ajustamos el Peso
+                
+                getInputSelected().getDimension().setWeight(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveWeight(measureUnit);
+                        break;
+                    }
+                }
+            break;
+                case 6://Ajustamos el Volumen
+                
+                getInputSelected().getDimension().setVolume(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveVolume(measureUnit);
+                        break;
+                    }
+                }
+            break;
+            case 7://Ajustamos el Grosor
+            
+            getInputSelected().getDimension().setThickness(fields[0]);
+            for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+            {
+                if(measureUnit.getAcronym().equals(fields[1]))
+                {
+                    setMeasureUnitSaveThickness(measureUnit);
+                    break;
+                }
+            }
+            break;
+                case 8://Ajustamos el Radio
+            
+            getInputSelected().getDimension().setRadio(fields[0]);
+            for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+            {
+                if(measureUnit.getAcronym().equals(fields[1]))
+                {
+                    setMeasureUnitSaveRadio(measureUnit);
+                    break;
+                }
+            }
+            break;
+            default://Caso por defecto
+            break;
         }
     
     }
     
+    /**
+     * Método encargado de guardar temporalmente una especificación
+     * en un insumo existente.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void updateSpecification()
+    {
+        if(getSpecificationsSave() != null)
+        {
+            if(!Utilities.isEmpty(getSpecificationsSave().getTittle()) && 
+                    !Utilities.isEmpty(getSpecificationsSave().getDescription()))
+            {
+                if(getInputSelected().getScInputSpecifications() != null)
+                {
+                    //Guardamos exitosamente la especificación
+                    getSpecificationsSave().setCreationDate(new Date());
+                    getSpecificationsSave().setIdInput(getInputSelected());
+                    getInputSelected().getScInputSpecifications().add(getSpecificationsSave());
+                    setSpecificationsSave(new ScInputSpecifications());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una especificación", 
+                            "Debe ingresar los campos Título y Descripción de la especificación");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la especificación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de guardar temporalmente una característica
+     * en un insumo existente.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void updateFeacture()
+    {
+        if(getFeacturesSave() != null)
+        {
+            if(!Utilities.isEmpty(getFeacturesSave().getTittle()) && 
+                    !Utilities.isEmpty(getFeacturesSave().getDescription()))
+            {
+                if(getInputSelected().getScInputFeacturesList() != null)
+                {
+                    //Guardamos exitosamente la especificación
+                    getFeacturesSave().setIdInput(getInputSelected());
+                    getInputSelected().getScInputFeacturesList().add(getFeacturesSave());
+                    setFeacturesSave(new ScInputFeactures());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una característica", 
+                            "Debe ingresar los campos Título y Descripción de la característica");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la característica");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de guardar temporalmente una observación
+     * en un insumo existente.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void updateObservation()
+    {
+        if(getObservationsSave()!= null)
+        {
+            if(!Utilities.isEmpty(getObservationsSave().getTittle()) && 
+                    !Utilities.isEmpty(getObservationsSave().getDescription()))
+            {
+                if(getInputSelected().getScInputObservationsList() != null)
+                {
+                    //Guardamos exitosamente la observación
+                    getObservationsSave().setIdInput(getInputSave());
+                    getInputSelected().getScInputObservationsList().add(getObservationsSave());
+                    setObservationsSave(new ScInputObservations());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una observación", 
+                            "Debe ingresar los campos Título y Descripción de la observación");
+                    log.error("Error al intentar guardar una observación, "
+                            + "Debe ingresar los campos Título y Descripción de la observación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de borrar una especificación agregada a la lista para 
+     * actualizar un inusmo.
+     * @param inputSpecifications especificación a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteUpdateSpecifications(ScInputSpecifications inputSpecifications)
+    {
+        if(getInputSelected().getScInputSpecifications() != null && !getInputSelected().getScInputSpecifications().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScInputSpecifications iterator: getInputSelected().getScInputSpecifications())
+            {
+                if(iterator.getTittle().equals(inputSpecifications.getTittle()) &&
+                        iterator.getDescription().equals(inputSpecifications.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getInputSelected().getScInputSpecifications().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }            
+            
+    /**
+     * Método encargado de borrar una característica agregada a la lista para 
+     * actualizar un inusmo.
+     * @param feacture característica a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteUpdateFeactures(ScInputFeactures feacture)
+    {
+        if(getInputSelected().getScInputFeacturesList() != null && !getInputSelected().getScInputFeacturesList().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScInputFeactures iterator: getInputSelected().getScInputFeacturesList())
+            {
+                if(iterator.getTittle().equals(feacture.getTittle()) &&
+                        iterator.getDescription().equals(feacture.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getInputSelected().getScInputFeacturesList().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de borrar una observación agregada a la lista para 
+     * actualizar un inusmo.
+     * @param observations observación a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteUpdateObservation(ScInputObservations observations)
+    {
+        if(getInputSelected().getScInputObservationsList()!= null && !getInputSelected().getScInputObservationsList().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScInputObservations iterator: getInputSelected().getScInputObservationsList())
+            {
+                if(iterator.getTittle().equals(observations.getTittle()) &&
+                        iterator.getDescription().equals(observations.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getInputSelected().getScInputObservationsList().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
     /**
      * Método encargado de recibir una entrada de datos y un archivo para posteriormente
      * escribir los datos en el archivo.
@@ -1559,6 +2013,16 @@ public class ScInputBean
     public void setMeasureUnitSave(ScMeasureUnit measureUnitSave)
     {
         this.measureUnitSave = measureUnitSave;
+    }
+
+    public ScMeasureUnit getMeasureUnitSaveWeight()
+    {
+        return measureUnitSaveWeight;
+    }
+
+    public void setMeasureUnitSaveWeight(ScMeasureUnit measureUnitSaveWeight)
+    {
+        this.measureUnitSaveWeight = measureUnitSaveWeight;
     }
     
     

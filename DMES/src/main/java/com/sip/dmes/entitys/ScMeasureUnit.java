@@ -107,7 +107,7 @@ public class ScMeasureUnit implements Serializable {
 
     @Override
     public String toString() {
-        return idMeasure.toString();
+        return idMeasure+","+acronym;
     }
     
 }

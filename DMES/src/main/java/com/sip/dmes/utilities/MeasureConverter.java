@@ -10,6 +10,7 @@ package com.sip.dmes.utilities;
 
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScMeasureUnit;
+import com.sip.dmes.entitys.ScPackingUnit;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -37,7 +38,12 @@ public class MeasureConverter implements Converter{
         if(value.length()>0)
         {   
             FacesMessage msg = new FacesMessage("Error al convertir el centro de costo", "Formato no válido");
-            measureUnit = new ScMeasureUnit(Long.parseLong(value));
+            String campos[] = value.split(",");
+            if(campos.length > 1)
+            {
+                measureUnit = new ScMeasureUnit(Long.parseLong(campos[0]));
+                measureUnit.setAcronym(campos[1]);
+            }
         }
         
         return measureUnit;

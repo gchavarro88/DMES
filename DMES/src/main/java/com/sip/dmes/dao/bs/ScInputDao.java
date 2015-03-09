@@ -76,6 +76,8 @@ public class ScInputDao  implements  IScInput
         try
         {
             entityManager.remove(entityManager.contains(input)?input:entityManager.merge(input));
+            entityManager.remove(entityManager.contains(input.getDimension())?input:entityManager.merge(input.getDimension()));
+            entityManager.remove(entityManager.contains(input.getInputStock())?input:entityManager.merge(input.getInputStock()));
         }
         catch (Exception e)
         {
