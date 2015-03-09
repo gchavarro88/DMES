@@ -9,6 +9,7 @@ import com.sip.dmes.dao.bo.IScInput;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputLocation;
+import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
@@ -52,16 +53,19 @@ public class ScInputDao  implements  IScInput
     }
 
     @Override
-    @Transactional
+    @Transactional 
     public void saveInput(ScInput input) throws Exception
     {
         try
         {
+            entityManager.persist(input.getInputStock());
+            entityManager.persist(input.getDimension());
             entityManager.persist(input);
         }
         catch (Exception e)
         {
             log.error("Error al intentar hacer la persistencia de los insumos",e);
+            throw e;
         }
     }
 
@@ -236,6 +240,38 @@ public class ScInputDao  implements  IScInput
             log.error("Error al intentar hacer la persistencia de las prioridades",e);
         }
         return result;
+    }
+
+    @Override
+    public List<ScMeasureUnit> getAllMeasureUnits() throws Exception
+    {
+        List<ScMeasureUnit> result = null;
+        Query query  = entityManager.createNamedQuery("ScMeasureUnit.findAll"); 
+        try
+        {
+            result = (List<ScMeasureUnit>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las medidas",e);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception
+    {
+        try
+        {
+            entityManager.persist(measureUnit);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de una medida",e);
+            throw e;
+        }
     }
 
     

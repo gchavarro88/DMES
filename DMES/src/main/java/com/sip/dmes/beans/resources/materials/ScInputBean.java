@@ -55,7 +55,13 @@ public class ScInputBean
     private ScInput inputSelected; //Insumo seleccionado para consulta, edición o eliminación
     private ScInput inputSave; //Insumo seleccionado para agregar
     private ScMeasureUnit measureUnitSave; //Unidad de medida seleccionado para agregar
-    private ScMeasureUnit measureUnitSelected; //Unidad de medida seleccionado para agregar al insumo
+    private ScMeasureUnit measureUnitSaveHigh; //Unidad de medida seleccionado para agregar
+    private ScMeasureUnit measureUnitSaveWidth; //Unidad de medida seleccionado para agregar
+    private ScMeasureUnit measureUnitSaveRadio; //Unidad de medida seleccionado para agregar
+    private ScMeasureUnit measureUnitSaveLarge; //Unidad de medida seleccionado para agregar
+    private ScMeasureUnit measureUnitSaveVolume; //Unidad de medida seleccionado para agregar
+    private ScMeasureUnit measureUnitSaveThickness; //Unidad de medida seleccionado para agregar
+    
     private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
     private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
     private ScInputLocation inputLocationSave; //Localizacion seleccionada para agregar
@@ -96,6 +102,7 @@ public class ScInputBean
     private final String TAB_FEACTURES = "tabFeactures";
     private final String TAB_OBSERVATIONS = "tabObservations";
     private final String TAB_EQUIVALENCE = "tabEquivalence";
+    private final String TAB_CONFIRM_SAVE = "tabConfirmSave";
     
     /**
      * Creates a new instance of ScInputBean
@@ -118,6 +125,7 @@ public class ScInputBean
         fillListInputLocation();
         fillListStore();
         fillListPriority();
+        fillListMeasure();
         cleanFieldsInit();
     }
     
@@ -238,6 +246,24 @@ public class ScInputBean
             log.error("Error al intentar consultar las prioridades para los insumos", e);
         }
     }
+    
+    /**
+     * Método encargado de llenar la lista de medidas.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListMeasure()
+    {
+        try
+        {
+            //Se consultan todos almacenes disponibles
+            setMeasureUnitsList(getScInputServer().getAllMeasureUnits());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar las medidas para los insumos", e);
+        }
+    }
+    
     /**
      * Método encargado de vaciar los objetos.
      * @author Gustavo Chavarro Ortiz
@@ -250,7 +276,18 @@ public class ScInputBean
         setPackingUnitSave(new ScPackingUnit());
         setInputLocationSave(new ScInputLocation());
         setMeasureUnitSave(new ScMeasureUnit());
+
         cleanInputSave();
+    }
+    
+    public void cleansTypesMeasures()
+    {
+        setMeasureUnitSaveHigh(new ScMeasureUnit());
+        setMeasureUnitSaveWidth(new ScMeasureUnit());
+        setMeasureUnitSaveRadio(new ScMeasureUnit());
+        setMeasureUnitSaveVolume(new ScMeasureUnit());
+        setMeasureUnitSaveLarge(new ScMeasureUnit());
+        setMeasureUnitSaveThickness(new ScMeasureUnit());
     }
     public void cleanInputSave()
     {
@@ -270,6 +307,16 @@ public class ScInputBean
     {
         setCostCenterSave(new ScCostCenter());
     }
+    
+    /**
+     * Método encargado de vaciar los objetos.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsMeasure()
+    {
+        setMeasureUnitSave(new ScMeasureUnit());
+    }
+    
     /**
      * Método encargado de vaciar los objetos.
      * @author Gustavo Chavarro Ortiz
@@ -344,6 +391,39 @@ public class ScInputBean
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             log.error("Error al intentar agregar un centro de costos desde insumos",e);
+        }
+    
+    }
+    
+    /**
+     * Método encargado de agregar una medida.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addMeasure()
+    {
+        try 
+        {
+            if(getMeasureUnitSave() != null)
+            {
+                getScInputServer().saveMeasureUnit(getMeasureUnitSave());
+                if(getMeasureUnitsList() == null)
+                {
+                    setMeasureUnitsList(new ArrayList<ScMeasureUnit>());
+                }
+                getMeasureUnitsList().add(getMeasureUnitSave());
+                cleanFieldsMeasure();
+            }
+            else
+            {
+                log.error("Error al intentar crear la unidad de medida para insumos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar agregar una unidad de medida desde insumos",e);
         }
     
     }
@@ -463,7 +543,17 @@ public class ScInputBean
     {
         if(getSpecificationListSave() != null && !getSpecificationListSave().isEmpty())
         {
-            getSpecificationListSave().remove(inputSpecifications);
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScInputSpecifications iterator: getSpecificationListSave())
+            {
+                if(iterator.getTittle().equals(inputSpecifications.getTittle()) &&
+                        iterator.getDescription().equals(inputSpecifications.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getSpecificationListSave().remove(index);//Removemos el elemento en la posición hallada
         }
         else
         {
@@ -519,7 +609,84 @@ public class ScInputBean
     {
         if(getFeacturesListSave() != null && !getFeacturesListSave().isEmpty())
         {
-            getFeacturesListSave().remove(feacture);
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScInputFeactures iterator: getFeacturesListSave())
+            {
+                if(iterator.getTittle().equals(feacture.getTittle()) &&
+                        iterator.getDescription().equals(feacture.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getFeacturesListSave().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de guardar temporalmente una observación.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveObservation()
+    {
+        if(getObservationsSave()!= null)
+        {
+            if(!Utilities.isEmpty(getObservationsSave().getTittle()) && 
+                    !Utilities.isEmpty(getObservationsSave().getDescription()))
+            {
+                if(getFeacturesListSave() != null)
+                {
+                    //Guardamos exitosamente la observación
+                    getObservationsSave().setIdInput(getInputSave());
+                    getObservationListSave().add(getObservationsSave());
+                    setObservationsSave(new ScInputObservations());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una observación", 
+                            "Debe ingresar los campos Título y Descripción de la observación");
+                    log.error("Error al intentar guardar una observación, "
+                            + "Debe ingresar los campos Título y Descripción de la observación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de borrar una observación agregada a la lista para 
+     * guardar un inusmo.
+     * @param observations observación a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteObservation(ScInputObservations observations)
+    {
+        if(getObservationListSave()!= null && !getObservationListSave().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScInputObservations iterator: getObservationListSave())
+            {
+                if(iterator.getTittle().equals(observations.getTittle()) &&
+                        iterator.getDescription().equals(observations.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getObservationListSave().remove(index);//Removemos el elemento en la posición hallada
         }
         else
         {
@@ -536,7 +703,16 @@ public class ScInputBean
     public String onFlowProcessSaveInput(FlowEvent event) 
     {    
         int packingUnit = -1;
-        if(event.getOldStep().equals(TAB_GENERAL))
+        if(event.getNewStep().equals(TAB_GENERAL))
+        {
+            //Si vamos a la pestaña de datos generales volveremos acomodar la unidad y el empaque 
+            if(!Utilities.isEmpty(getInputSave().getPackingUnit()))
+            {
+                String fields[] = getInputSave().getPackingUnit().split(" ");
+                getInputSave().setPackingUnit(fields[0]);
+            }
+        }
+        else if(event.getOldStep().equals(TAB_GENERAL))
         {
             if(getInputSave() != null)
             {
@@ -665,9 +841,78 @@ public class ScInputBean
                 return event.getOldStep();
             }
             //Creamos la lista de especificaciones para la tercer pestaña
+        }
+        
+        return event.getNewStep(); 
+    }
+    
+    /**
+     * Método encargado de llevar el flujo al actualizar un insumo.
+     * @param event evento en el cual se encuentra el asistente para actualizar insumos
+     * @return String al final retorna el nombre de la siguiente pestaña del asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessUpdateInput(FlowEvent event) 
+    {    
+        int packingUnit = -1;
+        if(event.getNewStep().equals(TAB_GENERAL))
+        {
+            //Si vamos a la pestaña de datos generales volveremos acomodar la unidad y el empaque 
+            if(!Utilities.isEmpty(getInputSelected().getPackingUnit()))
+            {
+                String fields[] = getInputSelected().getPackingUnit().split(" ");
+                getInputSelected().setPackingUnit(fields[0]);
+            }
+        }
+        
+        
+        return event.getNewStep(); 
+    }
+    
+    public void saveInput()
+    {
+        //Valido que el insumo no sea nulo
+        if(getInputSave() != null)
+        {
+            if(getSpecificationListSave() != null)
+            {
+                //Le agrego la lista de especificaciones
+                getInputSave().setScInputSpecifications(getSpecificationListSave());
+            }
+            if(getFeacturesListSave()!= null)
+            {
+                //Le agrego la lista de características
+                getInputSave().setScInputFeacturesList(getFeacturesListSave());
+            } 
+            if(getObservationListSave()!= null)
+            {
+                //Le agrego la lista de observaciones
+                getInputSave().setScInputObservationsList(getObservationListSave());
+            }
+            //Almacenamos el insumo
+            try
+            {
+                if(getPackingUnitSave() != null)
+                {
+                    getInputSave().setPackingUnit(getInputSave().getPackingUnit()+" "+getPackingUnitSelected().getAcronym());
+                }
+                if(getMeasureUnitSaveHigh() != null)
+                {
+                    getInputSave().getDimension().setHight(getInputSave().getPackingUnit()+" "+getPackingUnitSelected().getAcronym());
+                }
+                getScInputServer().saveInput(getInputSave());
+                getInputList().add(getInputSave());
+                cleanInputSave();
+            }
+            catch (Exception e)
+            {
+                log.error("Error almacenando el insumo", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanInputSave();
+            }
             
         }
-        return event.getNewStep(); 
+    
     }
     /**
      * Método encargado de inicializar todas las listas para crear un insumo.
@@ -732,10 +977,10 @@ public class ScInputBean
     
     /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
-     * @param event Evento que trae el archvio cargado al servidor
+     * @param option se escoge la opción entre guardar y actualizar
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void handleFileUpload() {
+    public void handleFileUpload(int option) {
          //Validamos que el evento de copiado no sea nulo
             if(getPictureFile() != null)
             {
@@ -758,7 +1003,17 @@ public class ScInputBean
                             //Creamos el archivo y lo enviamos al metodo que lo escribe
                             if(writeFile(getPictureFile().getInputstream(), file))
                             {
-                                getInputSave().setPathPicture(file.getAbsolutePath());
+                                switch(option)
+                                {
+                                    case 1://opción para guardar
+                                        getInputSave().setPathPicture(file.getAbsolutePath());
+                                    break;
+                                    case 2://opción para actualizar
+                                        getInputSelected().setPathPicture(file.getAbsolutePath());
+                                    break;
+                                    default:
+                                    break;
+                                }
                                 //addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                             }
                             //Si sucede un error al escribir el archivo
@@ -784,8 +1039,20 @@ public class ScInputBean
                 {
                     addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
                 }
-            RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
-            RequestContext.getCurrentInstance().execute("PF('dialogInputSave').show()");
+            switch(option)
+            {
+                case 1://opción para guardar
+                    RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
+                    RequestContext.getCurrentInstance().execute("PF('dialogInputSave').show()");
+                break;
+                case 2://opción para actualizar
+                    RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
+                    RequestContext.getCurrentInstance().execute("PF('dialogInputUpdate').show()");
+                break;
+                default:
+                break;
+            }
+            
     }
     
     /**
@@ -805,6 +1072,40 @@ public class ScInputBean
             }
         } 
         return DMESConstants.PATH_IMAGE_DEFAULT;
+    }
+    /**
+     * Método encargado de limpiar los campos para actualizar un insumo
+     * @param input insumo a actualizar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForUpdate(ScInput input) 
+    {
+        setInputSelected(input);
+        if(!Utilities.isEmpty(getInputSelected().getPackingUnit()))
+        {
+            String fields[] = getInputSelected().getPackingUnit().split(" ");
+            getInputSelected().setPackingUnit(fields[0]);
+            for(ScPackingUnit packingUnit: getPackingUnitsList())
+            {
+                if(packingUnit.getAcronym().equals(fields[1]))
+                {
+                    setPackingUnitSelected(packingUnit);
+                    break;
+                }
+            }
+        }
+        
+    }
+    
+    public void valueToList(String value, int option)
+    {
+        String fields[] = value.split(value); //Dividimos el valor y su unidad
+        
+        switch(option)//Seleccionamos la opción
+        {
+        
+        }
+    
     }
     
     /**
@@ -997,16 +1298,67 @@ public class ScInputBean
         this.costCenterSave = costCenterSave;
     }
 
-    public ScMeasureUnit getMeasureUnitSave()
+    public ScMeasureUnit getMeasureUnitSaveWidth()
     {
-        return measureUnitSave;
+        return measureUnitSaveWidth;
     }
 
-    public void setMeasureUnitSave(ScMeasureUnit measureUnitSave)
+    public void setMeasureUnitSaveWidth(ScMeasureUnit measureUnitSaveWidth)
     {
-        this.measureUnitSave = measureUnitSave;
+        this.measureUnitSaveWidth = measureUnitSaveWidth;
     }
 
+    public ScMeasureUnit getMeasureUnitSaveRadio()
+    {
+        return measureUnitSaveRadio;
+    }
+
+    public void setMeasureUnitSaveRadio(ScMeasureUnit measureUnitSaveRadio)
+    {
+        this.measureUnitSaveRadio = measureUnitSaveRadio;
+    }
+
+    public ScMeasureUnit getMeasureUnitSaveLarge()
+    {
+        return measureUnitSaveLarge;
+    }
+
+    public void setMeasureUnitSaveLarge(ScMeasureUnit measureUnitSaveLarge)
+    {
+        this.measureUnitSaveLarge = measureUnitSaveLarge;
+    }
+
+    public ScMeasureUnit getMeasureUnitSaveVolume()
+    {
+        return measureUnitSaveVolume;
+    }
+    
+    public void setMeasureUnitSaveVolume(ScMeasureUnit measureUnitSaveVolume)
+    {
+        this.measureUnitSaveVolume = measureUnitSaveVolume;
+    }
+
+    public ScMeasureUnit getMeasureUnitSaveHigh()
+    {
+        return measureUnitSaveHigh;
+    }
+
+    public void setMeasureUnitSaveHigh(ScMeasureUnit measureUnitSaveHigh)
+    {
+        this.measureUnitSaveHigh = measureUnitSaveHigh;
+    }
+    
+    public ScMeasureUnit getMeasureUnitSaveThickness()
+    {
+        return measureUnitSaveThickness;
+    }
+
+    public void setMeasureUnitSaveThickness(ScMeasureUnit measureUnitSaveThickness)
+    {
+        this.measureUnitSaveThickness = measureUnitSaveThickness;
+    }
+
+   
     public List<ScMeasureUnit> getMeasureUnitsList()
     {
         return measureUnitsList;
@@ -1017,15 +1369,7 @@ public class ScInputBean
         this.measureUnitsList = measureUnitsList;
     }
 
-    public ScMeasureUnit getMeasureUnitSelected()
-    {
-        return measureUnitSelected;
-    }
-
-    public void setMeasureUnitSelected(ScMeasureUnit measureUnitSelected)
-    {
-        this.measureUnitSelected = measureUnitSelected;
-    }
+   
 
     public ScPackingUnit getPackingUnitSave()
     {
@@ -1205,6 +1549,16 @@ public class ScInputBean
     public void setObservationsSave(ScInputObservations observationsSave)
     {
         this.observationsSave = observationsSave;
+    }
+
+    public ScMeasureUnit getMeasureUnitSave()
+    {
+        return measureUnitSave;
+    }
+
+    public void setMeasureUnitSave(ScMeasureUnit measureUnitSave)
+    {
+        this.measureUnitSave = measureUnitSave;
     }
     
     

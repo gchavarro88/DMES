@@ -107,7 +107,7 @@ public class ScMeasureUnit implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sip.dmes.entitys.ScMeasureUnit[ idMeasure=" + idMeasure + " ]";
+        return idMeasure.toString();
     }
     
 }
