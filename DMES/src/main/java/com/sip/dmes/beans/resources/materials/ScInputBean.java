@@ -9,8 +9,10 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScInput;
 import com.sip.dmes.dao.bs.ScInputDao;
 import com.sip.dmes.entitys.ScCostCenter;
+import com.sip.dmes.entitys.ScDocuments;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputDimension;
+import com.sip.dmes.entitys.ScInputDocuments;
 import com.sip.dmes.entitys.ScInputEquivalence;
 import com.sip.dmes.entitys.ScInputFeactures;
 import com.sip.dmes.entitys.ScInputLocation;
@@ -29,8 +31,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -50,8 +54,6 @@ public class ScInputBean
 
     //Declaración de Variables
     private List<ScInput> inputList;//Lista de insumos de la tabla
-    private List<ScInputDimension> dimensionInputList;//Lista de dimensiones del insumo
-    private List<ScInputEquivalence> equivalenceInputList; //Lista de equivalencias del insumo
     private ScInput inputSelected; //Insumo seleccionado para consulta, edición o eliminación
     private ScInput inputSave; //Insumo seleccionado para agregar
     private ScMeasureUnit measureUnitSave; //Unidad de medida seleccionado para agregar
@@ -76,6 +78,7 @@ public class ScInputBean
     private ScInputSpecifications SpecificationsSave;//Especificación a guardar
     private ScInputFeactures feacturesSave;//Característica a guardar
     private ScInputObservations observationsSave;//Observación a guardar
+    private ScInputDocuments documentsSave;//Documento a guardar
     private List<ScPartner> partnersList;//Listado de proveedores
     private List<ScCostCenter> costCenterList;//Listado de centros de costo
     private List<ScMeasureUnit> measureUnitsList;//Lista de unidades de medida
@@ -87,7 +90,10 @@ public class ScInputBean
     private List<ScInputFeactures> feacturesListSave;//Lista de características a guardar
     private List<ScInputObservations> observationListSave;//Lista de observaciones a guardar
     private List<ScInputEquivalence> equivalenceListSave;//Lista de equivalencias a guardar
-        
+    private List<ScInputDocuments> documentsListSave;//Lista de documentos a guardar
+    private UploadedFile fileSave;//Documento a subir
+    private UploadedFile fileUpdate;//Documento a actualizar
+    
     //Persistencia
     private IScInput scInputServer; //Dao de persistencia del insumos
     
@@ -95,7 +101,7 @@ public class ScInputBean
     private final static Logger log = Logger.getLogger(ScInputDao.class);
    
     //Constantes
-    private final String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
+    
     //Tabs
     private final String TAB_GENERAL = "tabGeneral";
     private final String TAB_STOCK = "tabStock";
@@ -105,6 +111,10 @@ public class ScInputBean
     private final String TAB_EQUIVALENCE = "tabEquivalence";
     private final String TAB_CONFIRM_SAVE = "tabConfirmSave";
     
+    //files
+    private int MAX_SIZE_FILE = 5;//Tamaño en megas del archivo
+    private String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";
+    private String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
     /**
      * Creates a new instance of ScInputBean
      */
@@ -128,6 +138,7 @@ public class ScInputBean
         fillListPriority();
         fillListMeasure();
         cleanFieldsInit();
+        getinitalParameters();
     }
     
     /**
@@ -277,8 +288,9 @@ public class ScInputBean
         setPackingUnitSave(new ScPackingUnit());
         setInputLocationSave(new ScInputLocation());
         setMeasureUnitSave(new ScMeasureUnit());
-
+        cleanDocumentSave();
         cleanInputSave();
+        setDocumentsListSave(new ArrayList<ScInputDocuments>());
     }
     
     public void cleansTypesMeasures()
@@ -695,6 +707,64 @@ public class ScInputBean
             log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+    
+    /**
+     * Método encargado de borrar un documento agregada a la lista para 
+     * guardar un inusmo.
+     * @param documents documento a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteDocument(ScInputDocuments documents)
+    {
+        if(getDocumentsListSave()!= null && !getDocumentsListSave().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScInputDocuments iterator: getDocumentsListSave())
+            {
+                if(iterator.getDocumentTittle().equals(documents.getDocumentTittle()) &&
+                        iterator.getDocumentPath().equals(documents.getDocumentPath()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getDocumentsListSave().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de borrar un documento agregada a la lista para 
+     * guardar un inusmo.
+     * @param documents documento a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteDocumentUpdate(ScInputDocuments documents)
+    {
+        if(getInputSelected().getScInputDocuments()!= null && !getInputSelected().getScInputDocuments().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScInputDocuments iterator: getInputSelected().getScInputDocuments())
+            {
+                if(iterator.getDocumentTittle().equals(documents.getDocumentTittle()) &&
+                        iterator.getDocumentPath().equals(documents.getDocumentPath()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getInputSelected().getScInputDocuments().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
     /**
      * Método encargado de llevar el flujo al guardar un insumo.
      * @param event evento en el cual se encuentra el asistente para crear insumos
@@ -901,6 +971,11 @@ public class ScInputBean
             {
                 //Le agrego la lista de observaciones
                 getInputSave().setScInputObservationsList(getObservationListSave());
+            }
+            if(getDocumentsListSave()!= null)
+            {
+                //Le agrego la lista de observaciones
+                getInputSave().setScInputDocuments(getDocumentsListSave());
             }
             //Almacenamos el insumo
             try
@@ -1110,7 +1185,7 @@ public class ScInputBean
             //Validamos que el archivo contenga los tipos permitidos
             if (DMESConstants.TYPES_EXTENTIONS_IMAGES.contains(fileType))
             {
-                String folderName = DMESConstants.FILE_PATH_INPUTS;
+                String folderName = DMESConstants.FILE_PATH_INPUTS_IMG;
                 //Creamos el folder
                 File folder = new File(PATH_FILE + "/" + folderName);
                 folder.mkdirs();
@@ -1180,14 +1255,21 @@ public class ScInputBean
      */
     public String searchImage(ScInput input)
     {
-        if(input != null)
+        try
         {
-            if(!Utilities.isEmpty(input.getPathPicture()))
+            if(input != null)
             {
-                //la constante me permite mapear imagenes externas
-                return DMESConstants.PATH_EXTERN_PICTURES+input.getPathPicture();
-            }
-        } 
+                if(!Utilities.isEmpty(input.getPathPicture()))
+                {
+                    //la constante me permite mapear imagenes externas
+                    return DMESConstants.PATH_EXTERN_PICTURES+input.getPathPicture();
+                }
+            } 
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR, "La imagen no existe");
+        }
         return DMESConstants.PATH_IMAGE_DEFAULT;
     }
     
@@ -1357,6 +1439,7 @@ public class ScInputBean
     
     }
     
+   
     /**
      * Método encargado de guardar temporalmente una especificación
      * en un insumo existente.
@@ -1562,6 +1645,163 @@ public class ScInputBean
             log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+    
+    /**
+     * Método encargado de realizar la copia del archivo que se desea cargar.
+     * @param option Evento que trae el archvio cargado al servidor
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void handleDocumentUpload(int option) 
+    {
+         //Validamos que el evento de copiado no sea nulo
+        int bytesToMegabytes = 10485760; //Valor de representación de 1megabytes a bytes
+        if(!Utilities.isEmpty(getDocumentsSave().getDocumentTittle()))
+        {
+            if(getFileSave() != null )
+         {
+            String fileName = getFileSave().getFileName(); //Extraemos el nombre del archivo
+            long fileSize    = getFileSave().getSize(); //Extraemos el tamaño del archivo
+            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+            String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
+            if(fileSize > 0)
+            {
+                //Validamos que el archivo cumpla con el tamaño permitido
+                if(fileSize <=(MAX_SIZE_FILE*bytesToMegabytes))
+                {
+                    //Validamos que el archivo contenga los tipos permitidos
+                    if(EXTENSION_FILE.contains(fileType))
+                    {
+                        String firstName = getSessionBean().getScUser().getIdPerson().getFirstName().replaceAll(" ", "_");
+                        String lastName = getSessionBean().getScUser().getIdPerson().getLastName().replaceAll(" ", "_");
+                        String folderName = DMESConstants.FILE_PATH_INPUTS_DOCS;
+                        //Creamos el folder
+                        File folder = new File(PATH_FILE+"/"+folderName);
+                        folder.mkdirs();
+                        //Creamos el archivo con la ruta y el nombre de la carpeta
+                        File file = new File(folder+"/"+fileName);
+                        try
+                        {
+                            //Creamos el archivo y lo enviamos al metodo que lo escribe
+                            if(writeFile(getFileSave().getInputstream(), file))
+                            {
+                                getDocumentsSave().setDocumentName(fileName);
+                                getDocumentsSave().setDocumentPath(file.toString());
+                                getDocumentsSave().setTypeDocument(fileName);
+                                getDocumentsSave().setUploadBy(getSessionBean().getScUser().getLogin());
+                                
+                                getDocumentsSave().setCreationDate(new Date());
+                                switch (option)
+                                {
+                                    case 1://opción para guardar
+                                        getDocumentsSave().setIdInput(getInputSave());
+                                        getDocumentsListSave().add(getDocumentsSave());
+                                        
+                                        break;
+                                    case 2://opción para actualizar
+                                        getDocumentsSave().setIdInput(getInputSelected());
+                                        getInputSelected().getScInputDocuments().add(getDocumentsSave());
+                                        
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            //Si sucede un error al escribir el archivo
+                            else
+                            {
+                                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                            }   
+                        }
+                        catch (Exception e)
+                        {
+                            //Excepción de escritura
+                            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                            log.error("Error al itnentar crear un nuevo archivo", e);
+                        }
+                    }
+                    //El tipo no pertenece
+                    else
+                    {
+                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos "+EXTENSION_FILE);
+                    }
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo supera el límite de tamaño permitido "+MAX_SIZE_FILE+" MB");
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
+            }
+         }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe ingresar un título para el documento");
+        }
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
+                RequestContext.getCurrentInstance().execute("PF('dialogInputSave').show()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
+                RequestContext.getCurrentInstance().execute("PF('dialogInputUpdate').show()");
+                break;
+            default:
+                break;
+        }
+         cleanDocumentSave();
+    }
+    
+    /**
+     * Método encargado de limpiar todas las variables temporales.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanDocumentSave()
+    {
+        setDocumentsSave(new ScInputDocuments());
+    }
+    
+    /**
+     * Método encargado de consultar los parámetros iniciales, para cargar archivos.
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void getinitalParameters()
+    {
+        try
+        {
+            //Consultamos la tabla de parámetros iniciales
+            Object object = getScInputServer().getInitialParameters();
+            //Extraemos la información en un arreglo
+            Object[] data = (Object[]) object;
+            if(data != null)
+            {
+                //Extraemos el valor por defecto del tamaño de los archivos
+                if(data.length > 0 && data[0] != null && !Utilities.isEmpty(data[0].toString()))
+                {
+                    MAX_SIZE_FILE = Integer.parseInt(data[0].toString());
+                }
+                //Extraemos el valor por defecto de los tipos permitidos
+                if(data.length > 1 && data[1] != null && !Utilities.isEmpty(data[1].toString()))
+                {
+                    EXTENSION_FILE = data[1].toString();
+                }
+                //Extraemos el valor por defecto la ruta donde se guardarán
+                if(data.length > 2 && data[2] != null &&!Utilities.isEmpty(data[2].toString()))
+                {
+                    PATH_FILE = data[2].toString();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            log.error("Error al intentar consultar los parámetros iniciales",ex);
+        }
+    }
+    
     /**
      * Método encargado de recibir una entrada de datos y un archivo para posteriormente
      * escribir los datos en el archivo.
@@ -1593,6 +1833,39 @@ public class ScInputBean
         }
         return result;
     }
+    
+    
+    public String getFormatDate(Date date)
+    {
+        String result = "";
+        String patron = "dd-MM-yyyy";
+        result = getFormatDateGlobal(patron, date);
+        return result;
+    }
+    
+    /**
+     * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
+     * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón
+     * recibido
+     * <p>
+     * @param pattern patrón del formato de la fecha
+     * @param date fecha a visualizar
+     * <p>
+     * @return valor de la fecha en el formato indicado por el patrón de tipo
+     * String
+     * <p>
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public String getFormatDateGlobal(String pattern, Date date)
+    {
+        String result = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        if (date != null)
+        {
+            result = simpleDateFormat.format(date);
+        }
+        return result;
+    } 
     
     /**
      * Método encargado de visualizar un  mensaje en la pantalla de tipo informativo
@@ -1652,25 +1925,7 @@ public class ScInputBean
         this.inputList = inputList;
     }
 
-    public List<ScInputDimension> getDimensionInputList()
-    {
-        return dimensionInputList;
-    }
-
-    public void setDimensionInputList(List<ScInputDimension> dimensionInputList)
-    {
-        this.dimensionInputList = dimensionInputList;
-    }
-
-    public List<ScInputEquivalence> getEquivalenceInputList()
-    {
-        return equivalenceInputList;
-    }
-
-    public void setEquivalenceInputList(List<ScInputEquivalence> equivalenceInputList)
-    {
-        this.equivalenceInputList = equivalenceInputList;
-    }
+    
 
     public SessionBean getSessionBean()
     {
@@ -2023,6 +2278,46 @@ public class ScInputBean
     public void setMeasureUnitSaveWeight(ScMeasureUnit measureUnitSaveWeight)
     {
         this.measureUnitSaveWeight = measureUnitSaveWeight;
+    }
+
+    public ScInputDocuments getDocumentsSave()
+    {
+        return documentsSave;
+    }
+
+    public void setDocumentsSave(ScInputDocuments documentsSave)
+    {
+        this.documentsSave = documentsSave;
+    }
+
+    public List<ScInputDocuments> getDocumentsListSave()
+    {
+        return documentsListSave;
+    }
+
+    public void setDocumentsListSave(List<ScInputDocuments> documentsListSave)
+    {
+        this.documentsListSave = documentsListSave;
+    }
+
+    public UploadedFile getFileSave()
+    {
+        return fileSave;
+    }
+
+    public void setFileSave(UploadedFile fileSave)
+    {
+        this.fileSave = fileSave;
+    }
+
+    public UploadedFile getFileUpdate()
+    {
+        return fileUpdate;
+    }
+
+    public void setFileUpdate(UploadedFile fileUpdate)
+    {
+        this.fileUpdate = fileUpdate;
     }
     
     

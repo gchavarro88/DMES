@@ -39,7 +39,8 @@
                                             <h:graphicImage value="#{scInputBean.searchImage(scInputBean.inputSave)}" alt="Imagen no disponible" id="imageSave" 
                                                             width="120" height="120"  />
                                             <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"/>                                       
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"
+                                                              ignoreAutoUpdate="true"/>                                       
                                         </td>
                                         <td colspan="2" ></td>
                                     </tr>
@@ -588,6 +589,61 @@
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para observaciones-->
+                        <!--                        inicia pestaña para documentos-->
+                        <p:tab title="Documentos" id="tabDocuments" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los documentos del insumo">
+                            <p:panel header="Documentos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableDocumentationSave"
+                                                         var="document" 
+                                                         value="#{scInputBean.documentsListSave}"
+                                                         rowKey="#{document.documentTittle}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{document.documentTittle}">
+
+                                                <f:facet name="header">
+                                                    <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                                                     oncomplete="PF('documentSave').show()">
+                                                        <p:tooltip for="btnAdd" value="Agregar un Documento"/>
+                                                    </p:commandButton>
+                                                </f:facet>
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableDocumentationSave" title="Eliminar Documentos"
+                                                                     process="@this" 
+                                                                     actionListener="#{scInputBean.deleteDocument(documents)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Título" sortBy="#{document.documentTittle}">
+                                                    <p:outputLabel value="#{document.documentTittle}" id="outTittle"/>
+                                                    <p:tooltip value="#{document.documentTittle}" for="outTittle"/>
+                                                </p:column>                                                 
+                                                <p:column headerText="Documento" sortBy="#{document.documentName}">
+                                                    <p:outputLabel value="#{document.documentName}" id="documentName"/>
+                                                    <p:tooltip value="#{document.documentName}" for="documentName"/>
+                                                </p:column>
+                                                <p:column headerText="Fecha de Subida" sortBy="#{scInputBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
+                                                    <p:outputLabel value="#{scInputBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" id="uploadDate"/>
+                                                    <p:tooltip value="#{scInputBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" for="uploadDate"/>
+                                                </p:column>
+                                                <p:column headerText="Subido por" sortBy="#{document.uploadBy}">
+                                                    <p:outputLabel value="#{document.uploadBy}" id="uploadBy"/>
+                                                    <p:tooltip value="#{document.uploadBy}" for="uploadBy"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para documentos
+                        -->
                         <!--        inicia la pestaña para confirmar datos de guardar-->
                         <p:tab title="Confirmar datos" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson"
                                titletip="Pestaña para confirmar los datos del insumo a crear">
@@ -655,7 +711,7 @@
                         <!--        finaliza la pestaña para confirmar datos de guardar-->
                     </p:wizard>
                 </h:form>
-                    <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', false)"/>
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" />
             </p:dialog>
             <!--         finaliza el dialogo para guardar Insumos               -->
 
@@ -1233,6 +1289,63 @@
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para observaciones-->
+                        
+                        <!--                        inicia pestaña para documentos-->
+                        <p:tab title="Documentos" id="tabDocuments" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los documentos del insumo">
+                            <p:panel header="Documentos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableDocumentationSave"
+                                                         var="document" 
+                                                         value="#{scInputBean.inputSelected.scInputDocuments}"
+                                                         rowKey="#{document.documentTittle}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{document.documentTittle}">
+
+                                                <f:facet name="header">
+                                                    <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                                                     oncomplete="PF('documentUpdate').show()">
+                                                        <p:tooltip for="btnAdd" value="Agregar un Documento"/>
+                                                    </p:commandButton>
+                                                </f:facet>
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableDocumentationSave" title="Eliminar Documentos"
+                                                                     process="@this" 
+                                                                     actionListener="#{scInputBean.deleteDocumentUpdate(documents)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Título" sortBy="#{document.documentTittle}">
+                                                    <p:outputLabel value="#{document.documentTittle}" id="outTittle"/>
+                                                    <p:tooltip value="#{document.documentTittle}" for="outTittle"/>
+                                                </p:column>                                                 
+                                                <p:column headerText="Documento" sortBy="#{document.documentName}">
+                                                    <p:outputLabel value="#{document.documentName}" id="documentName"/>
+                                                    <p:tooltip value="#{document.documentName}" for="documentName"/>
+                                                </p:column>
+                                                <p:column headerText="Fecha de Subida" sortBy="#{scInputBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
+                                                    <p:outputLabel value="#{scInputBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" id="uploadDate"/>
+                                                    <p:tooltip value="#{scInputBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" for="uploadDate"/>
+                                                </p:column>
+                                                <p:column headerText="Subido por" sortBy="#{document.uploadBy}">
+                                                    <p:outputLabel value="#{document.uploadBy}" id="uploadBy"/>
+                                                    <p:tooltip value="#{document.uploadBy}" for="uploadBy"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para documentos
+                        -->
+                        
                         <!--        inicia la pestaña para confirmar datos de guardar-->
                         <p:tab title="Confirmar datos" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson"
                                titletip="Pestaña para confirmar los datos del insumo a crear">
@@ -1300,7 +1413,7 @@
                         <!--        finaliza la pestaña para confirmar datos de actualzar-->
                     </p:wizard>
                 </h:form>
-                 <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', false)"/>
+                 <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)"/>
             </p:dialog>
             <!--################ finaliza el dialogo para actualizar Insumos #########################-->
 
@@ -1898,7 +2011,7 @@
                         </p:fileUpload>
 
                         <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
-                                         actionListener="#{scInputBean.handleFileUpload(1)}" ajax="false" />
+                                         actionListener="#{scInputBean.handleFileUpload(1)}" ajax="false" ignoreAutoUpdate="true"/>
                     </p:panelGrid>
                 </h:form>
             </p:dialog>
@@ -1916,12 +2029,59 @@
                         </p:fileUpload>
 
                         <p:commandButton id="btnLoadDocumentUpdate" value="Cargar" icon="ui-icon-circle-arrow-s"
-                                         actionListener="#{scInputBean.handleFileUpload(2)}" ajax="false" />
+                                         actionListener="#{scInputBean.handleFileUpload(2)}" ajax="false" ignoreAutoUpdate="true" />
                     </p:panelGrid>
                 </h:form>
             </p:dialog>
             <!--            finaliza el dialogo para actualizar imagenes-->
+            
+            <!--            Dialogo para subir documentos width="10%" align="right" -->
+            <p:dialog id="documentSave" widgetVar="documentSave" draggable="true" 
+                      closable="true"  header="Cargar Documento..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
 
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:outputLabel for="tfDocument" value="Título del Documento"/>
+                        
+                        <p:inputText value="#{scInputBean.documentsSave.documentTittle}" id="tfDocument"/> 
+                        
+                        <p:fileUpload label="Documento de un Insumo" value="#{scInputBean.fileSave}" mode="simple"
+                                      update=":formWizardSave:dataTableDocumentationSave">  
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadFile" value="Cargar" icon="ui-icon-circle-arrow-s" 
+                                         actionListener="#{scInputBean.handleDocumentUpload(1)}" ajax="false" 
+                                         update=":formWizardSave:dataTableDocumentationSave"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para subir documentos-->
+            
+            <!--            Dialogo para subir actualizar -->
+            <p:dialog id="documentUpdate" widgetVar="documentUpdate" draggable="true" 
+                      closable="true"  header="Actualizar Documento..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:outputLabel for="tfDocumentUpdate" value="Título del Documento"/>
+                        
+                        <p:inputText value="#{scInputBean.documentsSave.documentTittle}" id="tfDocumentUpdate"/> 
+                        
+                        <p:fileUpload label="Documento de un Insumo" value="#{scInputBean.fileSave}" mode="simple"
+                                      update=":formWizardUpdate:dataTableDocumentationSave">  
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadFileUpdate" value="Cargar" icon="ui-icon-circle-arrow-s" 
+                                         actionListener="#{scInputBean.handleDocumentUpload(2)}" ajax="false" 
+                                         update=":formWizardUpdate:dataTableDocumentationSave"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para actualizar documentos-->
             <h:form id="formInput">
                 <p:dataTable id="scDataTableInputs" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{scInputBean.inputList}" var="input"

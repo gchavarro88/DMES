@@ -50,4 +50,6 @@ public interface IScInput
     public void saveLocationInput(ScInputLocation inputLocation) throws Exception;
 
     public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception;
+    
+    public Object getInitialParameters() throws Exception;
 }

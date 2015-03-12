@@ -36,7 +36,8 @@ public class DMESConstants
    public static final String PATH_EXTERN_PICTURES = "/dynamic/?file=";
    
    //Nombres de las carpetas reservadas del sistema
-   public static final String FILE_PATH_INPUTS = "inputs_filePath";
+   public static final String FILE_PATH_INPUTS_IMG = "inputs_filePath/img";//Insumos imagenes
+   public static final String FILE_PATH_INPUTS_DOCS = "inputs_filePath/docs";//Insumos
    
    //Subida de documentos
     public static final String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";
