@@ -108,6 +108,9 @@ public class ScInput implements Serializable
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
     private List<ScInputFeactures> scInputFeacturesList;
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
+    private List<ScInputDocuments> scInputDocuments;
+    
     @JoinColumn(name = "cost_center", referencedColumnName = "id_cost_center")
     @ManyToOne(optional = false)
     private ScCostCenter costCenter;
@@ -352,6 +355,16 @@ public class ScInput implements Serializable
     public void setPriority(ScPriority priority)
     {
         this.priority = priority;
+    }
+
+    public List<ScInputDocuments> getScInputDocuments()
+    {
+        return scInputDocuments;
+    }
+
+    public void setScInputDocuments(List<ScInputDocuments> scInputDocuments)
+    {
+        this.scInputDocuments = scInputDocuments;
     }
 
     
