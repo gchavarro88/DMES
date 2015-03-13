@@ -46,11 +46,11 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre del Insumo"/>
+                                            <p:outputLabel  for="tfNameInput" value="Nombre Insumo"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scInputBean.inputSave.description}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el nombre del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar el nombre del insumo"/>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
@@ -58,7 +58,7 @@
                                         <td width="40%" align="left">
                                             <p:calendar    id="tfExpiryDate"  value="#{scInputBean.inputSave.expiryDate}" autocomplete="true"
                                                            effect="explode" mask="true" pattern="dd/MM/yyyy"
-                                                           required="true" requiredMessage="Debe ingresar la fecha de caducidad"/>
+                                                           requiredMessage="Debe ingresar la fecha de caducidad"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -67,14 +67,14 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfTypeMaterial"  value="#{scInputBean.inputSave.typeMaterial}" autocomplete="true"
-                                                            required="true" requiredMessage="Debe ingresar el tipo de material" />
+                                                            requiredMessage="Debe ingresar el tipo de material" />
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfValueInput" value="Valor"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfValueInput"  value="#{scInputBean.inputSave.value}" 
-                                                            required="true" requiredMessage="Debe ingresar el valor del insumo" />
+                                                            requiredMessage="Debe ingresar el valor del insumo" />
                                         </td>
                                     </tr> 
                                     <tr>
@@ -83,14 +83,14 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfMarkInput"  value="#{scInputBean.inputSave.mark}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la marca del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar la marca del insumo"/>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfSerieInput" value="Serie"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfSerieInput"  value="#{scInputBean.inputSave.serie}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la serie del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar la serie del insumo"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -100,7 +100,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" style="width: 80%;"
                                                              converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un proveedor" effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar un proveedor" effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
@@ -112,7 +112,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSave.costCenter}" style="width: 70%;" 
                                                              converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un centro de costos" effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar un centro de costos" effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems  value="#{scInputBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
@@ -128,11 +128,11 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText id="tfPackingUnit" value="#{scInputBean.inputSave.packingUnit}"
-                                                         required="true" requiredMessage="Campo obligatorio debe ingresar unidad de empaque del insumo" style="width: 20px; "/>
+                                                         requiredMessage="Campo obligatorio debe ingresar unidad de empaque del insumo" style="width: 20px; "/>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.packingUnitSelected}" 
                                                              converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="top: 6px;"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione"/>
                                                 <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
@@ -148,7 +148,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSave.inputLocation}" style="width: 70%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una localización" effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una localización" effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems  value="#{scInputBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
@@ -165,7 +165,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSave.inputStock.idStore}" style="width: 80%;"
                                                              converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
                                                              height="140" >
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
@@ -177,7 +177,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="tfProirity"  value="#{scInputBean.inputSave.priority}" style="width: 80%;"
                                                              converter="priorityConverter" converterMessage="Error en el tipo de dato de la prioridad"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una prioridad" effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una prioridad" effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
@@ -200,14 +200,14 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfMaximeStock"  value="#{scInputBean.inputSave.inputStock.maximeStock}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el máximo stock del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar el máximo stock del insumo"/>
                                         </td>
                                         <td width="20%" align="right">
                                             <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfMinimeStock"  value="#{scInputBean.inputSave.inputStock.minimeStock}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el mínimo stock del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar el mínimo stock del insumo"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -216,14 +216,14 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfCurrentStock"  value="#{scInputBean.inputSave.inputStock.currentStock}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el stock real del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar el stock real del insumo"/>
                                         </td>
                                         <td width="20%" align="right">
                                             <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfOptimeStock"  value="#{scInputBean.inputSave.inputStock.optimeStock}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el stock óptimo del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar el stock óptimo del insumo"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -232,14 +232,14 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfPriceUnit"  value="#{scInputBean.inputSave.inputStock.priceUnit}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el precio de unidad del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar el precio de unidad del insumo"/>
                                         </td>
                                         <td width="20%" align="right">
                                             <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfValueTotal"  value="#{scInputBean.inputSave.inputStock.totalValue}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor total del insumo"/>
+                                                            requiredMessage="Campo obligatorio debe ingresar el valor total del insumo"/>
                                         </td>
                                     </tr>
 
@@ -651,7 +651,7 @@
                                 <table width="98%" cellspacing="10" style="text-align: center;">
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInputSave" value="Nombre del Insumo"/>
+                                            <p:outputLabel  for="tfNameInputSave" value="Nombre Insumo"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:outputLabel    id="tfNameInputSave"  value="#{scInputBean.inputSave.description}"/>
@@ -747,7 +747,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre del Insumo"/>
+                                            <p:outputLabel  for="tfNameInput" value="Nombre Insumo"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scInputBean.inputSelected.description}"
@@ -1353,7 +1353,7 @@
                                 <table width="98%" cellspacing="10" style="text-align: center;">
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInputSave" value="Nombre del Insumo"/>
+                                            <p:outputLabel  for="tfNameInputSave" value="Nombre Insumo"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:outputLabel    id="tfNameInputSave"  value="#{scInputBean.inputSelected.description}"/>
@@ -1474,7 +1474,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre del Insumo"/>
+                                            <p:outputLabel  for="tfNameInput" value="Nombre Insumo"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:outputLabel    id="tfNameInput"  value="#{scInputBean.inputSelected.description}"/>

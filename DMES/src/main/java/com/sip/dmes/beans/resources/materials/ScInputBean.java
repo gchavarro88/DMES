@@ -798,24 +798,7 @@ public class ScInputBean
                 else if(!Utilities.isEmpty(getInputSave().getPackingUnit()) &&
                         Utilities.isNumeric(getInputSave().getPackingUnit()))
                 { 
-                    try
-                    {
-                        //Obtenemos el valor de la unidad de empaque
-                         packingUnit = Integer.parseInt(getInputSave().getPackingUnit());
-                         //Validamos que la unidad de empaque sea mayor a cero
-                        if(packingUnit <= 0)
-                        {
-                            addError(null, "Error en el campo Unidad de Empaque", "El Valor Unidad de Empaque debe ser un número mayor a cero");
-                            log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-                            return event.getOldStep();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        addError(null, "Error en el campo Unidad de Empaque", "El Valor Unidad de Empaque debe ser un número mayor a cero");
-                        log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-                        return event.getOldStep();
-                    }
+                    
                     
                 }
                 else
