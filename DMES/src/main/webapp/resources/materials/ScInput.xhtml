@@ -95,10 +95,10 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbSupplier" value="Proveedor y Garantías"/>
+                                            <p:outputLabel  for="cbSupplier" value="Proveedor"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" style="width: 80%;"
+                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" style="width: 70%;"
                                                              converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
                                                              requiredMessage="Campo obligatorio debe seleccionar un proveedor" effect="puff"
                                                              height="140">
@@ -124,14 +124,11 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfPackingUnit" value="Unidad de Empaque"/>
+                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText id="tfPackingUnit" value="#{scInputBean.inputSave.packingUnit}"
-                                                         requiredMessage="Campo obligatorio debe ingresar unidad de empaque del insumo" style="width: 20px; "/>
-                                            <p:spacer width="5px"/>
-                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.packingUnitSelected}" 
-                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="top: 6px;"
+                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSave.packingUnit}" 
+                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="width: 70%; top: 6px;"
                                                              requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione"/>
@@ -163,7 +160,7 @@
                                             <p:outputLabel  for="tfStore" value="Almacén"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSave.inputStock.idStore}" style="width: 80%;"
+                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSave.inputStock.idStore}" style="width: 70%;"
                                                              converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
                                                              requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
                                                              height="140" >
@@ -175,7 +172,7 @@
                                             <p:outputLabel  for="tfProirity" value="Prioridad"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfProirity"  value="#{scInputBean.inputSave.priority}" style="width: 80%;"
+                                            <p:selectOneMenu id="tfProirity"  value="#{scInputBean.inputSave.priority}" style="width: 70%;"
                                                              converter="priorityConverter" converterMessage="Error en el tipo de dato de la prioridad"
                                                              requiredMessage="Campo obligatorio debe seleccionar una prioridad" effect="puff"
                                                              height="140">
@@ -796,10 +793,10 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbSupplier" value="Proveedor y Garantías"/>
+                                            <p:outputLabel  for="cbSupplier" value="Proveedor"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSelected.supplierGuarantee}" style="width: 80%;"
+                                            <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSelected.supplierGuarantee}" style="width: 70%;"
                                                              converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar un proveedor" effect="puff"
                                                              height="140">
@@ -825,14 +822,12 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfPackingUnit" value="Unidad de Empaque"/>
+                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText id="tfPackingUnit" value="#{scInputBean.inputSelected.packingUnit}"
-                                                         required="true" requiredMessage="Campo obligatorio debe ingresar unidad de empaque del insumo" style="width: 20px; "/>
-                                            <p:spacer width="5px"/>
-                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.packingUnitSelected}" 
-                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="top: 6px;"
+                                            
+                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSelected.packingUnit}" 
+                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="width: 70%; top: 6px;"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione"/>
@@ -864,7 +859,7 @@
                                             <p:outputLabel  for="tfStore" value="Almacén"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSelected.inputStock.idStore}" style="width: 80%;"
+                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSelected.inputStock.idStore}" style="width: 70%;"
                                                              converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
                                                              height="140" >
@@ -876,7 +871,7 @@
                                             <p:outputLabel  for="tfProirity" value="Prioridad"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfProirity"  value="#{scInputBean.inputSelected.priority}" style="width: 80%;"
+                                            <p:selectOneMenu id="tfProirity"  value="#{scInputBean.inputSelected.priority}" style="width: 70%;"
                                                              converter="priorityConverter" converterMessage="Error en el tipo de dato de la prioridad"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar una prioridad" effect="puff"
                                                              height="140">
@@ -1418,8 +1413,6 @@
             <!--################ finaliza el dialogo para actualizar Insumos #########################-->
 
             
-            
-            
             <!--             inicia el dialogo para eliminar registros           -->
             <p:dialog id="dialogInputDelete" widgetVar="dialogInputDelete" position="center top" 
                       closable="true" draggable="true" dynamic="true" header="Eliminar Proveedores"
@@ -1517,7 +1510,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbSupplier" value="Proveedor y Garantías"/>
+                                            <p:outputLabel  for="cbSupplier" value="Proveedor"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSelected.supplierGuarantee}" style="width: 80%;"
@@ -1531,7 +1524,7 @@
                                             <p:outputLabel  for="cbCostCenter" value="Centro de Costos"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSelected.costCenter}" style="width: 70%;" 
+                                            <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSelected.costCenter}" style="width: 80%;" 
                                                              converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar un centro de costos" effect="puff"
                                                              height="140" disabled="true">
@@ -1542,16 +1535,22 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfPackingUnit" value="Unidad de Empaque"/>
+                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel id="tfPackingUnit" value="#{scInputBean.inputSelected.packingUnit}" />
+                                            
+                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSelected.packingUnit}" style="width: 80%;" 
+                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato de unidad de empaque"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
+                                                             height="140" disabled="true">
+                                                <f:selectItems  value="#{scInputBean.packingUnitsList}" var="packingUnit" itemLabel="#{packingUnit.acronym}"/>
+                                            </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbLocation" value="Localización"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSelected.inputLocation}" style="width: 70%;" 
+                                            <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSelected.inputLocation}" style="width: 80%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar una localización" effect="puff"
                                                              height="140" disabled="true">

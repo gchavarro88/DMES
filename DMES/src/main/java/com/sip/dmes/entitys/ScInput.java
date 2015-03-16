@@ -70,10 +70,7 @@ public class ScInput implements Serializable
     @Column(name = "expiry_date")
     @Temporal(TemporalType.DATE)
     private Date expiryDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "packing_unit")
-    private String packingUnit;
+    
     @Basic(optional = false)    
     @Size(min = 1, max = 200)
     @Column(name = "mark")
@@ -117,6 +114,9 @@ public class ScInput implements Serializable
     @JoinColumn(name = "id_input_stock", referencedColumnName = "id_input_stock")
     @ManyToOne(optional = false)
     private ScInputStock inputStock;
+    @JoinColumn(name = "id_packing", referencedColumnName = "id_packing")
+    @ManyToOne(optional = false)
+    private ScPackingUnit packingUnit;
     @JoinColumn(name = "id_priority", referencedColumnName = "id_priority")
     @ManyToOne(optional = false)
     private ScPriority priority;
@@ -139,7 +139,7 @@ public class ScInput implements Serializable
         this.idInput = idInput;
     }
 
-    public ScInput(Long idInput, String typeMaterial, Date expiryDate, String packingUnit, String mark, long value, String serie)
+    public ScInput(Long idInput, String typeMaterial, Date expiryDate, ScPackingUnit packingUnit, String mark, long value, String serie)
     {
         this.idInput = idInput;
         this.typeMaterial = typeMaterial;
@@ -180,12 +180,12 @@ public class ScInput implements Serializable
         this.expiryDate = expiryDate;
     }
 
-    public String getPackingUnit()
+    public ScPackingUnit getPackingUnit()
     {
         return packingUnit;
     }
 
-    public void setPackingUnit(String packingUnit)
+    public void setPackingUnit(ScPackingUnit packingUnit)
     {
         this.packingUnit = packingUnit;
     }

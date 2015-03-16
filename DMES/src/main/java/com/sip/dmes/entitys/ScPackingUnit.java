@@ -99,7 +99,9 @@ public class ScPackingUnit implements Serializable {
             return false;
         }
         ScPackingUnit other = (ScPackingUnit) object;
-        if ((this.idPacking == null && other.idPacking != null) || (this.idPacking != null && !this.idPacking.equals(other.idPacking))) {
+        if ((this.idPacking == null && other.idPacking != null) || 
+                (this.idPacking != null && !this.idPacking.equals(other.idPacking))) 
+        {
             return false;
         }
         return true;
@@ -107,7 +109,7 @@ public class ScPackingUnit implements Serializable {
 
     @Override
     public String toString() {
-        return idPacking+","+acronym;
+        return idPacking.toString();
     }
     
 }

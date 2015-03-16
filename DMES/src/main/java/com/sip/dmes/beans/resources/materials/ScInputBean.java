@@ -26,8 +26,10 @@ import com.sip.dmes.entitys.ScPriority;
 import com.sip.dmes.entitys.ScStore;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -774,49 +776,69 @@ public class ScInputBean
     public String onFlowProcessSaveInput(FlowEvent event) 
     {    
         int packingUnit = -1;
-        if(event.getNewStep().equals(TAB_GENERAL))
+        
+        if(event.getOldStep().equals(TAB_GENERAL))
         {
-            //Si vamos a la pestaña de datos generales volveremos acomodar la unidad y el empaque 
-            if(!Utilities.isEmpty(getInputSave().getPackingUnit()))
+            if(validateFields("Nombre Insumo", getInputSave().getDescription(), 3))
             {
-                String fields[] = getInputSave().getPackingUnit().split(" ");
-                getInputSave().setPackingUnit(fields[0]);
+                return event.getOldStep();
             }
-        }
-        else if(event.getOldStep().equals(TAB_GENERAL))
-        {
-            if(getInputSave() != null)
+            if(validateFields("Fecha de Caducidad", getInputSave().getExpiryDate(), -1))
             {
-                //Validamos que el valor sea mayor que cero
-                if(getInputSave().getValue() <= 0)
-                {
-                    addError(null, "Error en el campo Valor del Insumo", "El Valor del Insumo debe ser un número mayor a cero");
-                    log.error("Error en el campo Valor del Insumo, El Valor del Insumo debe ser un número mayor a cero");
-                    return event.getOldStep();
-                }
-                //Validamos que el campo unidad de empaque sea numérico y diferente de vacío
-                else if(!Utilities.isEmpty(getInputSave().getPackingUnit()) &&
-                        Utilities.isNumeric(getInputSave().getPackingUnit()))
-                { 
-                    
-                    
-                }
-                else
-                {
-                    addError(null, "Error en el campo Unidad de Empaque", "El Valor Unidad de Empaque debe ser un número mayor a cero");
-                    log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-                    return event.getOldStep();
-                }
+                return event.getOldStep();
             }
+            if(validateFields("Tipo de Material", getInputSave().getTypeMaterial(), 3))
+            {
+                return event.getOldStep();
+            }
+            //Validamos que el valor sea mayor que cero
+            if(validateFields("Valor", getInputSave().getValue()+"", 2))
+            {
+                return event.getOldStep();
+            }//Recordar empezar las validaciones hacia atras
+            if(validateFields("Marca", getInputSave().getMark(), 3))
+            {
+                return event.getOldStep();
+            }
+            
             if(Utilities.isEmpty(getInputSave().getPathPicture()))
             { 
-                getInputSave().setPathPicture(" ");
+                getInputSave().setPathPicture(" ");//Setteamos la ruta de la imagen
             }
+            if(validateFields("Serie", getInputSave().getSerie(), 3))
+            {
+                return event.getOldStep();
+            }
+            
+            //Validamos los campos seleccionables
+            if(validateFields("Proveedor y Garantía", getInputSave().getSupplierGuarantee(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Centro de Costos", getInputSave().getCostCenter(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Unidad de Empaque", getInputSave().getPackingUnit(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Localización", getInputSave().getInputLocation(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Almacen", getInputSave().getInputStock().getIdStore(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Prioridad", getInputSave().getPriority(), 4))
+            {
+                return event.getOldStep();
+            }
+            
             //Agregamos la fecha de creación del insumo
             getInputSave().setCreationDate(new Date());
             
-            //Modificamos la unidad de empaque con su unidad de medida
-//            getInputSave().setPackingUnit(packingUnit + getPackingUnitSelected().getAcronym());
             //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
             if(getInputSave().getExpiryDate().before(getInputSave().getCreationDate()))
             {
@@ -866,31 +888,31 @@ public class ScInputBean
                 return event.getOldStep();
             }
             //Validamos que las dimensiones sean correctas
-            else if(validateFieldsDoubles("Altura", getInputSave().getDimension().getHight()))
+            else if(validateFields("Altura", getInputSave().getDimension().getHight(), 1))
             {
                 return event.getOldStep();
             }
-            else if(validateFieldsDoubles("Ancho", getInputSave().getDimension().getWidth()))
+            else if(validateFields("Ancho", getInputSave().getDimension().getWidth(), 1))
             {
                 return event.getOldStep();
             }
-            else if(validateFieldsDoubles("Largo", getInputSave().getDimension().getLarge()))
+            else if(validateFields("Largo", getInputSave().getDimension().getLarge(), 1))
             {
                 return event.getOldStep();
             }
-            else if(validateFieldsDoubles("Peso", getInputSave().getDimension().getWeight()))
+            else if(validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
             {
                 return event.getOldStep();
             }
-            else if(validateFieldsDoubles("Volumen", getInputSave().getDimension().getVolume()))
+            else if(validateFields("Volumen", getInputSave().getDimension().getVolume(), 1))
             {
                 return event.getOldStep();
             }
-            else if(validateFieldsDoubles("Grosor", getInputSave().getDimension().getThickness()))
+            else if(validateFields("Grosor", getInputSave().getDimension().getThickness(), 1))
             {
                 return event.getOldStep();
             }
-            else if(validateFieldsDoubles("Radio", getInputSave().getDimension().getRadio()))
+            else if(validateFields("Radio", getInputSave().getDimension().getRadio(), 1))
             {
                 return event.getOldStep();
             }
@@ -963,10 +985,6 @@ public class ScInputBean
             //Almacenamos el insumo
             try
             {
-                if(getPackingUnitSave() != null)
-                {
-                    getInputSave().setPackingUnit(getInputSave().getPackingUnit()+","+getPackingUnitSelected().getAcronym());
-                }
                 if(getMeasureUnitSaveHigh() != null)
                 {
                     getInputSave().getDimension().setHight(getInputSave().getDimension().getHight()+","+getMeasureUnitSaveHigh().getAcronym());
@@ -1022,10 +1040,6 @@ public class ScInputBean
             //Almacenamos el insumo
             try
             {
-                if(getPackingUnitSave() != null)
-                {
-                    getInputSelected().setPackingUnit(getInputSelected().getPackingUnit()+","+getPackingUnitSelected().getAcronym());
-                }
                 if(getMeasureUnitSaveHigh() != null)
                 {
                     getInputSelected().getDimension().setHight(getInputSelected().getDimension().getHight()+","+getMeasureUnitSaveHigh().getAcronym());
@@ -1122,34 +1136,97 @@ public class ScInputBean
      * Método encargado de validar los campos doubles.
      * @param nameField nombre del campo a evaluar
      * @param value valor del campo a evaluar
+     * @param option opción del tipo de dato que se validar
      * @return boolean si se puede validar o no 
      * @author Gustavo Chavarro Ortiz
      */
-    public boolean validateFieldsDoubles(String nameField, String value)
+    public boolean validateFields(String nameField, Object value, int option)
     {
         boolean isInvalid = false;
-        if(!Utilities.isEmpty(value))
+        String message1 = "Error en el campo "+ nameField;
+        
+        try
+        {
+            if(!Utilities.isEmpty((String) value))
             {
-                try
+                switch(option)
                 {
-                    double dimensionVariable = Double.parseDouble(value);
-                    if(dimensionVariable <= 0)
+                    case 1: //Casos de tipo double 
+                    String messageDouble2 = "Debe ingresar un número mayor que cero y usar"
+                            + "como separador de decimales el punto, ejemplo: 3.24";
+                    try
                     {
-                        throw new Exception(nameField+" menor o igual a cero");
+
+                        double parseo = Double.parseDouble((String)value);//parseo
+                        if(parseo <= 0)
+                        {
+                            throw new Exception(nameField+" menor o igual a cero");
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        isInvalid = true;
+                        addError(null,message1, messageDouble2);
+                        log.error(message1+", "+messageDouble2);
+                    }   
+                    break;
+                    case 2: //Casos de tipo int
+                    String messageInt2 = "Debe ingresar un número mayor que cero sin puntos ni comas,"
+                            + "ejemplo: 1256786";
+                    try
+                    {
+
+                        int parseo = Integer.parseInt((String) value);//parseo
+                        if(parseo <= 0)
+                        {
+                            throw new Exception(nameField+" menor o igual a cero");
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        isInvalid = true;
+                        addError(null,message1, messageInt2);
+                        log.error(message1+", "+messageInt2);
+                    }
+                    break;
+                    case 3: //Casos de tipo String
+                    String messageString2 = "Campo obligatorio, debe ingresar algún valor";
+                    if(Utilities.isEmpty((String) value))
+                    {
+                        isInvalid = true;
+                        addError(null,message1+ nameField, messageString2);
+                        log.error(message1+ ", "+messageString2);
+                    }
+                    break;    
+                    case 4://Casos de campos seleccionables
+                    String messageObject2 = "Campo obligatorio, debe seleccionar un valor para este campo";
+                    if(value == null)
+                    {
+                        isInvalid = true;
+                        addError(null,message1+ nameField, messageObject2);
+                        log.error(message1+ ", "+messageObject2);
+                    }
+                    break;
+                    default:
+                    break;
                 }
-                catch (Exception e)
-                {
-                    isInvalid = true;
-                    addError(null, "Error en el campo "+nameField, "Debe ingresar un número mayor que cero y usar"
-                            + "como separador de decimales el punto, ejemplo: 3.24");
-                    log.error("Error en el campo "+nameField+", Debe ingresar un número mayor que cero y usar"
-                            + "como separador de decimales el punto, ejemplo: 3.24");
-                    
-                }
+            }    
+            else
+            {
+                String messageObject2 = "Campo obligatorio, debe ingresar un valor para el campo "+nameField;
+                addError(null, message1, messageObject2);
+                log.error(message1+ ", "+messageObject2);
+                isInvalid = true;
             }
+        }
+        catch(Exception e)
+        {
+            //Excepción no rematada debido que hay campos con tipos diferentes a String
+        }
         return isInvalid;
     }
+    
+    
     
     /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
@@ -1244,6 +1321,7 @@ public class ScInputBean
             {
                 if(!Utilities.isEmpty(input.getPathPicture()))
                 {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(input.getPathPicture())));
                     //la constante me permite mapear imagenes externas
                     return DMESConstants.PATH_EXTERN_PICTURES+input.getPathPicture();
                 }
@@ -1274,37 +1352,34 @@ public class ScInputBean
     public void selectedForUpdate(ScInput input) 
     {
         setInputSelected(input);
-        if(!Utilities.isEmpty(getInputSelected().getPackingUnit()))
-        {
-            valueToList(getInputSelected().getPackingUnit(), 1);
-        }
+
         if(!Utilities.isEmpty(getInputSelected().getDimension().getHight()))
         {
-            valueToList(getInputSelected().getDimension().getHight(), 2);
+            valueToList(getInputSelected().getDimension().getHight(), 1);
         }
         if(!Utilities.isEmpty(getInputSelected().getDimension().getWidth()))
         {
-            valueToList(getInputSelected().getDimension().getWidth(), 3);
+            valueToList(getInputSelected().getDimension().getWidth(), 2);
         }
         if(!Utilities.isEmpty(getInputSelected().getDimension().getLarge()))
         {
-            valueToList(getInputSelected().getDimension().getLarge(), 4);
+            valueToList(getInputSelected().getDimension().getLarge(), 3);
         }
         if(!Utilities.isEmpty(getInputSelected().getDimension().getWeight()))
         {
-            valueToList(getInputSelected().getDimension().getWeight(), 5);
+            valueToList(getInputSelected().getDimension().getWeight(), 4);
         }
         if(!Utilities.isEmpty(getInputSelected().getDimension().getVolume()))
         {
-            valueToList(getInputSelected().getDimension().getVolume(), 6);
+            valueToList(getInputSelected().getDimension().getVolume(), 5);
         }
         if(!Utilities.isEmpty(getInputSelected().getDimension().getThickness()))
         {
-            valueToList(getInputSelected().getDimension().getThickness(), 7);
+            valueToList(getInputSelected().getDimension().getThickness(), 6);
         }
         if(!Utilities.isEmpty(getInputSelected().getDimension().getRadio()))
         {
-            valueToList(getInputSelected().getDimension().getRadio(), 8);
+            valueToList(getInputSelected().getDimension().getRadio(), 7);
         }
     }
     /**
@@ -1320,19 +1395,8 @@ public class ScInputBean
         
         switch(option)//Seleccionamos la opción
         {
-            case 1: //Ajustamos la unidad de empaque
-                
-                getInputSelected().setPackingUnit(fields[0]);
-                for(ScPackingUnit packingUnit: getPackingUnitsList())
-                {
-                    if(packingUnit.getAcronym().equals(fields[1]))
-                    {
-                        setPackingUnitSelected(packingUnit);
-                        break;
-                    }
-                }
-            break;
-            case 2://Ajustamos la altura
+            
+            case 1://Ajustamos la altura
                 
                 getInputSelected().getDimension().setHight(fields[0]);
                 for(ScMeasureUnit measureUnit: getMeasureUnitsList())
@@ -1344,7 +1408,7 @@ public class ScInputBean
                     }
                 }
             break;
-            case 3://Ajustamos el ancho
+            case 2://Ajustamos el ancho
                 
                 getInputSelected().getDimension().setWidth(fields[0]);
                 for(ScMeasureUnit measureUnit: getMeasureUnitsList())
@@ -1356,7 +1420,7 @@ public class ScInputBean
                     }
                 }
             break;    
-            case 4://Ajustamos el largo
+            case 3://Ajustamos el largo
                 
                 getInputSelected().getDimension().setLarge(fields[0]);
                 for(ScMeasureUnit measureUnit: getMeasureUnitsList())
@@ -1368,7 +1432,7 @@ public class ScInputBean
                     }
                 }
             break;
-            case 5://Ajustamos el Peso
+            case 4://Ajustamos el Peso
                 
                 getInputSelected().getDimension().setWeight(fields[0]);
                 for(ScMeasureUnit measureUnit: getMeasureUnitsList())
@@ -1380,7 +1444,7 @@ public class ScInputBean
                     }
                 }
             break;
-                case 6://Ajustamos el Volumen
+            case 5://Ajustamos el Volumen
                 
                 getInputSelected().getDimension().setVolume(fields[0]);
                 for(ScMeasureUnit measureUnit: getMeasureUnitsList())
@@ -1392,7 +1456,7 @@ public class ScInputBean
                     }
                 }
             break;
-            case 7://Ajustamos el Grosor
+            case 6://Ajustamos el Grosor
             
             getInputSelected().getDimension().setThickness(fields[0]);
             for(ScMeasureUnit measureUnit: getMeasureUnitsList())
@@ -1404,7 +1468,7 @@ public class ScInputBean
                 }
             }
             break;
-                case 8://Ajustamos el Radio
+            case 7://Ajustamos el Radio
             
             getInputSelected().getDimension().setRadio(fields[0]);
             for(ScMeasureUnit measureUnit: getMeasureUnitsList())
