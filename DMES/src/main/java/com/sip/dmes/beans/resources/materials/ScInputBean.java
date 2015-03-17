@@ -776,7 +776,10 @@ public class ScInputBean
     public String onFlowProcessSaveInput(FlowEvent event) 
     {    
         int packingUnit = -1;
-        
+        if(event.getNewStep().equals(TAB_GENERAL))
+        {
+            return TAB_GENERAL;
+        }
         if(event.getOldStep().equals(TAB_GENERAL))
         {
             if(validateFields("Nombre Insumo", getInputSave().getDescription(), 3))
@@ -795,7 +798,13 @@ public class ScInputBean
             if(validateFields("Valor", getInputSave().getValue()+"", 2))
             {
                 return event.getOldStep();
-            }//Recordar empezar las validaciones hacia atras
+            }
+            //modificamos el precio por unidad
+            getInputSave().getInputStock().setPriceUnit(getInputSave().getValue());
+            //modificamos el precio total igual al precio por unidad * el stock actual
+            getInputSave().getInputStock().setTotalValue(getInputSave().getValue()*
+                    getInputSave().getInputStock().getCurrentStock());
+            
             if(validateFields("Marca", getInputSave().getMark(), 3))
             {
                 return event.getOldStep();
@@ -851,77 +860,135 @@ public class ScInputBean
         else if(event.getOldStep().equals(TAB_STOCK))
         {
             //Validamos que ninguno de los campos del stock sea vacio o negativo
-            if(getInputSave().getInputStock().getMaximeStock() <= 0)
-            {
-                addError(null, "Error en el campo Stock Máximo", "El Stock Máximo debe ser mayor que cero");
-                log.error("Error en el campo Stock Máximo, El Stock Máximo debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-            else if(getInputSave().getInputStock().getMinimeStock() <= 0)
-            {
-                addError(null, "Error en el campo Stock Mínimo", "El Stock Mínimo debe ser mayor que cero");
-                log.error("Error en el campo Stock Mínimo, El Stock Mínimo debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-            else if(getInputSave().getInputStock().getCurrentStock() <= 0)
-            {
-                addError(null, "Error en el campo Stock Real", "El Stock Real debe ser mayor que cero");
-                log.error("Error en el campo Stock Real, El Stock Real debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-            else if(getInputSave().getInputStock().getOptimeStock() <= 0)
-            {
-                addError(null, "Error en el campo Stock Óptimo", "El Stock Óptimo debe ser mayor que cero");
-                log.error("Error en el campo Stock Óptimo, El Stock Óptimo debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-            else if(getInputSave().getInputStock().getPriceUnit() <= 0)
-            {
-                addError(null, "Error en el campo Precio de Unidad", "El Precio de Unidad debe ser mayor que cero");
-                log.error("Error en el campo Precio de Unidad, El Precio de Unidad debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-            else if(getInputSave().getInputStock().getTotalValue() <= 0)
-            {
-                addError(null, "Error en el campo Valor Total", "El Valor Total debe ser mayor que cero");
-                log.error("Error en el campo Valor Total, El Valor Total debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-            //Validamos que las dimensiones sean correctas
-            else if(validateFields("Altura", getInputSave().getDimension().getHight(), 1))
+            if(validateFields("Stock Máximo", getInputSave().getInputStock().getMaximeStock(), 2))
             {
                 return event.getOldStep();
             }
-            else if(validateFields("Ancho", getInputSave().getDimension().getWidth(), 1))
+            if(validateFields("Stock Mínimo", getInputSave().getInputStock().getMinimeStock(), 2))
             {
                 return event.getOldStep();
             }
-            else if(validateFields("Largo", getInputSave().getDimension().getLarge(), 1))
+            if(getInputSave().getInputStock().getMaximeStock() <= getInputSave().getInputStock().getMinimeStock())
+            {
+                addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+                return event.getOldStep();
+            }
+            if(validateFields("Stock Real", getInputSave().getInputStock().getCurrentStock(), 2))
             {
                 return event.getOldStep();
             }
-            else if(validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
+            else
+            {
+                //modificamos el precio total igual al precio por unidad * el stock actual
+                getInputSave().getInputStock().setTotalValue(getInputSave().getValue()*
+                    getInputSave().getInputStock().getCurrentStock());
+                if(getInputSave().getInputStock().getMaximeStock() <= getInputSave().getInputStock().getCurrentStock())
+                {
+                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Real");
+                    return event.getOldStep();
+                }
+                if(getInputSave().getInputStock().getMinimeStock() > getInputSave().getInputStock().getCurrentStock())
+                {
+                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Real");
+                    return event.getOldStep();
+                }
+            }
+            if(validateFields("Stock Óptimo", getInputSave().getInputStock().getOptimeStock(), 2))
             {
                 return event.getOldStep();
             }
-            else if(validateFields("Volumen", getInputSave().getDimension().getVolume(), 1))
+            else
+            {
+                if(getInputSave().getInputStock().getMaximeStock() <= getInputSave().getInputStock().getOptimeStock())
+                {
+                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                }
+                if(getInputSave().getInputStock().getMinimeStock() > getInputSave().getInputStock().getOptimeStock())
+                {
+                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                }
+            }
+            
+            if(validateFields("Altura", getInputSave().getDimension().getHight(), 1))
             {
                 return event.getOldStep();
             }
-            else if(validateFields("Grosor", getInputSave().getDimension().getThickness(), 1))
+            if(validateFields("Ancho", getInputSave().getDimension().getWidth(), 1))
             {
                 return event.getOldStep();
             }
-            else if(validateFields("Radio", getInputSave().getDimension().getRadio(), 1))
+            if(validateFields("Largo", getInputSave().getDimension().getLarge(), 1))
             {
                 return event.getOldStep();
             }
-            //Creamos la lista de especificaciones para la tercer pestaña
+            
+            if(!Utilities.isEmpty(getInputSave().getDimension().getVolume()))
+            {
+                if(validateFields("Volumen", getInputSave().getDimension().getVolume(), 1))
+                {
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getInputSave().getDimension().getThickness()))
+            {
+                if(validateFields("Grosor", getInputSave().getDimension().getThickness(), 1))
+                {
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getInputSave().getDimension().getRadio()))
+            {
+                if(validateFields("Radio", getInputSave().getDimension().getRadio(), 1))
+                {
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getInputSave().getDimension().getWeight()))
+            {
+                if(validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
+                {
+                    return event.getOldStep();
+                }
+            }
         }
         
         return event.getNewStep(); 
     }
     
+    /**
+     * Método encargado de permitir mostrar un combo box.
+     * @param value valor del input que permite habilitar el combo box
+     * @param object valor del combo
+     * @return boolean valor que permite mostrar u ocultar un combo box
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean showItem(String value, Object object)
+    {
+        boolean result = false;
+        if(!Utilities.isEmpty(value))
+        {
+            try
+            {
+                Double number = Double.parseDouble(value);
+                result = (number > 0)?true:false;
+            }
+            catch (Exception e)
+            {
+                //No se realiza ninguna acción
+            }
+        }
+        object = (result)?object:null;
+        return result;
+    }
+    /**
+     * Método encargado de calcular el precio total de un insumo.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void calcuteTotalPrice()
+    {
+        getInputSave().getInputStock().setTotalValue(getInputSave().getValue()
+                *getInputSave().getInputStock().getCurrentStock());
+    }
     /**
      * Método encargado de llevar el flujo al actualizar un insumo.
      * @param event evento en el cual se encuentra el asistente para actualizar insumos
@@ -1146,8 +1213,8 @@ public class ScInputBean
         String message1 = "Error en el campo "+ nameField;
         
         try
-        {
-            if(!Utilities.isEmpty((String) value))
+        { 
+            if(!Utilities.isEmpty( value.toString()))
             {
                 switch(option)
                 {
@@ -1164,7 +1231,7 @@ public class ScInputBean
                         }
                     }
                     catch (Exception e)
-                    {
+                    { 
                         isInvalid = true;
                         addError(null,message1, messageDouble2);
                         log.error(message1+", "+messageDouble2);
@@ -1176,7 +1243,7 @@ public class ScInputBean
                     try
                     {
 
-                        int parseo = Integer.parseInt((String) value);//parseo
+                        Long parseo = Long.parseLong(value.toString());//parseo
                         if(parseo <= 0)
                         {
                             throw new Exception(nameField+" menor o igual a cero");
@@ -1191,7 +1258,7 @@ public class ScInputBean
                     break;
                     case 3: //Casos de tipo String
                     String messageString2 = "Campo obligatorio, debe ingresar algún valor";
-                    if(Utilities.isEmpty((String) value))
+                    if(Utilities.isEmpty(value.toString()))
                     {
                         isInvalid = true;
                         addError(null,message1+ nameField, messageString2);
