@@ -303,6 +303,7 @@ public class ScInputBean
         setMeasureUnitSaveVolume(new ScMeasureUnit());
         setMeasureUnitSaveLarge(new ScMeasureUnit());
         setMeasureUnitSaveThickness(new ScMeasureUnit());
+        setMeasureUnitSaveWeight(new ScMeasureUnit());
     }
     public void cleanInputSave()
     {
@@ -312,6 +313,7 @@ public class ScInputBean
         //Creamos el objeto de dimension para la segunda pestaña
         getInputSave().setDimension(new ScInputDimension());
         cleanListSaves();
+        cleansTypesMeasures();
     }
     
     /**
@@ -882,7 +884,7 @@ public class ScInputBean
                 //modificamos el precio total igual al precio por unidad * el stock actual
                 getInputSave().getInputStock().setTotalValue(getInputSave().getValue()*
                     getInputSave().getInputStock().getCurrentStock());
-                if(getInputSave().getInputStock().getMaximeStock() <= getInputSave().getInputStock().getCurrentStock())
+                if(getInputSave().getInputStock().getMaximeStock() < getInputSave().getInputStock().getCurrentStock())
                 {
                     addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Real");
                     return event.getOldStep();
@@ -899,13 +901,15 @@ public class ScInputBean
             }
             else
             {
-                if(getInputSave().getInputStock().getMaximeStock() <= getInputSave().getInputStock().getOptimeStock())
+                if(getInputSave().getInputStock().getMaximeStock() < getInputSave().getInputStock().getOptimeStock())
                 {
                     addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                    return event.getOldStep();
                 }
                 if(getInputSave().getInputStock().getMinimeStock() > getInputSave().getInputStock().getOptimeStock())
                 {
                     addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                    return event.getOldStep();
                 }
             }
             
@@ -913,12 +917,27 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
+            else if(getMeasureUnitSaveHigh() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+                return event.getOldStep();
+            }
             if(validateFields("Ancho", getInputSave().getDimension().getWidth(), 1))
             {
                 return event.getOldStep();
             }
+            else if(getMeasureUnitSaveWidth()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+                return event.getOldStep();
+            }
             if(validateFields("Largo", getInputSave().getDimension().getLarge(), 1))
             {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveLarge()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
                 return event.getOldStep();
             }
             
@@ -928,11 +947,21 @@ public class ScInputBean
                 {
                     return event.getOldStep();
                 }
+                else if(getMeasureUnitSaveVolume()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+                    return event.getOldStep();
+                }
             }
             if(!Utilities.isEmpty(getInputSave().getDimension().getThickness()))
             {
                 if(validateFields("Grosor", getInputSave().getDimension().getThickness(), 1))
                 {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveThickness()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
                     return event.getOldStep();
                 }
             }
@@ -942,11 +971,21 @@ public class ScInputBean
                 {
                     return event.getOldStep();
                 }
+                else if(getMeasureUnitSaveRadio()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+                    return event.getOldStep();
+                }
             }
             if(!Utilities.isEmpty(getInputSave().getDimension().getWeight()))
             {
                 if(validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
                 {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveWeight()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
                     return event.getOldStep();
                 }
             }
@@ -958,11 +997,11 @@ public class ScInputBean
     /**
      * Método encargado de permitir mostrar un combo box.
      * @param value valor del input que permite habilitar el combo box
-     * @param object valor del combo
+     * @param option valor del tipo de medida
      * @return boolean valor que permite mostrar u ocultar un combo box
      * @author Gustavo Chavarro Ortiz
      */
-    public boolean showItem(String value, Object object)
+    public boolean showItem(String value, int option)
     {
         boolean result = false;
         if(!Utilities.isEmpty(value))
@@ -970,14 +1009,46 @@ public class ScInputBean
             try
             {
                 Double number = Double.parseDouble(value);
-                result = (number > 0)?true:false;
+                if(number > 0)
+                {
+                    result = true;
+                }
             }
             catch (Exception e)
             {
                 //No se realiza ninguna acción
             }
         }
-        object = (result)?object:null;
+        if(!result)
+        {
+            switch(option)
+            {
+                case 1: //Alto
+                    setMeasureUnitSaveHigh(null);
+                    break;
+                case 2://Ancho
+                    setMeasureUnitSaveWidth(null);
+                    break;
+                case 3://Largo
+                    setMeasureUnitSaveLarge(null);
+                    break;
+                case 4://Volumen
+                    setMeasureUnitSaveVolume(null);
+                    break;
+                case 5://Grosor
+                    setMeasureUnitSaveThickness(null);
+                    break;
+                case 6://Radio
+                    setMeasureUnitSaveRadio(null);
+                    break;
+                case 7://Peso
+                    setMeasureUnitSaveWeight(null);
+                    break;
+                default:
+                    break;
+            }
+        }
+        
         return result;
     }
     /**
@@ -988,6 +1059,16 @@ public class ScInputBean
     {
         getInputSave().getInputStock().setTotalValue(getInputSave().getValue()
                 *getInputSave().getInputStock().getCurrentStock());
+    }
+    
+    /**
+     * Método encargado de calcular el precio total de un insumo.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void calcuteTotalPriceUpdate()
+    {
+        getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()
+                *getInputSelected().getInputStock().getCurrentStock());
     }
     /**
      * Método encargado de llevar el flujo al actualizar un insumo.
@@ -1000,10 +1081,213 @@ public class ScInputBean
         int packingUnit = -1;
         if(event.getNewStep().equals(TAB_GENERAL))
         {
-            
+            return TAB_GENERAL;
         }
-        
-        
+        if(event.getOldStep().equals(TAB_GENERAL))
+        {
+            if(validateFields("Nombre Insumo", getInputSelected().getDescription(), 3))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Fecha de Caducidad", getInputSelected().getExpiryDate(), -1))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Tipo de Material", getInputSelected().getTypeMaterial(), 3))
+            {
+                return event.getOldStep();
+            }
+            //Validamos que el valor sea mayor que cero
+            if(validateFields("Valor", getInputSelected().getValue()+"", 2))
+            {
+                return event.getOldStep();
+            }
+            //modificamos el precio por unidad
+            getInputSelected().getInputStock().setPriceUnit(getInputSelected().getValue());
+            //modificamos el precio total igual al precio por unidad * el stock actual
+            getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()*
+                    getInputSave().getInputStock().getCurrentStock());
+            
+            if(validateFields("Marca", getInputSelected().getMark(), 3))
+            {
+                return event.getOldStep();
+            }
+            
+            if(Utilities.isEmpty(getInputSelected().getPathPicture()))
+            { 
+                getInputSelected().setPathPicture(" ");//Setteamos la ruta de la imagen
+            }
+            if(validateFields("Serie", getInputSelected().getSerie(), 3))
+            {
+                return event.getOldStep();
+            }
+            
+            //Validamos los campos seleccionables
+            if(validateFields("Proveedor y Garantía", getInputSelected().getSupplierGuarantee(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Centro de Costos", getInputSelected().getCostCenter(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Unidad de Empaque", getInputSelected().getPackingUnit(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Localización", getInputSelected().getInputLocation(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Almacen", getInputSelected().getInputStock().getIdStore(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Prioridad", getInputSelected().getPriority(), 4))
+            {
+                return event.getOldStep();
+            }
+             
+//            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+//            if(getInputSelected().getExpiryDate().before(getInputSelected().getCreationDate()))
+//            {
+//                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+//                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+//                return event.getOldStep();
+//            }
+        }
+        //Si pasamos de la pestaña de datos generales a stock y dimensiones
+        else if(event.getOldStep().equals(TAB_STOCK))
+        {
+            //Validamos que ninguno de los campos del stock sea vacio o negativo
+            if(validateFields("Stock Máximo", getInputSelected().getInputStock().getMaximeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Stock Mínimo", getInputSelected().getInputStock().getMinimeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            if(getInputSelected().getInputStock().getMaximeStock() <= getInputSelected().getInputStock().getMinimeStock())
+            {
+                addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+                return event.getOldStep();
+            }
+            if(validateFields("Stock Real", getInputSelected().getInputStock().getCurrentStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            else
+            {
+                //modificamos el precio total igual al precio por unidad * el stock actual
+                getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()*
+                    getInputSelected().getInputStock().getCurrentStock());
+                if(getInputSelected().getInputStock().getMaximeStock() < getInputSelected().getInputStock().getCurrentStock())
+                {
+                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Real");
+                    return event.getOldStep();
+                }
+                if(getInputSelected().getInputStock().getMinimeStock() > getInputSelected().getInputStock().getCurrentStock())
+                {
+                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Real");
+                    return event.getOldStep();
+                }
+            }
+            if(validateFields("Stock Óptimo", getInputSelected().getInputStock().getOptimeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            else
+            {
+                if(getInputSelected().getInputStock().getMaximeStock() < getInputSelected().getInputStock().getOptimeStock())
+                {
+                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                    return event.getOldStep();
+                }
+                if(getInputSelected().getInputStock().getMinimeStock() > getInputSelected().getInputStock().getOptimeStock())
+                {
+                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                    return event.getOldStep();
+                }
+            }
+            
+            if(validateFields("Altura", getInputSelected().getDimension().getHight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveHigh() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+                return event.getOldStep();
+            }
+            if(validateFields("Ancho", getInputSelected().getDimension().getWidth(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveWidth()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+                return event.getOldStep();
+            }
+            if(validateFields("Largo", getInputSelected().getDimension().getLarge(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveLarge()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+                return event.getOldStep();
+            }
+            
+            if(!Utilities.isEmpty(getInputSelected().getDimension().getVolume()))
+            {
+                if(validateFields("Volumen", getInputSelected().getDimension().getVolume(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveVolume()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getInputSelected().getDimension().getThickness()))
+            {
+                if(validateFields("Grosor", getInputSelected().getDimension().getThickness(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveThickness()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getInputSelected().getDimension().getRadio()))
+            {
+                if(validateFields("Radio", getInputSelected().getDimension().getRadio(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveRadio()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getInputSelected().getDimension().getWeight()))
+            {
+                if(validateFields("Peso", getInputSelected().getDimension().getWeight(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveWeight()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                    return event.getOldStep();
+                }
+            }
+        }
         return event.getNewStep(); 
     }
     
@@ -1054,31 +1338,31 @@ public class ScInputBean
             {
                 if(getMeasureUnitSaveHigh() != null)
                 {
-                    getInputSave().getDimension().setHight(getInputSave().getDimension().getHight()+","+getMeasureUnitSaveHigh().getAcronym());
+                    getInputSave().getDimension().setHight(getInputSave().getDimension().getHight()+"-"+getMeasureUnitSaveHigh().getAcronym());
                 }
                 if(getMeasureUnitSaveWidth()!= null)
                 {
-                    getInputSave().getDimension().setWidth(getInputSave().getDimension().getWidth()+","+getMeasureUnitSaveWidth().getAcronym());
+                    getInputSave().getDimension().setWidth(getInputSave().getDimension().getWidth()+"-"+getMeasureUnitSaveWidth().getAcronym());
                 }
                 if(getMeasureUnitSaveLarge() != null)
                 {
-                    getInputSave().getDimension().setLarge(getInputSave().getDimension().getLarge()+","+getMeasureUnitSaveLarge().getAcronym());
+                    getInputSave().getDimension().setLarge(getInputSave().getDimension().getLarge()+"-"+getMeasureUnitSaveLarge().getAcronym());
                 }
                 if(getMeasureUnitSaveWeight()!= null)
                 {
-                    getInputSave().getDimension().setWeight(getInputSave().getDimension().getWeight()+","+getMeasureUnitSaveWeight().getAcronym());
+                    getInputSave().getDimension().setWeight(getInputSave().getDimension().getWeight()+"-"+getMeasureUnitSaveWeight().getAcronym());
                 }
                 if(getMeasureUnitSaveVolume()!= null)
                 {
-                    getInputSave().getDimension().setVolume(getInputSave().getDimension().getVolume()+","+getMeasureUnitSaveVolume().getAcronym());
+                    getInputSave().getDimension().setVolume(getInputSave().getDimension().getVolume()+"-"+getMeasureUnitSaveVolume().getAcronym());
                 }
                 if(getMeasureUnitSaveThickness()!= null)
                 {
-                    getInputSave().getDimension().setThickness(getInputSave().getDimension().getThickness()+","+getMeasureUnitSaveThickness().getAcronym());
+                    getInputSave().getDimension().setThickness(getInputSave().getDimension().getThickness()+"-"+getMeasureUnitSaveThickness().getAcronym());
                 }
                 if(getMeasureUnitSaveRadio()!= null)
                 {
-                    getInputSave().getDimension().setRadio(getInputSave().getDimension().getRadio()+","+getMeasureUnitSaveRadio().getAcronym());
+                    getInputSave().getDimension().setRadio(getInputSave().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
                 }
                 getScInputServer().saveInput(getInputSave());
                 getInputList().add(getInputSave());
@@ -1109,31 +1393,31 @@ public class ScInputBean
             {
                 if(getMeasureUnitSaveHigh() != null)
                 {
-                    getInputSelected().getDimension().setHight(getInputSelected().getDimension().getHight()+","+getMeasureUnitSaveHigh().getAcronym());
+                    getInputSelected().getDimension().setHight(getInputSelected().getDimension().getHight()+"-"+getMeasureUnitSaveHigh().getAcronym());
                 }
                 if(getMeasureUnitSaveWidth()!= null)
                 {
-                    getInputSelected().getDimension().setWidth(getInputSelected().getDimension().getWidth()+","+getMeasureUnitSaveWidth().getAcronym());
+                    getInputSelected().getDimension().setWidth(getInputSelected().getDimension().getWidth()+"-"+getMeasureUnitSaveWidth().getAcronym());
                 }
                 if(getMeasureUnitSaveLarge() != null)
                 {
-                    getInputSelected().getDimension().setLarge(getInputSelected().getDimension().getLarge()+","+getMeasureUnitSaveLarge().getAcronym());
+                    getInputSelected().getDimension().setLarge(getInputSelected().getDimension().getLarge()+"-"+getMeasureUnitSaveLarge().getAcronym());
                 }
                 if(getMeasureUnitSaveWeight()!= null)
                 {
-                    getInputSelected().getDimension().setWeight(getInputSelected().getDimension().getWeight()+","+getMeasureUnitSaveWeight().getAcronym());
+                    getInputSelected().getDimension().setWeight(getInputSelected().getDimension().getWeight()+"-"+getMeasureUnitSaveWeight().getAcronym());
                 }
                 if(getMeasureUnitSaveVolume()!= null)
                 {
-                    getInputSelected().getDimension().setVolume(getInputSelected().getDimension().getVolume()+","+getMeasureUnitSaveVolume().getAcronym());
+                    getInputSelected().getDimension().setVolume(getInputSelected().getDimension().getVolume()+"-"+getMeasureUnitSaveVolume().getAcronym());
                 }
                 if(getMeasureUnitSaveThickness()!= null)
                 {
-                    getInputSelected().getDimension().setThickness(getInputSelected().getDimension().getThickness()+","+getMeasureUnitSaveThickness().getAcronym());
+                    getInputSelected().getDimension().setThickness(getInputSelected().getDimension().getThickness()+"-"+getMeasureUnitSaveThickness().getAcronym());
                 }
                 if(getMeasureUnitSaveRadio()!= null)
                 {
-                    getInputSelected().getDimension().setRadio(getInputSelected().getDimension().getRadio()+","+getMeasureUnitSaveRadio().getAcronym());
+                    getInputSelected().getDimension().setRadio(getInputSelected().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
                 }
                 getScInputServer().updateInput(getInputSelected());
                 cleanInputSave();
@@ -1214,9 +1498,9 @@ public class ScInputBean
         
         try
         { 
-            if(!Utilities.isEmpty( value.toString()))
+            if(value != null && !Utilities.isEmpty( value.toString()))
             {
-                switch(option)
+                switch(option) 
                 {
                     case 1: //Casos de tipo double 
                     String messageDouble2 = "Debe ingresar un número mayor que cero y usar"
@@ -1408,6 +1692,7 @@ public class ScInputBean
      */
     public void selectedForDelete(ScInput input) 
     {
+        cleansTypesMeasures();
         setInputSelected(input);
     }
     
@@ -1418,6 +1703,7 @@ public class ScInputBean
      */
     public void selectedForUpdate(ScInput input) 
     {
+        cleansTypesMeasures();
         setInputSelected(input);
 
         if(!Utilities.isEmpty(getInputSelected().getDimension().getHight()))
@@ -1458,7 +1744,7 @@ public class ScInputBean
      */
     public void valueToList(String value, int option)
     {
-        String fields[] = value.split(","); //Dividimos el valor y su unidad
+        String fields[] = value.split("-"); //Dividimos el valor y su unidad
         
         switch(option)//Seleccionamos la opción
         {

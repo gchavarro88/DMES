@@ -50,7 +50,7 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scInputBean.inputSave.description}"
-                                                            requiredMessage="Campo obligatorio debe ingresar el nombre del insumo"/>
+                                                            />
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad*"/>
@@ -58,7 +58,7 @@
                                         <td width="40%" align="left">
                                             <p:calendar    id="tfExpiryDate"  value="#{scInputBean.inputSave.expiryDate}" autocomplete="true"
                                                            effect="explode" mask="true" pattern="dd/MM/yyyy"
-                                                           requiredMessage="Debe ingresar la fecha de caducidad"/>
+                                                           />
                                         </td>
                                     </tr>
                                     <tr>
@@ -90,7 +90,7 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfSerieInput"  value="#{scInputBean.inputSave.serie}"
-                                                            requiredMessage="Campo obligatorio debe ingresar la serie del insumo"/>
+                                                            />
                                         </td>
                                     </tr>
                                     <tr>
@@ -100,7 +100,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSave.supplierGuarantee}" style="width: 70%;"
                                                              converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
-                                                             requiredMessage="Campo obligatorio debe seleccionar un proveedor" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
@@ -112,7 +112,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSave.costCenter}" style="width: 70%;" 
                                                              converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
-                                                             requiredMessage="Campo obligatorio debe seleccionar un centro de costos" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems  value="#{scInputBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
@@ -129,7 +129,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSave.packingUnit}" 
                                                              converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="width: 70%; top: 6px;"
-                                                             requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione"/>
                                                 <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
@@ -145,7 +145,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSave.inputLocation}" style="width: 70%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo"
-                                                             requiredMessage="Campo obligatorio debe seleccionar una localización" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems  value="#{scInputBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
@@ -162,7 +162,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSave.inputStock.idStore}" style="width: 70%;"
                                                              converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
-                                                             requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
+                                                             effect="puff"
                                                              height="140" >
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
@@ -174,7 +174,7 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="tfProirity"  value="#{scInputBean.inputSave.priority}" style="width: 70%;"
                                                              converter="priorityConverter" converterMessage="Error en el tipo de dato de la prioridad"
-                                                             requiredMessage="Campo obligatorio debe seleccionar una prioridad" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
@@ -197,14 +197,14 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfMaximeStock"  value="#{scInputBean.inputSave.inputStock.maximeStock}"
-                                                            requiredMessage="Campo obligatorio debe ingresar el máximo stock del insumo"/>
+                                                            />
                                         </td>
                                         <td width="20%" align="right">
                                             <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo*"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfMinimeStock"  value="#{scInputBean.inputSave.inputStock.minimeStock}"
-                                                            requiredMessage="Campo obligatorio debe ingresar el mínimo stock del insumo"/>
+                                                            />
                                         </td>
                                     </tr>
                                     <tr>
@@ -213,7 +213,7 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfCurrentStock"  value="#{scInputBean.inputSave.inputStock.currentStock}"
-                                                            requiredMessage="Campo obligatorio debe ingresar el stock real del insumo">
+                                                            >
                                                 <p:ajax event="keyup" update="tfValueTotal" listener="#{scInputBean.calcuteTotalPrice()}"/>
                                             </p:inputText>
                                         </td>
@@ -222,7 +222,7 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfOptimeStock"  value="#{scInputBean.inputSave.inputStock.optimeStock}"
-                                                            requiredMessage="Campo obligatorio debe ingresar el stock óptimo del insumo"/>
+                                                            />
                                         </td>
                                     </tr>
                                     <tr>
@@ -231,14 +231,14 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfPriceUnit"  value="#{scInputBean.inputSave.inputStock.priceUnit}" disabled="true"
-                                                            requiredMessage="Campo obligatorio debe ingresar el precio de unidad del insumo"/>
+                                                            />
                                         </td>
                                         <td width="20%" align="right">
                                             <p:outputLabel  for="tfValueTotal" value="Valor Total*"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfValueTotal"  value="#{scInputBean.inputSave.inputStock.totalValue}" disabled="true"
-                                                            requiredMessage="Campo obligatorio debe ingresar el valor total del insumo"/>
+                                                            />
                                         </td>
                                     </tr>
 
@@ -262,13 +262,13 @@
 
                                             <p:inputText    id="tfHigh"  value="#{scInputBean.inputSave.dimension.hight}"
                                                             requiredMessage="Debe ingresar la altura" style="width: 100px;">
-                                            <p:ajax event="keyup" update="pnlDimension" />
+                                            <p:ajax event="keyup" update=":formWizardSave:cbMeasureHigh" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureHigh"  value="#{scInputBean.measureUnitSaveHigh}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" rendered="#{scInputBean.showItem(scInputBean.inputSave.dimension.hight, scInputBean.measureUnitSaveHigh)}" >
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSave.dimension.hight, 1)}" >
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -281,13 +281,13 @@
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfWidth"  value="#{scInputBean.inputSave.dimension.width}"
                                                             requiredMessage="Debe ingresar el ancho" style="width: 100px;">
-                                                <p:ajax event="keyup" update="pnlDimension" />
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureWidth" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureWidth"  value="#{scInputBean.measureUnitSaveWidth}" style="width: 60px; top: 6px;"
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" rendered="#{scInputBean.showItem(scInputBean.inputSave.dimension.width, scInputBean.measureUnitSaveWidth)}">
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSave.dimension.width, 2)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -300,13 +300,13 @@
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfLarge"  value="#{scInputBean.inputSave.dimension.large}"
                                                             requiredMessage="Debe ingresar el alto" style="width: 100px;">
-                                                <p:ajax event="keyup" update="pnlDimension" />
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureLarge" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureLarge"  value="#{scInputBean.measureUnitSaveLarge}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" rendered="#{scInputBean.showItem(scInputBean.inputSave.dimension.large, scInputBean.measureUnitSaveLarge)}">
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSave.dimension.large, 3)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -317,13 +317,13 @@
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfVolume"  value="#{scInputBean.inputSave.dimension.volume}"
                                                             requiredMessage="Debe ingresar el volumen" style="width: 100px; ">
-                                                <p:ajax event="keyup" update="pnlDimension" />
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureVolume" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureVolume"  value="#{scInputBean.measureUnitSaveVolume}" style="width: 60px; top: 6px; " 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" rendered="#{scInputBean.showItem(scInputBean.inputSave.dimension.volume, scInputBean.measureUnitSaveLarge)}"> 
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSave.dimension.volume, 4)}"> 
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -336,15 +336,15 @@
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfThickness"  value="#{scInputBean.inputSave.dimension.thickness}"
                                                             requiredMessage="Debe ingresar el grosor" style="width: 100px;">
-                                                <p:ajax event="keyup" update="pnlDimension" />
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureThickness" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureThickness"  value="#{scInputBean.measureUnitSaveThickness}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" rendered="#{scInputBean.showItem(scInputBean.inputSave.dimension.thickness, scInputBean.measureUnitSaveThickness)}"> 
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSave.dimension.thickness, 5)}"> 
                                                 <f:selectItem itemLabel="Und." />
-                                                <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                                <f:selectItems  value="#{scIVolumennputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
@@ -353,13 +353,13 @@
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfRadio"  value="#{scInputBean.inputSave.dimension.radio}"
                                                             requiredMessage="Debe ingresar el radio" style="width: 100px;">
-                                                <p:ajax event="keyup" update="pnlDimension" />
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureRadio" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureRadio"  value="#{scInputBean.measureUnitSaveRadio}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" rendered="#{scInputBean.showItem(scInputBean.inputSave.dimension.radio, scInputBean.measureUnitSaveRadio)}">
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSave.dimension.radio, 6)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -372,13 +372,13 @@
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfWeight"  value="#{scInputBean.inputSave.dimension.weight}"
                                                             requiredMessage="Debe ingresar el peso" style="width: 100px;">
-                                                <p:ajax event="keyup" update="pnlDimension" />
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureWeight" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureWeight"  value="#{scInputBean.measureUnitSaveWeight}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" rendered="#{scInputBean.showItem(scInputBean.inputSave.dimension.weight, scInputBean.measureUnitSaveWeight)}">
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSave.dimension.weight, 7)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -755,79 +755,80 @@
                                             <h:graphicImage value="#{scInputBean.searchImage(scInputBean.inputSelected)}" alt="Imagen no disponible" id="imageUpdate" 
                                                             width="120" height="120"  />
                                             <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureUpdate').show()" style="top: -10px;"/>                                       
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureUpdate').show()" style="top: -10px;"
+						ignoreAutoUpdate="true"/>                                       
                                         </td>
                                         <td colspan="2" ></td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre Insumo"/>
+                                            <p:outputLabel  for="tfNameInput" value="Nombre Insumo*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scInputBean.inputSelected.description}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el nombre del insumo"/>
+                                                            />
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
+                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:calendar    id="tfExpiryDate"  value="#{scInputBean.inputSelected.expiryDate}" autocomplete="true"
-                                                           effect="explode" mask="true" pattern="dd/MM/yyyy"
-                                                           required="true" requiredMessage="Debe ingresar la fecha de caducidad"/>
+                                                           effect="explode" mask="true" pattern="dd/MM/yyyy" disabled="true"
+                                                           />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfTypeMaterial" value="Tipo de Material"/>
+                                            <p:outputLabel  for="tfTypeMaterial" value="Tipo de Material*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfTypeMaterial"  value="#{scInputBean.inputSelected.typeMaterial}" autocomplete="true"
-                                                            required="true" requiredMessage="Debe ingresar el tipo de material" />
+                                                            />
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfValueInput" value="Valor"/>
+                                            <p:outputLabel  for="tfValueInput" value="Valor*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfValueInput"  value="#{scInputBean.inputSelected.value}" 
-                                                            required="true" requiredMessage="Debe ingresar el valor del insumo" />
+                                                             />
                                         </td>
                                     </tr> 
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfMarkInput" value="Marca"/>
+                                            <p:outputLabel  for="tfMarkInput" value="Marca*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfMarkInput"  value="#{scInputBean.inputSelected.mark}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la marca del insumo"/>
+                                                            />
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfSerieInput" value="Serie"/>
+                                            <p:outputLabel  for="tfSerieInput" value="Serie*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfSerieInput"  value="#{scInputBean.inputSelected.serie}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar la serie del insumo"/>
+                                                            />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbSupplier" value="Proveedor"/>
+                                            <p:outputLabel  for="cbSupplier" value="Proveedor*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbSupplier"  value="#{scInputBean.inputSelected.supplierGuarantee}" style="width: 70%;"
                                                              converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un proveedor" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costos"/>
+                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costos*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbCostCenter"  value="#{scInputBean.inputSelected.costCenter}" style="width: 70%;" 
                                                              converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un centro de costos" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems  value="#{scInputBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
@@ -839,13 +840,13 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque"/>
+                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             
                                             <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSelected.packingUnit}" 
                                                              converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="width: 70%; top: 6px;"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione"/>
                                                 <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
@@ -856,12 +857,12 @@
                                             <p:tooltip for="btnAddPackingUnit" value="Agregue nuevas unidades de empaque"/>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbLocation" value="Localización"/>
+                                            <p:outputLabel  for="cbLocation" value="Localización*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSelected.inputLocation}" style="width: 70%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una localización" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems  value="#{scInputBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
@@ -873,24 +874,24 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfStore" value="Almacén"/>
+                                            <p:outputLabel  for="tfStore" value="Almacén*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSelected.inputStock.idStore}" style="width: 70%;"
                                                              converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
+                                                             effect="puff"
                                                              height="140" >
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfProirity" value="Prioridad"/>
+                                            <p:outputLabel  for="tfProirity" value="Prioridad*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="tfProirity"  value="#{scInputBean.inputSelected.priority}" style="width: 70%;"
                                                              converter="priorityConverter" converterMessage="Error en el tipo de dato de la prioridad"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una prioridad" effect="puff"
+                                                             effect="puff"
                                                              height="140">
                                                 <f:selectItem itemLabel="Seleccione" />
                                                 <f:selectItems value="#{scInputBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
@@ -912,14 +913,14 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfMaximeStock"  value="#{scInputBean.inputSelected.inputStock.maximeStock}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el máximo stock del insumo"/>
+                                                            />
                                         </td>
                                         <td width="20%" align="right">
                                             <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfMinimeStock"  value="#{scInputBean.inputSelected.inputStock.minimeStock}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el mínimo stock del insumo"/>
+                                                            />
                                         </td>
                                     </tr>
                                     <tr>
@@ -928,36 +929,40 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfCurrentStock"  value="#{scInputBean.inputSelected.inputStock.currentStock}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el stock real del insumo"/>
+                                                            
+                                                            >
+                                                <p:ajax event="keyup" update="tfValueTotal" listener="#{scInputBean.calcuteTotalPriceUpdate()}"/>
+                                            </p:inputText>
                                         </td>
                                         <td width="20%" align="right">
                                             <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfOptimeStock"  value="#{scInputBean.inputSelected.inputStock.optimeStock}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el stock óptimo del insumo"/>
+                                                            />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfPriceUnit" value="Precio Unidad"/>
+                                            <p:outputLabel  for="tfPriceUnit" value="Precio Unidad" />
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:inputText    id="tfPriceUnit"  value="#{scInputBean.inputSelected.inputStock.priceUnit}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el precio de unidad del insumo"/>
+                                            <p:inputText    id="tfPriceUnit"  value="#{scInputBean.inputSelected.inputStock.priceUnit}" disabled="true"
+                                                            />
                                         </td>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
+                                            <p:outputLabel  for="tfValueTotal" value="Valor Total" />
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:inputText    id="tfValueTotal"  value="#{scInputBean.inputSelected.inputStock.totalValue}"
-                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor total del insumo"/>
+                                            <p:inputText    id="tfValueTotal"  value="#{scInputBean.inputSelected.inputStock.totalValue}" disabled="true"
+                                                            />
                                         </td>
                                     </tr>
                                     
                                 </table>
                             </p:panel>
-                            <p:panel header="Dimensiones" toggleable="true" toggleTitle="Presione para minimizar el panel de Dimensiones">
+                            <p:panel header="Dimensiones" toggleable="true" toggleTitle="Presione para minimizar el panel de Dimensiones"
+                                     id="pnlDimension">
                                 <f:facet name="header">
                                     <p:commandButton icon="ui-icon-plus" id="btnAddMeasure" style="float: left;"  
                                                      oncomplete="PF('measureSave').show()">
@@ -967,35 +972,39 @@
                                 <table width="98%" cellspacing="10"  >
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfHigh" value="Altura"/>
-                                            
+                                            <p:outputLabel  for="tfHigh" value="Altura*"/>
+
                                         </td>
                                         <td width="40%" align="left">
-                                            
+
                                             <p:inputText    id="tfHigh"  value="#{scInputBean.inputSelected.dimension.hight}"
-                                                            required="true" requiredMessage="Debe ingresar la altura" style="width: 100px;"/>
+                                                            style="width: 100px;">
+                                            <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureHigh" />
+                                            </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureHigh"  value="#{scInputBean.measureUnitSaveHigh}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140">
+                                                             effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSelected.dimension.hight, 1)}" >
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
-                                            
-                                            
+
+
                                         </td> 
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfWidth" value="Ancho"/>
+                                            <p:outputLabel  for="tfWidth" value="Ancho*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfWidth"  value="#{scInputBean.inputSelected.dimension.width}"
-                                                            required="true" requiredMessage="Debe ingresar el ancho" style="width: 100px;"/>
+                                                            style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureWidth" />
+                                            </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureWidth"  value="#{scInputBean.measureUnitSaveWidth}" style="width: 60px; top: 6px;"
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140">
+                                                             effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSelected.dimension.width, 2)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -1003,16 +1012,18 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfLarge" value="Largo"/>
+                                            <p:outputLabel  for="tfLarge" value="Largo*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfLarge"  value="#{scInputBean.inputSelected.dimension.large}"
-                                                            required="true" requiredMessage="Debe ingresar el alto" style="width: 100px;"/>
+                                                            style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureLarge" />
+                                            </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureLarge"  value="#{scInputBean.measureUnitSaveLarge}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140">
+                                                             effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSelected.dimension.large, 3)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -1022,12 +1033,14 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfVolume"  value="#{scInputBean.inputSelected.dimension.volume}"
-                                                            required="true" requiredMessage="Debe ingresar el volumen" style="width: 100px; "/>
+                                                            style="width: 100px; ">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureVolume" />
+                                            </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureVolume"  value="#{scInputBean.measureUnitSaveVolume}" style="width: 60px; top: 6px; " 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140"> 
+                                                             effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSelected.dimension.volume, 4)}"> 
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -1039,12 +1052,14 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfThickness"  value="#{scInputBean.inputSelected.dimension.thickness}"
-                                                            required="true" requiredMessage="Debe ingresar el grosor" style="width: 100px;"/>
+                                                            style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureThickness" />
+                                            </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureThickness"  value="#{scInputBean.measureUnitSaveThickness}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140">
+                                                             effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSelected.dimension.thickness, 5)}"> 
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -1054,12 +1069,14 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfRadio"  value="#{scInputBean.inputSelected.dimension.radio}"
-                                                            required="true" requiredMessage="Debe ingresar el radio" style="width: 100px;"/>
+                                                             style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureRadio" />
+                                            </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureRadio"  value="#{scInputBean.measureUnitSaveRadio}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140">
+                                                             effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSelected.dimension.radio, 6)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -1071,12 +1088,14 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfWeight"  value="#{scInputBean.inputSelected.dimension.weight}"
-                                                            required="true" requiredMessage="Debe ingresar el peso" style="width: 100px;"/>
+                                                            requiredMessage="Debe ingresar el peso" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureWeight" />
+                                            </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureWeight"  value="#{scInputBean.measureUnitSaveWeight}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140">
+                                                             effect="puff"
+                                                             height="140" disabled="#{!scInputBean.showItem(scInputBean.inputSelected.dimension.weight, 7)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scInputBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -1084,12 +1103,12 @@
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfObservationsDimension" value="Observaciones"/>
                                         </td>
-                                        <td width="40%" align="left">
+                                        <td  width="40%" align="left"> 
                                             <p:inputTextarea   id="tfObservationsDimension"  value="#{scInputBean.inputSelected.dimension.observations}"
                                                                style="width: 98%;"     />
                                         </td>
                                     </tr>
-                                    
+
                                 </table>
                             </p:panel>
                         </p:tab>
@@ -1834,7 +1853,7 @@
             <!--################ finaliza el dialogo para visualizar Insumos ######################33-->
             
             <!--           dialogo para crear un centro de costos-->
-            <p:dialog id="centerCostSave" widgetVar="centerCostSave" draggable="true" 
+            <p:dialog id="centerCostSave" widgetVar="centerCostSave" draggable="true"  
                       closable="true"  header="Agregar un Centro de Costos" position="center top" 
                       hideEffect="explode" modal="true" showEffect="explode" 
                       >
@@ -1859,10 +1878,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td width="20%" align="right">
-
-                            </td>
-                            <td width="80%" align="left">
+                           
+                            <td  align="center" colspan="2">
                                 <p:commandButton value="Guardar" actionListener="#{scInputBean.addCostCenter()}"  
                                                  onsuccess="PF('centerCostSave').hide()"
                                                  update="@this,:formWizardSave:cbCostCenter,:formWizardUpdate:cbCostCenter"/>
@@ -1903,10 +1920,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td width="20%" align="right">
-
-                            </td>
-                            <td width="80%" align="left">
+                            
+                            <td  align="center" colspan="2">
                                 <p:commandButton value="Guardar" actionListener="#{scInputBean.addMeasure()}"  
                                                  onsuccess="PF('measureSave').hide()"
                                                  update="@this,:formWizardSave:cbMeasureHigh,:formWizardSave:cbMeasureWidth,:formWizardSave:cbMeasureLarge,
@@ -1952,10 +1967,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td width="20%" align="right">
-
-                            </td>
-                            <td width="80%" align="left">
+                            
+                            <td align="center" colspan="2">
                                 <p:commandButton value="Guardar" actionListener="#{scInputBean.addPackingUnit()}"  
                                                  onsuccess="PF('unitPackingSave').hide()"
                                                  update="@this,:formWizardSave:cbPackingUnit,:formWizardUpdate:cbPackingUnit"/>
@@ -1996,10 +2009,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td width="20%" align="right">
+                            
 
-                            </td>
-                            <td width="80%" align="left">
+                            
+                            <td  align="center" colspan="2">
                                 <p:commandButton value="Guardar" actionListener="#{scInputBean.addInputLocations()}"  
                                                  onsuccess="PF('inputLocationSave').hide()"
                                                  update="@this,:formWizardSave:cbLocation,:formWizardUpdate:cbLocation"/>
