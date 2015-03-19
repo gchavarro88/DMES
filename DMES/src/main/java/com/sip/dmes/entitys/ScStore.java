@@ -105,7 +105,7 @@ public class ScStore implements Serializable
 
     @Override
     public String toString() {
-        return idStore.toString();
+        return idStore.toString()+","+getName().toString();
     }
 
     @XmlTransient

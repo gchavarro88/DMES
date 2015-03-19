@@ -9,6 +9,7 @@ import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputLocation;
 import com.sip.dmes.entitys.ScMeasureUnit;
+import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
@@ -38,6 +39,8 @@ public interface IScInput
     public List<ScInputLocation > getAllInputLocations() throws Exception;
     
     public List<ScMeasureUnit> getAllMeasureUnits() throws Exception;
+    
+    public List<ScMoney> getAllMoneys() throws Exception;
     
     public List<ScStore> getAllStores() throws Exception;
     

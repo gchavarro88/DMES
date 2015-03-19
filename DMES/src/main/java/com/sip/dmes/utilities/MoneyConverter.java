@@ -8,8 +8,8 @@ package com.sip.dmes.utilities;
 
 
 
-import com.sip.dmes.entitys.ScCostCenter;
-import com.sip.dmes.entitys.ScStore;
+
+import com.sip.dmes.entitys.ScMoney;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -20,8 +20,8 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Gustavo
  */
-@FacesConverter("storeConverter")
-public class StoreConverter implements Converter{
+@FacesConverter("moneyConverter")
+public class MoneyConverter implements Converter{
 
     /**
      *
@@ -33,16 +33,15 @@ public class StoreConverter implements Converter{
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) 
     {
-        ScStore store = null;
+        ScMoney money = null;
         if(value.length()>0)
         {   
-            FacesMessage msg = new FacesMessage("Error al convertir el centro de costo", "Formato no válido");
+            FacesMessage msg = new FacesMessage("Error al convertir la unidad de empaque", "Formato no válido");
             String fields[] = value.split(",");
-            store = new ScStore(Long.parseLong(fields[0]));
-            store.setName(fields[1]);
+            money = new ScMoney(Long.parseLong(fields[0]));
+            money.setAcronym(fields[1]);
         }
-        
-        return store;
+        return money;
     }
 
     /**

@@ -37,7 +37,9 @@ public class PackingUnitConverter implements Converter{
         if(value.length()>0)
         {   
             FacesMessage msg = new FacesMessage("Error al convertir la unidad de empaque", "Formato no válido");
-            packingUnit = new ScPackingUnit(Long.parseLong(value));
+            String fields[] = value.split(",");
+            packingUnit = new ScPackingUnit(Long.parseLong(fields[0]));
+            packingUnit.setAcronym(fields[1]);
         }
         return packingUnit;
     }

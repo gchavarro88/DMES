@@ -20,6 +20,7 @@ import com.sip.dmes.entitys.ScInputObservations;
 import com.sip.dmes.entitys.ScInputSpecifications;
 import com.sip.dmes.entitys.ScInputStock;
 import com.sip.dmes.entitys.ScMeasureUnit;
+import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
@@ -28,6 +29,7 @@ import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -42,6 +44,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
@@ -81,6 +84,7 @@ public class ScInputBean
     private ScInputFeactures feacturesSave;//Característica a guardar
     private ScInputObservations observationsSave;//Observación a guardar
     private ScInputDocuments documentsSave;//Documento a guardar
+    private ScMoney moneySave;//Moneda a guardar
     private List<ScPartner> partnersList;//Listado de proveedores
     private List<ScCostCenter> costCenterList;//Listado de centros de costo
     private List<ScMeasureUnit> measureUnitsList;//Lista de unidades de medida
@@ -93,6 +97,7 @@ public class ScInputBean
     private List<ScInputObservations> observationListSave;//Lista de observaciones a guardar
     private List<ScInputEquivalence> equivalenceListSave;//Lista de equivalencias a guardar
     private List<ScInputDocuments> documentsListSave;//Lista de documentos a guardar
+    private List<ScMoney> moneyList;//Lista de monedas
     private UploadedFile fileSave;//Documento a subir
     private UploadedFile fileUpdate;//Documento a actualizar
     
@@ -139,6 +144,7 @@ public class ScInputBean
         fillListStore();
         fillListPriority();
         fillListMeasure();
+        fillListMoney();
         cleanFieldsInit();
         getinitalParameters();
     }
@@ -279,6 +285,24 @@ public class ScInputBean
     }
     
     /**
+     * Método encargado de llenar la lista de medidas.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListMoney()
+    {
+        try
+        {
+            //Se consultan todas las monedas disponibles
+            setMoneyList(getScInputServer().getAllMoneys());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar las monedas para los insumos", e);
+        }
+    }
+    
+    
+    /**
      * Método encargado de vaciar los objetos.
      * @author Gustavo Chavarro Ortiz
      */
@@ -304,6 +328,7 @@ public class ScInputBean
         setMeasureUnitSaveLarge(new ScMeasureUnit());
         setMeasureUnitSaveThickness(new ScMeasureUnit());
         setMeasureUnitSaveWeight(new ScMeasureUnit());
+        setMoneySave(new ScMoney());
     }
     public void cleanInputSave()
     {
@@ -788,10 +813,6 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Fecha de Caducidad", getInputSave().getExpiryDate(), -1))
-            {
-                return event.getOldStep();
-            }
             if(validateFields("Tipo de Material", getInputSave().getTypeMaterial(), 3))
             {
                 return event.getOldStep();
@@ -851,7 +872,7 @@ public class ScInputBean
             getInputSave().setCreationDate(new Date());
             
             //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-            if(getInputSave().getExpiryDate().before(getInputSave().getCreationDate()))
+            if(getInputSave().getExpiryDate() != null && getInputSave().getExpiryDate().before(getInputSave().getCreationDate()))
             {
                 addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
                 log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
@@ -866,7 +887,7 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Stock Mínimo", getInputSave().getInputStock().getMinimeStock(), 2))
+            if(validateFields("Stocguschaork Mínimo", getInputSave().getInputStock().getMinimeStock(), 2))
             {
                 return event.getOldStep();
             }
@@ -884,16 +905,6 @@ public class ScInputBean
                 //modificamos el precio total igual al precio por unidad * el stock actual
                 getInputSave().getInputStock().setTotalValue(getInputSave().getValue()*
                     getInputSave().getInputStock().getCurrentStock());
-                if(getInputSave().getInputStock().getMaximeStock() < getInputSave().getInputStock().getCurrentStock())
-                {
-                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Real");
-                    return event.getOldStep();
-                }
-                if(getInputSave().getInputStock().getMinimeStock() > getInputSave().getInputStock().getCurrentStock())
-                {
-                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Real");
-                    return event.getOldStep();
-                }
             }
             if(validateFields("Stock Óptimo", getInputSave().getInputStock().getOptimeStock(), 2))
             {
@@ -1089,10 +1100,6 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Fecha de Caducidad", getInputSelected().getExpiryDate(), -1))
-            {
-                return event.getOldStep();
-            }
             if(validateFields("Tipo de Material", getInputSelected().getTypeMaterial(), 3))
             {
                 return event.getOldStep();
@@ -1106,7 +1113,7 @@ public class ScInputBean
             getInputSelected().getInputStock().setPriceUnit(getInputSelected().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
             getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()*
-                    getInputSave().getInputStock().getCurrentStock());
+                    getInputSelected().getInputStock().getCurrentStock());
             
             if(validateFields("Marca", getInputSelected().getMark(), 3))
             {
@@ -1148,13 +1155,13 @@ public class ScInputBean
                 return event.getOldStep();
             }
              
-//            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-//            if(getInputSelected().getExpiryDate().before(getInputSelected().getCreationDate()))
-//            {
-//                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
-//                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-//                return event.getOldStep();
-//            }
+            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+            if(getInputSelected().getExpiryDate()!= null && getInputSelected().getExpiryDate().before(getInputSelected().getCreationDate()))
+            {
+                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
         }
         //Si pasamos de la pestaña de datos generales a stock y dimensiones
         else if(event.getOldStep().equals(TAB_STOCK))
@@ -1182,16 +1189,6 @@ public class ScInputBean
                 //modificamos el precio total igual al precio por unidad * el stock actual
                 getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()*
                     getInputSelected().getInputStock().getCurrentStock());
-                if(getInputSelected().getInputStock().getMaximeStock() < getInputSelected().getInputStock().getCurrentStock())
-                {
-                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Real");
-                    return event.getOldStep();
-                }
-                if(getInputSelected().getInputStock().getMinimeStock() > getInputSelected().getInputStock().getCurrentStock())
-                {
-                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Real");
-                    return event.getOldStep();
-                }
             }
             if(validateFields("Stock Óptimo", getInputSelected().getInputStock().getOptimeStock(), 2))
             {
@@ -2057,8 +2054,8 @@ public class ScInputBean
         int bytesToMegabytes = 10485760; //Valor de representación de 1megabytes a bytes
         if(!Utilities.isEmpty(getDocumentsSave().getDocumentTittle()))
         {
-            if(getFileSave() != null )
-         {
+            if(getFileSave() != null ) 
+         { 
             String fileName = getFileSave().getFileName(); //Extraemos el nombre del archivo
             long fileSize    = getFileSave().getSize(); //Extraemos el tamaño del archivo
             int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
@@ -2085,8 +2082,8 @@ public class ScInputBean
                             if(writeFile(getFileSave().getInputstream(), file))
                             {
                                 getDocumentsSave().setDocumentName(fileName);
-                                getDocumentsSave().setDocumentPath(file.toString());
-                                getDocumentsSave().setTypeDocument(fileName);
+                                getDocumentsSave().setDocumentPath(folder.toString());
+                                getDocumentsSave().setTypeDocument(getFileSave().getContentType());
                                 getDocumentsSave().setUploadBy(getSessionBean().getScUser().getLogin());
                                 
                                 getDocumentsSave().setCreationDate(new Date());
@@ -2201,7 +2198,49 @@ public class ScInputBean
             log.error("Error al intentar consultar los parámetros iniciales",ex);
         }
     }
+       
+    /**
+     * Método encargado de permitir descargar los archivos que se encuentran en la 
+     * tabla del usuario.
+     * @param scDocumentsSelected registro del documento a descargar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void downloadDocument(ScInputDocuments scDocumentsSelected)
+    {
+        try
+        {
+            String fileName = scDocumentsSelected.getDocumentName();
+            String path     = scDocumentsSelected.getDocumentPath();
+            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+            String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
+            File fileToDownload = new File(path+"/"+fileName);
+            InputStream inputStream = new FileInputStream(fileToDownload);
+            byte[] buffer = new byte[2048];
+            int offset = 0;
+            int numRead = 0;
+            HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance()
+                    .getExternalContext().getResponse();
+            response.setContentType(scDocumentsSelected.getTypeDocument());
+            response.setHeader("Content-Disposition", "attachment;filename="+fileName);
+            OutputStream responseOutputStream = response.getOutputStream();
+
+            while ((numRead = inputStream.read(buffer)) > 0)
+            {
+                responseOutputStream.write(buffer, 0, numRead);
+            }
+            inputStream.close();
+            response.getOutputStream().flush();
+            response.getOutputStream().close();
+            FacesContext.getCurrentInstance().responseComplete();
+        }
+        catch(Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar descargar el archivo",e);
+        }
+        
     
+    }
     /**
      * Método encargado de recibir una entrada de datos y un archivo para posteriormente
      * escribir los datos en el archivo.
@@ -2718,6 +2757,26 @@ public class ScInputBean
     public void setFileUpdate(UploadedFile fileUpdate)
     {
         this.fileUpdate = fileUpdate;
+    }
+
+    public ScMoney getMoneySave()
+    {
+        return moneySave;
+    }
+
+    public void setMoneySave(ScMoney moneySave)
+    {
+        this.moneySave = moneySave;
+    }
+
+    public List<ScMoney> getMoneyList() 
+    {
+        return moneyList;
+    }
+
+    public void setMoneyList(List<ScMoney> moneyList)
+    {
+        this.moneyList = moneyList;
     }
     
     

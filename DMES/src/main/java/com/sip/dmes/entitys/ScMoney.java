@@ -24,22 +24,22 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_packing_unit", schema = "dmes")
+@Table(name = "sc_money", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ScPackingUnit.findAll", query = "SELECT s FROM ScPackingUnit s ORDER BY s.acronym"),
-    @NamedQuery(name = "ScPackingUnit.findByIdPacking", query = "SELECT s FROM ScPackingUnit s WHERE s.idPacking = :idPacking"),
-    @NamedQuery(name = "ScPackingUnit.findByDescription", query = "SELECT s FROM ScPackingUnit s WHERE s.description = :description"),
-    @NamedQuery(name = "ScPackingUnit.findByAcronym", query = "SELECT s FROM ScPackingUnit s WHERE s.acronym = :acronym")})
-public class ScPackingUnit implements Serializable {
+    @NamedQuery(name = "ScMoney.findAll", query = "SELECT s FROM ScMoney s ORDER BY s.description"),
+    @NamedQuery(name = "ScMoney.findByIdMoney", query = "SELECT s FROM ScMoney s WHERE s.idMoney = :idMoney"),
+    @NamedQuery(name = "ScMoney.findByDescription", query = "SELECT s FROM ScMoney s WHERE s.description = :description"),
+    @NamedQuery(name = "ScMoney.findByAcronym", query = "SELECT s FROM ScMoney s WHERE s.acronym = :acronym")})
+public class ScMoney implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "dmes.sqscpackingunit")
-    @SequenceGenerator(name = "dmes.sqscpackingunit", sequenceName = "dmes.sqscpackingunit", allocationSize = 1)
+    @GeneratedValue(generator = "dmes.sqscmoney")
+    @SequenceGenerator(name = "dmes.sqscmoney", sequenceName = "dmes.sqscmoney", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id_packing")
-    private Long idPacking;
+    @Column(name = "id_money")
+    private Long idMoney;
     @Size(max = 200)
     @Column(name = "description")
     private String description;
@@ -49,24 +49,24 @@ public class ScPackingUnit implements Serializable {
     @Column(name = "acronym")
     private String acronym;
 
-    public ScPackingUnit() {
+    public ScMoney() {
     }
 
-    public ScPackingUnit(Long idPacking) {
-        this.idPacking = idPacking;
+    public ScMoney(Long idPacking) {
+        this.idMoney = idPacking;
     }
 
-    public ScPackingUnit(Long idPacking, String acronym) {
-        this.idPacking = idPacking;
+    public ScMoney(Long idMoney, String acronym) {
+        this.idMoney = idMoney;
         this.acronym = acronym;
     }
 
-    public Long getIdPacking() {
-        return idPacking;
+    public Long getIdMoney() {
+        return idMoney;
     }
 
-    public void setIdPacking(Long idPacking) {
-        this.idPacking = idPacking;
+    public void setIdMoney(Long idPacking) {
+        this.idMoney = idPacking;
     }
 
     public String getDescription() {
@@ -88,19 +88,19 @@ public class ScPackingUnit implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idPacking != null ? idPacking.hashCode() : 0);
+        hash += (idMoney != null ? idMoney.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScPackingUnit)) {
+        if (!(object instanceof ScMoney)) {
             return false;
         }
-        ScPackingUnit other = (ScPackingUnit) object;
-        if ((this.idPacking == null && other.idPacking != null) || 
-                (this.idPacking != null && !this.idPacking.equals(other.idPacking))) 
+        ScMoney other = (ScMoney) object;
+        if ((this.idMoney == null && other.idMoney != null) || 
+                (this.idMoney != null && !this.idMoney.equals(other.idMoney))) 
         {
             return false;
         }
@@ -109,7 +109,7 @@ public class ScPackingUnit implements Serializable {
 
     @Override
     public String toString() {
-        return idPacking.toString()+","+getAcronym().toString();
+        return idMoney.toString()+","+getAcronym().toString();
     }
     
 }

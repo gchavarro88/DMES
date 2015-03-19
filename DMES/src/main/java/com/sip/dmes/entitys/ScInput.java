@@ -65,8 +65,8 @@ public class ScInput implements Serializable
     @Size(min = 1, max = 200)
     @Column(name = "type_material")
     private String typeMaterial;
+    
     @Basic(optional = false)
-    @NotNull
     @Column(name = "expiry_date")
     @Temporal(TemporalType.DATE)
     private Date expiryDate;
@@ -117,6 +117,9 @@ public class ScInput implements Serializable
     @JoinColumn(name = "id_packing", referencedColumnName = "id_packing")
     @ManyToOne(optional = false)
     private ScPackingUnit packingUnit;
+    @JoinColumn(name = "id_money", referencedColumnName = "id_money")
+    @ManyToOne(optional = false)
+    private ScMoney money;
     @JoinColumn(name = "id_priority", referencedColumnName = "id_priority")
     @ManyToOne(optional = false)
     private ScPriority priority;
@@ -139,7 +142,7 @@ public class ScInput implements Serializable
         this.idInput = idInput;
     }
 
-    public ScInput(Long idInput, String typeMaterial, Date expiryDate, ScPackingUnit packingUnit, String mark, long value, String serie)
+    public ScInput(Long idInput, String typeMaterial, ScPackingUnit packingUnit, String mark, long value, String serie)
     {
         this.idInput = idInput;
         this.typeMaterial = typeMaterial;
@@ -365,6 +368,16 @@ public class ScInput implements Serializable
     public void setScInputDocuments(List<ScInputDocuments> scInputDocuments)
     {
         this.scInputDocuments = scInputDocuments;
+    }
+
+    public ScMoney getMoney()
+    {
+        return money;
+    }
+
+    public void setMoney(ScMoney money)
+    {
+        this.money = money;
     }
 
     

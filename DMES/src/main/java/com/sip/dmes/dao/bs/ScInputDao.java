@@ -10,6 +10,7 @@ import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputLocation;
 import com.sip.dmes.entitys.ScMeasureUnit;
+import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
@@ -256,6 +257,22 @@ public class ScInputDao  implements  IScInput
         catch (Exception e)
         {
             log.error("Error al intentar hacer la persistencia de las medidas",e);
+        }
+        return result;
+    }
+    
+    @Override
+    public List<ScMoney> getAllMoneys() throws Exception
+    {
+        List<ScMoney> result = null;
+        Query query  = entityManager.createNamedQuery("ScMoney.findAll"); 
+        try
+        {
+            result = (List<ScMoney>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las monedas",e);
         }
         return result;
     }
