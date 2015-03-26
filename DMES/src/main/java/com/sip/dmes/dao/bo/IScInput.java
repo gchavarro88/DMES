@@ -6,6 +6,7 @@
 package com.sip.dmes.dao.bo;
 
 import com.sip.dmes.entitys.ScCostCenter;
+import com.sip.dmes.entitys.ScDistributionUnit;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputLocation;
 import com.sip.dmes.entitys.ScMeasureUnit;
@@ -36,6 +37,8 @@ public interface IScInput
     
     public List<ScPackingUnit > getAllPackingUnits() throws Exception;
     
+    public List<ScDistributionUnit > getAllDistributionUnits() throws Exception;
+    
     public List<ScInputLocation > getAllInputLocations() throws Exception;
     
     public List<ScMeasureUnit> getAllMeasureUnits() throws Exception;
@@ -49,6 +52,8 @@ public interface IScInput
     public void saveCostCenter(ScCostCenter costCenter) throws Exception;
     
     public void savePackingUnit(ScPackingUnit packingUnit) throws Exception;
+    
+    public void saveDistributionUnit(ScDistributionUnit distributionUnit) throws Exception;
     
     public void saveLocationInput(ScInputLocation inputLocation) throws Exception;
 

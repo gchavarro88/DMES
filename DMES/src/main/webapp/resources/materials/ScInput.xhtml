@@ -142,20 +142,16 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque*"/>
+                                            <p:outputLabel  for="tfStore" value="Almacén*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSave.packingUnit}" 
-                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="width: 70%; top: 6px;"
+                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSave.inputStock.idStore}" style="width: 70%;"
+                                                             converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
                                                              effect="puff"
-                                                             height="140">
-                                                <f:selectItem itemLabel="..."/>
-                                                <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
-
+                                                             height="140" >
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
                                             </p:selectOneMenu>
-                                            <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnAddPackingUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitPackingSave').show()" style="top: -2px;"/>
-                                            <p:tooltip for="btnAddPackingUnit" value="Agregue nuevas unidades de empaque"/>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbLocation" value="Localización*"/>
@@ -175,18 +171,6 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfStore" value="Almacén*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSave.inputStock.idStore}" style="width: 70%;"
-                                                             converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
-                                                             effect="puff"
-                                                             height="140" >
-                                                <f:selectItem itemLabel="..." />
-                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
-                                            </p:selectOneMenu>
-                                        </td>
-                                        <td width="10%" align="right">
                                             <p:outputLabel  for="tfProirity" value="Prioridad*"/>
                                         </td>
                                         <td width="40%" align="left">
@@ -197,6 +181,49 @@
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems value="#{scInputBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
                                             </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSave.packingUnit}" 
+                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
+
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddPackingUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitPackingSave').show()" style="top: -2px;"/>
+                                            <p:tooltip for="btnAddPackingUnit" value="Agregue nuevas unidades de empaque"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDistributionAmount" value="Cantidad de Distribución*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfDistributionAmount"  value="#{scInputBean.inputSave.distributionAmount}">
+                                                <p:tooltip for="tfDistributionAmount" value="Cantidad de distribución por unidad de empaque, ejemplo
+                                                           unidad de empaque = Caja, Cantidad de distribución 12 botellas"/>
+                                            </p:inputText>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbDistributionUnit" value="Unidad de Distribución*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbDistributionUnit"  value="#{scInputBean.inputSave.distributionUnit}" 
+                                                             converter="distributionUnitConverter" converterMessage="Error en el tipo de dato de la unidad de distribución" style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scInputBean.distributionUnitsList}" var="units" itemLabel="#{units.acronym}"/>
+
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddDistributionUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitDistributionSave').show()" style="top: -2px;"/>
+                                            <p:tooltip for="btnAddDistributionUnit" value="Agregue nuevas unidades de distribución"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -2063,8 +2090,51 @@
                     </table>
                 </h:form>
             </p:dialog>
-            <!--         fin  dialogo para crear localizaciones del insumo-->
+            <!--         fin  dialogo para crear unidades de empaque del insumo-->
+            
             <!--           dialogo para crear unidades de empaque-->
+            <p:dialog id="unitDistributionSave" widgetVar="unitDistributionSave" draggable="true" 
+                      closable="true"  header="Agregar una Unidad de Distribución" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formUnitDistribution">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAcronym" value="Abreviatura"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAcronym"  value="#{scInputBean.distributionUnitSave.acronym}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la abreviatura de la unidad de distribución"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfDescriptionDistribution" value="Descripción"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputTextarea    id="tfDescriptionDistribution"  value="#{scInputBean.distributionUnitSave.description}"
+                                                    />
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td align="center" colspan="2">
+                                <p:commandButton value="Guardar" actionListener="#{scInputBean.addDistributionUnit()}"  
+                                                 onsuccess="PF('unitDistributionSave').hide()"
+                                                 update="@this,tfAcronym,tfDescriptionDistribution,:formWizardSave:cbDistributionUnit"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scInputBean.cleanFieldsDistribution()}" 
+                                                 oncomplete="PF('unitDistributionSave').hide()"
+                                                 update="tfAcronym,tfDescriptionDistribution,@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            <!--         fin  dialogo para crear unidades de empaque del insumo-->
+            <!--           dialogo para crear localizaciones-->
             <p:dialog id="inputLocationSave" widgetVar="inputLocationSave" draggable="true" 
                       closable="true"  header="Agregar una Localización del Insumo" position="center top" 
                       hideEffect="explode" modal="true" showEffect="explode" 

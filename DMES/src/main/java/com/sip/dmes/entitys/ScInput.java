@@ -92,6 +92,10 @@ public class ScInput implements Serializable
     private Date creationDate;
     @Column(name = "description")
     private String description;
+    @Column(name = "total_amount_distribution")
+    private long totalAmountDistribution;
+    @Column(name = "distribution_amount")
+    private long distributionAmount;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
     private List<ScInputEquivalence> scInputEquivalenceList;
@@ -117,6 +121,9 @@ public class ScInput implements Serializable
     @JoinColumn(name = "id_packing", referencedColumnName = "id_packing")
     @ManyToOne(optional = false)
     private ScPackingUnit packingUnit;
+    @JoinColumn(name = "id_distribution_unit", referencedColumnName = "id_distribution_unit")
+    @ManyToOne(optional = false)
+    private ScDistributionUnit distributionUnit;
     @JoinColumn(name = "id_money", referencedColumnName = "id_money")
     @ManyToOne(optional = false)
     private ScMoney money;
@@ -378,6 +385,36 @@ public class ScInput implements Serializable
     public void setMoney(ScMoney money)
     {
         this.money = money;
+    }
+
+    public long getTotalAmountDistribution()
+    {
+        return totalAmountDistribution;
+    }
+
+    public void setTotalAmountDistribution(long totalAmountDistribution)
+    {
+        this.totalAmountDistribution = totalAmountDistribution;
+    }
+
+    public long getDistributionAmount()
+    {
+        return distributionAmount;
+    }
+
+    public void setDistributionAmount(long distributionAmount)
+    {
+        this.distributionAmount = distributionAmount;
+    }
+
+    public ScDistributionUnit getDistributionUnit()
+    {
+        return distributionUnit;
+    }
+
+    public void setDistributionUnit(ScDistributionUnit distributionUnit)
+    {
+        this.distributionUnit = distributionUnit;
     }
 
     

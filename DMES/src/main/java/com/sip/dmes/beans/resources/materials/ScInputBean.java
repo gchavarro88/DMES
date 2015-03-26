@@ -9,7 +9,7 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScInput;
 import com.sip.dmes.dao.bs.ScInputDao;
 import com.sip.dmes.entitys.ScCostCenter;
-import com.sip.dmes.entitys.ScDocuments;
+import com.sip.dmes.entitys.ScDistributionUnit;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScInputDocuments;
@@ -38,7 +38,6 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -71,6 +70,7 @@ public class ScInputBean
     private ScMeasureUnit measureUnitSaveWeight; //Unidad de medida seleccionado para agregar
     
     private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
+    private ScDistributionUnit distributionUnitSave; //Unidad de empaque seleccionado para agregar
     private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
     private ScInputLocation inputLocationSave; //Localizacion seleccionada para agregar
     private ScInputLocation inputLocationSelected; //Localizacion seleccionada para agregar al insumo
@@ -89,6 +89,7 @@ public class ScInputBean
     private List<ScCostCenter> costCenterList;//Listado de centros de costo
     private List<ScMeasureUnit> measureUnitsList;//Lista de unidades de medida
     private List<ScPackingUnit> packingUnitsList;//Lista de unidades de empaque
+    private List<ScDistributionUnit> distributionUnitsList;//Lista de unidades de distribución
     private List<ScInputLocation> inputLocationsList;//Lista de localizaciones
     private List<ScStore> storesList;//Lista de almacenes
     private List<ScPriority> priorityList;//Lista de prioridades
@@ -140,6 +141,7 @@ public class ScInputBean
         fillListPartners();
         fillListCostCenter();
         fillListPackingUnit();
+        fillListDistribucionUnit();
         fillListInputLocation();
         fillListStore();
         fillListPriority();
@@ -196,6 +198,23 @@ public class ScInputBean
         catch(Exception e)
         {
             log.error("Error al intentar consultar los proveedores para los insumos", e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de unidades de distribución.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListDistribucionUnit()
+    {
+        try
+        {
+            //Se consultan todos los proveedores existentes
+            setDistributionUnitsList(getScInputServer().getAllDistributionUnits());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar las unidades de distribucion para los insumos", e);
         }
     }
     
@@ -372,6 +391,15 @@ public class ScInputBean
      * Método encargado de vaciar los objetos.
      * @author Gustavo Chavarro Ortiz
      */
+    public void cleanFieldsDistributionUnit()
+    {
+        setDistributionUnitSave(new ScDistributionUnit());
+    }
+    
+    /**
+     * Método encargado de vaciar los objetos.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void cleanFieldsStores()
     {
         setStoreSave(new ScStore());
@@ -505,7 +533,7 @@ public class ScInputBean
     
     } 
     /**
-     * Método encargado de agregar una unidad de empaque
+     * Método encargado de agregar una unidad de localizacion
      * @author Gustavo Chavarro Ortiz
      */
     public void addInputLocations()
@@ -536,6 +564,42 @@ public class ScInputBean
             log.error("Error al intentar crear la localización desde insumos",e);
         }
     }
+    
+    /**
+     * Método encargado de agregar una unidad de distribución
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addDistributionUnit()
+    {
+        try 
+        {
+            if(getDistributionUnitSave()!= null)
+            {
+                
+                getScInputServer().saveDistributionUnit(getDistributionUnitSave());
+                if(getDistributionUnitsList() == null)
+                {
+                    setDistributionUnitsList(new ArrayList<ScDistributionUnit>());
+                }
+                getDistributionUnitsList().add(getDistributionUnitSave());
+                cleanFieldsDistributionUnit();
+                
+            }
+            else
+            {
+                log.error("Error al intentar crear la unidad de distribución desde insumos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar crear la unidad de distribución desde insumos",e);
+        }
+    
+    } 
+    
     /**
      * Método encargado de guardar temporalmente una especificación.
      * @author Gustavo Chavarro Ortiz
@@ -2777,6 +2841,26 @@ public class ScInputBean
     public void setMoneyList(List<ScMoney> moneyList)
     {
         this.moneyList = moneyList;
+    }
+
+    public ScDistributionUnit getDistributionUnitSave()
+    {
+        return distributionUnitSave;
+    }
+
+    public void setDistributionUnitSave(ScDistributionUnit distributionUnitSave)
+    {
+        this.distributionUnitSave = distributionUnitSave;
+    }
+
+    public List<ScDistributionUnit> getDistributionUnitsList()
+    {
+        return distributionUnitsList;
+    }
+
+    public void setDistributionUnitsList(List<ScDistributionUnit> distributionUnitsList)
+    {
+        this.distributionUnitsList = distributionUnitsList;
     }
     
     

@@ -7,6 +7,7 @@ package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IScInput;
 import com.sip.dmes.entitys.ScCostCenter;
+import com.sip.dmes.entitys.ScDistributionUnit;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputLocation;
 import com.sip.dmes.entitys.ScMeasureUnit;
@@ -308,6 +309,37 @@ public class ScInputDao  implements  IScInput
             log.error("Error al intentar consultar los parámetros iniciales para cargar archivos",e);
         }
         return result;
+    }
+
+    @Override
+    public List<ScDistributionUnit> getAllDistributionUnits() throws Exception
+    {
+        List<ScDistributionUnit> result = null;
+        Query query  = entityManager.createNamedQuery("ScDistributionUnit.findAll"); 
+        try
+        {
+            result = (List<ScDistributionUnit>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las unidades de distribución",e);
+        }
+        return result;
+    }
+
+    @Override
+    public void saveDistributionUnit(ScDistributionUnit distributionUnit) throws Exception
+    {
+        try
+        {
+            entityManager.persist(distributionUnit);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de una unidad de distribución",e);
+            throw e;
+        }
     }
 
 }
