@@ -239,13 +239,13 @@ public class ScInputDao  implements  IScInput
         {
             result = (List<ScPriority>) query.getResultList();
         }
-        catch (Exception e)
+        catch (Exception e) 
         {
             log.error("Error al intentar hacer la persistencia de las prioridades",e);
         }
         return result;
     }
-
+ 
     @Override
     public List<ScMeasureUnit> getAllMeasureUnits() throws Exception
     {
@@ -328,6 +328,7 @@ public class ScInputDao  implements  IScInput
     }
 
     @Override
+    @Transactional
     public void saveDistributionUnit(ScDistributionUnit distributionUnit) throws Exception
     {
         try

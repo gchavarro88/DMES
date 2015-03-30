@@ -259,7 +259,7 @@
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfCurrentStock"  value="#{scInputBean.inputSave.inputStock.currentStock}"
                                                             >
-                                                <p:ajax event="keyup" update="tfValueTotal" listener="#{scInputBean.calcuteTotalPrice()}"/>
+                                                <p:ajax event="keyup" update="tfValueTotal,tfTotalDistributionAmount,tfUnitPriceDistribution" listener="#{scInputBean.calcuteTotalPrice()}"/>
                                             </p:inputText>
                                         </td>
                                         <td width="20%" align="right">
@@ -272,21 +272,37 @@
                                     </tr>
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfPriceUnit" value="Precio por #{scInputBean.inputSave.packingUnit.acronym}*"/>
+                                            <p:outputLabel  for="tfPriceUnit" value="Precio por Und. de #{scInputBean.inputSave.packingUnit.acronym}"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfPriceUnit"  value="#{scInputBean.inputSave.inputStock.priceUnit} #{scInputBean.inputSave.money.acronym}" disabled="true"
                                                             />
                                         </td>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfValueTotal" value="Valor Total*"/>
+                                            <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfValueTotal"  value="#{scInputBean.inputSave.inputStock.totalValue}  #{scInputBean.inputSave.money.acronym}" disabled="true"
                                                             />
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfTotalDistributionAmount" 
+                                            value="Total de #{scInputBean.inputSave.distributionUnit.acronym}"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfTotalDistributionAmount"  value="#{scInputBean.inputSave.totalAmountDistribution}" disabled="true"
+                                                            />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfUnitPriceDistribution" value="Precio por #{scInputBean.inputSave.distributionUnit.acronym}"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfUnitPriceDistribution"  value="#{scInputBean.inputSave.distributionValue} #{scInputBean.inputSave.money.acronym}" disabled="true"
+                                                            />
+                                        </td>
+                                    </tr>
                                 </table>
                             </p:panel>
                             <p:panel header="Dimensiones" toggleable="true" toggleTitle="Presione para minimizar el panel de Dimensiones"
@@ -412,7 +428,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfWeight" value="Peso"/>
+                                            <p:outputLabel  for="tfWeight" value="Peso*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfWeight"  value="#{scInputBean.inputSave.dimension.weight}"
@@ -893,22 +909,18 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque*"/>
+                                            <p:outputLabel  for="tfStore" value="Almacén*"/>
                                         </td>
                                         <td width="40%" align="left">
-
-                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSelected.packingUnit}" 
-                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="width: 70%; top: 6px;"
+                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSelected.inputStock.idStore}" style="width: 70%;"
+                                                             converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
                                                              effect="puff"
-                                                             height="140">
-                                                <f:selectItem itemLabel="..."/>
-                                                <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
-
+                                                             height="140" >
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
                                             </p:selectOneMenu>
-                                            <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnAddPackingUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitPackingSave').show()" style="top: -2px;"/>
-                                            <p:tooltip for="btnAddPackingUnit" value="Agregue nuevas unidades de empaque"/>
                                         </td>
+                                        
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbLocation" value="Localización*"/>
                                         </td>
@@ -927,18 +939,6 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfStore" value="Almacén*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSelected.inputStock.idStore}" style="width: 70%;"
-                                                             converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
-                                                             effect="puff"
-                                                             height="140" >
-                                                <f:selectItem itemLabel="..." />
-                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
-                                            </p:selectOneMenu>
-                                        </td>
-                                        <td width="10%" align="right">
                                             <p:outputLabel  for="tfProirity" value="Prioridad*"/>
                                         </td>
                                         <td width="40%" align="left">
@@ -950,7 +950,52 @@
                                                 <f:selectItems value="#{scInputBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
                                             </p:selectOneMenu>
                                         </td>
-                                    </tr>inputSave
+                                        
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+
+                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSelected.packingUnit}" 
+                                                             converter="packingUnitConverter" converterMessage="Error en el tipo de dato de la unidad de empaque" style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scInputBean.packingUnitsList}" var="units" itemLabel="#{units.acronym}"/>
+
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddPackingUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitPackingSave').show()" style="top: -2px;"/>
+                                            <p:tooltip for="btnAddPackingUnit" value="Agregue nuevas unidades de empaque"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDistributionAmount" value="Cantidad de Distribución*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfDistributionAmount"  value="#{scInputBean.inputSelected.distributionAmount}">
+                                                <p:tooltip for="tfDistributionAmount" value="Cantidad de distribución por unidad de empaque, ejemplo
+                                                           unidad de empaque = Caja, Cantidad de distribución 12 botellas"/>
+                                            </p:inputText>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbDistributionUnit" value="Unidad de Distribución*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbDistributionUnit"  value="#{scInputBean.inputSelected.distributionUnit}" 
+                                                             converter="distributionUnitConverter" converterMessage="Error en el tipo de dato de la unidad de distribución" style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scInputBean.distributionUnitsList}" var="units" itemLabel="#{units.acronym}"/>
+
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddDistributionUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitDistributionSave').show()" style="top: -2px;"/>
+                                            <p:tooltip for="btnAddDistributionUnit" value="Agregue nuevas unidades de distribución"/>
+                                        </td>
+                                    </tr>
                                 </table>
                             </p:panel>
                         </p:tab> 
@@ -982,7 +1027,7 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfCurrentStock"  value="#{scInputBean.inputSelected.inputStock.currentStock}">
-                                                <p:ajax event="keyup" update="tfValueTotal" listener="#{scInputBean.calcuteTotalPriceUpdate()}"/>
+                                                <p:ajax event="keyup" update="tfValueTotal,tfTotalDistributionAmount,tfUnitPriceDistribution" listener="#{scInputBean.calcuteTotalPriceUpdate()}"/>
                                             </p:inputText>
                                         </td>
                                         <td width="20%" align="right">
@@ -1009,7 +1054,23 @@
                                                             />
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfTotalDistributionAmount" 
+                                            value="Total de #{scInputBean.inputSelected.distributionUnit.acronym}"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfTotalDistributionAmount"  value="#{scInputBean.inputSelected.totalAmountDistribution}" disabled="true"
+                                                            />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfUnitPriceDistribution" value="Precio por #{scInputBean.inputSelected.distributionUnit.acronym}"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfUnitPriceDistribution"  value="#{scInputBean.inputSelected.distributionValue} #{scInputBean.inputSelected.money.acronym}" disabled="true"
+                                                            />
+                                        </td>
+                                    </tr>
                                 </table>
                             </p:panel>
                             <p:panel header="Dimensiones" toggleable="true" toggleTitle="Presione para minimizar el panel de Dimensiones"
@@ -1135,7 +1196,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfWeight" value="Peso"/>
+                                            <p:outputLabel  for="tfWeight" value="Peso*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfWeight"  value="#{scInputBean.inputSelected.dimension.weight}"
@@ -1631,17 +1692,18 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque"/>
+                                            <p:outputLabel  for="tfStore" value="Almacén"/>
                                         </td>
                                         <td width="40%" align="left">
-
-                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSelected.packingUnit}" style="width: 80%;" 
-                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato de unidad de empaque"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
+                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSelected.inputStock.idStore}" style="width: 80%;"
+                                                             converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
                                                              height="140" disabled="true">
-                                                <f:selectItems  value="#{scInputBean.packingUnitsList}" var="packingUnit" itemLabel="#{packingUnit.acronym}"/>
+
+                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
                                             </p:selectOneMenu>
                                         </td>
+                                        
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbLocation" value="Localización"/>
                                         </td>
@@ -1657,18 +1719,6 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfStore" value="Almacén"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfStore"  value="#{scInputBean.inputSelected.inputStock.idStore}" style="width: 80%;"
-                                                             converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
-                                                             height="140" disabled="true">
-
-                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
-                                            </p:selectOneMenu>
-                                        </td>
-                                        <td width="10%" align="right">
                                             <p:outputLabel  for="tfProirity" value="Prioridad"/>
                                         </td>
                                         <td width="40%" align="left">
@@ -1679,6 +1729,43 @@
 
                                                 <f:selectItems value="#{scInputBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
                                             </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbPackingUnit" value="Unidad de Empaque"/>
+                                        </td>
+                                        <td width="40%" align="left">
+
+                                            <p:selectOneMenu id="cbPackingUnit"  value="#{scInputBean.inputSelected.packingUnit}" style="width: 80%;" 
+                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato de unidad de empaque"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una unidad de empaque" effect="puff"
+                                                             height="140" disabled="true">
+                                                <f:selectItems  value="#{scInputBean.packingUnitsList}" var="packingUnit" itemLabel="#{packingUnit.acronym}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDistributionAmount" value="Cantidad de Distribución*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel    id="tfDistributionAmount"  value="#{scInputBean.inputSelected.distributionAmount}"
+                                                           />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbDistributionUnit" value="Unidad de Distribución*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbDistributionUnit"  value="#{scInputBean.inputSelected.distributionUnit}" 
+                                                             converter="distributionUnitConverter" converterMessage="Error en el tipo de dato de la unidad de distribución" style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140" disabled="true">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scInputBean.distributionUnitsList}" var="units" itemLabel="#{units.acronym}"/>
+
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddDistributionUnit" icon="ui-icon-circle-plus"  oncomplete="PF('unitDistributionSave').show()" style="top: -2px;"/>
+                                            <p:tooltip for="btnAddDistributionUnit" value="Agregue nuevas unidades de distribución"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -1732,7 +1819,23 @@
                                             <p:outputLabel    id="tfValueTotal"  value="#{scInputBean.inputSelected.inputStock.totalValue} #{scInputBean.inputSelected.money.acronym}"/>
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfTotalDistributionAmount" 
+                                            value="Total de #{scInputBean.inputSelected.distributionUnit.acronym}"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel    id="tfTotalDistributionAmount"  value="#{scInputBean.inputSelected.totalAmountDistribution}"
+                                                            />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfUnitPriceDistribution" value="Precio por #{scInputBean.inputSelected.distributionUnit.acronym}"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel id="tfUnitPriceDistribution"  value="#{scInputBean.inputSelected.distributionValue} #{scInputBean.inputSelected.money.acronym}"
+                                                            />
+                                        </td>
+                                    </tr>
                                 </table>
                             </p:panel>
                             <p:panel header="Dimensiones"  toggleTitle="Presione para minimizar el panel de Dimensiones">
@@ -1786,7 +1889,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfWeight" value="Peso"/>
+                                            <p:outputLabel  for="tfWeight" value="Peso*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:outputLabel    id="tfWeight"  value="#{scInputBean.inputSelected.dimension.weight}"/>
@@ -2122,7 +2225,7 @@
                             <td align="center" colspan="2">
                                 <p:commandButton value="Guardar" actionListener="#{scInputBean.addDistributionUnit()}"  
                                                  onsuccess="PF('unitDistributionSave').hide()"
-                                                 update="@this,tfAcronym,tfDescriptionDistribution,:formWizardSave:cbDistributionUnit"/>
+                                                 update="@this,tfAcronym,tfDescriptionDistribution,:formWizardSave:cbDistributionUnit,:formWizardUpdate:cbDistributionUnit"/>
                                 <p:spacer width="20"/>
 
                                 <p:commandButton value="Cancelar" actionListener="#{scInputBean.cleanFieldsDistribution()}" 
@@ -2320,10 +2423,10 @@
                             <p:tooltip for="lblStore" value="#{input.inputStock.idStore.name}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnLocation" headerText="Localización" sortBy="#{input.inputLocation}">    
+                    <p:column id="columnLocation" headerText="Localización" sortBy="#{input.inputLocation.location}">    
                         <center>
-                            <p:outputLabel value="#{input.inputLocation.description}" id="lblLocation"/>
-                            <p:tooltip for="lblLocation" value="#{input.inputLocation.description}"/>
+                            <p:outputLabel value="#{input.inputLocation.location}" id="lblLocation"/>
+                            <p:tooltip for="lblLocation" value="#{input.inputLocation.location}"/>
                         </center>
                     </p:column>
                     <p:column id="columnAmount" headerText="Cantidad" sortBy="#{input.inputStock.currentStock}">    

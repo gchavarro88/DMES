@@ -53,7 +53,7 @@ public class ScDistributionUnit implements Serializable {
     }
 
     public ScDistributionUnit(Long iidDistributionUnitPacking) {
-        this.idDistributionUnit = idDistributionUnit;
+        this.idDistributionUnit = iidDistributionUnitPacking;
     }
 
     public ScDistributionUnit(Long idDistributionUnit, String acronym) {
@@ -88,8 +88,8 @@ public class ScDistributionUnit implements Serializable {
     @Override
     public int hashCode()
     {
-        int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.idDistributionUnit);
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.idDistributionUnit);
         return hash;
     }
 
@@ -113,10 +113,9 @@ public class ScDistributionUnit implements Serializable {
     }
 
     
-
     @Override
     public String toString() {
-        return idDistributionUnit.toString()+","+getAcronym().toString();
+        return idDistributionUnit.toString()+","+acronym.toString();
     }
     
 }

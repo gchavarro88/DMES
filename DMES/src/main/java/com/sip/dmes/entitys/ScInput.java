@@ -8,6 +8,7 @@ package com.sip.dmes.entitys;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -66,7 +67,7 @@ public class ScInput implements Serializable
     @Column(name = "type_material")
     private String typeMaterial;
     
-    @Basic(optional = false)
+    
     @Column(name = "expiry_date")
     @Temporal(TemporalType.DATE)
     private Date expiryDate;
@@ -75,6 +76,7 @@ public class ScInput implements Serializable
     @Size(min = 1, max = 200)
     @Column(name = "mark")
     private String mark;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "value")
@@ -96,6 +98,8 @@ public class ScInput implements Serializable
     private long totalAmountDistribution;
     @Column(name = "distribution_amount")
     private long distributionAmount;
+    @Column(name = "distribution_value")
+    private double distributionValue;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
     private List<ScInputEquivalence> scInputEquivalenceList;
@@ -121,21 +125,27 @@ public class ScInput implements Serializable
     @JoinColumn(name = "id_packing", referencedColumnName = "id_packing")
     @ManyToOne(optional = false)
     private ScPackingUnit packingUnit;
+    
     @JoinColumn(name = "id_distribution_unit", referencedColumnName = "id_distribution_unit")
     @ManyToOne(optional = false)
     private ScDistributionUnit distributionUnit;
+    
     @JoinColumn(name = "id_money", referencedColumnName = "id_money")
     @ManyToOne(optional = false)
     private ScMoney money;
+    
     @JoinColumn(name = "id_priority", referencedColumnName = "id_priority")
     @ManyToOne(optional = false)
     private ScPriority priority;
+    
     @JoinColumn(name = "id_input_dimension", referencedColumnName = "id_input_dimension")
     @ManyToOne(optional = false)
     private ScInputDimension dimension;
+    
     @JoinColumn(name = "id_input_location", referencedColumnName = "id_input_location")
     @ManyToOne(optional = false)
     private ScInputLocation inputLocation;
+    
     @JoinColumn(name = "supplier_guarantee", referencedColumnName = "id_partner")
     @ManyToOne(optional = false)
     private ScPartner supplierGuarantee;
@@ -153,7 +163,6 @@ public class ScInput implements Serializable
     {
         this.idInput = idInput;
         this.typeMaterial = typeMaterial;
-        this.expiryDate = expiryDate;
         this.packingUnit = packingUnit;
         this.mark = mark;
         this.value = value;
@@ -417,31 +426,46 @@ public class ScInput implements Serializable
         this.distributionUnit = distributionUnit;
     }
 
-    
-    
+    public double getDistributionValue()
+    {
+        return distributionValue;
+    }
+
+    public void setDistributionValue(double distributionValue)
+    {
+        this.distributionValue = distributionValue;
+    }
+
     @Override
     public int hashCode()
     {
-        int hash = 0;
-        hash += (idInput != null ? idInput.hashCode() : 0);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.idInput);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
+    public boolean equals(Object obj)
     {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScInput))
+        if (obj == null)
         {
             return false;
         }
-        ScInput other = (ScInput) object;
-        if ((this.idInput == null && other.idInput != null) || (this.idInput != null && !this.idInput.equals(other.idInput)))
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ScInput other = (ScInput) obj;
+        if (!Objects.equals(this.idInput, other.idInput))
         {
             return false;
         }
         return true;
     }
+
+    
+    
+   
 
     @Override
     public String toString()

@@ -37,10 +37,11 @@ public class DistributionUnitConverter implements Converter{
         ScDistributionUnit distributionUnit = null;
         if(value.length()>0)
         {   
-            FacesMessage msg = new FacesMessage("Error al convertir la unidad de distribucion", "Formato no válido");
             String fields[] = value.split(",");
+            FacesMessage msg = new FacesMessage("Error al convertir la unidad de distribucion", "Formato no válido");
             distributionUnit = new ScDistributionUnit(Long.parseLong(fields[0]));
             distributionUnit.setAcronym(fields[1]);
+         
         }
         return distributionUnit;
     }

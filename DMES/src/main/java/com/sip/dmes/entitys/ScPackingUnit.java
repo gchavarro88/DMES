@@ -109,7 +109,7 @@ public class ScPackingUnit implements Serializable {
 
     @Override
     public String toString() {
-        return idPacking.toString()+","+getAcronym().toString();
+        return idPacking.toString()+","+acronym.toString();
     }
     
 }

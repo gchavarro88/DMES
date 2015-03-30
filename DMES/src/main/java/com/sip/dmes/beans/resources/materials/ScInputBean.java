@@ -141,12 +141,12 @@ public class ScInputBean
         fillListPartners();
         fillListCostCenter();
         fillListPackingUnit();
-        fillListDistribucionUnit();
         fillListInputLocation();
         fillListStore();
         fillListPriority();
         fillListMeasure();
         fillListMoney();
+        fillListDistribucionUnit();
         cleanFieldsInit();
         getinitalParameters();
     }
@@ -331,6 +331,7 @@ public class ScInputBean
         setInputSelected(new ScInput());
         setCostCenterSave(new ScCostCenter());
         setPackingUnitSave(new ScPackingUnit());
+        setDistributionUnitSave(new ScDistributionUnit());
         setInputLocationSave(new ScInputLocation());
         setMeasureUnitSave(new ScMeasureUnit());
         cleanDocumentSave();
@@ -886,11 +887,16 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
+            if(validateFields("Moneda", getInputSave().getMoney(), 4))
+            {
+                return event.getOldStep();
+            }
             //modificamos el precio por unidad
             getInputSave().getInputStock().setPriceUnit(getInputSave().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
             getInputSave().getInputStock().setTotalValue(getInputSave().getValue()*
                     getInputSave().getInputStock().getCurrentStock());
+            
             
             if(validateFields("Marca", getInputSave().getMark(), 3))
             {
@@ -915,7 +921,7 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Unidad de Empaque", getInputSave().getPackingUnit(), 4))
+            if(validateFields("Almacen", getInputSave().getInputStock().getIdStore(), 4))
             {
                 return event.getOldStep();
             }
@@ -923,15 +929,26 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Almacen", getInputSave().getInputStock().getIdStore(), 4))
-            {
-                return event.getOldStep();
-            }
             if(validateFields("Prioridad", getInputSave().getPriority(), 4))
             {
                 return event.getOldStep();
             }
-            
+            if(validateFields("Unidad de Empaque", getInputSave().getPackingUnit(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Cantidad de Distribución", getInputSave().getDistributionAmount(), 2))
+            {
+                return event.getOldStep();
+            }
+            //Obtenemos el precio de unidad de unidades de distribución
+            getInputSave().setDistributionValue(Utilities.Redondear((getInputSave().getInputStock().
+                    getPriceUnit()/getInputSave().getDistributionAmount()), 2));
+            if(validateFields("Unidad de Distribución", getInputSave().getDistributionUnit(), 4))
+            {
+                return event.getOldStep();
+            }
+                        
             //Agregamos la fecha de creación del insumo
             getInputSave().setCreationDate(new Date());
             
@@ -942,6 +959,8 @@ public class ScInputBean
                 log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
                 return event.getOldStep();
             }
+            
+            
         }
         //Si pasamos de la pestaña de datos generales a stock y dimensiones
         else if(event.getOldStep().equals(TAB_STOCK))
@@ -964,12 +983,7 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
-            else
-            {
-                //modificamos el precio total igual al precio por unidad * el stock actual
-                getInputSave().getInputStock().setTotalValue(getInputSave().getValue()*
-                    getInputSave().getInputStock().getCurrentStock());
-            }
+            
             if(validateFields("Stock Óptimo", getInputSave().getInputStock().getOptimeStock(), 2))
             {
                 return event.getOldStep();
@@ -1015,7 +1029,15 @@ public class ScInputBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
                 return event.getOldStep();
             }
-            
+            if(validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveWeight()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                return event.getOldStep();
+            }
             if(!Utilities.isEmpty(getInputSave().getDimension().getVolume()))
             {
                 if(validateFields("Volumen", getInputSave().getDimension().getVolume(), 1))
@@ -1134,6 +1156,13 @@ public class ScInputBean
     {
         getInputSave().getInputStock().setTotalValue(getInputSave().getValue()
                 *getInputSave().getInputStock().getCurrentStock());
+        //Obtenemos la cantidad total de unidades de distribución = stock actual * cantidad de distribución
+        getInputSave().setTotalAmountDistribution(getInputSave().
+                        getInputStock().getCurrentStock()*getInputSave().getDistributionAmount());
+        //Obtenemos el precio de unidad de unidades de distribución
+        getInputSave().setDistributionValue(Utilities.Redondear((getInputSave().getInputStock().
+                getPriceUnit()/getInputSave().getDistributionAmount()), 2));
+        
     }
     
     /**
@@ -1144,6 +1173,12 @@ public class ScInputBean
     {
         getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()
                 *getInputSelected().getInputStock().getCurrentStock());
+        //Obtenemos la cantidad total de unidades de distribución = stock actual * cantidad de distribución
+        getInputSelected().setTotalAmountDistribution(getInputSelected().
+                getInputStock().getCurrentStock()*getInputSelected().getDistributionAmount());
+        //Obtenemos el precio de unidad de unidades de distribución
+        getInputSelected().setDistributionValue(Utilities.Redondear((getInputSelected().getInputStock().
+                getPriceUnit()/getInputSelected().getDistributionAmount()), 2));
     }
     /**
      * Método encargado de llevar el flujo al actualizar un insumo.
@@ -1173,11 +1208,16 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
+            if(validateFields("Moneda", getInputSelected().getMoney(), 4))
+            {
+                return event.getOldStep();
+            }
             //modificamos el precio por unidad
             getInputSelected().getInputStock().setPriceUnit(getInputSelected().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
             getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()*
                     getInputSelected().getInputStock().getCurrentStock());
+            
             
             if(validateFields("Marca", getInputSelected().getMark(), 3))
             {
@@ -1202,7 +1242,7 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Unidad de Empaque", getInputSelected().getPackingUnit(), 4))
+            if(validateFields("Almacen", getInputSelected().getInputStock().getIdStore(), 4))
             {
                 return event.getOldStep();
             }
@@ -1210,15 +1250,27 @@ public class ScInputBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Almacen", getInputSelected().getInputStock().getIdStore(), 4))
-            {
-                return event.getOldStep();
-            }
             if(validateFields("Prioridad", getInputSelected().getPriority(), 4))
             {
                 return event.getOldStep();
             }
-             
+            if(validateFields("Unidad de Empaque", getInputSelected().getPackingUnit(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Cantidad de Distribución", getInputSelected().getDistributionAmount(), 2))
+            {
+                return event.getOldStep();
+            }
+            //Obtenemos el precio de unidad de unidades de distribución
+            getInputSelected().setDistributionValue(Utilities.Redondear((getInputSelected().getInputStock().
+                    getPriceUnit()/getInputSelected().getDistributionAmount()), 2));
+            if(validateFields("Unidad de Distribución", getInputSelected().getDistributionUnit(), 4))
+            {
+                return event.getOldStep();
+            }
+            
+            
             //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
             if(getInputSelected().getExpiryDate()!= null && getInputSelected().getExpiryDate().before(getInputSelected().getCreationDate()))
             {
@@ -1247,12 +1299,6 @@ public class ScInputBean
             if(validateFields("Stock Real", getInputSelected().getInputStock().getCurrentStock(), 2))
             {
                 return event.getOldStep();
-            }
-            else
-            {
-                //modificamos el precio total igual al precio por unidad * el stock actual
-                getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()*
-                    getInputSelected().getInputStock().getCurrentStock());
             }
             if(validateFields("Stock Óptimo", getInputSelected().getInputStock().getOptimeStock(), 2))
             {
@@ -1299,6 +1345,15 @@ public class ScInputBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
                 return event.getOldStep();
             }
+            if(validateFields("Peso", getInputSelected().getDimension().getWeight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveWeight()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                return event.getOldStep();
+            }
             
             if(!Utilities.isEmpty(getInputSelected().getDimension().getVolume()))
             {
@@ -1336,18 +1391,7 @@ public class ScInputBean
                     return event.getOldStep();
                 }
             }
-            if(!Utilities.isEmpty(getInputSelected().getDimension().getWeight()))
-            {
-                if(validateFields("Peso", getInputSelected().getDimension().getWeight(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveWeight()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-                    return event.getOldStep();
-                }
-            }
+            
         }
         return event.getNewStep(); 
     }

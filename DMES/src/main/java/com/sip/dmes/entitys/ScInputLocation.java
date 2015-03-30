@@ -117,7 +117,7 @@ public class ScInputLocation implements Serializable {
     @Override
     public String toString()
     {
-        return idInputLocation.toString();
+        return idInputLocation.toString()+","+location;
     }
 
 

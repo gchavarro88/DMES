@@ -37,8 +37,10 @@ public class InputLocationConverter implements Converter{
         ScInputLocation inputLocation = null;
         if(value.length()>0)
         {   
+            String fields[] = value.split(",");
             FacesMessage msg = new FacesMessage("Error al convertir la unidad de empaque", "Formato no válido");
-            inputLocation = new ScInputLocation(Long.parseLong(value));
+            inputLocation = new ScInputLocation(Long.parseLong(fields[0]));
+            inputLocation.setLocation(fields[1]);
         }
         
         return inputLocation;
