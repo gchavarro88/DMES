@@ -38,6 +38,9 @@ public class DMESConstants
    //Nombres de las carpetas reservadas del sistema
    public static final String FILE_PATH_INPUTS_IMG = "inputs_filePath/img";//Insumos imagenes
    public static final String FILE_PATH_INPUTS_DOCS = "inputs_filePath/docs";//Insumos
+   //Nombres de las carpetas reservadas del sistema
+   public static final String FILE_PATH_PRODUCTS_IMG = "products_filePath/img";//Productos imagenes
+   public static final String FILE_PATH_PRODUCTS_DOCS = "product_filePath/docs";//Productos
    
    //Subida de documentos
     public static final String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";

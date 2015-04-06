@@ -150,7 +150,8 @@
                                                              effect="puff"
                                                              height="140" >
                                                 <f:selectItem itemLabel="..." />
-                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
+                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>
+                                                <p:ajax event="change" update="cbLocation,btnAddLocationInput" listener="#{scInputBean.withOutStore(scInputBean.inputSave.inputStock.idStore)}"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
@@ -159,13 +160,14 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSave.inputLocation}" style="width: 70%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo"
-                                                             effect="puff"
+                                                             effect="puff" disabled="#{scInputBean.withOutStore(scInputBean.inputSave.inputStock.idStore)}"
                                                              height="140">
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems  value="#{scInputBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
                                             </p:selectOneMenu>
                                             <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnAddLocationInput" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -8px;"/>
+                                            <p:commandButton  id="btnAddLocationInput" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -8px;"
+                                                               disabled ="#{scInputBean.withOutStore(scInputBean.inputSave.inputStock.idStore)}"/>
                                             <p:tooltip for="btnAddLocationInput" value="Agregue nuevas localizaciones"/>
                                         </td>
                                     </tr>
@@ -917,7 +919,8 @@
                                                              effect="puff"
                                                              height="140" >
                                                 <f:selectItem itemLabel="..." />
-                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
+                                                <f:selectItems value="#{scInputBean.storesList}" var="stores" itemLabel="#{stores.name}"/>
+                                                <p:ajax event="change" update="cbLocation,btnAddLocationInput" listener="#{scInputBean.withOutStore(scInputBean.inputSelected.inputStock.idStore)}"/>
                                             </p:selectOneMenu>
                                         </td>
                                         
@@ -927,13 +930,14 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbLocation"  value="#{scInputBean.inputSelected.inputLocation}" style="width: 70%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del insumo"
-                                                             effect="puff"
+                                                             effect="puff" disabled="#{scInputBean.withOutStore(scInputBean.inputSelected.inputStock.idStore)}"
                                                              height="140">
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems  value="#{scInputBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
                                             </p:selectOneMenu>
                                             <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnAddLocationInput" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -8px;"/>
+                                            <p:commandButton  id="btnAddLocationInput" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -8px;"
+                                                              disabled="#{scInputBean.withOutStore(scInputBean.inputSelected.inputStock.idStore)}"/>
                                             <p:tooltip for="btnAddLocationInput" value="Agregue nuevas localizaciones"/>
                                         </td>
                                     </tr>
@@ -2445,8 +2449,8 @@
 
                     <p:column id="columnValue" headerText="Valor" sortBy="#{input.value}">    
                         <center>
-                            <p:outputLabel value="#{input.value}" id="lblValue"/>
-                            <p:tooltip for="lblValue" value="#{input.value}"/>
+                            <p:outputLabel value="#{input.value} #{input.money.acronym}" id="lblValue"/>
+                            <p:tooltip for="lblValue" value="#{input.value} #{input.money.acronym}"/>
                         </center>
                     </p:column>
                 </p:dataTable>

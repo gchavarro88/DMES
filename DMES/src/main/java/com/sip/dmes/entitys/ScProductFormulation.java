@@ -28,7 +28,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries(
 {
-    @NamedQuery(name = "ScProductFormulation.findAll", query = "SELECT s FROM ScInput s ORDER BY s.creationDate DESC")
+    @NamedQuery(name = "ScProductFormulation.findAll", query = "SELECT s FROM ScProductFormulation s ORDER BY s.creationDate DESC")
     
 })
 public class ScProductFormulation implements Serializable
@@ -73,54 +72,44 @@ public class ScProductFormulation implements Serializable
     @NotNull
     @Column(name = "value")
     private long value;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "manufacturing_time")
+    private long manufacturingTime;
+    
     @Size(max = 2000)
     @Column(name = "path_picture")
     private String pathPicture;
     @Basic(optional = false)
     @NotNull
+    
     @Size(min = 1, max = 2000)
     @Column(name = "serie")
     private String serie;
+    
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
+    
     @Column(name = "description")
     private String description;
-    @Column(name = "total_amount_distribution")
-    private long totalAmountDistribution;
-    @Column(name = "distribution_amount")
-    private long distributionAmount;
-    @Column(name = "distribution_value")
-    private double distributionValue;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
-    private List<ScInputEquivalence> scInputEquivalenceList;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
-    private List<ScInputSpecifications> scInputSpecifications;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
-    private List<ScInputObservations> scInputObservationsList;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
-    private List<ScInputFeactures> scInputFeacturesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productFormulation", fetch = FetchType.EAGER)
+    private List<ScProductAttached> scProductAttached;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
-    private List<ScInputDocuments> scInputDocuments;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productFormulation", fetch = FetchType.EAGER)
+    private List<ScProductDocuments> scProductDocuments;
     
-    @JoinColumn(name = "cost_center", referencedColumnName = "id_cost_center")
+    @JoinColumn(name = "id_cost_center", referencedColumnName = "id_cost_center")
     @ManyToOne(optional = false)
     private ScCostCenter costCenter;
-    @JoinColumn(name = "id_input_stock", referencedColumnName = "id_input_stock")
-    @ManyToOne(optional = false)
-    private ScInputStock inputStock;
+    
     @JoinColumn(name = "id_packing", referencedColumnName = "id_packing")
     @ManyToOne(optional = false)
     private ScPackingUnit packingUnit;
-    
-    @JoinColumn(name = "id_distribution_unit", referencedColumnName = "id_distribution_unit")
-    @ManyToOne(optional = false)
-    private ScDistributionUnit distributionUnit;
     
     @JoinColumn(name = "id_money", referencedColumnName = "id_money")
     @ManyToOne(optional = false)
@@ -130,15 +119,15 @@ public class ScProductFormulation implements Serializable
     @ManyToOne(optional = false)
     private ScPriority priority;
     
-    @JoinColumn(name = "id_input_dimension", referencedColumnName = "id_input_dimension")
+    @JoinColumn(name = "id_product_dimension", referencedColumnName = "id_input_dimension")
     @ManyToOne(optional = false)
     private ScInputDimension dimension;
     
-    @JoinColumn(name = "id_input_location", referencedColumnName = "id_input_location")
+    @JoinColumn(name = "id_location", referencedColumnName = "id_location")
     @ManyToOne(optional = false)
-    private ScInputLocation inputLocation;
+    private ScLocation location;
     
-    @JoinColumn(name = "supplier_guarantee", referencedColumnName = "id_partner")
+    @JoinColumn(name = "id_partner", referencedColumnName = "id_partner")
     @ManyToOne(optional = false)
     private ScPartner supplierGuarantee;
 
@@ -146,15 +135,234 @@ public class ScProductFormulation implements Serializable
     {
     }
 
-    
-    
-    
-   
+    public ScProductFormulation(Long idProductFormulation)
+    {
+        this.idProductFormulation = idProductFormulation;
+    }
+
+    public Long getIdProductFormulation()
+    {
+        return idProductFormulation;
+    }
+
+    public void setIdProductFormulation(Long idProductFormulation)
+    {
+        this.idProductFormulation = idProductFormulation;
+    }
+
+    public String getTypeMaterial()
+    {
+        return typeMaterial;
+    }
+
+    public void setTypeMaterial(String typeMaterial)
+    {
+        this.typeMaterial = typeMaterial;
+    }
+
+    public Date getExpiryDate()
+    {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate)
+    {
+        this.expiryDate = expiryDate;
+    }
+
+    public String getMark()
+    {
+        return mark;
+    }
+
+    public void setMark(String mark)
+    {
+        this.mark = mark;
+    }
+
+    public long getValue()
+    {
+        return value;
+    }
+
+    public void setValue(long value)
+    {
+        this.value = value;
+    }
+
+    public long getManufacturingTime()
+    {
+        return manufacturingTime;
+    }
+
+    public void setManufacturingTime(long manufacturingTime)
+    {
+        this.manufacturingTime = manufacturingTime;
+    }
+
+    public String getPathPicture()
+    {
+        return pathPicture;
+    }
+
+    public void setPathPicture(String pathPicture)
+    {
+        this.pathPicture = pathPicture;
+    }
+
+    public String getSerie()
+    {
+        return serie;
+    }
+
+    public void setSerie(String serie)
+    {
+        this.serie = serie;
+    }
+
+    public Date getCreationDate()
+    {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate)
+    {
+        this.creationDate = creationDate;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public List<ScProductAttached> getScProductAttached()
+    {
+        return scProductAttached;
+    }
+
+    public void setScProductAttached(List<ScProductAttached> scProductAttached)
+    {
+        this.scProductAttached = scProductAttached;
+    }
+
+    public List<ScProductDocuments> getScProductDocuments()
+    {
+        return scProductDocuments;
+    }
+
+    public void setScProductDocuments(List<ScProductDocuments> scProductDocuments)
+    {
+        this.scProductDocuments = scProductDocuments;
+    }
+
+    public ScCostCenter getCostCenter()
+    {
+        return costCenter;
+    }
+
+    public void setCostCenter(ScCostCenter costCenter)
+    {
+        this.costCenter = costCenter;
+    }
+
+    public ScPackingUnit getPackingUnit()
+    {
+        return packingUnit;
+    }
+
+    public void setPackingUnit(ScPackingUnit packingUnit)
+    {
+        this.packingUnit = packingUnit;
+    }
+
+    public ScMoney getMoney()
+    {
+        return money;
+    }
+
+    public void setMoney(ScMoney money)
+    {
+        this.money = money;
+    }
+
+    public ScPriority getPriority()
+    {
+        return priority;
+    }
+
+    public void setPriority(ScPriority priority)
+    {
+        this.priority = priority;
+    }
+
+    public ScInputDimension getDimension()
+    {
+        return dimension;
+    }
+
+    public void setDimension(ScInputDimension dimension)
+    {
+        this.dimension = dimension;
+    }
+
+    public ScLocation getLocation()
+    {
+        return location;
+    }
+
+    public void setLocation(ScLocation location)
+    {
+        this.location = location;
+    }
+
+    public ScPartner getSupplierGuarantee()
+    {
+        return supplierGuarantee;
+    }
+
+    public void setSupplierGuarantee(ScPartner supplierGuarantee)
+    {
+        this.supplierGuarantee = supplierGuarantee;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.idProductFormulation);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ScProductFormulation other = (ScProductFormulation) obj;
+        if (!Objects.equals(this.idProductFormulation, other.idProductFormulation))
+        {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScInput[ idInput=" + idInput + " ]";
+        return "ScProductFormulation{" + "idProductFormulation=" + idProductFormulation + ", typeMaterial=" + typeMaterial + ", expiryDate=" + expiryDate + ", mark=" + mark + ", value=" + value + ", manufacturingTime=" + manufacturingTime + ", pathPicture=" + pathPicture + ", serie=" + serie + ", creationDate=" + creationDate + ", description=" + description + ", scProductAttached=" + scProductAttached + ", scProductDocuments=" + scProductDocuments + ", costCenter=" + costCenter + ", packingUnit=" + packingUnit + ", money=" + money + ", priority=" + priority + ", dimension=" + dimension + ", location=" + location + ", supplierGuarantee=" + supplierGuarantee + '}';
     }
+
+    
 
 }

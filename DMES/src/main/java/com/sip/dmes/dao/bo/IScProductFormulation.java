@@ -7,13 +7,14 @@ package com.sip.dmes.dao.bo;
 
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScDistributionUnit;
-import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScLocation;
+import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScStore;
 import java.util.List;
 
@@ -21,17 +22,15 @@ import java.util.List;
  *
  * @author user
  */
-public interface IScInput 
+public interface IScProductFormulation 
 {
-    public List<ScInput> getAllInputs() throws Exception;
+    public List<ScProductFormulation> getAllProductFormulations() throws Exception;
     
-    public ScInput getInputsById(Long idInput) throws Exception;
-    
-    public void saveInput(ScInput input) throws Exception;
+    public void saveProductFormulation(ScProductFormulation productFormulation) throws Exception;
   
-    public void deleteInput(ScInput input) throws Exception;
+    public void deleteProductFormulation(ScProductFormulation productFormulation) throws Exception;
      
-    public void updateInput(ScInput input) throws Exception;
+    public void updateProductFormulation(ScProductFormulation productFormulation) throws Exception;
     
     public List<ScPartner> getAllPartners() throws Exception;
     
@@ -41,9 +40,9 @@ public interface IScInput
     
     public List<ScDistributionUnit > getAllDistributionUnits() throws Exception;
     
-    public List<ScLocation > getAllInputLocations(ScStore store) throws Exception;
-    
     public List<ScMeasureUnit> getAllMeasureUnits() throws Exception;
+    
+    public List<ScLocation> getAllInputLocations(ScStore store) throws Exception;
     
     public List<ScMoney> getAllMoneys() throws Exception;
     
@@ -57,7 +56,7 @@ public interface IScInput
     
     public void saveDistributionUnit(ScDistributionUnit distributionUnit) throws Exception;
     
-    public void saveLocationInput(ScLocation inputLocation) throws Exception;
+    public void saveLocation(ScLocation location) throws Exception;
 
     public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception;
     

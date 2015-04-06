@@ -21,7 +21,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -119,7 +118,7 @@ public class ScInput implements Serializable
     @JoinColumn(name = "cost_center", referencedColumnName = "id_cost_center")
     @ManyToOne(optional = false)
     private ScCostCenter costCenter;
-    @JoinColumn(name = "id_input_stock", referencedColumnName = "id_input_stock")
+    @JoinColumn(name = "id_stock", referencedColumnName = "id_stock")
     @ManyToOne(optional = false)
     private ScInputStock inputStock;
     @JoinColumn(name = "id_packing", referencedColumnName = "id_packing")
@@ -142,9 +141,9 @@ public class ScInput implements Serializable
     @ManyToOne(optional = false)
     private ScInputDimension dimension;
     
-    @JoinColumn(name = "id_input_location", referencedColumnName = "id_input_location")
+    @JoinColumn(name = "id_location", referencedColumnName = "id_location")
     @ManyToOne(optional = false)
-    private ScInputLocation inputLocation;
+    private ScLocation inputLocation;
     
     @JoinColumn(name = "supplier_guarantee", referencedColumnName = "id_partner")
     @ManyToOne(optional = false)
@@ -314,12 +313,12 @@ public class ScInput implements Serializable
         this.inputStock = inputStock;
     }
 
-    public ScInputLocation getInputLocation()
+    public ScLocation getInputLocation()
     {
         return inputLocation;
     }
 
-    public void setInputLocation(ScInputLocation inputLocation)
+    public void setInputLocation(ScLocation inputLocation)
     {
         this.inputLocation = inputLocation;
     }

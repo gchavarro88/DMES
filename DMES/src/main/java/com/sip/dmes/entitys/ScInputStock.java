@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_input_stock", schema = "dmes")
+@Table(name = "sc_stock", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScInputStock.findAll", query = "SELECT s FROM ScInputStock s"),
@@ -44,11 +44,11 @@ public class ScInputStock implements Serializable {
    
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "dmes.sqscinputstock")
-    @SequenceGenerator(name = "dmes.sqscinputstock", sequenceName = "dmes.sqscinputstock", allocationSize = 1)
+    @GeneratedValue(generator = "dmes.sqscstock")
+    @SequenceGenerator(name = "dmes.sqscstock", sequenceName = "dmes.sqscstock", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id_input_stock")
+    @Column(name = "id_stock")
     private Long idInputStock;
     @Basic(optional = false)
     @NotNull

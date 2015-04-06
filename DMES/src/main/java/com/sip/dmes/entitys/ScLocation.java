@@ -6,7 +6,6 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,36 +15,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_input_location", schema = "dmes")
+@Table(name = "sc_location", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ScInputLocation.findAll", query = "SELECT s FROM ScInputLocation s ORDER BY s.location"),
-    @NamedQuery(name = "ScInputLocation.findByIdInputLocation", query = "SELECT s FROM ScInputLocation s WHERE s.idInputLocation = :idInputLocation"),
-    @NamedQuery(name = "ScInputLocation.findByLocation", query = "SELECT s FROM ScInputLocation s WHERE s.location = :location"),
-    @NamedQuery(name = "ScInputLocation.findByDescription", query = "SELECT s FROM ScInputLocation s WHERE s.description = :description")})
-public class ScInputLocation implements Serializable {
+    @NamedQuery(name = "ScLocation.findAll", query = "SELECT s FROM ScLocation s ORDER BY s.location"),
+    @NamedQuery(name = "ScLocation.findByIdInputLocation", query = "SELECT s FROM ScLocation s WHERE s.idLocation = :idLocation"),
+    @NamedQuery(name = "ScLocation.findByLocation", query = "SELECT s FROM ScLocation s WHERE s.location = :location"),
+    @NamedQuery(name = "ScLocation.findByStore", query = "SELECT s FROM ScLocation s WHERE s.store = :store ORDER BY s.store"),
+    @NamedQuery(name = "ScLocation.findByDescription", query = "SELECT s FROM ScLocation s WHERE s.description = :description")})
+public class ScLocation implements Serializable {
     
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "dmes.sqscinputlocation")
-    @SequenceGenerator(name = "dmes.sqscinputlocation", sequenceName = "dmes.sqscinputlocation", allocationSize = 1)
+    @GeneratedValue(generator = "dmes.sqsclocation")
+    @SequenceGenerator(name = "dmes.sqsclocation", sequenceName = "dmes.sqsclocation", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id_input_location")
-    private Long idInputLocation;
+    @Column(name = "id_location")
+    private Long idLocation;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -54,29 +52,37 @@ public class ScInputLocation implements Serializable {
     @Size(max = 2000)
     @Column(name = "description")
     private String description;
+    
+    @JoinColumn(name = "id_store", referencedColumnName = "id_store")
+    @ManyToOne(optional = false)
+    private ScStore store;
 
   
 
     
-    public ScInputLocation() {
+    public ScLocation() {
     }
 
-    public ScInputLocation(Long idInputLocation) {
-        this.idInputLocation = idInputLocation;
+    public ScLocation(Long idLocation) {
+        this.idLocation = idLocation;
     }
 
-    public ScInputLocation(Long idInputLocation, String location) {
-        this.idInputLocation = idInputLocation;
+    public ScLocation(Long idLocation, String location) {
+        this.idLocation = idLocation;
         this.location = location;
     }
 
-    public Long getIdInputLocation() {
-        return idInputLocation;
+    public Long getIdLocation()
+    {
+        return idLocation;
     }
 
-    public void setIdInputLocation(Long idInputLocation) {
-        this.idInputLocation = idInputLocation;
+    public void setIdLocation(Long idLocation)
+    {
+        this.idLocation = idLocation;
     }
+
+    
 
     public String getLocation() {
         return location;
@@ -97,18 +103,18 @@ public class ScInputLocation implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idInputLocation != null ? idInputLocation.hashCode() : 0);
+        hash += (idLocation != null ? idLocation.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScInputLocation)) {
+        if (!(object instanceof ScLocation)) {
             return false;
         }
-        ScInputLocation other = (ScInputLocation) object;
-        if ((this.idInputLocation == null && other.idInputLocation != null) || (this.idInputLocation != null && !this.idInputLocation.equals(other.idInputLocation))) {
+        ScLocation other = (ScLocation) object;
+        if ((this.idLocation == null && other.idLocation != null) || (this.idLocation != null && !this.idLocation.equals(other.idLocation))) {
             return false;
         }
         return true;
@@ -117,7 +123,17 @@ public class ScInputLocation implements Serializable {
     @Override
     public String toString()
     {
-        return idInputLocation.toString()+","+location;
+        return idLocation.toString()+","+location;
+    }
+
+    public ScStore getStore()
+    {
+        return store;
+    }
+
+    public void setStore(ScStore store)
+    {
+        this.store = store;
     }
 
 

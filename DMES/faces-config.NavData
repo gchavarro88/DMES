@@ -2,8 +2,8 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
-        <Node id="Help.xhtml" x="150" y="150" zoom="true"/>
         <Node id="SC_main_menu/mainMenu.xhtml" x="451" y="138" zoom="true"/>
+        <Node id="Help.xhtml" x="150" y="150" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>

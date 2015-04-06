@@ -9,7 +9,7 @@ package com.sip.dmes.utilities;
 
 
 import com.sip.dmes.entitys.ScCostCenter;
-import com.sip.dmes.entitys.ScInputLocation;
+import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScPackingUnit;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -34,12 +34,12 @@ public class InputLocationConverter implements Converter{
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) 
     {
-        ScInputLocation inputLocation = null;
+        ScLocation inputLocation = null;
         if(value.length()>0)
         {   
             String fields[] = value.split(",");
             FacesMessage msg = new FacesMessage("Error al convertir la unidad de empaque", "Formato no válido");
-            inputLocation = new ScInputLocation(Long.parseLong(fields[0]));
+            inputLocation = new ScLocation(Long.parseLong(fields[0]));
             inputLocation.setLocation(fields[1]);
         }
         

@@ -5,11 +5,11 @@
  */
 package com.sip.dmes.dao.bs;
 
-import com.sip.dmes.dao.bo.IScInput;
+import com.sip.dmes.dao.bo.IScProductFormulation;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScDistributionUnit;
-import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScLocation;
+import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
@@ -29,75 +29,73 @@ import org.springframework.transaction.annotation.Transactional;
  * @author user
  */
 
-@Repository("IScInput")
-public class ScInputDao  implements  IScInput
+@Repository("IScProductFormulation")
+public class ScProductFormulationDao  implements  IScProductFormulation
 {
     
-    private final static Logger log = Logger.getLogger(ScInputDao.class);
+    private final static Logger log = Logger.getLogger(ScProductFormulationDao.class);
     @PersistenceContext()
     EntityManager entityManager;
 
     @Override
     
-    public List<ScInput> getAllInputs() throws Exception
+    public List<ScProductFormulation> getAllProductFormulations() throws Exception
     {
-        List<ScInput> result = null;
-        Query query  = entityManager.createNamedQuery("ScInput.findAll"); 
+        List<ScProductFormulation> result = null;
+        Query query  = entityManager.createNamedQuery("ScProductFormulation.findAll"); 
         try
         {
-            result = (List<ScInput>) query.getResultList();
+            result = (List<ScProductFormulation>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los insumos",e);
+            log.error("Error al intentar hacer la persistencia de los productos",e);
         }
         return result;
     }
 
     @Override
     @Transactional 
-    public void saveInput(ScInput input) throws Exception
+    public void saveProductFormulation(ScProductFormulation productFormulation) throws Exception
     {
         try
         {
-            entityManager.persist(input.getInputStock());
-            entityManager.persist(input.getDimension());
-            entityManager.persist(input);
+            entityManager.persist(productFormulation.getDimension());
+            entityManager.persist(productFormulation);
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los insumos",e);
+            log.error("Error al intentar hacer la persistencia de los productos",e);
             throw e;
         }
     }
 
     @Override
     @Transactional
-    public void deleteInput(ScInput input) throws Exception
+    public void deleteProductFormulation(ScProductFormulation productFormulation) throws Exception
     {
         try
         {
-            entityManager.remove(entityManager.contains(input)?input:entityManager.merge(input));
-            entityManager.remove(entityManager.contains(input.getDimension())?input:entityManager.merge(input.getDimension()));
-            entityManager.remove(entityManager.contains(input.getInputStock())?input:entityManager.merge(input.getInputStock()));
+            entityManager.remove(entityManager.contains(productFormulation)?productFormulation:entityManager.merge(productFormulation));
+            entityManager.remove(entityManager.contains(productFormulation.getDimension())?productFormulation:entityManager.merge(productFormulation.getDimension()));
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los insumos",e);
+            log.error("Error al intentar hacer la persistencia de los productos",e);
         }
     }
 
     @Override
     @Transactional
-    public void updateInput(ScInput input) throws Exception
+    public void updateProductFormulation(ScProductFormulation productFormulation) throws Exception
     {
         try
         {
-            entityManager.merge(input);
+            entityManager.merge(productFormulation);
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los insumos",e);
+            log.error("Error al intentar hacer la persistencia de los productos",e);
         }
     }
 
@@ -167,16 +165,16 @@ public class ScInputDao  implements  IScInput
 
     @Override
     @Transactional
-    public void saveLocationInput(ScLocation inputLocation) throws Exception
+    public void saveLocation(ScLocation location) throws Exception
     {
         try
         {
-            entityManager.persist(inputLocation);
+            entityManager.persist(location);
             entityManager.flush();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de una localización de un insumo",e);
+            log.error("Error al intentar hacer la persistencia de una localización de un producto",e);
             throw e;
         }
     }
@@ -197,22 +195,6 @@ public class ScInputDao  implements  IScInput
         return result;
     }
 
-    @Override
-    public List<ScLocation> getAllInputLocations(ScStore store) throws Exception
-    {
-        List<ScLocation> result = null;
-        Query query  = entityManager.createNamedQuery("ScLocation.findByStore"); 
-        query.setParameter("store", store);
-        try
-        {
-            result = (List<ScLocation>) query.getResultList();
-        }
-        catch (Exception e)
-        {
-            log.error("Error al intentar hacer la persistencia las localizaciones de insumo",e);
-        }
-        return result;
-    }
 
     @Override
     public List<ScStore> getAllStores() throws Exception
@@ -247,6 +229,23 @@ public class ScInputDao  implements  IScInput
         return result;
     }
  
+    @Override
+    public List<ScLocation> getAllInputLocations(ScStore store) throws Exception
+    {
+        List<ScLocation> result = null;
+        Query query  = entityManager.createNamedQuery("ScLocation.findByStore"); 
+        query.setParameter("store", store);
+        try
+        {
+            result = (List<ScLocation>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia las localizaciones de producto",e);
+        }
+        return result;
+    }
+    
     @Override
     public List<ScMeasureUnit> getAllMeasureUnits() throws Exception
     {
@@ -342,23 +341,6 @@ public class ScInputDao  implements  IScInput
             log.error("Error al intentar hacer la persistencia de una unidad de distribución",e);
             throw e;
         }
-    }
-
-    @Override
-    public ScInput getInputsById(Long idInput) throws Exception
-    {
-        ScInput result = null;
-        Query query  = entityManager.createNamedQuery("ScInput.findByIdInput"); 
-        query.setParameter("idInput", idInput);
-        try
-        {
-            result = (ScInput) query.getSingleResult();
-        }
-        catch (Exception e)
-        {
-            log.error("Error al intentar hacer la persistencia del insumo",e);
-        }
-        return result;
     }
 
 }

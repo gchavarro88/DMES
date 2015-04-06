@@ -15,7 +15,7 @@ import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScInputDocuments;
 import com.sip.dmes.entitys.ScInputEquivalence;
 import com.sip.dmes.entitys.ScInputFeactures;
-import com.sip.dmes.entitys.ScInputLocation;
+import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScInputObservations;
 import com.sip.dmes.entitys.ScInputSpecifications;
 import com.sip.dmes.entitys.ScInputStock;
@@ -72,8 +72,8 @@ public class ScInputBean
     private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
     private ScDistributionUnit distributionUnitSave; //Unidad de empaque seleccionado para agregar
     private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
-    private ScInputLocation inputLocationSave; //Localizacion seleccionada para agregar
-    private ScInputLocation inputLocationSelected; //Localizacion seleccionada para agregar al insumo
+    private ScLocation inputLocationSave; //Localizacion seleccionada para agregar
+    private ScLocation inputLocationSelected; //Localizacion seleccionada para agregar al insumo
     private ScStore storeSave; //Localizacion seleccionada para agregar
     private ScStore storeSelected; //Localizacion seleccionada para agregar al insumo
     private ScPriority prioritySave; //Prioridad seleccionada para agregar al insumo
@@ -90,7 +90,7 @@ public class ScInputBean
     private List<ScMeasureUnit> measureUnitsList;//Lista de unidades de medida
     private List<ScPackingUnit> packingUnitsList;//Lista de unidades de empaque
     private List<ScDistributionUnit> distributionUnitsList;//Lista de unidades de distribución
-    private List<ScInputLocation> inputLocationsList;//Lista de localizaciones
+    private List<ScLocation> inputLocationsList;//Lista de localizaciones
     private List<ScStore> storesList;//Lista de almacenes
     private List<ScPriority> priorityList;//Lista de prioridades
     private List<ScInputSpecifications> specificationListSave;//Lista de especificaciones a guardar
@@ -141,7 +141,6 @@ public class ScInputBean
         fillListPartners();
         fillListCostCenter();
         fillListPackingUnit();
-        fillListInputLocation();
         fillListStore();
         fillListPriority();
         fillListMeasure();
@@ -237,14 +236,15 @@ public class ScInputBean
     
     /**
      * Método encargado de llenar la lista de localizaciones.
+     * @param store almacen que contiene las localizaciones
      * @author Gustavo Chavarro Ortiz
-     */
-    public void fillListInputLocation()
+     */ 
+    public void fillListInputLocation(ScStore store)
     {
         try
         {
             //Se consultan todos los proveedores existentes
-            setInputLocationsList(getScInputServer().getAllInputLocations());
+            setInputLocationsList(getScInputServer().getAllInputLocations(store));
         }
         catch(Exception e)
         {
@@ -332,7 +332,7 @@ public class ScInputBean
         setCostCenterSave(new ScCostCenter());
         setPackingUnitSave(new ScPackingUnit());
         setDistributionUnitSave(new ScDistributionUnit());
-        setInputLocationSave(new ScInputLocation());
+        setInputLocationSave(new ScLocation());
         setMeasureUnitSave(new ScMeasureUnit());
         cleanDocumentSave();
         cleanInputSave();
@@ -421,7 +421,7 @@ public class ScInputBean
      */
     public void cleanFieldsLocationInput()
     {
-        setInputLocationSave(new ScInputLocation());
+        setInputLocationSave(new ScLocation());
     }
     
     /**
@@ -533,6 +533,27 @@ public class ScInputBean
         }
     
     } 
+    
+    /**
+     * Método encargado de verificar si se ha seleccionado un almacen
+     * @param store almacen que contiene las localizaciones
+     * @return boolean parametro que dice si tiene o no un almacen seleccionado
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean withOutStore(ScStore store)
+    {
+        boolean result = false;
+        if(store == null || Utilities.isEmpty(store.getName()))
+        {
+            result = true;
+        }
+        else
+        {
+            fillListInputLocation(store);
+        }
+        return result;
+    }
+    
     /**
      * Método encargado de agregar una unidad de localizacion
      * @author Gustavo Chavarro Ortiz
@@ -543,11 +564,23 @@ public class ScInputBean
         {
             if(getInputLocationSave()!= null)
             {
-                
+                ScStore storeLocation = null;
+                //Agregamos el almacen de la localizacion
+                if(getInputSave().getInputStock().getIdStore() != null)
+                {
+                    storeLocation = getInputSave().getInputStock().getIdStore();
+                }
+                //Para una actualizacion de datos
+                else 
+                {
+                    storeLocation = getInputSelected().getInputStock().getIdStore();
+                }
+                getInputLocationSave().setStore(storeLocation);
+                //Se realiza la persistencia de la localizacion
                 getScInputServer().saveLocationInput(getInputLocationSave());
                 if(getInputLocationsList() == null)
                 {
-                    setInputLocationsList(new ArrayList<ScInputLocation>());
+                    setInputLocationsList(new ArrayList<ScLocation>());
                 }
                 getInputLocationsList().add(getInputLocationSave());
                 cleanFieldsLocationInput();
@@ -1800,17 +1833,26 @@ public class ScInputBean
         cleansTypesMeasures();
         setInputSelected(input);
     }
-    
+     
     /**
      * Método encargado de limpiar los campos para actualizar un insumo
-     * @param input insumo a actualizar
+     * @param input insumo a actualizaro 
      * @author Gustavo Chavarro Ortiz
      */
     public void selectedForUpdate(ScInput input) 
     {
         cleansTypesMeasures();
         setInputSelected(input);
-
+        try
+        {
+            setInputSelected(getScInputServer().getInputsById(input.getIdInput()));
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar el insumo a actualizar", e);
+        }
+        
+        fillListInputLocation(input.getInputStock().getIdStore());   
         if(!Utilities.isEmpty(getInputSelected().getDimension().getHight()))
         {
             valueToList(getInputSelected().getDimension().getHight(), 1);
@@ -2657,32 +2699,32 @@ public class ScInputBean
         this.packingUnitsList = packingUnitsList;
     }
 
-    public ScInputLocation getInputLocationSave()
+    public ScLocation getInputLocationSave()
     {
         return inputLocationSave;
     }
 
-    public void setInputLocationSave(ScInputLocation inputLocationSave)
+    public void setInputLocationSave(ScLocation inputLocationSave)
     {
         this.inputLocationSave = inputLocationSave;
     }
 
-    public ScInputLocation getInputLocationSelected()
+    public ScLocation getInputLocationSelected()
     {
         return inputLocationSelected;
     }
 
-    public void setInputLocationSelected(ScInputLocation inputLocationSelected)
+    public void setInputLocationSelected(ScLocation inputLocationSelected)
     {
         this.inputLocationSelected = inputLocationSelected;
     }
 
-    public List<ScInputLocation> getInputLocationsList()
+    public List<ScLocation> getInputLocationsList()
     {
         return inputLocationsList;
     }
 
-    public void setInputLocationsList(List<ScInputLocation> inputLocationsList)
+    public void setInputLocationsList(List<ScLocation> inputLocationsList)
     {
         this.inputLocationsList = inputLocationsList;
     }
