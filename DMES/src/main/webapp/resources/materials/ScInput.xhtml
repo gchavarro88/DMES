@@ -307,10 +307,13 @@
                                     </tr>
                                 </table>
                             </p:panel>
-                            <p:panel header="Dimensiones" toggleable="true" toggleTitle="Presione para minimizar el panel de Dimensiones"
+                            <p:panel header="Dimensiones" 
                                      id="pnlDimension">
                                 <f:facet name="header">
-                                    <p:commandButton icon="ui-icon-plus" id="btnAddMeasure" style="float: left;"  
+                                    <p:outputLabel value="Dimensiones" style="text-align: center;"/>
+                                </f:facet>
+                                <f:facet name="header">
+                                    <p:commandButton icon="ui-icon-plus" id="btnAddMeasure" style="float: right;"  
                                                      oncomplete="PF('measureSave').show()">
                                         <p:tooltip for="btnAddMeasure" value="Agregar una medida"/>
                                     </p:commandButton>
@@ -719,8 +722,7 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <!--                        finaliza pestaña para documentos
-                        -->
+                        <!--                        finaliza pestaña para documentos                         -->
                         <!--        inicia la pestaña para confirmar datos de guardar-->
                         <p:tab title="Confirmar datos" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson"
                                titletip="Pestaña para confirmar los datos del insumo a crear">
@@ -1077,10 +1079,13 @@
                                     </tr>
                                 </table>
                             </p:panel>
-                            <p:panel header="Dimensiones" toggleable="true" toggleTitle="Presione para minimizar el panel de Dimensiones"
+                            <p:panel header="Dimensiones" 
                                      id="pnlDimension">
                                 <f:facet name="header">
-                                    <p:commandButton icon="ui-icon-plus" id="btnAddMeasure" style="float: left;"  
+                                    <p:outputLabel value="Dimensiones" style="text-align: center;"/>
+                                </f:facet>
+                                <f:facet name="header">
+                                    <p:commandButton icon="ui-icon-plus" id="btnAddMeasure" style="float: right;"  
                                                      oncomplete="PF('measureSave').show()">
                                         <p:tooltip for="btnAddMeasure" value="Agregar una medida"/>
                                     </p:commandButton>
@@ -2369,6 +2374,9 @@
                 </h:form>
             </p:dialog>
             <!--            finaliza el dialogo para actualizar documentos-->
+            
+            
+<!--            ######################################################################-->
             <h:form id="formInput">
                 <p:dataTable id="scDataTableInputs" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{scInputBean.inputList}" var="input"

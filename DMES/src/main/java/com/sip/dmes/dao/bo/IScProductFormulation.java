@@ -26,6 +26,8 @@ public interface IScProductFormulation
 {
     public List<ScProductFormulation> getAllProductFormulations() throws Exception;
     
+    public ScProductFormulation getProductsById(Long idProduct) throws Exception;
+    
     public void saveProductFormulation(ScProductFormulation productFormulation) throws Exception;
   
     public void deleteProductFormulation(ScProductFormulation productFormulation) throws Exception;

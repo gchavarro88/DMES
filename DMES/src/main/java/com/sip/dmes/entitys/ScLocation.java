@@ -123,7 +123,12 @@ public class ScLocation implements Serializable {
     @Override
     public String toString()
     {
-        return idLocation.toString()+","+location;
+        String result = idLocation.toString()+","+location;
+        if(store != null)
+        {
+            result += ","+store.toString();
+        }
+        return result;
     }
 
     public ScStore getStore()

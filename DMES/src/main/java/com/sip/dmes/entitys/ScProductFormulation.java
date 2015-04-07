@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries(
 {
-    @NamedQuery(name = "ScProductFormulation.findAll", query = "SELECT s FROM ScProductFormulation s ORDER BY s.creationDate DESC")
+    @NamedQuery(name = "ScProductFormulation.findAll", query = "SELECT s FROM ScProductFormulation s ORDER BY s.creationDate DESC"),
+    @NamedQuery(name = "ScProductFormulation.findById", query = "SELECT s FROM ScProductFormulation s WHERE s.idProductFormulation = :idProduct ORDER BY s.creationDate DESC")
     
 })
 public class ScProductFormulation implements Serializable

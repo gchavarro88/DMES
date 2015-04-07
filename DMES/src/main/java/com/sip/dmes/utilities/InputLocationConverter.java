@@ -11,6 +11,7 @@ package com.sip.dmes.utilities;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScPackingUnit;
+import com.sip.dmes.entitys.ScStore;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -41,6 +42,8 @@ public class InputLocationConverter implements Converter{
             FacesMessage msg = new FacesMessage("Error al convertir la unidad de empaque", "Formato no válido");
             inputLocation = new ScLocation(Long.parseLong(fields[0]));
             inputLocation.setLocation(fields[1]);
+            inputLocation.setStore(new ScStore(Long.parseLong(fields[2])));
+            inputLocation.getStore().setName(fields[3]);
         }
         
         return inputLocation;

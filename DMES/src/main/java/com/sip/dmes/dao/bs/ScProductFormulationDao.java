@@ -343,4 +343,22 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
     }
 
+    @Override
+    public ScProductFormulation getProductsById(Long idProduct) throws Exception
+    {
+        ScProductFormulation result = null;
+        try
+        {
+            Query query = entityManager.createNamedQuery("ScProductFormulation.findById");
+            query.setParameter("idProduct", idProduct);
+            result = (ScProductFormulation) query.getSingleResult();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar un producto",e);
+            throw e;
+        }
+        return result;
+    }
+
 }

@@ -36,7 +36,9 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -333,7 +335,7 @@ public class ScProductFormulationBean
         setInputLocationSave(new ScLocation());
         setMeasureUnitSave(new ScMeasureUnit());
         cleanDocumentSave();
-        cleanInputSave();
+        cleanProductSave();
         setDocumentsListSave(new ArrayList<ScProductDocuments>());
     }
     
@@ -348,7 +350,7 @@ public class ScProductFormulationBean
         setMeasureUnitSaveWeight(new ScMeasureUnit());
         setMoneySave(new ScMoney());
     }
-    public void cleanInputSave()
+    public void cleanProductSave()
     {
         setProductSave(new ScProductFormulation());
         
@@ -457,13 +459,446 @@ public class ScProductFormulationBean
     }
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
-     * Método encargado de llevar el flujo al guardar un insumo.
-     * @param event evento en el cual se encuentra el asistente para crear insumos
+     * Método encargado de guardar temporalmente una especificación.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveSpecification()
+    {
+        if(getSpecificationsSave() != null)
+        {
+            if(!Utilities.isEmpty(getSpecificationsSave().getTittle()) && 
+                    !Utilities.isEmpty(getSpecificationsSave().getDescription()))
+            {
+                if(getSpecificationListSave() != null)
+                {
+                    //Guardamos exitosamente la especificación
+                    getSpecificationsSave().setProductFormulation(getProductSave());
+                    getSpecificationsSave().setType("ESPECIFICACION");
+                    getSpecificationListSave().add(getSpecificationsSave());
+                    setSpecificationsSave(new ScProductAttached());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una especificación", 
+                            "Debe ingresar los campos Título y Descripción de la especificación");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la especificación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de borrar una especificación agregada a la lista para 
+     * guardar un inusmo.
+     * @param productSpecifications especificación a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteSpecifications(ScProductAttached productSpecifications)
+    {
+        if(getSpecificationListSave() != null && !getSpecificationListSave().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScProductAttached iterator: getSpecificationListSave())
+            {
+                if(iterator.getTittle().equals(productSpecifications.getTittle()) && 
+                        iterator.getType().equals(productSpecifications.getType()) &&
+                        iterator.getDescription().equals(productSpecifications.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getSpecificationListSave().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de guardar temporalmente una característica.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveFeacture()
+    {
+        if(getFeacturesSave() != null)
+        {
+            if(!Utilities.isEmpty(getFeacturesSave().getTittle()) && 
+                    !Utilities.isEmpty(getFeacturesSave().getDescription()))
+            {
+                if(getFeacturesListSave() != null)
+                {
+                    //Guardamos exitosamente la especificación
+                    getFeacturesSave().setProductFormulation(getProductSave());
+                    getFeacturesSave().setType("CARACTERISTICA");
+                    getFeacturesListSave().add(getFeacturesSave());
+                    setFeacturesSave(new ScProductAttached());
+                }    
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una característica", 
+                            "Debe ingresar los campos Título y Descripción de la característica");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la característica");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de borrar una característica agregada a la lista para 
+     * guardar un inusmo.
+     * @param feacture característica a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteFeactures(ScProductAttached feacture)
+    {
+        if(getFeacturesListSave() != null && !getFeacturesListSave().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScProductAttached iterator: getFeacturesListSave())
+            {
+                if(iterator.getTittle().equals(feacture.getTittle()) &&
+                        iterator.getType().equals(feacture.getType()) &&
+                        iterator.getDescription().equals(feacture.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getFeacturesListSave().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de guardar temporalmente una observación.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveObservation()
+    {
+        if(getObservationsSave()!= null)
+        {
+            if(!Utilities.isEmpty(getObservationsSave().getTittle()) && 
+                    !Utilities.isEmpty(getObservationsSave().getDescription()))
+            {
+                if(getFeacturesListSave() != null)
+                {
+                    //Guardamos exitosamente la observación
+                    getObservationsSave().setProductFormulation(getProductSave());
+                    getObservationsSave().setType("OBSERVACION");
+                    getObservationListSave().add(getObservationsSave());
+                    setObservationsSave(new ScProductAttached());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una observación", 
+                            "Debe ingresar los campos Título y Descripción de la observación");
+                    log.error("Error al intentar guardar una observación, "
+                            + "Debe ingresar los campos Título y Descripción de la observación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    /**
+     * Método encargado de borrar una observación agregada a la lista para 
+     * guardar un inusmo.
+     * @param observations observación a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteObservation(ScProductAttached observations)
+    {
+        if(getObservationListSave()!= null && !getObservationListSave().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScProductAttached iterator: getObservationListSave())
+            {
+                if(iterator.getTittle().equals(observations.getTittle()) &&
+                        iterator.getType().equals(observations.getType()) &&
+                        iterator.getDescription().equals(observations.getDescription()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getObservationListSave().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de borrar un documento agregada a la lista para 
+     * guardar un inusmo.
+     * @param documents documento a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteDocument(ScProductDocuments documents)
+    {
+        if(getDocumentsListSave()!= null && !getDocumentsListSave().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScProductDocuments iterator: getDocumentsListSave())
+            {
+                if(iterator.getDocumentTittle().equals(documents.getDocumentTittle()) &&
+                        iterator.getDocumentPath().equals(documents.getDocumentPath()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getDocumentsListSave().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de borrar un documento agregada a la lista para 
+     * guardar un inusmo.
+     * @param documents documento a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteDocumentUpdate(ScProductDocuments documents)
+    {
+        if(getProductSelected().getScProductDocuments()!= null && !getProductSelected().getScProductDocuments().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for(ScProductDocuments iterator: getProductSelected().getScProductDocuments())
+            {
+                if(iterator.getDocumentTittle().equals(documents.getDocumentTittle()) &&
+                        iterator.getDocumentPath().equals(documents.getDocumentPath()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getProductSelected().getScProductDocuments().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de agregar un centro de costos.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addCostCenter()
+    {
+        try 
+        {
+            if(getCostCenterSave() != null)
+            {
+                if(Utilities.isNumeric(getCostCenterSave().getCostCenter()))
+                {
+                    getCostCenterSave().setCreationDate(new Date());
+                    getScProductFormulationServer().saveCostCenter(getCostCenterSave());
+                    if(getCostCenterList() == null)
+                    {
+                        setCostCenterList(new ArrayList<ScCostCenter>());
+                    }
+                    getCostCenterList().add(getCostCenterSave());
+                    cleanFieldsCostCenter();
+                }
+                else
+                {
+                    log.error("Error al intentar crear el centro de costos desde insumos");
+                    addError(null, "Error al crear un centro de costos", "Debe ingresar solo números para el campo código del centro de costo");
+                }
+            }
+            else
+            {
+                log.error("Error al intentar crear el centro de costos desde insumos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar agregar un centro de costos desde insumos",e);
+        }
+    
+    }
+    
+    /**
+     * Método encargado de agregar una medida.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addMeasure()
+    {
+        try 
+        {
+            if(getMeasureUnitSave() != null)
+            {
+                getScProductFormulationServer().saveMeasureUnit(getMeasureUnitSave());
+                if(getMeasureUnitsList() == null)
+                {
+                    setMeasureUnitsList(new ArrayList<ScMeasureUnit>());
+                }
+                getMeasureUnitsList().add(getMeasureUnitSave());
+                cleanFieldsMeasure();
+            }
+            else
+            {
+                log.error("Error al intentar crear la unidad de medida para insumos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar agregar una unidad de medida desde insumos",e);
+        }
+    
+    }
+    
+    /**
+     * Método encargado de agregar una unidad de empaque
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addPackingUnit()
+    {
+        try 
+        {
+            if(getPackingUnitSave()!= null)
+            {
+                
+                getScProductFormulationServer().savePackingUnit(getPackingUnitSave());
+                if(getPackingUnitsList() == null)
+                {
+                    setPackingUnitsList(new ArrayList<ScPackingUnit>());
+                }
+                getPackingUnitsList().add(getPackingUnitSave());
+                cleanFieldsPackingUnit();
+                
+            }
+            else
+            {
+                log.error("Error al intentar crear la unidad de empaque desde insumos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar crear la unidad de empaque desde insumos",e);
+        }
+    
+    }
+    
+    
+    /**
+     * Método encargado de agregar una unidad de localizacion
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addInputLocations()
+    {
+        try 
+        {
+            if(getInputLocationSave()!= null)
+            {
+                ScStore storeLocation = null;
+                //Agregamos el almacen de la localizacion
+                if(getProductSave().getLocation().getStore() != null)
+                {
+                    storeLocation = getProductSave().getLocation().getStore();
+                }
+                //Para una actualizacion de datos
+                else 
+                {
+                    storeLocation = getProductSelected().getLocation().getStore();
+                }
+                getInputLocationSave().setStore(storeLocation);
+                //Se realiza la persistencia de la localizacion
+                getScProductFormulationServer().saveLocation(getInputLocationSave());
+                if(getInputLocationsList() == null)
+                {
+                    setInputLocationsList(new ArrayList<ScLocation>());
+                }
+                getInputLocationsList().add(getInputLocationSave());
+                cleanFieldsLocationInput();
+            }
+            else
+            {
+                log.error("Error al intentar crear la localización desde productos");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar crear la localización desde productos",e);
+        }
+    }
+    
+    /**
+     * Método encargado de llevar el flujo al guardar un productos.
+     * @param event evento en el cual se encuentra el asistente para crear productos
      * @return String al final retorna el nombre de la siguiente pestaña del asistente
      * @author Gustavo Chavarro Ortiz
      */
-    public String onFlowProcessSaveInput(FlowEvent event) 
+    public String onFlowProcessSaveProduct(FlowEvent event) 
     {    
         int packingUnit = -1;
         if(event.getNewStep().equals(TAB_GENERAL))
@@ -643,6 +1078,8 @@ public class ScProductFormulationBean
         
         return event.getNewStep(); 
     }
+    
+    
     /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
      * @param option se escoge la opción entre guardar y actualizar
@@ -660,7 +1097,7 @@ public class ScProductFormulationBean
             //Validamos que el archivo contenga los tipos permitidos
             if (DMESConstants.TYPES_EXTENTIONS_IMAGES.contains(fileType))
             {
-                String folderName = DMESConstants.FILE_PATH_INPUTS_IMG;
+                String folderName = DMESConstants.FILE_PATH_PRODUCTS_IMG;
                 //Creamos el folder
                 File folder = new File(PATH_FILE + "/" + folderName);
                 folder.mkdirs();
@@ -711,7 +1148,7 @@ public class ScProductFormulationBean
         {
             case 1://opción para guardar
                 RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
-                RequestContext.getCurrentInstance().execute("PF('dialogProductFormulationSave').show()");
+                RequestContext.getCurrentInstance().execute("PF('dialogproductSave').show()");
                 break;
             case 2://opción para actualizar
                 RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
@@ -721,6 +1158,117 @@ public class ScProductFormulationBean
                 break;
         }
     }
+    
+    /**
+     * Método encargado de realizar la copia del archivo que se desea cargar.
+     * @param option Evento que trae el archvio cargado al servidor
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void handleDocumentUpload(int option) 
+    {
+         //Validamos que el evento de copiado no sea nulo
+        int bytesToMegabytes = 10485760; //Valor de representación de 1megabytes a bytes
+        if(!Utilities.isEmpty(getDocumentsSave().getDocumentTittle()))
+        {
+            if(getFileSave() != null ) 
+         { 
+            String fileName = getFileSave().getFileName(); //Extraemos el nombre del archivo
+            long fileSize    = getFileSave().getSize(); //Extraemos el tamaño del archivo
+            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+            String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
+            if(fileSize > 0)
+            {
+                //Validamos que el archivo cumpla con el tamaño permitido
+                if(fileSize <=(MAX_SIZE_FILE*bytesToMegabytes))
+                {
+                    //Validamos que el archivo contenga los tipos permitidos
+                    if(EXTENSION_FILE.contains(fileType))
+                    {
+                        String firstName = getSessionBean().getScUser().getIdPerson().getFirstName().replaceAll(" ", "_");
+                        String lastName = getSessionBean().getScUser().getIdPerson().getLastName().replaceAll(" ", "_");
+                        String folderName = DMESConstants.FILE_PATH_PRODUCTS_DOCS;
+                        //Creamos el folder
+                        File folder = new File(PATH_FILE+"/"+folderName);
+                        folder.mkdirs();
+                        //Creamos el archivo con la ruta y el nombre de la carpeta
+                        File file = new File(folder+"/"+fileName);
+                        try
+                        {
+                            //Creamos el archivo y lo enviamos al metodo que lo escribe
+                            if(writeFile(getFileSave().getInputstream(), file))
+                            {
+                                getDocumentsSave().setDocumentName(fileName);
+                                getDocumentsSave().setDocumentPath(folder.toString());
+                                getDocumentsSave().setTypeDocument(getFileSave().getContentType());
+                                getDocumentsSave().setUploadBy(getSessionBean().getScUser().getLogin());
+                                
+                                getDocumentsSave().setCreationDate(new Date());
+                                switch (option)
+                                {
+                                    case 1://opción para guardar
+                                        getDocumentsSave().setProductFormulation(getProductSave());
+                                        getDocumentsListSave().add(getDocumentsSave());
+                                        
+                                        break;
+                                    case 2://opción para actualizar
+                                        getDocumentsSave().setProductFormulation(getProductSelected());
+                                        getProductSelected().getScProductDocuments().add(getDocumentsSave());
+                                        
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            //Si sucede un error al escribir el archivo
+                            else
+                            {
+                                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                            }   
+                        }
+                        catch (Exception e)
+                        {
+                            //Excepción de escritura
+                            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                            log.error("Error al itnentar crear un nuevo archivo", e);
+                        }
+                    }
+                    //El tipo no pertenece
+                    else
+                    {
+                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos "+EXTENSION_FILE);
+                    }
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo supera el límite de tamaño permitido "+MAX_SIZE_FILE+" MB");
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
+            }
+         }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe ingresar un título para el documento");
+        }
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
+                RequestContext.getCurrentInstance().execute("PF('dialogproductSave').show()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
+                RequestContext.getCurrentInstance().execute("PF('dialogProductUpdate').show()");
+                break;
+            default:
+                break;
+        }
+         cleanDocumentSave();
+    }
+    
     
     /**
      * Método encargado de visualizar la imagen de un elemento.
@@ -754,7 +1302,494 @@ public class ScProductFormulationBean
     
     
     
+    /**
+     * Método encargado de realizar la persistencia de un producto, guardando
+     * listas y objetos incluidos en el.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveProductFormulation()
+    {
+        //Valido que el insumo no sea nulo
+        Set<ScProductAttached> set = new HashSet<ScProductAttached>(); 
+        if(getProductSave() != null)
+        {
+            if(getSpecificationListSave() != null)
+            {
+                //Le agrego la lista de especificaciones
+                set.addAll(getSpecificationListSave());
+            }
+            if(getFeacturesListSave()!= null)
+            {
+                //Le agrego la lista de características
+                set.addAll(getFeacturesListSave());
+            } 
+            if(getObservationListSave()!= null)
+            {
+                //Le agrego la lista de observaciones
+                set.addAll(getObservationListSave());
+            }
+            if(getDocumentsListSave()!= null)
+            {
+                //Le agrego la lista de observaciones
+                getProductSave().setScProductAttached(new ArrayList<>(set));
+                getProductSave().setScProductDocuments(getDocumentsListSave());
+            }
+            //Almacenamos el insumo
+            try
+            {
+                if(getMeasureUnitSaveHigh() != null)
+                {
+                    getProductSave().getDimension().setHight(getProductSave().getDimension().getHight()+"-"+getMeasureUnitSaveHigh().getAcronym());
+                }
+                if(getMeasureUnitSaveWidth()!= null)
+                {
+                    getProductSave().getDimension().setWidth(getProductSave().getDimension().getWidth()+"-"+getMeasureUnitSaveWidth().getAcronym());
+                }
+                if(getMeasureUnitSaveLarge() != null)
+                {
+                    getProductSave().getDimension().setLarge(getProductSave().getDimension().getLarge()+"-"+getMeasureUnitSaveLarge().getAcronym());
+                }
+                if(getMeasureUnitSaveWeight()!= null)
+                {
+                    getProductSave().getDimension().setWeight(getProductSave().getDimension().getWeight()+"-"+getMeasureUnitSaveWeight().getAcronym());
+                }
+                if(getMeasureUnitSaveVolume()!= null)
+                {
+                    getProductSave().getDimension().setVolume(getProductSave().getDimension().getVolume()+"-"+getMeasureUnitSaveVolume().getAcronym());
+                }
+                if(getMeasureUnitSaveThickness()!= null)
+                {
+                    getProductSave().getDimension().setThickness(getProductSave().getDimension().getThickness()+"-"+getMeasureUnitSaveThickness().getAcronym());
+                }
+                if(getMeasureUnitSaveRadio()!= null)
+                {
+                    getProductSave().getDimension().setRadio(getProductSave().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
+                }
+                getScProductFormulationServer().saveProductFormulation(getProductSave());
+                getProductList().add(getProductSave());
+                cleanProductSave();
+            }
+            catch (Exception e)
+            {
+                log.error("Error almacenando el insumo", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanProductSave();
+            }
+        }
+    }
+    /**
+     * Método encargado de realizar la persistencia de un producto, actualizando
+     * listas y objetos incluidos en el.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void updateProductFormulation()
+    {
+        //Valido que el insumo no sea nulo
+        if(getProductSelected()!= null)
+        {
+            //Almacenamos el insumo
+            try
+            {
+                if(getMeasureUnitSaveHigh() != null)
+                {
+                    getProductSelected().getDimension().setHight(getProductSelected().getDimension().getHight()+"-"+getMeasureUnitSaveHigh().getAcronym());
+                }
+                if(getMeasureUnitSaveWidth()!= null)
+                {
+                    getProductSelected().getDimension().setWidth(getProductSelected().getDimension().getWidth()+"-"+getMeasureUnitSaveWidth().getAcronym());
+                }
+                if(getMeasureUnitSaveLarge() != null)
+                {
+                    getProductSelected().getDimension().setLarge(getProductSelected().getDimension().getLarge()+"-"+getMeasureUnitSaveLarge().getAcronym());
+                }
+                if(getMeasureUnitSaveWeight()!= null)
+                {
+                    getProductSelected().getDimension().setWeight(getProductSelected().getDimension().getWeight()+"-"+getMeasureUnitSaveWeight().getAcronym());
+                }
+                if(getMeasureUnitSaveVolume()!= null)
+                {
+                    getProductSelected().getDimension().setVolume(getProductSelected().getDimension().getVolume()+"-"+getMeasureUnitSaveVolume().getAcronym());
+                }
+                if(getMeasureUnitSaveThickness()!= null)
+                {
+                    getProductSelected().getDimension().setThickness(getProductSelected().getDimension().getThickness()+"-"+getMeasureUnitSaveThickness().getAcronym());
+                }
+                if(getMeasureUnitSaveRadio()!= null)
+                {
+                    getProductSelected().getDimension().setRadio(getProductSelected().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
+                }
+                getScProductFormulationServer().updateProductFormulation(getProductSelected());
+                cleanProductSave();
+            }
+            catch (Exception e)
+            {
+                log.error("Error actualizando el Producto", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanProductSave();
+            }
+            
+        }
     
+    }
+    
+    /**
+     * Método encargado de llevar el flujo al actualizar un producto.
+     * @param event evento en el cual se encuentra el asistente para ver productos
+     * @return String al final retorna el nombre de la siguiente pestaña del asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessViewProduct(FlowEvent event) 
+    {    
+        
+        return event.getNewStep(); 
+    }
+    /**
+     * Método encargado de limpiar los campos para eliminar un producto
+     * @param product producto a eliminar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForDelete(ScProductFormulation product) 
+    {
+        cleansTypesMeasures();
+        setProductSelected(product);
+    }
+    
+    /**
+     * Método encargado de limpiar los campos para actualizar un insumo
+     * @param product insumo a actualizaro 
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForUpdate(ScProductFormulation product) 
+    {
+        cleansTypesMeasures();
+        setProductSelected(product);
+        try
+        {
+            setProductSelected(getScProductFormulationServer().getProductsById(product.getIdProductFormulation()));
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar el producto a actualizar", e);
+        }
+        
+        fillListInputLocation(product.getLocation().getStore());   
+        if(!Utilities.isEmpty(getProductSelected().getDimension().getHight()))
+        {
+            valueToList(getProductSelected().getDimension().getHight(), 1);
+        }
+        if(!Utilities.isEmpty(getProductSelected().getDimension().getWidth()))
+        {
+            valueToList(getProductSelected().getDimension().getWidth(), 2);
+        }
+        if(!Utilities.isEmpty(getProductSelected().getDimension().getLarge()))
+        {
+            valueToList(getProductSelected().getDimension().getLarge(), 3);
+        }
+        if(!Utilities.isEmpty(getProductSelected().getDimension().getWeight()))
+        {
+            valueToList(getProductSelected().getDimension().getWeight(), 4);
+        }
+        if(!Utilities.isEmpty(getProductSelected().getDimension().getVolume()))
+        {
+            valueToList(getProductSelected().getDimension().getVolume(), 5);
+        }
+        if(!Utilities.isEmpty(getProductSelected().getDimension().getThickness()))
+        {
+            valueToList(getProductSelected().getDimension().getThickness(), 6);
+        }
+        if(!Utilities.isEmpty(getProductSelected().getDimension().getRadio()))
+        {
+            valueToList(getProductSelected().getDimension().getRadio(), 7);
+        }
+    }
+    
+       
+    /**
+     * Método encargado de llevar el flujo al actualizar un producto.
+     * @param event evento en el cual se encuentra el asistente para actualizar productos
+     * @return String al final retorna el nombre de la siguiente pestaña del asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessUpdateProduct(FlowEvent event) 
+    {    
+        int packingUnit = -1;
+        if(event.getNewStep().equals(TAB_GENERAL))
+        {
+            return TAB_GENERAL;
+        }
+        if(event.getOldStep().equals(TAB_GENERAL))
+        {
+            if(validateFields("Nombre Insumo", getProductSelected().getDescription(), 3))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Tiempo de Preparación", getProductSelected().getManufacturingTime()+"", 2))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Tipo de Material", getProductSelected().getTypeMaterial(), 3))
+            {
+                return event.getOldStep();
+            }
+            //Validamos que el valor sea mayor que cero
+            if(validateFields("Valor", getProductSelected().getValue()+"", 2))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Moneda", getProductSelected().getMoney(), 4))
+            {
+                return event.getOldStep();
+            }
+            
+            
+            
+            if(validateFields("Marca", getProductSelected().getMark(), 3))
+            {
+                return event.getOldStep();
+            }
+            
+            if(Utilities.isEmpty(getProductSelected().getPathPicture()))
+            { 
+                getProductSelected().setPathPicture(" ");//Setteamos la ruta de la imagen
+            }
+            if(validateFields("Serie", getProductSelected().getSerie(), 3))
+            {
+                return event.getOldStep();
+            }
+            
+            //Validamos los campos seleccionables
+            if(validateFields("Proveedor y Garantía", getProductSelected().getSupplierGuarantee(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Centro de Costos", getProductSelected().getCostCenter(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Almacen", getProductSelected().getLocation().getStore(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Localización", getProductSelected().getLocation(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Prioridad", getProductSelected().getPriority(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Unidad de Empaque", getProductSelected().getPackingUnit(), 4))
+            {
+                return event.getOldStep();
+            }
+            
+            
+            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+            if(getProductSelected().getExpiryDate() != null && getProductSelected().getExpiryDate().before(getProductSelected().getCreationDate()))
+            {
+                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+        }
+        //Si pasamos de la pestaña de dimensiones
+        else if(event.getOldStep().equals(TAB_DIMENSION))
+        {
+            
+            
+            if(validateFields("Altura", getProductSelected().getDimension().getHight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveHigh() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+                return event.getOldStep();
+            }
+            if(validateFields("Ancho", getProductSelected().getDimension().getWidth(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveWidth()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+                return event.getOldStep();
+            }
+            if(validateFields("Largo", getProductSelected().getDimension().getLarge(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveLarge()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+                return event.getOldStep();
+            }
+            if(validateFields("Peso", getProductSelected().getDimension().getWeight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveWeight()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                return event.getOldStep();
+            }
+            if(!Utilities.isEmpty(getProductSelected().getDimension().getVolume()))
+            {
+                if(validateFields("Volumen", getProductSelected().getDimension().getVolume(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveVolume()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getProductSelected().getDimension().getThickness()))
+            {
+                if(validateFields("Grosor", getProductSelected().getDimension().getThickness(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveThickness()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getProductSelected().getDimension().getRadio()))
+            {
+                if(validateFields("Radio", getProductSelected().getDimension().getRadio(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveRadio()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getProductSelected().getDimension().getWeight()))
+            {
+                if(validateFields("Peso", getProductSelected().getDimension().getWeight(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveWeight()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                    return event.getOldStep();
+                }
+            }
+        }
+        
+        return event.getNewStep(); 
+    }
+    
+    /**
+     * Método encargado de retornar la lista de adjuntos dependiendo del tipo recibido.
+     * @param property
+     * @param attacheds 
+     * @return List<ScProductAttached>
+     * @author Gustavo Chavarro Ortiz
+     */
+    public List<ScProductAttached> getListAttached(String property, List<ScProductAttached> attacheds) 
+    {
+        List<ScProductAttached> result = new ArrayList<ScProductAttached>();
+        for(ScProductAttached attached: attacheds)
+        {
+            if(attached.getType().equals(property))
+            {
+                result.add(attached);
+            }
+        }
+        return result;
+    }
+    
+    
+    /**
+     * Método encargado de guardar un nuevo adjunto
+     * @param property
+     * @param attached
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveAttached(String property, ScProductAttached attached) 
+    {
+        if(!Utilities.isEmpty(property))
+        {
+            if(attached != null)
+            {
+                attached.setType(property);
+                if(!Utilities.isEmpty(attached.getTittle()) && !Utilities.isEmpty(attached.getDescription())
+                        && !Utilities.isEmpty(attached.getType()))
+                {
+                    attached.setProductFormulation(getProductSelected());
+                    getProductSelected().getScProductAttached().add(attached);
+                    cleanListSaves();
+                }
+                else
+                {
+                    addError(null, "Error al intentar guardar una especificación", 
+                            "Debe ingresar los campos Título y Descripción");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción");
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    /**
+     * Método encargado de eliminar un adjunto
+     * @param attached
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteAttached(ScProductAttached attached) 
+    {
+        if(attached != null)
+        {
+            for(ScProductAttached productAttached: getProductSelected().getScProductAttached())
+            {
+                if(attached.getTittle().equals(productAttached.getTittle()) && attached.getDescription().
+                        equals(productAttached.getDescription()) && attached.getType().equals(productAttached.getType()))
+                {
+                    getProductSelected().getScProductAttached().remove(productAttached);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de eliminar un insumo.
+     * @autor Gustavo Chavarro Ortiz
+     */
+    public void deleteProductFormulation()
+    {
+        if(getProductSelected() != null)
+        {
+            try
+            {
+                getScProductFormulationServer().deleteProductFormulation(getProductSelected());
+                getProductList().remove(getProductSelected());
+            }
+            catch (Exception e)
+            {
+                log.error("Error eliminando el producto", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanProductSave();
+            }
+        }
+    }
     /**
      * Método encargado de verificar si se ha seleccionado un almacen
      * @param store almacen que contiene las localizaciones
@@ -775,6 +1810,109 @@ public class ScProductFormulationBean
         return result;
     }
     
+    /**
+     * Método encargado de tomar un valor de un combo box unido por una coma (,)
+     * y ponerlo en los dos campos que aplican número y tipo de valor.
+     * @param value valor en cadena de texto a convertir
+     * @param option opción por la cual se hará la conversión dependiendo del campo
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void valueToList(String value, int option)
+    {
+        String fields[] = value.split("-"); //Dividimos el valor y su unidad
+        
+        switch(option)//Seleccionamos la opción
+        {
+            
+            case 1://Ajustamos la altura
+                
+                getProductSelected().getDimension().setHight(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveHigh(measureUnit);
+                        break;
+                    }
+                }
+            break;
+            case 2://Ajustamos el ancho
+                
+                getProductSelected().getDimension().setWidth(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveWidth(measureUnit);
+                        break;
+                    }
+                }
+            break;    
+            case 3://Ajustamos el largo
+                
+                getProductSelected().getDimension().setLarge(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveLarge(measureUnit);
+                        break;
+                    }
+                }
+            break;
+            case 4://Ajustamos el Peso
+                
+                getProductSelected().getDimension().setWeight(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveWeight(measureUnit);
+                        break;
+                    }
+                }
+            break;
+            case 5://Ajustamos el Volumen
+                
+                getProductSelected().getDimension().setVolume(fields[0]);
+                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                {
+                    if(measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveVolume(measureUnit);
+                        break;
+                    }
+                }
+            break;
+            case 6://Ajustamos el Grosor
+            
+            getProductSelected().getDimension().setThickness(fields[0]);
+            for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+            {
+                if(measureUnit.getAcronym().equals(fields[1]))
+                {
+                    setMeasureUnitSaveThickness(measureUnit);
+                    break;
+                }
+            }
+            break;
+            case 7://Ajustamos el Radio
+            
+            getProductSelected().getDimension().setRadio(fields[0]);
+            for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+            {
+                if(measureUnit.getAcronym().equals(fields[1]))
+                {
+                    setMeasureUnitSaveRadio(measureUnit);
+                    break;
+                }
+            }
+            break;
+            default://Caso por defecto
+            break;
+        }
+    
+    }
     
     /**
      * Método encargado de validar los campos doubles.
