@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScPriority.findByIdPriority", query = "SELECT s FROM ScPriority s WHERE s.idPriority = :idPriority"),
     @NamedQuery(name = "ScPriority.findByName", query = "SELECT s FROM ScPriority s WHERE s.name = :name"),
     @NamedQuery(name = "ScPriority.findByDescription", query = "SELECT s FROM ScPriority s WHERE s.description = :description")})
+
 public class ScPriority implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -96,7 +96,8 @@ public class ScProductFormulation implements Serializable
     @Column(name = "description")
     private String description;
     
-    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productFormulation", fetch = FetchType.EAGER)
+    private List<ScProcessProduct> processProducts;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productFormulation", fetch = FetchType.EAGER)
     private List<ScProductAttached> scProductAttached;

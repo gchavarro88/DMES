@@ -72,14 +72,14 @@ public class ScProductFormulationBean
     private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
     
     private ScDistributionUnit distributionUnitSave; //Unidad de empaque seleccionado para agregar
-    private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
+    private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al producto
     private ScLocation inputLocationSave; //Localizacion seleccionada para agregar
-    private ScLocation inputLocationSelected; //Localizacion seleccionada para agregar al insumo
+    private ScLocation inputLocationSelected; //Localizacion seleccionada para agregar al producto
     private ScStore storeSave; //Localizacion seleccionada para agregar
-    private ScStore storeSelected; //Localizacion seleccionada para agregar al insumo
-    private ScPriority prioritySave; //Prioridad seleccionada para agregar al insumo
+    private ScStore storeSelected; //Localizacion seleccionada para agregar al producto
+    private ScPriority prioritySave; //Prioridad seleccionada para agregar al producto
     private SessionBean sessionBean; //Bean de sesion
-    private UploadedFile pictureFile; //Archivo que se copiara para la imagen del insumo
+    private UploadedFile pictureFile; //Archivo que se copiara para la imagen del producto
     private ScCostCenter costCenterSave; //Centro de Costo para agregar
     private ScProductAttached SpecificationsSave;//Especificación a guardar
     private ScProductAttached feacturesSave;//Característica a guardar
@@ -180,7 +180,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar los proveedores para los insumos", e);
+            log.error("Error al intentar consultar los proveedores para los productos", e);
         }
     }
     
@@ -197,7 +197,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar los proveedores para los insumos", e);
+            log.error("Error al intentar consultar los proveedores para los productos", e);
         }
     }
     
@@ -214,7 +214,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar las unidades de distribucion para los insumos", e);
+            log.error("Error al intentar consultar las unidades de distribucion para los productos", e);
         }
     }
     
@@ -231,7 +231,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar las unidades de empaque para los insumos", e);
+            log.error("Error al intentar consultar las unidades de empaque para los productos", e);
         }
     }
     
@@ -249,7 +249,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar las localizaciones para los insumos", e);
+            log.error("Error al intentar consultar las localizaciones para los productos", e);
         }
     }
     
@@ -266,7 +266,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar los almacenes para los insumos", e);
+            log.error("Error al intentar consultar los almacenes para los productos", e);
         }
     }
     
@@ -283,7 +283,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar las prioridades para los insumos", e);
+            log.error("Error al intentar consultar las prioridades para los productos", e);
         }
     }
     
@@ -300,7 +300,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar las medidas para los insumos", e);
+            log.error("Error al intentar consultar las medidas para los productos", e);
         }
     }
     
@@ -317,7 +317,7 @@ public class ScProductFormulationBean
         }
         catch(Exception e)
         {
-            log.error("Error al intentar consultar las monedas para los insumos", e);
+            log.error("Error al intentar consultar las monedas para los productos", e);
         }
     }
     
@@ -363,7 +363,7 @@ public class ScProductFormulationBean
     
     
     /**
-     * Método encargado de inicializar todas las listas para crear un insumo.
+     * Método encargado de inicializar todas las listas para crear un producto.
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanListSaves()
@@ -759,13 +759,13 @@ public class ScProductFormulationBean
                 }
                 else
                 {
-                    log.error("Error al intentar crear el centro de costos desde insumos");
+                    log.error("Error al intentar crear el centro de costos desde productos");
                     addError(null, "Error al crear un centro de costos", "Debe ingresar solo números para el campo código del centro de costo");
                 }
             }
             else
             {
-                log.error("Error al intentar crear el centro de costos desde insumos");
+                log.error("Error al intentar crear el centro de costos desde productos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
             
@@ -773,7 +773,7 @@ public class ScProductFormulationBean
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar agregar un centro de costos desde insumos",e);
+            log.error("Error al intentar agregar un centro de costos desde productos",e);
         }
     
     }
@@ -798,7 +798,7 @@ public class ScProductFormulationBean
             }
             else
             {
-                log.error("Error al intentar crear la unidad de medida para insumos");
+                log.error("Error al intentar crear la unidad de medida para productos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
             
@@ -806,7 +806,7 @@ public class ScProductFormulationBean
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar agregar una unidad de medida desde insumos",e);
+            log.error("Error al intentar agregar una unidad de medida desde productos",e);
         }
     
     }
@@ -833,7 +833,7 @@ public class ScProductFormulationBean
             }
             else
             {
-                log.error("Error al intentar crear la unidad de empaque desde insumos");
+                log.error("Error al intentar crear la unidad de empaque desde productos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
             
@@ -841,7 +841,7 @@ public class ScProductFormulationBean
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar crear la unidad de empaque desde insumos",e);
+            log.error("Error al intentar crear la unidad de empaque desde productos",e);
         }
     
     }
@@ -907,7 +907,7 @@ public class ScProductFormulationBean
         }
         if(event.getOldStep().equals(TAB_GENERAL))
         {
-            if(validateFields("Nombre Insumo", getProductSave().getDescription(), 3))
+            if(validateFields("Nombre Producto", getProductSave().getDescription(), 3))
             {
                 return event.getOldStep();
             }
@@ -972,7 +972,7 @@ public class ScProductFormulationBean
             }
             
                         
-            //Agregamos la fecha de creación del insumo
+            //Agregamos la fecha de creación del producto
             getProductSave().setCreationDate(new Date());
             
             //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
@@ -1273,7 +1273,7 @@ public class ScProductFormulationBean
     /**
      * Método encargado de visualizar la imagen de un elemento.
      * @return String cadena con la ruta de la imagen
-     * @param input insumo al que se le consultará la imagen
+     * @param input producto al que se le consultará la imagen
      * @author Gustavo Chavarro Ortiz
      */
     public String searchImage(String pathPicture)
@@ -1309,7 +1309,7 @@ public class ScProductFormulationBean
      */
     public void saveProductFormulation()
     {
-        //Valido que el insumo no sea nulo
+        //Valido que el producto no sea nulo
         Set<ScProductAttached> set = new HashSet<ScProductAttached>(); 
         if(getProductSave() != null)
         {
@@ -1334,7 +1334,7 @@ public class ScProductFormulationBean
                 getProductSave().setScProductAttached(new ArrayList<>(set));
                 getProductSave().setScProductDocuments(getDocumentsListSave());
             }
-            //Almacenamos el insumo
+            //Almacenamos el producto
             try
             {
                 if(getMeasureUnitSaveHigh() != null)
@@ -1371,7 +1371,7 @@ public class ScProductFormulationBean
             }
             catch (Exception e)
             {
-                log.error("Error almacenando el insumo", e);
+                log.error("Error almacenando el producto", e);
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 cleanProductSave();
             }
@@ -1384,10 +1384,10 @@ public class ScProductFormulationBean
      */
     public void updateProductFormulation()
     {
-        //Valido que el insumo no sea nulo
+        //Valido que el producto no sea nulo
         if(getProductSelected()!= null)
         {
-            //Almacenamos el insumo
+            //Almacenamos el producto
             try
             {
                 if(getMeasureUnitSaveHigh() != null)
@@ -1455,8 +1455,8 @@ public class ScProductFormulationBean
     }
     
     /**
-     * Método encargado de limpiar los campos para actualizar un insumo
-     * @param product insumo a actualizaro 
+     * Método encargado de limpiar los campos para actualizar un producto
+     * @param product producto a actualizaro 
      * @author Gustavo Chavarro Ortiz
      */
     public void selectedForUpdate(ScProductFormulation product) 
@@ -1519,7 +1519,7 @@ public class ScProductFormulationBean
         }
         if(event.getOldStep().equals(TAB_GENERAL))
         {
-            if(validateFields("Nombre Insumo", getProductSelected().getDescription(), 3))
+            if(validateFields("Nombre Producto", getProductSelected().getDescription(), 3))
             {
                 return event.getOldStep();
             }
@@ -1770,7 +1770,7 @@ public class ScProductFormulationBean
     }
     
     /**
-     * Método encargado de eliminar un insumo.
+     * Método encargado de eliminar un producto.
      * @autor Gustavo Chavarro Ortiz
      */
     public void deleteProductFormulation()
