@@ -379,7 +379,7 @@
                         <!--                        finaliza pestaña para dimensiones-->
                         <!--                        inicia pestaña para especificaciones-->
                         <p:tab title="Especificaciones" id="tabSpecifications" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las especificaciones del insumo">
+                               titletip="Pestaña para las especificaciones del producto">
                             <p:panel header="Especificaciones" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -448,7 +448,7 @@
                         <!--                        finaliza pestaña para especificaciones-->
                         <!--                        inicia pestaña para características-->
                         <p:tab title="Características" id="tabFeactures" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las características del insumo">
+                               titletip="Pestaña para las características del producto">
                             <p:panel header="Características" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -517,7 +517,7 @@
                         <!--                        finaliza pestaña para características-->
                         <!--                        inicia pestaña para observaciones-->
                         <p:tab title="Observaciones" id="tabObservations" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las observaciones del insumo">
+                               titletip="Pestaña para las observaciones del producto">
                             <p:panel header="Observaciones" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -586,7 +586,7 @@
                         <!--                        finaliza pestaña para observaciones-->
                         <!--                        inicia pestaña para documentos-->
                         <p:tab title="Documentos" id="tabDocuments" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para los documentos del insumo">
+                               titletip="Pestaña para los documentos del producto">
                             <p:panel header="Documentos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -637,7 +637,63 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <!--                        finaliza pestaña para documentos                         -->                        
+                        <!--                        finaliza pestaña para documentos                         -->   
+                        <!--                        inicia pestaña para procesos-->
+                        <p:tab title="Procesos" id="tabProcess" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los documentos del producto">
+                            <p:panel header="Documentos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableProcessSave"
+                                                         var="process" 
+                                                         value="#{scProductFormulationBean.processProductListSave}"
+                                                         rowKey="#{process.idProcessProduct}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{process.idProcessProduct}">
+
+                                                <f:facet name="header">
+                                                    <p:commandButton icon="ui-icon-plus" id="btnAddProcess" style="float: right;"  
+                                                                     oncomplete="PF('documentSave').show()">
+                                                        <p:tooltip for="btnAdd" value="Agregar un Proceso"/>
+                                                    </p:commandButton>
+                                                </f:facet>
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableProcessSave" title="Eliminar Proceso"
+                                                                     process="@this" 
+                                                                     actionListener="#{scProductFormulationBean.deleteProcess(process)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Nombre" sortBy="#{process.name}">
+                                                    <p:outputLabel value="#{process.name}" id="outTittle"/>
+                                                    <p:tooltip value="#{process.name}" for="outTittle"/>
+                                                </p:column>               
+                                                <p:column headerText="Documento" sortBy="#{document.documentName}">
+                                                    <p:outputLabel value="#{document.documentName}" id="documentName"/>
+                                                    <p:tooltip value="#{document.documentName}" for="documentName"/>
+                                                </p:column>
+                                                <p:column headerText="Fecha de Subida" sortBy="#{scProductFormulationBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
+                                                    <p:outputLabel value="#{scProductFormulationBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" id="uploadDate"/>
+                                                    <p:tooltip value="#{scProductFormulationBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" for="uploadDate"/>
+                                                </p:column>
+                                                <p:column headerText="Subido por" sortBy="#{document.uploadBy}">
+                                                    <p:outputLabel value="#{document.uploadBy}" id="uploadBy"/>
+                                                    <p:tooltip value="#{document.uploadBy}" for="uploadBy"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para procesos                     -->   
+                        
+                        
                         <!--        inicia la pestaña para confirmar datos de guardar-->
                         <p:tab title="Confirmar datos" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson"
                                titletip="Pestaña para confirmar los datos del Producto a crear">
@@ -1045,7 +1101,7 @@
                         <!--                        finaliza pestaña para dimensiones-->
                         <!--                        inicia pestaña para especificaciones-->
                         <p:tab title="Especificaciones" id="tabSpecifications" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las especificaciones del insumo">
+                               titletip="Pestaña para las especificaciones del producto">
                             <p:panel header="Especificaciones" >
                                 
                                             <p:dataTable id="dataTableSpecificationSave"
@@ -1074,7 +1130,7 @@
                         <!--                        finaliza pestaña para especificaciones-->
                         <!--                        inicia pestaña para características-->
                         <p:tab title="Características" id="tabFeactures" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las características del insumo">
+                               titletip="Pestaña para las características del producto">
                             <p:panel header="Características" >
                                 
                                             <p:dataTable id="dataTableFeactureSave"
@@ -1103,7 +1159,7 @@
                         <!--                        finaliza pestaña para características-->
                         <!--                        inicia pestaña para observaciones-->
                         <p:tab title="Observaciones" id="tabObservations" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las observaciones del insumo">
+                               titletip="Pestaña para las observaciones del producto">
                             <p:panel header="Observaciones" >
                                 
                                             <p:dataTable id="dataTableObservationSave"
@@ -1132,7 +1188,7 @@
                         <!--                        finaliza pestaña para observaciones-->
                         <!--                        inicia pestaña para documentos-->
                         <p:tab title="Documentos" id="tabDocuments" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para los documentos del insumo">
+                               titletip="Pestaña para los documentos del producto">
                             <p:panel header="Documentos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -1568,7 +1624,7 @@
                         <!--                        finaliza pestaña para dimensiones-->
                         <!--                        inicia pestaña para especificaciones-->
                         <p:tab title="Especificaciones" id="tabSpecifications" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las especificaciones del insumo">
+                               titletip="Pestaña para las especificaciones del producto">
                             <p:panel header="Especificaciones" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -1637,7 +1693,7 @@
                         <!--                        finaliza pestaña para especificaciones-->
                         <!--                        inicia pestaña para características-->
                         <p:tab title="Características" id="tabFeactures" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las características del insumo">
+                               titletip="Pestaña para las características del producto">
                             <p:panel header="Características" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -1706,7 +1762,7 @@
                         <!--                        finaliza pestaña para características-->
                         <!--                        inicia pestaña para observaciones-->
                         <p:tab title="Observaciones" id="tabObservations" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las observaciones del insumo">
+                               titletip="Pestaña para las observaciones del producto">
                             <p:panel header="Observaciones" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -1775,7 +1831,7 @@
                         <!--                        finaliza pestaña para observaciones-->
                         <!--                        inicia pestaña para documentos-->
                         <p:tab title="Documentos" id="tabDocuments" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para los documentos del insumo">
+                               titletip="Pestaña para los documentos del producto">
                             <p:panel header="Documentos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -2041,12 +2097,12 @@
                         </table>
                     </h:form>
                 </p:dialog>
-                <!--         fin  dialogo para crear unidades de empaque del insumo-->
+                <!--         fin  dialogo para crear unidades de empaque del producto-->
 
 
                 <!--           dialogo para crear localizaciones-->
                 <p:dialog id="inputLocationSave" widgetVar="inputLocationSave" draggable="true" 
-                          closable="true"  header="Agregar una Localización del Insumo" position="center top" 
+                          closable="true"  header="Agregar una Localización del Producto" position="center top" 
                           hideEffect="explode" modal="true" showEffect="explode" 
                           >
                     <h:form id="formInputLocation">
@@ -2057,7 +2113,7 @@
                                 </td>
                                 <td width="80%" align="left">
                                     <p:inputText    id="tfLocation"  value="#{scProductFormulationBean.inputLocationSave.location}"
-                                                    required="true" requiredMessage="Campo obligatorio debe ingresar la localización del insumo"/>
+                                                    required="true" requiredMessage="Campo obligatorio debe ingresar la localización del producto"/>
                                 </td>
                             </tr>
                             <tr>
@@ -2087,7 +2143,7 @@
                         </table>
                     </h:form>
                 </p:dialog>
-                <!--         fin  dialogo para crear localizaciones del insumo-->
+                <!--         fin  dialogo para crear localizaciones del producto-->
 
                 <!--            Dialogo para subir imagenes width="10%" align="right" -->
                 <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
@@ -2163,7 +2219,7 @@
 
                             <p:inputText value="#{scProductFormulationBean.documentsSave.documentTittle}" id="tfDocumentUpdate"/> 
 
-                            <p:fileUpload label="Documento de un Insumo" value="#{scProductFormulationBean.fileSave}" mode="simple"
+                            <p:fileUpload label="Documento de un Producto" value="#{scProductFormulationBean.fileSave}" mode="simple"
                                           update=":formWizardUpdate:dataTableDocumentationSave">  
                             </p:fileUpload>
 

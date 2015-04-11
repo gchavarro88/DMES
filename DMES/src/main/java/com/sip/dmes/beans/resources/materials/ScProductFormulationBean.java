@@ -19,6 +19,10 @@ import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScProcessEmployee;
+import com.sip.dmes.entitys.ScProcessInput;
+import com.sip.dmes.entitys.ScProcessMachine;
+import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScProductAttached;
 import com.sip.dmes.entitys.ScProductDocuments;
 import com.sip.dmes.entitys.ScProductFormulation;
@@ -85,6 +89,10 @@ public class ScProductFormulationBean
     private ScProductAttached feacturesSave;//Característica a guardar
     private ScProductAttached observationsSave;//Observación a guardar
     private ScProductDocuments documentsSave;//Documento a guardar
+    private ScProcessProduct processProductSave;//Proceso producto a guardar
+    private ScProcessMachine processMachineSave;//Proceso maquina a guardar
+    private ScProcessEmployee processEmployeeSave;//Proceso empleado a guardar
+    private ScProcessInput processInputSave;//Proceso insumo a guardar
     private ScMoney moneySave;//Moneda a guardar
     private List<ScPartner> partnersList;//Listado de proveedores
     private List<ScCostCenter> costCenterList;//Listado de centros de costo
@@ -97,6 +105,10 @@ public class ScProductFormulationBean
     private List<ScProductAttached> specificationListSave;//Lista de especificaciones a guardar
     private List<ScProductAttached> feacturesListSave;//Lista de características a guardar
     private List<ScProductAttached> observationListSave;//Lista de observaciones a guardar
+    private List<ScProcessProduct> processProductListSave;//Lista de procesos a guardar
+    private List<ScProcessEmployee> processEmployeesListSave;//Lista de empleados procesos a guardar
+    private List<ScProcessInput> processInputsListSave;//Lista de procesos insumos a guardar
+    private List<ScProcessMachine> processMachine; //Lista de procesos maquina a guardar
     
     private List<ScProductDocuments> documentsListSave;//Lista de documentos a guardar
     private List<ScMoney> moneyList;//Lista de monedas
@@ -702,10 +714,42 @@ public class ScProductFormulationBean
         }
         else
         {
-            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+    
+    /**
+     * Método encargado de eliminar un proceso de la formulación de un producto.
+     * @param processProductDelete proceso a eliminar de la lista
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteProcess(ScProcessProduct processProductDelete)
+    {
+        int ind = -1;
+        if(processProductDelete != null)
+        {
+            for(ScProcessProduct index: getProcessProductListSave())
+            {
+                ind++;
+                if(processProductDelete.getName().equals(index.getName()) && 
+                        processProductDelete.getDescription().equals(index.getDescription()))
+                {
+                    break;
+                }
+            }
+            if(ind > -1)
+            {
+                getProcessProductListSave().remove(ind);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
     
     /**
      * Método encargado de borrar un documento agregada a la lista para 
@@ -2690,6 +2734,86 @@ public class ScProductFormulationBean
     public void setScProductFormulationServer(IScProductFormulation scProductFormulationServer)
     {
         this.scProductFormulationServer = scProductFormulationServer;
+    }
+
+    public ScProcessProduct getProcessProductSave()
+    {
+        return processProductSave;
+    }
+
+    public void setProcessProductSave(ScProcessProduct processProductSave)
+    {
+        this.processProductSave = processProductSave;
+    }
+
+    public ScProcessMachine getProcessMachineSave()
+    {
+        return processMachineSave;
+    }
+
+    public void setProcessMachineSave(ScProcessMachine processMachineSave)
+    {
+        this.processMachineSave = processMachineSave;
+    }
+
+    public ScProcessEmployee getProcessEmployeeSave()
+    {
+        return processEmployeeSave;
+    }
+
+    public void setProcessEmployeeSave(ScProcessEmployee processEmployeeSave)
+    {
+        this.processEmployeeSave = processEmployeeSave;
+    }
+
+    public ScProcessInput getProcessInputSave()
+    {
+        return processInputSave;
+    }
+
+    public void setProcessInputSave(ScProcessInput processInputSave)
+    {
+        this.processInputSave = processInputSave;
+    }
+
+    public List<ScProcessProduct> getProcessProductListSave()
+    {
+        return processProductListSave;
+    }
+
+    public void setProcessProductListSave(List<ScProcessProduct> processProductListSave)
+    {
+        this.processProductListSave = processProductListSave;
+    }
+
+    public List<ScProcessEmployee> getProcessEmployeesListSave()
+    {
+        return processEmployeesListSave;
+    }
+
+    public void setProcessEmployeesListSave(List<ScProcessEmployee> processEmployeesListSave)
+    {
+        this.processEmployeesListSave = processEmployeesListSave;
+    }
+
+    public List<ScProcessInput> getProcessInputsListSave()
+    {
+        return processInputsListSave;
+    }
+
+    public void setProcessInputsListSave(List<ScProcessInput> processInputsListSave)
+    {
+        this.processInputsListSave = processInputsListSave;
+    }
+
+    public List<ScProcessMachine> getProcessMachine()
+    {
+        return processMachine;
+    }
+
+    public void setProcessMachine(List<ScProcessMachine> processMachine)
+    {
+        this.processMachine = processMachine;
     }
 
    
