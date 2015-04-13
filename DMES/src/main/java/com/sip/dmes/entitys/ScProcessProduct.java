@@ -6,16 +6,20 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -96,6 +100,15 @@ public class ScProcessProduct implements Serializable
     @Basic(optional = false)
     @Column(name = "total_value_process")
     private double totalValueProcess;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "processProduct", fetch = FetchType.EAGER)
+    private List<ScProcessMachine> processMachines;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "processProduct", fetch = FetchType.EAGER)
+    private List<ScProcessEmployee> processEmployees;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "processProduct", fetch = FetchType.EAGER)
+    private List<ScProcessInput> processInputs;
     
     
 
@@ -244,6 +257,36 @@ public class ScProcessProduct implements Serializable
     public void setProductFormulation(ScProductFormulation productFormulation)
     {
         this.productFormulation = productFormulation;
+    }
+
+    public List<ScProcessMachine> getProcessMachines()
+    {
+        return processMachines;
+    }
+
+    public void setProcessMachines(List<ScProcessMachine> processMachines)
+    {
+        this.processMachines = processMachines;
+    }
+
+    public List<ScProcessEmployee> getProcessEmployees()
+    {
+        return processEmployees;
+    }
+
+    public void setProcessEmployees(List<ScProcessEmployee> processEmployees)
+    {
+        this.processEmployees = processEmployees;
+    }
+
+    public List<ScProcessInput> getProcessInputs()
+    {
+        return processInputs;
+    }
+
+    public void setProcessInputs(List<ScProcessInput> processInputs)
+    {
+        this.processInputs = processInputs;
     }
 
     

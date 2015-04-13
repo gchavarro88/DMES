@@ -1039,184 +1039,184 @@ public class ScProductFormulationBean
      */
     public String onFlowProcessSaveProduct(FlowEvent event) 
     {    
-        int packingUnit = -1;
-        if(event.getNewStep().equals(TAB_GENERAL))
-        {
-            return TAB_GENERAL;
-        }
-        if(event.getOldStep().equals(TAB_GENERAL))
-        {
-            if(validateFields("Nombre Producto", getProductSave().getDescription(), 3))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Tiempo de Preparación", getProductSave().getManufacturingTime()+"", 2))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Tipo de Material", getProductSave().getTypeMaterial(), 3))
-            {
-                return event.getOldStep();
-            }
-            //Validamos que el valor sea mayor que cero
-            if(validateFields("Valor", getProductSave().getValue()+"", 2))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Moneda", getProductSave().getMoney(), 4))
-            {
-                return event.getOldStep();
-            }
-            
-            
-            
-            if(validateFields("Marca", getProductSave().getMark(), 3))
-            {
-                return event.getOldStep();
-            }
-            
-            if(Utilities.isEmpty(getProductSave().getPathPicture()))
-            { 
-                getProductSave().setPathPicture(" ");//Setteamos la ruta de la imagen
-            }
-            if(validateFields("Serie", getProductSave().getSerie(), 3))
-            {
-                return event.getOldStep();
-            }
-            
-            //Validamos los campos seleccionables
-            if(validateFields("Proveedor y Garantía", getProductSave().getSupplierGuarantee(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Centro de Costos", getProductSave().getCostCenter(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Almacen", getStoreSelected(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Localización", getProductSave().getLocation(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Prioridad", getProductSave().getPriority(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Unidad de Empaque", getProductSave().getPackingUnit(), 4))
-            {
-                return event.getOldStep();
-            }
-            
-                        
-            //Agregamos la fecha de creación del producto
-            getProductSave().setCreationDate(new Date());
-            
-            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-            if(getProductSave().getExpiryDate() != null && getProductSave().getExpiryDate().before(getProductSave().getCreationDate()))
-            {
-                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
-                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-            
-            
-        }
-        //Si pasamos de la pestaña de dimensiones
-        else if(event.getOldStep().equals(TAB_DIMENSION))
-        {
-            
-            
-            if(validateFields("Altura", getProductSave().getDimension().getHight(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if(getMeasureUnitSaveHigh() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
-                return event.getOldStep();
-            }
-            if(validateFields("Ancho", getProductSave().getDimension().getWidth(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if(getMeasureUnitSaveWidth()== null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
-                return event.getOldStep();
-            }
-            if(validateFields("Largo", getProductSave().getDimension().getLarge(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if(getMeasureUnitSaveLarge()== null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
-                return event.getOldStep();
-            }
-            if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if(getMeasureUnitSaveWeight()== null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-                return event.getOldStep();
-            }
-            if(!Utilities.isEmpty(getProductSave().getDimension().getVolume()))
-            {
-                if(validateFields("Volumen", getProductSave().getDimension().getVolume(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveVolume()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
-                    return event.getOldStep();
-                }
-            }
-            if(!Utilities.isEmpty(getProductSave().getDimension().getThickness()))
-            {
-                if(validateFields("Grosor", getProductSave().getDimension().getThickness(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveThickness()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
-                    return event.getOldStep();
-                }
-            }
-            if(!Utilities.isEmpty(getProductSave().getDimension().getRadio()))
-            {
-                if(validateFields("Radio", getProductSave().getDimension().getRadio(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveRadio()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
-                    return event.getOldStep();
-                }
-            }
-            if(!Utilities.isEmpty(getProductSave().getDimension().getWeight()))
-            {
-                if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveWeight()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-                    return event.getOldStep();
-                }
-            }
-        }
-        
-//        return "tabProcess";
-        return event.getNewStep(); 
+//        int packingUnit = -1;
+//        if(event.getNewStep().equals(TAB_GENERAL))
+//        {
+//            return TAB_GENERAL;
+//        }
+//        if(event.getOldStep().equals(TAB_GENERAL))
+//        {
+//            if(validateFields("Nombre Producto", getProductSave().getDescription(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Tiempo de Preparación", getProductSave().getManufacturingTime()+"", 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Tipo de Material", getProductSave().getTypeMaterial(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            //Validamos que el valor sea mayor que cero
+//            if(validateFields("Valor", getProductSave().getValue()+"", 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Moneda", getProductSave().getMoney(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            
+//            
+//            
+//            if(validateFields("Marca", getProductSave().getMark(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            
+//            if(Utilities.isEmpty(getProductSave().getPathPicture()))
+//            { 
+//                getProductSave().setPathPicture(" ");//Setteamos la ruta de la imagen
+//            }
+//            if(validateFields("Serie", getProductSave().getSerie(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            
+//            //Validamos los campos seleccionables
+//            if(validateFields("Proveedor y Garantía", getProductSave().getSupplierGuarantee(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Centro de Costos", getProductSave().getCostCenter(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Almacen", getStoreSelected(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Localización", getProductSave().getLocation(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Prioridad", getProductSave().getPriority(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Unidad de Empaque", getProductSave().getPackingUnit(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            
+//                        
+//            //Agregamos la fecha de creación del producto
+//            getProductSave().setCreationDate(new Date());
+//            
+//            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+//            if(getProductSave().getExpiryDate() != null && getProductSave().getExpiryDate().before(getProductSave().getCreationDate()))
+//            {
+//                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+//                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+//                return event.getOldStep();
+//            }
+//            
+//            
+//        }
+//        //Si pasamos de la pestaña de dimensiones
+//        else if(event.getOldStep().equals(TAB_DIMENSION))
+//        {
+//            
+//            
+//            if(validateFields("Altura", getProductSave().getDimension().getHight(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if(getMeasureUnitSaveHigh() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Ancho", getProductSave().getDimension().getWidth(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if(getMeasureUnitSaveWidth()== null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Largo", getProductSave().getDimension().getLarge(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if(getMeasureUnitSaveLarge()== null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if(getMeasureUnitSaveWeight()== null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+//                return event.getOldStep();
+//            }
+//            if(!Utilities.isEmpty(getProductSave().getDimension().getVolume()))
+//            {
+//                if(validateFields("Volumen", getProductSave().getDimension().getVolume(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if(getMeasureUnitSaveVolume()== null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if(!Utilities.isEmpty(getProductSave().getDimension().getThickness()))
+//            {
+//                if(validateFields("Grosor", getProductSave().getDimension().getThickness(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if(getMeasureUnitSaveThickness()== null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if(!Utilities.isEmpty(getProductSave().getDimension().getRadio()))
+//            {
+//                if(validateFields("Radio", getProductSave().getDimension().getRadio(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if(getMeasureUnitSaveRadio()== null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if(!Utilities.isEmpty(getProductSave().getDimension().getWeight()))
+//            {
+//                if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if(getMeasureUnitSaveWeight()== null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+//                    return event.getOldStep();
+//                }
+//            }
+//        }
+//        
+        return "tabProcess";
+//        return event.getNewStep(); 
     }
     
     
@@ -2418,6 +2418,10 @@ public class ScProductFormulationBean
             {
                 return event.getOldStep();
             }
+            if(validateFields("Tipo de Proceso", getProcessProductSave().getProcessType(), 4))
+            {
+                return event.getOldStep();
+            }
         }
         return event.getNewStep();
     }
@@ -2484,12 +2488,14 @@ public class ScProductFormulationBean
                     {
                         if(!validateFields("Descripción Otros Gastos", machineSave.getDescriptionOtherExpenses(), 3))
                         {
+                            machineSave.setProcessProduct(getProcessProductSave());
                             list.add(machineSave);
                             cleanMachineProcess();
                         }
                     }
                     else
                     {
+                        machineSave.setProcessProduct(getProcessProductSave());
                         list.add(machineSave);
                         cleanMachineProcess();
                     }
@@ -2599,12 +2605,15 @@ public class ScProductFormulationBean
                         {
                             if(!validateFields("Descripción Otros Gastos", employeeSave.getDescriptionOtherExpenses(), 3))
                             {
+                                employeeSave.setProcessProduct(getProcessProductSave());
                                 list.add(employeeSave);
                                 cleanEmployeeProcess();
+                                
                             }
                         }
                         else
                         {
+                            employeeSave.setProcessProduct(getProcessProductSave());
                             list.add(employeeSave);
                             cleanEmployeeProcess();
                         }
@@ -2708,6 +2717,7 @@ public class ScProductFormulationBean
                 {               
                     if(!validateFields("% de Merma (Desperdicios)", inputSave.getPercentageResidue(), 1))
                     {
+                        inputSave.setProcessProduct(getProcessProductSave());
                         list.add(inputSave);
                         cleanInputProcess();
                     }
@@ -2752,7 +2762,46 @@ public class ScProductFormulationBean
         }
     } 
     
-    
+    /**
+     * Método encargado de guardar un proceso con todos sus incluidos como máquinas, empleados e insumos.
+     * @param productFormulation Formulación de producto al que pertenece el proceso
+     * @param list Lista de procesos de la formulación del producto
+     * @param processProduct proceso que será ingresado
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveProcessProduct(ScProductFormulation productFormulation, List<ScProcessProduct> list, ScProcessProduct processProduct)
+    {
+        try
+        {
+            if(productFormulation != null)
+            {
+                if(processProduct != null)
+                {
+                    processProduct.setProductFormulation(productFormulation);
+                    processProduct.setProcessMachines(getProcessMachine());
+                    processProduct.setProcessEmployees(getProcessEmployeesListSave());
+                    processProduct.setProcessInputs(getProcessInputsListSave());
+                    list.add(processProduct);
+                    cleanFieldsProcess();
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error("Error al guardar un proceso");
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error("Error al guardar un proceso");
+            }
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al guardar un proceso");
+        }
+    }
     
     
     /**

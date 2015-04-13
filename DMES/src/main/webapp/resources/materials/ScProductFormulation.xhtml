@@ -68,10 +68,9 @@
                                         <td width="10%" align="right">
                                             <p:outputLabel  value="Descripción"/>
                                         </td>
-                                        <td width="90%" align="left" valign="middle">
+                                        <td width="90%" align="left" valign="middle" colspan="3">
                                             <p:inputTextarea value="#{scProductFormulationBean.processProductSave.description}" />
                                         </td>
-                                        
                                     </tr>
                                 </table>
                             </p:panel>
@@ -526,9 +525,12 @@
                                     </tr> 
                                     <tr>
                                         <td align="center" colspan="4">
-                                            <p:commandButton value="Guardar"/>
+                                            <p:commandButton value="Guardar" 
+                                            actionListener="#{scProductFormulationBean.saveProcessProduct(scProductFormulationBean.productSave, scProductFormulationBean.processProductListSave, scProductFormulationBean.processProductSave)}"
+                                            update=":formWizardProcessSave,:formWizardSave:dataTableProcessSave" oncomplete="PF('dialogprocessSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
                                             <p:spacer width="20px"/>
-                                            <p:commandButton value="Cancelar"/>
+                                            <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsProcess()}"
+                                                             update=":formWizardProcessSave" oncomplete="PF('dialogprocessSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
                                         </td>
                                     </tr>
                                 </table>

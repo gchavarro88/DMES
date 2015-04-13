@@ -17,6 +17,7 @@ import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScStore;
 import java.util.List;
@@ -64,6 +65,8 @@ public interface IScProductFormulation
     public void saveLocation(ScLocation location) throws Exception;
 
     public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception;
+    
+    public void saveProcessProduct(ScProcessProduct processProduct) throws Exception;
     
     public Object getInitialParameters() throws Exception;
     

@@ -18,6 +18,7 @@ import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScStore;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -410,6 +411,21 @@ public class ScProductFormulationDao  implements  IScProductFormulation
             log.error("Error al intentar hacer la persistencia de los insumos",e);
         }
         return result;
+    }
+
+    @Override
+    public void saveProcessProduct(ScProcessProduct processProduct) throws Exception
+    {
+        try
+        {
+            entityManager.persist(processProduct);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de un proceso de producto",e);
+            throw e;
+        }
     }
 
 }
