@@ -57,6 +57,10 @@ public class ScProcessEmployee implements Serializable {
     private double otherExpenses;
     
     @Basic(optional = false)
+    @Column(name = "description_other_expenses")
+    private String descriptionOtherExpenses;
+    
+    @Basic(optional = false)
     @Column(name = "total_value_employee")
     private double totalValueEmployee;
     
@@ -148,6 +152,19 @@ public class ScProcessEmployee implements Serializable {
         this.processProduct = processProduct;
     }
 
+    public String getDescriptionOtherExpenses()
+    {
+        return descriptionOtherExpenses;
+    }
+
+    public void setDescriptionOtherExpenses(String descriptionOtherExpenses)
+    {
+        this.descriptionOtherExpenses = descriptionOtherExpenses;
+    }
+
+
+    
+    
     @Override
     public int hashCode()
     {

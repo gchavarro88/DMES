@@ -51,8 +51,12 @@ public class ScProcessMachine implements Serializable {
     private double otherExpenses;
     
     @Basic(optional = false)
-    @Column(name = "total_value_employee")
-    private double totalValueEmployee;
+    @Column(name = "description_other_expenses")
+    private String descriptionOtherExpenses;
+    
+    @Basic(optional = false)
+    @Column(name = "total_value_machine")
+    private double totalValueMachine;
     
     @JoinColumn(name = "id_machine", referencedColumnName = "id_machine")
     @ManyToOne(optional = false)
@@ -96,15 +100,7 @@ public class ScProcessMachine implements Serializable {
         this.otherExpenses = otherExpenses;
     }
 
-    public double getTotalValueEmployee()
-    {
-        return totalValueEmployee;
-    }
-
-    public void setTotalValueEmployee(double totalValueEmployee)
-    {
-        this.totalValueEmployee = totalValueEmployee;
-    }
+    
 
     public ScMachine getMachine()
     {
@@ -124,6 +120,27 @@ public class ScProcessMachine implements Serializable {
     public void setProcessProduct(ScProcessProduct processProduct)
     {
         this.processProduct = processProduct;
+    }
+
+    public String getDescriptionOtherExpenses()
+    {
+        return descriptionOtherExpenses;
+    }
+
+    public void setDescriptionOtherExpenses(String descriptionOtherExpenses)
+    {
+        this.descriptionOtherExpenses = descriptionOtherExpenses;
+    }
+
+    
+    public double getTotalValueMachine()
+    {
+        return totalValueMachine;
+    }
+
+    public void setTotalValueMachine(double totalValueMachine)
+    {
+        this.totalValueMachine = totalValueMachine;
     }
 
    
@@ -165,7 +182,7 @@ public class ScProcessMachine implements Serializable {
     @Override
     public String toString()
     {
-        return "ScProcessMachine{" + "idProcessMachine=" + idProcessMachine + ", timeUse=" + timeUse + ", otherExpenses=" + otherExpenses + ", totalValueEmployee=" + totalValueEmployee + ", machine=" + machine + ", processProduct=" + processProduct + '}';
+        return "ScProcessMachine{" + "idProcessMachine=" + idProcessMachine + ", timeUse=" + timeUse + ", otherExpenses=" + otherExpenses + ", machine=" + machine + ", processProduct=" + processProduct + '}';
     }
 
     

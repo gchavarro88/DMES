@@ -7,7 +7,10 @@ package com.sip.dmes.dao.bo;
 
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScDistributionUnit;
+import com.sip.dmes.entitys.ScEmployee;
+import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScLocation;
+import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
@@ -63,4 +66,12 @@ public interface IScProductFormulation
     public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception;
     
     public Object getInitialParameters() throws Exception;
+    
+    public List<ScMachine> getAllMachines() throws Exception;
+    
+    public List<ScEmployee> getAllEmployees() throws Exception;
+    
+    public List<ScInput> getAllInputs() throws Exception;
+    
+    
 }

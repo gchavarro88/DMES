@@ -27,9 +27,525 @@
         <div>
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
 
+            <!--            $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$                                       -->
+
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+
+            <!--            Inicia el dialogo para crear procesos-->
+            <p:dialog id="dialogprocessSave" widgetVar="dialogprocessSave" draggable="true" 
+                      closable="true"  header="Crear Procesos" position="center top" width="900"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                <h:form id="formWizardProcessSave" >
+
+                    <p:wizard  flowListener="#{scProductFormulationBean.onFlowProcessSaveProcess}" id="wizardProcessSave" widgetVar="wizardProcessSave" 
+                               backLabel="Atras" nextLabel="Siguiente">
+                        <p:tab title="Datos del Proceso" id="tabProcess" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del proceso">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Nombre del Proceso*" />
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText value="#{scProductFormulationBean.processProductSave.name}" />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Tipo de Proceso*" />
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbProcess"  value="#{scProductFormulationBean.processProductSave.processType}" style="width: 70%;"
+                                                             converter="typeProcessConverter" converterMessage="Error en el tipo de dato del tipo de proceso"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItem itemLabel="Interno" itemValue="1,Interno"/>
+                                                <f:selectItem itemLabel="Externo" itemValue="2,Externo"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Descripción"/>
+                                        </td>
+                                        <td width="90%" align="left" valign="middle">
+                                            <p:inputTextarea value="#{scProductFormulationBean.processProductSave.description}" />
+                                        </td>
+                                        
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        inicia pestaña para seleccionar máquinas                          -->
+                        <p:tab title="Máquinas" id="tabMachine" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar máquinas">
+                            <p:panel header="Máquinas" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="cbMachine" value="Máquina"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:selectOneMenu id="cbMachine"  value="#{scProductFormulationBean.processMachineSave.machine}" style="width: 70%;"
+                                                                         converter="machineConverter" converterMessage="Error en el tipo de dato de la máquina"
+                                                                         effect="puff"
+                                                                         height="140">
+                                                            <f:selectItem itemLabel="..." />
+                                                            <p:ajax event="change" update="tfTimeUse,tfOtherExpenses,tfDescriptionOtherExpenses"/>
+                                                            <f:selectItems value="#{scProductFormulationBean.machineList}" var="machine" itemLabel="#{machine.name}"/>
+                                                        </p:selectOneMenu>
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTimeUse" value="Tiempo de Uso"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTimeUse" value="#{scProductFormulationBean.processMachineSave.timeUse}" 
+
+                                                                     disabled="#{!scProductFormulationBean.doHaveMachine(scProductFormulationBean.processMachineSave.machine)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalMachine()}" update="tfValueTotalMachine"/> 
+                                                        </p:inputText>
+                                                        <p:tooltip for="tfTimeUse" value="Ingrese el tiempo de uso de la máquina"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfOtherExpenses" value="Otros Gastos"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfOtherExpenses" value="#{scProductFormulationBean.processMachineSave.otherExpenses}"
+                                                                     disabled="#{!scProductFormulationBean.doHaveMachine(scProductFormulationBean.processMachineSave.machine)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalMachine()}" update="tfValueTotalMachine"/> 
+                                                        </p:inputText>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfDescriptionOtherExpenses" value="Descripción Otros Gastos"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfDescriptionOtherExpenses" value="#{scProductFormulationBean.processMachineSave.descriptionOtherExpenses}"
+                                                                         disabled="#{!scProductFormulationBean.doHaveMachine(scProductFormulationBean.processMachineSave.machine)}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfValueTotalMachine" value="Valor Total Máquina"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfValueTotalMachine" value="#{scProductFormulationBean.processMachineSave.totalValueMachine}"
+                                                                     disabled="true"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="cbMachine,tfTimeUse,tfOtherExpenses,tfDescriptionOtherExpenses,tfValueTotalMachine,dataTableMachines"
+                                                                             actionListener="#{scProductFormulationBean.saveProcessMachine(scProductFormulationBean.processMachine, scProductFormulationBean.processMachineSave)}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr> 
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableMachines"
+                                                         var="machineProcess" 
+                                                         value="#{scProductFormulationBean.processMachine}"
+                                                         rowKey="#{machineProcess.machine.name}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{machineProcess.machine.name}">
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableMachines" title="Eliminar Máquina"
+                                                                     process="dataTableMachines" 
+                                                                     actionListener="#{scProductFormulationBean.deleteMachine(scProductFormulationBean.processMachine, machineProcess)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Máquina" sortBy="#{machineProcess.machine.name}">
+                                                    <p:outputLabel value="#{machineProcess.machine.name}" id="machineTable"/>
+                                                    <p:tooltip value="#{machineProcess.machine.name}" for="machineTable"/>
+                                                </p:column>
+                                                <p:column headerText="Tiempo de Uso" sortBy="#{machineProcess.timeUse}">
+                                                    <p:outputLabel value="#{machineProcess.timeUse}" id="outTimeUse"/>
+                                                    <p:tooltip value="#{machineProcess.timeUse}" for="outTimeUse"/>
+                                                </p:column>
+                                                <p:column headerText="Otros Gastos" sortBy="#{machineProcess.otherExpenses}">
+                                                    <p:outputLabel value="#{machineProcess.otherExpenses}" id="outOtherExpenses"/>
+                                                    <p:tooltip value="#{machineProcess.otherExpenses}" for="outOtherExpenses"/>
+                                                </p:column>
+                                                <p:column headerText="Descripción Otros Gastos" sortBy="#{machineProcess.descriptionOtherExpenses}">
+                                                    <p:outputLabel value="#{machineProcess.descriptionOtherExpenses}" id="outDescriptionOtherExpenses"/>
+                                                    <p:tooltip value="#{machineProcess.descriptionOtherExpenses}" for="outDescriptionOtherExpenses"/>
+                                                </p:column>
+                                                <p:column headerText="Valor Total" sortBy="#{machineProcess.totalValueMachine}">
+                                                    <p:outputLabel value="#{machineProcess.totalValueMachine}" id="totalValueMachine"/>
+                                                    <p:tooltip value="#{machineProcess.totalValueMachine}" for="totalValueMachine"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar máquinas                          -->
+                        <!--                        inicia pestaña para seleccionar empleados                          -->
+                        <p:tab title="Mano de Obra" id="tabEmployee" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar la mano de obra">
+                            <p:panel header="Mano de Obra" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tflaborDescription" value="Mano de Obra"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tflaborDescription" value="#{scProductFormulationBean.processEmployeeSave.laborDescription}"
+                                                                     />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="cbEmployee" value="Empleado"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:selectOneMenu id="cbEmployee"  value="#{scProductFormulationBean.processEmployeeSave.employee}" style="width: 70%;"
+                                                                         converter="employeeConverter" converterMessage="Error en el tipo de dato del empleado"
+                                                                         effect="puff"
+                                                                         height="140">
+                                                            <f:selectItem itemLabel="..." />
+                                                            <p:ajax event="change" update="tfTimeUseEmployee,tfOtherExpensesEmployee,tfDescriptionOtherExpensesEmployee"/>
+                                                            <f:selectItems value="#{scProductFormulationBean.employeesList}" var="employee" itemLabel="#{employee.position}"/>
+                                                        </p:selectOneMenu>
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTimeUseEmployee" value="Tiempo de Uso"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTimeUseEmployee" value="#{scProductFormulationBean.processEmployeeSave.timeUse}" 
+
+                                                                     disabled="#{!scProductFormulationBean.doHaveEmployee(scProductFormulationBean.processEmployeeSave.employee)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalEmployee()}" update="tfValueTotalEmployee"/> 
+                                                        </p:inputText>
+                                                        <p:tooltip for="tfTimeUseEmployee" value="Ingrese el tiempo de uso del empleado para la mano de obra"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfOtherExpensesEmployee" value="Otros Gastos"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfOtherExpensesEmployee" value="#{scProductFormulationBean.processEmployeeSave.otherExpenses}"
+                                                                     disabled="#{!scProductFormulationBean.doHaveEmployee(scProductFormulationBean.processEmployeeSave.employee)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalEmployee()}" update="tfValueTotalEmployee"/> 
+                                                        </p:inputText>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfDescriptionOtherExpensesEmployee" value="Descripción Otros Gastos"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfDescriptionOtherExpensesEmployee" value="#{scProductFormulationBean.processEmployeeSave.descriptionOtherExpenses}"
+                                                                         disabled="#{!scProductFormulationBean.doHaveEmployee(scProductFormulationBean.processEmployeeSave.employee)}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfValueTotalEmployee" value="Valor Total la Mano de Obra "/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfValueTotalEmployee" value="#{scProductFormulationBean.processEmployeeSave.totalValueEmployee}"
+                                                                     disabled="true"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="cbEmployee,tfTimeUseEmployee,tfOtherExpensesEmployee,tfDescriptionOtherExpensesEmployee,tfValueTotalEmployee,tflaborDescription,dataTableEmployees"
+                                                                             actionListener="#{scProductFormulationBean.saveProcessEmployee(scProductFormulationBean.processEmployeesListSave, scProductFormulationBean.processEmployeeSave)}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr> 
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableEmployees"
+                                                         var="employeeProcess" 
+                                                         value="#{scProductFormulationBean.processEmployeesListSave}"
+                                                         rowKey="#{employeeProcess.employee.position}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{employeeProcess.employee.position}">
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableEmployees" title="Eliminar Mano de Obra"
+                                                                     process="dataTableEmployees" 
+                                                                     actionListener="#{scProductFormulationBean.deleteEmployee(scProductFormulationBean.processEmployeesListSave, employeeProcess)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Empleado" sortBy="#{employeeProcess.employee.position}">
+                                                    <p:outputLabel value="#{employeeProcess.employee.position}" id="employeeTable"/>
+                                                    <p:tooltip value="#{employeeProcess.employee.position}" for="employeeTable"/>
+                                                </p:column>
+                                                <p:column headerText="Descripción Mano de Obra" sortBy="#{employeeProcess.laborDescription}">
+                                                    <p:outputLabel value="#{employeeProcess.laborDescription}" id="outDescriptionLabor"/>
+                                                    <p:tooltip value="#{employeeProcess.laborDescription}" for="outDescriptionLabor"/>
+                                                </p:column>
+                                                <p:column headerText="Tiempo de Uso" sortBy="#{employeeProcess.timeUse}">
+                                                    <p:outputLabel value="#{employeeProcess.timeUse}" id="outTimeUse"/>
+                                                    <p:tooltip value="#{employeeProcess.timeUse}" for="outTimeUse"/>
+                                                </p:column>
+                                                <p:column headerText="Otros Gastos" sortBy="#{employeeProcess.otherExpenses}">
+                                                    <p:outputLabel value="#{employeeProcess.otherExpenses}" id="outOtherExpenses"/>
+                                                    <p:tooltip value="#{employeeProcess.otherExpenses}" for="outOtherExpenses"/>
+                                                </p:column>
+                                                <p:column headerText="Descripción Otros Gastos" sortBy="#{employeeProcess.descriptionOtherExpenses}">
+                                                    <p:outputLabel value="#{employeeProcess.descriptionOtherExpenses}" id="outDescriptionOtherExpenses"/>
+                                                    <p:tooltip value="#{employeeProcess.descriptionOtherExpenses}" for="outDescriptionOtherExpenses"/>
+                                                </p:column>
+                                                <p:column headerText="Valor Total" sortBy="#{employeeProcess.totalValueEmployee}">
+                                                    <p:outputLabel value="#{employeeProcess.totalValueEmployee}" id="totalValueEmployee"/>
+                                                    <p:tooltip value="#{employeeProcess.totalValueEmployee}" for="totalValueEmployee"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar Empleados                          -->
+                        <!--                        inicia pestaña para seleccionar Insumos                          -->
+                        <p:tab title="Insumos" id="tabInput" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar los insumos">
+                            <p:panel header="Insumos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="cbInput" value="Insumo"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:selectOneMenu id="cbInput"  value="#{scProductFormulationBean.processInputSave.input}" style="width: 70%;"
+                                                                         converter="inputConverter" converterMessage="Error en el tipo de dato del insumo"
+                                                                         effect="puff"
+                                                                         height="140">
+                                                            <f:selectItem itemLabel="..." />
+                                                            <p:ajax event="change" update="tfAmountDistribution,tfPercentageResidue"/>
+                                                            <f:selectItems value="#{scProductFormulationBean.inputsList}" var="input" itemLabel="#{input.description}"/>
+                                                        </p:selectOneMenu>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfAmountDistribution" value="Cantidad de Distribución"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfAmountDistribution" value="#{scProductFormulationBean.processInputSave.amountDistribution}"                                                                      
+                                                                     disabled="#{!scProductFormulationBean.doHaveInput(scProductFormulationBean.processInputSave.input)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalInput()}" update="tfValueTotalInput"/> 
+                                                        </p:inputText>
+                                                        <p:tooltip for="tfAmountDistribution" value="Ingrese el tiempo de uso del insumo"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfPercentageResidue" value="% de Merma (Desperdicio)"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfPercentageResidue" value="#{scProductFormulationBean.processInputSave.percentageResidue}"
+                                                                     disabled="#{!scProductFormulationBean.doHaveInput(scProductFormulationBean.processInputSave.input)}">
+                                                        </p:inputText>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfValueTotalInput" value="Valor Total del Insumo"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfValueTotalInput" value="#{scProductFormulationBean.processInputSave.totalValueInput}"
+                                                                     disabled="true"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="cbInput,tfValueTotalInput,tfPercentageResidue,tfAmountDistribution,dataTableInputs"
+                                                                             actionListener="#{scProductFormulationBean.saveProcessInput(scProductFormulationBean.processInputsListSave, scProductFormulationBean.processInputSave)}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr> 
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableInputs"
+                                                         var="inputProcess" 
+                                                         value="#{scProductFormulationBean.processInputsListSave}"
+                                                         rowKey="#{inputProcess.input.idInput}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{inputProcess.input.idInput}"> 
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableInputs" title="Eliminar Insumo"
+                                                                     process="dataTableInputs" 
+                                                                     actionListener="#{scProductFormulationBean.deleteInput(scProductFormulationBean.processInputsListSave, inputProcess)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Insumo" sortBy="#{inputProcess.input.description}">
+                                                    <p:outputLabel value="#{inputProcess.input.description}" id="inputOut"/>
+                                                    <p:tooltip value="#{inputProcess.input.description}" for="inputOut"/>
+                                                </p:column>
+                                                <p:column headerText="Cantidad de Distribución" sortBy="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}">
+                                                    <p:outputLabel value="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}" id="outAmountDistribution"/>
+                                                    <p:tooltip value="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}" for="outAmountDistribution"/>
+                                                </p:column>
+                                                <p:column headerText="% de Merma (Desperdicios)" sortBy="#{inputProcess.percentageResidue}">
+                                                    <p:outputLabel value="#{inputProcess.percentageResidue}" id="outPercentage"/>
+                                                    <p:tooltip value="#{inputProcess.percentageResidue}" for="outPercentage"/>
+                                                </p:column>
+                                                <p:column headerText="Valor Total" sortBy="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}">
+                                                    <p:outputLabel value="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}" id="totalValueInput"/>
+                                                    <p:tooltip value="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}" for="totalValueInput"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar Insumos                          -->
+                        <!--                        inicia pestaña para guardar cambios                          -->
+                        <p:tab title="Confirmar Proceso" id="tabConfirm" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para confirmar el proceso">
+                            <p:panel header="Confirmar Proceso" >
+
+                                <table width="100%" cellspacing="10">
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfNameconfirm" value="Nombre del Proceso"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfNameconfirm" value="#{scProductFormulationBean.processProductSave.name}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="40%" >
+                                            <p:outputLabel for="tfTypeProcess" value="Tipo de Proceso"/>
+                                        </td>
+                                        <td width="60%">
+                                            <p:inputText id="tfTypeProcess" value="#{scProductFormulationBean.processProductSave.processType.type}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfDescriptionProcess" value="Descripción del Proceso"/>
+                                        </td>
+                                        <td width="90%" colspan="3">
+                                            <p:inputText id="tfDescriptionProcess" value="#{scProductFormulationBean.processProductSave.description}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalTimeMachine" value="Total Tiempo Máquina"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalTimeMachine" value="#{scProductFormulationBean.processProductSave.totalTimeMachine}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalValueMachine" value="Total Valor Máquina"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalValueMachine" value="#{scProductFormulationBean.processProductSave.totalValueMachine}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalTimeEmployee" value="Total Tiempo Empleado"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalTimeEmployee" value="#{scProductFormulationBean.processProductSave.totalTimeEmployee}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalValueEmployee" value="Total Valor Empleado"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalValueEmployee" value="#{scProductFormulationBean.processProductSave.totalValueEmployee}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalTimeInput" value="Total Tiempo Insumo"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalTimeInput" value="#{scProductFormulationBean.processProductSave.totalTimeInput}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalValueInput" value="Total Valor Insumo"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalValueInput" value="#{scProductFormulationBean.processProductSave.totalValueInput}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="center" colspan="4">
+                                            <p:commandButton value="Guardar"/>
+                                            <p:spacer width="20px"/>
+                                            <p:commandButton value="Cancelar"/>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para confirmar el proceso                  -->
+                    </p:wizard>
+                </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardProcessSave').loadStep('tabProcess', true)" />
+            </p:dialog>
+
+
+
             <!--            Inicia el dialogo para crear nuevas formulaciones de producto-->
             <p:dialog id="dialogproductSave" widgetVar="dialogproductSave" draggable="true" 
-                      closable="true"  header="Crear Productos" position="center top" width="800"
+                      closable="true"  header="Crear Productos" position="center top" width="900"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizardSave" >
 
@@ -158,13 +674,13 @@
                                             <p:outputLabel  for="tfStore" value="Almacén*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfStore"  value="#{scProductFormulationBean.productSave.location.store}" style="width: 70%;"
+                                            <p:selectOneMenu id="tfStore"  value="#{scProductFormulationBean.storeSelected}" style="width: 70%;"
                                                              converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
                                                              effect="puff"
                                                              height="140" >
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems value="#{scProductFormulationBean.storesList}" var="stores" itemLabel="#{stores.name}"/>
-                                                <p:ajax event="change" update="cbLocation,btnAddLocationProductFormulation" listener="#{scProductFormulationBean.withOutStore(scProductFormulationBean.productSave.location.store)}"/>
+                                                <p:ajax event="change" update="cbLocation,btnAddLocationProductFormulation" listener="#{scProductFormulationBean.withOutStore(scProductFormulationBean.storeSelected)}"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
@@ -173,14 +689,14 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbLocation"  value="#{scProductFormulationBean.productSave.location}" style="width: 70%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del producto"
-                                                             effect="puff" disabled="#{scProductFormulationBean.withOutStore(scProductFormulationBean.productSave.location.store)}"
+                                                             effect="puff" disabled="#{scProductFormulationBean.withOutStore(scProductFormulationBean.storeSelected)}"
                                                              height="140">
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems  value="#{scProductFormulationBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
                                             </p:selectOneMenu>
                                             <p:spacer width="5px"/>
                                             <p:commandButton  id="btnAddLocationProductFormulation" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -8px;"
-                                                              disabled ="#{scProductFormulationBean.withOutStore(scProductFormulationBean.productSave.location.store)}"/>
+                                                              disabled ="#{scProductFormulationBean.withOutStore(scProductFormulationBean.storeSelected)}"/>
                                             <p:tooltip for="btnAddLocationProductFormulation" value="Agregue nuevas localizaciones"/>
                                         </td>
                                     </tr>
@@ -659,8 +1175,8 @@
 
                                                 <f:facet name="header">
                                                     <p:commandButton icon="ui-icon-plus" id="btnAddProcess" style="float: right;"  
-                                                                     oncomplete="PF('documentSave').show()">
-                                                        <p:tooltip for="btnAdd" value="Agregar un Proceso"/>
+                                                                     oncomplete="PF('dialogprocessSave').show()">
+                                                        <p:tooltip for="btnAddProcess" value="Agregar un Proceso"/>
                                                     </p:commandButton>
                                                 </f:facet>
                                                 <p:column style="width:32px">
@@ -669,21 +1185,21 @@
                                                                      actionListener="#{scProductFormulationBean.deleteProcess(process)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Nombre" sortBy="#{process.name}">
-                                                    <p:outputLabel value="#{process.name}" id="outTittle"/>
-                                                    <p:tooltip value="#{process.name}" for="outTittle"/>
+                                                <p:column headerText="Proceso" sortBy="#{process.name}">
+                                                    <p:outputLabel value="#{process.name}" id="processName"/>
+                                                    <p:tooltip value="#{process.name}" for="processName"/>
                                                 </p:column>               
-                                                <p:column headerText="Documento" sortBy="#{document.documentName}">
-                                                    <p:outputLabel value="#{document.documentName}" id="documentName"/>
-                                                    <p:tooltip value="#{document.documentName}" for="documentName"/>
+                                                <p:column headerText="Descripción" sortBy="#{process.description}">
+                                                    <p:outputLabel value="#{process.description}" id="processDescription"/>
+                                                    <p:tooltip value="#{process.description}" for="processDescription"/>
                                                 </p:column>
-                                                <p:column headerText="Fecha de Subida" sortBy="#{scProductFormulationBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
-                                                    <p:outputLabel value="#{scProductFormulationBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" id="uploadDate"/>
-                                                    <p:tooltip value="#{scProductFormulationBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" for="uploadDate"/>
+                                                <p:column headerText="Tiempo Total" sortBy="#{process.totalTimeProcess}">
+                                                    <p:outputLabel value="#{process.totalTimeProcess}" id="totalTimeProcess"/>
+                                                    <p:tooltip value="#{process.totalTimeProcess}" for="totalTimeProcess"/>
                                                 </p:column>
-                                                <p:column headerText="Subido por" sortBy="#{document.uploadBy}">
-                                                    <p:outputLabel value="#{document.uploadBy}" id="uploadBy"/>
-                                                    <p:tooltip value="#{document.uploadBy}" for="uploadBy"/>
+                                                <p:column headerText="Valor Total" sortBy="#{process.totalValueProcess}">
+                                                    <p:outputLabel value="#{process.totalValueProcess}" id="totalValueProcess"/>
+                                                    <p:tooltip value="#{process.totalValueProcess}" for="totalValueProcess"/>
                                                 </p:column>
                                             </p:dataTable>
                                         </td>
@@ -692,8 +1208,8 @@
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para procesos                     -->   
-                        
-                        
+
+
                         <!--        inicia la pestaña para confirmar datos de guardar-->
                         <p:tab title="Confirmar datos" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson"
                                titletip="Pestaña para confirmar los datos del Producto a crear">
@@ -765,10 +1281,10 @@
             </p:dialog>
             <!--                Finaliza el dialogo para crear nuevas formulaciones de producto-->
 
-<!--====================================================================================================================================================-->
-<!--            Inicia el dialogo para visualizar formulaciones de producto-->
+            <!--====================================================================================================================================================-->
+            <!--            Inicia el dialogo para visualizar formulaciones de producto-->
             <p:dialog id="dialogProductView" widgetVar="dialogProductView" draggable="true" 
-                      closable="true"  header="Crear Productos" position="center top" width="800"
+                      closable="true"  header="Crear Productos" position="center top" width="900"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizardView" >
 
@@ -899,7 +1415,7 @@
                                                              height="140" >
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems value="#{scProductFormulationBean.storesList}" var="stores" itemLabel="#{stores.name}"/>
-                                                
+
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
@@ -951,7 +1467,7 @@
                                titletip="Pestaña para las dimensiones">
 
                             <p:panel header="Dimensiones" id="pnlDimension">
-                                
+
                                 <f:facet name="header">
                                     <p:outputLabel value="Dimensiones" style="text-align: center;"/>
                                 </f:facet>
@@ -1103,28 +1619,28 @@
                         <p:tab title="Especificaciones" id="tabSpecifications" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las especificaciones del producto">
                             <p:panel header="Especificaciones" >
-                                
-                                            <p:dataTable id="dataTableSpecificationSave"
-                                                         var="specifications" 
-                                                         value="#{scProductFormulationBean.getListAttached('ESPECIFICACION', scProductFormulationBean.productSelected.scProductAttached)}"
-                                                         rowKey="#{specifications.tittle}"
-                                                         paginator="true" rows="15"  
-                                                         pageLinks="40" editable="true"
-                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
-                                                         paginatorPosition="top"
-                                                         sortBy="#{specifications.tittle}">
-                                                 
-                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
-                                                    <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
-                                                    <p:tooltip value="#{specifications.tittle}" for="outTittle"/>
-                                                </p:column>
-                                                <p:column headerText="Observación" sortBy="#{specifications.description}">
-                                                    <p:outputLabel value="#{specifications.description}" id="outDescription"/>
-                                                    <p:tooltip value="#{specifications.description}" for="outDescription"/>
-                                                </p:column>
-                                            </p:dataTable>
+
+                                <p:dataTable id="dataTableSpecificationSave"
+                                             var="specifications" 
+                                             value="#{scProductFormulationBean.getListAttached('ESPECIFICACION', scProductFormulationBean.productSelected.scProductAttached)}"
+                                             rowKey="#{specifications.tittle}"
+                                             paginator="true" rows="15"  
+                                             pageLinks="40" editable="true"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                             paginatorPosition="top"
+                                             sortBy="#{specifications.tittle}">
+
+                                    <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                        <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
+                                        <p:tooltip value="#{specifications.tittle}" for="outTittle"/>
+                                    </p:column>
+                                    <p:column headerText="Observación" sortBy="#{specifications.description}">
+                                        <p:outputLabel value="#{specifications.description}" id="outDescription"/>
+                                        <p:tooltip value="#{specifications.description}" for="outDescription"/>
+                                    </p:column>
+                                </p:dataTable>
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para especificaciones-->
@@ -1132,28 +1648,28 @@
                         <p:tab title="Características" id="tabFeactures" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las características del producto">
                             <p:panel header="Características" >
-                                
-                                            <p:dataTable id="dataTableFeactureSave"
-                                                         var="feactures" 
-                                                         value="#{scProductFormulationBean.getListAttached('CARACTERISTICA', scProductFormulationBean.productSelected.scProductAttached)}"
-                                                         rowKey="#{feactures.tittle}"
-                                                         paginator="true" rows="15"  
-                                                         pageLinks="40" editable="true"
-                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
-                                                         paginatorPosition="top"
-                                                         sortBy="#{feactures.tittle}">
-                                                
-                                                <p:column headerText="Título" sortBy="#{feactures.tittle}">
-                                                    <p:outputLabel value="#{feactures.tittle}" id="outTittle"/>
-                                                    <p:tooltip value="#{feactures.tittle}" for="outTittle"/>
-                                                </p:column>
-                                                <p:column headerText="Observación" sortBy="#{feactures.description}">
-                                                    <p:outputLabel value="#{feactures.description}" id="outDescription"/>
-                                                    <p:tooltip value="#{feactures.description}" for="outDescription"/>
-                                                </p:column>
-                                            </p:dataTable>
+
+                                <p:dataTable id="dataTableFeactureSave"
+                                             var="feactures" 
+                                             value="#{scProductFormulationBean.getListAttached('CARACTERISTICA', scProductFormulationBean.productSelected.scProductAttached)}"
+                                             rowKey="#{feactures.tittle}"
+                                             paginator="true" rows="15"  
+                                             pageLinks="40" editable="true"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                             paginatorPosition="top"
+                                             sortBy="#{feactures.tittle}">
+
+                                    <p:column headerText="Título" sortBy="#{feactures.tittle}">
+                                        <p:outputLabel value="#{feactures.tittle}" id="outTittle"/>
+                                        <p:tooltip value="#{feactures.tittle}" for="outTittle"/>
+                                    </p:column>
+                                    <p:column headerText="Observación" sortBy="#{feactures.description}">
+                                        <p:outputLabel value="#{feactures.description}" id="outDescription"/>
+                                        <p:tooltip value="#{feactures.description}" for="outDescription"/>
+                                    </p:column>
+                                </p:dataTable>
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para características-->
@@ -1161,28 +1677,28 @@
                         <p:tab title="Observaciones" id="tabObservations" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las observaciones del producto">
                             <p:panel header="Observaciones" >
-                                
-                                            <p:dataTable id="dataTableObservationSave"
-                                                         var="observation" 
-                                                         value="#{scProductFormulationBean.getListAttached('OBSERVACION', scProductFormulationBean.productSelected.scProductAttached)}"
-                                                         rowKey="#{observation.tittle}"
-                                                         paginator="true" rows="15"  
-                                                         pageLinks="40" editable="true"
-                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
-                                                         paginatorPosition="top"
-                                                         sortBy="#{observation.tittle}">
-                                                
-                                                <p:column headerText="Título" sortBy="#{observation.tittle}">
-                                                    <p:outputLabel value="#{observation.tittle}" id="outTittle"/>
-                                                    <p:tooltip value="#{observation.tittle}" for="outTittle"/>
-                                                </p:column>
-                                                <p:column headerText="Observación" sortBy="#{observation.description}">
-                                                    <p:outputLabel value="#{observation.description}" id="outDescription"/>
-                                                    <p:tooltip value="#{observation.description}" for="outDescription"/>
-                                                </p:column>
-                                            </p:dataTable>
+
+                                <p:dataTable id="dataTableObservationSave"
+                                             var="observation" 
+                                             value="#{scProductFormulationBean.getListAttached('OBSERVACION', scProductFormulationBean.productSelected.scProductAttached)}"
+                                             rowKey="#{observation.tittle}"
+                                             paginator="true" rows="15"  
+                                             pageLinks="40" editable="true"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                             paginatorPosition="top"
+                                             sortBy="#{observation.tittle}">
+
+                                    <p:column headerText="Título" sortBy="#{observation.tittle}">
+                                        <p:outputLabel value="#{observation.tittle}" id="outTittle"/>
+                                        <p:tooltip value="#{observation.tittle}" for="outTittle"/>
+                                    </p:column>
+                                    <p:column headerText="Observación" sortBy="#{observation.description}">
+                                        <p:outputLabel value="#{observation.description}" id="outDescription"/>
+                                        <p:tooltip value="#{observation.description}" for="outDescription"/>
+                                    </p:column>
+                                </p:dataTable>
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para observaciones-->
@@ -1211,7 +1727,7 @@
                                                                      actionListener="#{scProductFormulationBean.downloadDocument(document)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                
+
                                                 <p:column headerText="Título" sortBy="#{document.documentTittle}">
                                                     <p:outputLabel value="#{document.documentTittle}" id="outTittle"/>
                                                     <p:tooltip value="#{document.documentTittle}" for="outTittle"/>
@@ -1235,15 +1751,15 @@
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para documentos                         -->                        
-                        
+
                     </p:wizard>
                 </h:form>
                 <p:ajax event="close" oncomplete="PF('wizardView').loadStep('tabGeneral', true)" />
             </p:dialog>
-                <!--                Finaliza el dialogo para visualizar formulaciones de producto-->
-<!--====================================================================================================================================================-->
+            <!--                Finaliza el dialogo para visualizar formulaciones de producto-->
+            <!--====================================================================================================================================================-->
 
-<!--             inicia el dialogo para eliminar registros           -->
+            <!--             inicia el dialogo para eliminar registros           -->
             <p:dialog id="dialogProductDelete" widgetVar="dialogProductDelete" position="center top" 
                       closable="true" draggable="true" dynamic="true" header="Eliminar Formulaciones de Productos"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="false">
@@ -1271,10 +1787,10 @@
 
             </p:dialog>
             <!--            finaliza el dialogo para eliminar registros            -->
-<!--====================================================================================================================================================-->
-<!--            Inicia el dialogo para actualizar formulaciones de producto-->
+            <!--====================================================================================================================================================-->
+            <!--            Inicia el dialogo para actualizar formulaciones de producto-->
             <p:dialog id="dialogProductUpdate" widgetVar="dialogProductUpdate" draggable="true" 
-                      closable="true"  header="Crear Productos" position="center top" width="800"
+                      closable="true"  header="Crear Productos" position="center top" width="900"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizardUpdate" >
 
@@ -1403,13 +1919,13 @@
                                             <p:outputLabel  for="tfStore" value="Almacén*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfStore"  value="#{scProductFormulationBean.productSelected.location.store}" style="width: 70%;"
+                                            <p:selectOneMenu id="tfStore"  value="#{scProductFormulationBean.storeSelected}" style="width: 70%;"
                                                              converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
                                                              effect="puff"
                                                              height="140" >
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems value="#{scProductFormulationBean.storesList}" var="stores" itemLabel="#{stores.name}"/>
-                                                <p:ajax event="change" update="cbLocation,btnAddLocationProductFormulation" listener="#{scProductFormulationBean.withOutStore(scProductFormulationBean.productSelected.location.store)}"/>
+                                                <p:ajax event="change" update="cbLocation,btnAddLocationProductFormulation" listener="#{scProductFormulationBean.withOutStore(scProductFormulationBean.storeSelected)}"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
@@ -1418,14 +1934,14 @@
                                         <td width="40%" align="left">
                                             <p:selectOneMenu id="cbLocation"  value="#{scProductFormulationBean.productSelected.location}" style="width: 70%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del producto"
-                                                             effect="puff" disabled="#{scProductFormulationBean.withOutStore(scProductFormulationBean.productSelected.location.store)}"
+                                                             effect="puff" disabled="#{scProductFormulationBean.withOutStore(scProductFormulationBean.storeSelected)}"
                                                              height="140">
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems  value="#{scProductFormulationBean.inputLocationsList}" var="inputLocations" itemLabel="#{inputLocations.location}"/>
                                             </p:selectOneMenu>
                                             <p:spacer width="5px"/>
                                             <p:commandButton  id="btnAddLocationProductFormulation" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -8px;"
-                                                              disabled ="#{scProductFormulationBean.withOutStore(scProductFormulationBean.productSelected.location.store)}"/>
+                                                              disabled ="#{scProductFormulationBean.withOutStore(scProductFormulationBean.storeSelected)}"/>
                                             <p:tooltip for="btnAddLocationProductFormulation" value="Agregue nuevas localizaciones"/>
                                         </td>
                                     </tr>
@@ -1952,7 +2468,7 @@
                 </h:form>
                 <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)" />
             </p:dialog>
-                <!--                Finaliza el dialogo para actualizar formulaciones de producto-->
+            <!--                Finaliza el dialogo para actualizar formulaciones de producto-->
 
 
 
@@ -1967,358 +2483,358 @@
 
 
 
-                <!--           dialogo para crear un centro de costos-->
-                <p:dialog id="centerCostSave" widgetVar="centerCostSave" draggable="true"  
-                          closable="true"  header="Agregar un Centro de Costos" position="center top" 
-                          hideEffect="explode" modal="true" showEffect="explode" 
-                          >
-                    <h:form id="formCostCenter">
-                        <table width="98%" cellspacing="10" >
-                            <tr>
-                                <td width="20%" align="right">
-                                    <p:outputLabel  for="tfAreaCostCenter" value="Nombre del Área"/>
-                                </td>
-                                <td width="80%" align="left">
-                                    <p:inputText    id="tfAreaCostCenter"  value="#{scProductFormulationBean.costCenterSave.description}"
-                                                    required="true" requiredMessage="Campo obligatorio debe ingresar el área del centro de costos"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="20%" align="right">
-                                    <p:outputLabel  for="tfcodigoCostCenter" value="Código"/>
-                                </td>
-                                <td width="80%" align="left">
-                                    <p:inputText    id="tfcodigoCostCenter"  value="#{scProductFormulationBean.costCenterSave.costCenter}"
-                                                    required="true" requiredMessage="Campo obligatorio debe ingresar el código del centro de costos"/>
-                                </td>
-                            </tr>
-                            <tr>
+            <!--           dialogo para crear un centro de costos-->
+            <p:dialog id="centerCostSave" widgetVar="centerCostSave" draggable="true"  
+                      closable="true"  header="Agregar un Centro de Costos" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formCostCenter">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAreaCostCenter" value="Nombre del Área"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAreaCostCenter"  value="#{scProductFormulationBean.costCenterSave.description}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el área del centro de costos"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfcodigoCostCenter" value="Código"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfcodigoCostCenter"  value="#{scProductFormulationBean.costCenterSave.costCenter}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el código del centro de costos"/>
+                            </td>
+                        </tr>
+                        <tr>
 
-                                <td  align="center" colspan="2">
-                                    <p:commandButton value="Guardar" actionListener="#{scProductFormulationBean.addCostCenter()}"  
-                                                     onsuccess="PF('centerCostSave').hide()"
-                                                     update="@this,tfAreaCostCenter,tfcodigoCostCenter,:formWizardSave:cbCostCenter,:formWizardUpdate:cbCostCenter"/>
-                                    <p:spacer width="20"/>
+                            <td  align="center" colspan="2">
+                                <p:commandButton value="Guardar" actionListener="#{scProductFormulationBean.addCostCenter()}"  
+                                                 onsuccess="PF('centerCostSave').hide()"
+                                                 update="@this,tfAreaCostCenter,tfcodigoCostCenter,:formWizardSave:cbCostCenter,:formWizardUpdate:cbCostCenter"/>
+                                <p:spacer width="20"/>
 
-                                    <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsCostCenter()}" 
-                                                     oncomplete="PF('centerCostSave').hide()"
-                                                     update="@this,tfAreaCostCenter,tfcodigoCostCenter"/>
-                                </td>
-                            </tr>
-                        </table> 
-                    </h:form>
-                </p:dialog>
-                <!--         fin  dialogo para crear un centro de costos-->
-                <!--           dialogo para crear una medida-->
-                <p:dialog id="measureSave" widgetVar="measureSave" draggable="true" 
-                          closable="true"  header="Agregar una Medida" position="center top" 
-                          hideEffect="explode" modal="true" showEffect="explode" 
-                          >
-                    <h:form id="formMeasure">
-                        <table width="98%" cellspacing="10" >
-                            <tr>
-                                <td width="20%" align="right">
-                                    <p:outputLabel  for="tfAcronym" value="Medida"/>
-                                </td>
-                                <td width="80%" align="left">
-                                    <p:inputText    id="tfAcronym"  value="#{scProductFormulationBean.measureUnitSave.acronym}"
-                                                    required="true" requiredMessage="Campo obligatorio debe ingresar la unidad de medida"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="20%" align="right">
-                                    <p:outputLabel  for="tfTypeMeasure" value="Tipo"/>
-                                </td>
-                                <td width="80%" align="left">
-                                    <p:inputText    id="tfTypeMeasure"  value="#{scProductFormulationBean.measureUnitSave.type}"
-                                                    required="true" requiredMessage="Campo obligatorio debe ingresar el tipo de medida"/>
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td  align="center" colspan="2">
-                                    <p:commandButton value="Guardar" actionListener="#{scProductFormulationBean.addMeasure()}"  
-                                                     onsuccess="PF('measureSave').hide()"
-                                                     update="@this,tfAcronym,tfTypeMeasure,:formWizardSave:cbMeasureHigh,:formWizardSave:cbMeasureWidth,:formWizardSave:cbMeasureLarge,
-                                                     :formWizardSave:cbMeasureVolume,:formWizardSave:cbMeasureThickness,:formWizardSave:cbMeasureRadio,:formWizardSave:cbMeasureWeight
-                                                     ,:formWizardUpdate:cbMeasureHigh,:formWizardUpdate:cbMeasureWidth,:formWizardUpdate:cbMeasureLarge,
-                                                     :formWizardUpdate:cbMeasureVolume,:formWizardUpdate:cbMeasureThickness,:formWizardUpdate:cbMeasureRadio,
-                                                     :formWizardUpdate:cbMeasureWeight"/>
-                                    <p:spacer width="20"/>
-
-                                    <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsMeasure()}" 
-                                                     oncomplete="PF('measureSave').hide()"
-                                                     update="@this,tfAcronym,tfTypeMeasure"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </h:form>
-                </p:dialog>
-                <!--         fin  dialogo para crear una medida-->
-
-                <!--           dialogo para crear unidades de empaque-->
-                <p:dialog id="unitPackingSave" widgetVar="unitPackingSave" draggable="true" 
-                          closable="true"  header="Agregar una Unidad de Empaque" position="center top" 
-                          hideEffect="explode" modal="true" showEffect="explode" 
-                          >
-                    <h:form id="formUnitPacking">
-                        <table width="98%" cellspacing="10" >
-                            <tr>
-                                <td width="20%" align="right">
-                                    <p:outputLabel  for="tfAcronym" value="Abreviatura"/>
-                                </td>
-                                <td width="80%" align="left">
-                                    <p:inputText    id="tfAcronym"  value="#{scProductFormulationBean.packingUnitSave.acronym}"
-                                                    required="true" requiredMessage="Campo obligatorio debe ingresar la abreviatura de la unidad de empaque"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="20%" align="right">
-                                    <p:outputLabel  for="tfDescriptionPacking" value="Descripción"/>
-                                </td>
-                                <td width="80%" align="left">
-                                    <p:inputTextarea    id="tfDescriptionPacking"  value="#{scProductFormulationBean.packingUnitSave.description}"
-                                                        />
-                                </td>
-                            </tr>
-                            <tr>
-
-                                <td align="center" colspan="2">
-                                    <p:commandButton value="Guardar" actionListener="#{scProductFormulationBean.addPackingUnit()}"  
-                                                     onsuccess="PF('unitPackingSave').hide()"
-                                                     update="@this,tfAcronym,tfDescriptionPacking,:formWizardSave:cbPackingUnit,:formWizardUpdate:cbPackingUnit"/>
-                                    <p:spacer width="20"/>
-
-                                    <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsPackingUnit()}" 
-                                                     oncomplete="PF('unitPackingSave').hide()"
-                                                     update="tfAcronym,tfDescriptionPacking,@this"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </h:form>
-                </p:dialog>
-                <!--         fin  dialogo para crear unidades de empaque del producto-->
-
-
-                <!--           dialogo para crear localizaciones-->
-                <p:dialog id="inputLocationSave" widgetVar="inputLocationSave" draggable="true" 
-                          closable="true"  header="Agregar una Localización del Producto" position="center top" 
-                          hideEffect="explode" modal="true" showEffect="explode" 
-                          >
-                    <h:form id="formInputLocation">
-                        <table width="98%" cellspacing="10" >
-                            <tr>
-                                <td width="20%" align="right">
-                                    <p:outputLabel  for="tfLocation" value="Localización"/>
-                                </td>
-                                <td width="80%" align="left">
-                                    <p:inputText    id="tfLocation"  value="#{scProductFormulationBean.inputLocationSave.location}"
-                                                    required="true" requiredMessage="Campo obligatorio debe ingresar la localización del producto"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="20%" align="right">
-                                    <p:outputLabel  for="tfDescriptionLocation" value="Descripción"/>
-                                </td>
-                                <td width="80%" align="left">
-                                    <p:inputTextarea    id="tfDescriptionLocation"  value="#{scProductFormulationBean.inputLocationSave.description}"
-                                                        />
-                                </td>
-                            </tr>
-                            <tr>
-
-
-
-                                <td  align="center" colspan="2">
-                                    <p:commandButton value="Guardar" actionListener="#{scProductFormulationBean.addInputLocations()}"  
-                                                     onsuccess="PF('inputLocationSave').hide()"
-                                                     update="@this,tfDescriptionLocation,tfLocation,:formWizardSave:cbLocation,:formWizardUpdate:cbLocation"/>
-                                    <p:spacer width="20"/>
-
-                                    <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsLocationInput()}" 
-                                                     oncomplete="PF('inputLocationSave').hide()"
-                                                     update="tfDescriptionLocation,tfLocation,@this"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </h:form>
-                </p:dialog>
-                <!--         fin  dialogo para crear localizaciones del producto-->
-
-                <!--            Dialogo para subir imagenes width="10%" align="right" -->
-                <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
-                          closable="true"  header="Cargar Imagen..." position="center top" 
-                          hideEffect="explode" modal="true" showEffect="explode" 
-                          >
-
-                    <h:form enctype="multipart/form-data" prependId="false">
-                        <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
-                            <p:fileUpload label="Imagen del Producto" value="#{scProductFormulationBean.pictureFile}" mode="simple"
-                                          >       >        
-                            </p:fileUpload>
-
-                            <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
-                                             actionListener="#{scProductFormulationBean.handleFileUpload(1)}" ajax="false" ignoreAutoUpdate="true"/>
-                        </p:panelGrid>
-                    </h:form>
-                </p:dialog>
-                <!--            finaliza el dialogo para subir imagenes-->
-
-                <!--            Dialogo para actualizar imagenes width="10%" align="right" -->
-                <p:dialog id="pictureUpdate" widgetVar="pictureUpdate" draggable="true" 
-                          closable="true"  header="Cargar Imagen..." position="center top" 
-                          hideEffect="explode" modal="true" showEffect="explode" 
-                          >
-
-                    <h:form enctype="multipart/form-data" prependId="false">
-                        <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
-                            <p:fileUpload label="Imagen del Producto" value="#{scProductFormulationBean.pictureFile}" mode="simple"
-                                          >       >        
-                            </p:fileUpload>
-
-                            <p:commandButton id="btnLoadDocumentUpdate" value="Cargar" icon="ui-icon-circle-arrow-s"
-                                             actionListener="#{scProductFormulationBean.handleFileUpload(2)}" ajax="false" ignoreAutoUpdate="true" />
-                        </p:panelGrid>
-                    </h:form>
-                </p:dialog>
-                <!--            finaliza el dialogo para actualizar imagenes-->
-
-                <!--            Dialogo para subir documentos width="10%" align="right" -->
-                <p:dialog id="documentSave" widgetVar="documentSave" draggable="true" 
-                          closable="true"  header="Cargar Documento..." position="center top" 
-                          hideEffect="explode" modal="true" showEffect="explode" 
-                          >
-
-                    <h:form enctype="multipart/form-data" prependId="false">
-                        <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
-                            <p:outputLabel for="tfDocument" value="Título del Documento"/>
-
-                            <p:inputText value="#{scProductFormulationBean.documentsSave.documentTittle}" id="tfDocument"/> 
-
-                            <p:fileUpload label="Documento de un Producto" value="#{scProductFormulationBean.fileSave}" mode="simple"
-                                          update=":formWizardSave:dataTableDocumentationSave">  
-                            </p:fileUpload>
-
-                            <p:commandButton id="btnLoadFile" value="Cargar" icon="ui-icon-circle-arrow-s" 
-                                             actionListener="#{scProductFormulationBean.handleDocumentUpload(1)}" ajax="false" 
-                                             update=":formWizardSave:dataTableDocumentationSave"/>
-                        </p:panelGrid>
-                    </h:form>
-                </p:dialog>
-                <!--            finaliza el dialogo para subir documentos-->
-
-                <!--            Dialogo para subir actualizar -->
-                <p:dialog id="documentUpdate" widgetVar="documentUpdate" draggable="true" 
-                          closable="true"  header="Actualizar Documento..." position="center top" 
-                          hideEffect="explode" modal="true" showEffect="explode" 
-                          >
-
-                    <h:form enctype="multipart/form-data" prependId="false">
-                        <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
-                            <p:outputLabel for="tfDocumentUpdate" value="Título del Documento"/>
-
-                            <p:inputText value="#{scProductFormulationBean.documentsSave.documentTittle}" id="tfDocumentUpdate"/> 
-
-                            <p:fileUpload label="Documento de un Producto" value="#{scProductFormulationBean.fileSave}" mode="simple"
-                                          update=":formWizardUpdate:dataTableDocumentationSave">  
-                            </p:fileUpload>
-
-                            <p:commandButton id="btnLoadFileUpdate" value="Cargar" icon="ui-icon-circle-arrow-s" 
-                                             actionListener="#{scProductFormulationBean     .handleDocumentUpload(2)}" ajax="false" 
-                                             update=":formWizardUpdate:dataTableDocumentationSave"/>
-                        </p:panelGrid>
-                    </h:form>
-                </p:dialog>
-                <!--            finaliza el dialogo para actualizar documentos-->
-
-                <!--###################################################################################################-->   
-                <h:form id="formProductFormulation">
-                    <p:dataTable id="scDataTableProductFormulations" draggableColumns="true" emptyMessage="No existe información para visualizar" 
-                                 value="#{scProductFormulationBean.productList}" var="product"
-                                 paginator="true" rows="15"  
-                                 pageLinks="40"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                 {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowKey="#{product.idProductFormulation}"
-                                 resizableColumns="true" 
-                                 liveResize="true" rowsPerPageTemplate="15,30,50" 
-                                 selectionMode="single" paginatorPosition="top" selection="#{scProductFormulationBean.productSelected}"
-                                 sortBy="#{product.idProductFormulation}"
-                                 >
-                        <f:facet name="header">
-                            <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;" 
-                                             oncomplete="PF('dialogproductSave').show();"
-                                             >
-                                <p:tooltip for="btnAdd" value="Agregar un Producto"/>
-                            </p:commandButton>
-                        </f:facet>
-                        <p:ajax event="rowSelect" oncomplete="PF('dialogProductView').show()" update=":formWizardView"/>
-                        <p:column headerText="Administración">
-                            <center>
-                                <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scProductFormulationBean.selectedForUpdate(product)}"
-                                                 oncomplete="PF('dialogProductUpdate').show()" update=":formWizardUpdate"
-                                                 >
-                                    <p:tooltip for="btnEdit" value="Editar un Producto"/>
-                                </p:commandButton>
-                                <p:spacer width="10"/>
-                                <p:commandButton icon="ui-icon-close" id="btnDelete" actionListener="#{scProductFormulationBean.selectedForDelete(product)}"
-                                                 oncomplete="PF('dialogProductDelete').show()" update=":formWizardDelete">
-                                    <p:tooltip for="btnDelete" value="Eliminar un Producto"/>
-                                </p:commandButton>
-                            </center>
-                        </p:column>
-                        <p:column headerText="Form. Producto" sortBy="#{product.description}" id="columnProductName">    
-                            <center>
-                                <p:outputLabel value="#{product.description}" id="lblProductFormulationName"/>
-                                <p:tooltip for="lblProductFormulationName" value="#{product.description}"/>
-                            </center>
-                        </p:column>
-                        <p:column id="columnMark" headerText="Marca" sortBy="#{product.mark}">    
-                            <center>
-                                <p:outputLabel value="#{product.mark}" id="lblMark"/>
-                                <p:tooltip for="lblMark" value="#{product.mark}"/>
-                            </center>
-                        </p:column>
-                        <p:column id="columnSerie" headerText="Serie" sortBy="#{product.serie}">    
-                            <center>
-                                <p:outputLabel value="#{product.serie}" id="lblSerie"/>
-                                <p:tooltip for="lblSerie" value="#{product.serie}"/>
-                            </center>
-                        </p:column>
-                        <p:column id="columnStore" headerText="Almacen" sortBy="#{product.location.store.name}">    
-                            <center>
-                                <p:outputLabel value="#{product.location.store.name}" id="lblStore"/>
-                                <p:tooltip for="lblStore" value="#{product.location.store.name}"/>
-                            </center>
-                        </p:column>
-                        <p:column id="columnLocation" headerText="Localización" sortBy="#{product.location.location}">    
-                            <center>
-                                <p:outputLabel value="#{product.location.location}" id="lblLocation"/>
-                                <p:tooltip for="lblLocation" value="#{product.location.location}"/>
-                            </center>
-                        </p:column>
-                        <p:column id="columnManufacturingTime" headerText="Timpo de Preparación" sortBy="#{product.manufacturingTime}">    
-                            <center>
-                                <p:outputLabel value="#{product.manufacturingTime}" id="lblManufacturingTime"/>
-                                <p:tooltip for="lblManufacturingTime" value="#{product.manufacturingTime}"/>
-                            </center>
-                        </p:column>
-
-                        <p:column id="columPackingUnit" headerText="Und. Empaque" sortBy="#{product.packingUnit}">    
-                            <center>
-                                <p:outputLabel value="#{product.packingUnit.acronym}" id="lblPackingUnit"/>
-                                <p:tooltip for="lblPackingUnit" value="#{product.packingUnit.acronym}"/>
-                            </center>
-                        </p:column>
-
-                        <p:column id="columnValue" headerText="Valor" sortBy="#{product.value}">    
-                            <center>
-                                <p:outputLabel value="#{product.value} #{product.money.acronym}" id="lblValue"/>
-                                <p:tooltip for="lblValue" value="#{product.value} #{product.money.acronym}" />
-                            </center>
-                        </p:column>
-                    </p:dataTable>
+                                <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsCostCenter()}" 
+                                                 oncomplete="PF('centerCostSave').hide()"
+                                                 update="@this,tfAreaCostCenter,tfcodigoCostCenter"/>
+                            </td>
+                        </tr>
+                    </table> 
                 </h:form>
+            </p:dialog>
+            <!--         fin  dialogo para crear un centro de costos-->
+            <!--           dialogo para crear una medida-->
+            <p:dialog id="measureSave" widgetVar="measureSave" draggable="true" 
+                      closable="true"  header="Agregar una Medida" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formMeasure">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAcronym" value="Medida"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAcronym"  value="#{scProductFormulationBean.measureUnitSave.acronym}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la unidad de medida"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfTypeMeasure" value="Tipo"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfTypeMeasure"  value="#{scProductFormulationBean.measureUnitSave.type}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el tipo de medida"/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td  align="center" colspan="2">
+                                <p:commandButton value="Guardar" actionListener="#{scProductFormulationBean.addMeasure()}"  
+                                                 onsuccess="PF('measureSave').hide()"
+                                                 update="@this,tfAcronym,tfTypeMeasure,:formWizardSave:cbMeasureHigh,:formWizardSave:cbMeasureWidth,:formWizardSave:cbMeasureLarge,
+                                                 :formWizardSave:cbMeasureVolume,:formWizardSave:cbMeasureThickness,:formWizardSave:cbMeasureRadio,:formWizardSave:cbMeasureWeight
+                                                 ,:formWizardUpdate:cbMeasureHigh,:formWizardUpdate:cbMeasureWidth,:formWizardUpdate:cbMeasureLarge,
+                                                 :formWizardUpdate:cbMeasureVolume,:formWizardUpdate:cbMeasureThickness,:formWizardUpdate:cbMeasureRadio,
+                                                 :formWizardUpdate:cbMeasureWeight"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsMeasure()}" 
+                                                 oncomplete="PF('measureSave').hide()"
+                                                 update="@this,tfAcronym,tfTypeMeasure"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            <!--         fin  dialogo para crear una medida-->
+
+            <!--           dialogo para crear unidades de empaque-->
+            <p:dialog id="unitPackingSave" widgetVar="unitPackingSave" draggable="true" 
+                      closable="true"  header="Agregar una Unidad de Empaque" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formUnitPacking">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAcronym" value="Abreviatura"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAcronym"  value="#{scProductFormulationBean.packingUnitSave.acronym}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la abreviatura de la unidad de empaque"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfDescriptionPacking" value="Descripción"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputTextarea    id="tfDescriptionPacking"  value="#{scProductFormulationBean.packingUnitSave.description}"
+                                                    />
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td align="center" colspan="2">
+                                <p:commandButton value="Guardar" actionListener="#{scProductFormulationBean.addPackingUnit()}"  
+                                                 onsuccess="PF('unitPackingSave').hide()"
+                                                 update="@this,tfAcronym,tfDescriptionPacking,:formWizardSave:cbPackingUnit,:formWizardUpdate:cbPackingUnit"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsPackingUnit()}" 
+                                                 oncomplete="PF('unitPackingSave').hide()"
+                                                 update="tfAcronym,tfDescriptionPacking,@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            <!--         fin  dialogo para crear unidades de empaque del producto-->
+
+
+            <!--           dialogo para crear localizaciones-->
+            <p:dialog id="inputLocationSave" widgetVar="inputLocationSave" draggable="true" 
+                      closable="true"  header="Agregar una Localización del Producto" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formInputLocation">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfLocation" value="Localización"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfLocation"  value="#{scProductFormulationBean.inputLocationSave.location}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la localización del producto"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfDescriptionLocation" value="Descripción"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputTextarea    id="tfDescriptionLocation"  value="#{scProductFormulationBean.inputLocationSave.description}"
+                                                    />
+                            </td>
+                        </tr>
+                        <tr>
+
+
+
+                            <td  align="center" colspan="2">
+                                <p:commandButton value="Guardar" actionListener="#{scProductFormulationBean.addInputLocations()}"  
+                                                 onsuccess="PF('inputLocationSave').hide()"
+                                                 update="@this,tfDescriptionLocation,tfLocation,:formWizardSave:cbLocation,:formWizardUpdate:cbLocation"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsLocationInput()}" 
+                                                 oncomplete="PF('inputLocationSave').hide()"
+                                                 update="tfDescriptionLocation,tfLocation,@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            <!--         fin  dialogo para crear localizaciones del producto-->
+
+            <!--            Dialogo para subir imagenes width="10%" align="right" -->
+            <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Producto" value="#{scProductFormulationBean.pictureFile}" mode="simple"
+                                      >       >        
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                         actionListener="#{scProductFormulationBean.handleFileUpload(1)}" ajax="false" ignoreAutoUpdate="true"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para subir imagenes-->
+
+            <!--            Dialogo para actualizar imagenes width="10%" align="right" -->
+            <p:dialog id="pictureUpdate" widgetVar="pictureUpdate" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Producto" value="#{scProductFormulationBean.pictureFile}" mode="simple"
+                                      >       >        
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadDocumentUpdate" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                         actionListener="#{scProductFormulationBean.handleFileUpload(2)}" ajax="false" ignoreAutoUpdate="true" />
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para actualizar imagenes-->
+
+            <!--            Dialogo para subir documentos width="10%" align="right" -->
+            <p:dialog id="documentSave" widgetVar="documentSave" draggable="true" 
+                      closable="true"  header="Cargar Documento..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:outputLabel for="tfDocument" value="Título del Documento"/>
+
+                        <p:inputText value="#{scProductFormulationBean.documentsSave.documentTittle}" id="tfDocument"/> 
+
+                        <p:fileUpload label="Documento de un Producto" value="#{scProductFormulationBean.fileSave}" mode="simple"
+                                      update=":formWizardSave:dataTableDocumentationSave">  
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadFile" value="Cargar" icon="ui-icon-circle-arrow-s" 
+                                         actionListener="#{scProductFormulationBean.handleDocumentUpload(1)}" ajax="false" 
+                                         update=":formWizardSave:dataTableDocumentationSave"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para subir documentos-->
+
+            <!--            Dialogo para subir actualizar -->
+            <p:dialog id="documentUpdate" widgetVar="documentUpdate" draggable="true" 
+                      closable="true"  header="Actualizar Documento..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:outputLabel for="tfDocumentUpdate" value="Título del Documento"/>
+
+                        <p:inputText value="#{scProductFormulationBean.documentsSave.documentTittle}" id="tfDocumentUpdate"/> 
+
+                        <p:fileUpload label="Documento de un Producto" value="#{scProductFormulationBean.fileSave}" mode="simple"
+                                      update=":formWizardUpdate:dataTableDocumentationSave">  
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadFileUpdate" value="Cargar" icon="ui-icon-circle-arrow-s" 
+                                         actionListener="#{scProductFormulationBean     .handleDocumentUpload(2)}" ajax="false" 
+                                         update=":formWizardUpdate:dataTableDocumentationSave"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para actualizar documentos-->
+
+            <!--###################################################################################################-->   
+            <h:form id="formProductFormulation">
+                <p:dataTable id="scDataTableProductFormulations" draggableColumns="true" emptyMessage="No existe información para visualizar" 
+                             value="#{scProductFormulationBean.productList}" var="product"
+                             paginator="true" rows="15"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{product.idProductFormulation}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             selectionMode="single" paginatorPosition="top" selection="#{scProductFormulationBean.productSelected}"
+                             sortBy="#{product.idProductFormulation}"
+                             >
+                    <f:facet name="header">
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;" 
+                                         oncomplete="PF('dialogproductSave').show();"
+                                         >
+                            <p:tooltip for="btnAdd" value="Agregar un Producto"/>
+                        </p:commandButton>
+                    </f:facet>
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogProductView').show()" update=":formWizardView"/>
+                    <p:column headerText="Administración">
+                        <center>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scProductFormulationBean.selectedForUpdate(product)}"
+                                             oncomplete="PF('dialogProductUpdate').show()" update=":formWizardUpdate"
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar un Producto"/>
+                            </p:commandButton>
+                            <p:spacer width="10"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" actionListener="#{scProductFormulationBean.selectedForDelete(product)}"
+                                             oncomplete="PF('dialogProductDelete').show()" update=":formWizardDelete">
+                                <p:tooltip for="btnDelete" value="Eliminar un Producto"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>
+                    <p:column headerText="Form. Producto" sortBy="#{product.description}" id="columnProductName">    
+                        <center>
+                            <p:outputLabel value="#{product.description}" id="lblProductFormulationName"/>
+                            <p:tooltip for="lblProductFormulationName" value="#{product.description}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnMark" headerText="Marca" sortBy="#{product.mark}">    
+                        <center>
+                            <p:outputLabel value="#{product.mark}" id="lblMark"/>
+                            <p:tooltip for="lblMark" value="#{product.mark}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnSerie" headerText="Serie" sortBy="#{product.serie}">    
+                        <center>
+                            <p:outputLabel value="#{product.serie}" id="lblSerie"/>
+                            <p:tooltip for="lblSerie" value="#{product.serie}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnStore" headerText="Almacen" sortBy="#{product.location.store.name}">    
+                        <center>
+                            <p:outputLabel value="#{product.location.store.name}" id="lblStore"/>
+                            <p:tooltip for="lblStore" value="#{product.location.store.name}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnLocation" headerText="Localización" sortBy="#{product.location.location}">    
+                        <center>
+                            <p:outputLabel value="#{product.location.location}" id="lblLocation"/>
+                            <p:tooltip for="lblLocation" value="#{product.location.location}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnManufacturingTime" headerText="Timpo de Preparación" sortBy="#{product.manufacturingTime}">    
+                        <center>
+                            <p:outputLabel value="#{product.manufacturingTime}" id="lblManufacturingTime"/>
+                            <p:tooltip for="lblManufacturingTime" value="#{product.manufacturingTime}"/>
+                        </center>
+                    </p:column>
+
+                    <p:column id="columPackingUnit" headerText="Und. Empaque" sortBy="#{product.packingUnit}">    
+                        <center>
+                            <p:outputLabel value="#{product.packingUnit.acronym}" id="lblPackingUnit"/>
+                            <p:tooltip for="lblPackingUnit" value="#{product.packingUnit.acronym}"/>
+                        </center>
+                    </p:column>
+
+                    <p:column id="columnValue" headerText="Valor" sortBy="#{product.value}">    
+                        <center>
+                            <p:outputLabel value="#{product.value} #{product.money.acronym}" id="lblValue"/>
+                            <p:tooltip for="lblValue" value="#{product.value} #{product.money.acronym}" />
+                        </center>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
         </div>
     </h:body>
 </html>

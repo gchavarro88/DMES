@@ -10,9 +10,11 @@ import com.sip.dmes.dao.bo.IScProductFormulation;
 import com.sip.dmes.dao.bs.ScProductFormulationDao;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScDistributionUnit;
+import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScLocation;
+import com.sip.dmes.entitys.ScMachine;
 
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
@@ -109,7 +111,9 @@ public class ScProductFormulationBean
     private List<ScProcessEmployee> processEmployeesListSave;//Lista de empleados procesos a guardar
     private List<ScProcessInput> processInputsListSave;//Lista de procesos insumos a guardar
     private List<ScProcessMachine> processMachine; //Lista de procesos maquina a guardar
-    
+    private List<ScEmployee> employeesList;//Lista de empleados 
+    private List<ScInput> inputsList;//Lista de  insumos
+    private List<ScMachine> machineList; //Lista de maquina
     private List<ScProductDocuments> documentsListSave;//Lista de documentos a guardar
     private List<ScMoney> moneyList;//Lista de monedas
     private UploadedFile fileSave;//Documento a subir
@@ -158,6 +162,9 @@ public class ScProductFormulationBean
         fillListMeasure();
         fillListMoney();
         fillListDistribucionUnit();
+        fillListEmployees();
+        fillListMachine();
+        fillListInputs();
         cleanFieldsInit();
         getinitalParameters();
     }
@@ -317,7 +324,7 @@ public class ScProductFormulationBean
     }
     
     /**
-     * Método encargado de llenar la lista de medidas.
+     * Método encargado de llenar la lista de monedas.
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListMoney()
@@ -334,6 +341,57 @@ public class ScProductFormulationBean
     }
     
     /**
+     * Método encargado de llenar la lista de empleados.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListEmployees()
+    {
+        try
+        {
+            //Se consultan todas los trabajadores disponibles
+            setEmployeesList(getScProductFormulationServer().getAllEmployees());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los empleados para los procesos", e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de insumos
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListInputs()
+    {
+        try
+        {
+            //Se consultan todas los insumos disponibles
+            setInputsList(getScProductFormulationServer().getAllInputs());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los insumos para los procesos", e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de máquinas
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListMachine()
+    {
+        try
+        {
+            //Se consultan todas las máquinas disponibles
+            setMachineList(getScProductFormulationServer().getAllMachines());
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar las máquinas para los procesos", e);
+        }
+    }
+    
+    /**
      * Método encargado de vaciar los objetos.
      * @author Gustavo Chavarro Ortiz
      */
@@ -343,12 +401,48 @@ public class ScProductFormulationBean
         setProductSelected(new ScProductFormulation());
         setCostCenterSave(new ScCostCenter());
         setPackingUnitSave(new ScPackingUnit());
+        //  setStoreSelected(new ScStore());
         setDistributionUnitSave(new ScDistributionUnit());
         setInputLocationSave(new ScLocation());
         setMeasureUnitSave(new ScMeasureUnit());
         cleanDocumentSave();
         cleanProductSave();
+        cleanFieldsProcess();
         setDocumentsListSave(new ArrayList<ScProductDocuments>());
+        cleanListProcess();
+    }
+    
+    public void cleanListProcess()
+    {
+        setProcessProductListSave(new ArrayList<ScProcessProduct>());
+        setProcessEmployeesListSave(new ArrayList<ScProcessEmployee>());
+        setProcessInputsListSave(new ArrayList<ScProcessInput>());
+        setProcessProductListSave(new ArrayList<ScProcessProduct>());
+        setProcessMachine(new ArrayList<ScProcessMachine>());
+    }
+    
+    public void cleanMachineProcess()
+    {
+        setProcessMachineSave(new ScProcessMachine());
+    }
+    
+    public void cleanEmployeeProcess()
+    {
+        setProcessEmployeeSave(new ScProcessEmployee());
+    }
+    
+    public void cleanInputProcess()
+    {
+        setProcessInputSave(new ScProcessInput());
+    }
+    
+    
+    public void cleanFieldsProcess()
+    {
+        setProcessProductSave(new ScProcessProduct());
+        setProcessEmployeeSave(new ScProcessEmployee());
+        setProcessMachineSave(new ScProcessMachine());
+        setProcessInputSave(new ScProcessInput());
     }
     
     public void cleansTypesMeasures()
@@ -369,6 +463,7 @@ public class ScProductFormulationBean
         //Creamos el objeto de dimension para la segunda pestaña
         getProductSave().setLocation(new ScLocation(0L));
         getProductSave().setDimension(new ScInputDimension());
+        setStoreSelected(null);
         cleanListSaves();
         cleansTypesMeasures();
     }
@@ -945,182 +1040,183 @@ public class ScProductFormulationBean
     public String onFlowProcessSaveProduct(FlowEvent event) 
     {    
         int packingUnit = -1;
-        if(event.getNewStep().equals(TAB_GENERAL))
-        {
-            return TAB_GENERAL;
-        }
-        if(event.getOldStep().equals(TAB_GENERAL))
-        {
-            if(validateFields("Nombre Producto", getProductSave().getDescription(), 3))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Tiempo de Preparación", getProductSave().getManufacturingTime()+"", 2))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Tipo de Material", getProductSave().getTypeMaterial(), 3))
-            {
-                return event.getOldStep();
-            }
-            //Validamos que el valor sea mayor que cero
-            if(validateFields("Valor", getProductSave().getValue()+"", 2))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Moneda", getProductSave().getMoney(), 4))
-            {
-                return event.getOldStep();
-            }
-            
-            
-            
-            if(validateFields("Marca", getProductSave().getMark(), 3))
-            {
-                return event.getOldStep();
-            }
-            
-            if(Utilities.isEmpty(getProductSave().getPathPicture()))
-            { 
-                getProductSave().setPathPicture(" ");//Setteamos la ruta de la imagen
-            }
-            if(validateFields("Serie", getProductSave().getSerie(), 3))
-            {
-                return event.getOldStep();
-            }
-            
-            //Validamos los campos seleccionables
-            if(validateFields("Proveedor y Garantía", getProductSave().getSupplierGuarantee(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Centro de Costos", getProductSave().getCostCenter(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Almacen", getProductSave().getLocation().getStore(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Localización", getProductSave().getLocation(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Prioridad", getProductSave().getPriority(), 4))
-            {
-                return event.getOldStep();
-            }
-            if(validateFields("Unidad de Empaque", getProductSave().getPackingUnit(), 4))
-            {
-                return event.getOldStep();
-            }
-            
-                        
-            //Agregamos la fecha de creación del producto
-            getProductSave().setCreationDate(new Date());
-            
-            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-            if(getProductSave().getExpiryDate() != null && getProductSave().getExpiryDate().before(getProductSave().getCreationDate()))
-            {
-                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
-                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-            
-            
-        }
-        //Si pasamos de la pestaña de dimensiones
-        else if(event.getOldStep().equals(TAB_DIMENSION))
-        {
-            
-            
-            if(validateFields("Altura", getProductSave().getDimension().getHight(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if(getMeasureUnitSaveHigh() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
-                return event.getOldStep();
-            }
-            if(validateFields("Ancho", getProductSave().getDimension().getWidth(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if(getMeasureUnitSaveWidth()== null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
-                return event.getOldStep();
-            }
-            if(validateFields("Largo", getProductSave().getDimension().getLarge(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if(getMeasureUnitSaveLarge()== null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
-                return event.getOldStep();
-            }
-            if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if(getMeasureUnitSaveWeight()== null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-                return event.getOldStep();
-            }
-            if(!Utilities.isEmpty(getProductSave().getDimension().getVolume()))
-            {
-                if(validateFields("Volumen", getProductSave().getDimension().getVolume(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveVolume()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
-                    return event.getOldStep();
-                }
-            }
-            if(!Utilities.isEmpty(getProductSave().getDimension().getThickness()))
-            {
-                if(validateFields("Grosor", getProductSave().getDimension().getThickness(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveThickness()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
-                    return event.getOldStep();
-                }
-            }
-            if(!Utilities.isEmpty(getProductSave().getDimension().getRadio()))
-            {
-                if(validateFields("Radio", getProductSave().getDimension().getRadio(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveRadio()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
-                    return event.getOldStep();
-                }
-            }
-            if(!Utilities.isEmpty(getProductSave().getDimension().getWeight()))
-            {
-                if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if(getMeasureUnitSaveWeight()== null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-                    return event.getOldStep();
-                }
-            }
-        }
+//        if(event.getNewStep().equals(TAB_GENERAL))
+//        {
+//            return TAB_GENERAL;
+//        }
+//        if(event.getOldStep().equals(TAB_GENERAL))
+//        {
+//            if(validateFields("Nombre Producto", getProductSave().getDescription(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Tiempo de Preparación", getProductSave().getManufacturingTime()+"", 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Tipo de Material", getProductSave().getTypeMaterial(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            //Validamos que el valor sea mayor que cero
+//            if(validateFields("Valor", getProductSave().getValue()+"", 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Moneda", getProductSave().getMoney(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            
+//            
+//            
+//            if(validateFields("Marca", getProductSave().getMark(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            
+//            if(Utilities.isEmpty(getProductSave().getPathPicture()))
+//            { 
+//                getProductSave().setPathPicture(" ");//Setteamos la ruta de la imagen
+//            }
+//            if(validateFields("Serie", getProductSave().getSerie(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            
+//            //Validamos los campos seleccionables
+//            if(validateFields("Proveedor y Garantía", getProductSave().getSupplierGuarantee(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Centro de Costos", getProductSave().getCostCenter(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Almacen", getStoreSelected(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Localización", getProductSave().getLocation(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Prioridad", getProductSave().getPriority(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Unidad de Empaque", getProductSave().getPackingUnit(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            
+//                        
+//            //Agregamos la fecha de creación del producto
+//            getProductSave().setCreationDate(new Date());
+//            
+//            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+//            if(getProductSave().getExpiryDate() != null && getProductSave().getExpiryDate().before(getProductSave().getCreationDate()))
+//            {
+//                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+//                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+//                return event.getOldStep();
+//            }
+//            
+//            
+//        }
+//        //Si pasamos de la pestaña de dimensiones
+//        else if(event.getOldStep().equals(TAB_DIMENSION))
+//        {
+//            
+//            
+//            if(validateFields("Altura", getProductSave().getDimension().getHight(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if(getMeasureUnitSaveHigh() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Ancho", getProductSave().getDimension().getWidth(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if(getMeasureUnitSaveWidth()== null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Largo", getProductSave().getDimension().getLarge(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if(getMeasureUnitSaveLarge()== null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+//                return event.getOldStep();
+//            }
+//            if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if(getMeasureUnitSaveWeight()== null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+//                return event.getOldStep();
+//            }
+//            if(!Utilities.isEmpty(getProductSave().getDimension().getVolume()))
+//            {
+//                if(validateFields("Volumen", getProductSave().getDimension().getVolume(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if(getMeasureUnitSaveVolume()== null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if(!Utilities.isEmpty(getProductSave().getDimension().getThickness()))
+//            {
+//                if(validateFields("Grosor", getProductSave().getDimension().getThickness(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if(getMeasureUnitSaveThickness()== null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if(!Utilities.isEmpty(getProductSave().getDimension().getRadio()))
+//            {
+//                if(validateFields("Radio", getProductSave().getDimension().getRadio(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if(getMeasureUnitSaveRadio()== null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if(!Utilities.isEmpty(getProductSave().getDimension().getWeight()))
+//            {
+//                if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if(getMeasureUnitSaveWeight()== null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+//                    return event.getOldStep();
+//                }
+//            }
+//        }
         
-        return event.getNewStep(); 
+        return "tabProcess";
+        //return event.getNewStep(); 
     }
     
     
@@ -1409,6 +1505,7 @@ public class ScProductFormulationBean
                 {
                     getProductSave().getDimension().setRadio(getProductSave().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
                 }
+                getProductSave().getLocation().setStore(getStoreSelected());
                 getScProductFormulationServer().saveProductFormulation(getProductSave());
                 getProductList().add(getProductSave());
                 cleanProductSave();
@@ -1462,8 +1559,10 @@ public class ScProductFormulationBean
                 {
                     getProductSelected().getDimension().setRadio(getProductSelected().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
                 }
+                getProductSelected().getLocation().setStore(getStoreSelected());
                 getScProductFormulationServer().updateProductFormulation(getProductSelected());
                 cleanProductSave();
+                fillListProducts();
             }
             catch (Exception e)
             {
@@ -1507,6 +1606,7 @@ public class ScProductFormulationBean
     {
         cleansTypesMeasures();
         setProductSelected(product);
+        setStoreSelected(product.getLocation().getStore());
         try
         {
             setProductSelected(getScProductFormulationServer().getProductsById(product.getIdProductFormulation()));
@@ -1610,7 +1710,7 @@ public class ScProductFormulationBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Almacen", getProductSelected().getLocation().getStore(), 4))
+            if(validateFields("Almacen", getStoreSelected(), 4))
             {
                 return event.getOldStep();
             }
@@ -1978,12 +2078,12 @@ public class ScProductFormulationBean
                 switch(option) 
                 {
                     case 1: //Casos de tipo double 
-                    String messageDouble2 = "Debe ingresar un número mayor que cero y usar"
+                    String messageDouble2 = "Debe ingresar un número mayor que cero y usar "
                             + "como separador de decimales el punto, ejemplo: 3.24";
                     try
                     {
 
-                        double parseo = Double.parseDouble((String)value);//parseo
+                        double parseo = Double.parseDouble(value.toString());//parseo
                         if(parseo <= 0)
                         {
                             throw new Exception(nameField+" menor o igual a cero");
@@ -1997,7 +2097,7 @@ public class ScProductFormulationBean
                     }   
                     break;
                     case 2: //Casos de tipo int
-                    String messageInt2 = "Debe ingresar un número mayor que cero sin puntos ni comas,"
+                    String messageInt2 = "Debe ingresar un número mayor que cero sin puntos ni comas, "
                             + "ejemplo: 1256786";
                     try
                     {
@@ -2301,6 +2401,358 @@ public class ScProductFormulationBean
     {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
+    /******************************************** Process Methods ******************************************.
+     *******************************************************************************************************/
+    
+     /**
+     * Método encargado de llevar el flujo al guardar un proceso.
+     * @param event evento en el cual se encuentra el asistente para crear procesos
+     * @return String al final retorna el nombre de la siguiente pestaña del asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessSaveProcess(FlowEvent event) 
+    {  
+        if(event.getOldStep().equals("tabProcess"))
+        {
+            if(validateFields("Nombre de Proceso", getProcessProductSave().getName(), 3))
+            {
+                return event.getOldStep();
+            }
+        }
+        return event.getNewStep();
+    }
+    /**
+     * Metodo encargado de validar si una maquina esta vacia.
+     * @param machine maquina a evaluar
+     * @return boolean respuesta de validacion
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean doHaveMachine(ScMachine machine)
+    {
+        boolean result = false;
+        if(machine != null &&   !Utilities.isEmpty(machine.getName()))
+        {
+            result = true;
+        }
+        return result;
+    }
+    
+    
+    /**
+     * Método encargado de realizar el recalculo del valor total en cada momento que se ingrese
+     * un tiempo de uso diferente u otro gasto
+     */
+    public void sumValueTotalMachine()
+    {
+        if(getProcessMachineSave().getMachine() != null)
+        {
+            if(getProcessMachineSave().getMachine().getHourValue() == null)
+            {
+                for(ScMachine scMachine: getMachineList())
+                {
+                    if(scMachine.getIdMachine().equals(getProcessMachineSave().getMachine().getIdMachine()))
+                    {
+                        getProcessMachineSave().setMachine(scMachine);
+                        break;
+                    }
+                }
+            }
+            double valueForMin = (getProcessMachineSave().getMachine().getHourValue()/60);
+            getProcessMachineSave().setTotalValueMachine(getProcessMachineSave().getTimeUse()*valueForMin);
+            if(getProcessMachineSave().getOtherExpenses()>0)
+            {
+                getProcessMachineSave().setTotalValueMachine(getProcessMachineSave().getTotalValueMachine()+getProcessMachineSave().getOtherExpenses());
+            }
+        }
+        
+    }
+    
+    /**
+     * Método encargado de guardar una máquina en el proceso.
+     * @param list lista de máquinas que se le añadirá una nueva
+     * @param machineSave máquina que será añadida a la lista
+     */
+    public void saveProcessMachine(List<ScProcessMachine> list, ScProcessMachine machineSave)
+    {
+        if(machineSave != null)
+        {
+            if(!validateFields("Máquina", machineSave.getMachine(), 4))
+            {
+                if(!validateFields("Tiempo de Uso", machineSave.getTimeUse(), 2))
+                {               
+                    if(machineSave.getOtherExpenses() > 0 && !validateFields("Otros Gastos ", machineSave.getOtherExpenses(), 1))
+                    {
+                        if(!validateFields("Descripción Otros Gastos", machineSave.getDescriptionOtherExpenses(), 3))
+                        {
+                            list.add(machineSave);
+                            cleanMachineProcess();
+                        }
+                    }
+                    else
+                    {
+                        list.add(machineSave);
+                        cleanMachineProcess();
+                    }
+                }
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al guardar una máquina por proceso");
+        }
+    }
+    
+    /**
+     * Método encargado de eliminar una  máquina del proceso.
+     * @param list lista de máquinas que se le eliminara una 
+     * @param machineDelete máquina que será eliminada de la lista
+     */
+    public void deleteMachine(List<ScProcessMachine> list, ScProcessMachine machineDelete)
+    {
+        if(machineDelete != null)
+        {
+            int index = -1;
+            for(ScProcessMachine process: list)
+            {
+                index++;
+                if(machineDelete.getMachine().getName().equals(process.getMachine().getName())
+                        && machineDelete.getTimeUse() == (process.getTimeUse()))
+                {   
+                    break;
+                }
+            }
+            if(index >= 0)
+            {
+                list.remove(index);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al guardar una máquina por proceso");
+        }
+    }
+    
+    /**
+     * Metodo encargado de validar si una empleado esta vacia.
+     * @param employee empleado a evaluar
+     * @return boolean respuesta de validacion
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean doHaveEmployee(ScEmployee employee)
+    {
+        boolean result = false;
+        if(employee != null &&   !Utilities.isEmpty(employee.getPosition()))
+        {
+            result = true;
+        }
+        return result;
+    }
+    
+    
+    /**
+     * Método encargado de realizar el recalculo del valor total en cada momento que se ingrese
+     * un tiempo de uso diferente u otro gasto
+     */
+    public void sumValueTotalEmployee()
+    {
+        if(getProcessEmployeeSave().getEmployee() != null)
+        {
+            if(getProcessEmployeeSave().getEmployee().getHourValue() == null)
+            {
+                for(ScEmployee scEmployee: getEmployeesList())
+                {
+                    if(scEmployee.getIdEmployee().equals(getProcessEmployeeSave().getEmployee().getIdEmployee()))
+                    {
+                        getProcessEmployeeSave().setEmployee(scEmployee);
+                        break;
+                    }
+                }
+            }
+            double valueForMin = (Double.parseDouble(getProcessEmployeeSave().getEmployee().getHourValue().toString())/60);
+            getProcessEmployeeSave().setTotalValueEmployee(getProcessEmployeeSave().getTimeUse()*valueForMin);
+            if(getProcessEmployeeSave().getOtherExpenses()>0)
+            {
+                getProcessEmployeeSave().setTotalValueEmployee(getProcessEmployeeSave().getTotalValueEmployee()+getProcessEmployeeSave().getOtherExpenses());
+            }
+        }
+        
+    }
+    
+    /**
+     * Método encargado de guardar una empleado en el proceso.
+     * @param list lista de empleados que se le añadirá una nueva
+     * @param employeeSave empleado que será añadida a la lista
+     */
+    public void saveProcessEmployee(List<ScProcessEmployee> list, ScProcessEmployee employeeSave)
+    {
+        if(employeeSave != null)
+        {
+            if(!validateFields("Descripción Mano de Obra", employeeSave.getLaborDescription(), 3))
+            {
+                if(!validateFields("Empleado", employeeSave.getEmployee(), 4))
+                {
+                    if(!validateFields("Tiempo de Uso", employeeSave.getTimeUse(), 2))
+                    {               
+                        if(employeeSave.getOtherExpenses() > 0 && !validateFields("Otros Gastos ", employeeSave.getOtherExpenses(), 1))
+                        {
+                            if(!validateFields("Descripción Otros Gastos", employeeSave.getDescriptionOtherExpenses(), 3))
+                            {
+                                list.add(employeeSave);
+                                cleanEmployeeProcess();
+                            }
+                        }
+                        else
+                        {
+                            list.add(employeeSave);
+                            cleanEmployeeProcess();
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al guardar una empleado por proceso");
+        }
+    }
+    
+    /**
+     * Método encargado de eliminar una  empleado del proceso.
+     * @param list lista de empleados que se le eliminara una 
+     * @param employeeDelete empleado que será eliminada de la lista
+     */
+    public void deleteEmployee(List<ScProcessEmployee> list, ScProcessEmployee employeeDelete)
+    {
+        if(employeeDelete != null)
+        {
+            int index = -1;
+            for(ScProcessEmployee process: list)
+            {
+                index++;
+                if(employeeDelete.getEmployee().getPosition().equals(process.getEmployee().getPosition()) 
+                        && employeeDelete.getLaborDescription().equals(process.getLaborDescription()))
+                {   
+                    break;
+                }
+            }
+            if(index >= 0)
+            {
+                list.remove(index);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al guardar una empleado por proceso");
+        }
+    } 
+    
+    /**
+     * Metodo encargado de validar si una insumo esta vacia.
+     * @param input insumo a evaluar
+     * @return boolean respuesta de validacion
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean doHaveInput(ScInput input)
+    {
+        boolean result = false;
+        if(input != null &&   !Utilities.isEmpty(input.getDescription()))
+        {
+            result = true;
+        }
+        return result;
+    }
+    
+    
+    /**
+     * Método encargado de realizar el recalculo del valor total en cada momento que se ingrese
+     * un tiempo de uso diferente u otro gasto
+     */
+    public void sumValueTotalInput()
+    {
+        if(getProcessInputSave().getInput() != null)
+        {
+            if(getProcessInputSave().getInput().getCostCenter() == null)
+            {
+                for(ScInput scInput: getInputsList())
+                {
+                    if(scInput.getIdInput().equals(getProcessInputSave().getInput().getIdInput()))
+                    {
+                        getProcessInputSave().setInput(scInput);
+                        break;
+                    }
+                }
+            }
+            double valueForMin = getProcessInputSave().getInput().getDistributionValue();
+            getProcessInputSave().setTotalValueInput(getProcessInputSave().getInput().getDistributionValue() *
+                    getProcessInputSave().getAmountDistribution());
+        }
+        
+    }
+    
+    /**
+     * Método encargado de guardar una insumo en el proceso.
+     * @param list lista de insumos que se le añadirá una nueva
+     * @param inputSave insumo que será añadida a la lista
+     */
+    public void saveProcessInput(List<ScProcessInput> list, ScProcessInput inputSave)
+    {
+        if(inputSave != null)
+        {
+            if(!validateFields("Insumo", inputSave.getInput(), 4))
+            {
+                if(!validateFields("Cantidad de Distribución", inputSave.getAmountDistribution(), 2))
+                {               
+                    if(!validateFields("% de Merma (Desperdicios)", inputSave.getPercentageResidue(), 1))
+                    {
+                        list.add(inputSave);
+                        cleanInputProcess();
+                    }
+                }
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al guardar una insumo por proceso");
+        }
+    }
+    
+    /**
+     * Método encargado de eliminar una  insumo del proceso.
+     * @param list lista de insumos que se le eliminara una 
+     * @param inputDelete insumo que será eliminada de la lista
+     */
+    public void deleteInput(List<ScProcessInput> list, ScProcessInput inputDelete)
+    {
+        if(inputDelete != null)
+        {
+            int index = -1;
+            for(ScProcessInput process: list)
+            {
+                index++;
+                if(inputDelete.getInput().getDescription().equals(process.getInput().getDescription()) 
+                        && inputDelete.getAmountDistribution() == (process.getAmountDistribution()))
+                {   
+                    break;
+                }
+            }
+            if(index >= 0)
+            {
+                list.remove(index);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al guardar una insumo por proceso");
+        }
+    } 
+    
+    
     
     
     /**
@@ -2503,7 +2955,7 @@ public class ScProductFormulationBean
 
     public void setSessionBean(SessionBean sessionBean)
     {
-        this.sessionBean = sessionBean;
+            this.sessionBean = sessionBean;
     }
 
     public UploadedFile getPictureFile()
@@ -2814,6 +3266,36 @@ public class ScProductFormulationBean
     public void setProcessMachine(List<ScProcessMachine> processMachine)
     {
         this.processMachine = processMachine;
+    }
+
+    public List<ScEmployee> getEmployeesList()
+    {
+        return employeesList;
+    }
+
+    public void setEmployeesList(List<ScEmployee> employeesList)
+    {
+        this.employeesList = employeesList;
+    }
+
+    public List<ScInput> getInputsList()
+    {
+        return inputsList;
+    }
+
+    public void setInputsList(List<ScInput> inputsList)
+    {
+        this.inputsList = inputsList;
+    }
+
+    public List<ScMachine> getMachineList()
+    {
+        return machineList;
+    }
+
+    public void setMachineList(List<ScMachine> machineList)
+    {
+        this.machineList = machineList;
     }
 
    

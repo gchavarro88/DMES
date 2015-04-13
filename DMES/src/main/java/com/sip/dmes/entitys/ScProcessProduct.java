@@ -70,8 +70,8 @@ public class ScProcessProduct implements Serializable
     private long totalTimeMachine;
     
     @Basic(optional = false)
-    @Column(name = "total_time_labor")
-    private long totalTimeLabor;
+    @Column(name = "total_time_input")
+    private long totalTimeInput;
     
     @Basic(optional = false)
     @Column(name = "total_time_employee")
@@ -165,16 +165,17 @@ public class ScProcessProduct implements Serializable
         this.totalTimeMachine = totalTimeMachine;
     }
 
-    public long getTotalTimeLabor()
+    public long getTotalTimeInput()
     {
-        return totalTimeLabor;
+        return totalTimeInput;
     }
 
-    public void setTotalTimeLabor(long totalTimeLabor)
+    public void setTotalTimeInput(long totalTimeInput)
     {
-        this.totalTimeLabor = totalTimeLabor;
+        this.totalTimeInput = totalTimeInput;
     }
 
+    
     public long getTotalTimeEmployee()
     {
         return totalTimeEmployee;
@@ -276,7 +277,7 @@ public class ScProcessProduct implements Serializable
     @Override
     public String toString()
     {
-        return "ScProcessProduct{" + "idProcessProduct=" + idProcessProduct + ", processType=" + processType + ", name=" + name + ", description=" + description + ", totalTimeMachine=" + totalTimeMachine + ", totalTimeLabor=" + totalTimeLabor + ", totalTimeEmployee=" + totalTimeEmployee + ", totalTimeProcess=" + totalTimeProcess + ", totalValueMachine=" + totalValueMachine + ", totalValueInput=" + totalValueInput + ", totalValueEmployee=" + totalValueEmployee + ", totalValueProcess=" + totalValueProcess + '}';
+        return "ScProcessProduct{" + "idProcessProduct=" + idProcessProduct + ", processType=" + processType + ", name=" + name + ", description=" + description + ", totalTimeMachine=" + totalTimeMachine + ", totalTimeInput=" + totalTimeInput + ", totalTimeEmployee=" + totalTimeEmployee + ", totalTimeProcess=" + totalTimeProcess + ", totalValueMachine=" + totalValueMachine + ", totalValueInput=" + totalValueInput + ", totalValueEmployee=" + totalValueEmployee + ", totalValueProcess=" + totalValueProcess + '}';
     }
 
     

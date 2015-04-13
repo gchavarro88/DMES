@@ -8,7 +8,10 @@ package com.sip.dmes.dao.bs;
 import com.sip.dmes.dao.bo.IScProductFormulation;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScDistributionUnit;
+import com.sip.dmes.entitys.ScEmployee;
+import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScLocation;
+import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
@@ -357,6 +360,54 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         {
             log.error("Error al intentar consultar un producto",e);
             throw e;
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScMachine> getAllMachines() throws Exception
+    {
+        List<ScMachine> result = null;
+        Query query  = entityManager.createNamedQuery("ScMachine.findAll"); 
+        try
+        {
+            result = (List<ScMachine>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las máquinas",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScEmployee> getAllEmployees() throws Exception
+    {
+        List<ScEmployee> result = null;
+        Query query  = entityManager.createNamedQuery("ScEmployee.findAll"); 
+        try
+        {
+            result = (List<ScEmployee>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los empleados",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScInput> getAllInputs() throws Exception
+    {
+        List<ScInput> result = null;
+        Query query  = entityManager.createNamedQuery("ScInput.findAll"); 
+        try
+        {
+            result = (List<ScInput>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los insumos",e);
         }
         return result;
     }

@@ -469,7 +469,7 @@ public class ScInput implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScInput[ idInput=" + idInput + " ]";
+        return idInput.toString()+","+description;
     }
 
 }

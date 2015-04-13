@@ -104,7 +104,7 @@ public class ScMachine implements Serializable
     @Override
     public String toString()
     {
-        return "ScMachine{" + "idMachine=" + idMachine + ", name=" + name + ", hourValue=" + hourValue + '}';
+        return idMachine.toString()+","+name;
     }
 
     

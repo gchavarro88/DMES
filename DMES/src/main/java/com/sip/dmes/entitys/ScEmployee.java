@@ -305,7 +305,7 @@ public class ScEmployee implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScEmployee[ idEmployee=" + idEmployee + " ]";
+        return idEmployee.toString()+","+position;
     }
     
 }
