@@ -332,6 +332,19 @@ public class ScProductFormulation implements Serializable
         this.supplierGuarantee = supplierGuarantee;
     }
 
+    public List<ScProcessProduct> getProcessProducts()
+    {
+        return processProducts;
+    }
+
+    public void setProcessProducts(List<ScProcessProduct> processProducts)
+    {
+        this.processProducts = processProducts;
+    }
+
+    
+    
+    
     @Override
     public int hashCode()
     {

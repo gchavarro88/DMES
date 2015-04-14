@@ -3,8 +3,8 @@
 --
 
 -- Dumped from database version 9.3.5
--- Dumped by pg_dump version 9.3.5
--- Started on 2015-04-13 00:15:37 COT
+-- Dumped by pg_dump version 9.3.6
+-- Started on 2015-04-14 16:58:28 CEST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14,7 +14,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 6 (class 2615 OID 127482)
+-- TOC entry 6 (class 2615 OID 20264)
 -- Name: dmes; Type: SCHEMA; Schema: -; Owner: sipPrueba
 --
 
@@ -24,7 +24,7 @@ CREATE SCHEMA dmes;
 ALTER SCHEMA dmes OWNER TO "sipPrueba";
 
 --
--- TOC entry 266 (class 3079 OID 11829)
+-- TOC entry 266 (class 3079 OID 12670)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -32,7 +32,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2580 (class 0 OID 0)
+-- TOC entry 3421 (class 0 OID 0)
 -- Dependencies: 266
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -47,7 +47,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 170 (class 1259 OID 127483)
+-- TOC entry 170 (class 1259 OID 20265)
 -- Name: sc_class_type; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -62,7 +62,7 @@ CREATE TABLE sc_class_type (
 ALTER TABLE dmes.sc_class_type OWNER TO "sipPrueba";
 
 --
--- TOC entry 171 (class 1259 OID 127486)
+-- TOC entry 171 (class 1259 OID 20268)
 -- Name: sc_competencies; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -77,7 +77,7 @@ CREATE TABLE sc_competencies (
 ALTER TABLE dmes.sc_competencies OWNER TO "sipPrueba";
 
 --
--- TOC entry 172 (class 1259 OID 127492)
+-- TOC entry 172 (class 1259 OID 20274)
 -- Name: sc_constants_load_files; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -92,7 +92,7 @@ CREATE TABLE sc_constants_load_files (
 ALTER TABLE dmes.sc_constants_load_files OWNER TO "sipPrueba";
 
 --
--- TOC entry 173 (class 1259 OID 127498)
+-- TOC entry 173 (class 1259 OID 20280)
 -- Name: sc_cost_center; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -108,7 +108,7 @@ CREATE TABLE sc_cost_center (
 ALTER TABLE dmes.sc_cost_center OWNER TO "sipPrueba";
 
 --
--- TOC entry 174 (class 1259 OID 127501)
+-- TOC entry 174 (class 1259 OID 20283)
 -- Name: sc_distribution_unit; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -122,7 +122,7 @@ CREATE TABLE sc_distribution_unit (
 ALTER TABLE dmes.sc_distribution_unit OWNER TO "sipPrueba";
 
 --
--- TOC entry 175 (class 1259 OID 127504)
+-- TOC entry 175 (class 1259 OID 20286)
 -- Name: sc_documents; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -141,7 +141,7 @@ CREATE TABLE sc_documents (
 ALTER TABLE dmes.sc_documents OWNER TO "sipPrueba";
 
 --
--- TOC entry 176 (class 1259 OID 127510)
+-- TOC entry 176 (class 1259 OID 20292)
 -- Name: sc_employee; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -165,7 +165,7 @@ CREATE TABLE sc_employee (
 ALTER TABLE dmes.sc_employee OWNER TO "sipPrueba";
 
 --
--- TOC entry 177 (class 1259 OID 127513)
+-- TOC entry 177 (class 1259 OID 20295)
 -- Name: sc_input; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -197,7 +197,7 @@ CREATE TABLE sc_input (
 ALTER TABLE dmes.sc_input OWNER TO "sipPrueba";
 
 --
--- TOC entry 178 (class 1259 OID 127519)
+-- TOC entry 178 (class 1259 OID 20301)
 -- Name: sc_input_dimension; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -217,7 +217,7 @@ CREATE TABLE sc_input_dimension (
 ALTER TABLE dmes.sc_input_dimension OWNER TO "sipPrueba";
 
 --
--- TOC entry 179 (class 1259 OID 127525)
+-- TOC entry 179 (class 1259 OID 20307)
 -- Name: sc_input_documents; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -236,7 +236,7 @@ CREATE TABLE sc_input_documents (
 ALTER TABLE dmes.sc_input_documents OWNER TO "sipPrueba";
 
 --
--- TOC entry 180 (class 1259 OID 127531)
+-- TOC entry 180 (class 1259 OID 20313)
 -- Name: sc_input_equivalence; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -250,7 +250,7 @@ CREATE TABLE sc_input_equivalence (
 ALTER TABLE dmes.sc_input_equivalence OWNER TO "sipPrueba";
 
 --
--- TOC entry 181 (class 1259 OID 127534)
+-- TOC entry 181 (class 1259 OID 20316)
 -- Name: sc_input_feactures; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -265,7 +265,7 @@ CREATE TABLE sc_input_feactures (
 ALTER TABLE dmes.sc_input_feactures OWNER TO "sipPrueba";
 
 --
--- TOC entry 182 (class 1259 OID 127540)
+-- TOC entry 182 (class 1259 OID 20322)
 -- Name: sc_input_observations; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -280,7 +280,7 @@ CREATE TABLE sc_input_observations (
 ALTER TABLE dmes.sc_input_observations OWNER TO "sipPrueba";
 
 --
--- TOC entry 183 (class 1259 OID 127546)
+-- TOC entry 183 (class 1259 OID 20328)
 -- Name: sc_input_specifications; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -296,7 +296,7 @@ CREATE TABLE sc_input_specifications (
 ALTER TABLE dmes.sc_input_specifications OWNER TO "sipPrueba";
 
 --
--- TOC entry 184 (class 1259 OID 127552)
+-- TOC entry 184 (class 1259 OID 20334)
 -- Name: sc_location; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -311,7 +311,7 @@ CREATE TABLE sc_location (
 ALTER TABLE dmes.sc_location OWNER TO "sipPrueba";
 
 --
--- TOC entry 185 (class 1259 OID 127558)
+-- TOC entry 185 (class 1259 OID 20340)
 -- Name: sc_machine; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -325,7 +325,7 @@ CREATE TABLE sc_machine (
 ALTER TABLE dmes.sc_machine OWNER TO "sipPrueba";
 
 --
--- TOC entry 186 (class 1259 OID 127561)
+-- TOC entry 186 (class 1259 OID 20343)
 -- Name: sc_mails; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -340,7 +340,7 @@ CREATE TABLE sc_mails (
 ALTER TABLE dmes.sc_mails OWNER TO "sipPrueba";
 
 --
--- TOC entry 187 (class 1259 OID 127564)
+-- TOC entry 187 (class 1259 OID 20346)
 -- Name: sc_maintenance_plan; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -368,7 +368,7 @@ CREATE TABLE sc_maintenance_plan (
 ALTER TABLE dmes.sc_maintenance_plan OWNER TO "sipPrueba";
 
 --
--- TOC entry 188 (class 1259 OID 127567)
+-- TOC entry 188 (class 1259 OID 20349)
 -- Name: sc_measure_unit; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -382,7 +382,7 @@ CREATE TABLE sc_measure_unit (
 ALTER TABLE dmes.sc_measure_unit OWNER TO "sipPrueba";
 
 --
--- TOC entry 189 (class 1259 OID 127570)
+-- TOC entry 189 (class 1259 OID 20352)
 -- Name: sc_module_permission; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -400,7 +400,7 @@ CREATE TABLE sc_module_permission (
 ALTER TABLE dmes.sc_module_permission OWNER TO "sipPrueba";
 
 --
--- TOC entry 190 (class 1259 OID 127576)
+-- TOC entry 190 (class 1259 OID 20358)
 -- Name: sc_module_permission_by_role; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -415,7 +415,7 @@ CREATE TABLE sc_module_permission_by_role (
 ALTER TABLE dmes.sc_module_permission_by_role OWNER TO "sipPrueba";
 
 --
--- TOC entry 191 (class 1259 OID 127579)
+-- TOC entry 191 (class 1259 OID 20361)
 -- Name: sc_money; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -429,7 +429,7 @@ CREATE TABLE sc_money (
 ALTER TABLE dmes.sc_money OWNER TO "sipPrueba";
 
 --
--- TOC entry 192 (class 1259 OID 127582)
+-- TOC entry 192 (class 1259 OID 20364)
 -- Name: sc_operating_conditions; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -447,7 +447,7 @@ CREATE TABLE sc_operating_conditions (
 ALTER TABLE dmes.sc_operating_conditions OWNER TO "sipPrueba";
 
 --
--- TOC entry 193 (class 1259 OID 127588)
+-- TOC entry 193 (class 1259 OID 20370)
 -- Name: sc_packing_unit; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -461,7 +461,7 @@ CREATE TABLE sc_packing_unit (
 ALTER TABLE dmes.sc_packing_unit OWNER TO "sipPrueba";
 
 --
--- TOC entry 194 (class 1259 OID 127591)
+-- TOC entry 194 (class 1259 OID 20373)
 -- Name: sc_partner; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -480,7 +480,7 @@ CREATE TABLE sc_partner (
 ALTER TABLE dmes.sc_partner OWNER TO "sipPrueba";
 
 --
--- TOC entry 195 (class 1259 OID 127594)
+-- TOC entry 195 (class 1259 OID 20376)
 -- Name: sc_parts_and_consumables; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -496,7 +496,7 @@ CREATE TABLE sc_parts_and_consumables (
 ALTER TABLE dmes.sc_parts_and_consumables OWNER TO "sipPrueba";
 
 --
--- TOC entry 196 (class 1259 OID 127597)
+-- TOC entry 196 (class 1259 OID 20379)
 -- Name: sc_person; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -521,7 +521,7 @@ CREATE TABLE sc_person (
 ALTER TABLE dmes.sc_person OWNER TO "sipPrueba";
 
 --
--- TOC entry 197 (class 1259 OID 127603)
+-- TOC entry 197 (class 1259 OID 20385)
 -- Name: sc_person_observations; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -536,7 +536,7 @@ CREATE TABLE sc_person_observations (
 ALTER TABLE dmes.sc_person_observations OWNER TO "sipPrueba";
 
 --
--- TOC entry 198 (class 1259 OID 127609)
+-- TOC entry 198 (class 1259 OID 20391)
 -- Name: sc_person_specifications; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -551,7 +551,7 @@ CREATE TABLE sc_person_specifications (
 ALTER TABLE dmes.sc_person_specifications OWNER TO "sipPrueba";
 
 --
--- TOC entry 199 (class 1259 OID 127615)
+-- TOC entry 199 (class 1259 OID 20397)
 -- Name: sc_phones; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -566,7 +566,7 @@ CREATE TABLE sc_phones (
 ALTER TABLE dmes.sc_phones OWNER TO "sipPrueba";
 
 --
--- TOC entry 200 (class 1259 OID 127618)
+-- TOC entry 200 (class 1259 OID 20400)
 -- Name: sc_photo; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -584,7 +584,7 @@ CREATE TABLE sc_photo (
 ALTER TABLE dmes.sc_photo OWNER TO "sipPrueba";
 
 --
--- TOC entry 201 (class 1259 OID 127624)
+-- TOC entry 201 (class 1259 OID 20406)
 -- Name: sc_priority; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -598,7 +598,7 @@ CREATE TABLE sc_priority (
 ALTER TABLE dmes.sc_priority OWNER TO "sipPrueba";
 
 --
--- TOC entry 202 (class 1259 OID 127627)
+-- TOC entry 202 (class 1259 OID 20409)
 -- Name: sc_procces_product; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -608,7 +608,6 @@ CREATE TABLE sc_procces_product (
     name character varying(200) NOT NULL,
     description character varying(2000),
     total_time_machine numeric(18,0),
-    total_time_input numeric(18,0),
     total_value_machine numeric(18,2),
     total_value_input numeric(18,2),
     total_time_process numeric(18,0),
@@ -622,7 +621,7 @@ CREATE TABLE sc_procces_product (
 ALTER TABLE dmes.sc_procces_product OWNER TO "sipPrueba";
 
 --
--- TOC entry 203 (class 1259 OID 127633)
+-- TOC entry 203 (class 1259 OID 20415)
 -- Name: sc_process_attached; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -637,7 +636,7 @@ CREATE TABLE sc_process_attached (
 ALTER TABLE dmes.sc_process_attached OWNER TO "sipPrueba";
 
 --
--- TOC entry 204 (class 1259 OID 127636)
+-- TOC entry 204 (class 1259 OID 20418)
 -- Name: sc_process_employee; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -656,7 +655,7 @@ CREATE TABLE sc_process_employee (
 ALTER TABLE dmes.sc_process_employee OWNER TO "sipPrueba";
 
 --
--- TOC entry 205 (class 1259 OID 127639)
+-- TOC entry 205 (class 1259 OID 20424)
 -- Name: sc_process_input; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -673,7 +672,7 @@ CREATE TABLE sc_process_input (
 ALTER TABLE dmes.sc_process_input OWNER TO "sipPrueba";
 
 --
--- TOC entry 206 (class 1259 OID 127642)
+-- TOC entry 206 (class 1259 OID 20427)
 -- Name: sc_process_machine; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -691,7 +690,7 @@ CREATE TABLE sc_process_machine (
 ALTER TABLE dmes.sc_process_machine OWNER TO "sipPrueba";
 
 --
--- TOC entry 207 (class 1259 OID 127645)
+-- TOC entry 207 (class 1259 OID 20433)
 -- Name: sc_process_type; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -705,7 +704,7 @@ CREATE TABLE sc_process_type (
 ALTER TABLE dmes.sc_process_type OWNER TO "sipPrueba";
 
 --
--- TOC entry 208 (class 1259 OID 127648)
+-- TOC entry 208 (class 1259 OID 20436)
 -- Name: sc_product_attached; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -721,7 +720,7 @@ CREATE TABLE sc_product_attached (
 ALTER TABLE dmes.sc_product_attached OWNER TO "sipPrueba";
 
 --
--- TOC entry 209 (class 1259 OID 127654)
+-- TOC entry 209 (class 1259 OID 20442)
 -- Name: sc_product_documents; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -740,7 +739,7 @@ CREATE TABLE sc_product_documents (
 ALTER TABLE dmes.sc_product_documents OWNER TO "sipPrueba";
 
 --
--- TOC entry 210 (class 1259 OID 127660)
+-- TOC entry 210 (class 1259 OID 20448)
 -- Name: sc_product_formulation; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -768,7 +767,7 @@ CREATE TABLE sc_product_formulation (
 ALTER TABLE dmes.sc_product_formulation OWNER TO "sipPrueba";
 
 --
--- TOC entry 2581 (class 0 OID 0)
+-- TOC entry 3422 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: COLUMN sc_product_formulation.id_priority; Type: COMMENT; Schema: dmes; Owner: sipPrueba
 --
@@ -778,7 +777,7 @@ COMMENT ON COLUMN sc_product_formulation.id_priority IS '
 
 
 --
--- TOC entry 2582 (class 0 OID 0)
+-- TOC entry 3423 (class 0 OID 0)
 -- Dependencies: 210
 -- Name: COLUMN sc_product_formulation.id_partner; Type: COMMENT; Schema: dmes; Owner: sipPrueba
 --
@@ -788,7 +787,7 @@ COMMENT ON COLUMN sc_product_formulation.id_partner IS '
 
 
 --
--- TOC entry 211 (class 1259 OID 127666)
+-- TOC entry 211 (class 1259 OID 20454)
 -- Name: sc_roles; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -804,7 +803,7 @@ CREATE TABLE sc_roles (
 ALTER TABLE dmes.sc_roles OWNER TO "sipPrueba";
 
 --
--- TOC entry 212 (class 1259 OID 127672)
+-- TOC entry 212 (class 1259 OID 20460)
 -- Name: sc_services_or_products; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -823,7 +822,7 @@ CREATE TABLE sc_services_or_products (
 ALTER TABLE dmes.sc_services_or_products OWNER TO "sipPrueba";
 
 --
--- TOC entry 213 (class 1259 OID 127678)
+-- TOC entry 213 (class 1259 OID 20466)
 -- Name: sc_stock; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -842,7 +841,7 @@ CREATE TABLE sc_stock (
 ALTER TABLE dmes.sc_stock OWNER TO "sipPrueba";
 
 --
--- TOC entry 214 (class 1259 OID 127681)
+-- TOC entry 214 (class 1259 OID 20469)
 -- Name: sc_store; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -855,7 +854,7 @@ CREATE TABLE sc_store (
 ALTER TABLE dmes.sc_store OWNER TO "sipPrueba";
 
 --
--- TOC entry 215 (class 1259 OID 127687)
+-- TOC entry 215 (class 1259 OID 20475)
 -- Name: sc_tools; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -871,7 +870,7 @@ CREATE TABLE sc_tools (
 ALTER TABLE dmes.sc_tools OWNER TO "sipPrueba";
 
 --
--- TOC entry 216 (class 1259 OID 127690)
+-- TOC entry 216 (class 1259 OID 20478)
 -- Name: sc_type; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -887,7 +886,7 @@ CREATE TABLE sc_type (
 ALTER TABLE dmes.sc_type OWNER TO "sipPrueba";
 
 --
--- TOC entry 217 (class 1259 OID 127693)
+-- TOC entry 217 (class 1259 OID 20481)
 -- Name: sc_users; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -905,7 +904,7 @@ CREATE TABLE sc_users (
 ALTER TABLE dmes.sc_users OWNER TO "sipPrueba";
 
 --
--- TOC entry 218 (class 1259 OID 127696)
+-- TOC entry 218 (class 1259 OID 20484)
 -- Name: sc_work_experience; Type: TABLE; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -921,7 +920,7 @@ CREATE TABLE sc_work_experience (
 ALTER TABLE dmes.sc_work_experience OWNER TO "sipPrueba";
 
 --
--- TOC entry 219 (class 1259 OID 127699)
+-- TOC entry 219 (class 1259 OID 20487)
 -- Name: sqclasstype; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -936,7 +935,7 @@ CREATE SEQUENCE sqclasstype
 ALTER TABLE dmes.sqclasstype OWNER TO "sipPrueba";
 
 --
--- TOC entry 220 (class 1259 OID 127701)
+-- TOC entry 220 (class 1259 OID 20489)
 -- Name: sqsccompetencies; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -951,7 +950,7 @@ CREATE SEQUENCE sqsccompetencies
 ALTER TABLE dmes.sqsccompetencies OWNER TO "sipPrueba";
 
 --
--- TOC entry 221 (class 1259 OID 127703)
+-- TOC entry 221 (class 1259 OID 20491)
 -- Name: sqsccostcenter; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -966,7 +965,7 @@ CREATE SEQUENCE sqsccostcenter
 ALTER TABLE dmes.sqsccostcenter OWNER TO "sipPrueba";
 
 --
--- TOC entry 222 (class 1259 OID 127705)
+-- TOC entry 222 (class 1259 OID 20493)
 -- Name: sqscdistributionunit; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -981,7 +980,7 @@ CREATE SEQUENCE sqscdistributionunit
 ALTER TABLE dmes.sqscdistributionunit OWNER TO "sipPrueba";
 
 --
--- TOC entry 223 (class 1259 OID 127707)
+-- TOC entry 223 (class 1259 OID 20495)
 -- Name: sqscdocuments; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -996,7 +995,7 @@ CREATE SEQUENCE sqscdocuments
 ALTER TABLE dmes.sqscdocuments OWNER TO "sipPrueba";
 
 --
--- TOC entry 224 (class 1259 OID 127709)
+-- TOC entry 224 (class 1259 OID 20497)
 -- Name: sqscemployee; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1011,7 +1010,7 @@ CREATE SEQUENCE sqscemployee
 ALTER TABLE dmes.sqscemployee OWNER TO "sipPrueba";
 
 --
--- TOC entry 225 (class 1259 OID 127711)
+-- TOC entry 225 (class 1259 OID 20499)
 -- Name: sqscinput; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1026,7 +1025,7 @@ CREATE SEQUENCE sqscinput
 ALTER TABLE dmes.sqscinput OWNER TO "sipPrueba";
 
 --
--- TOC entry 226 (class 1259 OID 127713)
+-- TOC entry 226 (class 1259 OID 20501)
 -- Name: sqscinputdimension; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1041,7 +1040,7 @@ CREATE SEQUENCE sqscinputdimension
 ALTER TABLE dmes.sqscinputdimension OWNER TO "sipPrueba";
 
 --
--- TOC entry 227 (class 1259 OID 127715)
+-- TOC entry 227 (class 1259 OID 20503)
 -- Name: sqscinputdocuments; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1056,7 +1055,7 @@ CREATE SEQUENCE sqscinputdocuments
 ALTER TABLE dmes.sqscinputdocuments OWNER TO "sipPrueba";
 
 --
--- TOC entry 228 (class 1259 OID 127717)
+-- TOC entry 228 (class 1259 OID 20505)
 -- Name: sqscinputequivalence; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1071,7 +1070,7 @@ CREATE SEQUENCE sqscinputequivalence
 ALTER TABLE dmes.sqscinputequivalence OWNER TO "sipPrueba";
 
 --
--- TOC entry 229 (class 1259 OID 127719)
+-- TOC entry 229 (class 1259 OID 20507)
 -- Name: sqscinputfeature; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1086,7 +1085,7 @@ CREATE SEQUENCE sqscinputfeature
 ALTER TABLE dmes.sqscinputfeature OWNER TO "sipPrueba";
 
 --
--- TOC entry 230 (class 1259 OID 127721)
+-- TOC entry 230 (class 1259 OID 20509)
 -- Name: sqscinputobservation; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1101,7 +1100,7 @@ CREATE SEQUENCE sqscinputobservation
 ALTER TABLE dmes.sqscinputobservation OWNER TO "sipPrueba";
 
 --
--- TOC entry 231 (class 1259 OID 127723)
+-- TOC entry 231 (class 1259 OID 20511)
 -- Name: sqscinputspecification; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1116,7 +1115,7 @@ CREATE SEQUENCE sqscinputspecification
 ALTER TABLE dmes.sqscinputspecification OWNER TO "sipPrueba";
 
 --
--- TOC entry 232 (class 1259 OID 127725)
+-- TOC entry 232 (class 1259 OID 20513)
 -- Name: sqsclocation; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1131,7 +1130,7 @@ CREATE SEQUENCE sqsclocation
 ALTER TABLE dmes.sqsclocation OWNER TO "sipPrueba";
 
 --
--- TOC entry 233 (class 1259 OID 127727)
+-- TOC entry 233 (class 1259 OID 20515)
 -- Name: sqscmachine; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1146,7 +1145,7 @@ CREATE SEQUENCE sqscmachine
 ALTER TABLE dmes.sqscmachine OWNER TO "sipPrueba";
 
 --
--- TOC entry 234 (class 1259 OID 127729)
+-- TOC entry 234 (class 1259 OID 20517)
 -- Name: sqscmails; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1161,7 +1160,7 @@ CREATE SEQUENCE sqscmails
 ALTER TABLE dmes.sqscmails OWNER TO "sipPrueba";
 
 --
--- TOC entry 235 (class 1259 OID 127731)
+-- TOC entry 235 (class 1259 OID 20519)
 -- Name: sqscmaintenanceplan; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1176,7 +1175,7 @@ CREATE SEQUENCE sqscmaintenanceplan
 ALTER TABLE dmes.sqscmaintenanceplan OWNER TO "sipPrueba";
 
 --
--- TOC entry 236 (class 1259 OID 127733)
+-- TOC entry 236 (class 1259 OID 20521)
 -- Name: sqscmeasure; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1191,7 +1190,7 @@ CREATE SEQUENCE sqscmeasure
 ALTER TABLE dmes.sqscmeasure OWNER TO "sipPrueba";
 
 --
--- TOC entry 237 (class 1259 OID 127735)
+-- TOC entry 237 (class 1259 OID 20523)
 -- Name: sqscmodulespermissionbyrole; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1206,7 +1205,7 @@ CREATE SEQUENCE sqscmodulespermissionbyrole
 ALTER TABLE dmes.sqscmodulespermissionbyrole OWNER TO "sipPrueba";
 
 --
--- TOC entry 238 (class 1259 OID 127737)
+-- TOC entry 238 (class 1259 OID 20525)
 -- Name: sqscmoney; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1221,7 +1220,7 @@ CREATE SEQUENCE sqscmoney
 ALTER TABLE dmes.sqscmoney OWNER TO "sipPrueba";
 
 --
--- TOC entry 239 (class 1259 OID 127739)
+-- TOC entry 239 (class 1259 OID 20527)
 -- Name: sqscoperatingconditions; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1236,7 +1235,7 @@ CREATE SEQUENCE sqscoperatingconditions
 ALTER TABLE dmes.sqscoperatingconditions OWNER TO "sipPrueba";
 
 --
--- TOC entry 240 (class 1259 OID 127741)
+-- TOC entry 240 (class 1259 OID 20529)
 -- Name: sqscpackingunit; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1251,7 +1250,7 @@ CREATE SEQUENCE sqscpackingunit
 ALTER TABLE dmes.sqscpackingunit OWNER TO "sipPrueba";
 
 --
--- TOC entry 241 (class 1259 OID 127743)
+-- TOC entry 241 (class 1259 OID 20531)
 -- Name: sqscpartners; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1266,7 +1265,7 @@ CREATE SEQUENCE sqscpartners
 ALTER TABLE dmes.sqscpartners OWNER TO "sipPrueba";
 
 --
--- TOC entry 242 (class 1259 OID 127745)
+-- TOC entry 242 (class 1259 OID 20533)
 -- Name: sqscpartsandconsumables; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1281,7 +1280,7 @@ CREATE SEQUENCE sqscpartsandconsumables
 ALTER TABLE dmes.sqscpartsandconsumables OWNER TO "sipPrueba";
 
 --
--- TOC entry 243 (class 1259 OID 127747)
+-- TOC entry 243 (class 1259 OID 20536)
 -- Name: sqscpersondocumentationattached; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1296,7 +1295,7 @@ CREATE SEQUENCE sqscpersondocumentationattached
 ALTER TABLE dmes.sqscpersondocumentationattached OWNER TO "sipPrueba";
 
 --
--- TOC entry 244 (class 1259 OID 127749)
+-- TOC entry 244 (class 1259 OID 20538)
 -- Name: sqscpersonobservations; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1311,7 +1310,7 @@ CREATE SEQUENCE sqscpersonobservations
 ALTER TABLE dmes.sqscpersonobservations OWNER TO "sipPrueba";
 
 --
--- TOC entry 245 (class 1259 OID 127751)
+-- TOC entry 245 (class 1259 OID 20540)
 -- Name: sqscpersons; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1326,7 +1325,7 @@ CREATE SEQUENCE sqscpersons
 ALTER TABLE dmes.sqscpersons OWNER TO "sipPrueba";
 
 --
--- TOC entry 246 (class 1259 OID 127753)
+-- TOC entry 246 (class 1259 OID 20542)
 -- Name: sqscpersonspecifications; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1341,7 +1340,7 @@ CREATE SEQUENCE sqscpersonspecifications
 ALTER TABLE dmes.sqscpersonspecifications OWNER TO "sipPrueba";
 
 --
--- TOC entry 247 (class 1259 OID 127755)
+-- TOC entry 247 (class 1259 OID 20544)
 -- Name: sqscphones; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1356,7 +1355,7 @@ CREATE SEQUENCE sqscphones
 ALTER TABLE dmes.sqscphones OWNER TO "sipPrueba";
 
 --
--- TOC entry 248 (class 1259 OID 127757)
+-- TOC entry 248 (class 1259 OID 20546)
 -- Name: sqscphoto; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1371,7 +1370,7 @@ CREATE SEQUENCE sqscphoto
 ALTER TABLE dmes.sqscphoto OWNER TO "sipPrueba";
 
 --
--- TOC entry 249 (class 1259 OID 127759)
+-- TOC entry 249 (class 1259 OID 20548)
 -- Name: sqscprocessattached; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1386,7 +1385,7 @@ CREATE SEQUENCE sqscprocessattached
 ALTER TABLE dmes.sqscprocessattached OWNER TO "sipPrueba";
 
 --
--- TOC entry 250 (class 1259 OID 127761)
+-- TOC entry 250 (class 1259 OID 20550)
 -- Name: sqscprocessemployee; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1401,7 +1400,7 @@ CREATE SEQUENCE sqscprocessemployee
 ALTER TABLE dmes.sqscprocessemployee OWNER TO "sipPrueba";
 
 --
--- TOC entry 251 (class 1259 OID 127763)
+-- TOC entry 251 (class 1259 OID 20552)
 -- Name: sqscprocessinput; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1416,7 +1415,7 @@ CREATE SEQUENCE sqscprocessinput
 ALTER TABLE dmes.sqscprocessinput OWNER TO "sipPrueba";
 
 --
--- TOC entry 252 (class 1259 OID 127765)
+-- TOC entry 252 (class 1259 OID 20554)
 -- Name: sqscprocessmachine; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1431,7 +1430,7 @@ CREATE SEQUENCE sqscprocessmachine
 ALTER TABLE dmes.sqscprocessmachine OWNER TO "sipPrueba";
 
 --
--- TOC entry 253 (class 1259 OID 127767)
+-- TOC entry 253 (class 1259 OID 20556)
 -- Name: sqscprocessproduct; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1446,7 +1445,7 @@ CREATE SEQUENCE sqscprocessproduct
 ALTER TABLE dmes.sqscprocessproduct OWNER TO "sipPrueba";
 
 --
--- TOC entry 254 (class 1259 OID 127769)
+-- TOC entry 254 (class 1259 OID 20558)
 -- Name: sqscprocesstype; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1461,7 +1460,7 @@ CREATE SEQUENCE sqscprocesstype
 ALTER TABLE dmes.sqscprocesstype OWNER TO "sipPrueba";
 
 --
--- TOC entry 255 (class 1259 OID 127771)
+-- TOC entry 255 (class 1259 OID 20560)
 -- Name: sqscproductattached; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1476,7 +1475,7 @@ CREATE SEQUENCE sqscproductattached
 ALTER TABLE dmes.sqscproductattached OWNER TO "sipPrueba";
 
 --
--- TOC entry 256 (class 1259 OID 127773)
+-- TOC entry 256 (class 1259 OID 20562)
 -- Name: sqscproductdocuments; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1491,7 +1490,7 @@ CREATE SEQUENCE sqscproductdocuments
 ALTER TABLE dmes.sqscproductdocuments OWNER TO "sipPrueba";
 
 --
--- TOC entry 257 (class 1259 OID 127775)
+-- TOC entry 257 (class 1259 OID 20564)
 -- Name: sqscproductformulation; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1506,7 +1505,7 @@ CREATE SEQUENCE sqscproductformulation
 ALTER TABLE dmes.sqscproductformulation OWNER TO "sipPrueba";
 
 --
--- TOC entry 258 (class 1259 OID 127777)
+-- TOC entry 258 (class 1259 OID 20566)
 -- Name: sqscroles; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1521,7 +1520,7 @@ CREATE SEQUENCE sqscroles
 ALTER TABLE dmes.sqscroles OWNER TO "sipPrueba";
 
 --
--- TOC entry 259 (class 1259 OID 127779)
+-- TOC entry 259 (class 1259 OID 20568)
 -- Name: sqscservicesorproducts; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1536,7 +1535,7 @@ CREATE SEQUENCE sqscservicesorproducts
 ALTER TABLE dmes.sqscservicesorproducts OWNER TO "sipPrueba";
 
 --
--- TOC entry 260 (class 1259 OID 127781)
+-- TOC entry 260 (class 1259 OID 20570)
 -- Name: sqscstock; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1551,7 +1550,7 @@ CREATE SEQUENCE sqscstock
 ALTER TABLE dmes.sqscstock OWNER TO "sipPrueba";
 
 --
--- TOC entry 261 (class 1259 OID 127783)
+-- TOC entry 261 (class 1259 OID 20572)
 -- Name: sqscstore; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1566,7 +1565,7 @@ CREATE SEQUENCE sqscstore
 ALTER TABLE dmes.sqscstore OWNER TO "sipPrueba";
 
 --
--- TOC entry 262 (class 1259 OID 127785)
+-- TOC entry 262 (class 1259 OID 20574)
 -- Name: sqsctools; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1581,7 +1580,7 @@ CREATE SEQUENCE sqsctools
 ALTER TABLE dmes.sqsctools OWNER TO "sipPrueba";
 
 --
--- TOC entry 263 (class 1259 OID 127787)
+-- TOC entry 263 (class 1259 OID 20576)
 -- Name: sqscusers; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1596,7 +1595,7 @@ CREATE SEQUENCE sqscusers
 ALTER TABLE dmes.sqscusers OWNER TO "sipPrueba";
 
 --
--- TOC entry 264 (class 1259 OID 127789)
+-- TOC entry 264 (class 1259 OID 20578)
 -- Name: sqscworkexperience; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1611,7 +1610,7 @@ CREATE SEQUENCE sqscworkexperience
 ALTER TABLE dmes.sqscworkexperience OWNER TO "sipPrueba";
 
 --
--- TOC entry 265 (class 1259 OID 127791)
+-- TOC entry 265 (class 1259 OID 20580)
 -- Name: sqtype; Type: SEQUENCE; Schema: dmes; Owner: sipPrueba
 --
 
@@ -1626,7 +1625,7 @@ CREATE SEQUENCE sqtype
 ALTER TABLE dmes.sqtype OWNER TO "sipPrueba";
 
 --
--- TOC entry 2479 (class 0 OID 127483)
+-- TOC entry 3320 (class 0 OID 20265)
 -- Dependencies: 170
 -- Data for Name: sc_class_type; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1643,7 +1642,7 @@ INSERT INTO sc_class_type (id_class_type, class_type, creation_date, modify_date
 
 
 --
--- TOC entry 2480 (class 0 OID 127486)
+-- TOC entry 3321 (class 0 OID 20268)
 -- Dependencies: 171
 -- Data for Name: sc_competencies; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1652,7 +1651,7 @@ INSERT INTO sc_competencies (id_competencies, tittle, description, id_employee) 
 
 
 --
--- TOC entry 2481 (class 0 OID 127492)
+-- TOC entry 3322 (class 0 OID 20274)
 -- Dependencies: 172
 -- Data for Name: sc_constants_load_files; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1661,7 +1660,7 @@ INSERT INTO sc_constants_load_files (id_constants_load_file, max_size_file, exte
 
 
 --
--- TOC entry 2482 (class 0 OID 127498)
+-- TOC entry 3323 (class 0 OID 20280)
 -- Dependencies: 173
 -- Data for Name: sc_cost_center; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1676,7 +1675,7 @@ INSERT INTO sc_cost_center (id_cost_center, description, cost_center, creation_d
 
 
 --
--- TOC entry 2483 (class 0 OID 127501)
+-- TOC entry 3324 (class 0 OID 20283)
 -- Dependencies: 174
 -- Data for Name: sc_distribution_unit; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1687,7 +1686,7 @@ INSERT INTO sc_distribution_unit (id_distribution_unit, acronym, description) VA
 
 
 --
--- TOC entry 2484 (class 0 OID 127504)
+-- TOC entry 3325 (class 0 OID 20286)
 -- Dependencies: 175
 -- Data for Name: sc_documents; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1699,7 +1698,7 @@ INSERT INTO sc_documents (id_document, document_path, document_tittle, creation_
 
 
 --
--- TOC entry 2485 (class 0 OID 127510)
+-- TOC entry 3326 (class 0 OID 20292)
 -- Dependencies: 176
 -- Data for Name: sc_employee; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1708,7 +1707,7 @@ INSERT INTO sc_employee (id_employee, "position", formation, admission_date, ret
 
 
 --
--- TOC entry 2486 (class 0 OID 127513)
+-- TOC entry 3327 (class 0 OID 20295)
 -- Dependencies: 177
 -- Data for Name: sc_input; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1720,7 +1719,7 @@ INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, 
 
 
 --
--- TOC entry 2487 (class 0 OID 127519)
+-- TOC entry 3328 (class 0 OID 20301)
 -- Dependencies: 178
 -- Data for Name: sc_input_dimension; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1732,10 +1731,11 @@ INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight,
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (4, '1-Mms', '1-Mms', '1-Mms', '1-Mts', '1-Mms', '1-KMS', '1-Mms', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (13, '12-KMS', '12-Mts', '3-KMS', '12-KMS', '12-Mms', '', '12-KMS', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (15, '1-Mts', '2-Mts', '2-Mms', '3-Mts', '', '', '', '');
+INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (16, '12-Mts', '12-Mts', '12-Mts', '12-Mms', '', '', '', '');
 
 
 --
--- TOC entry 2488 (class 0 OID 127525)
+-- TOC entry 3329 (class 0 OID 20307)
 -- Dependencies: 179
 -- Data for Name: sc_input_documents; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1747,7 +1747,7 @@ INSERT INTO sc_input_documents (id_input_documents, document_path, document_titt
 
 
 --
--- TOC entry 2489 (class 0 OID 127531)
+-- TOC entry 3330 (class 0 OID 20313)
 -- Dependencies: 180
 -- Data for Name: sc_input_equivalence; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1755,7 +1755,7 @@ INSERT INTO sc_input_documents (id_input_documents, document_path, document_titt
 
 
 --
--- TOC entry 2490 (class 0 OID 127534)
+-- TOC entry 3331 (class 0 OID 20316)
 -- Dependencies: 181
 -- Data for Name: sc_input_feactures; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1767,7 +1767,7 @@ INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_inpu
 
 
 --
--- TOC entry 2491 (class 0 OID 127540)
+-- TOC entry 3332 (class 0 OID 20322)
 -- Dependencies: 182
 -- Data for Name: sc_input_observations; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1778,7 +1778,7 @@ INSERT INTO sc_input_observations (id_input_observation, tittle, description, id
 
 
 --
--- TOC entry 2492 (class 0 OID 127546)
+-- TOC entry 3333 (class 0 OID 20328)
 -- Dependencies: 183
 -- Data for Name: sc_input_specifications; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1789,7 +1789,7 @@ INSERT INTO sc_input_specifications (id_input_specifications, description, tittl
 
 
 --
--- TOC entry 2493 (class 0 OID 127552)
+-- TOC entry 3334 (class 0 OID 20334)
 -- Dependencies: 184
 -- Data for Name: sc_location; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1807,7 +1807,7 @@ INSERT INTO sc_location (id_location, location, description, id_store) VALUES (1
 
 
 --
--- TOC entry 2494 (class 0 OID 127558)
+-- TOC entry 3335 (class 0 OID 20340)
 -- Dependencies: 185
 -- Data for Name: sc_machine; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1818,7 +1818,7 @@ INSERT INTO sc_machine (id_machine, name, hour_value) VALUES (3, 'Máquina 4', 4
 
 
 --
--- TOC entry 2495 (class 0 OID 127561)
+-- TOC entry 3336 (class 0 OID 20343)
 -- Dependencies: 186
 -- Data for Name: sc_mails; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1829,7 +1829,7 @@ INSERT INTO sc_mails (id_mail, mail, description, id_person) VALUES (13, 'dede@h
 
 
 --
--- TOC entry 2496 (class 0 OID 127564)
+-- TOC entry 3337 (class 0 OID 20346)
 -- Dependencies: 187
 -- Data for Name: sc_maintenance_plan; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1837,7 +1837,7 @@ INSERT INTO sc_mails (id_mail, mail, description, id_person) VALUES (13, 'dede@h
 
 
 --
--- TOC entry 2497 (class 0 OID 127567)
+-- TOC entry 3338 (class 0 OID 20349)
 -- Dependencies: 188
 -- Data for Name: sc_measure_unit; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1848,7 +1848,7 @@ INSERT INTO sc_measure_unit (id_measure, acronym, type) VALUES (4, 'KMS', 'Kilom
 
 
 --
--- TOC entry 2498 (class 0 OID 127570)
+-- TOC entry 3339 (class 0 OID 20352)
 -- Dependencies: 189
 -- Data for Name: sc_module_permission; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1868,20 +1868,20 @@ INSERT INTO sc_module_permission (id_module_permission, name, description, icone
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (16, 'Terceros', NULL, NULL, 'Item', 13, 'security/Scperson.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (11, 'Empleados', NULL, NULL, 'Item', 9, 'resources/humans/ScEmployees.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (12, 'Proveedores', NULL, NULL, 'Item', 9, 'resources/humans/ScPartners.jsf');
-INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (17, 'Maquina', NULL, NULL, 'Item', 10, 'resources/materials/ScMachines.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (18, 'Cargue de Documentos', NULL, NULL, 'Folder', 7, ' Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (21, 'Cargue de Parámetros', NULL, NULL, 'Folder', 7, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (22, 'Parámetros Básicos', NULL, NULL, 'Item', 21, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (19, 'Documentos por Usuario', NULL, NULL, 'Item', 18, 'LoadDocuments/FsdocumentsByUser.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (4, 'Gestión de la Calidad y la Trazabilidad', NULL, 'cal.png', 'Folder', 1, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (20, 'Documentos a Usuario', NULL, NULL, 'Item', 18, 'LoadDocuments/FsdocumentsToUser.jsf');
-INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (23, 'Almacen', NULL, NULL, 'Item', 10, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (24, 'Insumos', NULL, NULL, 'Item', 10, 'resources/materials/ScInput.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (25, 'Formulación de Productos', NULL, NULL, 'Item', 10, 'resources/materials/ScProductFormulation.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (23, 'Almacén', NULL, NULL, 'Item', 10, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (17, 'Máquina', NULL, NULL, 'Item', 10, 'resources/materials/ScMachines.jsf');
 
 
 --
--- TOC entry 2499 (class 0 OID 127576)
+-- TOC entry 3340 (class 0 OID 20358)
 -- Dependencies: 190
 -- Data for Name: sc_module_permission_by_role; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1930,7 +1930,7 @@ INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role,
 
 
 --
--- TOC entry 2500 (class 0 OID 127579)
+-- TOC entry 3341 (class 0 OID 20361)
 -- Dependencies: 191
 -- Data for Name: sc_money; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1943,7 +1943,7 @@ INSERT INTO sc_money (id_money, description, acronym) VALUES (5, 'Yen', '¥');
 
 
 --
--- TOC entry 2501 (class 0 OID 127582)
+-- TOC entry 3342 (class 0 OID 20364)
 -- Dependencies: 192
 -- Data for Name: sc_operating_conditions; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1951,7 +1951,7 @@ INSERT INTO sc_money (id_money, description, acronym) VALUES (5, 'Yen', '¥');
 
 
 --
--- TOC entry 2502 (class 0 OID 127588)
+-- TOC entry 3343 (class 0 OID 20370)
 -- Dependencies: 193
 -- Data for Name: sc_packing_unit; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1964,7 +1964,7 @@ INSERT INTO sc_packing_unit (id_packing, description, acronym) VALUES (7, 'Canti
 
 
 --
--- TOC entry 2503 (class 0 OID 127591)
+-- TOC entry 3344 (class 0 OID 20373)
 -- Dependencies: 194
 -- Data for Name: sc_partner; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1974,7 +1974,7 @@ INSERT INTO sc_partner (id_partner, active, "position", web_page, creation_date,
 
 
 --
--- TOC entry 2504 (class 0 OID 127594)
+-- TOC entry 3345 (class 0 OID 20376)
 -- Dependencies: 195
 -- Data for Name: sc_parts_and_consumables; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1982,7 +1982,7 @@ INSERT INTO sc_partner (id_partner, active, "position", web_page, creation_date,
 
 
 --
--- TOC entry 2505 (class 0 OID 127597)
+-- TOC entry 3346 (class 0 OID 20379)
 -- Dependencies: 196
 -- Data for Name: sc_person; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -1996,7 +1996,7 @@ INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, per
 
 
 --
--- TOC entry 2506 (class 0 OID 127603)
+-- TOC entry 3347 (class 0 OID 20385)
 -- Dependencies: 197
 -- Data for Name: sc_person_observations; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2007,7 +2007,7 @@ INSERT INTO sc_person_observations (id_person_observations, tittle, observation,
 
 
 --
--- TOC entry 2507 (class 0 OID 127609)
+-- TOC entry 3348 (class 0 OID 20391)
 -- Dependencies: 198
 -- Data for Name: sc_person_specifications; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2016,7 +2016,7 @@ INSERT INTO sc_person_specifications (id_person_specifications, tittle, specific
 
 
 --
--- TOC entry 2508 (class 0 OID 127615)
+-- TOC entry 3349 (class 0 OID 20397)
 -- Dependencies: 199
 -- Data for Name: sc_phones; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2027,7 +2027,7 @@ INSERT INTO sc_phones (id_phone, number_phone, description, id_person) VALUES (1
 
 
 --
--- TOC entry 2509 (class 0 OID 127618)
+-- TOC entry 3350 (class 0 OID 20400)
 -- Dependencies: 200
 -- Data for Name: sc_photo; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2035,7 +2035,7 @@ INSERT INTO sc_phones (id_phone, number_phone, description, id_person) VALUES (1
 
 
 --
--- TOC entry 2510 (class 0 OID 127624)
+-- TOC entry 3351 (class 0 OID 20406)
 -- Dependencies: 201
 -- Data for Name: sc_priority; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2046,15 +2046,16 @@ INSERT INTO sc_priority (id_priority, name, description) VALUES (3, 'Baja', 'Baj
 
 
 --
--- TOC entry 2511 (class 0 OID 127627)
+-- TOC entry 3352 (class 0 OID 20409)
 -- Dependencies: 202
 -- Data for Name: sc_procces_product; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
+INSERT INTO sc_procces_product (id_process_product, id_process_type, name, description, total_time_machine, total_value_machine, total_value_input, total_time_process, total_value_process, total_time_employee, total_value_employee, id_product_formulation) VALUES (3, 1, 'sfdsfsd', 'sdfsdfsdfsd', 234979, 4296672.33, 1539846.00, 235645, 5873070.63, 666, 36552.30, 4);
 
 
 --
--- TOC entry 2512 (class 0 OID 127633)
+-- TOC entry 3353 (class 0 OID 20415)
 -- Dependencies: 203
 -- Data for Name: sc_process_attached; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2062,31 +2063,38 @@ INSERT INTO sc_priority (id_priority, name, description) VALUES (3, 'Baja', 'Baj
 
 
 --
--- TOC entry 2513 (class 0 OID 127636)
+-- TOC entry 3354 (class 0 OID 20418)
 -- Dependencies: 204
 -- Data for Name: sc_process_employee; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
+INSERT INTO sc_process_employee (id_process_employee, labor_description, time_use, other_expenses, total_value_employee, id_employee, id_process, description_other_expenses) VALUES (5, '3333', 333, 333.00, 18276.15, 8, 3, '333');
+INSERT INTO sc_process_employee (id_process_employee, labor_description, time_use, other_expenses, total_value_employee, id_employee, id_process, description_other_expenses) VALUES (6, '2333', 333, 333.00, 18276.15, 8, 3, '333');
 
 
 --
--- TOC entry 2514 (class 0 OID 127639)
+-- TOC entry 3355 (class 0 OID 20424)
 -- Dependencies: 205
 -- Data for Name: sc_process_input; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
+INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (1, 3, 7, 3333, 333.00, 1203213.00);
+INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (2, 3, 13, 3333, 33.00, 336633.00);
 
 
 --
--- TOC entry 2515 (class 0 OID 127642)
+-- TOC entry 3356 (class 0 OID 20427)
 -- Dependencies: 206
 -- Data for Name: sc_process_machine; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
+INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (4, 1, 232323, 2333.00, 3874383.00, 3, '333');
+INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (5, 2, 2323, 322323.00, 399756.33, 3, '23233');
+INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (6, 3, 333, 333.00, 22533.00, 3, '333');
 
 
 --
--- TOC entry 2516 (class 0 OID 127645)
+-- TOC entry 3357 (class 0 OID 20433)
 -- Dependencies: 207
 -- Data for Name: sc_process_type; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2096,7 +2104,7 @@ INSERT INTO sc_process_type (id_process_type, description, type) VALUES (2, 'Pro
 
 
 --
--- TOC entry 2517 (class 0 OID 127648)
+-- TOC entry 3358 (class 0 OID 20436)
 -- Dependencies: 208
 -- Data for Name: sc_product_attached; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2115,10 +2123,19 @@ INSERT INTO sc_product_attached (id_product_attached, type, tittle, description,
 INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (13, 'CARACTERISTICA', 'Saludo', 'Saludo', 1);
 INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (14, 'CARACTERISTICA', 'SaludoSaludoSaludo', 'SaludoSaludoSaludo', 1);
 INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (15, 'OBSERVACION', 'SaludoSaludoSaludoSaludo', 'SaludoSaludoSaludo', 1);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (16, 'OBSERVACION', 'sdfsdfs', 'sdfsdfsd', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (17, 'ESPECIFICACION', '222', '2222', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (18, 'CARACTERISTICA', 'sfsdf', 'sdfsdf', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (19, 'ESPECIFICACION', '12', '12', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (20, 'OBSERVACION', 'sfsdf', 'sfsdfsd', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (21, 'ESPECIFICACION', '3333333333333', '3333333', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (22, 'CARACTERISTICA', 'dsfs', 'sfsfs', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (23, 'CARACTERISTICA', 'sdfsdf', 'sfsdfsd', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (24, 'OBSERVACION', 'sfsdfs', 'sdfsfs', 4);
 
 
 --
--- TOC entry 2518 (class 0 OID 127654)
+-- TOC entry 3359 (class 0 OID 20442)
 -- Dependencies: 209
 -- Data for Name: sc_product_documents; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2126,20 +2143,22 @@ INSERT INTO sc_product_attached (id_product_attached, type, tittle, description,
 INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (1, '/home/guschaor/product_filePath/docs', 'Hoja de Vida', '2015-04-06', 'CUADRO DE FINANCIACION VIVIENDA.doc', 'guschaor', 'application/msword', 1);
 INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (2, '/home/guschaor/product_filePath/docs', 'Saludo', '2015-04-07', 'Horas Extras 25072014 - 31072014.xls', 'guschaor', 'application/vnd.ms-excel', 1);
 INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (3, '/home/guschaor/product_filePath/docs', 'Saludo', '2015-04-07', 'copia de Horas Extras 27062014 - 03072014.xls', 'guschaor', 'application/vnd.ms-excel', 1);
+INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (4, '/home/guschaor/product_filePath/docs', 'sfsdfsd', '2015-04-14', 'documento insumos.docx', 'guschaor', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 4);
 
 
 --
--- TOC entry 2519 (class 0 OID 127660)
+-- TOC entry 3360 (class 0 OID 20448)
 -- Dependencies: 210
 -- Data for Name: sc_product_formulation; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
 INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_partner, id_location, manufacturing_time, description, id_product_dimension) VALUES (1, ' ', 'Liquido', 'ALPINA', 'AC12322', 7, NULL, '2015-04-06', 1, 1, 12000, 2, 1, 5, 123, 'Arequipe', 13);
 INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_partner, id_location, manufacturing_time, description, id_product_dimension) VALUES (3, ' ', 'Solido', 'Sony', 'XperiaZ2', 3, NULL, '2015-04-11', 2, 3, 1200000, 1, 1, 7, 1200, 'Celular Sony', 15);
+INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_partner, id_location, manufacturing_time, description, id_product_dimension) VALUES (4, ' ', 'dfsf', 'sdfsd', 'fsdfs', 4, NULL, '2015-04-14', 1, 4, 333, 1, 1, 1, 333, 'dfsdfsd', 16);
 
 
 --
--- TOC entry 2520 (class 0 OID 127666)
+-- TOC entry 3361 (class 0 OID 20454)
 -- Dependencies: 211
 -- Data for Name: sc_roles; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2152,7 +2171,7 @@ INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VA
 
 
 --
--- TOC entry 2521 (class 0 OID 127672)
+-- TOC entry 3362 (class 0 OID 20460)
 -- Dependencies: 212
 -- Data for Name: sc_services_or_products; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2160,7 +2179,7 @@ INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VA
 
 
 --
--- TOC entry 2522 (class 0 OID 127678)
+-- TOC entry 3363 (class 0 OID 20466)
 -- Dependencies: 213
 -- Data for Name: sc_stock; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2174,7 +2193,7 @@ INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price
 
 
 --
--- TOC entry 2523 (class 0 OID 127681)
+-- TOC entry 3364 (class 0 OID 20469)
 -- Dependencies: 214
 -- Data for Name: sc_store; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2187,7 +2206,7 @@ INSERT INTO sc_store (id_store, name) VALUES (5, 'Almacen 5');
 
 
 --
--- TOC entry 2524 (class 0 OID 127687)
+-- TOC entry 3365 (class 0 OID 20475)
 -- Dependencies: 215
 -- Data for Name: sc_tools; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2195,7 +2214,7 @@ INSERT INTO sc_store (id_store, name) VALUES (5, 'Almacen 5');
 
 
 --
--- TOC entry 2525 (class 0 OID 127690)
+-- TOC entry 3366 (class 0 OID 20478)
 -- Dependencies: 216
 -- Data for Name: sc_type; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2214,7 +2233,7 @@ INSERT INTO sc_type (id_type, type, id_class_type, creation_date, modify_date) V
 
 
 --
--- TOC entry 2526 (class 0 OID 127693)
+-- TOC entry 3367 (class 0 OID 20481)
 -- Dependencies: 217
 -- Data for Name: sc_users; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2228,7 +2247,7 @@ INSERT INTO sc_users (id_user, id_person, id_role, login, password, creation_dat
 
 
 --
--- TOC entry 2527 (class 0 OID 127696)
+-- TOC entry 3368 (class 0 OID 20484)
 -- Dependencies: 218
 -- Data for Name: sc_work_experience; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
@@ -2237,7 +2256,7 @@ INSERT INTO sc_work_experience (id_work_experience, init_date, end_date, id_empl
 
 
 --
--- TOC entry 2583 (class 0 OID 0)
+-- TOC entry 3424 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: sqclasstype; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2246,7 +2265,7 @@ SELECT pg_catalog.setval('sqclasstype', 1, false);
 
 
 --
--- TOC entry 2584 (class 0 OID 0)
+-- TOC entry 3425 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: sqsccompetencies; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2255,7 +2274,7 @@ SELECT pg_catalog.setval('sqsccompetencies', 6, true);
 
 
 --
--- TOC entry 2585 (class 0 OID 0)
+-- TOC entry 3426 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: sqsccostcenter; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2264,7 +2283,7 @@ SELECT pg_catalog.setval('sqsccostcenter', 11, true);
 
 
 --
--- TOC entry 2586 (class 0 OID 0)
+-- TOC entry 3427 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: sqscdistributionunit; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2273,7 +2292,7 @@ SELECT pg_catalog.setval('sqscdistributionunit', 3, true);
 
 
 --
--- TOC entry 2587 (class 0 OID 0)
+-- TOC entry 3428 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: sqscdocuments; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2282,7 +2301,7 @@ SELECT pg_catalog.setval('sqscdocuments', 26, true);
 
 
 --
--- TOC entry 2588 (class 0 OID 0)
+-- TOC entry 3429 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: sqscemployee; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2291,7 +2310,7 @@ SELECT pg_catalog.setval('sqscemployee', 8, true);
 
 
 --
--- TOC entry 2589 (class 0 OID 0)
+-- TOC entry 3430 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: sqscinput; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2300,16 +2319,16 @@ SELECT pg_catalog.setval('sqscinput', 13, true);
 
 
 --
--- TOC entry 2590 (class 0 OID 0)
+-- TOC entry 3431 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: sqscinputdimension; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscinputdimension', 15, true);
+SELECT pg_catalog.setval('sqscinputdimension', 16, true);
 
 
 --
--- TOC entry 2591 (class 0 OID 0)
+-- TOC entry 3432 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: sqscinputdocuments; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2318,7 +2337,7 @@ SELECT pg_catalog.setval('sqscinputdocuments', 7, true);
 
 
 --
--- TOC entry 2592 (class 0 OID 0)
+-- TOC entry 3433 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: sqscinputequivalence; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2327,7 +2346,7 @@ SELECT pg_catalog.setval('sqscinputequivalence', 1, false);
 
 
 --
--- TOC entry 2593 (class 0 OID 0)
+-- TOC entry 3434 (class 0 OID 0)
 -- Dependencies: 229
 -- Name: sqscinputfeature; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2336,7 +2355,7 @@ SELECT pg_catalog.setval('sqscinputfeature', 11, true);
 
 
 --
--- TOC entry 2594 (class 0 OID 0)
+-- TOC entry 3435 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: sqscinputobservation; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2345,7 +2364,7 @@ SELECT pg_catalog.setval('sqscinputobservation', 7, true);
 
 
 --
--- TOC entry 2595 (class 0 OID 0)
+-- TOC entry 3436 (class 0 OID 0)
 -- Dependencies: 231
 -- Name: sqscinputspecification; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2354,7 +2373,7 @@ SELECT pg_catalog.setval('sqscinputspecification', 12, true);
 
 
 --
--- TOC entry 2596 (class 0 OID 0)
+-- TOC entry 3437 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: sqsclocation; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2363,7 +2382,7 @@ SELECT pg_catalog.setval('sqsclocation', 11, true);
 
 
 --
--- TOC entry 2597 (class 0 OID 0)
+-- TOC entry 3438 (class 0 OID 0)
 -- Dependencies: 233
 -- Name: sqscmachine; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2372,7 +2391,7 @@ SELECT pg_catalog.setval('sqscmachine', 1, false);
 
 
 --
--- TOC entry 2598 (class 0 OID 0)
+-- TOC entry 3439 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: sqscmails; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2381,7 +2400,7 @@ SELECT pg_catalog.setval('sqscmails', 13, true);
 
 
 --
--- TOC entry 2599 (class 0 OID 0)
+-- TOC entry 3440 (class 0 OID 0)
 -- Dependencies: 235
 -- Name: sqscmaintenanceplan; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2390,7 +2409,7 @@ SELECT pg_catalog.setval('sqscmaintenanceplan', 1, false);
 
 
 --
--- TOC entry 2600 (class 0 OID 0)
+-- TOC entry 3441 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: sqscmeasure; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2399,7 +2418,7 @@ SELECT pg_catalog.setval('sqscmeasure', 4, true);
 
 
 --
--- TOC entry 2601 (class 0 OID 0)
+-- TOC entry 3442 (class 0 OID 0)
 -- Dependencies: 237
 -- Name: sqscmodulespermissionbyrole; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2408,7 +2427,7 @@ SELECT pg_catalog.setval('sqscmodulespermissionbyrole', 437, true);
 
 
 --
--- TOC entry 2602 (class 0 OID 0)
+-- TOC entry 3443 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: sqscmoney; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2417,7 +2436,7 @@ SELECT pg_catalog.setval('sqscmoney', 1, false);
 
 
 --
--- TOC entry 2603 (class 0 OID 0)
+-- TOC entry 3444 (class 0 OID 0)
 -- Dependencies: 239
 -- Name: sqscoperatingconditions; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2426,7 +2445,7 @@ SELECT pg_catalog.setval('sqscoperatingconditions', 1, false);
 
 
 --
--- TOC entry 2604 (class 0 OID 0)
+-- TOC entry 3445 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: sqscpackingunit; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2435,7 +2454,7 @@ SELECT pg_catalog.setval('sqscpackingunit', 7, true);
 
 
 --
--- TOC entry 2605 (class 0 OID 0)
+-- TOC entry 3446 (class 0 OID 0)
 -- Dependencies: 241
 -- Name: sqscpartners; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2444,7 +2463,7 @@ SELECT pg_catalog.setval('sqscpartners', 15, true);
 
 
 --
--- TOC entry 2606 (class 0 OID 0)
+-- TOC entry 3447 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: sqscpartsandconsumables; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2453,7 +2472,7 @@ SELECT pg_catalog.setval('sqscpartsandconsumables', 1, false);
 
 
 --
--- TOC entry 2607 (class 0 OID 0)
+-- TOC entry 3448 (class 0 OID 0)
 -- Dependencies: 243
 -- Name: sqscpersondocumentationattached; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2462,7 +2481,7 @@ SELECT pg_catalog.setval('sqscpersondocumentationattached', 6, false);
 
 
 --
--- TOC entry 2608 (class 0 OID 0)
+-- TOC entry 3449 (class 0 OID 0)
 -- Dependencies: 244
 -- Name: sqscpersonobservations; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2471,7 +2490,7 @@ SELECT pg_catalog.setval('sqscpersonobservations', 12, true);
 
 
 --
--- TOC entry 2609 (class 0 OID 0)
+-- TOC entry 3450 (class 0 OID 0)
 -- Dependencies: 245
 -- Name: sqscpersons; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2480,7 +2499,7 @@ SELECT pg_catalog.setval('sqscpersons', 14, true);
 
 
 --
--- TOC entry 2610 (class 0 OID 0)
+-- TOC entry 3451 (class 0 OID 0)
 -- Dependencies: 246
 -- Name: sqscpersonspecifications; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2489,7 +2508,7 @@ SELECT pg_catalog.setval('sqscpersonspecifications', 11, true);
 
 
 --
--- TOC entry 2611 (class 0 OID 0)
+-- TOC entry 3452 (class 0 OID 0)
 -- Dependencies: 247
 -- Name: sqscphones; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2498,7 +2517,7 @@ SELECT pg_catalog.setval('sqscphones', 15, true);
 
 
 --
--- TOC entry 2612 (class 0 OID 0)
+-- TOC entry 3453 (class 0 OID 0)
 -- Dependencies: 248
 -- Name: sqscphoto; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2507,7 +2526,7 @@ SELECT pg_catalog.setval('sqscphoto', 1, false);
 
 
 --
--- TOC entry 2613 (class 0 OID 0)
+-- TOC entry 3454 (class 0 OID 0)
 -- Dependencies: 249
 -- Name: sqscprocessattached; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2516,43 +2535,43 @@ SELECT pg_catalog.setval('sqscprocessattached', 1, false);
 
 
 --
--- TOC entry 2614 (class 0 OID 0)
+-- TOC entry 3455 (class 0 OID 0)
 -- Dependencies: 250
 -- Name: sqscprocessemployee; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessemployee', 1, false);
+SELECT pg_catalog.setval('sqscprocessemployee', 6, true);
 
 
 --
--- TOC entry 2615 (class 0 OID 0)
+-- TOC entry 3456 (class 0 OID 0)
 -- Dependencies: 251
 -- Name: sqscprocessinput; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessinput', 1, false);
+SELECT pg_catalog.setval('sqscprocessinput', 2, true);
 
 
 --
--- TOC entry 2616 (class 0 OID 0)
+-- TOC entry 3457 (class 0 OID 0)
 -- Dependencies: 252
 -- Name: sqscprocessmachine; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessmachine', 1, false);
+SELECT pg_catalog.setval('sqscprocessmachine', 6, true);
 
 
 --
--- TOC entry 2617 (class 0 OID 0)
+-- TOC entry 3458 (class 0 OID 0)
 -- Dependencies: 253
 -- Name: sqscprocessproduct; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessproduct', 1, false);
+SELECT pg_catalog.setval('sqscprocessproduct', 3, true);
 
 
 --
--- TOC entry 2618 (class 0 OID 0)
+-- TOC entry 3459 (class 0 OID 0)
 -- Dependencies: 254
 -- Name: sqscprocesstype; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2561,34 +2580,34 @@ SELECT pg_catalog.setval('sqscprocesstype', 1, false);
 
 
 --
--- TOC entry 2619 (class 0 OID 0)
+-- TOC entry 3460 (class 0 OID 0)
 -- Dependencies: 255
 -- Name: sqscproductattached; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscproductattached', 15, true);
+SELECT pg_catalog.setval('sqscproductattached', 24, true);
 
 
 --
--- TOC entry 2620 (class 0 OID 0)
+-- TOC entry 3461 (class 0 OID 0)
 -- Dependencies: 256
 -- Name: sqscproductdocuments; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscproductdocuments', 3, true);
+SELECT pg_catalog.setval('sqscproductdocuments', 4, true);
 
 
 --
--- TOC entry 2621 (class 0 OID 0)
+-- TOC entry 3462 (class 0 OID 0)
 -- Dependencies: 257
 -- Name: sqscproductformulation; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscproductformulation', 3, true);
+SELECT pg_catalog.setval('sqscproductformulation', 4, true);
 
 
 --
--- TOC entry 2622 (class 0 OID 0)
+-- TOC entry 3463 (class 0 OID 0)
 -- Dependencies: 258
 -- Name: sqscroles; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2597,7 +2616,7 @@ SELECT pg_catalog.setval('sqscroles', 6, true);
 
 
 --
--- TOC entry 2623 (class 0 OID 0)
+-- TOC entry 3464 (class 0 OID 0)
 -- Dependencies: 259
 -- Name: sqscservicesorproducts; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2606,7 +2625,7 @@ SELECT pg_catalog.setval('sqscservicesorproducts', 15, false);
 
 
 --
--- TOC entry 2624 (class 0 OID 0)
+-- TOC entry 3465 (class 0 OID 0)
 -- Dependencies: 260
 -- Name: sqscstock; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2615,7 +2634,7 @@ SELECT pg_catalog.setval('sqscstock', 12, true);
 
 
 --
--- TOC entry 2625 (class 0 OID 0)
+-- TOC entry 3466 (class 0 OID 0)
 -- Dependencies: 261
 -- Name: sqscstore; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2624,7 +2643,7 @@ SELECT pg_catalog.setval('sqscstore', 1, false);
 
 
 --
--- TOC entry 2626 (class 0 OID 0)
+-- TOC entry 3467 (class 0 OID 0)
 -- Dependencies: 262
 -- Name: sqsctools; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2633,7 +2652,7 @@ SELECT pg_catalog.setval('sqsctools', 1, false);
 
 
 --
--- TOC entry 2627 (class 0 OID 0)
+-- TOC entry 3468 (class 0 OID 0)
 -- Dependencies: 263
 -- Name: sqscusers; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2642,7 +2661,7 @@ SELECT pg_catalog.setval('sqscusers', 18, true);
 
 
 --
--- TOC entry 2628 (class 0 OID 0)
+-- TOC entry 3469 (class 0 OID 0)
 -- Dependencies: 264
 -- Name: sqscworkexperience; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2651,7 +2670,7 @@ SELECT pg_catalog.setval('sqscworkexperience', 9, true);
 
 
 --
--- TOC entry 2629 (class 0 OID 0)
+-- TOC entry 3470 (class 0 OID 0)
 -- Dependencies: 265
 -- Name: sqtype; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
@@ -2660,7 +2679,7 @@ SELECT pg_catalog.setval('sqtype', 1, false);
 
 
 --
--- TOC entry 2219 (class 2606 OID 127794)
+-- TOC entry 3060 (class 2606 OID 20583)
 -- Name: PK_DISTRIBUTION_UNIT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2669,7 +2688,7 @@ ALTER TABLE ONLY sc_distribution_unit
 
 
 --
--- TOC entry 2227 (class 2606 OID 127796)
+-- TOC entry 3068 (class 2606 OID 20585)
 -- Name: PK_INPUT_DIMENSION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2678,7 +2697,7 @@ ALTER TABLE ONLY sc_input_dimension
 
 
 --
--- TOC entry 2231 (class 2606 OID 127798)
+-- TOC entry 3072 (class 2606 OID 20587)
 -- Name: PK_INPUT_EQUIVALENCES; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2687,7 +2706,7 @@ ALTER TABLE ONLY sc_input_equivalence
 
 
 --
--- TOC entry 2239 (class 2606 OID 127800)
+-- TOC entry 3080 (class 2606 OID 20589)
 -- Name: PK_INPUT_LOCATION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2696,7 +2715,7 @@ ALTER TABLE ONLY sc_location
 
 
 --
--- TOC entry 2303 (class 2606 OID 127802)
+-- TOC entry 3144 (class 2606 OID 20591)
 -- Name: PK_INPUT_STOCK; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2705,7 +2724,7 @@ ALTER TABLE ONLY sc_stock
 
 
 --
--- TOC entry 2281 (class 2606 OID 127804)
+-- TOC entry 3122 (class 2606 OID 20593)
 -- Name: PK_PROCESS_ATTACHED; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2714,7 +2733,7 @@ ALTER TABLE ONLY sc_process_attached
 
 
 --
--- TOC entry 2283 (class 2606 OID 127806)
+-- TOC entry 3124 (class 2606 OID 20595)
 -- Name: PK_PROCESS_EMPLOYEE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2723,7 +2742,7 @@ ALTER TABLE ONLY sc_process_employee
 
 
 --
--- TOC entry 2285 (class 2606 OID 127808)
+-- TOC entry 3126 (class 2606 OID 20597)
 -- Name: PK_PROCESS_INPUT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2732,7 +2751,7 @@ ALTER TABLE ONLY sc_process_input
 
 
 --
--- TOC entry 2279 (class 2606 OID 127810)
+-- TOC entry 3120 (class 2606 OID 20599)
 -- Name: PK_PROCESS_PRODUCT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2741,7 +2760,7 @@ ALTER TABLE ONLY sc_procces_product
 
 
 --
--- TOC entry 2289 (class 2606 OID 127812)
+-- TOC entry 3130 (class 2606 OID 20601)
 -- Name: PK_PROCESS_TYPE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2750,7 +2769,7 @@ ALTER TABLE ONLY sc_process_type
 
 
 --
--- TOC entry 2291 (class 2606 OID 127814)
+-- TOC entry 3132 (class 2606 OID 20603)
 -- Name: PK_PRODUCT_ATTACHED; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2759,7 +2778,7 @@ ALTER TABLE ONLY sc_product_attached
 
 
 --
--- TOC entry 2215 (class 2606 OID 127816)
+-- TOC entry 3056 (class 2606 OID 20605)
 -- Name: PK_SC_CONSTANTS_LOAD_FILES; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2768,7 +2787,7 @@ ALTER TABLE ONLY sc_constants_load_files
 
 
 --
--- TOC entry 2225 (class 2606 OID 127818)
+-- TOC entry 3066 (class 2606 OID 20607)
 -- Name: PK_SC_INPUT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2777,7 +2796,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2229 (class 2606 OID 127820)
+-- TOC entry 3070 (class 2606 OID 20609)
 -- Name: PK_SC_INPUT_DOCUMENTS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2786,7 +2805,7 @@ ALTER TABLE ONLY sc_input_documents
 
 
 --
--- TOC entry 2233 (class 2606 OID 127822)
+-- TOC entry 3074 (class 2606 OID 20611)
 -- Name: PK_SC_INPUT_FEATURES; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2795,7 +2814,7 @@ ALTER TABLE ONLY sc_input_feactures
 
 
 --
--- TOC entry 2235 (class 2606 OID 127824)
+-- TOC entry 3076 (class 2606 OID 20613)
 -- Name: PK_SC_INPUT_OBSERVATIONS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2804,7 +2823,7 @@ ALTER TABLE ONLY sc_input_observations
 
 
 --
--- TOC entry 2237 (class 2606 OID 127826)
+-- TOC entry 3078 (class 2606 OID 20615)
 -- Name: PK_SC_INPUT_SPECIFICATIONS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2813,7 +2832,7 @@ ALTER TABLE ONLY sc_input_specifications
 
 
 --
--- TOC entry 2255 (class 2606 OID 127828)
+-- TOC entry 3096 (class 2606 OID 20617)
 -- Name: PK_SC_M0NEY; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2822,7 +2841,7 @@ ALTER TABLE ONLY sc_money
 
 
 --
--- TOC entry 2241 (class 2606 OID 127830)
+-- TOC entry 3082 (class 2606 OID 20619)
 -- Name: PK_SC_MACHINE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2831,7 +2850,7 @@ ALTER TABLE ONLY sc_machine
 
 
 --
--- TOC entry 2247 (class 2606 OID 127832)
+-- TOC entry 3088 (class 2606 OID 20621)
 -- Name: PK_SC_MEASURE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2840,7 +2859,7 @@ ALTER TABLE ONLY sc_measure_unit
 
 
 --
--- TOC entry 2259 (class 2606 OID 127834)
+-- TOC entry 3100 (class 2606 OID 20623)
 -- Name: PK_SC_PACKING; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2849,7 +2868,7 @@ ALTER TABLE ONLY sc_packing_unit
 
 
 --
--- TOC entry 2277 (class 2606 OID 127836)
+-- TOC entry 3118 (class 2606 OID 20625)
 -- Name: PK_SC_PRIORITY; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2858,7 +2877,7 @@ ALTER TABLE ONLY sc_priority
 
 
 --
--- TOC entry 2287 (class 2606 OID 127838)
+-- TOC entry 3128 (class 2606 OID 20627)
 -- Name: PK_SC_PROCESS_MACHINE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2867,7 +2886,7 @@ ALTER TABLE ONLY sc_process_machine
 
 
 --
--- TOC entry 2293 (class 2606 OID 127840)
+-- TOC entry 3134 (class 2606 OID 20629)
 -- Name: PK_SC_PRODUCT_DOCUMENTS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2876,7 +2895,7 @@ ALTER TABLE ONLY sc_product_documents
 
 
 --
--- TOC entry 2295 (class 2606 OID 127842)
+-- TOC entry 3136 (class 2606 OID 20631)
 -- Name: PK_SC_PRODUCT_FORMULATION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2885,7 +2904,7 @@ ALTER TABLE ONLY sc_product_formulation
 
 
 --
--- TOC entry 2305 (class 2606 OID 127844)
+-- TOC entry 3146 (class 2606 OID 20633)
 -- Name: PK_SC_STORE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2894,7 +2913,7 @@ ALTER TABLE ONLY sc_store
 
 
 --
--- TOC entry 2265 (class 2606 OID 127846)
+-- TOC entry 3106 (class 2606 OID 20635)
 -- Name: UK_IDENTIFICATION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2903,7 +2922,7 @@ ALTER TABLE ONLY sc_person
 
 
 --
--- TOC entry 2297 (class 2606 OID 127848)
+-- TOC entry 3138 (class 2606 OID 20637)
 -- Name: UK_ROLENAME; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2912,7 +2931,7 @@ ALTER TABLE ONLY sc_roles
 
 
 --
--- TOC entry 2251 (class 2606 OID 127850)
+-- TOC entry 3092 (class 2606 OID 20639)
 -- Name: UK_SC_ROLES_SC_MODULE_PERMISSION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2921,7 +2940,7 @@ ALTER TABLE ONLY sc_module_permission_by_role
 
 
 --
--- TOC entry 2311 (class 2606 OID 127852)
+-- TOC entry 3152 (class 2606 OID 20641)
 -- Name: UK_USERNAME; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2930,7 +2949,7 @@ ALTER TABLE ONLY sc_users
 
 
 --
--- TOC entry 2211 (class 2606 OID 127854)
+-- TOC entry 3052 (class 2606 OID 20643)
 -- Name: pk_class_type; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2939,7 +2958,7 @@ ALTER TABLE ONLY sc_class_type
 
 
 --
--- TOC entry 2213 (class 2606 OID 127856)
+-- TOC entry 3054 (class 2606 OID 20645)
 -- Name: pk_competencies; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2948,7 +2967,7 @@ ALTER TABLE ONLY sc_competencies
 
 
 --
--- TOC entry 2217 (class 2606 OID 127858)
+-- TOC entry 3058 (class 2606 OID 20647)
 -- Name: pk_cost_center; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2957,7 +2976,7 @@ ALTER TABLE ONLY sc_cost_center
 
 
 --
--- TOC entry 2221 (class 2606 OID 127860)
+-- TOC entry 3062 (class 2606 OID 20649)
 -- Name: pk_document; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2966,7 +2985,7 @@ ALTER TABLE ONLY sc_documents
 
 
 --
--- TOC entry 2223 (class 2606 OID 127862)
+-- TOC entry 3064 (class 2606 OID 20651)
 -- Name: pk_employee; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2975,7 +2994,7 @@ ALTER TABLE ONLY sc_employee
 
 
 --
--- TOC entry 2243 (class 2606 OID 127864)
+-- TOC entry 3084 (class 2606 OID 20653)
 -- Name: pk_mails; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2984,7 +3003,7 @@ ALTER TABLE ONLY sc_mails
 
 
 --
--- TOC entry 2245 (class 2606 OID 127866)
+-- TOC entry 3086 (class 2606 OID 20655)
 -- Name: pk_maintenance_plan; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -2993,7 +3012,7 @@ ALTER TABLE ONLY sc_maintenance_plan
 
 
 --
--- TOC entry 2253 (class 2606 OID 127868)
+-- TOC entry 3094 (class 2606 OID 20657)
 -- Name: pk_module_permission_by_role; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3002,7 +3021,7 @@ ALTER TABLE ONLY sc_module_permission_by_role
 
 
 --
--- TOC entry 2257 (class 2606 OID 127870)
+-- TOC entry 3098 (class 2606 OID 20659)
 -- Name: pk_operatin_condition; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3011,7 +3030,7 @@ ALTER TABLE ONLY sc_operating_conditions
 
 
 --
--- TOC entry 2261 (class 2606 OID 127872)
+-- TOC entry 3102 (class 2606 OID 20661)
 -- Name: pk_partner; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3020,7 +3039,7 @@ ALTER TABLE ONLY sc_partner
 
 
 --
--- TOC entry 2263 (class 2606 OID 127874)
+-- TOC entry 3104 (class 2606 OID 20663)
 -- Name: pk_parts_and_consumables; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3029,7 +3048,7 @@ ALTER TABLE ONLY sc_parts_and_consumables
 
 
 --
--- TOC entry 2267 (class 2606 OID 127876)
+-- TOC entry 3108 (class 2606 OID 20665)
 -- Name: pk_person; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3038,7 +3057,7 @@ ALTER TABLE ONLY sc_person
 
 
 --
--- TOC entry 2269 (class 2606 OID 127878)
+-- TOC entry 3110 (class 2606 OID 20667)
 -- Name: pk_person_observations; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3047,7 +3066,7 @@ ALTER TABLE ONLY sc_person_observations
 
 
 --
--- TOC entry 2271 (class 2606 OID 127880)
+-- TOC entry 3112 (class 2606 OID 20669)
 -- Name: pk_person_specifications; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3056,7 +3075,7 @@ ALTER TABLE ONLY sc_person_specifications
 
 
 --
--- TOC entry 2273 (class 2606 OID 127882)
+-- TOC entry 3114 (class 2606 OID 20671)
 -- Name: pk_phones; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3065,7 +3084,7 @@ ALTER TABLE ONLY sc_phones
 
 
 --
--- TOC entry 2275 (class 2606 OID 127884)
+-- TOC entry 3116 (class 2606 OID 20673)
 -- Name: pk_photo; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3074,7 +3093,7 @@ ALTER TABLE ONLY sc_photo
 
 
 --
--- TOC entry 2249 (class 2606 OID 127886)
+-- TOC entry 3090 (class 2606 OID 20675)
 -- Name: pk_sc_module_permission; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3083,7 +3102,7 @@ ALTER TABLE ONLY sc_module_permission
 
 
 --
--- TOC entry 2299 (class 2606 OID 127888)
+-- TOC entry 3140 (class 2606 OID 20677)
 -- Name: pk_sc_roles; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3092,7 +3111,7 @@ ALTER TABLE ONLY sc_roles
 
 
 --
--- TOC entry 2301 (class 2606 OID 127890)
+-- TOC entry 3142 (class 2606 OID 20679)
 -- Name: pk_service_or_product; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3101,7 +3120,7 @@ ALTER TABLE ONLY sc_services_or_products
 
 
 --
--- TOC entry 2307 (class 2606 OID 127892)
+-- TOC entry 3148 (class 2606 OID 20681)
 -- Name: pk_tool; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3110,7 +3129,7 @@ ALTER TABLE ONLY sc_tools
 
 
 --
--- TOC entry 2309 (class 2606 OID 127894)
+-- TOC entry 3150 (class 2606 OID 20683)
 -- Name: pk_type; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3119,7 +3138,7 @@ ALTER TABLE ONLY sc_type
 
 
 --
--- TOC entry 2313 (class 2606 OID 127896)
+-- TOC entry 3154 (class 2606 OID 20685)
 -- Name: pk_users; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3128,7 +3147,7 @@ ALTER TABLE ONLY sc_users
 
 
 --
--- TOC entry 2315 (class 2606 OID 127898)
+-- TOC entry 3156 (class 2606 OID 20687)
 -- Name: pk_work_experience; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
 --
 
@@ -3137,7 +3156,7 @@ ALTER TABLE ONLY sc_work_experience
 
 
 --
--- TOC entry 2319 (class 2606 OID 127899)
+-- TOC entry 3160 (class 2606 OID 20688)
 -- Name: FK_CENTER_COST_INPUT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3146,7 +3165,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2329 (class 2606 OID 127904)
+-- TOC entry 3170 (class 2606 OID 20693)
 -- Name: FK_INPUT_EQUIVALENCE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3155,7 +3174,7 @@ ALTER TABLE ONLY sc_input_equivalence
 
 
 --
--- TOC entry 2330 (class 2606 OID 127909)
+-- TOC entry 3171 (class 2606 OID 20698)
 -- Name: FK_INPUT_FEACTURES; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3164,7 +3183,7 @@ ALTER TABLE ONLY sc_input_feactures
 
 
 --
--- TOC entry 2331 (class 2606 OID 127914)
+-- TOC entry 3172 (class 2606 OID 20703)
 -- Name: FK_INPUT_OBSERVATIONS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3173,7 +3192,7 @@ ALTER TABLE ONLY sc_input_observations
 
 
 --
--- TOC entry 2332 (class 2606 OID 127919)
+-- TOC entry 3173 (class 2606 OID 20708)
 -- Name: FK_INPUT_SPECIFICATIONS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3182,7 +3201,7 @@ ALTER TABLE ONLY sc_input_specifications
 
 
 --
--- TOC entry 2366 (class 2606 OID 127924)
+-- TOC entry 3207 (class 2606 OID 20713)
 -- Name: FK_INPUT_STOCK_STORE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3191,7 +3210,7 @@ ALTER TABLE ONLY sc_stock
 
 
 --
--- TOC entry 2333 (class 2606 OID 127929)
+-- TOC entry 3174 (class 2606 OID 20718)
 -- Name: FK_LOCATION_STORE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3200,7 +3219,7 @@ ALTER TABLE ONLY sc_location
 
 
 --
--- TOC entry 2351 (class 2606 OID 127934)
+-- TOC entry 3192 (class 2606 OID 20723)
 -- Name: FK_PROCESS_EMPLOYEE_EMPLOYEE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3209,7 +3228,7 @@ ALTER TABLE ONLY sc_process_employee
 
 
 --
--- TOC entry 2352 (class 2606 OID 127939)
+-- TOC entry 3193 (class 2606 OID 20728)
 -- Name: FK_PROCESS_EMPLOYEE_PROCESS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3218,7 +3237,7 @@ ALTER TABLE ONLY sc_process_employee
 
 
 --
--- TOC entry 2353 (class 2606 OID 127944)
+-- TOC entry 3194 (class 2606 OID 20733)
 -- Name: FK_PROCESS_INPUT_INPUT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3227,7 +3246,7 @@ ALTER TABLE ONLY sc_process_input
 
 
 --
--- TOC entry 2354 (class 2606 OID 127949)
+-- TOC entry 3195 (class 2606 OID 20738)
 -- Name: FK_PROCESS_INPUT_PROCESS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3236,7 +3255,7 @@ ALTER TABLE ONLY sc_process_input
 
 
 --
--- TOC entry 2355 (class 2606 OID 127954)
+-- TOC entry 3196 (class 2606 OID 20743)
 -- Name: FK_PROCESS_MACHINE_MACHINE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3245,7 +3264,7 @@ ALTER TABLE ONLY sc_process_machine
 
 
 --
--- TOC entry 2356 (class 2606 OID 127959)
+-- TOC entry 3197 (class 2606 OID 20748)
 -- Name: FK_PROCESS_PROCESS_MACHINE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3254,7 +3273,7 @@ ALTER TABLE ONLY sc_process_machine
 
 
 --
--- TOC entry 2349 (class 2606 OID 127964)
+-- TOC entry 3190 (class 2606 OID 20753)
 -- Name: FK_PROCESS_PROCESS_TYPE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3263,7 +3282,7 @@ ALTER TABLE ONLY sc_procces_product
 
 
 --
--- TOC entry 2350 (class 2606 OID 127969)
+-- TOC entry 3191 (class 2606 OID 20758)
 -- Name: FK_PROCESS_PRODUCT_FORMULATION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3272,7 +3291,7 @@ ALTER TABLE ONLY sc_procces_product
 
 
 --
--- TOC entry 2359 (class 2606 OID 127974)
+-- TOC entry 3200 (class 2606 OID 20763)
 -- Name: FK_PRODUCT_DIMENSION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3281,7 +3300,7 @@ ALTER TABLE ONLY sc_product_formulation
 
 
 --
--- TOC entry 2357 (class 2606 OID 127979)
+-- TOC entry 3198 (class 2606 OID 20768)
 -- Name: FK_PRODUCT_FORMULATION_ATTACHED; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3290,7 +3309,7 @@ ALTER TABLE ONLY sc_product_attached
 
 
 --
--- TOC entry 2360 (class 2606 OID 127984)
+-- TOC entry 3201 (class 2606 OID 20773)
 -- Name: FK_PRODUCT_FORMULATION_COST_CENTER; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3299,7 +3318,7 @@ ALTER TABLE ONLY sc_product_formulation
 
 
 --
--- TOC entry 2361 (class 2606 OID 127989)
+-- TOC entry 3202 (class 2606 OID 20778)
 -- Name: FK_PRODUCT_FORMULATION_MONEY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3308,7 +3327,7 @@ ALTER TABLE ONLY sc_product_formulation
 
 
 --
--- TOC entry 2362 (class 2606 OID 127994)
+-- TOC entry 3203 (class 2606 OID 20783)
 -- Name: FK_PRODUCT_FORMULATION_PACKING; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3317,7 +3336,7 @@ ALTER TABLE ONLY sc_product_formulation
 
 
 --
--- TOC entry 2363 (class 2606 OID 127999)
+-- TOC entry 3204 (class 2606 OID 20788)
 -- Name: FK_PRODUCT_FORMULATION_PARTNER; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3326,7 +3345,7 @@ ALTER TABLE ONLY sc_product_formulation
 
 
 --
--- TOC entry 2364 (class 2606 OID 128004)
+-- TOC entry 3205 (class 2606 OID 20793)
 -- Name: FK_PRODUCT_FORMULATION_PRIORITY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3335,7 +3354,7 @@ ALTER TABLE ONLY sc_product_formulation
 
 
 --
--- TOC entry 2320 (class 2606 OID 128009)
+-- TOC entry 3161 (class 2606 OID 20798)
 -- Name: FK_SC_INPUT_DISTRIBUTION_UNIT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3344,7 +3363,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2328 (class 2606 OID 128014)
+-- TOC entry 3169 (class 2606 OID 20803)
 -- Name: FK_SC_INPUT_DOCUMENTS_INPUT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3353,7 +3372,7 @@ ALTER TABLE ONLY sc_input_documents
 
 
 --
--- TOC entry 2321 (class 2606 OID 128019)
+-- TOC entry 3162 (class 2606 OID 20808)
 -- Name: FK_SC_INPUT_LOCATION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3362,7 +3381,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2322 (class 2606 OID 128024)
+-- TOC entry 3163 (class 2606 OID 20813)
 -- Name: FK_SC_INPUT_MONEY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3371,7 +3390,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2323 (class 2606 OID 128029)
+-- TOC entry 3164 (class 2606 OID 20818)
 -- Name: FK_SC_INPUT_PACKING_UNIT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3380,7 +3399,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2324 (class 2606 OID 128034)
+-- TOC entry 3165 (class 2606 OID 20823)
 -- Name: FK_SC_INPUT_SC_DIMENSION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3389,7 +3408,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2325 (class 2606 OID 128039)
+-- TOC entry 3166 (class 2606 OID 20828)
 -- Name: FK_SC_INPUT_SC_PRIORITY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3398,7 +3417,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2326 (class 2606 OID 128044)
+-- TOC entry 3167 (class 2606 OID 20833)
 -- Name: FK_SC_INPUT_STOCK; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3407,7 +3426,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2358 (class 2606 OID 128049)
+-- TOC entry 3199 (class 2606 OID 20838)
 -- Name: FK_SC_PRODUCT_DOCUMENTS_INPUT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3416,7 +3435,7 @@ ALTER TABLE ONLY sc_product_documents
 
 
 --
--- TOC entry 2327 (class 2606 OID 128054)
+-- TOC entry 3168 (class 2606 OID 20843)
 -- Name: FK_SUPPLIER_PARTNERS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3425,7 +3444,7 @@ ALTER TABLE ONLY sc_input
 
 
 --
--- TOC entry 2318 (class 2606 OID 128059)
+-- TOC entry 3159 (class 2606 OID 20848)
 -- Name: fk_employee_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3434,7 +3453,7 @@ ALTER TABLE ONLY sc_employee
 
 
 --
--- TOC entry 2334 (class 2606 OID 128064)
+-- TOC entry 3175 (class 2606 OID 20853)
 -- Name: fk_mails_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3443,7 +3462,7 @@ ALTER TABLE ONLY sc_mails
 
 
 --
--- TOC entry 2342 (class 2606 OID 128069)
+-- TOC entry 3183 (class 2606 OID 20858)
 -- Name: fk_module_permission; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3452,7 +3471,7 @@ ALTER TABLE ONLY sc_module_permission_by_role
 
 
 --
--- TOC entry 2343 (class 2606 OID 128074)
+-- TOC entry 3184 (class 2606 OID 20863)
 -- Name: fk_module_permission_by_role_for_role; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3461,7 +3480,7 @@ ALTER TABLE ONLY sc_module_permission_by_role
 
 
 --
--- TOC entry 2344 (class 2606 OID 128079)
+-- TOC entry 3185 (class 2606 OID 20868)
 -- Name: fk_partner_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3470,7 +3489,7 @@ ALTER TABLE ONLY sc_partner
 
 
 --
--- TOC entry 2335 (class 2606 OID 128084)
+-- TOC entry 3176 (class 2606 OID 20873)
 -- Name: fk_parts_and_consumables; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3479,7 +3498,7 @@ ALTER TABLE ONLY sc_maintenance_plan
 
 
 --
--- TOC entry 2369 (class 2606 OID 128089)
+-- TOC entry 3210 (class 2606 OID 20878)
 -- Name: fk_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3488,7 +3507,7 @@ ALTER TABLE ONLY sc_users
 
 
 --
--- TOC entry 2346 (class 2606 OID 128094)
+-- TOC entry 3187 (class 2606 OID 20883)
 -- Name: fk_person_observation_for_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3497,7 +3516,7 @@ ALTER TABLE ONLY sc_person_observations
 
 
 --
--- TOC entry 2347 (class 2606 OID 128099)
+-- TOC entry 3188 (class 2606 OID 20888)
 -- Name: fk_person_specifications_for_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3506,7 +3525,7 @@ ALTER TABLE ONLY sc_person_specifications
 
 
 --
--- TOC entry 2348 (class 2606 OID 128104)
+-- TOC entry 3189 (class 2606 OID 20893)
 -- Name: fk_phones_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3515,7 +3534,7 @@ ALTER TABLE ONLY sc_phones
 
 
 --
--- TOC entry 2370 (class 2606 OID 128109)
+-- TOC entry 3211 (class 2606 OID 20898)
 -- Name: fk_role; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3524,7 +3543,7 @@ ALTER TABLE ONLY sc_users
 
 
 --
--- TOC entry 2317 (class 2606 OID 128114)
+-- TOC entry 3158 (class 2606 OID 20903)
 -- Name: fk_sc_person_to_sc_documents; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3533,7 +3552,7 @@ ALTER TABLE ONLY sc_documents
 
 
 --
--- TOC entry 2365 (class 2606 OID 128119)
+-- TOC entry 3206 (class 2606 OID 20908)
 -- Name: fk_service_or_product_partner; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3542,7 +3561,7 @@ ALTER TABLE ONLY sc_services_or_products
 
 
 --
--- TOC entry 2336 (class 2606 OID 128124)
+-- TOC entry 3177 (class 2606 OID 20913)
 -- Name: fk_tool; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3551,7 +3570,7 @@ ALTER TABLE ONLY sc_maintenance_plan
 
 
 --
--- TOC entry 2337 (class 2606 OID 128129)
+-- TOC entry 3178 (class 2606 OID 20918)
 -- Name: fk_type; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3560,7 +3579,7 @@ ALTER TABLE ONLY sc_maintenance_plan
 
 
 --
--- TOC entry 2367 (class 2606 OID 128134)
+-- TOC entry 3208 (class 2606 OID 20923)
 -- Name: fk_type; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3569,7 +3588,7 @@ ALTER TABLE ONLY sc_tools
 
 
 --
--- TOC entry 2345 (class 2606 OID 128139)
+-- TOC entry 3186 (class 2606 OID 20928)
 -- Name: fk_type; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3578,7 +3597,7 @@ ALTER TABLE ONLY sc_parts_and_consumables
 
 
 --
--- TOC entry 2338 (class 2606 OID 128144)
+-- TOC entry 3179 (class 2606 OID 20933)
 -- Name: fk_type2; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3587,7 +3606,7 @@ ALTER TABLE ONLY sc_maintenance_plan
 
 
 --
--- TOC entry 2339 (class 2606 OID 128149)
+-- TOC entry 3180 (class 2606 OID 20938)
 -- Name: fk_type4; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3596,7 +3615,7 @@ ALTER TABLE ONLY sc_maintenance_plan
 
 
 --
--- TOC entry 2340 (class 2606 OID 128154)
+-- TOC entry 3181 (class 2606 OID 20943)
 -- Name: fk_type5; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3605,7 +3624,7 @@ ALTER TABLE ONLY sc_maintenance_plan
 
 
 --
--- TOC entry 2341 (class 2606 OID 128159)
+-- TOC entry 3182 (class 2606 OID 20948)
 -- Name: fk_type6; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3614,7 +3633,7 @@ ALTER TABLE ONLY sc_maintenance_plan
 
 
 --
--- TOC entry 2371 (class 2606 OID 128164)
+-- TOC entry 3212 (class 2606 OID 20953)
 -- Name: fk_work_experience_employee; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3623,7 +3642,7 @@ ALTER TABLE ONLY sc_work_experience
 
 
 --
--- TOC entry 2368 (class 2606 OID 128169)
+-- TOC entry 3209 (class 2606 OID 20958)
 -- Name: id_class_type; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3632,7 +3651,7 @@ ALTER TABLE ONLY sc_type
 
 
 --
--- TOC entry 2316 (class 2606 OID 128174)
+-- TOC entry 3157 (class 2606 OID 20963)
 -- Name: id_competencies_employee; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
@@ -3640,7 +3659,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2015-04-13 00:15:38 COT
+-- Completed on 2015-04-14 16:58:28 CEST
 
 --
 -- PostgreSQL database dump complete

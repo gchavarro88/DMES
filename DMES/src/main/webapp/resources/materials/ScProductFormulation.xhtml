@@ -465,10 +465,17 @@
                                         <td width="10%" >
                                             <p:outputLabel for="tfDescriptionProcess" value="Descripción del Proceso"/>
                                         </td>
-                                        <td width="90%" colspan="3">
-                                            <p:inputText id="tfDescriptionProcess" value="#{scProductFormulationBean.processProductSave.description}"
+                                        <td width="40%" >
+                                            <p:inputTextarea id="tfDescriptionProcess" value="#{scProductFormulationBean.processProductSave.description}"
                                                          disabled="true">
-                                            </p:inputText>
+                                            </p:inputTextarea>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalValueInput" value="Total Valor Insumo"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalValueInput" value="#{scProductFormulationBean.processProductSave.totalValueInput}"
+                                                         disabled="true"/>
                                         </td>
                                     </tr>
                                     
@@ -506,23 +513,23 @@
                                                          disabled="true"/>
                                         </td>
                                     </tr> 
-                                    <tr>
+                                   <tr>
                                         <td width="10%" >
-                                            <p:outputLabel for="tfTotalTimeInput" value="Total Tiempo Insumo"/>
+                                            <p:outputLabel for="tfTotalProcesTime" value="Total Tiempo Proceso"/>
                                         </td>
                                         <td width="40%">
-                                            <p:inputText id="tfTotalTimeInput" value="#{scProductFormulationBean.processProductSave.totalTimeInput}"
+                                            <p:inputText id="tfTotalProcesTime" value="#{scProductFormulationBean.processProductSave.totalTimeProcess}"
                                                          disabled="true">
                                             </p:inputText>
                                         </td>
                                         <td width="10%" >
-                                            <p:outputLabel for="tfTotalValueInput" value="Total Valor Insumo"/>
+                                            <p:outputLabel for="tfTotalValueProcess" value="Total Valor Proceso"/>
                                         </td>
                                         <td width="40%">
-                                            <p:inputText id="tfTotalValueInput" value="#{scProductFormulationBean.processProductSave.totalValueInput}"
+                                            <p:inputText id="tfTotalValueProcess" value="#{scProductFormulationBean.processProductSave.totalValueProcess}"
                                                          disabled="true"/>
                                         </td>
-                                    </tr> 
+                                    </tr>
                                     <tr>
                                         <td align="center" colspan="4">
                                             <p:commandButton value="Guardar" 
@@ -542,7 +549,7 @@
                 </h:form>
                 <p:ajax event="close" oncomplete="PF('wizardProcessSave').loadStep('tabProcess', true)" />
             </p:dialog>
-
+<!--====================================================================================================================================================-->
 
 
             <!--            Inicia el dialogo para crear nuevas formulaciones de producto-->
@@ -1191,17 +1198,21 @@
                                                     <p:outputLabel value="#{process.name}" id="processName"/>
                                                     <p:tooltip value="#{process.name}" for="processName"/>
                                                 </p:column>               
+                                                <p:column headerText="Tipo" sortBy="#{process.processType.type}">
+                                                    <p:outputLabel value="#{process.processType.type}" id="processType"/>
+                                                    <p:tooltip value="#{process.processType.type}" for="processType"/>
+                                                </p:column>
                                                 <p:column headerText="Descripción" sortBy="#{process.description}">
                                                     <p:outputLabel value="#{process.description}" id="processDescription"/>
                                                     <p:tooltip value="#{process.description}" for="processDescription"/>
                                                 </p:column>
                                                 <p:column headerText="Tiempo Total" sortBy="#{process.totalTimeProcess}">
-                                                    <p:outputLabel value="#{process.totalTimeProcess}" id="totalTimeProcess"/>
+                                                    <p:outputLabel value="#{process.totalTimeProcess} minutos" id="totalTimeProcess"/>
                                                     <p:tooltip value="#{process.totalTimeProcess}" for="totalTimeProcess"/>
                                                 </p:column>
                                                 <p:column headerText="Valor Total" sortBy="#{process.totalValueProcess}">
-                                                    <p:outputLabel value="#{process.totalValueProcess}" id="totalValueProcess"/>
-                                                    <p:tooltip value="#{process.totalValueProcess}" for="totalValueProcess"/>
+                                                    <p:outputLabel value="#{process.totalValueProcess} $" id="totalValueProcess"/>
+                                                    <p:tooltip value="#{process.totalValueProcess} $" for="totalValueProcess"/>
                                                 </p:column>
                                             </p:dataTable>
                                         </td>

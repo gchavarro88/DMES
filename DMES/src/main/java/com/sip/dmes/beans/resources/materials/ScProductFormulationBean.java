@@ -409,16 +409,20 @@ public class ScProductFormulationBean
         cleanProductSave();
         cleanFieldsProcess();
         setDocumentsListSave(new ArrayList<ScProductDocuments>());
+        cleanProcessProductList();
         cleanListProcess();
     }
     
     public void cleanListProcess()
     {
-        setProcessProductListSave(new ArrayList<ScProcessProduct>());
         setProcessEmployeesListSave(new ArrayList<ScProcessEmployee>());
         setProcessInputsListSave(new ArrayList<ScProcessInput>());
-        setProcessProductListSave(new ArrayList<ScProcessProduct>());
         setProcessMachine(new ArrayList<ScProcessMachine>());
+    }
+    
+    public void cleanProcessProductList()
+    {
+        setProcessProductListSave(new ArrayList<ScProcessProduct>());
     }
     
     public void cleanMachineProcess()
@@ -466,6 +470,9 @@ public class ScProductFormulationBean
         setStoreSelected(null);
         cleanListSaves();
         cleansTypesMeasures();
+        cleanProcessProductList();
+        cleanListProcess();
+        cleanFieldsProcess();
     }
     
     
@@ -1039,184 +1046,184 @@ public class ScProductFormulationBean
      */
     public String onFlowProcessSaveProduct(FlowEvent event) 
     {    
-//        int packingUnit = -1;
-//        if(event.getNewStep().equals(TAB_GENERAL))
-//        {
-//            return TAB_GENERAL;
-//        }
-//        if(event.getOldStep().equals(TAB_GENERAL))
-//        {
-//            if(validateFields("Nombre Producto", getProductSave().getDescription(), 3))
-//            {
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Tiempo de Preparación", getProductSave().getManufacturingTime()+"", 2))
-//            {
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Tipo de Material", getProductSave().getTypeMaterial(), 3))
-//            {
-//                return event.getOldStep();
-//            }
-//            //Validamos que el valor sea mayor que cero
-//            if(validateFields("Valor", getProductSave().getValue()+"", 2))
-//            {
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Moneda", getProductSave().getMoney(), 4))
-//            {
-//                return event.getOldStep();
-//            }
-//            
-//            
-//            
-//            if(validateFields("Marca", getProductSave().getMark(), 3))
-//            {
-//                return event.getOldStep();
-//            }
-//            
-//            if(Utilities.isEmpty(getProductSave().getPathPicture()))
-//            { 
-//                getProductSave().setPathPicture(" ");//Setteamos la ruta de la imagen
-//            }
-//            if(validateFields("Serie", getProductSave().getSerie(), 3))
-//            {
-//                return event.getOldStep();
-//            }
-//            
-//            //Validamos los campos seleccionables
-//            if(validateFields("Proveedor y Garantía", getProductSave().getSupplierGuarantee(), 4))
-//            {
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Centro de Costos", getProductSave().getCostCenter(), 4))
-//            {
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Almacen", getStoreSelected(), 4))
-//            {
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Localización", getProductSave().getLocation(), 4))
-//            {
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Prioridad", getProductSave().getPriority(), 4))
-//            {
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Unidad de Empaque", getProductSave().getPackingUnit(), 4))
-//            {
-//                return event.getOldStep();
-//            }
-//            
-//                        
-//            //Agregamos la fecha de creación del producto
-//            getProductSave().setCreationDate(new Date());
-//            
-//            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-//            if(getProductSave().getExpiryDate() != null && getProductSave().getExpiryDate().before(getProductSave().getCreationDate()))
-//            {
-//                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
-//                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-//                return event.getOldStep();
-//            }
-//            
-//            
-//        }
-//        //Si pasamos de la pestaña de dimensiones
-//        else if(event.getOldStep().equals(TAB_DIMENSION))
-//        {
-//            
-//            
-//            if(validateFields("Altura", getProductSave().getDimension().getHight(), 1))
-//            {
-//                return event.getOldStep();
-//            }
-//            else if(getMeasureUnitSaveHigh() == null)
-//            {
-//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Ancho", getProductSave().getDimension().getWidth(), 1))
-//            {
-//                return event.getOldStep();
-//            }
-//            else if(getMeasureUnitSaveWidth()== null)
-//            {
-//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Largo", getProductSave().getDimension().getLarge(), 1))
-//            {
-//                return event.getOldStep();
-//            }
-//            else if(getMeasureUnitSaveLarge()== null)
-//            {
-//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
-//                return event.getOldStep();
-//            }
-//            if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
-//            {
-//                return event.getOldStep();
-//            }
-//            else if(getMeasureUnitSaveWeight()== null)
-//            {
-//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-//                return event.getOldStep();
-//            }
-//            if(!Utilities.isEmpty(getProductSave().getDimension().getVolume()))
-//            {
-//                if(validateFields("Volumen", getProductSave().getDimension().getVolume(), 1))
-//                {
-//                    return event.getOldStep();
-//                }
-//                else if(getMeasureUnitSaveVolume()== null)
-//                {
-//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
-//                    return event.getOldStep();
-//                }
-//            }
-//            if(!Utilities.isEmpty(getProductSave().getDimension().getThickness()))
-//            {
-//                if(validateFields("Grosor", getProductSave().getDimension().getThickness(), 1))
-//                {
-//                    return event.getOldStep();
-//                }
-//                else if(getMeasureUnitSaveThickness()== null)
-//                {
-//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
-//                    return event.getOldStep();
-//                }
-//            }
-//            if(!Utilities.isEmpty(getProductSave().getDimension().getRadio()))
-//            {
-//                if(validateFields("Radio", getProductSave().getDimension().getRadio(), 1))
-//                {
-//                    return event.getOldStep();
-//                }
-//                else if(getMeasureUnitSaveRadio()== null)
-//                {
-//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
-//                    return event.getOldStep();
-//                }
-//            }
-//            if(!Utilities.isEmpty(getProductSave().getDimension().getWeight()))
-//            {
-//                if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
-//                {
-//                    return event.getOldStep();
-//                }
-//                else if(getMeasureUnitSaveWeight()== null)
-//                {
-//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-//                    return event.getOldStep();
-//                }
-//            }
-//        }
-//        
-        return "tabProcess";
-//        return event.getNewStep(); 
+        int packingUnit = -1;
+        if(event.getNewStep().equals(TAB_GENERAL))
+        {
+            return TAB_GENERAL;
+        }
+        if(event.getOldStep().equals(TAB_GENERAL))
+        {
+            if(validateFields("Nombre Producto", getProductSave().getDescription(), 3))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Tiempo de Preparación", getProductSave().getManufacturingTime()+"", 2))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Tipo de Material", getProductSave().getTypeMaterial(), 3))
+            {
+                return event.getOldStep();
+            }
+            //Validamos que el valor sea mayor que cero
+            if(validateFields("Valor", getProductSave().getValue()+"", 2))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Moneda", getProductSave().getMoney(), 4))
+            {
+                return event.getOldStep();
+            }
+            
+            
+            
+            if(validateFields("Marca", getProductSave().getMark(), 3))
+            {
+                return event.getOldStep();
+            }
+            
+            if(Utilities.isEmpty(getProductSave().getPathPicture()))
+            { 
+                getProductSave().setPathPicture(" ");//Setteamos la ruta de la imagen
+            }
+            if(validateFields("Serie", getProductSave().getSerie(), 3))
+            {
+                return event.getOldStep();
+            }
+            
+            //Validamos los campos seleccionables
+            if(validateFields("Proveedor y Garantía", getProductSave().getSupplierGuarantee(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Centro de Costos", getProductSave().getCostCenter(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Almacen", getStoreSelected(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Localización", getProductSave().getLocation(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Prioridad", getProductSave().getPriority(), 4))
+            {
+                return event.getOldStep();
+            }
+            if(validateFields("Unidad de Empaque", getProductSave().getPackingUnit(), 4))
+            {
+                return event.getOldStep();
+            }
+            
+                        
+            //Agregamos la fecha de creación del producto
+            getProductSave().setCreationDate(new Date());
+            
+            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+            if(getProductSave().getExpiryDate() != null && getProductSave().getExpiryDate().before(getProductSave().getCreationDate()))
+            {
+                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+                return event.getOldStep();
+            }
+            
+            
+        }
+        //Si pasamos de la pestaña de dimensiones
+        else if(event.getOldStep().equals(TAB_DIMENSION))
+        {
+            
+            
+            if(validateFields("Altura", getProductSave().getDimension().getHight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveHigh() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+                return event.getOldStep();
+            }
+            if(validateFields("Ancho", getProductSave().getDimension().getWidth(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveWidth()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+                return event.getOldStep();
+            }
+            if(validateFields("Largo", getProductSave().getDimension().getLarge(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveLarge()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+                return event.getOldStep();
+            }
+            if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if(getMeasureUnitSaveWeight()== null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                return event.getOldStep();
+            }
+            if(!Utilities.isEmpty(getProductSave().getDimension().getVolume()))
+            {
+                if(validateFields("Volumen", getProductSave().getDimension().getVolume(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveVolume()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getProductSave().getDimension().getThickness()))
+            {
+                if(validateFields("Grosor", getProductSave().getDimension().getThickness(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveThickness()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getProductSave().getDimension().getRadio()))
+            {
+                if(validateFields("Radio", getProductSave().getDimension().getRadio(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveRadio()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+                    return event.getOldStep();
+                }
+            }
+            if(!Utilities.isEmpty(getProductSave().getDimension().getWeight()))
+            {
+                if(validateFields("Peso", getProductSave().getDimension().getWeight(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if(getMeasureUnitSaveWeight()== null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                    return event.getOldStep();
+                }
+            }
+        }
+        
+        //return "tabProcess";
+        return event.getNewStep(); 
     }
     
     
@@ -1505,6 +1512,7 @@ public class ScProductFormulationBean
                 {
                     getProductSave().getDimension().setRadio(getProductSave().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
                 }
+                getProductSave().setProcessProducts(getProcessProductListSave());
                 getProductSave().getLocation().setStore(getStoreSelected());
                 getScProductFormulationServer().saveProductFormulation(getProductSave());
                 getProductList().add(getProductSave());
@@ -2412,7 +2420,7 @@ public class ScProductFormulationBean
      */
     public String onFlowProcessSaveProcess(FlowEvent event) 
     {  
-        if(event.getOldStep().equals("tabProcess"))
+        if(event.getOldStep().equals("tabProcess") && !event.getNewStep().equals("tabProcess"))
         {
             if(validateFields("Nombre de Proceso", getProcessProductSave().getName(), 3))
             {
@@ -2420,6 +2428,49 @@ public class ScProductFormulationBean
             }
             if(validateFields("Tipo de Proceso", getProcessProductSave().getProcessType(), 4))
             {
+                return event.getOldStep();
+            }
+        }
+        if(event.getNewStep().equals("tabConfirm"))
+        {
+            if(getProcessProductSave() != null)
+            {
+                if(getProcessMachine() != null && !getProcessMachine().isEmpty())
+                    {   
+                        getProcessProductSave().setProcessMachines(getProcessMachine());
+                        if(getProcessEmployeesListSave() != null && !getProcessEmployeesListSave().isEmpty())
+                        {
+                            getProcessProductSave().setProcessEmployees(getProcessEmployeesListSave());
+                            if(getProcessInputsListSave() != null && !getProcessInputsListSave().isEmpty())
+                            {
+                                getProcessProductSave().setProcessInputs(getProcessInputsListSave());
+                                calculateTotalValuesProcess(getProcessProductSave());
+                            }
+                            else
+                            {
+                                addError(null, "Error al intentar crear el proceso por producto", "Debe ingresar al menos un insumo");
+                                log.error("Error al guardar un proceso");
+                                return event.getOldStep();
+                            }
+                        }
+                        else
+                        {
+                            addError(null, "Error al intentar crear el proceso por producto", "Debe ingresar al menos un empleado");
+                            log.error("Error al guardar un proceso");
+                            return event.getOldStep();
+                        }
+                    }
+                    else
+                    {
+                        addError(null, "Error al intentar crear el proceso por producto", "Debe ingresar al menos una máquina");
+                        log.error("Error al guardar un proceso");
+                        return event.getOldStep();
+                    }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error("Error al guardar una máquina por proceso");
                 return event.getOldStep();
             }
         }
@@ -2461,11 +2512,11 @@ public class ScProductFormulationBean
                     }
                 }
             }
-            double valueForMin = (getProcessMachineSave().getMachine().getHourValue()/60);
-            getProcessMachineSave().setTotalValueMachine(getProcessMachineSave().getTimeUse()*valueForMin);
+            double valueForMin = ((double) getProcessMachineSave().getMachine().getHourValue()/60);
+            getProcessMachineSave().setTotalValueMachine(Utilities.Redondear(getProcessMachineSave().getTimeUse()*valueForMin, 2));
             if(getProcessMachineSave().getOtherExpenses()>0)
             {
-                getProcessMachineSave().setTotalValueMachine(getProcessMachineSave().getTotalValueMachine()+getProcessMachineSave().getOtherExpenses());
+                getProcessMachineSave().setTotalValueMachine(Utilities.Redondear(getProcessMachineSave().getTotalValueMachine()+getProcessMachineSave().getOtherExpenses(), 2));
             }
         }
         
@@ -2576,11 +2627,11 @@ public class ScProductFormulationBean
                     }
                 }
             }
-            double valueForMin = (Double.parseDouble(getProcessEmployeeSave().getEmployee().getHourValue().toString())/60);
-            getProcessEmployeeSave().setTotalValueEmployee(getProcessEmployeeSave().getTimeUse()*valueForMin);
+            double valueForMin = ((double)(Double.parseDouble(getProcessEmployeeSave().getEmployee().getHourValue().toString())/60));
+            getProcessEmployeeSave().setTotalValueEmployee(Utilities.Redondear(getProcessEmployeeSave().getTimeUse()*valueForMin,2));
             if(getProcessEmployeeSave().getOtherExpenses()>0)
             {
-                getProcessEmployeeSave().setTotalValueEmployee(getProcessEmployeeSave().getTotalValueEmployee()+getProcessEmployeeSave().getOtherExpenses());
+                getProcessEmployeeSave().setTotalValueEmployee(Utilities.Redondear(getProcessEmployeeSave().getTotalValueEmployee()+getProcessEmployeeSave().getOtherExpenses(),2));
             }
         }
         
@@ -2695,9 +2746,9 @@ public class ScProductFormulationBean
                     }
                 }
             }
-            double valueForMin = getProcessInputSave().getInput().getDistributionValue();
-            getProcessInputSave().setTotalValueInput(getProcessInputSave().getInput().getDistributionValue() *
-                    getProcessInputSave().getAmountDistribution());
+            double valueForMin = (double) getProcessInputSave().getInput().getDistributionValue();
+            getProcessInputSave().setTotalValueInput(Utilities.Redondear(getProcessInputSave().getInput().getDistributionValue() *
+                    getProcessInputSave().getAmountDistribution(), 2));
         }
         
     }
@@ -2778,11 +2829,9 @@ public class ScProductFormulationBean
                 if(processProduct != null)
                 {
                     processProduct.setProductFormulation(productFormulation);
-                    processProduct.setProcessMachines(getProcessMachine());
-                    processProduct.setProcessEmployees(getProcessEmployeesListSave());
-                    processProduct.setProcessInputs(getProcessInputsListSave());
                     list.add(processProduct);
                     cleanFieldsProcess();
+                    cleanListProcess();
                 }
                 else
                 {
@@ -2800,6 +2849,49 @@ public class ScProductFormulationBean
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             log.error("Error al guardar un proceso");
+        }
+    }
+    
+    /**
+     * Método encargado de calcular los valores totales de un proceso.
+     * @param processProduct proceso del producto al que se le calcularán los valores totales
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void calculateTotalValuesProcess(ScProcessProduct processProduct)
+    {
+        int totalTimeMachine = 0;
+        double totalValueMachine = 0;
+        int totalTimeEmployee = 0;
+        double totalValueEmployee = 0;
+        double totalValueInput = 0;
+        if(processProduct != null)
+        {
+            //Calculamos el total del tiempo y el total del valor de las máquinas 
+            for(ScProcessMachine machineProcess:  processProduct.getProcessMachines())
+            {
+                totalTimeMachine += machineProcess.getTimeUse();
+                totalValueMachine += machineProcess.getTotalValueMachine();
+            }
+            //Calculamos el total del tiempo y el total del valor de los empleados
+            for(ScProcessEmployee employeeProcess:  processProduct.getProcessEmployees())
+            {
+                totalTimeEmployee += employeeProcess.getTimeUse();
+                totalValueEmployee += employeeProcess.getTotalValueEmployee();
+            }
+            //Calculamos el total del tiempo y el total del valor de los insumos
+            for(ScProcessInput inputProcess:  processProduct.getProcessInputs())
+            {
+                totalValueInput += inputProcess.getTotalValueInput();
+            }
+            processProduct.setTotalTimeMachine(totalTimeMachine);
+            processProduct.setTotalValueMachine(Utilities.Redondear(totalValueMachine,2));
+            processProduct.setTotalTimeEmployee(totalTimeEmployee);
+            processProduct.setTotalValueEmployee(Utilities.Redondear(totalValueEmployee,2));
+            processProduct.setTotalValueInput(Utilities.Redondear(totalValueInput,2));
+            //Modificamos el tiempo total del proceso
+            processProduct.setTotalTimeProcess(totalTimeEmployee+totalTimeMachine);
+            //Modificamos el valor total del proceso
+            processProduct.setTotalValueProcess(Utilities.Redondear(totalValueInput+totalValueEmployee+totalValueMachine,2));
         }
     }
     
