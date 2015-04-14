@@ -32,7 +32,7 @@
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
 
             <!--            Inicia el dialogo para crear procesos-->
-            <p:dialog id="dialogprocessSave" widgetVar="dialogprocessSave" draggable="true" 
+            <p:dialog id="dialogprocessSaveSave" widgetVar="dialogprocessSaveSave" draggable="true" 
                       closable="true"  header="Crear Procesos" position="center top" width="900"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizardProcessSave" >
@@ -534,10 +534,10 @@
                                         <td align="center" colspan="4">
                                             <p:commandButton value="Guardar" 
                                             actionListener="#{scProductFormulationBean.saveProcessProduct(scProductFormulationBean.productSave, scProductFormulationBean.processProductListSave, scProductFormulationBean.processProductSave)}"
-                                            update=":formWizardProcessSave,:formWizardSave:dataTableProcessSave" oncomplete="PF('dialogprocessSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
+                                            update=":formWizardProcessSave,:formWizardSave:dataTableProcessSave" oncomplete="PF('dialogprocessSaveSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
                                             <p:spacer width="20px"/>
                                             <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsProcess()}"
-                                                             update=":formWizardProcessSave" oncomplete="PF('dialogprocessSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
+                                                             update=":formWizardProcessSave" oncomplete="PF('dialogprocessSaveSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -550,8 +550,526 @@
                 <p:ajax event="close" oncomplete="PF('wizardProcessSave').loadStep('tabProcess', true)" />
             </p:dialog>
 <!--====================================================================================================================================================-->
+<!--            Inicia el dialogo para crear procesos desde actualizar-->
+            <p:dialog id="dialogprocessSaveUpdate" widgetVar="dialogprocessSaveUpdate" draggable="true" 
+                      closable="true"  header="Crear Procesos" position="center top" width="900"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                <h:form id="formWizardProcessSave" >
+
+                    <p:wizard  flowListener="#{scProductFormulationBean.onFlowProcessSaveProcess}" id="wizardProcessSave" widgetVar="wizardProcessSave" 
+                               backLabel="Atras" nextLabel="Siguiente">
+                        <p:tab title="Datos del Proceso" id="tabProcess" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del proceso">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Nombre del Proceso*" />
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText value="#{scProductFormulationBean.processProductSave.name}" />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Tipo de Proceso*" />
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbProcess"  value="#{scProductFormulationBean.processProductSave.processType}" style="width: 70%;"
+                                                             converter="typeProcessConverter" converterMessage="Error en el tipo de dato del tipo de proceso"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItem itemLabel="Interno" itemValue="1,Interno"/>
+                                                <f:selectItem itemLabel="Externo" itemValue="2,Externo"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Descripción"/>
+                                        </td>
+                                        <td width="90%" align="left" valign="middle" colspan="3">
+                                            <p:inputTextarea value="#{scProductFormulationBean.processProductSave.description}" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        inicia pestaña para seleccionar máquinas                          -->
+                        <p:tab title="Máquinas" id="tabMachine" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar máquinas">
+                            <p:panel header="Máquinas" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="cbMachine" value="Máquina"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:selectOneMenu id="cbMachine"  value="#{scProductFormulationBean.processMachineSave.machine}" style="width: 70%;"
+                                                                         converter="machineConverter" converterMessage="Error en el tipo de dato de la máquina"
+                                                                         effect="puff"
+                                                                         height="140">
+                                                            <f:selectItem itemLabel="..." />
+                                                            <p:ajax event="change" update="tfTimeUse,tfOtherExpenses,tfDescriptionOtherExpenses"/>
+                                                            <f:selectItems value="#{scProductFormulationBean.machineList}" var="machine" itemLabel="#{machine.name}"/>
+                                                        </p:selectOneMenu>
+                                                    </td>
+                                                </tr>
 
 
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTimeUse" value="Tiempo de Uso"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTimeUse" value="#{scProductFormulationBean.processMachineSave.timeUse}" 
+
+                                                                     disabled="#{!scProductFormulationBean.doHaveMachine(scProductFormulationBean.processMachineSave.machine)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalMachine()}" update="tfValueTotalMachine"/> 
+                                                        </p:inputText>
+                                                        <p:tooltip for="tfTimeUse" value="Ingrese el tiempo de uso de la máquina"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfOtherExpenses" value="Otros Gastos"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfOtherExpenses" value="#{scProductFormulationBean.processMachineSave.otherExpenses}"
+                                                                     disabled="#{!scProductFormulationBean.doHaveMachine(scProductFormulationBean.processMachineSave.machine)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalMachine()}" update="tfValueTotalMachine"/> 
+                                                        </p:inputText>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfDescriptionOtherExpenses" value="Descripción Otros Gastos"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfDescriptionOtherExpenses" value="#{scProductFormulationBean.processMachineSave.descriptionOtherExpenses}"
+                                                                         disabled="#{!scProductFormulationBean.doHaveMachine(scProductFormulationBean.processMachineSave.machine)}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfValueTotalMachine" value="Valor Total Máquina"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfValueTotalMachine" value="#{scProductFormulationBean.processMachineSave.totalValueMachine}"
+                                                                     disabled="true"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="cbMachine,tfTimeUse,tfOtherExpenses,tfDescriptionOtherExpenses,tfValueTotalMachine,dataTableMachines"
+                                                                             actionListener="#{scProductFormulationBean.saveProcessMachine(scProductFormulationBean.processMachine, scProductFormulationBean.processMachineSave)}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr> 
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableMachines"
+                                                         var="machineProcess" 
+                                                         value="#{scProductFormulationBean.processMachine}"
+                                                         rowKey="#{machineProcess.machine.name}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{machineProcess.machine.name}">
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableMachines" title="Eliminar Máquina"
+                                                                     process="dataTableMachines" 
+                                                                     actionListener="#{scProductFormulationBean.deleteMachine(scProductFormulationBean.processMachine, machineProcess)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Máquina" sortBy="#{machineProcess.machine.name}">
+                                                    <p:outputLabel value="#{machineProcess.machine.name}" id="machineTable"/>
+                                                    <p:tooltip value="#{machineProcess.machine.name}" for="machineTable"/>
+                                                </p:column>
+                                                <p:column headerText="Tiempo de Uso" sortBy="#{machineProcess.timeUse}">
+                                                    <p:outputLabel value="#{machineProcess.timeUse}" id="outTimeUse"/>
+                                                    <p:tooltip value="#{machineProcess.timeUse}" for="outTimeUse"/>
+                                                </p:column>
+                                                <p:column headerText="Otros Gastos" sortBy="#{machineProcess.otherExpenses}">
+                                                    <p:outputLabel value="#{machineProcess.otherExpenses}" id="outOtherExpenses"/>
+                                                    <p:tooltip value="#{machineProcess.otherExpenses}" for="outOtherExpenses"/>
+                                                </p:column>
+                                                <p:column headerText="Descripción Otros Gastos" sortBy="#{machineProcess.descriptionOtherExpenses}">
+                                                    <p:outputLabel value="#{machineProcess.descriptionOtherExpenses}" id="outDescriptionOtherExpenses"/>
+                                                    <p:tooltip value="#{machineProcess.descriptionOtherExpenses}" for="outDescriptionOtherExpenses"/>
+                                                </p:column>
+                                                <p:column headerText="Valor Total" sortBy="#{machineProcess.totalValueMachine}">
+                                                    <p:outputLabel value="#{machineProcess.totalValueMachine}" id="totalValueMachine"/>
+                                                    <p:tooltip value="#{machineProcess.totalValueMachine}" for="totalValueMachine"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar máquinas                          -->
+                        <!--                        inicia pestaña para seleccionar empleados                          -->
+                        <p:tab title="Mano de Obra" id="tabEmployee" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar la mano de obra">
+                            <p:panel header="Mano de Obra" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tflaborDescription" value="Mano de Obra"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tflaborDescription" value="#{scProductFormulationBean.processEmployeeSave.laborDescription}"
+                                                                     />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="cbEmployee" value="Empleado"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:selectOneMenu id="cbEmployee"  value="#{scProductFormulationBean.processEmployeeSave.employee}" style="width: 70%;"
+                                                                         converter="employeeConverter" converterMessage="Error en el tipo de dato del empleado"
+                                                                         effect="puff"
+                                                                         height="140">
+                                                            <f:selectItem itemLabel="..." />
+                                                            <p:ajax event="change" update="tfTimeUseEmployee,tfOtherExpensesEmployee,tfDescriptionOtherExpensesEmployee"/>
+                                                            <f:selectItems value="#{scProductFormulationBean.employeesList}" var="employee" itemLabel="#{employee.position}"/>
+                                                        </p:selectOneMenu>
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTimeUseEmployee" value="Tiempo de Uso"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTimeUseEmployee" value="#{scProductFormulationBean.processEmployeeSave.timeUse}" 
+
+                                                                     disabled="#{!scProductFormulationBean.doHaveEmployee(scProductFormulationBean.processEmployeeSave.employee)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalEmployee()}" update="tfValueTotalEmployee"/> 
+                                                        </p:inputText>
+                                                        <p:tooltip for="tfTimeUseEmployee" value="Ingrese el tiempo de uso del empleado para la mano de obra"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfOtherExpensesEmployee" value="Otros Gastos"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfOtherExpensesEmployee" value="#{scProductFormulationBean.processEmployeeSave.otherExpenses}"
+                                                                     disabled="#{!scProductFormulationBean.doHaveEmployee(scProductFormulationBean.processEmployeeSave.employee)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalEmployee()}" update="tfValueTotalEmployee"/> 
+                                                        </p:inputText>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfDescriptionOtherExpensesEmployee" value="Descripción Otros Gastos"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfDescriptionOtherExpensesEmployee" value="#{scProductFormulationBean.processEmployeeSave.descriptionOtherExpenses}"
+                                                                         disabled="#{!scProductFormulationBean.doHaveEmployee(scProductFormulationBean.processEmployeeSave.employee)}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfValueTotalEmployee" value="Valor Total la Mano de Obra "/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfValueTotalEmployee" value="#{scProductFormulationBean.processEmployeeSave.totalValueEmployee}"
+                                                                     disabled="true"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="cbEmployee,tfTimeUseEmployee,tfOtherExpensesEmployee,tfDescriptionOtherExpensesEmployee,tfValueTotalEmployee,tflaborDescription,dataTableEmployees"
+                                                                             actionListener="#{scProductFormulationBean.saveProcessEmployee(scProductFormulationBean.processEmployeesListSave, scProductFormulationBean.processEmployeeSave)}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr> 
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableEmployees"
+                                                         var="employeeProcess" 
+                                                         value="#{scProductFormulationBean.processEmployeesListSave}"
+                                                         rowKey="#{employeeProcess.employee.position}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{employeeProcess.employee.position}">
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableEmployees" title="Eliminar Mano de Obra"
+                                                                     process="dataTableEmployees" 
+                                                                     actionListener="#{scProductFormulationBean.deleteEmployee(scProductFormulationBean.processEmployeesListSave, employeeProcess)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Empleado" sortBy="#{employeeProcess.employee.position}">
+                                                    <p:outputLabel value="#{employeeProcess.employee.position}" id="employeeTable"/>
+                                                    <p:tooltip value="#{employeeProcess.employee.position}" for="employeeTable"/>
+                                                </p:column>
+                                                <p:column headerText="Descripción Mano de Obra" sortBy="#{employeeProcess.laborDescription}">
+                                                    <p:outputLabel value="#{employeeProcess.laborDescription}" id="outDescriptionLabor"/>
+                                                    <p:tooltip value="#{employeeProcess.laborDescription}" for="outDescriptionLabor"/>
+                                                </p:column>
+                                                <p:column headerText="Tiempo de Uso" sortBy="#{employeeProcess.timeUse}">
+                                                    <p:outputLabel value="#{employeeProcess.timeUse}" id="outTimeUse"/>
+                                                    <p:tooltip value="#{employeeProcess.timeUse}" for="outTimeUse"/>
+                                                </p:column>
+                                                <p:column headerText="Otros Gastos" sortBy="#{employeeProcess.otherExpenses}">
+                                                    <p:outputLabel value="#{employeeProcess.otherExpenses}" id="outOtherExpenses"/>
+                                                    <p:tooltip value="#{employeeProcess.otherExpenses}" for="outOtherExpenses"/>
+                                                </p:column>
+                                                <p:column headerText="Descripción Otros Gastos" sortBy="#{employeeProcess.descriptionOtherExpenses}">
+                                                    <p:outputLabel value="#{employeeProcess.descriptionOtherExpenses}" id="outDescriptionOtherExpenses"/>
+                                                    <p:tooltip value="#{employeeProcess.descriptionOtherExpenses}" for="outDescriptionOtherExpenses"/>
+                                                </p:column>
+                                                <p:column headerText="Valor Total" sortBy="#{employeeProcess.totalValueEmployee}">
+                                                    <p:outputLabel value="#{employeeProcess.totalValueEmployee}" id="totalValueEmployee"/>
+                                                    <p:tooltip value="#{employeeProcess.totalValueEmployee}" for="totalValueEmployee"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar Empleados                          -->
+                        <!--                        inicia pestaña para seleccionar Insumos                          -->
+                        <p:tab title="Insumos" id="tabInput" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar los insumos">
+                            <p:panel header="Insumos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="cbInput" value="Insumo"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:selectOneMenu id="cbInput"  value="#{scProductFormulationBean.processInputSave.input}" style="width: 70%;"
+                                                                         converter="inputConverter" converterMessage="Error en el tipo de dato del insumo"
+                                                                         effect="puff"
+                                                                         height="140">
+                                                            <f:selectItem itemLabel="..." />
+                                                            <p:ajax event="change" update="tfAmountDistribution,tfPercentageResidue"/>
+                                                            <f:selectItems value="#{scProductFormulationBean.inputsList}" var="input" itemLabel="#{input.description}"/>
+                                                        </p:selectOneMenu>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfAmountDistribution" value="Cantidad de Distribución"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfAmountDistribution" value="#{scProductFormulationBean.processInputSave.amountDistribution}"                                                                      
+                                                                     disabled="#{!scProductFormulationBean.doHaveInput(scProductFormulationBean.processInputSave.input)}">
+                                                            <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalInput()}" update="tfValueTotalInput"/> 
+                                                        </p:inputText>
+                                                        <p:tooltip for="tfAmountDistribution" value="Ingrese el tiempo de uso del insumo"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfPercentageResidue" value="% de Merma (Desperdicio)"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfPercentageResidue" value="#{scProductFormulationBean.processInputSave.percentageResidue}"
+                                                                     disabled="#{!scProductFormulationBean.doHaveInput(scProductFormulationBean.processInputSave.input)}">
+                                                        </p:inputText>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfValueTotalInput" value="Valor Total del Insumo"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfValueTotalInput" value="#{scProductFormulationBean.processInputSave.totalValueInput}"
+                                                                     disabled="true"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="cbInput,tfValueTotalInput,tfPercentageResidue,tfAmountDistribution,dataTableInputs"
+                                                                             actionListener="#{scProductFormulationBean.saveProcessInput(scProductFormulationBean.processInputsListSave, scProductFormulationBean.processInputSave)}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr> 
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableInputs"
+                                                         var="inputProcess" 
+                                                         value="#{scProductFormulationBean.processInputsListSave}"
+                                                         rowKey="#{inputProcess.input.idInput}"
+                                                         paginator="true" rows="15"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{inputProcess.input.idInput}"> 
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableInputs" title="Eliminar Insumo"
+                                                                     process="dataTableInputs" 
+                                                                     actionListener="#{scProductFormulationBean.deleteInput(scProductFormulationBean.processInputsListSave, inputProcess)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column headerText="Insumo" sortBy="#{inputProcess.input.description}">
+                                                    <p:outputLabel value="#{inputProcess.input.description}" id="inputOut"/>
+                                                    <p:tooltip value="#{inputProcess.input.description}" for="inputOut"/>
+                                                </p:column>
+                                                <p:column headerText="Cantidad de Distribución" sortBy="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}">
+                                                    <p:outputLabel value="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}" id="outAmountDistribution"/>
+                                                    <p:tooltip value="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}" for="outAmountDistribution"/>
+                                                </p:column>
+                                                <p:column headerText="% de Merma (Desperdicios)" sortBy="#{inputProcess.percentageResidue}">
+                                                    <p:outputLabel value="#{inputProcess.percentageResidue}" id="outPercentage"/>
+                                                    <p:tooltip value="#{inputProcess.percentageResidue}" for="outPercentage"/>
+                                                </p:column>
+                                                <p:column headerText="Valor Total" sortBy="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}">
+                                                    <p:outputLabel value="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}" id="totalValueInput"/>
+                                                    <p:tooltip value="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}" for="totalValueInput"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar Insumos                          -->
+                        <!--                        inicia pestaña para guardar cambios                          -->
+                        <p:tab title="Confirmar Proceso" id="tabConfirm" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para confirmar el proceso">
+                            <p:panel header="Confirmar Proceso" >
+
+                                <table width="100%" cellspacing="10">
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfNameconfirm" value="Nombre del Proceso"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfNameconfirm" value="#{scProductFormulationBean.processProductSave.name}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="40%" >
+                                            <p:outputLabel for="tfTypeProcess" value="Tipo de Proceso"/>
+                                        </td>
+                                        <td width="60%">
+                                            <p:inputText id="tfTypeProcess" value="#{scProductFormulationBean.processProductSave.processType.type}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfDescriptionProcess" value="Descripción del Proceso"/>
+                                        </td>
+                                        <td width="40%" >
+                                            <p:inputTextarea id="tfDescriptionProcess" value="#{scProductFormulationBean.processProductSave.description}"
+                                                         disabled="true">
+                                            </p:inputTextarea>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalValueInput" value="Total Valor Insumo"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalValueInput" value="#{scProductFormulationBean.processProductSave.totalValueInput}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalTimeMachine" value="Total Tiempo Máquina"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalTimeMachine" value="#{scProductFormulationBean.processProductSave.totalTimeMachine}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalValueMachine" value="Total Valor Máquina"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalValueMachine" value="#{scProductFormulationBean.processProductSave.totalValueMachine}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalTimeEmployee" value="Total Tiempo Empleado"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalTimeEmployee" value="#{scProductFormulationBean.processProductSave.totalTimeEmployee}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalValueEmployee" value="Total Valor Empleado"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalValueEmployee" value="#{scProductFormulationBean.processProductSave.totalValueEmployee}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr> 
+                                   <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalProcesTime" value="Total Tiempo Proceso"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalProcesTime" value="#{scProductFormulationBean.processProductSave.totalTimeProcess}"
+                                                         disabled="true">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfTotalValueProcess" value="Total Valor Proceso"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputText id="tfTotalValueProcess" value="#{scProductFormulationBean.processProductSave.totalValueProcess}"
+                                                         disabled="true"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" colspan="4">
+                                            <p:commandButton value="Guardar" 
+                                            actionListener="#{scProductFormulationBean.saveProcessProduct(scProductFormulationBean.productSave, scProductFormulationBean.processProductListSave, scProductFormulationBean.processProductSave)}"
+                                            update=":formWizardProcessSave,:formWizardSave:dataTableProcessSave" oncomplete="PF('dialogprocessSaveUpdate').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
+                                            <p:spacer width="20px"/>
+                                            <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsProcess()}"
+                                                             update=":formWizardProcessSave" oncomplete="PF('dialogprocessSaveUpdate').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para confirmar el proceso                  -->
+                    </p:wizard>
+                </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardProcessSave').loadStep('tabProcess', true)" />
+            </p:dialog>
+<!--            finaliza el dialogo para crear nuevos procesos de producto desde actualizar-->
+<!--=======================================================================================================================================================-->
             <!--            Inicia el dialogo para crear nuevas formulaciones de producto-->
             <p:dialog id="dialogproductSave" widgetVar="dialogproductSave" draggable="true" 
                       closable="true"  header="Crear Productos" position="center top" width="900"
