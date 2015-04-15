@@ -2820,8 +2820,9 @@ public class ScProductFormulationBean
      * @param processProduct proceso que será ingresado
      * @author Gustavo Chavarro Ortiz
      */
-    public void saveProcessProduct(ScProductFormulation productFormulation, List<ScProcessProduct> list, ScProcessProduct processProduct)
+    public void saveProcessProduct(ScProductFormulation productFormulation, List<ScProcessProduct> list, ScProcessProduct processProduct    )
     {
+        int index = -1;
         try
         {
             if(productFormulation != null)
@@ -2829,9 +2830,27 @@ public class ScProductFormulationBean
                 if(processProduct != null)
                 {
                     processProduct.setProductFormulation(productFormulation);
-                    list.add(processProduct);
-                    cleanFieldsProcess();
-                    cleanListProcess();
+                    for(ScProcessProduct object: list)
+                    {
+                        index++;
+                        /*Verificamos que el proceso exista en la lista de procesos de la formulación a guardar*/
+                        if(object.getName().equals(processProduct.getName()) && 
+                           object.getProcessType().getType().equals(processProduct.getProcessType().getType()))
+                        {
+                            //El proceso si existe dentro de la lista de procesos de la formulación del producto
+                            break;
+                        }
+                    }
+                    if(index == -1)
+                    {
+                        list.add(processProduct);//Lista de procesos
+                        cleanProcessComplete();
+                    }
+                    else 
+                    {
+                        list.set(index, processProduct);//Reemplazamos el proceso
+                        cleanProcessComplete();
+                    }
                 }
                 else
                 {
@@ -2850,6 +2869,17 @@ public class ScProductFormulationBean
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             log.error("Error al guardar un proceso");
         }
+    }
+    
+    /**
+     * Método encargado de seleccionar el proceso para actualizarlos desde guardarProceso.
+     * @param process Proceso de la formulación a actualizar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForUpdateFromSave(ScProcessProduct process)
+    {
+        //Actualizamos el proceso para que sea tomado 
+        setProcessProductSave(process);
     }
     
     /**
@@ -2895,7 +2925,11 @@ public class ScProductFormulationBean
         }
     }
     
-    
+    public void cleanProcessComplete()
+    {
+        cleanFieldsProcess();
+        cleanListProcess();
+    }
     /**
      * Getters and Setters.
      */

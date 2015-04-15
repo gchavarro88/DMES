@@ -554,9 +554,8 @@
             <p:dialog id="dialogprocessSaveUpdate" widgetVar="dialogprocessSaveUpdate" draggable="true" 
                       closable="true"  header="Crear Procesos" position="center top" width="900"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
-                <h:form id="formWizardProcessSave" >
-
-                    <p:wizard  flowListener="#{scProductFormulationBean.onFlowProcessSaveProcess}" id="wizardProcessSave" widgetVar="wizardProcessSave" 
+                <h:form id="formWizardProcessSaveUpdate" >
+                    <p:wizard  flowListener="#{scProductFormulationBean.onFlowProcessSaveProcess}" id="wizardProcessSave" widgetVar="wizardProcessSaveUpdate" 
                                backLabel="Atras" nextLabel="Siguiente">
                         <p:tab title="Datos del Proceso" id="tabProcess" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del proceso">
