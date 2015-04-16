@@ -835,7 +835,7 @@ public class ScProductFormulationBean
             {
                 ind++;
                 if(processProductDelete.getName().equals(index.getName()) && 
-                        processProductDelete.getDescription().equals(index.getDescription()))
+                        processProductDelete.getProcessType().getType().equals(index.getProcessType().getType()))
                 {
                     break;
                 }
@@ -1222,7 +1222,7 @@ public class ScProductFormulationBean
             }
         }
         
-        //return "tabProcess";
+//        return "tabProcess";
         return event.getNewStep(); 
     }
     
@@ -2872,14 +2872,17 @@ public class ScProductFormulationBean
     }
     
     /**
-     * Método encargado de seleccionar el proceso para actualizarlos desde guardarProceso.
-     * @param process Proceso de la formulación a actualizar
+     * Método encargado para seleccionar el proceso para ser actualizado.
+     * @param process proceso que será actualizado
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectedForUpdateFromSave(ScProcessProduct process)
+    public void selectedForUpdateFromSave(ScProcessProduct process) throws Exception
     {
         //Actualizamos el proceso para que sea tomado 
-        setProcessProductSave(process);
+        setProcessProductSave((ScProcessProduct) process.clone()); //Traemos el proceso y lo dejamos listo para guardar
+        setProcessMachine((ArrayList<ScProcessMachine>) ((ArrayList<ScProcessMachine>) process.getProcessMachines()).clone()); //Traemos las maquinas
+        setProcessEmployeesListSave((ArrayList<ScProcessEmployee>) ((ArrayList<ScProcessEmployee>)getProcessProductSave().getProcessEmployees()).clone());//Traemos los empleados
+        setProcessInputsListSave((ArrayList<ScProcessInput>) ((ArrayList<ScProcessInput>)getProcessProductSave().getProcessInputs()).clone()); //Traemos los insumos
     }
     
     /**
@@ -2930,6 +2933,9 @@ public class ScProductFormulationBean
         cleanFieldsProcess();
         cleanListProcess();
     }
+    
+    
+    
     /**
      * Getters and Setters.
      */
@@ -3272,7 +3278,7 @@ public class ScProductFormulationBean
     {
         this.storesList = storesList;
     }
-
+    
     public List<ScPriority> getPriorityList()
     {
         return priorityList;

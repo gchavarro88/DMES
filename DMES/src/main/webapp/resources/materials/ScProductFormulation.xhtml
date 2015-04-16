@@ -32,7 +32,7 @@
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
 
             <!--            Inicia el dialogo para crear procesos-->
-            <p:dialog id="dialogprocessSaveSave" widgetVar="dialogprocessSaveSave" draggable="true" 
+            <p:dialog id="dialogprocessSave" widgetVar="dialogprocessSave" draggable="true" 
                       closable="true"  header="Crear Procesos" position="center top" width="900"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                 <h:form id="formWizardProcessSave" >
@@ -534,10 +534,10 @@
                                         <td align="center" colspan="4">
                                             <p:commandButton value="Guardar" 
                                             actionListener="#{scProductFormulationBean.saveProcessProduct(scProductFormulationBean.productSave, scProductFormulationBean.processProductListSave, scProductFormulationBean.processProductSave)}"
-                                            update=":formWizardProcessSave,:formWizardSave:dataTableProcessSave" oncomplete="PF('dialogprocessSaveSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
+                                            update=":formWizardProcessSave,:formWizardSave:dataTableProcessSave" oncomplete="PF('dialogprocessSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
                                             <p:spacer width="20px"/>
                                             <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsProcess()}"
-                                                             update=":formWizardProcessSave" oncomplete="PF('dialogprocessSaveSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
+                                                             update=":formWizardProcessSave" oncomplete="PF('dialogprocessSave').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -547,15 +547,16 @@
                         <!--                        finaliza pestaña para confirmar el proceso                  -->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardProcessSave').loadStep('tabProcess', true)" />
+                <p:ajax event="close" oncomplete="PF('wizardProcessSave').loadStep('tabProcess', true)" listener="#{scProductFormulationBean.cleanProcessComplete()}"/>
             </p:dialog>
 <!--====================================================================================================================================================-->
 <!--            Inicia el dialogo para crear procesos desde actualizar-->
-            <p:dialog id="dialogprocessSaveUpdate" widgetVar="dialogprocessSaveUpdate" draggable="true" 
+            <p:dialog id="dialogprocessUpdate" widgetVar="dialogprocessUpdate" draggable="true" 
                       closable="true"  header="Crear Procesos" position="center top" width="900"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
-                <h:form id="formWizardProcessSaveUpdate" >
-                    <p:wizard  flowListener="#{scProductFormulationBean.onFlowProcessSaveProcess}" id="wizardProcessSave" widgetVar="wizardProcessSaveUpdate" 
+                <h:form id="formWizardProcessUpdate" >
+
+                    <p:wizard  flowListener="#{scProductFormulationBean.onFlowProcessSaveProcess}" id="wizardProcessUpdate" widgetVar="wizardProcessUpdate" 
                                backLabel="Atras" nextLabel="Siguiente">
                         <p:tab title="Datos del Proceso" id="tabProcess" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del proceso">
@@ -1052,10 +1053,10 @@
                                         <td align="center" colspan="4">
                                             <p:commandButton value="Guardar" 
                                             actionListener="#{scProductFormulationBean.saveProcessProduct(scProductFormulationBean.productSave, scProductFormulationBean.processProductListSave, scProductFormulationBean.processProductSave)}"
-                                            update=":formWizardProcessSave,:formWizardSave:dataTableProcessSave" oncomplete="PF('dialogprocessSaveUpdate').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
+                                            update=":formWizardProcessUpdate,:formWizardUpdate:dataTableProcessUpdate" oncomplete="PF('dialogprocessSave').hide();PF('wizardProcessUpdate').loadStep('tabProcess', true)"/>
                                             <p:spacer width="20px"/>
                                             <p:commandButton value="Cancelar" actionListener="#{scProductFormulationBean.cleanFieldsProcess()}"
-                                                             update=":formWizardProcessSave" oncomplete="PF('dialogprocessSaveUpdate').hide();PF('wizardProcessSave').loadStep('tabProcess', true)"/>
+                                                             update=":formWizardProcessUpdate" oncomplete="PF('dialogprocessSave').hide();PF('wizardProcessUpdate').loadStep('tabProcess', true)"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -1065,7 +1066,7 @@
                         <!--                        finaliza pestaña para confirmar el proceso                  -->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardProcessSave').loadStep('tabProcess', true)" />
+                <p:ajax event="close" oncomplete="PF('wizardProcessUpdate').loadStep('tabProcess', true)" listener="#{scProductFormulationBean.cleanProcessComplete()}"/>
             </p:dialog>
 <!--            finaliza el dialogo para crear nuevos procesos de producto desde actualizar-->
 <!--=======================================================================================================================================================-->
@@ -1705,11 +1706,18 @@
                                                         <p:tooltip for="btnAddProcess" value="Agregar un Proceso"/>
                                                     </p:commandButton>
                                                 </f:facet>
-                                                <p:column style="width:32px">
+                                                <p:column style="text-align: center;">
+                                                    
+                                                    <p:commandButton icon="ui-icon-pencil" title="Actualizar Proceso"
+                                                                     process="@this" oncomplete="PF('dialogprocessSave').show()" update=":formWizardProcessSave"
+                                                                     actionListener="#{scProductFormulationBean.selectedForUpdateFromSave(process)}" >
+                                                    </p:commandButton>
+                                                    <p:spacer width="5"/>
                                                     <p:commandButton icon="ui-icon-close" update="dataTableProcessSave" title="Eliminar Proceso"
                                                                      process="@this" 
                                                                      actionListener="#{scProductFormulationBean.deleteProcess(process)}" >
                                                     </p:commandButton>
+                                                    
                                                 </p:column>
                                                 <p:column headerText="Proceso" sortBy="#{process.name}">
                                                     <p:outputLabel value="#{process.name}" id="processName"/>

@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScProcessProduct.findById", query = "SELECT s FROM ScProcessProduct s WHERE s.idProcessProduct = :idProcessProduct ORDER BY s.name")
     
 })
-public class ScProcessProduct implements Serializable
+public class ScProcessProduct implements Serializable, Cloneable
 {
 
     private static final long serialVersionUID = 1L;
@@ -309,6 +309,10 @@ public class ScProcessProduct implements Serializable
         return "ScProcessProduct{" + "idProcessProduct=" + idProcessProduct + ", processType=" + processType + ", name=" + name + ", description=" + description + ", totalTimeMachine=" + totalTimeMachine + ", totalTimeEmployee=" + totalTimeEmployee + ", totalTimeProcess=" + totalTimeProcess + ", totalValueMachine=" + totalValueMachine + ", totalValueInput=" + totalValueInput + ", totalValueEmployee=" + totalValueEmployee + ", totalValueProcess=" + totalValueProcess + '}';
     }
 
-    
+    @Override
+    public Object clone() throws CloneNotSupportedException 
+    {
+        return super.clone();
+    }
 
 }
