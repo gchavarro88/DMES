@@ -95,7 +95,15 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     {
         try
         {
+            if(productFormulation.getProcessProducts() != null && !productFormulation.getProcessProducts().isEmpty())
+            {
+                for(ScProcessProduct iterator: productFormulation.getProcessProducts())
+                {
+                    entityManager.merge(iterator);
+                }
+            }
             entityManager.merge(productFormulation);
+            entityManager.flush();
         }
         catch (Exception e)
         {

@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.6
--- Started on 2015-04-14 16:58:28 CEST
+-- Started on 2015-04-18 09:19:23 CEST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1731,7 +1731,7 @@ INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight,
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (4, '1-Mms', '1-Mms', '1-Mms', '1-Mts', '1-Mms', '1-KMS', '1-Mms', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (13, '12-KMS', '12-Mts', '3-KMS', '12-KMS', '12-Mms', '', '12-KMS', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (15, '1-Mts', '2-Mts', '2-Mms', '3-Mts', '', '', '', '');
-INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (16, '12-Mts', '12-Mts', '12-Mts', '12-Mms', '', '', '', '');
+INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (17, '1-Mts', '1-Mts', '2-Mms', '2-Mts', '', '', '', '');
 
 
 --
@@ -2051,7 +2051,9 @@ INSERT INTO sc_priority (id_priority, name, description) VALUES (3, 'Baja', 'Baj
 -- Data for Name: sc_procces_product; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_procces_product (id_process_product, id_process_type, name, description, total_time_machine, total_value_machine, total_value_input, total_time_process, total_value_process, total_time_employee, total_value_employee, id_product_formulation) VALUES (3, 1, 'sfdsfsd', 'sdfsdfsdfsd', 234979, 4296672.33, 1539846.00, 235645, 5873070.63, 666, 36552.30, 4);
+INSERT INTO sc_procces_product (id_process_product, id_process_type, name, description, total_time_machine, total_value_machine, total_value_input, total_time_process, total_value_process, total_time_employee, total_value_employee, id_product_formulation) VALUES (4, 2, 'Prueba', 'Prueba', 46, 3222.00, 146400.00, 412, 169343.30, 366, 19721.30, 5);
+INSERT INTO sc_procces_product (id_process_product, id_process_type, name, description, total_time_machine, total_value_machine, total_value_input, total_time_process, total_value_process, total_time_employee, total_value_employee, id_product_formulation) VALUES (5, 2, 'PruebaPrueba', 'Prueba', 46, 3222.00, 146400.00, 412, 169343.30, 366, 19721.30, 5);
+INSERT INTO sc_procces_product (id_process_product, id_process_type, name, description, total_time_machine, total_value_machine, total_value_input, total_time_process, total_value_process, total_time_employee, total_value_employee, id_product_formulation) VALUES (6, 2, 'desdPrueba', 'Prueba', 46, 3222.00, 146400.00, 412, 169343.30, 366, 19721.30, 5);
 
 
 --
@@ -2068,8 +2070,8 @@ INSERT INTO sc_procces_product (id_process_product, id_process_type, name, descr
 -- Data for Name: sc_process_employee; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_process_employee (id_process_employee, labor_description, time_use, other_expenses, total_value_employee, id_employee, id_process, description_other_expenses) VALUES (5, '3333', 333, 333.00, 18276.15, 8, 3, '333');
-INSERT INTO sc_process_employee (id_process_employee, labor_description, time_use, other_expenses, total_value_employee, id_employee, id_process, description_other_expenses) VALUES (6, '2333', 333, 333.00, 18276.15, 8, 3, '333');
+INSERT INTO sc_process_employee (id_process_employee, labor_description, time_use, other_expenses, total_value_employee, id_employee, id_process, description_other_expenses) VALUES (9, 'PruebaPrueba', 333, 0.00, 17943.15, 8, 5, '');
+INSERT INTO sc_process_employee (id_process_employee, labor_description, time_use, other_expenses, total_value_employee, id_employee, id_process, description_other_expenses) VALUES (8, 'Prueba', 33, 0.00, 1778.15, 8, 5, '');
 
 
 --
@@ -2078,8 +2080,8 @@ INSERT INTO sc_process_employee (id_process_employee, labor_description, time_us
 -- Data for Name: sc_process_input; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (1, 3, 7, 3333, 333.00, 1203213.00);
-INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (2, 3, 13, 3333, 33.00, 336633.00);
+INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (4, 5, 8, 33, 33.33, 13200.00);
+INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (5, 5, 8, 333, 44.00, 133200.00);
 
 
 --
@@ -2088,9 +2090,8 @@ INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_dis
 -- Data for Name: sc_process_machine; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (4, 1, 232323, 2333.00, 3874383.00, 3, '333');
-INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (5, 2, 2323, 322323.00, 399756.33, 3, '23233');
-INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (6, 3, 333, 333.00, 22533.00, 3, '333');
+INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (8, 3, 44, 0.00, 2933.33, 5, '');
+INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (7, 2, 2, 222.00, 288.67, 5, 'Prueba');
 
 
 --
@@ -2123,15 +2124,14 @@ INSERT INTO sc_product_attached (id_product_attached, type, tittle, description,
 INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (13, 'CARACTERISTICA', 'Saludo', 'Saludo', 1);
 INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (14, 'CARACTERISTICA', 'SaludoSaludoSaludo', 'SaludoSaludoSaludo', 1);
 INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (15, 'OBSERVACION', 'SaludoSaludoSaludoSaludo', 'SaludoSaludoSaludo', 1);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (16, 'OBSERVACION', 'sdfsdfs', 'sdfsdfsd', 4);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (17, 'ESPECIFICACION', '222', '2222', 4);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (18, 'CARACTERISTICA', 'sfsdf', 'sdfsdf', 4);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (19, 'ESPECIFICACION', '12', '12', 4);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (20, 'OBSERVACION', 'sfsdf', 'sfsdfsd', 4);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (21, 'ESPECIFICACION', '3333333333333', '3333333', 4);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (22, 'CARACTERISTICA', 'dsfs', 'sfsfs', 4);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (23, 'CARACTERISTICA', 'sdfsdf', 'sfsdfsd', 4);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (24, 'OBSERVACION', 'sfsdfs', 'sdfsfs', 4);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (25, 'CARACTERISTICA', 'Prueba', 'Prueba', 5);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (26, 'CARACTERISTICA', 'Prueba', 'Prueba', 5);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (27, 'OBSERVACION', 'Prueba', 'Prueba', 5);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (28, 'ESPECIFICACION', 'Prueba', 'Prueba', 5);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (29, 'ESPECIFICACION', 'Prueba', 'Prueba', 5);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (30, 'CARACTERISTICA', 'Prueba', 'Prueba', 5);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (31, 'OBSERVACION', 'Prueba', 'Prueba', 5);
+INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (32, 'ESPECIFICACION', 'Prueba', 'Prueba', 5);
 
 
 --
@@ -2143,7 +2143,7 @@ INSERT INTO sc_product_attached (id_product_attached, type, tittle, description,
 INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (1, '/home/guschaor/product_filePath/docs', 'Hoja de Vida', '2015-04-06', 'CUADRO DE FINANCIACION VIVIENDA.doc', 'guschaor', 'application/msword', 1);
 INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (2, '/home/guschaor/product_filePath/docs', 'Saludo', '2015-04-07', 'Horas Extras 25072014 - 31072014.xls', 'guschaor', 'application/vnd.ms-excel', 1);
 INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (3, '/home/guschaor/product_filePath/docs', 'Saludo', '2015-04-07', 'copia de Horas Extras 27062014 - 03072014.xls', 'guschaor', 'application/vnd.ms-excel', 1);
-INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (4, '/home/guschaor/product_filePath/docs', 'sfsdfsd', '2015-04-14', 'documento insumos.docx', 'guschaor', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 4);
+INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (5, '/home/guschaor/product_filePath/docs', 'Prueba', '2015-04-17', 'documento insumos.docx', 'guschaor', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 5);
 
 
 --
@@ -2154,7 +2154,7 @@ INSERT INTO sc_product_documents (id_product_documents, document_path, document_
 
 INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_partner, id_location, manufacturing_time, description, id_product_dimension) VALUES (1, ' ', 'Liquido', 'ALPINA', 'AC12322', 7, NULL, '2015-04-06', 1, 1, 12000, 2, 1, 5, 123, 'Arequipe', 13);
 INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_partner, id_location, manufacturing_time, description, id_product_dimension) VALUES (3, ' ', 'Solido', 'Sony', 'XperiaZ2', 3, NULL, '2015-04-11', 2, 3, 1200000, 1, 1, 7, 1200, 'Celular Sony', 15);
-INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_partner, id_location, manufacturing_time, description, id_product_dimension) VALUES (4, ' ', 'dfsf', 'sdfsd', 'fsdfs', 4, NULL, '2015-04-14', 1, 4, 333, 1, 1, 1, 333, 'dfsdfsd', 16);
+INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_partner, id_location, manufacturing_time, description, id_product_dimension) VALUES (5, ' ', 'Prueba', 'Prueba', 'Prueba', 5, NULL, '2015-04-17', 3, 4, 122, 4, 1, 6, 1333, 'Producto Proceso de Prueba', 17);
 
 
 --
@@ -2324,7 +2324,7 @@ SELECT pg_catalog.setval('sqscinput', 13, true);
 -- Name: sqscinputdimension; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscinputdimension', 16, true);
+SELECT pg_catalog.setval('sqscinputdimension', 17, true);
 
 
 --
@@ -2540,7 +2540,7 @@ SELECT pg_catalog.setval('sqscprocessattached', 1, false);
 -- Name: sqscprocessemployee; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessemployee', 6, true);
+SELECT pg_catalog.setval('sqscprocessemployee', 10, true);
 
 
 --
@@ -2549,7 +2549,7 @@ SELECT pg_catalog.setval('sqscprocessemployee', 6, true);
 -- Name: sqscprocessinput; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessinput', 2, true);
+SELECT pg_catalog.setval('sqscprocessinput', 6, true);
 
 
 --
@@ -2558,7 +2558,7 @@ SELECT pg_catalog.setval('sqscprocessinput', 2, true);
 -- Name: sqscprocessmachine; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessmachine', 6, true);
+SELECT pg_catalog.setval('sqscprocessmachine', 9, true);
 
 
 --
@@ -2567,7 +2567,7 @@ SELECT pg_catalog.setval('sqscprocessmachine', 6, true);
 -- Name: sqscprocessproduct; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessproduct', 3, true);
+SELECT pg_catalog.setval('sqscprocessproduct', 9, true);
 
 
 --
@@ -2585,7 +2585,7 @@ SELECT pg_catalog.setval('sqscprocesstype', 1, false);
 -- Name: sqscproductattached; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscproductattached', 24, true);
+SELECT pg_catalog.setval('sqscproductattached', 32, true);
 
 
 --
@@ -2594,7 +2594,7 @@ SELECT pg_catalog.setval('sqscproductattached', 24, true);
 -- Name: sqscproductdocuments; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscproductdocuments', 4, true);
+SELECT pg_catalog.setval('sqscproductdocuments', 5, true);
 
 
 --
@@ -2603,7 +2603,7 @@ SELECT pg_catalog.setval('sqscproductdocuments', 4, true);
 -- Name: sqscproductformulation; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscproductformulation', 4, true);
+SELECT pg_catalog.setval('sqscproductformulation', 5, true);
 
 
 --
@@ -3659,7 +3659,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2015-04-14 16:58:28 CEST
+-- Completed on 2015-04-18 09:19:24 CEST
 
 --
 -- PostgreSQL database dump complete

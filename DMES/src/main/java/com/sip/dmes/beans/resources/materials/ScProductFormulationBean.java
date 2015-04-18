@@ -826,12 +826,12 @@ public class ScProductFormulationBean
      * @param processProductDelete proceso a eliminar de la lista
      * @author Gustavo Chavarro Ortiz
      */
-    public void deleteProcess(ScProcessProduct processProductDelete)
+    public void deleteProcess(List<ScProcessProduct> list, ScProcessProduct processProductDelete)
     {
         int ind = -1;
         if(processProductDelete != null)
         {
-            for(ScProcessProduct index: getProcessProductListSave())
+            for(ScProcessProduct index: list)
             {
                 ind++;
                 if(processProductDelete.getName().equals(index.getName()) && 
@@ -842,7 +842,7 @@ public class ScProductFormulationBean
             }
             if(ind > -1)
             {
-                getProcessProductListSave().remove(ind);
+                list.remove(ind);
             }
         }
         else
@@ -2822,7 +2822,7 @@ public class ScProductFormulationBean
      */
     public void saveProcessProduct(ScProductFormulation productFormulation, List<ScProcessProduct> list, ScProcessProduct processProduct    )
     {
-        int index = -1;
+        int index = 0;
         try
         {
             if(productFormulation != null)
@@ -2832,7 +2832,7 @@ public class ScProductFormulationBean
                     processProduct.setProductFormulation(productFormulation);
                     for(ScProcessProduct object: list)
                     {
-                        index++;
+                        
                         /*Verificamos que el proceso exista en la lista de procesos de la formulación a guardar*/
                         if(object.getName().equals(processProduct.getName()) && 
                            object.getProcessType().getType().equals(processProduct.getProcessType().getType()))
@@ -2840,8 +2840,9 @@ public class ScProductFormulationBean
                             //El proceso si existe dentro de la lista de procesos de la formulación del producto
                             break;
                         }
+                        index++;
                     }
-                    if(index == -1)
+                    if(index == list.size())
                     {
                         list.add(processProduct);//Lista de procesos
                         cleanProcessComplete();
@@ -2880,9 +2881,9 @@ public class ScProductFormulationBean
     {
         //Actualizamos el proceso para que sea tomado 
         setProcessProductSave((ScProcessProduct) process.clone()); //Traemos el proceso y lo dejamos listo para guardar
-        setProcessMachine((ArrayList<ScProcessMachine>) ((ArrayList<ScProcessMachine>) process.getProcessMachines()).clone()); //Traemos las maquinas
-        setProcessEmployeesListSave((ArrayList<ScProcessEmployee>) ((ArrayList<ScProcessEmployee>)getProcessProductSave().getProcessEmployees()).clone());//Traemos los empleados
-        setProcessInputsListSave((ArrayList<ScProcessInput>) ((ArrayList<ScProcessInput>)getProcessProductSave().getProcessInputs()).clone()); //Traemos los insumos
+        setProcessMachine((ArrayList<ScProcessMachine>) (new ArrayList<ScProcessMachine>(process.getProcessMachines()).clone())); //Traemos las maquinas
+        setProcessEmployeesListSave((ArrayList<ScProcessEmployee>) (new ArrayList<ScProcessEmployee>(getProcessProductSave().getProcessEmployees())).clone());//Traemos los empleados
+        setProcessInputsListSave((ArrayList<ScProcessInput>) (new ArrayList<ScProcessInput>(getProcessProductSave().getProcessInputs())).clone()); //Traemos los insumos
     }
     
     /**
