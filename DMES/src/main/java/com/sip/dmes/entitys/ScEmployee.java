@@ -52,7 +52,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScEmployee.deleteByPerson", query = "DELETE FROM ScEmployee s WHERE s.idPerson = :idPerson"),
     @NamedQuery(name = "ScEmployee.deleteByIdEmployee", query = "DELETE FROM ScEmployee s WHERE s.idEmployee = :idEmployee")
 })
-public class ScEmployee implements Serializable
+public class ScEmployee implements Serializable, Cloneable
 {
     private static final long serialVersionUID = 1L;
     @Id
@@ -306,6 +306,12 @@ public class ScEmployee implements Serializable
     public String toString()
     {
         return idEmployee.toString()+","+position;
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException 
+    {
+        return super.clone();
     }
     
 }

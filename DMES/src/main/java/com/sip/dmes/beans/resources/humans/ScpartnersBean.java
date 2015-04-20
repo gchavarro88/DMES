@@ -320,6 +320,18 @@ public class ScpartnersBean
                 getScPartnerServer().updatePartner(getPartnerSelected());
                 getPersonsList().remove(getPartnerSelected().getIdPerson());
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                int index =0;
+                for(ScPartner partner: getPartnerList() )
+                {
+                    if(partner.getIdPartner().equals(getPartnerSelected().getIdPartner()))
+                    {
+                        break;
+                    }
+                }
+                if(index < getPartnerList().size())
+                {
+                    getPartnerList().set(index, getPartnerSelected());
+                }
                 cleanValues();
             }
             catch(Exception e)
@@ -358,7 +370,7 @@ public class ScpartnersBean
             {
                 setPersonsList(null);
                 fillListPersons();
-                setPartnerSelected(partnerSelected);
+                setPartnerSelected((ScPartner) partnerSelected.clone());
                 setPersonsListUpdate(getPersonsList());
                 getPersonsListUpdate().add(partnerSelected.getIdPerson());
             }

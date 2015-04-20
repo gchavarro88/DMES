@@ -375,7 +375,7 @@
                         </p:tab>
                     </p:wizard>
                 </h:form>
-
+                    <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabPerson', true)" listener="#{scemployeesBean.cleanValues()}"/>
             </p:dialog>
             <!--         finaliza el dialogo para guardar Usuarios               -->
             
@@ -777,6 +777,7 @@
                         </p:tab>
                     </p:wizard>
                 </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabPersonUpdate', true)" listener="#{scemployeesBean.cleanValues()}"/>
             </p:dialog>
             <!--         finaliza el dialogo para actualizar Usuarios               -->
             
@@ -787,7 +788,7 @@
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
                     <h:form id="formWizardView">
                         <p:tabView dynamic="true" activeIndex="0">
-                            <p:tab title="Datos Básicos">
+                            <p:tab title="Datos Básicos" id="tabInit">
                                 <table>
                                     <tr>
                                         <td width="20%" align="left">

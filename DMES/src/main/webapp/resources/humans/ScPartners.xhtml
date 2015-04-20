@@ -274,6 +274,7 @@
                         </p:tab>
                     </p:wizard>
                 </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabPerson', true)" listener="#{scpartnersBean.cleanValues()}"/>
             </p:dialog>
             <!--         finaliza el dialogo para guardar Proveedores               -->
             
@@ -566,6 +567,7 @@
                         </p:tab>
                     </p:wizard>
                 </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabPersonUpdate', true)" listener="#{scpartnersBean.cleanValues()}"/>
             </p:dialog>
             <!--         finaliza el dialogo para guardar Proveedores               -->
             

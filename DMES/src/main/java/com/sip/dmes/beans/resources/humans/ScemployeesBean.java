@@ -451,6 +451,19 @@ public class ScemployeesBean
                 getScEmployeeServer().updateEmployee(getEmployeeSelected());
                 getPersonsListUpdate().remove(getEmployeeSelected().getIdPerson());
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                int index = 0;
+                for(ScEmployee employee: getEmployeesList())
+                {
+                    if(employee.getIdEmployee().equals(getEmployeeSelected().getIdEmployee()))
+                    {   
+                        break;
+                    }
+                    index++;
+                }
+                if(index < getEmployeesList().size())
+                {
+                    getEmployeesList().set(index, getEmployeeSelected());
+                }
                 cleanValues();
             }
             catch(Exception e)
@@ -469,7 +482,7 @@ public class ScemployeesBean
             {
                 setPersonsList(null);
                 fillListPersons();
-                setEmployeeSelected(employeeSelected);
+                setEmployeeSelected((ScEmployee) employeeSelected.clone());
                 setPersonsListUpdate(getPersonsList());
                 getPersonsListUpdate().add(employeeSelected.getIdPerson());
             }

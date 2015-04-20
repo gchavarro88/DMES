@@ -44,7 +44,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScPartner.findByModifyDate", query = "SELECT s FROM ScPartner s WHERE s.modifyDate = :modifyDate"),
     @NamedQuery(name = "ScPartner.deleteByPerson", query = "DELETE FROM ScPartner s WHERE s.idPerson = :idPerson")
 })
-public class ScPartner implements Serializable
+public class ScPartner implements Serializable, Cloneable
 {
     
     private static final long serialVersionUID = 1L;
@@ -225,5 +225,9 @@ public class ScPartner implements Serializable
         return  idPartner + "";
     }
 
-    
+    @Override
+    public Object clone() throws CloneNotSupportedException 
+    {
+        return super.clone();
+    }
 }
