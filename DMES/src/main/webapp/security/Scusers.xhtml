@@ -8,7 +8,9 @@
     <h:head>
         <title>.:DMES:. - Usuarios</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
-        
+        <script type="text/javascript">
+            window.setTimeout("userInit()",500);
+        </script>
     </h:head>
     <h:body style="background-color: #000;">
         <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
@@ -147,7 +149,7 @@
                         </p:tab>
                     </p:wizard>
                 </h:form>
-
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabUser', true)" listener="#{scusersBean.cleanFields()}"/>
             </p:dialog>
             <!--         finaliza el dialogo para guardar Usuarios               -->
 
@@ -302,7 +304,7 @@
                                             oncomplete="PF('wizardUpdate').loadStep('tabUserUpdate', false)"
                                                             />
                                             <p:spacer width="30"/>
-                                            <p:commandButton id="btnCancelUserUpdate" value="Cancelar" 
+                                            <p:commandButton id="btnCancelUserUpdate" value="Cancelar"  actionListener="#{scusersBean.cleanFields()}"
                                                              oncomplete="PF('dialogUserUpdate').hide();PF('wizardUpdate').loadStep('tabUserUpdate', false)"
                                                              />
                                         </td>
@@ -312,7 +314,7 @@
                         </p:tab>
                     </p:wizard>
                 </h:form>
-
+                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabUserUpdate', true)" listener="#{scusersBean.cleanFields()}"/>
             </p:dialog>
             <!--         finaliza el dialogo para actualizar Usuarios               -->
 
@@ -376,9 +378,10 @@
             </p:dialog>
 <!--           finaliza el dialogo para visualizar un rol           -->
             
-            
+           
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formUsers">
+                 <p:remoteCommand name="userInit" update=":formUsers:scUsersDataTable" />
                 <p:dataTable id="scUsersDataTable" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{scusersBean.usersList}" var="user"
                              paginator="true" rows="15"  
@@ -413,11 +416,7 @@
                             </p:commandButton>
                         </center>
                     </p:column>
-                    <p:column headerText="ID" sortBy="#{user.idUser}">    
-                        <center>
-                            <p:outputLabel value="#{user.idUser}"/>
-                        </center>
-                    </p:column>
+                    
                     <p:column id="columnLogin" headerText="Usuario" sortBy="#{user.login}">    
                         <center>
                             <p:outputLabel value="#{user.login}" id="lblLogin"/>

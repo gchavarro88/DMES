@@ -70,6 +70,7 @@ public class ScPartnerDao implements IScPartner
         try
         {
             entityManager.merge(scPartner);
+            entityManager.flush();
         }
         catch (Exception e)
         {

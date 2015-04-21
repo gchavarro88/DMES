@@ -102,6 +102,7 @@ public class ScProductFormulationDao  implements  IScProductFormulation
                     entityManager.merge(iterator);
                 }
             }
+            entityManager.merge(productFormulation.getDimension());
             entityManager.merge(productFormulation);
             entityManager.flush();
         }

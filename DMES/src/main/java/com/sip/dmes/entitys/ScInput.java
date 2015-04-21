@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScInput.findByPathPicture", query = "SELECT s FROM ScInput s WHERE s.pathPicture = :pathPicture"),
     @NamedQuery(name = "ScInput.findBySerie", query = "SELECT s FROM ScInput s WHERE s.serie = :serie")
 })
-public class ScInput implements Serializable
+public class ScInput implements Serializable, Cloneable
 {
 
     private static final long serialVersionUID = 1L;
@@ -463,7 +463,12 @@ public class ScInput implements Serializable
     }
 
     
-    
+    @Override
+    public Object clone() throws CloneNotSupportedException 
+    {
+        return super.clone();
+    }
+
    
 
     @Override

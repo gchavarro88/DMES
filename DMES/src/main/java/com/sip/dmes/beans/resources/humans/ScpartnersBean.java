@@ -318,7 +318,6 @@ public class ScpartnersBean
             {
                 getPartnerSelected().setActive("Y");
                 getScPartnerServer().updatePartner(getPartnerSelected());
-                getPersonsList().remove(getPartnerSelected().getIdPerson());
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                 int index =0;
                 for(ScPartner partner: getPartnerList() )
@@ -327,6 +326,7 @@ public class ScpartnersBean
                     {
                         break;
                     }
+                    index++; 
                 }
                 if(index < getPartnerList().size())
                 {

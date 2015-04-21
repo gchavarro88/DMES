@@ -16,6 +16,7 @@
             function stop() {
                 PF('statusDialog').hide();
             }
+            window.setTimeout("documentByUserInit()",500);
         </script>
     </h:head>
     <h:body>
@@ -71,6 +72,7 @@
 <!--         finaliza el dialogo para guardar roles               -->
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formDocumentsByUser">
+                <p:remoteCommand name="documentByUserInit" update=":formDocumentsByUser:fsDocumentsByUser" />
                 <p:dataTable id="fsDocumentsByUser" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                          value="#{fsDocumentsByUserBean.documentList}" var="documents"
                          paginator="true" rows="15"  

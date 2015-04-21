@@ -1057,10 +1057,7 @@ public class ScProductFormulationBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Tiempo de Preparación", getProductSave().getManufacturingTime()+"", 2))
-            {
-                return event.getOldStep();
-            }
+            
             if(validateFields("Tipo de Material", getProductSave().getTypeMaterial(), 3))
             {
                 return event.getOldStep();
@@ -1221,7 +1218,15 @@ public class ScProductFormulationBean
                 }
             }
         }
-        
+        if(getProcessProductListSave() != null && !getProcessProductListSave().isEmpty())
+        {
+            int totalTime = 0;
+            for(ScProcessProduct processProduct: getProductSave().getProcessProducts())
+            {
+                totalTime += processProduct.getTotalTimeProcess();
+            }
+            getProductSave().setManufacturingTime(totalTime);
+        }
 //        return "tabProcess";
         return event.getNewStep(); 
     }
@@ -1300,6 +1305,7 @@ public class ScProductFormulationBean
             case 2://opción para actualizar
                 RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogProductUpdate').show()");
+                
                 break;
             default:
                 break;
@@ -1405,10 +1411,12 @@ public class ScProductFormulationBean
             case 1://opción para guardar
                 RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogproductSave').show()");
+                
                 break;
             case 2://opción para actualizar
                 RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogProductUpdate').show()");
+                
                 break;
             default:
                 break;
@@ -1569,6 +1577,19 @@ public class ScProductFormulationBean
                 }
                 getProductSelected().getLocation().setStore(getStoreSelected());
                 getScProductFormulationServer().updateProductFormulation(getProductSelected());
+                int index = 0;
+                for(ScProductFormulation productFormulation: getProductList())
+                {
+                    if(productFormulation.getIdProductFormulation().equals(getProductSelected().getIdProductFormulation()))
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                if(index < getProductList().size())
+                {
+                    getProductList().set(index, getProductSelected());
+                }
                 cleanProductSave();
                 fillListProducts();
             }
@@ -1613,11 +1634,12 @@ public class ScProductFormulationBean
     public void selectedForUpdate(ScProductFormulation product) 
     {
         cleansTypesMeasures();
-        setProductSelected(product);
-        setStoreSelected(product.getLocation().getStore());
+        
         try
         {
-            setProductSelected(getScProductFormulationServer().getProductsById(product.getIdProductFormulation()));
+            setProductSelected((ScProductFormulation) product.clone());
+            setStoreSelected(product.getLocation().getStore());
+            //setProductSelected(getScProductFormulationServer().getProductsById(product.getIdProductFormulation()));
         }
         catch (Exception e)
         {
@@ -1675,10 +1697,7 @@ public class ScProductFormulationBean
             {
                 return event.getOldStep();
             }
-            if(validateFields("Tiempo de Preparación", getProductSelected().getManufacturingTime()+"", 2))
-            {
-                return event.getOldStep();
-            }
+            
             if(validateFields("Tipo de Material", getProductSelected().getTypeMaterial(), 3))
             {
                 return event.getOldStep();
@@ -1835,6 +1854,16 @@ public class ScProductFormulationBean
             }
         }
         
+        if(getProductSelected() != null && getProductSelected().getProcessProducts() != null
+                && !getProductSelected().getProcessProducts().isEmpty())
+        {
+            int totalTime = 0;
+            for(ScProcessProduct processProduct: getProductSelected().getProcessProducts())
+            {
+                totalTime += processProduct.getTotalTimeProcess();
+            }
+            getProductSelected().setManufacturingTime(totalTime);
+        }
         return event.getNewStep(); 
     }
     

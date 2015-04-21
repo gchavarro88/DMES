@@ -50,6 +50,7 @@ public class FsDocumentsDao implements IFsDocuments
         try
         { 
             entityManager.merge(scDocuments);
+            entityManager.flush();
         }
         catch (Exception e)
         {
@@ -63,7 +64,11 @@ public class FsDocumentsDao implements IFsDocuments
     {
         try
         { 
-            entityManager.remove(entityManager.contains(scDocuments)?scDocuments:entityManager.merge(scDocuments));
+            String sql = "DELETE FROM ScDocuments s WHERE s.idDocument = :idDocument";
+            Query query = entityManager.createQuery(sql);
+            query.setParameter("idDocument", scDocuments.getIdDocument());
+            int rows = query.executeUpdate();
+            entityManager.flush();
         }
         catch (Exception e)
         {

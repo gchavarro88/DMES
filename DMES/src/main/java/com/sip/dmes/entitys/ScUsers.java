@@ -47,7 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScUsers.deleteByRole", query = "DELETE FROM ScUsers s WHERE s.idRole = :idRole"),
     @NamedQuery(name = "ScUsers.deleteByPerspon", query = "DELETE FROM ScUsers s WHERE s.idPerson = :idPerson")
 })
-public class ScUsers implements Serializable
+public class ScUsers implements Serializable, Cloneable
 {
     
     private static final long serialVersionUID = 1L;
@@ -200,5 +200,10 @@ public class ScUsers implements Serializable
         return "com.sip.dmes.entitys.ScUsers[ idUser=" + idUser + " ]";
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException 
+    {
+        return super.clone();
+    }
     
 }

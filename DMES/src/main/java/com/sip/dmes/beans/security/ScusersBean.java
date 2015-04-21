@@ -287,7 +287,19 @@ public class ScusersBean
                     getUserUpdate().setPassword(Utilities.encriptaEnMD5(getUserUpdate().getPassword()));
                 }
                 getScUsersServer().updateUser(getUserUpdate());
-                getPersonsList().remove(getUserUpdate().getIdPerson());
+                int index = 0;
+                for(ScUsers users: getUsersList())
+                {
+                    if(users.getIdUser().equals(getUserUpdate().getIdUser()))
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                if(index < getUsersList().size())
+                {
+                    getUsersList().set(index, getUserUpdate());
+                }
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
                 log.info("Se actualizó el usuario con total exito");
             }
@@ -304,13 +316,16 @@ public class ScusersBean
         {
             if(userSelected != null)
             {
-                setUserUpdate(userSelected);
-                setUpdatePassword2(userSelected.getPassword());
-                setLastUser(userSelected.getLogin());
-                setLastPassword(userSelected.getPassword());
+                
+                setUserUpdate((ScUsers) userSelected.clone());
+                setUpdatePassword2(getUserUpdate().getPassword());
+                setLastUser(getUserUpdate().getLogin());
+                setLastPassword(getUserUpdate().getPassword());
+                setPersonsList(null);
+                fillListPersonsAvailables();
                 if(getPersonsList() != null)
                 {   
-                    getPersonsList().add(userSelected.getIdPerson());
+                    getPersonsList().add(getUserUpdate().getIdPerson());
                 }
             }
             

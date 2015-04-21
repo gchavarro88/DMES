@@ -1558,6 +1558,19 @@ public class ScInputBean
                     getInputSelected().getDimension().setRadio(getInputSelected().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
                 }
                 getScInputServer().updateInput(getInputSelected());
+                int index = 0;
+                for(ScInput input: getInputList())
+                {
+                    if(input.getIdInput().equals(getInputSelected().getIdInput()))
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                if(index < getInputList().size())
+                {
+                    getInputList().set(index, getInputSelected());
+                }
                 cleanInputSave();
             }
             catch (Exception e)
@@ -1842,10 +1855,11 @@ public class ScInputBean
     public void selectedForUpdate(ScInput input) 
     {
         cleansTypesMeasures();
-        setInputSelected(input);
+        
         try
         {
-            setInputSelected(getScInputServer().getInputsById(input.getIdInput()));
+            setInputSelected((ScInput) input.clone());
+            //setInputSelected(getScInputServer().getInputsById(input.getIdInput()));
         }
         catch (Exception e)
         {

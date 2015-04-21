@@ -16,6 +16,7 @@
             function stop() {
                 PF('statusDialog').hide();
             }
+            window.setTimeout("productInit()",500);
         </script>
     </h:head>
     <h:body style="background-color: #000;">
@@ -1095,14 +1096,8 @@
                                             <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"
                                                               ignoreAutoUpdate="true"/>                                       
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:calendar    id="tfExpiryDate"  value="#{scProductFormulationBean.productSave.expiryDate}" autocomplete="true"
-                                                           effect="explode" mask="true" pattern="dd/MM/yyyy"
-                                                           />
-                                        </td>
+                                        
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
@@ -1112,20 +1107,15 @@
                                             <p:inputText    id="tfNameProductFormulation"  value="#{scProductFormulationBean.productSave.description}"
                                                             />
                                         </td>
-
-
-
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfManufacturingTimeProductFormulation" value="Tiempo de Preparación*"/>
+                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfManufacturingTimeProductFormulation"  value="#{scProductFormulationBean.productSave.manufacturingTime}"
-                                                            />
-                                            <p:tooltip for="tfManufacturingTimeProductFormulation" value="Ingrese los minutos de preparación del producto"/>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel id="lblMins" value="min."/>
-                                            <p:tooltip for="lblMins" value="Minutos"/>
+                                            <p:calendar    id="tfExpiryDate"  value="#{scProductFormulationBean.productSave.expiryDate}" autocomplete="true"
+                                                           effect="explode" mask="true" pattern="dd/MM/yyyy"
+                                                           />
                                         </td>
+                                        
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
@@ -1685,7 +1675,7 @@
                         <!--                        inicia pestaña para procesos-->
                         <p:tab title="Procesos" id="tabProcess" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los documentos del producto">
-                            <p:panel header="Documentos" >
+                            <p:panel header="Procesos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="60%" align="center" valign="top">
@@ -1816,7 +1806,7 @@
                         <!--        finaliza la pestaña para confirmar datos de guardar-->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" />
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)"  listener="#{scProductFormulationBean.cleanProductSave()}"/>
             </p:dialog>
             <!--                Finaliza el dialogo para crear nuevas formulaciones de producto-->
 
@@ -1843,14 +1833,8 @@
                                                             width="120" height="120"  />
                                             <p:spacer width="5px"/>
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:calendar    id="tfExpiryDate"  value="#{scProductFormulationBean.productSelected.expiryDate}" autocomplete="true"
-                                                           effect="explode" mask="true" pattern="dd/MM/yyyy" disabled = "true"
-                                                           />
-                                        </td>
+                                        <td colspan="2"></td>
+                                        
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
@@ -1861,19 +1845,15 @@
                                                             disabled = "true"/>
                                         </td>
 
-
-
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfManufacturingTimeProductFormulation" value="Tiempo de Preparación*"/>
+                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfManufacturingTimeProductFormulation"  value="#{scProductFormulationBean.productSelected.manufacturingTime}"
-                                                            disabled = "true"/>
-                                            <p:tooltip for="tfManufacturingTimeProductFormulation" value="minutos de preparación del producto"/>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel id="lblMins" value="min."/>
-                                            <p:tooltip for="lblMins" value="Minutos"/>
+                                            <p:calendar    id="tfExpiryDate"  value="#{scProductFormulationBean.productSelected.expiryDate}" autocomplete="true"
+                                                           effect="explode" mask="true" pattern="dd/MM/yyyy" disabled = "true"
+                                                           />
                                         </td>
+                                        
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
@@ -2348,16 +2328,11 @@
                                             <h:graphicImage value="#{scProductFormulationBean.searchImage(scProductFormulationBean.productSelected.pathPicture)}" alt="Imagen no disponible" id="imageSave" 
                                                             width="120" height="120"  />
                                             <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureUpdate').show()" style="top: -10px;"
                                                               ignoreAutoUpdate="true"/>                                       
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:calendar    id="tfExpiryDate"  value="#{scProductFormulationBean.productSelected.expiryDate}" autocomplete="true"
-                                                           effect="explode" mask="true" pattern="dd/MM/yyyy"
-                                                           />
+                                        <td colspan="2">
+                                            
                                         </td>
                                     </tr>
                                     <tr>
@@ -2368,19 +2343,13 @@
                                             <p:inputText    id="tfNameProductFormulation"  value="#{scProductFormulationBean.productSelected.description}"
                                                             />
                                         </td>
-
-
-
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfManufacturingTimeProductFormulation" value="Tiempo de Preparación*"/>
+                                            <p:outputLabel  for="tfExpiryDate" value="Fecha de Caducidad"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfManufacturingTimeProductFormulation"  value="#{scProductFormulationBean.productSelected.manufacturingTime}"
-                                                            />
-                                            <p:tooltip for="tfManufacturingTimeProductFormulation" value="Ingrese los minutos de preparación del producto"/>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel id="lblMins" value="min."/>
-                                            <p:tooltip for="lblMins" value="Minutos"/>
+                                            <p:calendar    id="tfExpiryDate"  value="#{scProductFormulationBean.productSelected.expiryDate}" autocomplete="true"
+                                                           effect="explode" mask="true" pattern="dd/MM/yyyy"
+                                                           />
                                         </td>
                                     </tr>
                                     <tr>
@@ -2941,7 +2910,7 @@
                         <!--                        inicia pestaña para procesos-->
                         <p:tab title="Procesos" id="tabProcess" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los documentos del producto">
-                            <p:panel header="Documentos" >
+                            <p:panel header="Procesos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="60%" align="center" valign="top">
@@ -3070,7 +3039,7 @@
                         <!--        finaliza la pestaña para confirmar datos de guardar-->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)" />
+                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)" listener="#{scProductFormulationBean.cleanProductSave()}"/>
             </p:dialog>
             <!--                Finaliza el dialogo para actualizar formulaciones de producto-->
 
@@ -3297,7 +3266,8 @@
                         </p:fileUpload>
 
                         <p:commandButton id="btnLoadDocumentUpdate" value="Cargar" icon="ui-icon-circle-arrow-s"
-                                         actionListener="#{scProductFormulationBean.handleFileUpload(2)}" ajax="false" ignoreAutoUpdate="true" />
+                                         actionListener="#{scProductFormulationBean.handleFileUpload(2)}" ajax="false" ignoreAutoUpdate="true" 
+                                         update=":formWizardUpdate"/>
                     </p:panelGrid>
                 </h:form>
             </p:dialog>
@@ -3344,7 +3314,7 @@
                         </p:fileUpload>
 
                         <p:commandButton id="btnLoadFileUpdate" value="Cargar" icon="ui-icon-circle-arrow-s" 
-                                         actionListener="#{scProductFormulationBean     .handleDocumentUpload(2)}" ajax="false" 
+                                         actionListener="#{scProductFormulationBean.handleDocumentUpload(2)}" ajax="false" 
                                          update=":formWizardUpdate:dataTableDocumentationSave"/>
                     </p:panelGrid>
                 </h:form>
@@ -3352,7 +3322,9 @@
             <!--            finaliza el dialogo para actualizar documentos-->
 
             <!--###################################################################################################-->   
+            
             <h:form id="formProductFormulation">
+                <p:remoteCommand name="productInit" update=":formProductFormulation:scDataTableProductFormulations" />
                 <p:dataTable id="scDataTableProductFormulations" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{scProductFormulationBean.productList}" var="product"
                              paginator="true" rows="15"  

@@ -93,6 +93,8 @@ public class ScInputDao  implements  IScInput
     {
         try
         {
+            entityManager.merge(input.getDimension());
+            entityManager.merge(input.getInputStock());
             entityManager.merge(input);
         }
         catch (Exception e)
