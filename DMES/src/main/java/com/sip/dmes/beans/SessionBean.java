@@ -21,7 +21,7 @@ public class SessionBean implements Serializable
      */
     
     private ScUsers scUser;
-    
+    private String pathPicture;
     
     
     public SessionBean()
@@ -36,6 +36,16 @@ public class SessionBean implements Serializable
     public void setScUser(ScUsers scUser)
     {
         this.scUser = scUser;
+    }
+
+    public String getPathPicture()
+    {
+        return pathPicture;
+    }
+
+    public void setPathPicture(String pathPicture)
+    {
+        this.pathPicture = pathPicture;
     }
     
     

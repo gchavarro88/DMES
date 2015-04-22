@@ -782,7 +782,7 @@
                                                              oncomplete="PF('wizardSave').loadStep('tabGeneral', false)"/>
                                             <p:spacer width="30"/>
                                             <p:commandButton id="btnCancelPartner" value="Cancelar" oncomplete="PF('dialogInputSave').hide();PF('wizardSave').loadStep('tabGeneral', false)"
-                                                             actionListener="#{scInputBean.cleanInputSave()}"/>
+                                                             actionListener="#{scInputBean.cleanInputSave()}" update=":formInput:scDataTableInputs,:formWizardSave"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -792,7 +792,7 @@
                         <!--        finaliza la pestaña para confirmar datos de guardar-->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" />
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" listener="#{scInputBean.cleanInputSave()}" update=":formInput:scDataTableInputs,:formWizardSave"/>
             </p:dialog>
             <!--         finaliza el dialogo para guardar Insumos               -->
 
@@ -1557,7 +1557,7 @@
                                                              oncomplete="PF('wizardUpdate').loadStep('tabGeneral', false)"/>
                                             <p:spacer width="30"/>
                                             <p:commandButton id="btnCancelPartner" value="Cancelar" oncomplete="PF('dialogInputUpdate').hide();PF('wizardUpdate').loadStep('tabGeneral', false)"
-                                                             actionListener="#{scInputBean.cleanInputSave()}"/>
+                                                             actionListener="#{scInputBean.joinColumnsUpdate()}" update=":formInput:scDataTableInputs,:formWizardUpdate"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -1567,7 +1567,8 @@
                         <!--        finaliza la pestaña para confirmar datos de actualzar-->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)"/>
+                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)" 
+                        update=":formInput:scDataTableInputs,:formWizardUpdate" listener="#{scInputBean.joinColumnsUpdate()}"/>
             </p:dialog>
             <!--################ finaliza el dialogo para actualizar Insumos #########################-->
 
@@ -1592,7 +1593,7 @@
                                 <p:spacer width="20"/>
 
                                 <p:commandButton value="Cancelar" oncomplete="PF('dialogInputDelete').hide()"
-                                                 update="@this"/>
+                                                 update="@this,:formInput:scDataTableInputs" actionListener="#{scInputBean.cleanInputSave()}" />
                             </td>
                         </tr>
                     </table>
@@ -2070,7 +2071,7 @@
                         <!--                        finaliza pestaña para documentos                   -->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardView').loadStep('tabGeneral', false)"/>
+                <p:ajax event="close" oncomplete="PF('wizardView').loadStep('tabGeneral', false)" />
             </p:dialog>
             <!--################ finaliza el dialogo para visualizar Insumos ######################33-->
 
@@ -2401,11 +2402,11 @@
                             <p:tooltip for="btnAdd" value="Agregar un Insumo"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView"/>
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" listener="#{scInputBean.selectedForDelete(input)}"/>
                     <p:column headerText="Administración">
                         <center>
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scInputBean.selectedForUpdate(input)}"
-                                             oncomplete="PF('dialogInputUpdate').show()" update=":formWizardUpdate" 
+                                             oncomplete="PF('dialogInputUpdate').show()" update=":formWizardUpdate:" 
                                              >
                                 <p:tooltip for="btnEdit" value="Editar un Insumo"/>
                             </p:commandButton>

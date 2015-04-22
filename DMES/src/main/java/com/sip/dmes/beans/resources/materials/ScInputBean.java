@@ -53,7 +53,7 @@ import org.primefaces.model.UploadedFile;
  *
  * @author gchavarr88
  */
-public class ScInputBean 
+public class ScInputBean
 {
 
     //Declaración de Variables
@@ -68,7 +68,7 @@ public class ScInputBean
     private ScMeasureUnit measureUnitSaveVolume; //Unidad de medida seleccionado para agregar
     private ScMeasureUnit measureUnitSaveThickness; //Unidad de medida seleccionado para agregar
     private ScMeasureUnit measureUnitSaveWeight; //Unidad de medida seleccionado para agregar
-    
+
     private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
     private ScDistributionUnit distributionUnitSave; //Unidad de empaque seleccionado para agregar
     private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
@@ -101,15 +101,13 @@ public class ScInputBean
     private List<ScMoney> moneyList;//Lista de monedas
     private UploadedFile fileSave;//Documento a subir
     private UploadedFile fileUpdate;//Documento a actualizar
-    
+
     //Persistencia
     private IScInput scInputServer; //Dao de persistencia del insumos
-    
-    
+
     private final static Logger log = Logger.getLogger(ScInputDao.class);
-   
+
     //Constantes
-    
     //Tabs
     private final String TAB_GENERAL = "tabGeneral";
     private final String TAB_STOCK = "tabStock";
@@ -118,19 +116,20 @@ public class ScInputBean
     private final String TAB_OBSERVATIONS = "tabObservations";
     private final String TAB_EQUIVALENCE = "tabEquivalence";
     private final String TAB_CONFIRM_SAVE = "tabConfirmSave";
-    
+
     //files
     private int MAX_SIZE_FILE = 5;//Tamaño en megas del archivo
     private String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";
     private String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
+
     /**
      * Creates a new instance of ScInputBean
      */
-    public ScInputBean() 
+    public ScInputBean()
     {
-        
+
     }
-    
+
     /**
      * Método encargado de mostrar los datos iniciales.
      */
@@ -149,9 +148,10 @@ public class ScInputBean
         cleanFieldsInit();
         getinitalParameters();
     }
-    
+
     /**
      * Método encargado de llenar la lista de insumos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListInputs()
@@ -161,13 +161,15 @@ public class ScInputBean
             //Se consultan todos los insumos y se guardan en la lista ordenados por la fecha
             setInputList(getScInputServer().getAllInputs());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar los insumos de la tabla", e);
         }
     }
+
     /**
      * Método encargado de llenar la lista de proveedores.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListPartners()
@@ -177,14 +179,15 @@ public class ScInputBean
             //Se consultan todos los proveedores existentes
             setPartnersList(getScInputServer().getAllPartners());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar los proveedores para los insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de llenar la lista de centros de costo.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListCostCenter()
@@ -194,14 +197,15 @@ public class ScInputBean
             //Se consultan todos los proveedores existentes
             setCostCenterList(getScInputServer().getAllCostCenter());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar los proveedores para los insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de llenar la lista de unidades de distribución.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListDistribucionUnit()
@@ -211,14 +215,15 @@ public class ScInputBean
             //Se consultan todos los proveedores existentes
             setDistributionUnitsList(getScInputServer().getAllDistributionUnits());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar las unidades de distribucion para los insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de llenar la lista de unidades de empaque.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListPackingUnit()
@@ -228,17 +233,18 @@ public class ScInputBean
             //Se consultan todos los proveedores existentes
             setPackingUnitsList(getScInputServer().getAllPackingUnits());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar las unidades de empaque para los insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de llenar la lista de localizaciones.
+     *
      * @param store almacen que contiene las localizaciones
      * @author Gustavo Chavarro Ortiz
-     */ 
+     */
     public void fillListInputLocation(ScStore store)
     {
         try
@@ -246,14 +252,15 @@ public class ScInputBean
             //Se consultan todos los proveedores existentes
             setInputLocationsList(getScInputServer().getAllInputLocations(store));
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar las localizaciones para los insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de llenar la lista de almacenes.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListStore()
@@ -263,14 +270,15 @@ public class ScInputBean
             //Se consultan todos almacenes disponibles
             setStoresList(getScInputServer().getAllStores());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar los almacenes para los insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de llenar la lista de prioridades.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListPriority()
@@ -280,14 +288,15 @@ public class ScInputBean
             //Se consultan todos almacenes disponibles
             setPriorityList(getScInputServer().getAllPrioritys());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar las prioridades para los insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de llenar la lista de medidas.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListMeasure()
@@ -297,14 +306,15 @@ public class ScInputBean
             //Se consultan todos almacenes disponibles
             setMeasureUnitsList(getScInputServer().getAllMeasureUnits());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar las medidas para los insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de llenar la lista de medidas.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void fillListMoney()
@@ -314,20 +324,20 @@ public class ScInputBean
             //Se consultan todas las monedas disponibles
             setMoneyList(getScInputServer().getAllMoneys());
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             log.error("Error al intentar consultar las monedas para los insumos", e);
         }
     }
-    
-    
+
     /**
      * Método encargado de vaciar los objetos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanFieldsInit()
     {
-        
+
         setInputSelected(new ScInput());
         setCostCenterSave(new ScCostCenter());
         setPackingUnitSave(new ScPackingUnit());
@@ -338,7 +348,7 @@ public class ScInputBean
         cleanInputSave();
         setDocumentsListSave(new ArrayList<ScInputDocuments>());
     }
-    
+
     public void cleansTypesMeasures()
     {
         setMeasureUnitSaveHigh(new ScMeasureUnit());
@@ -350,6 +360,7 @@ public class ScInputBean
         setMeasureUnitSaveWeight(new ScMeasureUnit());
         setMoneySave(new ScMoney());
     }
+
     public void cleanInputSave()
     {
         setInputSave(new ScInput());
@@ -360,85 +371,93 @@ public class ScInputBean
         cleanListSaves();
         cleansTypesMeasures();
     }
-    
+
     /**
      * Método encargado de vaciar los objetos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanFieldsCostCenter()
     {
         setCostCenterSave(new ScCostCenter());
     }
-    
+
     /**
      * Método encargado de vaciar los objetos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanFieldsMeasure()
     {
         setMeasureUnitSave(new ScMeasureUnit());
     }
-    
+
     /**
      * Método encargado de vaciar los objetos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanFieldsPackingUnit()
     {
         setPackingUnitSave(new ScPackingUnit());
     }
-    
+
     /**
      * Método encargado de vaciar los objetos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanFieldsDistributionUnit()
     {
         setDistributionUnitSave(new ScDistributionUnit());
     }
-    
+
     /**
      * Método encargado de vaciar los objetos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanFieldsStores()
     {
         setStoreSave(new ScStore());
     }
-    
+
     /**
      * Método encargado de vaciar los objetos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanFieldsPriority()
     {
         setPrioritySave(new ScPriority());
     }
-    
+
     /**
      * Método encargado de vaciar los objetos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanFieldsLocationInput()
     {
         setInputLocationSave(new ScLocation());
     }
-    
+
     /**
      * Método encargado de agregar un centro de costos.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void addCostCenter()
     {
-        try 
+        try
         {
-            if(getCostCenterSave() != null)
+            if (getCostCenterSave() != null)
             {
-                if(Utilities.isNumeric(getCostCenterSave().getCostCenter()))
+                if (Utilities.isNumeric(getCostCenterSave().getCostCenter()))
                 {
                     getCostCenterSave().setCreationDate(new Date());
                     getScInputServer().saveCostCenter(getCostCenterSave());
-                    if(getCostCenterList() == null)
+                    if (getCostCenterList() == null)
                     {
                         setCostCenterList(new ArrayList<ScCostCenter>());
                     }
@@ -456,28 +475,29 @@ public class ScInputBean
                 log.error("Error al intentar crear el centro de costos desde insumos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
-            
+
         }
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar agregar un centro de costos desde insumos",e);
+            log.error("Error al intentar agregar un centro de costos desde insumos", e);
         }
-    
+
     }
-    
+
     /**
      * Método encargado de agregar una medida.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void addMeasure()
     {
-        try 
+        try
         {
-            if(getMeasureUnitSave() != null)
+            if (getMeasureUnitSave() != null)
             {
                 getScInputServer().saveMeasureUnit(getMeasureUnitSave());
-                if(getMeasureUnitsList() == null)
+                if (getMeasureUnitsList() == null)
                 {
                     setMeasureUnitsList(new ArrayList<ScMeasureUnit>());
                 }
@@ -489,53 +509,55 @@ public class ScInputBean
                 log.error("Error al intentar crear la unidad de medida para insumos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
-            
+
         }
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar agregar una unidad de medida desde insumos",e);
+            log.error("Error al intentar agregar una unidad de medida desde insumos", e);
         }
-    
+
     }
-    
+
     /**
      * Método encargado de agregar una unidad de empaque
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void addPackingUnit()
     {
-        try 
+        try
         {
-            if(getPackingUnitSave()!= null)
+            if (getPackingUnitSave() != null)
             {
-                
+
                 getScInputServer().savePackingUnit(getPackingUnitSave());
-                if(getPackingUnitsList() == null)
+                if (getPackingUnitsList() == null)
                 {
                     setPackingUnitsList(new ArrayList<ScPackingUnit>());
                 }
                 getPackingUnitsList().add(getPackingUnitSave());
                 cleanFieldsPackingUnit();
-                
+
             }
             else
             {
                 log.error("Error al intentar crear la unidad de empaque desde insumos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
-            
+
         }
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar crear la unidad de empaque desde insumos",e);
+            log.error("Error al intentar crear la unidad de empaque desde insumos", e);
         }
-    
-    } 
-    
+
+    }
+
     /**
      * Método encargado de verificar si se ha seleccionado un almacen
+     *
      * @param store almacen que contiene las localizaciones
      * @return boolean parametro que dice si tiene o no un almacen seleccionado
      * @author Gustavo Chavarro Ortiz
@@ -543,7 +565,7 @@ public class ScInputBean
     public boolean withOutStore(ScStore store)
     {
         boolean result = false;
-        if(store == null || Utilities.isEmpty(store.getName()))
+        if (store == null || Utilities.isEmpty(store.getName()))
         {
             result = true;
         }
@@ -553,32 +575,33 @@ public class ScInputBean
         }
         return result;
     }
-    
+
     /**
      * Método encargado de agregar una unidad de localizacion
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void addInputLocations()
     {
-        try 
+        try
         {
-            if(getInputLocationSave()!= null)
+            if (getInputLocationSave() != null)
             {
                 ScStore storeLocation = null;
                 //Agregamos el almacen de la localizacion
-                if(getInputSave().getInputStock().getIdStore() != null)
+                if (getInputSave().getInputStock().getIdStore() != null)
                 {
                     storeLocation = getInputSave().getInputStock().getIdStore();
                 }
                 //Para una actualizacion de datos
-                else 
+                else
                 {
                     storeLocation = getInputSelected().getInputStock().getIdStore();
                 }
                 getInputLocationSave().setStore(storeLocation);
                 //Se realiza la persistencia de la localizacion
                 getScInputServer().saveLocationInput(getInputLocationSave());
-                if(getInputLocationsList() == null)
+                if (getInputLocationsList() == null)
                 {
                     setInputLocationsList(new ArrayList<ScLocation>());
                 }
@@ -590,62 +613,64 @@ public class ScInputBean
                 log.error("Error al intentar crear la localización desde insumos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
-            
+
         }
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar crear la localización desde insumos",e);
+            log.error("Error al intentar crear la localización desde insumos", e);
         }
     }
-    
+
     /**
      * Método encargado de agregar una unidad de distribución
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void addDistributionUnit()
     {
-        try 
+        try
         {
-            if(getDistributionUnitSave()!= null)
+            if (getDistributionUnitSave() != null)
             {
-                
+
                 getScInputServer().saveDistributionUnit(getDistributionUnitSave());
-                if(getDistributionUnitsList() == null)
+                if (getDistributionUnitsList() == null)
                 {
                     setDistributionUnitsList(new ArrayList<ScDistributionUnit>());
                 }
                 getDistributionUnitsList().add(getDistributionUnitSave());
                 cleanFieldsDistributionUnit();
-                
+
             }
             else
             {
                 log.error("Error al intentar crear la unidad de distribución desde insumos");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
-            
+
         }
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar crear la unidad de distribución desde insumos",e);
+            log.error("Error al intentar crear la unidad de distribución desde insumos", e);
         }
-    
-    } 
-    
+
+    }
+
     /**
      * Método encargado de guardar temporalmente una especificación.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void saveSpecification()
     {
-        if(getSpecificationsSave() != null)
+        if (getSpecificationsSave() != null)
         {
-            if(!Utilities.isEmpty(getSpecificationsSave().getTittle()) && 
-                    !Utilities.isEmpty(getSpecificationsSave().getDescription()))
+            if (!Utilities.isEmpty(getSpecificationsSave().getTittle())
+                    && !Utilities.isEmpty(getSpecificationsSave().getDescription()))
             {
-                if(getSpecificationListSave() != null)
+                if (getSpecificationListSave() != null)
                 {
                     //Guardamos exitosamente la especificación
                     getSpecificationsSave().setCreationDate(new Date());
@@ -656,38 +681,40 @@ public class ScInputBean
                 else
                 {
                     addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 }
             }
             else
             {
-                addError(null, "Error al intentar guardar una especificación", 
-                            "Debe ingresar los campos Título y Descripción de la especificación");
-                    log.error("Error al intentar guardar una especificación, "
-                            + "Debe ingresar los campos Título y Descripción de la especificación");
+                addError(null, "Error al intentar guardar una especificación",
+                         "Debe ingresar los campos Título y Descripción de la especificación");
+                log.error("Error al intentar guardar una especificación, "
+                        + "Debe ingresar los campos Título y Descripción de la especificación");
             }
         }
         else
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+
     /**
-     * Método encargado de borrar una especificación agregada a la lista para 
+     * Método encargado de borrar una especificación agregada a la lista para
      * guardar un inusmo.
+     *
      * @param inputSpecifications especificación a borrar
      * @author Gustavo Chavarro Ortiz
      */
     public void deleteSpecifications(ScInputSpecifications inputSpecifications)
     {
-        if(getSpecificationListSave() != null && !getSpecificationListSave().isEmpty())
+        if (getSpecificationListSave() != null && !getSpecificationListSave().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for(ScInputSpecifications iterator: getSpecificationListSave())
+            for (ScInputSpecifications iterator : getSpecificationListSave())
             {
-                if(iterator.getTittle().equals(inputSpecifications.getTittle()) &&
-                        iterator.getDescription().equals(inputSpecifications.getDescription()))
+                if (iterator.getTittle().equals(inputSpecifications.getTittle())
+                        && iterator.getDescription().equals(inputSpecifications.getDescription()))
                 {
                     break;//Rompempos el ciclo
                 }
@@ -698,21 +725,23 @@ public class ScInputBean
         else
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+
     /**
      * Método encargado de guardar temporalmente una característica.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void saveFeacture()
     {
-        if(getFeacturesSave() != null)
+        if (getFeacturesSave() != null)
         {
-            if(!Utilities.isEmpty(getFeacturesSave().getTittle()) && 
-                    !Utilities.isEmpty(getFeacturesSave().getDescription()))
+            if (!Utilities.isEmpty(getFeacturesSave().getTittle())
+                    && !Utilities.isEmpty(getFeacturesSave().getDescription()))
             {
-                if(getFeacturesListSave() != null)
+                if (getFeacturesListSave() != null)
                 {
                     //Guardamos exitosamente la especificación
                     getFeacturesSave().setIdInput(getInputSave());
@@ -722,38 +751,40 @@ public class ScInputBean
                 else
                 {
                     addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 }
             }
             else
             {
-                addError(null, "Error al intentar guardar una característica", 
-                            "Debe ingresar los campos Título y Descripción de la característica");
-                    log.error("Error al intentar guardar una especificación, "
-                            + "Debe ingresar los campos Título y Descripción de la característica");
+                addError(null, "Error al intentar guardar una característica",
+                         "Debe ingresar los campos Título y Descripción de la característica");
+                log.error("Error al intentar guardar una especificación, "
+                        + "Debe ingresar los campos Título y Descripción de la característica");
             }
         }
         else
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+
     /**
-     * Método encargado de borrar una característica agregada a la lista para 
+     * Método encargado de borrar una característica agregada a la lista para
      * guardar un inusmo.
+     *
      * @param feacture característica a borrar
      * @author Gustavo Chavarro Ortiz
      */
     public void deleteFeactures(ScInputFeactures feacture)
     {
-        if(getFeacturesListSave() != null && !getFeacturesListSave().isEmpty())
+        if (getFeacturesListSave() != null && !getFeacturesListSave().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for(ScInputFeactures iterator: getFeacturesListSave())
+            for (ScInputFeactures iterator : getFeacturesListSave())
             {
-                if(iterator.getTittle().equals(feacture.getTittle()) &&
-                        iterator.getDescription().equals(feacture.getDescription()))
+                if (iterator.getTittle().equals(feacture.getTittle())
+                        && iterator.getDescription().equals(feacture.getDescription()))
                 {
                     break;//Rompempos el ciclo
                 }
@@ -764,22 +795,23 @@ public class ScInputBean
         else
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
-    
+
     /**
      * Método encargado de guardar temporalmente una observación.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void saveObservation()
     {
-        if(getObservationsSave()!= null)
+        if (getObservationsSave() != null)
         {
-            if(!Utilities.isEmpty(getObservationsSave().getTittle()) && 
-                    !Utilities.isEmpty(getObservationsSave().getDescription()))
+            if (!Utilities.isEmpty(getObservationsSave().getTittle())
+                    && !Utilities.isEmpty(getObservationsSave().getDescription()))
             {
-                if(getFeacturesListSave() != null)
+                if (getFeacturesListSave() != null)
                 {
                     //Guardamos exitosamente la observación
                     getObservationsSave().setIdInput(getInputSave());
@@ -789,38 +821,40 @@ public class ScInputBean
                 else
                 {
                     addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 }
             }
             else
             {
-                addError(null, "Error al intentar guardar una observación", 
-                            "Debe ingresar los campos Título y Descripción de la observación");
-                    log.error("Error al intentar guardar una observación, "
-                            + "Debe ingresar los campos Título y Descripción de la observación");
+                addError(null, "Error al intentar guardar una observación",
+                         "Debe ingresar los campos Título y Descripción de la observación");
+                log.error("Error al intentar guardar una observación, "
+                        + "Debe ingresar los campos Título y Descripción de la observación");
             }
         }
         else
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+
     /**
-     * Método encargado de borrar una observación agregada a la lista para 
+     * Método encargado de borrar una observación agregada a la lista para
      * guardar un inusmo.
+     *
      * @param observations observación a borrar
      * @author Gustavo Chavarro Ortiz
      */
     public void deleteObservation(ScInputObservations observations)
     {
-        if(getObservationListSave()!= null && !getObservationListSave().isEmpty())
+        if (getObservationListSave() != null && !getObservationListSave().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for(ScInputObservations iterator: getObservationListSave())
+            for (ScInputObservations iterator : getObservationListSave())
             {
-                if(iterator.getTittle().equals(observations.getTittle()) &&
-                        iterator.getDescription().equals(observations.getDescription()))
+                if (iterator.getTittle().equals(observations.getTittle())
+                        && iterator.getDescription().equals(observations.getDescription()))
                 {
                     break;//Rompempos el ciclo
                 }
@@ -831,25 +865,26 @@ public class ScInputBean
         else
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
-    
+
     /**
-     * Método encargado de borrar un documento agregada a la lista para 
-     * guardar un inusmo.
+     * Método encargado de borrar un documento agregada a la lista para guardar
+     * un inusmo.
+     *
      * @param documents documento a borrar
      * @author Gustavo Chavarro Ortiz
      */
     public void deleteDocument(ScInputDocuments documents)
     {
-        if(getDocumentsListSave()!= null && !getDocumentsListSave().isEmpty())
+        if (getDocumentsListSave() != null && !getDocumentsListSave().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for(ScInputDocuments iterator: getDocumentsListSave())
+            for (ScInputDocuments iterator : getDocumentsListSave())
             {
-                if(iterator.getDocumentTittle().equals(documents.getDocumentTittle()) &&
-                        iterator.getDocumentPath().equals(documents.getDocumentPath()))
+                if (iterator.getDocumentTittle().equals(documents.getDocumentTittle())
+                        && iterator.getDocumentPath().equals(documents.getDocumentPath()))
                 {
                     break;//Rompempos el ciclo
                 }
@@ -860,25 +895,26 @@ public class ScInputBean
         else
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
-    
+
     /**
-     * Método encargado de borrar un documento agregada a la lista para 
-     * guardar un inusmo.
+     * Método encargado de borrar un documento agregada a la lista para guardar
+     * un inusmo.
+     *
      * @param documents documento a borrar
      * @author Gustavo Chavarro Ortiz
      */
     public void deleteDocumentUpdate(ScInputDocuments documents)
     {
-        if(getInputSelected().getScInputDocuments()!= null && !getInputSelected().getScInputDocuments().isEmpty())
+        if (getInputSelected().getScInputDocuments() != null && !getInputSelected().getScInputDocuments().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for(ScInputDocuments iterator: getInputSelected().getScInputDocuments())
+            for (ScInputDocuments iterator : getInputSelected().getScInputDocuments())
             {
-                if(iterator.getDocumentTittle().equals(documents.getDocumentTittle()) &&
-                        iterator.getDocumentPath().equals(documents.getDocumentPath()))
+                if (iterator.getDocumentTittle().equals(documents.getDocumentTittle())
+                        && iterator.getDocumentPath().equals(documents.getDocumentPath()))
                 {
                     break;//Rompempos el ciclo
                 }
@@ -889,243 +925,246 @@ public class ScInputBean
         else
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+
     /**
      * Método encargado de llevar el flujo al guardar un insumo.
-     * @param event evento en el cual se encuentra el asistente para crear insumos
-     * @return String al final retorna el nombre de la siguiente pestaña del asistente
+     *
+     * @param event evento en el cual se encuentra el asistente para crear
+     * insumos
+     * @return String al final retorna el nombre de la siguiente pestaña del
+     * asistente
      * @author Gustavo Chavarro Ortiz
      */
-    public String onFlowProcessSaveInput(FlowEvent event) 
-    {    
+    public String onFlowProcessSaveInput(FlowEvent event)
+    {
         int packingUnit = -1;
-        if(event.getNewStep().equals(TAB_GENERAL))
+        if (event.getNewStep().equals(TAB_GENERAL))
         {
             return TAB_GENERAL;
         }
-        if(event.getOldStep().equals(TAB_GENERAL))
+        if (event.getOldStep().equals(TAB_GENERAL))
         {
-            if(validateFields("Nombre Insumo", getInputSave().getDescription(), 3))
+            if (validateFields("Nombre Insumo", getInputSave().getDescription(), 3))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Tipo de Material", getInputSave().getTypeMaterial(), 3))
+            if (validateFields("Tipo de Material", getInputSave().getTypeMaterial(), 3))
             {
                 return event.getOldStep();
             }
             //Validamos que el valor sea mayor que cero
-            if(validateFields("Valor", getInputSave().getValue()+"", 2))
+            if (validateFields("Valor", getInputSave().getValue() + "", 2))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Moneda", getInputSave().getMoney(), 4))
+            if (validateFields("Moneda", getInputSave().getMoney(), 4))
             {
                 return event.getOldStep();
             }
             //modificamos el precio por unidad
             getInputSave().getInputStock().setPriceUnit(getInputSave().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
-            getInputSave().getInputStock().setTotalValue(getInputSave().getValue()*
-                    getInputSave().getInputStock().getCurrentStock());
-            
-            
-            if(validateFields("Marca", getInputSave().getMark(), 3))
+            getInputSave().getInputStock().setTotalValue(getInputSave().getValue()
+                    * getInputSave().getInputStock().getCurrentStock());
+
+            if (validateFields("Marca", getInputSave().getMark(), 3))
             {
                 return event.getOldStep();
             }
-            
-            if(Utilities.isEmpty(getInputSave().getPathPicture()))
-            { 
+
+            if (Utilities.isEmpty(getInputSave().getPathPicture()))
+            {
                 getInputSave().setPathPicture(" ");//Setteamos la ruta de la imagen
             }
-            if(validateFields("Serie", getInputSave().getSerie(), 3))
+            if (validateFields("Serie", getInputSave().getSerie(), 3))
             {
                 return event.getOldStep();
             }
-            
+
             //Validamos los campos seleccionables
-            if(validateFields("Proveedor y Garantía", getInputSave().getSupplierGuarantee(), 4))
+            if (validateFields("Proveedor y Garantía", getInputSave().getSupplierGuarantee(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Centro de Costos", getInputSave().getCostCenter(), 4))
+            if (validateFields("Centro de Costos", getInputSave().getCostCenter(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Almacen", getInputSave().getInputStock().getIdStore(), 4))
+            if (validateFields("Almacen", getInputSave().getInputStock().getIdStore(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Localización", getInputSave().getInputLocation(), 4))
+            if (validateFields("Localización", getInputSave().getInputLocation(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Prioridad", getInputSave().getPriority(), 4))
+            if (validateFields("Prioridad", getInputSave().getPriority(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Unidad de Empaque", getInputSave().getPackingUnit(), 4))
+            if (validateFields("Unidad de Empaque", getInputSave().getPackingUnit(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Cantidad de Distribución", getInputSave().getDistributionAmount(), 2))
+            if (validateFields("Cantidad de Distribución", getInputSave().getDistributionAmount(), 2))
             {
                 return event.getOldStep();
             }
             //Obtenemos el precio de unidad de unidades de distribución
             getInputSave().setDistributionValue(Utilities.Redondear((getInputSave().getInputStock().
-                    getPriceUnit()/getInputSave().getDistributionAmount()), 2));
-            if(validateFields("Unidad de Distribución", getInputSave().getDistributionUnit(), 4))
+                    getPriceUnit() / getInputSave().getDistributionAmount()), 2));
+            if (validateFields("Unidad de Distribución", getInputSave().getDistributionUnit(), 4))
             {
                 return event.getOldStep();
             }
-                        
+
             //Agregamos la fecha de creación del insumo
             getInputSave().setCreationDate(new Date());
-            
+
             //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-            if(getInputSave().getExpiryDate() != null && getInputSave().getExpiryDate().before(getInputSave().getCreationDate()))
+            if (getInputSave().getExpiryDate() != null && getInputSave().getExpiryDate().before(getInputSave().getCreationDate()))
             {
                 addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
                 log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
                 return event.getOldStep();
             }
-            
-            
+
         }
         //Si pasamos de la pestaña de datos generales a stock y dimensiones
-        else if(event.getOldStep().equals(TAB_STOCK))
+        else if (event.getOldStep().equals(TAB_STOCK))
         {
             //Validamos que ninguno de los campos del stock sea vacio o negativo
-            if(validateFields("Stock Máximo", getInputSave().getInputStock().getMaximeStock(), 2))
+            if (validateFields("Stock Máximo", getInputSave().getInputStock().getMaximeStock(), 2))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Stocguschaork Mínimo", getInputSave().getInputStock().getMinimeStock(), 2))
+            if (validateFields("Stocguschaork Mínimo", getInputSave().getInputStock().getMinimeStock(), 2))
             {
                 return event.getOldStep();
             }
-            if(getInputSave().getInputStock().getMaximeStock() <= getInputSave().getInputStock().getMinimeStock())
+            if (getInputSave().getInputStock().getMaximeStock() <= getInputSave().getInputStock().getMinimeStock())
             {
                 addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Mínimo");
                 return event.getOldStep();
             }
-            if(validateFields("Stock Real", getInputSave().getInputStock().getCurrentStock(), 2))
+            if (validateFields("Stock Real", getInputSave().getInputStock().getCurrentStock(), 2))
             {
                 return event.getOldStep();
             }
-            
-            if(validateFields("Stock Óptimo", getInputSave().getInputStock().getOptimeStock(), 2))
+
+            if (validateFields("Stock Óptimo", getInputSave().getInputStock().getOptimeStock(), 2))
             {
                 return event.getOldStep();
             }
             else
             {
-                if(getInputSave().getInputStock().getMaximeStock() < getInputSave().getInputStock().getOptimeStock())
+                if (getInputSave().getInputStock().getMaximeStock() < getInputSave().getInputStock().getOptimeStock())
                 {
                     addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
                     return event.getOldStep();
                 }
-                if(getInputSave().getInputStock().getMinimeStock() > getInputSave().getInputStock().getOptimeStock())
+                if (getInputSave().getInputStock().getMinimeStock() > getInputSave().getInputStock().getOptimeStock())
                 {
                     addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
                     return event.getOldStep();
                 }
             }
-            
-            if(validateFields("Altura", getInputSave().getDimension().getHight(), 1))
+
+            if (validateFields("Altura", getInputSave().getDimension().getHight(), 1))
             {
                 return event.getOldStep();
             }
-            else if(getMeasureUnitSaveHigh() == null)
+            else if (getMeasureUnitSaveHigh() == null)
             {
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
                 return event.getOldStep();
             }
-            if(validateFields("Ancho", getInputSave().getDimension().getWidth(), 1))
+            if (validateFields("Ancho", getInputSave().getDimension().getWidth(), 1))
             {
                 return event.getOldStep();
             }
-            else if(getMeasureUnitSaveWidth()== null)
+            else if (getMeasureUnitSaveWidth() == null)
             {
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
                 return event.getOldStep();
             }
-            if(validateFields("Largo", getInputSave().getDimension().getLarge(), 1))
+            if (validateFields("Largo", getInputSave().getDimension().getLarge(), 1))
             {
                 return event.getOldStep();
             }
-            else if(getMeasureUnitSaveLarge()== null)
+            else if (getMeasureUnitSaveLarge() == null)
             {
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
                 return event.getOldStep();
             }
-            if(validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
+            if (validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
             {
                 return event.getOldStep();
             }
-            else if(getMeasureUnitSaveWeight()== null)
+            else if (getMeasureUnitSaveWeight() == null)
             {
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
                 return event.getOldStep();
             }
-            if(!Utilities.isEmpty(getInputSave().getDimension().getVolume()))
+            if (!Utilities.isEmpty(getInputSave().getDimension().getVolume()))
             {
-                if(validateFields("Volumen", getInputSave().getDimension().getVolume(), 1))
+                if (validateFields("Volumen", getInputSave().getDimension().getVolume(), 1))
                 {
                     return event.getOldStep();
                 }
-                else if(getMeasureUnitSaveVolume()== null)
+                else if (getMeasureUnitSaveVolume() == null)
                 {
                     addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
                     return event.getOldStep();
                 }
             }
-            if(!Utilities.isEmpty(getInputSave().getDimension().getThickness()))
+            if (!Utilities.isEmpty(getInputSave().getDimension().getThickness()))
             {
-                if(validateFields("Grosor", getInputSave().getDimension().getThickness(), 1))
+                if (validateFields("Grosor", getInputSave().getDimension().getThickness(), 1))
                 {
                     return event.getOldStep();
                 }
-                else if(getMeasureUnitSaveThickness()== null)
+                else if (getMeasureUnitSaveThickness() == null)
                 {
                     addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
                     return event.getOldStep();
                 }
             }
-            if(!Utilities.isEmpty(getInputSave().getDimension().getRadio()))
+            if (!Utilities.isEmpty(getInputSave().getDimension().getRadio()))
             {
-                if(validateFields("Radio", getInputSave().getDimension().getRadio(), 1))
+                if (validateFields("Radio", getInputSave().getDimension().getRadio(), 1))
                 {
                     return event.getOldStep();
                 }
-                else if(getMeasureUnitSaveRadio()== null)
+                else if (getMeasureUnitSaveRadio() == null)
                 {
                     addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
                     return event.getOldStep();
                 }
             }
-            if(!Utilities.isEmpty(getInputSave().getDimension().getWeight()))
+            if (!Utilities.isEmpty(getInputSave().getDimension().getWeight()))
             {
-                if(validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
+                if (validateFields("Peso", getInputSave().getDimension().getWeight(), 1))
                 {
                     return event.getOldStep();
                 }
-                else if(getMeasureUnitSaveWeight()== null)
+                else if (getMeasureUnitSaveWeight() == null)
                 {
                     addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
                     return event.getOldStep();
                 }
             }
         }
-        
-        return event.getNewStep(); 
+
+        return event.getNewStep();
     }
-    
+
     /**
      * Método encargado de permitir mostrar un combo box.
+     *
      * @param value valor del input que permite habilitar el combo box
      * @param option valor del tipo de medida
      * @return boolean valor que permite mostrar u ocultar un combo box
@@ -1134,12 +1173,12 @@ public class ScInputBean
     public boolean showItem(String value, int option)
     {
         boolean result = false;
-        if(!Utilities.isEmpty(value))
+        if (!Utilities.isEmpty(value))
         {
             try
             {
                 Double number = Double.parseDouble(value);
-                if(number > 0)
+                if (number > 0)
                 {
                     result = true;
                 }
@@ -1149,9 +1188,9 @@ public class ScInputBean
                 //No se realiza ninguna acción
             }
         }
-        if(!result)
+        if (!result)
         {
-            switch(option)
+            switch (option)
             {
                 case 1: //Alto
                     setMeasureUnitSaveHigh(null);
@@ -1178,134 +1217,139 @@ public class ScInputBean
                     break;
             }
         }
-        
+
         return result;
     }
+
     /**
      * Método encargado de calcular el precio total de un insumo.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void calcuteTotalPrice()
     {
         getInputSave().getInputStock().setTotalValue(getInputSave().getValue()
-                *getInputSave().getInputStock().getCurrentStock());
+                * getInputSave().getInputStock().getCurrentStock());
         //Obtenemos la cantidad total de unidades de distribución = stock actual * cantidad de distribución
         getInputSave().setTotalAmountDistribution(getInputSave().
-                        getInputStock().getCurrentStock()*getInputSave().getDistributionAmount());
+                getInputStock().getCurrentStock() * getInputSave().getDistributionAmount());
         //Obtenemos el precio de unidad de unidades de distribución
         getInputSave().setDistributionValue(Utilities.Redondear((getInputSave().getInputStock().
-                getPriceUnit()/getInputSave().getDistributionAmount()), 2));
-        
+                getPriceUnit() / getInputSave().getDistributionAmount()), 2));
+
     }
-    
+
     /**
      * Método encargado de calcular el precio total de un insumo.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void calcuteTotalPriceUpdate()
     {
         getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()
-                *getInputSelected().getInputStock().getCurrentStock());
+                * getInputSelected().getInputStock().getCurrentStock());
         //Obtenemos la cantidad total de unidades de distribución = stock actual * cantidad de distribución
         getInputSelected().setTotalAmountDistribution(getInputSelected().
-                getInputStock().getCurrentStock()*getInputSelected().getDistributionAmount());
+                getInputStock().getCurrentStock() * getInputSelected().getDistributionAmount());
         //Obtenemos el precio de unidad de unidades de distribución
         getInputSelected().setDistributionValue(Utilities.Redondear((getInputSelected().getInputStock().
-                getPriceUnit()/getInputSelected().getDistributionAmount()), 2));
+                getPriceUnit() / getInputSelected().getDistributionAmount()), 2));
     }
+
     /**
      * Método encargado de llevar el flujo al actualizar un insumo.
-     * @param event evento en el cual se encuentra el asistente para actualizar insumos
-     * @return String al final retorna el nombre de la siguiente pestaña del asistente
+     *
+     * @param event evento en el cual se encuentra el asistente para actualizar
+     * insumos
+     * @return String al final retorna el nombre de la siguiente pestaña del
+     * asistente
      * @author Gustavo Chavarro Ortiz
      */
-    public String onFlowProcessUpdateInput(FlowEvent event) 
-    {    
+    public String onFlowProcessUpdateInput(FlowEvent event)
+    {
         int packingUnit = -1;
-        if(event.getNewStep().equals(TAB_GENERAL))
+        if (event.getNewStep().equals(TAB_GENERAL))
         {
             return TAB_GENERAL;
         }
-        if(event.getOldStep().equals(TAB_GENERAL))
+        if (event.getOldStep().equals(TAB_GENERAL))
         {
-            if(validateFields("Nombre Insumo", getInputSelected().getDescription(), 3))
+            if (validateFields("Nombre Insumo", getInputSelected().getDescription(), 3))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Tipo de Material", getInputSelected().getTypeMaterial(), 3))
+            if (validateFields("Tipo de Material", getInputSelected().getTypeMaterial(), 3))
             {
                 return event.getOldStep();
             }
             //Validamos que el valor sea mayor que cero
-            if(validateFields("Valor", getInputSelected().getValue()+"", 2))
+            if (validateFields("Valor", getInputSelected().getValue() + "", 2))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Moneda", getInputSelected().getMoney(), 4))
+            if (validateFields("Moneda", getInputSelected().getMoney(), 4))
             {
                 return event.getOldStep();
             }
             //modificamos el precio por unidad
             getInputSelected().getInputStock().setPriceUnit(getInputSelected().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
-            getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()*
-                    getInputSelected().getInputStock().getCurrentStock());
-            
-            
-            if(validateFields("Marca", getInputSelected().getMark(), 3))
+            getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()
+                    * getInputSelected().getInputStock().getCurrentStock());
+
+            if (validateFields("Marca", getInputSelected().getMark(), 3))
             {
                 return event.getOldStep();
             }
-            
-            if(Utilities.isEmpty(getInputSelected().getPathPicture()))
-            { 
+
+            if (Utilities.isEmpty(getInputSelected().getPathPicture()))
+            {
                 getInputSelected().setPathPicture(" ");//Setteamos la ruta de la imagen
             }
-            if(validateFields("Serie", getInputSelected().getSerie(), 3))
+            if (validateFields("Serie", getInputSelected().getSerie(), 3))
             {
                 return event.getOldStep();
             }
-            
+
             //Validamos los campos seleccionables
-            if(validateFields("Proveedor y Garantía", getInputSelected().getSupplierGuarantee(), 4))
+            if (validateFields("Proveedor y Garantía", getInputSelected().getSupplierGuarantee(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Centro de Costos", getInputSelected().getCostCenter(), 4))
+            if (validateFields("Centro de Costos", getInputSelected().getCostCenter(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Almacen", getInputSelected().getInputStock().getIdStore(), 4))
+            if (validateFields("Almacen", getInputSelected().getInputStock().getIdStore(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Localización", getInputSelected().getInputLocation(), 4))
+            if (validateFields("Localización", getInputSelected().getInputLocation(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Prioridad", getInputSelected().getPriority(), 4))
+            if (validateFields("Prioridad", getInputSelected().getPriority(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Unidad de Empaque", getInputSelected().getPackingUnit(), 4))
+            if (validateFields("Unidad de Empaque", getInputSelected().getPackingUnit(), 4))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Cantidad de Distribución", getInputSelected().getDistributionAmount(), 2))
+            if (validateFields("Cantidad de Distribución", getInputSelected().getDistributionAmount(), 2))
             {
                 return event.getOldStep();
             }
             //Obtenemos el precio de unidad de unidades de distribución
             getInputSelected().setDistributionValue(Utilities.Redondear((getInputSelected().getInputStock().
-                    getPriceUnit()/getInputSelected().getDistributionAmount()), 2));
-            if(validateFields("Unidad de Distribución", getInputSelected().getDistributionUnit(), 4))
+                    getPriceUnit() / getInputSelected().getDistributionAmount()), 2));
+            if (validateFields("Unidad de Distribución", getInputSelected().getDistributionUnit(), 4))
             {
                 return event.getOldStep();
             }
-            
-            
+
             //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-            if(getInputSelected().getExpiryDate()!= null && getInputSelected().getExpiryDate().before(getInputSelected().getCreationDate()))
+            if (getInputSelected().getExpiryDate() != null && getInputSelected().getExpiryDate().before(getInputSelected().getCreationDate()))
             {
                 addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
                 log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
@@ -1313,160 +1357,164 @@ public class ScInputBean
             }
         }
         //Si pasamos de la pestaña de datos generales a stock y dimensiones
-        else if(event.getOldStep().equals(TAB_STOCK))
+        else if (event.getOldStep().equals(TAB_STOCK))
         {
             //Validamos que ninguno de los campos del stock sea vacio o negativo
-            if(validateFields("Stock Máximo", getInputSelected().getInputStock().getMaximeStock(), 2))
+            if (validateFields("Stock Máximo", getInputSelected().getInputStock().getMaximeStock(), 2))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Stock Mínimo", getInputSelected().getInputStock().getMinimeStock(), 2))
+            if (validateFields("Stock Mínimo", getInputSelected().getInputStock().getMinimeStock(), 2))
             {
                 return event.getOldStep();
             }
-            if(getInputSelected().getInputStock().getMaximeStock() <= getInputSelected().getInputStock().getMinimeStock())
+            if (getInputSelected().getInputStock().getMaximeStock() <= getInputSelected().getInputStock().getMinimeStock())
             {
                 addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Mínimo");
                 return event.getOldStep();
             }
-            if(validateFields("Stock Real", getInputSelected().getInputStock().getCurrentStock(), 2))
+            if (validateFields("Stock Real", getInputSelected().getInputStock().getCurrentStock(), 2))
             {
                 return event.getOldStep();
             }
-            if(validateFields("Stock Óptimo", getInputSelected().getInputStock().getOptimeStock(), 2))
+            if (validateFields("Stock Óptimo", getInputSelected().getInputStock().getOptimeStock(), 2))
             {
                 return event.getOldStep();
             }
             else
             {
-                if(getInputSelected().getInputStock().getMaximeStock() < getInputSelected().getInputStock().getOptimeStock())
+                if (getInputSelected().getInputStock().getMaximeStock() < getInputSelected().getInputStock().getOptimeStock())
                 {
                     addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
                     return event.getOldStep();
                 }
-                if(getInputSelected().getInputStock().getMinimeStock() > getInputSelected().getInputStock().getOptimeStock())
+                if (getInputSelected().getInputStock().getMinimeStock() > getInputSelected().getInputStock().getOptimeStock())
                 {
                     addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
                     return event.getOldStep();
                 }
             }
-            
-            if(validateFields("Altura", getInputSelected().getDimension().getHight(), 1))
+
+            if (validateFields("Altura", getInputSelected().getDimension().getHight(), 1))
             {
                 return event.getOldStep();
             }
-            else if(getMeasureUnitSaveHigh() == null)
+            else if (getMeasureUnitSaveHigh() == null)
             {
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
                 return event.getOldStep();
             }
-            if(validateFields("Ancho", getInputSelected().getDimension().getWidth(), 1))
+            if (validateFields("Ancho", getInputSelected().getDimension().getWidth(), 1))
             {
                 return event.getOldStep();
             }
-            else if(getMeasureUnitSaveWidth()== null)
+            else if (getMeasureUnitSaveWidth() == null)
             {
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
                 return event.getOldStep();
             }
-            if(validateFields("Largo", getInputSelected().getDimension().getLarge(), 1))
+            if (validateFields("Largo", getInputSelected().getDimension().getLarge(), 1))
             {
                 return event.getOldStep();
             }
-            else if(getMeasureUnitSaveLarge()== null)
+            else if (getMeasureUnitSaveLarge() == null)
             {
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
                 return event.getOldStep();
             }
-            if(validateFields("Peso", getInputSelected().getDimension().getWeight(), 1))
+            if (validateFields("Peso", getInputSelected().getDimension().getWeight(), 1))
             {
                 return event.getOldStep();
             }
-            else if(getMeasureUnitSaveWeight()== null)
+            else if (getMeasureUnitSaveWeight() == null)
             {
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
                 return event.getOldStep();
             }
-            
-            if(!Utilities.isEmpty(getInputSelected().getDimension().getVolume()))
+
+            if (!Utilities.isEmpty(getInputSelected().getDimension().getVolume()))
             {
-                if(validateFields("Volumen", getInputSelected().getDimension().getVolume(), 1))
+                if (validateFields("Volumen", getInputSelected().getDimension().getVolume(), 1))
                 {
                     return event.getOldStep();
                 }
-                else if(getMeasureUnitSaveVolume()== null)
+                else if (getMeasureUnitSaveVolume() == null)
                 {
                     addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
                     return event.getOldStep();
                 }
             }
-            if(!Utilities.isEmpty(getInputSelected().getDimension().getThickness()))
+            if (!Utilities.isEmpty(getInputSelected().getDimension().getThickness()))
             {
-                if(validateFields("Grosor", getInputSelected().getDimension().getThickness(), 1))
+                if (validateFields("Grosor", getInputSelected().getDimension().getThickness(), 1))
                 {
                     return event.getOldStep();
                 }
-                else if(getMeasureUnitSaveThickness()== null)
+                else if (getMeasureUnitSaveThickness() == null)
                 {
                     addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
                     return event.getOldStep();
                 }
             }
-            if(!Utilities.isEmpty(getInputSelected().getDimension().getRadio()))
+            if (!Utilities.isEmpty(getInputSelected().getDimension().getRadio()))
             {
-                if(validateFields("Radio", getInputSelected().getDimension().getRadio(), 1))
+                if (validateFields("Radio", getInputSelected().getDimension().getRadio(), 1))
                 {
                     return event.getOldStep();
                 }
-                else if(getMeasureUnitSaveRadio()== null)
+                else if (getMeasureUnitSaveRadio() == null)
                 {
                     addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
                     return event.getOldStep();
                 }
             }
-            
+
         }
-        return event.getNewStep(); 
+        return event.getNewStep();
     }
-    
-    
+
     /**
      * Método encargado de llevar el flujo al actualizar un insumo.
-     * @param event evento en el cual se encuentra el asistente para actualizar insumos
-     * @return String al final retorna el nombre de la siguiente pestaña del asistente
+     *
+     * @param event evento en el cual se encuentra el asistente para actualizar
+     * insumos
+     * @return String al final retorna el nombre de la siguiente pestaña del
+     * asistente
      * @author Gustavo Chavarro Ortiz
      */
-    public String onFlowProcessViewInput(FlowEvent event) 
-    {    
-        
-        return event.getNewStep(); 
+    public String onFlowProcessViewInput(FlowEvent event)
+    {
+
+        return event.getNewStep();
     }
+
     /**
      * Método encargado de realizar la persistencia de un insumo, guardando
      * listas y objetos incluidos en el.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void saveInput()
     {
         //Valido que el insumo no sea nulo
-        if(getInputSave() != null)
+        if (getInputSave() != null)
         {
-            if(getSpecificationListSave() != null)
+            if (getSpecificationListSave() != null)
             {
                 //Le agrego la lista de especificaciones
                 getInputSave().setScInputSpecifications(getSpecificationListSave());
             }
-            if(getFeacturesListSave()!= null)
+            if (getFeacturesListSave() != null)
             {
                 //Le agrego la lista de características
                 getInputSave().setScInputFeacturesList(getFeacturesListSave());
-            } 
-            if(getObservationListSave()!= null)
+            }
+            if (getObservationListSave() != null)
             {
                 //Le agrego la lista de observaciones
                 getInputSave().setScInputObservationsList(getObservationListSave());
             }
-            if(getDocumentsListSave()!= null)
+            if (getDocumentsListSave() != null)
             {
                 //Le agrego la lista de observaciones
                 getInputSave().setScInputDocuments(getDocumentsListSave());
@@ -1474,33 +1522,33 @@ public class ScInputBean
             //Almacenamos el insumo
             try
             {
-                if(getMeasureUnitSaveHigh() != null)
+                if (getMeasureUnitSaveHigh() != null)
                 {
-                    getInputSave().getDimension().setHight(getInputSave().getDimension().getHight()+"-"+getMeasureUnitSaveHigh().getAcronym());
+                    getInputSave().getDimension().setHight(getInputSave().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
                 }
-                if(getMeasureUnitSaveWidth()!= null)
+                if (getMeasureUnitSaveWidth() != null)
                 {
-                    getInputSave().getDimension().setWidth(getInputSave().getDimension().getWidth()+"-"+getMeasureUnitSaveWidth().getAcronym());
+                    getInputSave().getDimension().setWidth(getInputSave().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
                 }
-                if(getMeasureUnitSaveLarge() != null)
+                if (getMeasureUnitSaveLarge() != null)
                 {
-                    getInputSave().getDimension().setLarge(getInputSave().getDimension().getLarge()+"-"+getMeasureUnitSaveLarge().getAcronym());
+                    getInputSave().getDimension().setLarge(getInputSave().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
                 }
-                if(getMeasureUnitSaveWeight()!= null)
+                if (getMeasureUnitSaveWeight() != null)
                 {
-                    getInputSave().getDimension().setWeight(getInputSave().getDimension().getWeight()+"-"+getMeasureUnitSaveWeight().getAcronym());
+                    getInputSave().getDimension().setWeight(getInputSave().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
                 }
-                if(getMeasureUnitSaveVolume()!= null)
+                if (getMeasureUnitSaveVolume() != null)
                 {
-                    getInputSave().getDimension().setVolume(getInputSave().getDimension().getVolume()+"-"+getMeasureUnitSaveVolume().getAcronym());
+                    getInputSave().getDimension().setVolume(getInputSave().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
                 }
-                if(getMeasureUnitSaveThickness()!= null)
+                if (getMeasureUnitSaveThickness() != null)
                 {
-                    getInputSave().getDimension().setThickness(getInputSave().getDimension().getThickness()+"-"+getMeasureUnitSaveThickness().getAcronym());
+                    getInputSave().getDimension().setThickness(getInputSave().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
                 }
-                if(getMeasureUnitSaveRadio()!= null)
+                if (getMeasureUnitSaveRadio() != null)
                 {
-                    getInputSave().getDimension().setRadio(getInputSave().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
+                    getInputSave().getDimension().setRadio(getInputSave().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
                 }
                 getScInputServer().saveInput(getInputSave());
                 getInputList().add(getInputSave());
@@ -1512,62 +1560,77 @@ public class ScInputBean
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 cleanInputSave();
             }
-            
+
         }
-    
+
     }
+    /**
+     * Método encargado de unir las columnas para las dimensiones
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void joinColumnsUpdate()
+    {
+        //Valido que el insumo no sea nulo
+        if (getInputSelected() != null)
+        {
+        //Almacenamos el insumo
+
+            if (getMeasureUnitSaveHigh() != null)
+            {
+                getInputSelected().getDimension().setHight(getInputSelected().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
+            }
+            if (getMeasureUnitSaveWidth() != null)
+            {
+                getInputSelected().getDimension().setWidth(getInputSelected().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
+            }
+            if (getMeasureUnitSaveLarge() != null)
+            {
+                getInputSelected().getDimension().setLarge(getInputSelected().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
+            }
+            if (getMeasureUnitSaveWeight() != null)
+            {
+                getInputSelected().getDimension().setWeight(getInputSelected().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
+            }
+            if (getMeasureUnitSaveVolume() != null)
+            {
+                getInputSelected().getDimension().setVolume(getInputSelected().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
+            }
+            if (getMeasureUnitSaveThickness() != null)
+            {
+                getInputSelected().getDimension().setThickness(getInputSelected().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
+            }
+            if (getMeasureUnitSaveRadio() != null)
+            {
+                getInputSelected().getDimension().setRadio(getInputSelected().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
+            }
+        }
+    }
+
     /**
      * Método encargado de realizar la persistencia de un insumo, actualizando
      * listas y objetos incluidos en el.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void updateInput()
     {
         //Valido que el insumo no sea nulo
-        if(getInputSelected()!= null)
+        if (getInputSelected() != null)
         {
-            //Almacenamos el insumo
+            joinColumnsUpdate();
             try
             {
-                if(getMeasureUnitSaveHigh() != null)
-                {
-                    getInputSelected().getDimension().setHight(getInputSelected().getDimension().getHight()+"-"+getMeasureUnitSaveHigh().getAcronym());
-                }
-                if(getMeasureUnitSaveWidth()!= null)
-                {
-                    getInputSelected().getDimension().setWidth(getInputSelected().getDimension().getWidth()+"-"+getMeasureUnitSaveWidth().getAcronym());
-                }
-                if(getMeasureUnitSaveLarge() != null)
-                {
-                    getInputSelected().getDimension().setLarge(getInputSelected().getDimension().getLarge()+"-"+getMeasureUnitSaveLarge().getAcronym());
-                }
-                if(getMeasureUnitSaveWeight()!= null)
-                {
-                    getInputSelected().getDimension().setWeight(getInputSelected().getDimension().getWeight()+"-"+getMeasureUnitSaveWeight().getAcronym());
-                }
-                if(getMeasureUnitSaveVolume()!= null)
-                {
-                    getInputSelected().getDimension().setVolume(getInputSelected().getDimension().getVolume()+"-"+getMeasureUnitSaveVolume().getAcronym());
-                }
-                if(getMeasureUnitSaveThickness()!= null)
-                {
-                    getInputSelected().getDimension().setThickness(getInputSelected().getDimension().getThickness()+"-"+getMeasureUnitSaveThickness().getAcronym());
-                }
-                if(getMeasureUnitSaveRadio()!= null)
-                {
-                    getInputSelected().getDimension().setRadio(getInputSelected().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
-                }
                 getScInputServer().updateInput(getInputSelected());
                 int index = 0;
-                for(ScInput input: getInputList())
+                for (ScInput input : getInputList())
                 {
-                    if(input.getIdInput().equals(getInputSelected().getIdInput()))
+                    if (input.getIdInput().equals(getInputSelected().getIdInput()))
                     {
                         break;
                     }
                     index++;
                 }
-                if(index < getInputList().size())
+                if (index < getInputList().size())
                 {
                     getInputList().set(index, getInputSelected());
                 }
@@ -1579,18 +1642,19 @@ public class ScInputBean
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 cleanInputSave();
             }
-            
+
         }
-    
+
     }
-    
+
     /**
      * Método encargado de eliminar un insumo.
+     *
      * @autor Gustavo Chavarro Ortiz
      */
     public void deleteInput()
     {
-        if(getInputSelected() != null)
+        if (getInputSelected() != null)
         {
             try
             {
@@ -1605,9 +1669,10 @@ public class ScInputBean
             }
         }
     }
-    
+
     /**
      * Método encargado de inicializar todas las listas para crear un insumo.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanListSaves()
@@ -1615,127 +1680,128 @@ public class ScInputBean
         setSpecificationsSave(new ScInputSpecifications());
         setFeacturesSave(new ScInputFeactures());
         setObservationsSave(new ScInputObservations());
-        
-        if(getSpecificationListSave() == null)
+
+        if (getSpecificationListSave() == null)
         {
             setSpecificationListSave(new ArrayList<ScInputSpecifications>());
         }
-        if(getFeacturesListSave() == null)
+        if (getFeacturesListSave() == null)
         {
             setFeacturesListSave(new ArrayList<ScInputFeactures>());
         }
-        if(getObservationListSave() == null)
+        if (getObservationListSave() == null)
         {
             setObservationListSave(new ArrayList<ScInputObservations>());
         }
-        if(getEquivalenceListSave() == null)
+        if (getEquivalenceListSave() == null)
         {
             setEquivalenceListSave(new ArrayList<ScInputEquivalence>());
         }
     }
-    
+
     /**
      * Método encargado de validar los campos doubles.
+     *
      * @param nameField nombre del campo a evaluar
      * @param value valor del campo a evaluar
      * @param option opción del tipo de dato que se validar
-     * @return boolean si se puede validar o no 
+     * @return boolean si se puede validar o no
      * @author Gustavo Chavarro Ortiz
      */
     public boolean validateFields(String nameField, Object value, int option)
     {
         boolean isInvalid = false;
-        String message1 = "Error en el campo "+ nameField;
-        
+        String message1 = "Error en el campo " + nameField;
+
         try
-        { 
-            if(value != null && !Utilities.isEmpty( value.toString()))
+        {
+            if (value != null && !Utilities.isEmpty(value.toString()))
             {
-                switch(option) 
+                switch (option)
                 {
                     case 1: //Casos de tipo double 
-                    String messageDouble2 = "Debe ingresar un número mayor que cero y usar"
-                            + "como separador de decimales el punto, ejemplo: 3.24";
-                    try
-                    {
-
-                        double parseo = Double.parseDouble((String)value);//parseo
-                        if(parseo <= 0)
+                        String messageDouble2 = "Debe ingresar un número mayor que cero y usar"
+                                + "como separador de decimales el punto, ejemplo: 3.24";
+                        try
                         {
-                            throw new Exception(nameField+" menor o igual a cero");
+
+                            double parseo = Double.parseDouble((String) value);//parseo
+                            if (parseo <= 0)
+                            {
+                                throw new Exception(nameField + " menor o igual a cero");
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    { 
-                        isInvalid = true;
-                        addError(null,message1, messageDouble2);
-                        log.error(message1+", "+messageDouble2);
-                    }   
-                    break;
+                        catch (Exception e)
+                        {
+                            isInvalid = true;
+                            addError(null, message1, messageDouble2);
+                            log.error(message1 + ", " + messageDouble2);
+                        }
+                        break;
                     case 2: //Casos de tipo int
-                    String messageInt2 = "Debe ingresar un número mayor que cero sin puntos ni comas,"
-                            + "ejemplo: 1256786";
-                    try
-                    {
-
-                        Long parseo = Long.parseLong(value.toString());//parseo
-                        if(parseo <= 0)
+                        String messageInt2 = "Debe ingresar un número mayor que cero sin puntos ni comas,"
+                                + "ejemplo: 1256786";
+                        try
                         {
-                            throw new Exception(nameField+" menor o igual a cero");
+
+                            Long parseo = Long.parseLong(value.toString());//parseo
+                            if (parseo <= 0)
+                            {
+                                throw new Exception(nameField + " menor o igual a cero");
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        isInvalid = true;
-                        addError(null,message1, messageInt2);
-                        log.error(message1+", "+messageInt2);
-                    }
-                    break;
+                        catch (Exception e)
+                        {
+                            isInvalid = true;
+                            addError(null, message1, messageInt2);
+                            log.error(message1 + ", " + messageInt2);
+                        }
+                        break;
                     case 3: //Casos de tipo String
-                    String messageString2 = "Campo obligatorio, debe ingresar algún valor";
-                    if(Utilities.isEmpty(value.toString()))
-                    {
-                        isInvalid = true;
-                        addError(null,message1+ nameField, messageString2);
-                        log.error(message1+ ", "+messageString2);
-                    }
-                    break;    
+                        String messageString2 = "Campo obligatorio, debe ingresar algún valor";
+                        if (Utilities.isEmpty(value.toString()))
+                        {
+                            isInvalid = true;
+                            addError(null, message1 + nameField, messageString2);
+                            log.error(message1 + ", " + messageString2);
+                        }
+                        break;
                     case 4://Casos de campos seleccionables
-                    String messageObject2 = "Campo obligatorio, debe seleccionar un valor para este campo";
-                    if(value == null)
-                    {
-                        isInvalid = true;
-                        addError(null,message1+ nameField, messageObject2);
-                        log.error(message1+ ", "+messageObject2);
-                    }
-                    break;
+                        String messageObject2 = "Campo obligatorio, debe seleccionar un valor para este campo";
+                        if (value == null)
+                        {
+                            isInvalid = true;
+                            addError(null, message1 + nameField, messageObject2);
+                            log.error(message1 + ", " + messageObject2);
+                        }
+                        break;
                     default:
-                    break;
+                        break;
                 }
-            }    
+            }
             else
             {
-                String messageObject2 = "Campo obligatorio, debe ingresar un valor para el campo "+nameField;
+                String messageObject2 = "Campo obligatorio, debe ingresar un valor para el campo " + nameField;
                 addError(null, message1, messageObject2);
-                log.error(message1+ ", "+messageObject2);
+                log.error(message1 + ", " + messageObject2);
                 isInvalid = true;
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             //Excepción no rematada debido que hay campos con tipos diferentes a String
         }
         return isInvalid;
     }
-    
-    
-    
+
     /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
+     *
      * @param option se escoge la opción entre guardar y actualizar
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void handleFileUpload(int option) {
+    public void handleFileUpload(int option)
+    {
         //Validamos que el evento de copiado no sea nulo
         if (getPictureFile() != null)
         {
@@ -1808,9 +1874,10 @@ public class ScInputBean
                 break;
         }
     }
-    
-    /**
+
+    /** 
      * Método encargado de visualizar la imagen de un elemento.
+     *
      * @return String cadena con la ruta de la imagen
      * @param input insumo al que se le consultará la imagen
      * @author Gustavo Chavarro Ortiz
@@ -1819,15 +1886,15 @@ public class ScInputBean
     {
         try
         {
-            if(input != null)
+            if (input != null)
             {
-                if(!Utilities.isEmpty(input.getPathPicture()))
+                if (!Utilities.isEmpty(input.getPathPicture())) 
                 {
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(input.getPathPicture())));
+                    //BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(input.getPathPicture())));
                     //la constante me permite mapear imagenes externas
-                    return DMESConstants.PATH_EXTERN_PICTURES+input.getPathPicture();
+                    return DMESConstants.PATH_EXTERN_PICTURES + input.getPathPicture();
                 }
-            } 
+            }
         }
         catch (Exception e)
         {
@@ -1835,185 +1902,191 @@ public class ScInputBean
         }
         return DMESConstants.PATH_IMAGE_DEFAULT;
     }
-    
+
     /**
      * Método encargado de limpiar los campos para eliminar un insumo
+     *
      * @param input insumo a eliminar
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectedForDelete(ScInput input) 
+    public void selectedForDelete(ScInput input)
     {
         cleansTypesMeasures();
         setInputSelected(input);
     }
-     
+
     /**
      * Método encargado de limpiar los campos para actualizar un insumo
-     * @param input insumo a actualizaro 
+     *
+     * @param input insumo a actualizaro
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectedForUpdate(ScInput input) 
+    public void selectedForUpdate(ScInput input)
     {
         cleansTypesMeasures();
-        
+
         try
         {
-            setInputSelected((ScInput) input.clone());
-            //setInputSelected(getScInputServer().getInputsById(input.getIdInput()));
+            //setInputSelected((ScInput) input.clone());
+            setInputSelected(input);
+//            setInputSelected(getScInputServer().getInputsById(input.getIdInput()));
         }
         catch (Exception e)
         {
             log.error("Error al intentar consultar el insumo a actualizar", e);
         }
-        
-        fillListInputLocation(input.getInputStock().getIdStore());   
-        if(!Utilities.isEmpty(getInputSelected().getDimension().getHight()))
+
+        fillListInputLocation(input.getInputStock().getIdStore());
+        if (!Utilities.isEmpty(getInputSelected().getDimension().getHight()))
         {
             valueToList(getInputSelected().getDimension().getHight(), 1);
         }
-        if(!Utilities.isEmpty(getInputSelected().getDimension().getWidth()))
+        if (!Utilities.isEmpty(getInputSelected().getDimension().getWidth()))
         {
             valueToList(getInputSelected().getDimension().getWidth(), 2);
         }
-        if(!Utilities.isEmpty(getInputSelected().getDimension().getLarge()))
+        if (!Utilities.isEmpty(getInputSelected().getDimension().getLarge()))
         {
             valueToList(getInputSelected().getDimension().getLarge(), 3);
         }
-        if(!Utilities.isEmpty(getInputSelected().getDimension().getWeight()))
+        if (!Utilities.isEmpty(getInputSelected().getDimension().getWeight()))
         {
             valueToList(getInputSelected().getDimension().getWeight(), 4);
         }
-        if(!Utilities.isEmpty(getInputSelected().getDimension().getVolume()))
+        if (!Utilities.isEmpty(getInputSelected().getDimension().getVolume()))
         {
             valueToList(getInputSelected().getDimension().getVolume(), 5);
         }
-        if(!Utilities.isEmpty(getInputSelected().getDimension().getThickness()))
+        if (!Utilities.isEmpty(getInputSelected().getDimension().getThickness()))
         {
             valueToList(getInputSelected().getDimension().getThickness(), 6);
         }
-        if(!Utilities.isEmpty(getInputSelected().getDimension().getRadio()))
+        if (!Utilities.isEmpty(getInputSelected().getDimension().getRadio()))
         {
             valueToList(getInputSelected().getDimension().getRadio(), 7);
         }
     }
+
     /**
      * Método encargado de tomar un valor de un combo box unido por una coma (,)
      * y ponerlo en los dos campos que aplican número y tipo de valor.
+     *
      * @param value valor en cadena de texto a convertir
-     * @param option opción por la cual se hará la conversión dependiendo del campo
+     * @param option opción por la cual se hará la conversión dependiendo del
+     * campo
      * @author Gustavo Chavarro Ortiz
      */
     public void valueToList(String value, int option)
     {
         String fields[] = value.split("-"); //Dividimos el valor y su unidad
-        
-        switch(option)//Seleccionamos la opción
+
+        switch (option)//Seleccionamos la opción
         {
-            
+
             case 1://Ajustamos la altura
-                
+
                 getInputSelected().getDimension().setHight(fields[0]);
-                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
-                    if(measureUnit.getAcronym().equals(fields[1]))
+                    if (measureUnit.getAcronym().equals(fields[1]))
                     {
                         setMeasureUnitSaveHigh(measureUnit);
                         break;
                     }
                 }
-            break;
+                break;
             case 2://Ajustamos el ancho
-                
+
                 getInputSelected().getDimension().setWidth(fields[0]);
-                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
-                    if(measureUnit.getAcronym().equals(fields[1]))
+                    if (measureUnit.getAcronym().equals(fields[1]))
                     {
                         setMeasureUnitSaveWidth(measureUnit);
                         break;
                     }
                 }
-            break;    
+                break;
             case 3://Ajustamos el largo
-                
+
                 getInputSelected().getDimension().setLarge(fields[0]);
-                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
-                    if(measureUnit.getAcronym().equals(fields[1]))
+                    if (measureUnit.getAcronym().equals(fields[1]))
                     {
                         setMeasureUnitSaveLarge(measureUnit);
                         break;
                     }
                 }
-            break;
+                break;
             case 4://Ajustamos el Peso
-                
+
                 getInputSelected().getDimension().setWeight(fields[0]);
-                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
-                    if(measureUnit.getAcronym().equals(fields[1]))
+                    if (measureUnit.getAcronym().equals(fields[1]))
                     {
                         setMeasureUnitSaveWeight(measureUnit);
                         break;
                     }
                 }
-            break;
+                break;
             case 5://Ajustamos el Volumen
-                
+
                 getInputSelected().getDimension().setVolume(fields[0]);
-                for(ScMeasureUnit measureUnit: getMeasureUnitsList())
+                for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
-                    if(measureUnit.getAcronym().equals(fields[1]))
+                    if (measureUnit.getAcronym().equals(fields[1]))
                     {
                         setMeasureUnitSaveVolume(measureUnit);
                         break;
                     }
                 }
-            break;
+                break;
             case 6://Ajustamos el Grosor
-            
-            getInputSelected().getDimension().setThickness(fields[0]);
-            for(ScMeasureUnit measureUnit: getMeasureUnitsList())
-            {
-                if(measureUnit.getAcronym().equals(fields[1]))
+
+                getInputSelected().getDimension().setThickness(fields[0]);
+                for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
-                    setMeasureUnitSaveThickness(measureUnit);
-                    break;
+                    if (measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveThickness(measureUnit);
+                        break;
+                    }
                 }
-            }
-            break;
+                break;
             case 7://Ajustamos el Radio
-            
-            getInputSelected().getDimension().setRadio(fields[0]);
-            for(ScMeasureUnit measureUnit: getMeasureUnitsList())
-            {
-                if(measureUnit.getAcronym().equals(fields[1]))
+
+                getInputSelected().getDimension().setRadio(fields[0]);
+                for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
-                    setMeasureUnitSaveRadio(measureUnit);
-                    break;
+                    if (measureUnit.getAcronym().equals(fields[1]))
+                    {
+                        setMeasureUnitSaveRadio(measureUnit);
+                        break;
+                    }
                 }
-            }
-            break;
+                break;
             default://Caso por defecto
-            break;
+                break;
         }
-    
+
     }
-    
-   
+
     /**
-     * Método encargado de guardar temporalmente una especificación
-     * en un insumo existente.
+     * Método encargado de guardar temporalmente una especificación en un insumo
+     * existente.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void updateSpecification()
     {
-        if(getSpecificationsSave() != null)
+        if (getSpecificationsSave() != null)
         {
-            if(!Utilities.isEmpty(getSpecificationsSave().getTittle()) && 
-                    !Utilities.isEmpty(getSpecificationsSave().getDescription()))
+            if (!Utilities.isEmpty(getSpecificationsSave().getTittle())
+                    && !Utilities.isEmpty(getSpecificationsSave().getDescription()))
             {
-                if(getInputSelected().getScInputSpecifications() != null)
+                if (getInputSelected().getScInputSpecifications() != null)
                 {
                     //Guardamos exitosamente la especificación
                     getSpecificationsSave().setCreationDate(new Date());
@@ -2024,36 +2097,38 @@ public class ScInputBean
                 else
                 {
                     addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 }
             }
             else
             {
-                addError(null, "Error al intentar guardar una especificación", 
-                            "Debe ingresar los campos Título y Descripción de la especificación");
-                    log.error("Error al intentar guardar una especificación, "
-                            + "Debe ingresar los campos Título y Descripción de la especificación");
+                addError(null, "Error al intentar guardar una especificación",
+                         "Debe ingresar los campos Título y Descripción de la especificación");
+                log.error("Error al intentar guardar una especificación, "
+                        + "Debe ingresar los campos Título y Descripción de la especificación");
             }
         }
         else
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+
     /**
-     * Método encargado de guardar temporalmente una característica
-     * en un insumo existente.
+     * Método encargado de guardar temporalmente una característica en un insumo
+     * existente.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void updateFeacture()
     {
-        if(getFeacturesSave() != null)
+        if (getFeacturesSave() != null)
         {
-            if(!Utilities.isEmpty(getFeacturesSave().getTittle()) && 
-                    !Utilities.isEmpty(getFeacturesSave().getDescription()))
+            if (!Utilities.isEmpty(getFeacturesSave().getTittle())
+                    && !Utilities.isEmpty(getFeacturesSave().getDescription()))
             {
-                if(getInputSelected().getScInputFeacturesList() != null)
+                if (getInputSelected().getScInputFeacturesList() != null)
                 {
                     //Guardamos exitosamente la especificación
                     getFeacturesSave().setIdInput(getInputSelected());
@@ -2063,36 +2138,38 @@ public class ScInputBean
                 else
                 {
                     addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 }
             }
             else
             {
-                addError(null, "Error al intentar guardar una característica", 
-                            "Debe ingresar los campos Título y Descripción de la característica");
-                    log.error("Error al intentar guardar una especificación, "
-                            + "Debe ingresar los campos Título y Descripción de la característica");
+                addError(null, "Error al intentar guardar una característica",
+                         "Debe ingresar los campos Título y Descripción de la característica");
+                log.error("Error al intentar guardar una especificación, "
+                        + "Debe ingresar los campos Título y Descripción de la característica");
             }
         }
         else
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+
     /**
-     * Método encargado de guardar temporalmente una observación
-     * en un insumo existente.
+     * Método encargado de guardar temporalmente una observación en un insumo
+     * existente.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void updateObservation()
     {
-        if(getObservationsSave()!= null)
+        if (getObservationsSave() != null)
         {
-            if(!Utilities.isEmpty(getObservationsSave().getTittle()) && 
-                    !Utilities.isEmpty(getObservationsSave().getDescription()))
+            if (!Utilities.isEmpty(getObservationsSave().getTittle())
+                    && !Utilities.isEmpty(getObservationsSave().getDescription()))
             {
-                if(getInputSelected().getScInputObservationsList() != null)
+                if (getInputSelected().getScInputObservationsList() != null)
                 {
                     //Guardamos exitosamente la observación
                     getObservationsSave().setIdInput(getInputSave());
@@ -2102,39 +2179,40 @@ public class ScInputBean
                 else
                 {
                     addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                 }
             }
             else
             {
-                addError(null, "Error al intentar guardar una observación", 
-                            "Debe ingresar los campos Título y Descripción de la observación");
-                    log.error("Error al intentar guardar una observación, "
-                            + "Debe ingresar los campos Título y Descripción de la observación");
+                addError(null, "Error al intentar guardar una observación",
+                         "Debe ingresar los campos Título y Descripción de la observación");
+                log.error("Error al intentar guardar una observación, "
+                        + "Debe ingresar los campos Título y Descripción de la observación");
             }
         }
         else
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
-    
+
     /**
-     * Método encargado de borrar una especificación agregada a la lista para 
+     * Método encargado de borrar una especificación agregada a la lista para
      * actualizar un inusmo.
+     *
      * @param inputSpecifications especificación a borrar
      * @author Gustavo Chavarro Ortiz
      */
     public void deleteUpdateSpecifications(ScInputSpecifications inputSpecifications)
     {
-        if(getInputSelected().getScInputSpecifications() != null && !getInputSelected().getScInputSpecifications().isEmpty())
+        if (getInputSelected().getScInputSpecifications() != null && !getInputSelected().getScInputSpecifications().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for(ScInputSpecifications iterator: getInputSelected().getScInputSpecifications())
+            for (ScInputSpecifications iterator : getInputSelected().getScInputSpecifications())
             {
-                if(iterator.getTittle().equals(inputSpecifications.getTittle()) &&
-                        iterator.getDescription().equals(inputSpecifications.getDescription()))
+                if (iterator.getTittle().equals(inputSpecifications.getTittle())
+                        && iterator.getDescription().equals(inputSpecifications.getDescription()))
                 {
                     break;//Rompempos el ciclo
                 }
@@ -2145,25 +2223,26 @@ public class ScInputBean
         else
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
-    }            
-            
+    }
+
     /**
-     * Método encargado de borrar una característica agregada a la lista para 
+     * Método encargado de borrar una característica agregada a la lista para
      * actualizar un inusmo.
+     *
      * @param feacture característica a borrar
      * @author Gustavo Chavarro Ortiz
      */
     public void deleteUpdateFeactures(ScInputFeactures feacture)
     {
-        if(getInputSelected().getScInputFeacturesList() != null && !getInputSelected().getScInputFeacturesList().isEmpty())
+        if (getInputSelected().getScInputFeacturesList() != null && !getInputSelected().getScInputFeacturesList().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for(ScInputFeactures iterator: getInputSelected().getScInputFeacturesList())
+            for (ScInputFeactures iterator : getInputSelected().getScInputFeacturesList())
             {
-                if(iterator.getTittle().equals(feacture.getTittle()) &&
-                        iterator.getDescription().equals(feacture.getDescription()))
+                if (iterator.getTittle().equals(feacture.getTittle())
+                        && iterator.getDescription().equals(feacture.getDescription()))
                 {
                     break;//Rompempos el ciclo
                 }
@@ -2174,25 +2253,26 @@ public class ScInputBean
         else
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
-    
+
     /**
-     * Método encargado de borrar una observación agregada a la lista para 
+     * Método encargado de borrar una observación agregada a la lista para
      * actualizar un inusmo.
+     *
      * @param observations observación a borrar
      * @author Gustavo Chavarro Ortiz
      */
     public void deleteUpdateObservation(ScInputObservations observations)
     {
-        if(getInputSelected().getScInputObservationsList()!= null && !getInputSelected().getScInputObservationsList().isEmpty())
+        if (getInputSelected().getScInputObservationsList() != null && !getInputSelected().getScInputObservationsList().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for(ScInputObservations iterator: getInputSelected().getScInputObservationsList())
+            for (ScInputObservations iterator : getInputSelected().getScInputObservationsList())
             {
-                if(iterator.getTittle().equals(observations.getTittle()) &&
-                        iterator.getDescription().equals(observations.getDescription()))
+                if (iterator.getTittle().equals(observations.getTittle())
+                        && iterator.getDescription().equals(observations.getDescription()))
                 {
                     break;//Rompempos el ciclo
                 }
@@ -2203,99 +2283,100 @@ public class ScInputBean
         else
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
-    
+
     /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
+     *
      * @param option Evento que trae el archvio cargado al servidor
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
-    public void handleDocumentUpload(int option) 
+    public void handleDocumentUpload(int option)
     {
-         //Validamos que el evento de copiado no sea nulo
+        //Validamos que el evento de copiado no sea nulo
         int bytesToMegabytes = 10485760; //Valor de representación de 1megabytes a bytes
-        if(!Utilities.isEmpty(getDocumentsSave().getDocumentTittle()))
+        if (!Utilities.isEmpty(getDocumentsSave().getDocumentTittle()))
         {
-            if(getFileSave() != null ) 
-         { 
-            String fileName = getFileSave().getFileName(); //Extraemos el nombre del archivo
-            long fileSize    = getFileSave().getSize(); //Extraemos el tamaño del archivo
-            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
-            String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
-            if(fileSize > 0)
+            if (getFileSave() != null)
             {
-                //Validamos que el archivo cumpla con el tamaño permitido
-                if(fileSize <=(MAX_SIZE_FILE*bytesToMegabytes))
+                String fileName = getFileSave().getFileName(); //Extraemos el nombre del archivo
+                long fileSize = getFileSave().getSize(); //Extraemos el tamaño del archivo
+                int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+                String fileType = fileName.substring(positionLimitName + 1, fileName.length()); //Extraemos el tipo del archivo
+                if (fileSize > 0)
                 {
-                    //Validamos que el archivo contenga los tipos permitidos
-                    if(EXTENSION_FILE.contains(fileType))
+                    //Validamos que el archivo cumpla con el tamaño permitido
+                    if (fileSize <= (MAX_SIZE_FILE * bytesToMegabytes))
                     {
-                        String firstName = getSessionBean().getScUser().getIdPerson().getFirstName().replaceAll(" ", "_");
-                        String lastName = getSessionBean().getScUser().getIdPerson().getLastName().replaceAll(" ", "_");
-                        String folderName = DMESConstants.FILE_PATH_INPUTS_DOCS;
-                        //Creamos el folder
-                        File folder = new File(PATH_FILE+"/"+folderName);
-                        folder.mkdirs();
-                        //Creamos el archivo con la ruta y el nombre de la carpeta
-                        File file = new File(folder+"/"+fileName);
-                        try
+                        //Validamos que el archivo contenga los tipos permitidos
+                        if (EXTENSION_FILE.contains(fileType))
                         {
-                            //Creamos el archivo y lo enviamos al metodo que lo escribe
-                            if(writeFile(getFileSave().getInputstream(), file))
+                            String firstName = getSessionBean().getScUser().getIdPerson().getFirstName().replaceAll(" ", "_");
+                            String lastName = getSessionBean().getScUser().getIdPerson().getLastName().replaceAll(" ", "_");
+                            String folderName = DMESConstants.FILE_PATH_INPUTS_DOCS;
+                            //Creamos el folder
+                            File folder = new File(PATH_FILE + "/" + folderName);
+                            folder.mkdirs();
+                            //Creamos el archivo con la ruta y el nombre de la carpeta
+                            File file = new File(folder + "/" + fileName);
+                            try
                             {
-                                getDocumentsSave().setDocumentName(fileName);
-                                getDocumentsSave().setDocumentPath(folder.toString());
-                                getDocumentsSave().setTypeDocument(getFileSave().getContentType());
-                                getDocumentsSave().setUploadBy(getSessionBean().getScUser().getLogin());
-                                
-                                getDocumentsSave().setCreationDate(new Date());
-                                switch (option)
+                                //Creamos el archivo y lo enviamos al metodo que lo escribe
+                                if (writeFile(getFileSave().getInputstream(), file))
                                 {
-                                    case 1://opción para guardar
-                                        getDocumentsSave().setIdInput(getInputSave());
-                                        getDocumentsListSave().add(getDocumentsSave());
-                                        
-                                        break;
-                                    case 2://opción para actualizar
-                                        getDocumentsSave().setIdInput(getInputSelected());
-                                        getInputSelected().getScInputDocuments().add(getDocumentsSave());
-                                        
-                                        break;
-                                    default:
-                                        break;
+                                    getDocumentsSave().setDocumentName(fileName);
+                                    getDocumentsSave().setDocumentPath(folder.toString());
+                                    getDocumentsSave().setTypeDocument(getFileSave().getContentType());
+                                    getDocumentsSave().setUploadBy(getSessionBean().getScUser().getLogin());
+
+                                    getDocumentsSave().setCreationDate(new Date());
+                                    switch (option)
+                                    {
+                                        case 1://opción para guardar
+                                            getDocumentsSave().setIdInput(getInputSave());
+                                            getDocumentsListSave().add(getDocumentsSave());
+
+                                            break;
+                                        case 2://opción para actualizar
+                                            getDocumentsSave().setIdInput(getInputSelected());
+                                            getInputSelected().getScInputDocuments().add(getDocumentsSave());
+
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                                //Si sucede un error al escribir el archivo
+                                else
+                                {
+                                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
                                 }
                             }
-                            //Si sucede un error al escribir el archivo
-                            else
+                            catch (Exception e)
                             {
+                                //Excepción de escritura
                                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                            }   
+                                log.error("Error al itnentar crear un nuevo archivo", e);
+                            }
                         }
-                        catch (Exception e)
+                        //El tipo no pertenece
+                        else
                         {
-                            //Excepción de escritura
-                            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                            log.error("Error al itnentar crear un nuevo archivo", e);
+                            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos " + EXTENSION_FILE);
                         }
                     }
-                    //El tipo no pertenece
                     else
                     {
-                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos "+EXTENSION_FILE);
+                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo supera el límite de tamaño permitido " + MAX_SIZE_FILE + " MB");
                     }
                 }
                 else
                 {
-                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo supera el límite de tamaño permitido "+MAX_SIZE_FILE+" MB");
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
                 }
             }
-            else
-            {
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
-            }
-         }
         }
         else
         {
@@ -2314,20 +2395,23 @@ public class ScInputBean
             default:
                 break;
         }
-         cleanDocumentSave();
+        cleanDocumentSave();
     }
-    
+
     /**
      * Método encargado de limpiar todas las variables temporales.
+     *
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanDocumentSave()
     {
         setDocumentsSave(new ScInputDocuments());
     }
-    
+
     /**
-     * Método encargado de consultar los parámetros iniciales, para cargar archivos.
+     * Método encargado de consultar los parámetros iniciales, para cargar
+     * archivos.
+     *
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
     public void getinitalParameters()
@@ -2338,20 +2422,20 @@ public class ScInputBean
             Object object = getScInputServer().getInitialParameters();
             //Extraemos la información en un arreglo
             Object[] data = (Object[]) object;
-            if(data != null)
+            if (data != null)
             {
                 //Extraemos el valor por defecto del tamaño de los archivos
-                if(data.length > 0 && data[0] != null && !Utilities.isEmpty(data[0].toString()))
+                if (data.length > 0 && data[0] != null && !Utilities.isEmpty(data[0].toString()))
                 {
                     MAX_SIZE_FILE = Integer.parseInt(data[0].toString());
                 }
                 //Extraemos el valor por defecto de los tipos permitidos
-                if(data.length > 1 && data[1] != null && !Utilities.isEmpty(data[1].toString()))
+                if (data.length > 1 && data[1] != null && !Utilities.isEmpty(data[1].toString()))
                 {
                     EXTENSION_FILE = data[1].toString();
                 }
                 //Extraemos el valor por defecto la ruta donde se guardarán
-                if(data.length > 2 && data[2] != null &&!Utilities.isEmpty(data[2].toString()))
+                if (data.length > 2 && data[2] != null && !Utilities.isEmpty(data[2].toString()))
                 {
                     PATH_FILE = data[2].toString();
                 }
@@ -2359,13 +2443,14 @@ public class ScInputBean
         }
         catch (Exception ex)
         {
-            log.error("Error al intentar consultar los parámetros iniciales",ex);
+            log.error("Error al intentar consultar los parámetros iniciales", ex);
         }
     }
-       
+
     /**
-     * Método encargado de permitir descargar los archivos que se encuentran en la 
-     * tabla del usuario.
+     * Método encargado de permitir descargar los archivos que se encuentran en
+     * la tabla del usuario.
+     *
      * @param scDocumentsSelected registro del documento a descargar
      * @author Gustavo Chavarro Ortiz
      */
@@ -2374,10 +2459,10 @@ public class ScInputBean
         try
         {
             String fileName = scDocumentsSelected.getDocumentName();
-            String path     = scDocumentsSelected.getDocumentPath();
+            String path = scDocumentsSelected.getDocumentPath();
             int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
-            String fileType = fileName.substring(positionLimitName+1, fileName.length()); //Extraemos el tipo del archivo
-            File fileToDownload = new File(path+"/"+fileName);
+            String fileType = fileName.substring(positionLimitName + 1, fileName.length()); //Extraemos el tipo del archivo
+            File fileToDownload = new File(path + "/" + fileName);
             InputStream inputStream = new FileInputStream(fileToDownload);
             byte[] buffer = new byte[2048];
             int offset = 0;
@@ -2385,7 +2470,7 @@ public class ScInputBean
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance()
                     .getExternalContext().getResponse();
             response.setContentType(scDocumentsSelected.getTypeDocument());
-            response.setHeader("Content-Disposition", "attachment;filename="+fileName);
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             OutputStream responseOutputStream = response.getOutputStream();
 
             while ((numRead = inputStream.read(buffer)) > 0)
@@ -2397,20 +2482,22 @@ public class ScInputBean
             response.getOutputStream().close();
             FacesContext.getCurrentInstance().responseComplete();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar descargar el archivo",e);
+            log.error("Error al intentar descargar el archivo", e);
         }
-        
-    
+
     }
+
     /**
-     * Método encargado de recibir una entrada de datos y un archivo para posteriormente
-     * escribir los datos en el archivo.
+     * Método encargado de recibir una entrada de datos y un archivo para
+     * posteriormente escribir los datos en el archivo.
+     *
      * @param dataIn entrada de datos a escribir
      * @param newFile archivo nuevo en el que se escribiran los datos
-     * @return valor booleano indicando si el proceso de escritura se realizó satisfactoriamente
+     * @return valor booleano indicando si el proceso de escritura se realizó
+     * satisfactoriamente
      * @author: Gustavo Adolfo Chavarro Ortiz
      */
     public boolean writeFile(InputStream dataIn, File newFile)
@@ -2421,8 +2508,8 @@ public class ScInputBean
             OutputStream outputStream = new FileOutputStream(newFile);
             byte[] buffer = new byte[1024];
             int len;
-            while((len = dataIn.read(buffer)) > 0)
-            { 
+            while ((len = dataIn.read(buffer)) > 0)
+            {
                 outputStream.write(buffer, 0, len);
             }
             outputStream.flush();
@@ -2430,14 +2517,13 @@ public class ScInputBean
             dataIn.close();
             result = true;
         }
-        catch(IOException e)
+        catch (IOException e)
         {
-            log.error("Error al intentar crear el archivo, metodo writeFile",e);
+            log.error("Error al intentar crear el archivo, metodo writeFile", e);
         }
         return result;
     }
-    
-    
+
     public String getFormatDate(Date date)
     {
         String result = "";
@@ -2445,7 +2531,7 @@ public class ScInputBean
         result = getFormatDateGlobal(patron, date);
         return result;
     }
-    
+
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
      * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón
@@ -2468,10 +2554,12 @@ public class ScInputBean
             result = simpleDateFormat.format(date);
         }
         return result;
-    } 
-    
+    }
+
     /**
-     * Método encargado de visualizar un  mensaje en la pantalla de tipo informativo
+     * Método encargado de visualizar un mensaje en la pantalla de tipo
+     * informativo
+     *
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
@@ -2483,7 +2571,9 @@ public class ScInputBean
     }
 
     /**
-     * Método encargado de visualizar un  mensaje en la pantalla de tipo Advertencia
+     * Método encargado de visualizar un mensaje en la pantalla de tipo
+     * Advertencia
+     *
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
@@ -2495,7 +2585,8 @@ public class ScInputBean
     }
 
     /**
-     * Método encargado de visualizar un  mensaje en la pantalla de tipo Error
+     * Método encargado de visualizar un mensaje en la pantalla de tipo Error
+     *
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
@@ -2507,7 +2598,8 @@ public class ScInputBean
     }
 
     /**
-     * Método encargado de visualizar un  mensaje en la pantalla de tipo Fatal
+     * Método encargado de visualizar un mensaje en la pantalla de tipo Fatal
+     *
      * @param actionEvent Evento de donde es llamado
      * @param tittle Título del mensaje
      * @param message cuerpo del mensaje
@@ -2517,7 +2609,7 @@ public class ScInputBean
     {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
-    
+
     public List<ScInput> getInputList()
     {
         return inputList;
@@ -2527,8 +2619,6 @@ public class ScInputBean
     {
         this.inputList = inputList;
     }
-
-    
 
     public SessionBean getSessionBean()
     {
@@ -2644,7 +2734,7 @@ public class ScInputBean
     {
         return measureUnitSaveVolume;
     }
-    
+
     public void setMeasureUnitSaveVolume(ScMeasureUnit measureUnitSaveVolume)
     {
         this.measureUnitSaveVolume = measureUnitSaveVolume;
@@ -2659,7 +2749,7 @@ public class ScInputBean
     {
         this.measureUnitSaveHigh = measureUnitSaveHigh;
     }
-    
+
     public ScMeasureUnit getMeasureUnitSaveThickness()
     {
         return measureUnitSaveThickness;
@@ -2670,7 +2760,6 @@ public class ScInputBean
         this.measureUnitSaveThickness = measureUnitSaveThickness;
     }
 
-   
     public List<ScMeasureUnit> getMeasureUnitsList()
     {
         return measureUnitsList;
@@ -2680,8 +2769,6 @@ public class ScInputBean
     {
         this.measureUnitsList = measureUnitsList;
     }
-
-   
 
     public ScPackingUnit getPackingUnitSave()
     {
@@ -2933,7 +3020,7 @@ public class ScInputBean
         this.moneySave = moneySave;
     }
 
-    public List<ScMoney> getMoneyList() 
+    public List<ScMoney> getMoneyList()
     {
         return moneyList;
     }
@@ -2962,6 +3049,5 @@ public class ScInputBean
     {
         this.distributionUnitsList = distributionUnitsList;
     }
-    
-    
+
 }
