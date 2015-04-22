@@ -1918,7 +1918,7 @@ public class ScInputBean
     /**
      * Método encargado de limpiar los campos para actualizar un insumo
      *
-     * @param input insumo a actualizaro
+     * @param input insumo a actualizarlo
      * @author Gustavo Chavarro Ortiz
      */
     public void selectedForUpdate(ScInput input)

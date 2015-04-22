@@ -473,6 +473,7 @@ public class ScProductFormulationBean
         cleanProcessProductList();
         cleanListProcess();
         cleanFieldsProcess();
+        
     }
     
     
@@ -1534,6 +1535,49 @@ public class ScProductFormulationBean
             }
         }
     }
+    
+    /**
+     * Método encargado de unir las columnas para las dimensiones
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void joinColumnsUpdate()
+    {
+        //Valido que el insumo no sea nulo
+        if (getProductSelected() != null)
+        {
+        //Almacenamos el insumo
+
+            if (getMeasureUnitSaveHigh() != null)
+            {
+                getProductSelected().getDimension().setHight(getProductSelected().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
+            }
+            if (getMeasureUnitSaveWidth() != null)
+            {
+                getProductSelected().getDimension().setWidth(getProductSelected().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
+            }
+            if (getMeasureUnitSaveLarge() != null)
+            {
+                getProductSelected().getDimension().setLarge(getProductSelected().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
+            }
+            if (getMeasureUnitSaveWeight() != null)
+            {
+                getProductSelected().getDimension().setWeight(getProductSelected().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
+            }
+            if (getMeasureUnitSaveVolume() != null)
+            {
+                getProductSelected().getDimension().setVolume(getProductSelected().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
+            }
+            if (getMeasureUnitSaveThickness() != null)
+            {
+                getProductSelected().getDimension().setThickness(getProductSelected().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
+            }
+            if (getMeasureUnitSaveRadio() != null)
+            {
+                getProductSelected().getDimension().setRadio(getProductSelected().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
+            }
+        }
+    }
+    
     /**
      * Método encargado de realizar la persistencia de un producto, actualizando
      * listas y objetos incluidos en el.
@@ -1547,34 +1591,7 @@ public class ScProductFormulationBean
             //Almacenamos el producto
             try
             {
-                if(getMeasureUnitSaveHigh() != null)
-                {
-                    getProductSelected().getDimension().setHight(getProductSelected().getDimension().getHight()+"-"+getMeasureUnitSaveHigh().getAcronym());
-                }
-                if(getMeasureUnitSaveWidth()!= null)
-                {
-                    getProductSelected().getDimension().setWidth(getProductSelected().getDimension().getWidth()+"-"+getMeasureUnitSaveWidth().getAcronym());
-                }
-                if(getMeasureUnitSaveLarge() != null)
-                {
-                    getProductSelected().getDimension().setLarge(getProductSelected().getDimension().getLarge()+"-"+getMeasureUnitSaveLarge().getAcronym());
-                }
-                if(getMeasureUnitSaveWeight()!= null)
-                {
-                    getProductSelected().getDimension().setWeight(getProductSelected().getDimension().getWeight()+"-"+getMeasureUnitSaveWeight().getAcronym());
-                }
-                if(getMeasureUnitSaveVolume()!= null)
-                {
-                    getProductSelected().getDimension().setVolume(getProductSelected().getDimension().getVolume()+"-"+getMeasureUnitSaveVolume().getAcronym());
-                }
-                if(getMeasureUnitSaveThickness()!= null)
-                {
-                    getProductSelected().getDimension().setThickness(getProductSelected().getDimension().getThickness()+"-"+getMeasureUnitSaveThickness().getAcronym());
-                }
-                if(getMeasureUnitSaveRadio()!= null)
-                {
-                    getProductSelected().getDimension().setRadio(getProductSelected().getDimension().getRadio()+"-"+getMeasureUnitSaveRadio().getAcronym());
-                }
+                joinColumnsUpdate();
                 getProductSelected().getLocation().setStore(getStoreSelected());
                 getScProductFormulationServer().updateProductFormulation(getProductSelected());
                 int index = 0;
@@ -1634,10 +1651,11 @@ public class ScProductFormulationBean
     public void selectedForUpdate(ScProductFormulation product) 
     {
         cleansTypesMeasures();
-        
+        cleanProductSave();
         try
         {
-            setProductSelected((ScProductFormulation) product.clone());
+            //setProductSelected((ScProductFormulation) product.clone());
+            setProductSelected(product);
             setStoreSelected(product.getLocation().getStore());
             //setProductSelected(getScProductFormulationServer().getProductsById(product.getIdProductFormulation()));
         }

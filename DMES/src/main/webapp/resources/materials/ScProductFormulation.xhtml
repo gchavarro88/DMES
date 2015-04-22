@@ -3029,7 +3029,7 @@
                                                              oncomplete="PF('wizardUpdate').loadStep('tabGeneral', false)"/>
                                             <p:spacer width="30"/>
                                             <p:commandButton id="btnCancelPartner" value="Cancelar" oncomplete="PF('dialogProductUpdate').hide();PF('wizardUpdate').loadStep('tabGeneral', false)"
-                                                             actionListener="#{scProductFormulationBean.cleanProductSave()}"/>
+                                                             actionListener="#{scProductFormulationBean.joinColumnsUpdate()}"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -3039,7 +3039,7 @@
                         <!--        finaliza la pestaña para confirmar datos de guardar-->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)" listener="#{scProductFormulationBean.cleanProductSave()}"/>
+                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)" listener="#{scProductFormulationBean.joinColumnsUpdate()}"/>
             </p:dialog>
             <!--                Finaliza el dialogo para actualizar formulaciones de producto-->
 
