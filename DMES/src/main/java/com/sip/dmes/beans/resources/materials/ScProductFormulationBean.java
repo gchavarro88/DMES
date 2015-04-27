@@ -1222,7 +1222,7 @@ public class ScProductFormulationBean
         if(getProcessProductListSave() != null && !getProcessProductListSave().isEmpty())
         {
             int totalTime = 0;
-            for(ScProcessProduct processProduct: getProductSave().getProcessProducts())
+            for(ScProcessProduct processProduct: getProcessProductListSave())
             {
                 totalTime += processProduct.getTotalTimeProcess();
             }
