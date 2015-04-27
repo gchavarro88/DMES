@@ -49,7 +49,6 @@ public class ScProcessInput implements Serializable {
     
     @Basic(optional = false)
     @Column(name = "percentage_residue")
-    @NotNull
     private double percentageResidue;
     
     @Basic(optional = false)

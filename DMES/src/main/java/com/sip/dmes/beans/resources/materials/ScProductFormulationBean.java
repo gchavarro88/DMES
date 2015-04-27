@@ -2813,12 +2813,9 @@ public class ScProductFormulationBean
             {
                 if(!validateFields("Cantidad de Distribución", inputSave.getAmountDistribution(), 2))
                 {               
-                    if(!validateFields("% de Merma (Desperdicios)", inputSave.getPercentageResidue(), 1))
-                    {
-                        inputSave.setProcessProduct(getProcessProductSave());
-                        list.add(inputSave);
-                        cleanInputProcess();
-                    }
+                    inputSave.setProcessProduct(getProcessProductSave());
+                    list.add(inputSave);
+                    cleanInputProcess();
                 }
             }
         }
@@ -2879,7 +2876,6 @@ public class ScProductFormulationBean
                     processProduct.setProductFormulation(productFormulation);
                     for(ScProcessProduct object: list)
                     {
-                        
                         /*Verificamos que el proceso exista en la lista de procesos de la formulación a guardar*/
                         if(object.getName().equals(processProduct.getName()) && 
                            object.getProcessType().getType().equals(processProduct.getProcessType().getType()))

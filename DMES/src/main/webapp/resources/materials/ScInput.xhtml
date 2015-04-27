@@ -17,7 +17,7 @@
                 PF('statusDialog').hide();
             }
             
-            window.setTimeout("inputInit()",500);
+            window.setTimeout("inputInit()",1000);
         </script>
     </h:head>
     <h:body style="background-color: #000;">
@@ -840,7 +840,7 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:calendar    id="tfExpiryDate"  value="#{scInputBean.inputSelected.expiryDate}" autocomplete="true"
-                                                           effect="explode" mask="true" pattern="dd/MM/yyyy" disabled="true"
+                                                           effect="explode" mask="true" pattern="dd/MM/yyyy" 
                                                            />
                                         </td>
                                     </tr>
@@ -2402,7 +2402,7 @@
                             <p:tooltip for="btnAdd" value="Agregar un Insumo"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" listener="#{scInputBean.selectedForDelete(input)}"/>
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" />
                     <p:column headerText="Administración">
                         <center>
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scInputBean.selectedForUpdate(input)}"

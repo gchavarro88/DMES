@@ -1890,7 +1890,7 @@ public class ScInputBean
             {
                 if (!Utilities.isEmpty(input.getPathPicture())) 
                 {
-                    //BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(input.getPathPicture())));
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(input.getPathPicture())));
                     //la constante me permite mapear imagenes externas
                     return DMESConstants.PATH_EXTERN_PICTURES + input.getPathPicture();
                 }

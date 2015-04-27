@@ -16,7 +16,7 @@
             function stop() {
                 PF('statusDialog').hide();
             }
-            window.setTimeout("productInit()",500);
+            window.setTimeout("productInit()",1000);
         </script>
     </h:head>
     <h:body style="background-color: #000;">
@@ -103,7 +103,7 @@
 
                                                 <tr>
                                                     <td width="40%" >
-                                                        <p:outputLabel for="tfTimeUse" value="Tiempo de Uso"/>
+                                                        <p:outputLabel for="tfTimeUse" value="Tiempo de Uso (min)"/>
                                                     </td>
                                                     <td width="60%">
                                                         <p:inputText id="tfTimeUse" value="#{scProductFormulationBean.processMachineSave.timeUse}" 
@@ -176,7 +176,7 @@
                                                     <p:outputLabel value="#{machineProcess.machine.name}" id="machineTable"/>
                                                     <p:tooltip value="#{machineProcess.machine.name}" for="machineTable"/>
                                                 </p:column>
-                                                <p:column headerText="Tiempo de Uso" sortBy="#{machineProcess.timeUse}">
+                                                <p:column headerText="Tiempo de Uso (min)" sortBy="#{machineProcess.timeUse}">
                                                     <p:outputLabel value="#{machineProcess.timeUse}" id="outTimeUse"/>
                                                     <p:tooltip value="#{machineProcess.timeUse}" for="outTimeUse"/>
                                                 </p:column>
@@ -235,7 +235,7 @@
 
                                                 <tr>
                                                     <td width="40%" >
-                                                        <p:outputLabel for="tfTimeUseEmployee" value="Tiempo de Uso"/>
+                                                        <p:outputLabel for="tfTimeUseEmployee" value="Tiempo de Uso (min)"/>
                                                     </td>
                                                     <td width="60%">
                                                         <p:inputText id="tfTimeUseEmployee" value="#{scProductFormulationBean.processEmployeeSave.timeUse}" 
@@ -311,7 +311,7 @@
                                                     <p:outputLabel value="#{employeeProcess.laborDescription}" id="outDescriptionLabor"/>
                                                     <p:tooltip value="#{employeeProcess.laborDescription}" for="outDescriptionLabor"/>
                                                 </p:column>
-                                                <p:column headerText="Tiempo de Uso" sortBy="#{employeeProcess.timeUse}">
+                                                <p:column headerText="Tiempo de Uso (min)" sortBy="#{employeeProcess.timeUse}">
                                                     <p:outputLabel value="#{employeeProcess.timeUse}" id="outTimeUse"/>
                                                     <p:tooltip value="#{employeeProcess.timeUse}" for="outTimeUse"/>
                                                 </p:column>
@@ -366,7 +366,7 @@
                                                                      disabled="#{!scProductFormulationBean.doHaveInput(scProductFormulationBean.processInputSave.input)}">
                                                             <p:ajax event="change" listener="#{scProductFormulationBean.sumValueTotalInput()}" update="tfValueTotalInput"/> 
                                                         </p:inputText>
-                                                        <p:tooltip for="tfAmountDistribution" value="Ingrese el tiempo de uso del insumo"/>
+                                                        <p:tooltip for="tfAmountDistribution" value="Ingrese la cantidad de distribución del insumo"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -623,7 +623,7 @@
 
                                                 <tr>
                                                     <td width="40%" >
-                                                        <p:outputLabel for="tfTimeUse" value="Tiempo de Uso"/>
+                                                        <p:outputLabel for="tfTimeUse" value="Tiempo de Uso (min)"/>
                                                     </td>
                                                     <td width="60%">
                                                         <p:inputText id="tfTimeUse" value="#{scProductFormulationBean.processMachineSave.timeUse}" 
@@ -696,7 +696,7 @@
                                                     <p:outputLabel value="#{machineProcess.machine.name}" id="machineTable"/>
                                                     <p:tooltip value="#{machineProcess.machine.name}" for="machineTable"/>
                                                 </p:column>
-                                                <p:column headerText="Tiempo de Uso" sortBy="#{machineProcess.timeUse}">
+                                                <p:column headerText="Tiempo de Uso (min)" sortBy="#{machineProcess.timeUse}">
                                                     <p:outputLabel value="#{machineProcess.timeUse}" id="outTimeUse"/>
                                                     <p:tooltip value="#{machineProcess.timeUse}" for="outTimeUse"/>
                                                 </p:column>
@@ -755,7 +755,7 @@
 
                                                 <tr>
                                                     <td width="40%" >
-                                                        <p:outputLabel for="tfTimeUseEmployee" value="Tiempo de Uso"/>
+                                                        <p:outputLabel for="tfTimeUseEmployee" value="Tiempo de Uso (min)"/>
                                                     </td>
                                                     <td width="60%">
                                                         <p:inputText id="tfTimeUseEmployee" value="#{scProductFormulationBean.processEmployeeSave.timeUse}" 
@@ -831,7 +831,7 @@
                                                     <p:outputLabel value="#{employeeProcess.laborDescription}" id="outDescriptionLabor"/>
                                                     <p:tooltip value="#{employeeProcess.laborDescription}" for="outDescriptionLabor"/>
                                                 </p:column>
-                                                <p:column headerText="Tiempo de Uso" sortBy="#{employeeProcess.timeUse}">
+                                                <p:column headerText="Tiempo de Uso (min)" sortBy="#{employeeProcess.timeUse}">
                                                     <p:outputLabel value="#{employeeProcess.timeUse}" id="outTimeUse"/>
                                                     <p:tooltip value="#{employeeProcess.timeUse}" for="outTimeUse"/>
                                                 </p:column>
