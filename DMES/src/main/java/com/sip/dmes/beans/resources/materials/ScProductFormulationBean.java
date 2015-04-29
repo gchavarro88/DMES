@@ -1608,7 +1608,6 @@ public class ScProductFormulationBean
                     getProductList().set(index, getProductSelected());
                 }
                 cleanProductSave();
-                fillListProducts();
             }
             catch (Exception e)
             {
@@ -2887,6 +2886,7 @@ public class ScProductFormulationBean
                     }
                     if(index == list.size())
                     {
+                        processProduct.setIdProcessProduct(null);
                         list.add(processProduct);//Lista de procesos
                         cleanProcessComplete();
                     }

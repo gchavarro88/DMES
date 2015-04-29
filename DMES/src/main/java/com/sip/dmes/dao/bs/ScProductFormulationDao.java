@@ -18,6 +18,9 @@ import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScProcessEmployee;
+import com.sip.dmes.entitys.ScProcessInput;
+import com.sip.dmes.entitys.ScProcessMachine;
 import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScStore;
 import java.util.List;
@@ -32,34 +35,33 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author user
  */
-
 @Repository("IScProductFormulation")
-public class ScProductFormulationDao  implements  IScProductFormulation
+public class ScProductFormulationDao implements IScProductFormulation
 {
-    
+
     private final static Logger log = Logger.getLogger(ScProductFormulationDao.class);
     @PersistenceContext()
     EntityManager entityManager;
 
     @Override
-    
+
     public List<ScProductFormulation> getAllProductFormulations() throws Exception
     {
         List<ScProductFormulation> result = null;
-        Query query  = entityManager.createNamedQuery("ScProductFormulation.findAll"); 
+        Query query = entityManager.createNamedQuery("ScProductFormulation.findAll");
         try
         {
             result = (List<ScProductFormulation>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los productos",e);
+            log.error("Error al intentar hacer la persistencia de los productos", e);
         }
         return result;
     }
 
     @Override
-    @Transactional 
+    @Transactional
     public void saveProductFormulation(ScProductFormulation productFormulation) throws Exception
     {
         try
@@ -69,10 +71,12 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los productos",e);
+            log.error("Error al intentar hacer la persistencia de los productos", e);
             throw e;
         }
     }
+
+    
 
     @Override
     @Transactional
@@ -80,12 +84,13 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     {
         try
         {
-            entityManager.remove(entityManager.contains(productFormulation)?productFormulation:entityManager.merge(productFormulation));
-            entityManager.remove(entityManager.contains(productFormulation.getDimension())?productFormulation:entityManager.merge(productFormulation.getDimension()));
+            entityManager.remove(entityManager.contains(productFormulation) ? productFormulation : entityManager.merge(productFormulation));
+            entityManager.remove(entityManager.contains(productFormulation.getDimension()) ? productFormulation : entityManager.merge(productFormulation.getDimension()));
+            entityManager.flush();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los productos",e);
+            log.error("Error al intentar hacer la persistencia de los productos", e);
         }
     }
 
@@ -95,20 +100,12 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     {
         try
         {
-            if(productFormulation.getProcessProducts() != null && !productFormulation.getProcessProducts().isEmpty())
-            {
-                for(ScProcessProduct iterator: productFormulation.getProcessProducts())
-                {
-                    entityManager.merge(iterator);
-                }
-            }
-            entityManager.merge(productFormulation.getDimension());
-            entityManager.merge(productFormulation);
+            productFormulation = entityManager.merge(productFormulation);  
             entityManager.flush();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los productos",e);
+            log.error("Error al intentar hacer la persistencia de los productos", e);
         }
     }
 
@@ -116,14 +113,14 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     public List<ScPartner> getAllPartners() throws Exception
     {
         List<ScPartner> result = null;
-        Query query  = entityManager.createNamedQuery("ScPartner.findAll"); 
+        Query query = entityManager.createNamedQuery("ScPartner.findAll");
         try
         {
             result = (List<ScPartner>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los proveedores",e);
+            log.error("Error al intentar hacer la persistencia de los proveedores", e);
         }
         return result;
     }
@@ -132,14 +129,14 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     public List<ScCostCenter> getAllCostCenter() throws Exception
     {
         List<ScCostCenter> result = null;
-        Query query  = entityManager.createNamedQuery("ScCostCenter.findAll"); 
+        Query query = entityManager.createNamedQuery("ScCostCenter.findAll");
         try
         {
             result = (List<ScCostCenter>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los centros de costo",e);
+            log.error("Error al intentar hacer la persistencia de los centros de costo", e);
         }
         return result;
     }
@@ -155,7 +152,7 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de un centro de costos",e);
+            log.error("Error al intentar hacer la persistencia de un centro de costos", e);
             throw e;
         }
     }
@@ -171,7 +168,7 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de una unidad de empaque",e);
+            log.error("Error al intentar hacer la persistencia de una unidad de empaque", e);
             throw e;
         }
     }
@@ -187,7 +184,7 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de una localización de un producto",e);
+            log.error("Error al intentar hacer la persistencia de una localización de un producto", e);
             throw e;
         }
     }
@@ -196,57 +193,55 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     public List<ScPackingUnit> getAllPackingUnits() throws Exception
     {
         List<ScPackingUnit> result = null;
-        Query query  = entityManager.createNamedQuery("ScPackingUnit.findAll"); 
+        Query query = entityManager.createNamedQuery("ScPackingUnit.findAll");
         try
         {
             result = (List<ScPackingUnit>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia las unidades de empaque",e);
+            log.error("Error al intentar hacer la persistencia las unidades de empaque", e);
         }
         return result;
     }
-
 
     @Override
     public List<ScStore> getAllStores() throws Exception
     {
         List<ScStore> result = null;
-        Query query  = entityManager.createNamedQuery("ScStore.findAll"); 
+        Query query = entityManager.createNamedQuery("ScStore.findAll");
         try
         {
             result = (List<ScStore>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los almacenes",e);
+            log.error("Error al intentar hacer la persistencia de los almacenes", e);
         }
         return result;
     }
-
 
     @Override
     public List<ScPriority> getAllPrioritys() throws Exception
     {
         List<ScPriority> result = null;
-        Query query  = entityManager.createNamedQuery("ScPriority.findAll"); 
+        Query query = entityManager.createNamedQuery("ScPriority.findAll");
         try
         {
             result = (List<ScPriority>) query.getResultList();
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de las prioridades",e);
+            log.error("Error al intentar hacer la persistencia de las prioridades", e);
         }
         return result;
     }
- 
+
     @Override
     public List<ScLocation> getAllInputLocations(ScStore store) throws Exception
     {
         List<ScLocation> result = null;
-        Query query  = entityManager.createNamedQuery("ScLocation.findByStore"); 
+        Query query = entityManager.createNamedQuery("ScLocation.findByStore");
         query.setParameter("store", store);
         try
         {
@@ -254,39 +249,39 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia las localizaciones de producto",e);
+            log.error("Error al intentar hacer la persistencia las localizaciones de producto", e);
         }
         return result;
     }
-    
+
     @Override
     public List<ScMeasureUnit> getAllMeasureUnits() throws Exception
     {
         List<ScMeasureUnit> result = null;
-        Query query  = entityManager.createNamedQuery("ScMeasureUnit.findAll"); 
+        Query query = entityManager.createNamedQuery("ScMeasureUnit.findAll");
         try
         {
             result = (List<ScMeasureUnit>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de las medidas",e);
+            log.error("Error al intentar hacer la persistencia de las medidas", e);
         }
         return result;
     }
-    
+
     @Override
     public List<ScMoney> getAllMoneys() throws Exception
     {
         List<ScMoney> result = null;
-        Query query  = entityManager.createNamedQuery("ScMoney.findAll"); 
+        Query query = entityManager.createNamedQuery("ScMoney.findAll");
         try
         {
             result = (List<ScMoney>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de las monedas",e);
+            log.error("Error al intentar hacer la persistencia de las monedas", e);
         }
         return result;
     }
@@ -302,7 +297,7 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de una medida",e);
+            log.error("Error al intentar hacer la persistencia de una medida", e);
             throw e;
         }
     }
@@ -317,9 +312,9 @@ public class ScProductFormulationDao  implements  IScProductFormulation
             Query query = entityManager.createNativeQuery(sql);
             result = query.getSingleResult();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-            log.error("Error al intentar consultar los parámetros iniciales para cargar archivos",e);
+            log.error("Error al intentar consultar los parámetros iniciales para cargar archivos", e);
         }
         return result;
     }
@@ -328,14 +323,14 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     public List<ScDistributionUnit> getAllDistributionUnits() throws Exception
     {
         List<ScDistributionUnit> result = null;
-        Query query  = entityManager.createNamedQuery("ScDistributionUnit.findAll"); 
+        Query query = entityManager.createNamedQuery("ScDistributionUnit.findAll");
         try
         {
             result = (List<ScDistributionUnit>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de las unidades de distribución",e);
+            log.error("Error al intentar hacer la persistencia de las unidades de distribución", e);
         }
         return result;
     }
@@ -351,7 +346,7 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de una unidad de distribución",e);
+            log.error("Error al intentar hacer la persistencia de una unidad de distribución", e);
             throw e;
         }
     }
@@ -368,7 +363,7 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar un producto",e);
+            log.error("Error al intentar consultar un producto", e);
             throw e;
         }
         return result;
@@ -378,14 +373,14 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     public List<ScMachine> getAllMachines() throws Exception
     {
         List<ScMachine> result = null;
-        Query query  = entityManager.createNamedQuery("ScMachine.findAll"); 
+        Query query = entityManager.createNamedQuery("ScMachine.findAll");
         try
         {
             result = (List<ScMachine>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de las máquinas",e);
+            log.error("Error al intentar hacer la persistencia de las máquinas", e);
         }
         return result;
     }
@@ -394,14 +389,14 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     public List<ScEmployee> getAllEmployees() throws Exception
     {
         List<ScEmployee> result = null;
-        Query query  = entityManager.createNamedQuery("ScEmployee.findAll"); 
+        Query query = entityManager.createNamedQuery("ScEmployee.findAll");
         try
         {
             result = (List<ScEmployee>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los empleados",e);
+            log.error("Error al intentar hacer la persistencia de los empleados", e);
         }
         return result;
     }
@@ -410,14 +405,14 @@ public class ScProductFormulationDao  implements  IScProductFormulation
     public List<ScInput> getAllInputs() throws Exception
     {
         List<ScInput> result = null;
-        Query query  = entityManager.createNamedQuery("ScInput.findAll"); 
+        Query query = entityManager.createNamedQuery("ScInput.findAll");
         try
         {
             result = (List<ScInput>) query.getResultList();
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los insumos",e);
+            log.error("Error al intentar hacer la persistencia de los insumos", e);
         }
         return result;
     }
@@ -432,7 +427,7 @@ public class ScProductFormulationDao  implements  IScProductFormulation
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de un proceso de producto",e);
+            log.error("Error al intentar hacer la persistencia de un proceso de producto", e);
             throw e;
         }
     }
