@@ -100,7 +100,18 @@ public class ScProductFormulationDao implements IScProductFormulation
     {
         try
         {
-            productFormulation = entityManager.merge(productFormulation);  
+            List<ScProcessProduct> result = null;
+            Query query = entityManager.createNamedQuery("ScProcessProduct.findByProductFormulation");
+            query.setParameter("productFormulation", productFormulation);
+            result = (List<ScProcessProduct>) query.getResultList();
+            if(result != null && !result.isEmpty())
+            {
+                for(ScProcessProduct processProduct: result)
+                {
+                    entityManager.remove(entityManager.contains(processProduct) ? processProduct : entityManager.merge(processProduct));
+                }
+            }
+            entityManager.merge(productFormulation);
             entityManager.flush();
         }
         catch (Exception e)

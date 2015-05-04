@@ -47,18 +47,21 @@ body
     height: 100%;
     border: 0px;
     width: 100%;
-    background: linear-gradient( 90deg,#414548 , #000000 500px, #000000 1000px, #414548);
+    background: linear-gradient( 90deg,#414548 , #000000 500px, #000000 850px, #414548);
+    
     //background-color: #414548;
+
     margin: 0px;
+	-moz-background: linear-gradient( 90deg,#414548 , #000000 500px, #000000 850px, #414548);
 }
 .imageTittle
 {
     border-radius: 20px 20px 10px 20px;
     -moz-border-radius: 20px 20px 10px 20px;
     -webkit-border-radius: 20px 20px 10px 20px;
-    box-shadow: 2px 2px 2px 2px rgba(15, 15, 15, 0.5);
+/*    box-shadow: 2px 2px 2px 2px rgba(15, 15, 15, 0.5);
     -moz-box-shadow: 2px 2px 2px 2px rgba(15, 15, 15, 0.5);
-    -webkit-box-shadow:2px 2px 2px 2px rgba(15, 15, 15, 0.5);
+    -webkit-box-shadow:2px 2px 2px 2px rgba(15, 15, 15, 0.5);*/
     border: 0px;
     margin: 0px;
 }

@@ -965,9 +965,9 @@ public class ScInputBean
                 return event.getOldStep();
             }
             //modificamos el precio por unidad
-            getInputSave().getInputStock().setPriceUnit(getInputSave().getValue());
+            getInputSave().getInputStock().setPriceUnit((double) getInputSave().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
-            getInputSave().getInputStock().setTotalValue(getInputSave().getValue()
+            getInputSave().getInputStock().setTotalValue((double) getInputSave().getValue()
                     * getInputSave().getInputStock().getCurrentStock());
 
             if (validateFields("Marca", getInputSave().getMark(), 3))
@@ -1228,7 +1228,7 @@ public class ScInputBean
      */
     public void calcuteTotalPrice()
     {
-        getInputSave().getInputStock().setTotalValue(getInputSave().getValue()
+        getInputSave().getInputStock().setTotalValue((double) getInputSave().getValue()
                 * getInputSave().getInputStock().getCurrentStock());
         //Obtenemos la cantidad total de unidades de distribución = stock actual * cantidad de distribución
         getInputSave().setTotalAmountDistribution(getInputSave().
@@ -1246,7 +1246,7 @@ public class ScInputBean
      */
     public void calcuteTotalPriceUpdate()
     {
-        getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()
+        getInputSelected().getInputStock().setTotalValue((double) getInputSelected().getValue()
                 * getInputSelected().getInputStock().getCurrentStock());
         //Obtenemos la cantidad total de unidades de distribución = stock actual * cantidad de distribución
         getInputSelected().setTotalAmountDistribution(getInputSelected().
@@ -1292,9 +1292,9 @@ public class ScInputBean
                 return event.getOldStep();
             }
             //modificamos el precio por unidad
-            getInputSelected().getInputStock().setPriceUnit(getInputSelected().getValue());
+            getInputSelected().getInputStock().setPriceUnit((double) getInputSelected().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
-            getInputSelected().getInputStock().setTotalValue(getInputSelected().getValue()
+            getInputSelected().getInputStock().setTotalValue((double) getInputSelected().getValue()
                     * getInputSelected().getInputStock().getCurrentStock());
 
             if (validateFields("Marca", getInputSelected().getMark(), 3))

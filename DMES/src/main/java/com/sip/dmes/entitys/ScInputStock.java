@@ -65,11 +65,11 @@ public class ScInputStock implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "price_unit")
-    private long priceUnit;
+    private Double priceUnit;
     @Basic(optional = false)
     @NotNull
     @Column(name = "total_value")
-    private long totalValue;
+    private Double totalValue;
     @Basic(optional = false)
     @NotNull
     @Column(name = "optime_stock")
@@ -85,7 +85,7 @@ public class ScInputStock implements Serializable {
         this.idInputStock = idInputStock;
     }
 
-    public ScInputStock(Long idInputStock, long maximeStock, long minimeStock, long currentStock, long priceUnit, long totalValue, long optimeStock) {
+    public ScInputStock(Long idInputStock, long maximeStock, long minimeStock, long currentStock, Double priceUnit, Double totalValue, long optimeStock) {
         this.idInputStock = idInputStock;
         this.maximeStock = maximeStock;
         this.minimeStock = minimeStock;
@@ -127,19 +127,19 @@ public class ScInputStock implements Serializable {
         this.currentStock = currentStock;
     }
 
-    public long getPriceUnit() {
+    public Double getPriceUnit() {
         return priceUnit;
     }
 
-    public void setPriceUnit(long priceUnit) {
+    public void setPriceUnit(Double priceUnit) {
         this.priceUnit = priceUnit;
     }
 
-    public long getTotalValue() {
+    public Double getTotalValue() {
         return totalValue;
     }
 
-    public void setTotalValue(long totalValue) {
+    public void setTotalValue(Double totalValue) {
         this.totalValue = totalValue;
     }
 

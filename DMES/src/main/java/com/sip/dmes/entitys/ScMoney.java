@@ -49,6 +49,10 @@ public class ScMoney implements Serializable {
     @Column(name = "acronym")
     private String acronym;
 
+    @NotNull
+    @Column(name = "trm")
+    Double trm;
+    
     public ScMoney() {
     }
 
@@ -85,6 +89,17 @@ public class ScMoney implements Serializable {
         this.acronym = acronym;
     }
 
+    public Double getTrm()
+    {
+        return trm;
+    }
+
+    public void setTrm(Double trm)
+    {
+        this.trm = trm;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
