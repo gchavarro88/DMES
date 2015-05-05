@@ -699,7 +699,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableDocumentationSave" title="Eliminar Documentos"
                                                                      process="@this" 
-                                                                     actionListener="#{scInputBean.deleteDocument(documents)}" >
+                                                                     actionListener="#{scInputBean.deleteDocument(document)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{document.documentTittle}">
@@ -1472,7 +1472,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableDocumentationSave" title="Eliminar Documentos"
                                                                      process="@this" 
-                                                                     actionListener="#{scInputBean.deleteDocumentUpdate(documents)}" >
+                                                                     actionListener="#{scInputBean.deleteDocumentUpdate(document)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{document.documentTittle}">

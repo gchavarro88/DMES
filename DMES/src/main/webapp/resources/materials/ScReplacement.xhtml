@@ -36,7 +36,7 @@
 
                     <p:wizard  flowListener="#{scReplacementBean.onFlowProcessSaveReplacement}" id="wizardSave" widgetVar="wizardSave" 
                                backLabel="Atras" nextLabel="Siguiente">
-                        <p:tab title="Datos del Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Datos Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del repuesto y consumible">
                             <p:panel header="Datos Básicos" >
                                 <table width="98%" cellspacing="10" >
@@ -438,7 +438,7 @@
                                                         <p:outputLabel for="tfTittleSpecification" value="Título"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputText id="tfTittleSpecification" value="#{scReplacementBean.specificationsSave.tittle}"/>
+                                                        <p:inputText id="tfTittleSpecification" value="#{scReplacementBean.replacementAttachedSave.tittle}"/>
                                                         <p:tooltip for="tfTittleSpecification" value="Ingrese el título de la especificacion a Realizar"/>
                                                     </td>
                                                 </tr>
@@ -447,14 +447,14 @@
                                                         <p:outputLabel for="tfSpecificationSave" value="Especificación"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputTextarea id="tfSpecificationSave" value="#{scReplacementBean.specificationsSave.description}"/>
+                                                        <p:inputTextarea id="tfSpecificationSave" value="#{scReplacementBean.replacementAttachedSave.description}"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleSpecification,tfSpecificationSave,dataTableSpecificationSave"
-                                                                             actionListener="#{scReplacementBean.saveSpecification()}"/>
+                                                                             actionListener="#{scReplacementBean.saveAttached(scReplacementBean.replacementAttachedSave, scReplacementBean.replacementSave, scReplacementBean.attachedListSave, 'SPECIFICATION')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -464,7 +464,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableSpecificationSave"
                                                          var="specifications" 
-                                                         value="#{scReplacementBean.specificationListSave}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.attachedListSave, 'SPECIFICATION')}"
                                                          rowKey="#{specifications.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -476,7 +476,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Especificaciones"
                                                                      process="dataTableSpecificationSave" 
-                                                                     actionListener="#{scReplacementBean.deleteSpecifications(specifications)}" >
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.attachedListSave, specifications)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{specifications.tittle}">
@@ -507,8 +507,8 @@
                                                         <p:outputLabel for="tfTittleFeacture" value="Título"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputText id="tfTittleFeacture" value="#{scReplacementBean.feacturesSave.tittle}"/>
-                                                        <p:tooltip for="tfTittleFeacture" value="Ingrese el título de la especificacion a Realizar"/>
+                                                        <p:inputText id="tfTittleFeacture" value="#{scReplacementBean.replacementAttachedSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleFeacture" value="Ingrese el título de la característica a Realizar"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -516,14 +516,14 @@
                                                         <p:outputLabel for="tfFeactureSave" value="Característica"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputTextarea id="tfFeactureSave" value="#{scReplacementBean.feacturesSave.description}"/>
+                                                        <p:inputTextarea id="tfFeactureSave" value="#{scReplacementBean.replacementAttachedSave.description}"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleFeacture,tfFeactureSave,dataTableFeactureSave"
-                                                                             actionListener="#{scReplacementBean.saveFeacture()}"/>
+                                                                             actionListener="#{scReplacementBean.saveAttached(scReplacementBean.replacementAttachedSave, scReplacementBean.replacementSave, scReplacementBean.attachedListSave, 'FEACTURE')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -533,7 +533,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableFeactureSave"
                                                          var="feactures" 
-                                                         value="#{scReplacementBean.feacturesListSave}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.attachedListSave, 'FEACTURE')}"
                                                          rowKey="#{feactures.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -545,7 +545,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableFeactureSave" title="Eliminar Características"
                                                                      process="dataTableFeactureSave" 
-                                                                     actionListener="#{scReplacementBean.deleteFeactures(feactures)}" >
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.attachedListSave, feactures)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{feactures.tittle}">
@@ -576,8 +576,8 @@
                                                         <p:outputLabel for="tfTittleObservation" value="Título"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputText id="tfTittleObservation" value="#{scReplacementBean.observationsSave.tittle}"/>
-                                                        <p:tooltip for="tfTittleObservation" value="Ingrese el título de la especificacion a Realizar"/>
+                                                        <p:inputText id="tfTittleObservation" value="#{scReplacementBean.replacementAttachedSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleObservation" value="Ingrese el título de la observación a Realizar"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -585,14 +585,14 @@
                                                         <p:outputLabel for="tfObservationSave" value="Observación"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputTextarea id="tfObservationSave" value="#{scReplacementBean.observationsSave.description}"/>
+                                                        <p:inputTextarea id="tfObservationSave" value="#{scReplacementBean.replacementAttachedSave.description}"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleObservation,tfObservationSave,dataTableObservationSave"
-                                                                             actionListener="#{scReplacementBean.saveObservation()}"/>
+                                                                             actionListener="#{scReplacementBean.saveAttached(scReplacementBean.replacementAttachedSave, scReplacementBean.replacementSave, scReplacementBean.attachedListSave, 'OBSERVATION')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -602,7 +602,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableObservationSave"
                                                          var="observation" 
-                                                         value="#{scReplacementBean.observationListSave}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.attachedListSave, 'OBSERVATION')}"
                                                          rowKey="#{observation.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -614,7 +614,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableObservationSave" title="Eliminar Observaciones"
                                                                      process="dataTableObservationSave" 
-                                                                     actionListener="#{scReplacementBean.deleteObservation(observation)}" >
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.attachedListSave, observation)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{observation.tittle}">
@@ -660,7 +660,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableDocumentationSave" title="Eliminar Documentos"
                                                                      process="@this" 
-                                                                     actionListener="#{scReplacementBean.deleteDocument(documents)}" >
+                                                                     actionListener="#{scReplacementBean.deleteDocument(document)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{document.documentTittle}">
@@ -689,20 +689,20 @@
                         <!--        inicia la pestaña para confirmar datos de guardar-->
                         <p:tab title="Confirmar datos" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson"
                                titletip="Pestaña para confirmar los datos del repuesto y consumible a crear">
-                            <p:panel header="Crear Repuesto" style="text-align: center;">
+                            <p:panel header="Crear Repuesto y Consumible" style="text-align: center;">
                                 <table width="98%" cellspacing="10" style="text-align: center;">
                                     <tr>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfNameReplacementSave" value="Nombre Repuesto"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfNameReplacementSave"  value="#{scReplacementBean.replacementSave.description}"/>
+                                            <p:outputLabel    id="tfNameReplacementSave"  value="#{scReplacementBean.replacementSave.name}"/>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDateSave" value="Fecha de Caducidad"/>
+                                            <p:outputLabel  for="tfExpiryDateSave" value="Vida Útil"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfExpiryDateSave"  value="#{scReplacementBean.replacementSave.expiryDate}"
+                                            <p:outputLabel    id="tfExpiryDateSave"  value="#{scReplacementBean.replacementSave.usefulLife} #{scReplacementBean.replacementSave.time.acronym}"
                                                               />
                                         </td>
                                     </tr>
@@ -717,7 +717,7 @@
                                             <p:outputLabel  for="tfValueReplacementSave" value="Valor"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfValueReplacementSave"  value="#{scReplacementBean.replacementSave.value}"/>
+                                            <p:outputLabel    id="tfValueReplacementSave"  value="#{scReplacementBean.replacementSave.value} #{scReplacementBean.replacementSave.money.acronym}"/>
                                         </td>
                                     </tr> 
                                     <tr>
@@ -771,7 +771,7 @@
 
                     <p:wizard  flowListener="#{scReplacementBean.onFlowProcessUpdateReplacement}" id="wizardUpdate" widgetVar="wizardUpdate" 
                                backLabel="Atras" nextLabel="Siguiente">
-                        <p:tab title="Datos del Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Datos Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del repuesto y consumible">
                             <p:panel header="Datos Básicos" >
                                 <table width="98%" cellspacing="10" >
@@ -780,7 +780,7 @@
                                             <p:outputLabel  value="Imagen"/>
                                         </td>
                                         <td width="40%" align="left" valign="middle">
-                                            <h:graphicImage value="#{scReplacementBean.searchImage(scReplacementBean.replacementSelected)}" alt="Imagen no disponible" id="imageUpdate" 
+                                            <h:graphicImage value="#{scReplacementBean.searchImage(scReplacementBean.replacementSelected)}" alt="Imagen no disponible" id="imageSave" 
                                                             width="120" height="120"  />
                                             <p:spacer width="5px"/>
                                             <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureUpdate').show()" style="top: -10px;"
@@ -793,30 +793,47 @@
                                             <p:outputLabel  for="tfNameReplacement" value="Nombre Repuesto*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfNameReplacement"  value="#{scReplacementBean.replacementSelected.description}"
+                                            <p:inputText    id="tfNameReplacement"  value="#{scReplacementBean.replacementSelected.name}"
                                                             />
+
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDate" value="Vida Útil"/>
+                                            <p:outputLabel  for="tfUsefulLife" value="Vida Útil"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfExpiryDate"  value="#{scReplacementBean.replacementSelected.usefulLife}"
-                                                           />
+                                            <p:inputText    id="tfUsefulLife"  value="#{scReplacementBean.replacementSelected.usefulLife}"
+                                                            style="width: 100px;"/>
+                                            <p:spacer width="5"/>
+                                            <p:selectOneMenu id="cbTime"  value="#{scReplacementBean.replacementSelected.time}" 
+                                                             converter="timeConverter" converterMessage="Error en el tipo de dato del tiempo" style="width: 100px; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scReplacementBean.timeList}" var="time" itemLabel="#{time.acronym}"/>
+
+                                            </p:selectOneMenu>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfTypeMaterial" value="Tipo*"/>
+                                            <p:outputLabel  for="cbTypeReplacement" value="Tipo*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfTypeMaterial"  value="#{scReplacementBean.replacementSelected.typeReplacement}"
-                                                            />
+                                            <p:selectOneMenu id="cbTypeReplacement"  value="#{scReplacementBean.replacementSelected.typeReplacement}" 
+                                                             style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItem itemLabel="Repuesto" itemValue="Repuesto"/>
+                                                <f:selectItem itemLabel="Consumible" itemValue="Consumible"/>
+                                            </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfValueReplacement" value="Valor*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfValueReplacement"  value="#{scReplacementBean.replacementSelected.value}" style="width: 100px;"/>
+                                            <p:inputText    id="tfValueReplacement"  value="#{scReplacementBean.replacementSelected.value}" 
+                                                            requiredMessage="Debe ingresar el valor del repuesto y consumible" style="width: 100px;"/>
                                             <p:spacer width="5"/>
                                             <p:selectOneMenu id="cbMoney"  value="#{scReplacementBean.replacementSelected.money}" 
                                                              converter="moneyConverter" converterMessage="Error en el tipo de dato de la moneda" style="width: 100px; top: 6px;"
@@ -834,7 +851,7 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfMarkReplacement"  value="#{scReplacementBean.replacementSelected.mark}"
-                                                            />
+                                                            requiredMessage="Campo obligatorio debe ingresar la marca del repuesto y consumible"/>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfSerieReplacement" value="Serie*"/>
@@ -887,7 +904,6 @@
                                                 <p:ajax event="change" update="cbLocation,btnAddLocationReplacement" listener="#{scReplacementBean.withOutStore(scReplacementBean.replacementSelected.stock.idStore)}"/>
                                             </p:selectOneMenu>
                                         </td>
-                                        
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbLocation" value="Localización*"/>
                                         </td>
@@ -901,7 +917,7 @@
                                             </p:selectOneMenu>
                                             <p:spacer width="5px"/>
                                             <p:commandButton  id="btnAddLocationReplacement" icon="ui-icon-circle-plus"  oncomplete="PF('replacementLocationSave').show()" style="top: -8px;"
-                                                              disabled="#{scReplacementBean.withOutStore(scReplacementBean.replacementSelected.stock.idStore)}"/>
+                                                               disabled ="#{scReplacementBean.withOutStore(scReplacementBean.replacementSelected.stock.idStore)}"/>
                                             <p:tooltip for="btnAddLocationReplacement" value="Agregue nuevas localizaciones"/>
                                         </td>
                                     </tr>
@@ -918,34 +934,35 @@
                                                 <f:selectItems value="#{scReplacementBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
                                             </p:selectOneMenu>
                                         </td>
-                                        
                                         <td width="10%" align="right">
-                                            
+                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
                                         </td>
                                         <td width="40%" align="left">
-
-                                           
+                                            <p:inputTextarea  id="tfDescription"  value="#{scReplacementBean.replacementSelected.description}"
+                                                            />
                                         </td>
                                     </tr>
+                                    
                                 </table>
                             </p:panel>
                         </p:tab> 
                         <!--                        finaliza la pestaña para datos generales -->
-                        <!--                       inicia la pestaña para el stock y -->
+
+                        <!--                        inicia la pestaña para el stock y -->
                         <p:tab title="Stock y Dimensiones" id="tabStock" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para el stock">
                             <p:panel header="Stock" toggleable="true" toggleTitle="Presione para minimizar el panel de Stock">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfMaximeStock" value="Stock Máximo"/>
+                                            <p:outputLabel  for="tfMaximeStock" value="Stock Máximo*"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfMaximeStock"  value="#{scReplacementBean.replacementSelected.stock.maximeStock}"
                                                             />
                                         </td>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo"/>
+                                            <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo*"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfMinimeStock"  value="#{scReplacementBean.replacementSelected.stock.minimeStock}"
@@ -954,15 +971,16 @@
                                     </tr>
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfCurrentStock" value="Stock Real"/>
+                                            <p:outputLabel  for="tfCurrentStock" value="Stock Real*"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:inputText    id="tfCurrentStock"  value="#{scReplacementBean.replacementSelected.stock.currentStock}">
-                                                <p:ajax event="keyup" update="tfValueTotal" listener="#{scReplacementBean.calcuteTotalPriceUpdate()}"/>
+                                            <p:inputText    id="tfCurrentStock"  value="#{scReplacementBean.replacementSelected.stock.currentStock}"
+                                                            >
+                                                <p:ajax event="keyup" update="tfValueTotal" listener="#{scReplacementBean.calcuteTotalPrice()}"/>
                                             </p:inputText>
                                         </td>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo"/>
+                                            <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo*"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfOptimeStock"  value="#{scReplacementBean.replacementSelected.stock.optimeStock}"
@@ -971,14 +989,14 @@
                                     </tr>
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfPriceUnit" value="Precio por #{scReplacementBean.replacementSelected.packingUnit.acronym}*" />
+                                            <p:outputLabel  for="tfPriceUnit" value="Precio por Und"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:inputText    id="tfPriceUnit"  value="#{scReplacementBean.replacementSelected.stock.priceUnit}  #{scReplacementBean.replacementSelected.money.acronym}" disabled="true"
+                                            <p:inputText    id="tfPriceUnit"  value="#{scReplacementBean.replacementSelected.stock.priceUnit} #{scReplacementBean.replacementSelected.money.acronym}" disabled="true"
                                                             />
                                         </td>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfValueTotal" value="Valor Total" />
+                                            <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
                                         </td>
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfValueTotal"  value="#{scReplacementBean.replacementSelected.stock.totalValue}  #{scReplacementBean.replacementSelected.money.acronym}" disabled="true"
@@ -1007,13 +1025,13 @@
                                         <td width="40%" align="left">
 
                                             <p:inputText    id="tfHigh"  value="#{scReplacementBean.replacementSelected.dimension.hight}"
-                                                            style="width: 100px;">
-                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureHigh" />
+                                                            requiredMessage="Debe ingresar la altura" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureHigh" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureHigh"  value="#{scReplacementBean.measureUnitSaveHigh}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
                                                              height="140" disabled="#{!scReplacementBean.showItem(scReplacementBean.replacementSelected.dimension.hight, 1)}" >
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
@@ -1026,13 +1044,13 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfWidth"  value="#{scReplacementBean.replacementSelected.dimension.width}"
-                                                            style="width: 100px;">
-                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureWidth" />
+                                                            requiredMessage="Debe ingresar el ancho" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureWidth" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureWidth"  value="#{scReplacementBean.measureUnitSaveWidth}" style="width: 60px; top: 6px;"
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
                                                              height="140" disabled="#{!scReplacementBean.showItem(scReplacementBean.replacementSelected.dimension.width, 2)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
@@ -1045,13 +1063,13 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfLarge"  value="#{scReplacementBean.replacementSelected.dimension.large}"
-                                                            style="width: 100px;">
-                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureLarge" />
+                                                            requiredMessage="Debe ingresar el alto" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureLarge" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureLarge"  value="#{scReplacementBean.measureUnitSaveLarge}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
                                                              height="140" disabled="#{!scReplacementBean.showItem(scReplacementBean.replacementSelected.dimension.large, 3)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
@@ -1062,13 +1080,13 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfVolume"  value="#{scReplacementBean.replacementSelected.dimension.volume}"
-                                                            style="width: 100px; ">
-                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureVolume" />
+                                                            requiredMessage="Debe ingresar el volumen" style="width: 100px; ">
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureVolume" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureVolume"  value="#{scReplacementBean.measureUnitSaveVolume}" style="width: 60px; top: 6px; " 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
                                                              height="140" disabled="#{!scReplacementBean.showItem(scReplacementBean.replacementSelected.dimension.volume, 4)}"> 
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
@@ -1081,13 +1099,13 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfThickness"  value="#{scReplacementBean.replacementSelected.dimension.thickness}"
-                                                            style="width: 100px;">
-                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureThickness" />
+                                                            requiredMessage="Debe ingresar el grosor" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureThickness" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureThickness"  value="#{scReplacementBean.measureUnitSaveThickness}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             effect="puff"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
                                                              height="140" disabled="#{!scReplacementBean.showItem(scReplacementBean.replacementSelected.dimension.thickness, 5)}"> 
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
@@ -1098,13 +1116,13 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfRadio"  value="#{scReplacementBean.replacementSelected.dimension.radio}"
-                                                            style="width: 100px;">
-                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureRadio" />
+                                                            requiredMessage="Debe ingresar el radio" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureRadio" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureRadio"  value="#{scReplacementBean.measureUnitSaveRadio}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             effect="puff"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
                                                              height="140" disabled="#{!scReplacementBean.showItem(scReplacementBean.replacementSelected.dimension.radio, 6)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
@@ -1118,12 +1136,12 @@
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfWeight"  value="#{scReplacementBean.replacementSelected.dimension.weight}"
                                                             requiredMessage="Debe ingresar el peso" style="width: 100px;">
-                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureWeight" />
+                                                <p:ajax event="keyup" update=":formWizardSave:cbMeasureWeight" />
                                             </p:inputText>
                                             <p:spacer width="5px"/>
                                             <p:selectOneMenu id="cbMeasureWeight"  value="#{scReplacementBean.measureUnitSaveWeight}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
-                                                             effect="puff"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
                                                              height="140" disabled="#{!scReplacementBean.showItem(scReplacementBean.replacementSelected.dimension.weight, 7)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
@@ -1155,7 +1173,7 @@
                                                         <p:outputLabel for="tfTittleSpecification" value="Título"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputText id="tfTittleSpecification" value="#{scReplacementBean.specificationsSave.tittle}"/>
+                                                        <p:inputText id="tfTittleSpecification" value="#{scReplacementBean.replacementAttachedSave.tittle}"/>
                                                         <p:tooltip for="tfTittleSpecification" value="Ingrese el título de la especificacion a Realizar"/>
                                                     </td>
                                                 </tr>
@@ -1164,14 +1182,14 @@
                                                         <p:outputLabel for="tfSpecificationSave" value="Especificación"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputTextarea id="tfSpecificationSave" value="#{scReplacementBean.specificationsSave.description}"/>
+                                                        <p:inputTextarea id="tfSpecificationSave" value="#{scReplacementBean.replacementAttachedSave.description}"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleSpecification,tfSpecificationSave,dataTableSpecificationSave"
-                                                                             actionListener="#{scReplacementBean.updateSpecification()}"/>
+                                                                             actionListener="#{scReplacementBean.saveAttached(scReplacementBean.replacementAttachedSave, scReplacementBean.replacementSelected, scReplacementBean.replacementSelected.replacementAttacheds, 'SPECIFICATION')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -1181,7 +1199,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableSpecificationSave"
                                                          var="specifications" 
-                                                         value="#{scReplacementBean.replacementSelected.scReplacementSpecifications}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.replacementSelected.replacementAttacheds, 'SPECIFICATION')}"
                                                          rowKey="#{specifications.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -1193,7 +1211,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Especificaciones"
                                                                      process="dataTableSpecificationSave" 
-                                                                     actionListener="#{scReplacementBean.deleteUpdateSpecifications(specifications)}" >
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.replacementSelected.replacementAttacheds, specifications)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{specifications.tittle}">
@@ -1224,8 +1242,8 @@
                                                         <p:outputLabel for="tfTittleFeacture" value="Título"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputText id="tfTittleFeacture" value="#{scReplacementBean.feacturesSave.tittle}"/>
-                                                        <p:tooltip for="tfTittleFeacture" value="Ingrese el título de la especificacion a Realizar"/>
+                                                        <p:inputText id="tfTittleFeacture" value="#{scReplacementBean.replacementAttachedSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleFeacture" value="Ingrese el título de la característica a Realizar"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1233,14 +1251,14 @@
                                                         <p:outputLabel for="tfFeactureSave" value="Característica"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputTextarea id="tfFeactureSave" value="#{scReplacementBean.feacturesSave.description}"/>
+                                                        <p:inputTextarea id="tfFeactureSave" value="#{scReplacementBean.replacementAttachedSave.description}"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleFeacture,tfFeactureSave,dataTableFeactureSave"
-                                                                             actionListener="#{scReplacementBean.updateFeacture()}"/>
+                                                                             actionListener="#{scReplacementBean.saveAttached(scReplacementBean.replacementAttachedSave, scReplacementBean.replacementSelected, scReplacementBean.replacementSelected.replacementAttacheds, 'FEACTURE')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -1250,7 +1268,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableFeactureSave"
                                                          var="feactures" 
-                                                         value="#{scReplacementBean.replacementSelected.scReplacementFeacturesList}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.replacementSelected.replacementAttacheds, 'FEACTURE')}"
                                                          rowKey="#{feactures.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -1262,7 +1280,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableFeactureSave" title="Eliminar Características"
                                                                      process="dataTableFeactureSave" 
-                                                                     actionListener="#{scReplacementBean.deleteUpdateFeactures(feactures)}" >
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.replacementSelected.replacementAttacheds, feactures)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{feactures.tittle}">
@@ -1293,8 +1311,8 @@
                                                         <p:outputLabel for="tfTittleObservation" value="Título"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputText id="tfTittleObservation" value="#{scReplacementBean.observationsSave.tittle}"/>
-                                                        <p:tooltip for="tfTittleObservation" value="Ingrese el título de la especificacion a Realizar"/>
+                                                        <p:inputText id="tfTittleObservation" value="#{scReplacementBean.replacementAttachedSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleObservation" value="Ingrese el título de la observación a Realizar"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -1302,14 +1320,14 @@
                                                         <p:outputLabel for="tfObservationSave" value="Observación"/>
                                                     </td>
                                                     <td width="60%">
-                                                        <p:inputTextarea id="tfObservationSave" value="#{scReplacementBean.observationsSave.description}"/>
+                                                        <p:inputTextarea id="tfObservationSave" value="#{scReplacementBean.replacementAttachedSave.description}"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleObservation,tfObservationSave,dataTableObservationSave"
-                                                                             actionListener="#{scReplacementBean.updateObservation()}"/>
+                                                                             actionListener="#{scReplacementBean.saveAttached(scReplacementBean.replacementAttachedSave, scReplacementBean.replacementSelected, scReplacementBean.replacementSelected.replacementAttacheds, 'OBSERVATION')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -1319,7 +1337,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableObservationSave"
                                                          var="observation" 
-                                                         value="#{scReplacementBean.replacementSelected.scReplacementObservationsList}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.replacementSelected.replacementAttacheds, 'OBSERVATION')}"
                                                          rowKey="#{observation.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -1331,7 +1349,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableObservationSave" title="Eliminar Observaciones"
                                                                      process="dataTableObservationSave" 
-                                                                     actionListener="#{scReplacementBean.deleteUpdateObservation(observation)}" >
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.replacementSelected.replacementAttacheds, observation)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{observation.tittle}">
@@ -1359,7 +1377,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableDocumentationSave"
                                                          var="document" 
-                                                         value="#{scReplacementBean.replacementSelected.scReplacementDocuments}"
+                                                         value="#{scReplacementBean.replacementSelected.replacementDocuments}"
                                                          rowKey="#{document.documentTittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -1378,7 +1396,7 @@
                                                 <p:column style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableDocumentationSave" title="Eliminar Documentos"
                                                                      process="@this" 
-                                                                     actionListener="#{scReplacementBean.deleteDocumentUpdate(documents)}" >
+                                                                     actionListener="#{scReplacementBean.deleteDocumentUpdate(document)}" > 
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column headerText="Título" sortBy="#{document.documentTittle}">
@@ -1416,13 +1434,13 @@
                                             <p:outputLabel  for="tfNameReplacementSave" value="Nombre Repuesto"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfNameReplacementSave"  value="#{scReplacementBean.replacementSelected.description}"/>
+                                            <p:outputLabel    id="tfNameReplacementSave"  value="#{scReplacementBean.replacementSelected.name}"/>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfExpiryDateSave" value="Vida Útil (años)"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfExpiryDateSave"  value="#{scReplacementBean.replacementSelected.usefulLife}"
+                                            <p:outputLabel    id="tfExpiryDateSave"  value="#{scReplacementBean.replacementSelected.usefulLife} #{scReplacementBean.replacementSelected.time.acronym}"
                                                               />
                                         </td>
                                     </tr>
@@ -1437,7 +1455,7 @@
                                             <p:outputLabel  for="tfValueReplacementSave" value="Valor"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfValueReplacementSave"  value="#{scReplacementBean.replacementSelected.value}"/>
+                                            <p:outputLabel    id="tfValueReplacementSave"  value="#{scReplacementBean.replacementSelected.value} #{scReplacementBean.replacementSelected.money.acronym}"/>
                                         </td>
                                     </tr> 
                                     <tr>
@@ -1488,7 +1506,7 @@
                         <tr>
                             <td>
                                 <p:outputLabel value="¿Desea eliminar el repuesto y consumible
-                                               #{scReplacementBean.replacementSelected.description}?" />
+                                               #{scReplacementBean.replacementSelected.name}?" />
                             </td>
                         </tr>
                         <tr>
@@ -1515,9 +1533,8 @@
 
                 <h:form id="formWizardView" >
 
-                    <p:wizard  flowListener="#{scReplacementBean.onFlowProcessViewReplacement}" id="wizardUpdate" widgetVar="wizardView" 
-                               backLabel="Atras" nextLabel="Siguiente">
-                        <p:tab title="Datos del Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                    <p:tabView activeIndex="0" dynamic="true" >
+                        <p:tab title="Datos Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos del repuesto y consumible">
                             <p:panel header="Datos Básicos" >
                                 <table width="98%" cellspacing="10" >
@@ -1526,221 +1543,302 @@
                                             <p:outputLabel  value="Imagen"/>
                                         </td>
                                         <td width="40%" align="left" valign="middle">
-                                            <h:graphicImage value="#{scReplacementBean.searchImage(scReplacementBean.replacementSelected)}" alt="Imagen no disponible" id="imageUpdate" 
-                                                            width="120" height="120"  />                                            
+                                            <h:graphicImage value="#{scReplacementBean.searchImage(scReplacementBean.replacementSelected)}" alt="Imagen no disponible" id="imageSave" 
+                                                            width="120" height="120"  />
                                         </td>
                                         <td colspan="2" ></td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameReplacement" value="Nombre Repuesto"/>
+                                            <p:outputLabel  for="tfNameReplacement" value="Nombre Repuesto*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfNameReplacement"  value="#{scReplacementBean.replacementSelected.description}"/>
+                                            <p:inputText    id="tfNameReplacement"  value="#{scReplacementBean.replacementSelected.name}"
+                                                            disabled="true"/>
+
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDate" value="Vida Útil (años)"/>
+                                            <p:outputLabel  for="tfUsefulLife" value="Vida Útil"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfExpiryDate"  value="#{scReplacementBean.replacementSelected.usefulLife}"/>
+                                            <p:inputText    id="tfUsefulLife"  value="#{scReplacementBean.replacementSelected.usefulLife}"
+                                                            style="width: 100px;" disabled="true"/>
+                                            <p:spacer width="5"/>
+                                            <p:selectOneMenu id="cbTime"  value="#{scReplacementBean.replacementSelected.time}" 
+                                                             converter="timeConverter" converterMessage="Error en el tipo de dato del tiempo" style="width: 100px; top: 6px;"
+                                                             effect="puff" disabled="true"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scReplacementBean.timeList}" var="time" itemLabel="#{time.acronym}"/>
+
+                                            </p:selectOneMenu>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfTypeMaterial" value="Tipo"/>
+                                            <p:outputLabel  for="cbTypeReplacement" value="Tipo*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfTypeMaterial"  value="#{scReplacementBean.replacementSelected.typeReplacement}"/>
+                                            <p:selectOneMenu id="cbTypeReplacement"  value="#{scReplacementBean.replacementSelected.typeReplacement}" 
+                                                             style="width: 70%; top: 6px;"
+                                                             effect="puff" disabled="true"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItem itemLabel="Repuesto" itemValue="Repuesto"/>
+                                                <f:selectItem itemLabel="Consumible" itemValue="Consumible"/>
+                                            </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfValueReplacement" value="Valor"/>
+                                            <p:outputLabel  for="tfValueReplacement" value="Valor*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfValueReplacement"  value="#{scReplacementBean.replacementSelected.value}" style="width: 100px;"/>
+                                            <p:inputText    id="tfValueReplacement"  value="#{scReplacementBean.replacementSelected.value}" disabled="true"
+                                                            requiredMessage="Debe ingresar el valor del repuesto y consumible" style="width: 100px;"/>
                                             <p:spacer width="5"/>
                                             <p:selectOneMenu id="cbMoney"  value="#{scReplacementBean.replacementSelected.money}" 
                                                              converter="moneyConverter" converterMessage="Error en el tipo de dato de la moneda" style="width: 100px; top: 6px;"
-                                                             effect="puff" disabled="true" 
+                                                             effect="puff" disabled="true"
                                                              height="140">
                                                 <f:selectItem itemLabel="..."/>
                                                 <f:selectItems value="#{scReplacementBean.moneyList}" var="money" itemLabel="#{money.acronym} #{money.description}"/>
-                                                <p:tooltip for="cbMoney" value="#{scReplacementBean.replacementSave.money.acronym} #{scReplacementBean.replacementSave.money.description}" />
+
                                             </p:selectOneMenu>
                                         </td>
                                     </tr> 
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfMarkReplacement" value="Marca"/>
+                                            <p:outputLabel  for="tfMarkReplacement" value="Marca*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfMarkReplacement"  value="#{scReplacementBean.replacementSelected.mark}"/>
+                                            <p:inputText    id="tfMarkReplacement"  value="#{scReplacementBean.replacementSelected.mark}" disabled="true"
+                                                            requiredMessage="Campo obligatorio debe ingresar la marca del repuesto y consumible"/>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfSerieReplacement" value="Serie"/>
+                                            <p:outputLabel  for="tfSerieReplacement" value="Serie*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfSerieReplacement"  value="#{scReplacementBean.replacementSelected.serie}"/>
+                                            <p:inputText    id="tfSerieReplacement"  value="#{scReplacementBean.replacementSelected.serie}"
+                                                            disabled="true" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbSupplier" value="Proveedor"/>
+                                            <p:outputLabel  for="cbSupplier" value="Proveedor*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbSupplier"  value="#{scReplacementBean.replacementSelected.supplierGuarantee}" style="width: 80%;"
+                                            <p:selectOneMenu id="cbSupplier"  value="#{scReplacementBean.replacementSelected.supplierGuarantee}" style="width: 70%;"
                                                              converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un proveedor" effect="puff"
-                                                             height="140" disabled="true">
+                                                             effect="puff" disabled="true"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
                                                 <f:selectItems value="#{scReplacementBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costos"/>
+                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costos*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbCostCenter"  value="#{scReplacementBean.replacementSelected.costCenter}" style="width: 80%;" 
+                                            <p:selectOneMenu id="cbCostCenter"  value="#{scReplacementBean.replacementSelected.costCenter}" style="width: 70%;" 
                                                              converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un centro de costos" effect="puff"
-                                                             height="140" disabled="true">
+                                                             effect="puff" disabled="true"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
                                                 <f:selectItems  value="#{scReplacementBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
                                             </p:selectOneMenu>
-
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfStore" value="Almacén"/>
+                                            <p:outputLabel  for="tfStore" value="Almacén*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfStore"  value="#{scReplacementBean.replacementSelected.stock.idStore}" style="width: 80%;"
+                                            <p:selectOneMenu id="tfStore"  value="#{scReplacementBean.replacementSelected.stock.idStore}" style="width: 70%;"
                                                              converter="storeConverter" converterMessage="Error en el tipo de dato del almacén"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar un almacén" effect="puff"
-                                                             height="140" disabled="true">
-
-                                                <f:selectItems value="#{scReplacementBean.storesList}" var="stores" itemLabel="#{stores.name}"/>e
+                                                             effect="puff" disabled="true"
+                                                             height="140" >
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItems value="#{scReplacementBean.storesList}" var="stores" itemLabel="#{stores.name}"/>
+                                                
                                             </p:selectOneMenu>
                                         </td>
-                                        
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="cbLocation" value="Localización"/>
+                                            <p:outputLabel  for="cbLocation" value="Localización*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbLocation"  value="#{scReplacementBean.replacementSelected.inputLocation}" style="width: 80%;" 
+                                            <p:selectOneMenu id="cbLocation"  value="#{scReplacementBean.replacementSelected.inputLocation}" style="width: 70%;" 
                                                              converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización del repuesto y consumible"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una localización" effect="puff"
-                                                             height="140" disabled="true">
+                                                             effect="puff" disabled="true"
+                                                             height="140">
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems  value="#{scReplacementBean.replacementLocationsList}" var="replacementLocations" itemLabel="#{replacementLocations.location}"/>
                                             </p:selectOneMenu>
+                                            
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfProirity" value="Prioridad"/>
+                                            <p:outputLabel  for="tfProirity" value="Prioridad*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:selectOneMenu id="tfProirity"  value="#{scReplacementBean.replacementSelected.priority}" style="width: 80%;"
+                                            <p:selectOneMenu id="tfProirity"  value="#{scReplacementBean.replacementSelected.priority}" style="width: 70%;"
                                                              converter="priorityConverter" converterMessage="Error en el tipo de dato de la prioridad"
-                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una prioridad" effect="puff"
-                                                             height="140" disabled="true">
-
+                                                             effect="puff" disabled="true"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
                                                 <f:selectItems value="#{scReplacementBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
-                                      
+                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
                                         </td>
                                         <td width="40%" align="left">
-
-                                            
+                                            <p:inputTextarea  id="tfDescription"  value="#{scReplacementBean.replacementSelected.description}"
+                                                            disabled="true" />
                                         </td>
                                     </tr>
+                                    
                                 </table>
                             </p:panel>
                         </p:tab> 
                         <!--                        finaliza la pestaña para datos generales -->
-                        <!--                       inicia la pestaña para el stock y -->
+
+                        <!--                        inicia la pestaña para el stock y -->
                         <p:tab title="Stock y Dimensiones" id="tabStock" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para el stock">
-                            <p:panel header="Stock"  toggleTitle="Presione para minimizar el panel de Stock">
+                            <p:panel header="Stock" toggleable="true" toggleTitle="Presione para minimizar el panel de Stock">
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfMaximeStock" value="Stock Máximo"/>
+                                            <p:outputLabel  for="tfMaximeStock" value="Stock Máximo*"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:outputLabel    id="tfMaximeStock"  value="#{scReplacementBean.replacementSelected.stock.maximeStock}"/>
+                                            <p:inputText    id="tfMaximeStock"  value="#{scReplacementBean.replacementSelected.stock.maximeStock}"
+                                                            disabled="true"/>
                                         </td>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo"/>
+                                            <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo*"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:outputLabel    id="tfMinimeStock"  value="#{scReplacementBean.replacementSelected.stock.minimeStock}"/>
+                                            <p:inputText    id="tfMinimeStock"  value="#{scReplacementBean.replacementSelected.stock.minimeStock}"
+                                                             disabled="true" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfCurrentStock" value="Stock Real"/>
+                                            <p:outputLabel  for="tfCurrentStock" value="Stock Real*"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:outputLabel    id="tfCurrentStock"  value="#{scReplacementBean.replacementSelected.stock.currentStock}"/>
+                                            <p:inputText    id="tfCurrentStock"  value="#{scReplacementBean.replacementSelected.stock.currentStock}"
+                                                            disabled="true" >
+                                                
+                                            </p:inputText>
                                         </td>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo"/>
+                                            <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo*"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:outputLabel    id="tfOptimeStock"  value="#{scReplacementBean.replacementSelected.stock.optimeStock}"/>
+                                            <p:inputText    id="tfOptimeStock"  value="#{scReplacementBean.replacementSelected.stock.optimeStock}"
+                                                             disabled="true"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="20%" align="right">
-                                            <p:outputLabel  for="tfPriceUnit" value="Precio por #{scReplacementBean.replacementSelected.packingUnit.acronym}*"/>
+                                            <p:outputLabel  for="tfPriceUnit" value="Precio por Und"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:outputLabel    id="tfPriceUnit"  value="#{scReplacementBean.replacementSelected.stock.priceUnit} #{scReplacementBean.replacementSelected.money.acronym}" />
+                                            <p:inputText    id="tfPriceUnit"  value="#{scReplacementBean.replacementSelected.stock.priceUnit} #{scReplacementBean.replacementSelected.money.acronym}" 
+                                                            disabled="true"/>
                                         </td>
                                         <td width="20%" align="right">
                                             <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:outputLabel    id="tfValueTotal"  value="#{scReplacementBean.replacementSelected.stock.totalValue} #{scReplacementBean.replacementSelected.money.acronym}"/>
+                                            <p:inputText    id="tfValueTotal"  value="#{scReplacementBean.replacementSelected.stock.totalValue}  #{scReplacementBean.replacementSelected.money.acronym}"
+                                                            disabled="true"/>
                                         </td>
                                     </tr>
                                 </table>
                             </p:panel>
-                            <p:panel header="Dimensiones"  toggleTitle="Presione para minimizar el panel de Dimensiones">
-
+                            <p:panel header="Dimensiones" 
+                                     id="pnlDimension">
+                                <f:facet name="header">
+                                    <p:outputLabel value="Dimensiones" style="text-align: center;"/>
+                                </f:facet>
                                 <table width="98%" cellspacing="10"  >
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfHigh" value="Altura"/>
+                                            <p:outputLabel  for="tfHigh" value="Altura*"/>
 
                                         </td>
                                         <td width="40%" align="left">
 
-                                            <p:outputLabel    id="tfHigh"  value="#{scReplacementBean.replacementSelected.dimension.hight}"/>
+                                            <p:inputText    id="tfHigh"  value="#{scReplacementBean.replacementSelected.dimension.hight}"
+                                                            requiredMessage="Debe ingresar la altura" style="width: 100px;" disabled="true">
+                                                
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureHigh"  value="#{scReplacementBean.measureUnitSaveHigh}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="true" >
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
 
 
                                         </td> 
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfWidth" value="Ancho"/>
+                                            <p:outputLabel  for="tfWidth" value="Ancho*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfWidth"  value="#{scReplacementBean.replacementSelected.dimension.width}"/>
+                                            <p:inputText    id="tfWidth"  value="#{scReplacementBean.replacementSelected.dimension.width}"
+                                                            requiredMessage="Debe ingresar el ancho" style="width: 100px;" disabled="true">
+                                                
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureWidth"  value="#{scReplacementBean.measureUnitSaveWidth}" style="width: 60px; top: 6px;"
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff" 
+                                                             height="140" disabled="true">
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfLarge" value="Largo"/>
+                                            <p:outputLabel  for="tfLarge" value="Largo*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfLarge"  value="#{scReplacementBean.replacementSelected.dimension.large}"/>
+                                            <p:inputText    id="tfLarge"  value="#{scReplacementBean.replacementSelected.dimension.large}"
+                                                            requiredMessage="Debe ingresar el alto" style="width: 100px;" disabled="true">
+                                                
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureLarge"  value="#{scReplacementBean.measureUnitSaveLarge}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="true">
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfVolume" value="Volumen"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfVolume"  value="#{scReplacementBean.replacementSelected.dimension.volume}" />
+                                            <p:inputText    id="tfVolume"  value="#{scReplacementBean.replacementSelected.dimension.volume}"
+                                                            requiredMessage="Debe ingresar el volumen" style="width: 100px; " disabled="true">
+                                                
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureVolume"  value="#{scReplacementBean.measureUnitSaveVolume}" style="width: 60px; top: 6px; " 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="true"> 
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1748,13 +1846,35 @@
                                             <p:outputLabel  for="tfThickness" value="Grosor"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfThickness"  value="#{scReplacementBean.replacementSelected.dimension.thickness}"/>
+                                            <p:inputText    id="tfThickness"  value="#{scReplacementBean.replacementSelected.dimension.thickness}"
+                                                            requiredMessage="Debe ingresar el grosor" style="width: 100px;" disabled="true">
+                                                
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureThickness"  value="#{scReplacementBean.measureUnitSaveThickness}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff" 
+                                                             height="140" disabled="true"> 
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfRadio" value="Radio"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfRadio"  value="#{scReplacementBean.replacementSelected.dimension.radio}"/>
+                                            <p:inputText    id="tfRadio"  value="#{scReplacementBean.replacementSelected.dimension.radio}"
+                                                            requiredMessage="Debe ingresar el radio" style="width: 100px;" disabled="true">
+                                                
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureRadio"  value="#{scReplacementBean.measureUnitSaveRadio}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="true">
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
                                         </td>
                                     </tr>
                                     <tr>
@@ -1762,12 +1882,23 @@
                                             <p:outputLabel  for="tfWeight" value="Peso*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:outputLabel    id="tfWeight"  value="#{scReplacementBean.replacementSelected.dimension.weight}"/>
+                                            <p:inputText    id="tfWeight"  value="#{scReplacementBean.replacementSelected.dimension.weight}"
+                                                            requiredMessage="Debe ingresar el peso" style="width: 100px;" disabled="true">
+                                                
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureWeight"  value="#{scReplacementBean.measureUnitSaveWeight}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="true">
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scReplacementBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfObservationsDimension" value="Observaciones"/>
                                         </td>
-                                        <td width="40%" align="left">
+                                        <td  width="40%" align="left"> 
                                             <p:inputTextarea   id="tfObservationsDimension"  value="#{scReplacementBean.replacementSelected.dimension.observations}"
                                                                style="width: 98%;"     disabled="true"/>
                                         </td>
@@ -1783,10 +1914,10 @@
                             <p:panel header="Especificaciones" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="60%" align="center" valign="top">
+                                        <td align="center" valign="top">
                                             <p:dataTable id="dataTableSpecificationSave"
                                                          var="specifications" 
-                                                         value="#{scReplacementBean.replacementSelected.scReplacementSpecifications}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.replacementSelected.replacementAttacheds, 'SPECIFICATION')}"
                                                          rowKey="#{specifications.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -1795,7 +1926,12 @@
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{specifications.tittle}">
-
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Especificaciones"
+                                                                     process="dataTableSpecificationSave" 
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.replacementSelected.replacementAttacheds, specifications)}" >
+                                                    </p:commandButton>
+                                                </p:column>
                                                 <p:column headerText="Título" sortBy="#{specifications.tittle}">
                                                     <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{specifications.tittle}" for="outTittle"/>
@@ -1817,10 +1953,10 @@
                             <p:panel header="Características" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="60%" align="center" valign="top">
+                                        <td  align="center" valign="top">
                                             <p:dataTable id="dataTableFeactureSave"
                                                          var="feactures" 
-                                                         value="#{scReplacementBean.replacementSelected.scReplacementFeacturesList}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.replacementSelected.replacementAttacheds, 'FEACTURE')}"
                                                          rowKey="#{feactures.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -1829,7 +1965,12 @@
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{feactures.tittle}">
-
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableFeactureSave" title="Eliminar Características"
+                                                                     process="dataTableFeactureSave" 
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.replacementSelected.replacementAttacheds, feactures)}" >
+                                                    </p:commandButton>
+                                                </p:column>
                                                 <p:column headerText="Título" sortBy="#{feactures.tittle}">
                                                     <p:outputLabel value="#{feactures.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{feactures.tittle}" for="outTittle"/>
@@ -1851,10 +1992,10 @@
                             <p:panel header="Observaciones" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
-                                        <td width="60%" align="center" valign="top">
+                                        <td align="center" valign="top">
                                             <p:dataTable id="dataTableObservationSave"
                                                          var="observation" 
-                                                         value="#{scReplacementBean.replacementSelected.scReplacementObservationsList}"
+                                                         value="#{scReplacementBean.getAttachedList(scReplacementBean.replacementSelected.replacementAttacheds, 'OBSERVATION')}"
                                                          rowKey="#{observation.tittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -1863,7 +2004,12 @@
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{observation.tittle}">
-
+                                                <p:column style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableObservationSave" title="Eliminar Observaciones"
+                                                                     process="dataTableObservationSave" 
+                                                                     actionListener="#{scReplacementBean.deleteAttached(scReplacementBean.replacementSelected.replacementAttacheds, observation)}" >
+                                                    </p:commandButton>
+                                                </p:column>
                                                 <p:column headerText="Título" sortBy="#{observation.tittle}">
                                                     <p:outputLabel value="#{observation.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{observation.tittle}" for="outTittle"/>
@@ -1888,7 +2034,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableDocumentationSave"
                                                          var="document" 
-                                                         value="#{scReplacementBean.replacementSelected.scReplacementDocuments}"
+                                                         value="#{scReplacementBean.replacementSelected.replacementDocuments}"
                                                          rowKey="#{document.documentTittle}"
                                                          paginator="true" rows="15"  
                                                          pageLinks="40" editable="true"
@@ -1927,9 +2073,8 @@
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para documentos                   -->
-                    </p:wizard>
+                    </p:tabView>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardView').loadStep('tabGeneral', false)" />
             </p:dialog>
             <!--################ finaliza el dialogo para visualizar Repuestos y Consumibles ######################33-->
 
@@ -2229,10 +2374,10 @@
                         </center>
                     </p:column>
 
-                    <p:column id="columPackingUnit" headerText="Vida Útil (Años)" sortBy="#{replacement.usefulLife}">    
+                    <p:column id="columPackingUnit" headerText="Vida Útil" sortBy="#{replacement.usefulLife} #{replacement.time.acronym}">    
                         <center>
-                            <p:outputLabel value="#{replacement.usefulLife}" id="lblPackingUnit"/>
-                            <p:tooltip for="lblPackingUnit" value="#{replacement.usefulLife}"/>
+                            <p:outputLabel value="#{replacement.usefulLife} #{replacement.time.acronym}" id="lblPackingUnit"/>
+                            <p:tooltip for="lblPackingUnit" value="#{replacement.usefulLife} #{replacement.time.acronym}"/>
                         </center>
                     </p:column>
 

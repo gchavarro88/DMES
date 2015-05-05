@@ -95,6 +95,7 @@ public class ScReplacementDao  implements  IScReplacement
             entityManager.merge(replacement.getDimension());
             entityManager.merge(replacement.getStock());
             entityManager.merge(replacement);
+            entityManager.flush();
         }
         catch (Exception e)
         {

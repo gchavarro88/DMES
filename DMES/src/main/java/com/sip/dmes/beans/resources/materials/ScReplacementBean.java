@@ -19,6 +19,7 @@ import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScProductAttached;
 import com.sip.dmes.entitys.ScReplacement;
 import com.sip.dmes.entitys.ScReplacementAttached;
 import com.sip.dmes.entitys.ScReplacementDocuments;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -341,6 +343,8 @@ public class ScReplacementBean
         //Creamos el objeto de dimension para la segunda pestaña
         getReplacementSave().setDimension(new ScInputDimension());
         cleanListSaves();
+        setReplacementAttachedSave(new ScReplacementAttached());
+        setReplaceDocumentsSave(new ScReplacementDocuments());
         cleansTypesMeasures();
     }
 
@@ -623,15 +627,15 @@ public class ScReplacementBean
             {
                 return event.getOldStep();
             }   
-            if (validateFields("Tipo de Repuesto", getReplacementSave().getTypeReplacement(), 3))
-            {
-                return event.getOldStep();
-            }
             if (validateFields("Vida Útil", getReplacementSave().getUsefulLife()+ "", 2))
             {
                 return event.getOldStep();
             }
             if (validateFields("Unidad de Tiempo", getReplacementSave().getTime(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Tipo de Repuesto", getReplacementSave().getTypeReplacement(), 3))
             {
                 return event.getOldStep();
             }
@@ -685,10 +689,16 @@ public class ScReplacementBean
             {
                 return event.getOldStep();
             }
-            
+            for(ScTime time: getTimeList())
+            {
+                if(time.getIdTime().equals(getReplacementSave().getTime().getIdTime()))
+                {
+                    getReplacementSave().setTime(time);
+                }
+            }
             //Agregamos la fecha de creación del repuesto
             getReplacementSave().setCreationDate(new Date());
-
+            getReplacementSave().setValueMinutes((getReplacementSave().getUsefulLife() * getReplacementSave().getTime().getMinutes()));
         }
         //Si pasamos de la pestaña de datos generales a stock y dimensiones
         else if (event.getOldStep().equals(TAB_STOCK))
@@ -900,6 +910,10 @@ public class ScReplacementBean
                 * getReplacementSelected().getStock().getCurrentStock());
     }    
 
+    
+    
+    
+    
     /**
      * Método encargado de llevar el flujo al actualizar un repuesto.
      *
@@ -911,23 +925,30 @@ public class ScReplacementBean
      */
     public String onFlowProcessUpdateReplacement(FlowEvent event)
     {
-        int packingUnit = -1;
         if (event.getNewStep().equals(TAB_GENERAL))
         {
             return TAB_GENERAL;
         }
         if (event.getOldStep().equals(TAB_GENERAL))
         {
-            if (validateFields("Nombre Repuesto", getReplacementSelected().getDescription(), 3))
+            if (validateFields("Nombre Repuesto", getReplacementSelected().getName(), 3))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Vida Útil", getReplacementSelected().getUsefulLife()+ "", 2))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Tipo de Material", getReplacementSelected().getTypeReplacement(), 3))
+            if (validateFields("Unidad de Tiempo", getReplacementSelected().getTime(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Tipo de Repuesto", getReplacementSelected().getTypeReplacement(), 3))
             {
                 return event.getOldStep();
             }
             //Validamos que el valor sea mayor que cero
-            if (validateFields("Valor", getReplacementSelected().getValue() + "", 2))
+            if (validateFields("Valor", getReplacementSelected().getValue() + "", 1))
             {
                 return event.getOldStep();
             }
@@ -976,7 +997,14 @@ public class ScReplacementBean
             {
                 return event.getOldStep();
             }
-            
+            for(ScTime time: getTimeList())
+            {
+                if(time.getIdTime().equals(getReplacementSelected().getTime().getIdTime()))
+                {
+                    getReplacementSelected().setTime(time);
+                }
+            }
+            getReplacementSelected().setValueMinutes((getReplacementSelected().getUsefulLife() * getReplacementSelected().getTime().getMinutes()));
         }
         //Si pasamos de la pestaña de datos generales a stock y dimensiones
         else if (event.getOldStep().equals(TAB_STOCK))
@@ -986,7 +1014,7 @@ public class ScReplacementBean
             {
                 return event.getOldStep();
             }
-            if (validateFields("Stock Mínimo", getReplacementSelected().getStock().getMinimeStock(), 2))
+            if (validateFields("Stocguschaork Mínimo", getReplacementSelected().getStock().getMinimeStock(), 2))
             {
                 return event.getOldStep();
             }
@@ -999,6 +1027,7 @@ public class ScReplacementBean
             {
                 return event.getOldStep();
             }
+
             if (validateFields("Stock Óptimo", getReplacementSelected().getStock().getOptimeStock(), 2))
             {
                 return event.getOldStep();
@@ -1053,7 +1082,6 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
                 return event.getOldStep();
             }
-
             if (!Utilities.isEmpty(getReplacementSelected().getDimension().getVolume()))
             {
                 if (validateFields("Volumen", getReplacementSelected().getDimension().getVolume(), 1))
@@ -1090,11 +1118,135 @@ public class ScReplacementBean
                     return event.getOldStep();
                 }
             }
-
+            if (!Utilities.isEmpty(getReplacementSelected().getDimension().getWeight()))
+            {
+                if (validateFields("Peso", getReplacementSelected().getDimension().getWeight(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveWeight() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                    return event.getOldStep();
+                }
+            }
         }
         return event.getNewStep();
     }
-
+ 
+    /**
+     * Método encargado de guardar temporalmente un adjunto.
+     * @param replacementAttached adjunto que sera guardado
+     * @param attachedListSave lista de adjuntos a la que será agregado el adjunto en cuestión
+     * @param type tipo del adjunto, puede ser una observación, especificación o característica
+     * @param replacement repuesto o consumible al que pertenece el adjunto
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveAttached(ScReplacementAttached replacementAttached, ScReplacement replacement ,
+            List<ScReplacementAttached> attachedListSave,String type)
+    {
+        if(replacementAttached != null)
+        {
+            if(!Utilities.isEmpty(replacementAttached.getTittle()) && 
+                    !Utilities.isEmpty(replacementAttached.getDescription())
+                    && !Utilities.isEmpty(type))
+            {
+                if(attachedListSave != null)
+                {
+                    //Guardamos exitosamente el adjunto
+                    replacementAttached.setReplacement(replacement);
+                    replacementAttached.setType(type);
+                    attachedListSave.add(replacementAttached);
+                    setReplacementAttachedSave(new ScReplacementAttached());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+             
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una especificación", 
+                            "Debe ingresar los campos Título y Descripción de la especificación");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la especificación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de retornar la lista de adjuntos de acuerdo a un tipo
+     * @param attachedListSave lista de donde serán extraidos los adjuntos
+     * @param type tipo del adjunto extraido
+     * @return List<ScReplacementAttached> tipo del adjunto a devolver
+     * @author Gustavo Chavarro Ortiz
+     */
+    public List<ScReplacementAttached> getAttachedList(List<ScReplacementAttached> attachedListSave, String type)
+    {
+        List<ScReplacementAttached> result = new ArrayList<ScReplacementAttached>();
+        if(attachedListSave != null && !attachedListSave.isEmpty())
+        {
+            for(ScReplacementAttached attached: attachedListSave)
+            {
+                if(attached.getType().equals(type))
+                {
+                    result.add(attached);
+                }
+            }
+        }
+        return result;
+    }
+    
+    
+    /**
+     * Método encargado de eliminar un adjunto.
+     * @param replacementAttached adjunto que sera guardado
+     * @param attachedListSave lista de adjuntos a la que será agregado el adjunto en cuestión
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteAttached(List<ScReplacementAttached> attachedListSave, ScReplacementAttached replacementAttached)
+    {
+        int index = 0;
+        if(replacementAttached != null)
+        {
+            if(attachedListSave != null && !attachedListSave.isEmpty())
+            {
+                for(ScReplacementAttached attached: attachedListSave)
+                {
+                    if(attached.getType().equals(replacementAttached.getType()) && attached.getTittle()
+                            .equals(replacementAttached.getTittle()) && attached.getDescription()
+                            .equals(replacementAttached.getDescription()))
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                if(index < attachedListSave.size())
+                {
+                    attachedListSave.remove(index);
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    
     /**
      * Método encargado de llevar el flujo al actualizar un repuesto.
      *
@@ -1128,7 +1280,7 @@ public class ScReplacementBean
             }
             if (getDocumentsListSave() != null)
             {
-                //Le agrego la lista de observaciones
+                //Le agrego la lista de documentos
                 getReplacementSave().setReplacementDocuments(getDocumentsListSave());
             }
             //Almacenamos el repuesto
