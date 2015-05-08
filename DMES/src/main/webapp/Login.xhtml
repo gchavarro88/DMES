@@ -15,7 +15,7 @@
             
             <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/style.css"/>
         </h:head>
-        <h:body>
+        <h:body styleClass="backBody">
             <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
             <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
                       draggable="false" closable="false" resizable="false">

@@ -38,11 +38,11 @@ time, mark, audio, video {
 	left: 50%;
 	margin-top: -140px;
 	margin-left: -200px;
-	background: #373737;
+	background: #252525;
 	border-radius: 15px;
 	-webkit-border-radius: 15px;
 	-moz-border-radius: 15px;
-	border: 1px solid #333;
+	border: 1px solid #1F1F1F;
 	box-shadow: 5px 5px 5px rgba(1, 1, 1, 0.5);
 	-webkit-box-shadow: 5px 5px 5px rgba(1, 1, 1, 0.5);
 	-moz-box-shadow: 5px 5px 5px rgba(1, 1, 1, 0.5);
@@ -93,16 +93,21 @@ table {
 
 
 body, .login-submit, .login-submit:before, .login-submit:after {
- //background: #373737 url("../img/bg.png") 0 0 repeat;
- background: #444;
+ background: #252525 url("../img/bg.png") 0 0 repeat;
+ //background: #000;
  
 }
 .login-submit, .login-submit:before, .login-submit:after {
- background: #373737 url("../img/bg.png") 0 0 repeat;
+ background: #252525 url("../img/bg.png") 0 0 repeat;
  }
-body {
+.backBody {
   font: 14px/20px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  color: #404040;
+  //color: #404040;
+  background: url("../images/fondo2.png") #111 no-repeat fixed center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover ;
 }
 
 a {
@@ -215,7 +220,7 @@ label {
   text-indent: 120%;
   white-space: nowrap;
   overflow: hidden;
-  background: none;
+  background: #252525;
   border: 0;
   border-radius: 24px;
   cursor: pointer;
