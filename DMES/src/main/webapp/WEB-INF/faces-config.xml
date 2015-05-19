@@ -277,4 +277,19 @@
             <value>#{scReplacementServer}</value>
     </managed-property> 
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>scToolBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.resources.materials.ScToolBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+    </managed-property>
+    <managed-property>
+            <property-name>scToolServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScTool</property-class>
+            <value>#{scToolServer}</value>
+    </managed-property> 
+    </managed-bean>
 </faces-config>

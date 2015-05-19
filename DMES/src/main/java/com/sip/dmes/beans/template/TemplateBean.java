@@ -337,15 +337,33 @@ public class TemplateBean implements Serializable
         }
     }
     
+    /**
+     * Método encargado de seleccionar una pestaña activa.
+     * @param idMenu id de la pestaña activa
+     * @author Gustavo Chavarro Ortiz
+     */
     public void selectedTab(String idMenu)
     {
          setActiveIndex(getMapTabs().get(idMenu));
     }
+    
+    /**
+     * Método encargado de cerrar una sesion activa.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void cleanSession()
     {
         getSessionBean().setScUser(null);
     }
-
+    
+    
+    public String cleanSessionIdleMonitor()
+    {
+        cleanSession();
+        return "exit";
+    }
+    
+    
     public static MethodExpression createMethodExpression(String expression, Class<?> returnType, Class<?>... parameterTypes)
     {
         FacesContext facesContext = FacesContext.getCurrentInstance();

@@ -13,7 +13,7 @@
             
             <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
             <script type="text/javascript">
-               
+            
             </script>
         </h:head>
         <h:body >
@@ -22,17 +22,47 @@
                       draggable="false" closable="false" resizable="false">
                 <p:graphicImage value="/images/loadBar.gif"/>
             </p:dialog>
+            <p:idleMonitor timeout="#{((36000)*1000)}">
+                <p:ajax event="idle" oncomplete="PF('dialogClose').show();" />
+            </p:idleMonitor>
+            
+            
+            <p:dialog id="dialogClose" widgetVar="dialogClose" position="center" 
+                      draggable="true" dynamic="true" header="Cierre de Sesión" closable="false"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="false" 
+                      width="400" height="150">
+                <h:form id="formClose">
+                    <table cellspacing="30" style="margin: 0px; padding: 0px;">
+                        <tr>
+                            <td>
+                                <p:outputLabel 
+                                    value="Su sesión ha caducado, por favor vuelva a ingresar sus credenciales" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <p:commandButton value="Aceptar" action="#{templateBean.cleanSessionIdleMonitor()}"
+                                                 
+                                                 />
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            
+            
             <p:layout styleClass="layoutBordes">
                 <p:layoutUnit position="north" collapseSize="25" collapsible="true" effect="explode"  gutter="1"
                               styleClass="layoutBordes" >
                     <div>
                         <table   class="layoutNorth">
                             <tr> 
-                                <td width="20%">
+                                <td width="200">
                                     <p:graphicImage url="images/fondo-Little.png"  styleClass="graphicLayoutNorth"
                                         height="90" width="150"/>
                                 </td>
-                                <td width="55%" align="center">
+                                <td  align="left">
                                     <p:graphicImage styleClass="imageTittle" height="90" width="800" 
                                                     url="images/sip.jpg"
                                     />    

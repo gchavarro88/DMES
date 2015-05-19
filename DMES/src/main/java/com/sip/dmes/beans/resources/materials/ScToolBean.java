@@ -6,13 +6,13 @@
 package com.sip.dmes.beans.resources.materials;
 
 import com.sip.dmes.beans.SessionBean;
-import com.sip.dmes.dao.bo.IScReplacement;
-import com.sip.dmes.dao.bs.ScReplacementDao;
+import com.sip.dmes.dao.bo.IScTool;
+import com.sip.dmes.dao.bs.ScToolDao;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScDistributionUnit;
 import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScInputStock;
-import com.sip.dmes.entitys.ScReplacement;
+import com.sip.dmes.entitys.ScTool;
 import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
@@ -20,9 +20,9 @@ import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
 import com.sip.dmes.entitys.ScProductAttached;
-import com.sip.dmes.entitys.ScReplacement;
-import com.sip.dmes.entitys.ScReplacementAttached;
-import com.sip.dmes.entitys.ScReplacementDocuments;
+import com.sip.dmes.entitys.ScTool;
+import com.sip.dmes.entitys.ScToolAttached;
+import com.sip.dmes.entitys.ScToolDocuments;
 import com.sip.dmes.entitys.ScStore;
 import com.sip.dmes.entitys.ScTime;
 import com.sip.dmes.utilities.DMESConstants;
@@ -54,13 +54,13 @@ import org.primefaces.model.UploadedFile;
  *
  * @author gchavarr88
  */
-public class ScReplacementBean
+public class ScToolBean
 {
 
     //Declaración de Variables
-    private List<ScReplacement> replacementList;//Lista de repuestos de la tabla
-    private ScReplacement replacementSelected; //Repuesto seleccionado para consulta, edición o eliminación
-    private ScReplacement replacementSave; //Repuesto seleccionado para agregar
+    private List<ScTool> toolList;//Lista de repuestos de la tabla
+    private ScTool toolSelected; //Herramienta seleccionado para consulta, edición o eliminación
+    private ScTool toolSave; //Herramienta seleccionado para agregar
     private ScMeasureUnit measureUnitSave; //Unidad de medida seleccionado para agregar
     private ScMeasureUnit measureUnitSaveHigh; //Unidad de medida seleccionado para agregar
     private ScMeasureUnit measureUnitSaveWidth; //Unidad de medida seleccionado para agregar
@@ -71,34 +71,34 @@ public class ScReplacementBean
     private ScMeasureUnit measureUnitSaveWeight; //Unidad de medida seleccionado para agregar
 
     
-    private ScLocation replacementLocationSave; //Localizacion seleccionada para agregar
-    private ScLocation replacementLocationSelected; //Localizacion seleccionada para agregar al repuesto
+    private ScLocation toolLocationSave; //Localizacion seleccionada para agregar
+    private ScLocation toolLocationSelected; //Localizacion seleccionada para agregar al repuesto
     private ScStore storeSave; //Localizacion seleccionada para agregar
     private ScStore storeSelected; //Localizacion seleccionada para agregar al repuesto
     private ScPriority prioritySave; //Prioridad seleccionada para agregar al repuesto
     private SessionBean sessionBean; //Bean de sesion
     private UploadedFile pictureFile; //Archivo que se copiara para la imagen del repuesto
     private ScCostCenter costCenterSave; //Centro de Costo para agregar
-    private ScReplacementAttached replacementAttachedSave;//Especificación a guardar
-    private ScReplacementDocuments replaceDocumentsSave;//Documento a guardar
+    private ScToolAttached toolAttachedSave;//Especificación a guardar
+    private ScToolDocuments replaceDocumentsSave;//Documento a guardar
     private ScMoney moneySave;//Moneda a guardar
     private List<ScPartner> partnersList;//Listado de proveedores
     private List<ScCostCenter> costCenterList;//Listado de centros de costo
     private List<ScMeasureUnit> measureUnitsList;//Lista de unidades de medida
-    private List<ScLocation> replacementLocationsList;//Lista de localizaciones
+    private List<ScLocation> toolLocationsList;//Lista de localizaciones
     private List<ScStore> storesList;//Lista de almacenes
     private List<ScTime> timeList;//Lista de tiempos
     private List<ScPriority> priorityList;//Lista de prioridades
-    private List<ScReplacementAttached> attachedListSave;//Lista de equivalencias a guardar
-    private List<ScReplacementDocuments> documentsListSave;//Lista de documentos a guardar
+    private List<ScToolAttached> attachedListSave;//Lista de equivalencias a guardar
+    private List<ScToolDocuments> documentsListSave;//Lista de documentos a guardar
     private List<ScMoney> moneyList;//Lista de monedas
     private UploadedFile fileSave;//Documento a subir
     private UploadedFile fileUpdate;//Documento a actualizar
 
     //Persistencia
-    private IScReplacement scReplacementServer; //Dao de persistencia del repuestos
+    private IScTool scToolServer; //Dao de persistencia del repuestos
 
-    private final static Logger log = Logger.getLogger(ScReplacementDao.class);
+    private final static Logger log = Logger.getLogger(ScToolDao.class);
 
     //Constantes
     //Tabs
@@ -116,9 +116,9 @@ public class ScReplacementBean
     private String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
 
     /**
-     * Creates a new instance of ScReplacementBean
+     * Creates a new instance of ScToolBean
      */
-    public ScReplacementBean()
+    public ScToolBean()
     {
 
     }
@@ -129,7 +129,7 @@ public class ScReplacementBean
     @PostConstruct
     public void initData()
     {
-        fillListReplacements();
+        fillListTools();
         fillListPartners();
         fillListCostCenter();
         fillListStore();
@@ -146,12 +146,12 @@ public class ScReplacementBean
      *
      * @author Gustavo Chavarro Ortiz
      */
-    public void fillListReplacements()
+    public void fillListTools()
     {
         try
         {
             //Se consultan todos los repuestos y se guardan en la lista ordenados por la fecha
-            setReplacementList(getScReplacementServer().getAllReplacements());
+            setToolList(getScToolServer().getAllTools());
         }
         catch (Exception e)
         {
@@ -169,7 +169,7 @@ public class ScReplacementBean
         try
         {
             //Se consultan todos los proveedores existentes
-            setPartnersList(getScReplacementServer().getAllPartners());
+            setPartnersList(getScToolServer().getAllPartners());
         }
         catch (Exception e)
         {
@@ -187,7 +187,7 @@ public class ScReplacementBean
         try
         {
             //Se consultan todos los tiempos existentes
-            setTimeList(getScReplacementServer().getAllTimes());
+            setTimeList(getScToolServer().getAllTimes());
         }
         catch (Exception e)
         {
@@ -205,7 +205,7 @@ public class ScReplacementBean
         try
         {
             //Se consultan todos los proveedores existentes
-            setCostCenterList(getScReplacementServer().getAllCostCenter());
+            setCostCenterList(getScToolServer().getAllCostCenter());
         }
         catch (Exception e)
         {
@@ -221,12 +221,12 @@ public class ScReplacementBean
      * @param store almacen que contiene las localizaciones
      * @author Gustavo Chavarro Ortiz
      */
-    public void fillListReplacementLocation(ScStore store)
+    public void fillListToolLocation(ScStore store)
     {
         try
         {
             //Se consultan todos los proveedores existentes
-            setReplacementLocationsList(getScReplacementServer().getAllReplacementLocations(store));
+            setToolLocationsList(getScToolServer().getAllToolLocations(store));
         }
         catch (Exception e)
         {
@@ -244,7 +244,7 @@ public class ScReplacementBean
         try
         {
             //Se consultan todos almacenes disponibles
-            setStoresList(getScReplacementServer().getAllStores());
+            setStoresList(getScToolServer().getAllStores());
         }
         catch (Exception e)
         {
@@ -262,7 +262,7 @@ public class ScReplacementBean
         try
         {
             //Se consultan todos almacenes disponibles
-            setPriorityList(getScReplacementServer().getAllPrioritys());
+            setPriorityList(getScToolServer().getAllPrioritys());
         }
         catch (Exception e)
         {
@@ -280,7 +280,7 @@ public class ScReplacementBean
         try
         {
             //Se consultan todos almacenes disponibles
-            setMeasureUnitsList(getScReplacementServer().getAllMeasureUnits());
+            setMeasureUnitsList(getScToolServer().getAllMeasureUnits());
         }
         catch (Exception e)
         {
@@ -298,7 +298,7 @@ public class ScReplacementBean
         try
         {
             //Se consultan todas las monedas disponibles
-            setMoneyList(getScReplacementServer().getAllMoneys());
+            setMoneyList(getScToolServer().getAllMoneys());
         }
         catch (Exception e)
         {
@@ -314,13 +314,13 @@ public class ScReplacementBean
     public void cleanFieldsInit()
     {
 
-        setReplacementSelected(new ScReplacement());
+        setToolSelected(new ScTool());
         setCostCenterSave(new ScCostCenter());
-        setReplacementLocationSave(new ScLocation());
+        setToolLocationSave(new ScLocation());
         setMeasureUnitSave(new ScMeasureUnit());
         cleanDocumentSave();
-        cleanReplacementSave();
-        setDocumentsListSave(new ArrayList<ScReplacementDocuments>());
+        cleanToolSave();
+        setDocumentsListSave(new ArrayList<ScToolDocuments>());
     }
 
     public void cleansTypesMeasures()
@@ -335,16 +335,16 @@ public class ScReplacementBean
         setMoneySave(new ScMoney());
     }
 
-    public void cleanReplacementSave()
+    public void cleanToolSave()
     {
-        setReplacementSave(new ScReplacement());
+        setToolSave(new ScTool());
         //Creamos un stock para la siguiente pestaña
-        getReplacementSave().setStock(new ScInputStock());
+        getToolSave().setStock(new ScInputStock());
         //Creamos el objeto de dimension para la segunda pestaña
-        getReplacementSave().setDimension(new ScInputDimension());
+        getToolSave().setDimension(new ScInputDimension());
         cleanListSaves();
-        setReplacementAttachedSave(new ScReplacementAttached());
-        setReplaceDocumentsSave(new ScReplacementDocuments());
+        setToolAttachedSave(new ScToolAttached());
+        setReplaceDocumentsSave(new ScToolDocuments());
         cleansTypesMeasures();
     }
 
@@ -393,9 +393,9 @@ public class ScReplacementBean
      *
      * @author Gustavo Chavarro Ortiz
      */
-    public void cleanFieldsLocationReplacement()
+    public void cleanFieldsLocationTool()
     {
-        setReplacementLocationSave(new ScLocation());
+        setToolLocationSave(new ScLocation());
     }
 
     /**
@@ -412,7 +412,7 @@ public class ScReplacementBean
                 if (Utilities.isNumeric(getCostCenterSave().getCostCenter()))
                 {
                     getCostCenterSave().setCreationDate(new Date());
-                    getScReplacementServer().saveCostCenter(getCostCenterSave());
+                    getScToolServer().saveCostCenter(getCostCenterSave());
                     if (getCostCenterList() == null)
                     {
                         setCostCenterList(new ArrayList<ScCostCenter>());
@@ -452,7 +452,7 @@ public class ScReplacementBean
         {
             if (getMeasureUnitSave() != null)
             {
-                getScReplacementServer().saveMeasureUnit(getMeasureUnitSave());
+                getScToolServer().saveMeasureUnit(getMeasureUnitSave());
                 if (getMeasureUnitsList() == null)
                 {
                     setMeasureUnitsList(new ArrayList<ScMeasureUnit>());
@@ -492,7 +492,7 @@ public class ScReplacementBean
         }
         else
         {
-            fillListReplacementLocation(store);
+            fillListToolLocation(store);
         }
         return result;
     }
@@ -502,32 +502,32 @@ public class ScReplacementBean
      *
      * @author Gustavo Chavarro Ortiz
      */
-    public void addReplacementLocations()
+    public void addToolLocations()
     {
         try
         {
-            if (getReplacementLocationSave() != null)
+            if (getToolLocationSave() != null)
             {
                 ScStore storeLocation = null;
                 //Agregamos el almacen de la localizacion
-                if (getReplacementSave().getStock().getIdStore() != null)
+                if (getToolSave().getStock().getIdStore() != null)
                 {
-                    storeLocation = getReplacementSave().getStock().getIdStore();
+                    storeLocation = getToolSave().getStock().getIdStore();
                 }
                 //Para una actualizacion de datos
                 else
                 {
-                    storeLocation = getReplacementSelected().getStock().getIdStore();
+                    storeLocation = getToolSelected().getStock().getIdStore();
                 }
-                getReplacementLocationSave().setStore(storeLocation);
+                getToolLocationSave().setStore(storeLocation);
                 //Se realiza la persistencia de la localizacion
-                getScReplacementServer().saveLocationReplacement(getReplacementLocationSave());
-                if (getReplacementLocationsList() == null)
+                getScToolServer().saveLocationTool(getToolLocationSave());
+                if (getToolLocationsList() == null)
                 {
-                    setReplacementLocationsList(new ArrayList<ScLocation>());
+                    setToolLocationsList(new ArrayList<ScLocation>());
                 }
-                getReplacementLocationsList().add(getReplacementLocationSave());
-                cleanFieldsLocationReplacement();
+                getToolLocationsList().add(getToolLocationSave());
+                cleanFieldsLocationTool();
             }
             else
             {
@@ -552,12 +552,12 @@ public class ScReplacementBean
      * @param documents documento a borrar
      * @author Gustavo Chavarro Ortiz
      */
-    public void deleteDocument(ScReplacementDocuments documents)
+    public void deleteDocument(ScToolDocuments documents)
     {
         if (getDocumentsListSave() != null && !getDocumentsListSave().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for (ScReplacementDocuments iterator : getDocumentsListSave())
+            for (ScToolDocuments iterator : getDocumentsListSave())
             {
                 if (iterator.getDocumentTittle().equals(documents.getDocumentTittle())
                         && iterator.getDocumentPath().equals(documents.getDocumentPath()))
@@ -582,12 +582,12 @@ public class ScReplacementBean
      * @param documents documento a borrar
      * @author Gustavo Chavarro Ortiz
      */
-    public void deleteDocumentUpdate(ScReplacementDocuments documents)
+    public void deleteDocumentUpdate(ScToolDocuments documents)
     {
-        if (getReplacementSelected().getReplacementDocuments() != null && !getReplacementSelected().getReplacementDocuments().isEmpty())
+        if (getToolSelected().getToolDocuments() != null && !getToolSelected().getToolDocuments().isEmpty())
         {
             int index = 0; //Posición del objeto que se eliminará
-            for (ScReplacementDocuments iterator : getReplacementSelected().getReplacementDocuments())
+            for (ScToolDocuments iterator : getToolSelected().getToolDocuments())
             {
                 if (iterator.getDocumentTittle().equals(documents.getDocumentTittle())
                         && iterator.getDocumentPath().equals(documents.getDocumentPath()))
@@ -596,7 +596,7 @@ public class ScReplacementBean
                 }
                 index++;//Aumentamos la posición
             }
-            getReplacementSelected().getReplacementDocuments().remove(index);//Removemos el elemento en la posición hallada
+            getToolSelected().getToolDocuments().remove(index);//Removemos el elemento en la posición hallada
         }
         else
         {
@@ -614,7 +614,7 @@ public class ScReplacementBean
      * asistente
      * @author Gustavo Chavarro Ortiz
      */
-    public String onFlowProcessSaveReplacement(FlowEvent event)
+    public String onFlowProcessSaveTool(FlowEvent event)
     {
         int packingUnit = -1;
         if (event.getNewStep().equals(TAB_GENERAL))
@@ -623,124 +623,124 @@ public class ScReplacementBean
         }
         if (event.getOldStep().equals(TAB_GENERAL))
         {
-            if (validateFields("Nombre Repuesto", getReplacementSave().getName(), 3))
+            if (validateFields("Nombre Herramienta", getToolSave().getName(), 3))
             {
                 return event.getOldStep();
             }   
-            if (validateFields("Vida Útil", getReplacementSave().getUsefulLife()+ "", 2))
+            if (validateFields("Vida Útil", getToolSave().getUsefulLife()+ "", 2))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Unidad de Tiempo", getReplacementSave().getTime(), 4))
+            if (validateFields("Unidad de Tiempo", getToolSave().getTime(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Tipo de Repuesto", getReplacementSave().getTypeReplacement(), 3))
+            if (validateFields("Tipo de Herramienta", getToolSave().getTypeTool(), 3))
             {
                 return event.getOldStep();
             }
             //Validamos que el valor sea mayor que cero
-            if (validateFields("Valor", getReplacementSave().getValue() + "", 1))
+            if (validateFields("Valor", getToolSave().getValue() + "", 1))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Moneda", getReplacementSave().getMoney(), 4))
+            if (validateFields("Moneda", getToolSave().getMoney(), 4))
             {
                 return event.getOldStep();
             }
             //modificamos el precio por unidad
-            getReplacementSave().getStock().setPriceUnit(getReplacementSave().getValue());
+            getToolSave().getStock().setPriceUnit(getToolSave().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
-            getReplacementSave().getStock().setTotalValue(getReplacementSave().getValue()
-                    * getReplacementSave().getStock().getCurrentStock());
+            getToolSave().getStock().setTotalValue(getToolSave().getValue()
+                    * getToolSave().getStock().getCurrentStock());
 
-            if (validateFields("Marca", getReplacementSave().getMark(), 3))
+            if (validateFields("Marca", getToolSave().getMark(), 3))
             {
                 return event.getOldStep();
             }
 
-            if (Utilities.isEmpty(getReplacementSave().getPathPicture()))
+            if (Utilities.isEmpty(getToolSave().getPathPicture()))
             {
-                getReplacementSave().setPathPicture(" ");//Setteamos la ruta de la imagen
+                getToolSave().setPathPicture(" ");//Setteamos la ruta de la imagen
             }
-            if (validateFields("Serie", getReplacementSave().getSerie(), 3))
+            if (validateFields("Serie", getToolSave().getSerie(), 3))
             {
                 return event.getOldStep();
             }
 
             //Validamos los campos seleccionables
-            if (validateFields("Proveedor y Garantía", getReplacementSave().getSupplierGuarantee(), 4))
+            if (validateFields("Proveedor y Garantía", getToolSave().getSupplierGuarantee(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Centro de Costos", getReplacementSave().getCostCenter(), 4))
+            if (validateFields("Centro de Costos", getToolSave().getCostCenter(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Almacen", getReplacementSave().getStock().getIdStore(), 4))
+            if (validateFields("Almacen", getToolSave().getStock().getIdStore(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Localización", getReplacementSave().getInputLocation(), 4))
+            if (validateFields("Localización", getToolSave().getInputLocation(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Prioridad", getReplacementSave().getPriority(), 4))
+            if (validateFields("Prioridad", getToolSave().getPriority(), 4))
             {
                 return event.getOldStep();
             }
             for(ScTime time: getTimeList())
             {
-                if(time.getIdTime().equals(getReplacementSave().getTime().getIdTime()))
+                if(time.getIdTime().equals(getToolSave().getTime().getIdTime()))
                 {
-                    getReplacementSave().setTime(time);
+                    getToolSave().setTime(time);
                 }
             }
             //Agregamos la fecha de creación del repuesto
-            getReplacementSave().setCreationDate(new Date());
-            getReplacementSave().setValueMinutes((getReplacementSave().getUsefulLife() * getReplacementSave().getTime().getMinutes()));
+            getToolSave().setCreationDate(new Date());
+            getToolSave().setValueMinutes((getToolSave().getUsefulLife() * getToolSave().getTime().getMinutes()));
         }
         //Si pasamos de la pestaña de datos generales a stock y dimensiones
         else if (event.getOldStep().equals(TAB_STOCK))
         {
             //Validamos que ninguno de los campos del stock sea vacio o negativo
-            if (validateFields("Stock Máximo", getReplacementSave().getStock().getMaximeStock(), 2))
+            if (validateFields("Stock Máximo", getToolSave().getStock().getMaximeStock(), 2))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Stock Mínimo", getReplacementSave().getStock().getMinimeStock(), 2))
+            if (validateFields("Stock Mínimo", getToolSave().getStock().getMinimeStock(), 2))
             {
                 return event.getOldStep();
             }
-            if (getReplacementSave().getStock().getMaximeStock() <= getReplacementSave().getStock().getMinimeStock())
+            if (getToolSave().getStock().getMaximeStock() <= getToolSave().getStock().getMinimeStock())
             {
-                addError(null, "Error en el Stock del Repuesto", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+                addError(null, "Error en el Stock del Herramienta", "El Stock Máximo debe ser mayor que el Stock Mínimo");
                 return event.getOldStep();
             }
-            if (validateFields("Stock Real", getReplacementSave().getStock().getCurrentStock(), 2))
+            if (validateFields("Stock Real", getToolSave().getStock().getCurrentStock(), 2))
             {
                 return event.getOldStep();
             }
 
-            if (validateFields("Stock Óptimo", getReplacementSave().getStock().getOptimeStock(), 2))
+            if (validateFields("Stock Óptimo", getToolSave().getStock().getOptimeStock(), 2))
             {
                 return event.getOldStep();
             }
             else
             {
-                if (getReplacementSave().getStock().getMaximeStock() < getReplacementSave().getStock().getOptimeStock())
+                if (getToolSave().getStock().getMaximeStock() < getToolSave().getStock().getOptimeStock())
                 {
-                    addError(null, "Error en el Stock del Repuesto", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                    addError(null, "Error en el Stock del Herramienta", "El Stock Máximo debe ser mayor que el Stock Óptimo");
                     return event.getOldStep();
                 }
-                if (getReplacementSave().getStock().getMinimeStock() > getReplacementSave().getStock().getOptimeStock())
+                if (getToolSave().getStock().getMinimeStock() > getToolSave().getStock().getOptimeStock())
                 {
-                    addError(null, "Error en el Stock del Repuesto", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                    addError(null, "Error en el Stock del Herramienta", "El Stock Mínimo debe ser menor que el Stock Óptimo");
                     return event.getOldStep();
                 }
             }
 
-            if (validateFields("Altura", getReplacementSave().getDimension().getHight(), 1))
+            if (validateFields("Altura", getToolSave().getDimension().getHight(), 1))
             {
                 return event.getOldStep();
             }
@@ -749,7 +749,7 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
                 return event.getOldStep();
             }
-            if (validateFields("Ancho", getReplacementSave().getDimension().getWidth(), 1))
+            if (validateFields("Ancho", getToolSave().getDimension().getWidth(), 1))
             {
                 return event.getOldStep();
             }
@@ -758,7 +758,7 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
                 return event.getOldStep();
             }
-            if (validateFields("Largo", getReplacementSave().getDimension().getLarge(), 1))
+            if (validateFields("Largo", getToolSave().getDimension().getLarge(), 1))
             {
                 return event.getOldStep();
             }
@@ -767,7 +767,7 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
                 return event.getOldStep();
             }
-            if (validateFields("Peso", getReplacementSave().getDimension().getWeight(), 1))
+            if (validateFields("Peso", getToolSave().getDimension().getWeight(), 1))
             {
                 return event.getOldStep();
             }
@@ -776,9 +776,9 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
                 return event.getOldStep();
             }
-            if (!Utilities.isEmpty(getReplacementSave().getDimension().getVolume()))
+            if (!Utilities.isEmpty(getToolSave().getDimension().getVolume()))
             {
-                if (validateFields("Volumen", getReplacementSave().getDimension().getVolume(), 1))
+                if (validateFields("Volumen", getToolSave().getDimension().getVolume(), 1))
                 {
                     return event.getOldStep();
                 }
@@ -788,9 +788,9 @@ public class ScReplacementBean
                     return event.getOldStep();
                 }
             }
-            if (!Utilities.isEmpty(getReplacementSave().getDimension().getThickness()))
+            if (!Utilities.isEmpty(getToolSave().getDimension().getThickness()))
             {
-                if (validateFields("Grosor", getReplacementSave().getDimension().getThickness(), 1))
+                if (validateFields("Grosor", getToolSave().getDimension().getThickness(), 1))
                 {
                     return event.getOldStep();
                 }
@@ -800,9 +800,9 @@ public class ScReplacementBean
                     return event.getOldStep();
                 }
             }
-            if (!Utilities.isEmpty(getReplacementSave().getDimension().getRadio()))
+            if (!Utilities.isEmpty(getToolSave().getDimension().getRadio()))
             {
-                if (validateFields("Radio", getReplacementSave().getDimension().getRadio(), 1))
+                if (validateFields("Radio", getToolSave().getDimension().getRadio(), 1))
                 {
                     return event.getOldStep();
                 }
@@ -812,9 +812,9 @@ public class ScReplacementBean
                     return event.getOldStep();
                 }
             }
-            if (!Utilities.isEmpty(getReplacementSave().getDimension().getWeight()))
+            if (!Utilities.isEmpty(getToolSave().getDimension().getWeight()))
             {
-                if (validateFields("Peso", getReplacementSave().getDimension().getWeight(), 1))
+                if (validateFields("Peso", getToolSave().getDimension().getWeight(), 1))
                 {
                     return event.getOldStep();
                 }
@@ -832,7 +832,7 @@ public class ScReplacementBean
     /**
      * Método encargado de permitir mostrar un combo box.
      *
-     * @param value valor del replacement que permite habilitar el combo box
+     * @param value valor del tool que permite habilitar el combo box
      * @param option valor del tipo de medida
      * @return boolean valor que permite mostrar u ocultar un combo box
      * @author Gustavo Chavarro Ortiz
@@ -895,8 +895,8 @@ public class ScReplacementBean
      */
     public void calcuteTotalPrice()
     {
-        getReplacementSave().getStock().setTotalValue(getReplacementSave().getValue()
-                * getReplacementSave().getStock().getCurrentStock());
+        getToolSave().getStock().setTotalValue(getToolSave().getValue()
+                * getToolSave().getStock().getCurrentStock());
     }
 
     /**
@@ -906,8 +906,8 @@ public class ScReplacementBean
      */
     public void calcuteTotalPriceUpdate()
     {
-        getReplacementSelected().getStock().setTotalValue(getReplacementSelected().getValue()
-                * getReplacementSelected().getStock().getCurrentStock());
+        getToolSelected().getStock().setTotalValue(getToolSelected().getValue()
+                * getToolSelected().getStock().getCurrentStock());
     }    
 
     
@@ -923,7 +923,7 @@ public class ScReplacementBean
      * asistente
      * @author Gustavo Chavarro Ortiz
      */
-    public String onFlowProcessUpdateReplacement(FlowEvent event)
+    public String onFlowProcessUpdateTool(FlowEvent event)
     {
         if (event.getNewStep().equals(TAB_GENERAL))
         {
@@ -931,122 +931,122 @@ public class ScReplacementBean
         }
         if (event.getOldStep().equals(TAB_GENERAL))
         {
-            if (validateFields("Nombre Repuesto", getReplacementSelected().getName(), 3))
+            if (validateFields("Nombre Herramienta", getToolSelected().getName(), 3))
             {
                 return event.getOldStep();
             }   
-            if (validateFields("Vida Útil", getReplacementSelected().getUsefulLife()+ "", 2))
+            if (validateFields("Vida Útil", getToolSelected().getUsefulLife()+ "", 2))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Unidad de Tiempo", getReplacementSelected().getTime(), 4))
+            if (validateFields("Unidad de Tiempo", getToolSelected().getTime(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Tipo de Repuesto", getReplacementSelected().getTypeReplacement(), 3))
+            if (validateFields("Tipo de Herramienta", getToolSelected().getTypeTool(), 3))
             {
                 return event.getOldStep();
             }
             //Validamos que el valor sea mayor que cero
-            if (validateFields("Valor", getReplacementSelected().getValue() + "", 1))
+            if (validateFields("Valor", getToolSelected().getValue() + "", 1))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Moneda", getReplacementSelected().getMoney(), 4))
+            if (validateFields("Moneda", getToolSelected().getMoney(), 4))
             {
                 return event.getOldStep();
             }
             //modificamos el precio por unidad
-            getReplacementSelected().getStock().setPriceUnit(getReplacementSelected().getValue());
+            getToolSelected().getStock().setPriceUnit(getToolSelected().getValue());
             //modificamos el precio total igual al precio por unidad * el stock actual
-            getReplacementSelected().getStock().setTotalValue(getReplacementSelected().getValue()
-                    * getReplacementSelected().getStock().getCurrentStock());
+            getToolSelected().getStock().setTotalValue(getToolSelected().getValue()
+                    * getToolSelected().getStock().getCurrentStock());
 
-            if (validateFields("Marca", getReplacementSelected().getMark(), 3))
+            if (validateFields("Marca", getToolSelected().getMark(), 3))
             {
                 return event.getOldStep();
             }
 
-            if (Utilities.isEmpty(getReplacementSelected().getPathPicture()))
+            if (Utilities.isEmpty(getToolSelected().getPathPicture()))
             {
-                getReplacementSelected().setPathPicture(" ");//Setteamos la ruta de la imagen
+                getToolSelected().setPathPicture(" ");//Setteamos la ruta de la imagen
             }
-            if (validateFields("Serie", getReplacementSelected().getSerie(), 3))
+            if (validateFields("Serie", getToolSelected().getSerie(), 3))
             {
                 return event.getOldStep();
             }
 
             //Validamos los campos seleccionables
-            if (validateFields("Proveedor y Garantía", getReplacementSelected().getSupplierGuarantee(), 4))
+            if (validateFields("Proveedor y Garantía", getToolSelected().getSupplierGuarantee(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Centro de Costos", getReplacementSelected().getCostCenter(), 4))
+            if (validateFields("Centro de Costos", getToolSelected().getCostCenter(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Almacen", getReplacementSelected().getStock().getIdStore(), 4))
+            if (validateFields("Almacen", getToolSelected().getStock().getIdStore(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Localización", getReplacementSelected().getInputLocation(), 4))
+            if (validateFields("Localización", getToolSelected().getInputLocation(), 4))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Prioridad", getReplacementSelected().getPriority(), 4))
+            if (validateFields("Prioridad", getToolSelected().getPriority(), 4))
             {
                 return event.getOldStep();
             }
             for(ScTime time: getTimeList())
             {
-                if(time.getIdTime().equals(getReplacementSelected().getTime().getIdTime()))
+                if(time.getIdTime().equals(getToolSelected().getTime().getIdTime()))
                 {
-                    getReplacementSelected().setTime(time);
+                    getToolSelected().setTime(time);
                 }
             }
-            getReplacementSelected().setValueMinutes((getReplacementSelected().getUsefulLife() * getReplacementSelected().getTime().getMinutes()));
+            getToolSelected().setValueMinutes((getToolSelected().getUsefulLife() * getToolSelected().getTime().getMinutes()));
         }
         //Si pasamos de la pestaña de datos generales a stock y dimensiones
         else if (event.getOldStep().equals(TAB_STOCK))
         {
             //Validamos que ninguno de los campos del stock sea vacio o negativo
-            if (validateFields("Stock Máximo", getReplacementSelected().getStock().getMaximeStock(), 2))
+            if (validateFields("Stock Máximo", getToolSelected().getStock().getMaximeStock(), 2))
             {
                 return event.getOldStep();
             }
-            if (validateFields("Stock Mínimo", getReplacementSelected().getStock().getMinimeStock(), 2))
+            if (validateFields("Stock Mínimo", getToolSelected().getStock().getMinimeStock(), 2))
             {
                 return event.getOldStep();
             }
-            if (getReplacementSelected().getStock().getMaximeStock() <= getReplacementSelected().getStock().getMinimeStock())
+            if (getToolSelected().getStock().getMaximeStock() <= getToolSelected().getStock().getMinimeStock())
             {
-                addError(null, "Error en el Stock del Repuesto", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+                addError(null, "Error en el Stock del Herramienta", "El Stock Máximo debe ser mayor que el Stock Mínimo");
                 return event.getOldStep();
             }
-            if (validateFields("Stock Real", getReplacementSelected().getStock().getCurrentStock(), 2))
+            if (validateFields("Stock Real", getToolSelected().getStock().getCurrentStock(), 2))
             {
                 return event.getOldStep();
             }
 
-            if (validateFields("Stock Óptimo", getReplacementSelected().getStock().getOptimeStock(), 2))
+            if (validateFields("Stock Óptimo", getToolSelected().getStock().getOptimeStock(), 2))
             {
                 return event.getOldStep();
             }
             else
             {
-                if (getReplacementSelected().getStock().getMaximeStock() < getReplacementSelected().getStock().getOptimeStock())
+                if (getToolSelected().getStock().getMaximeStock() < getToolSelected().getStock().getOptimeStock())
                 {
-                    addError(null, "Error en el Stock del Repuesto", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                    addError(null, "Error en el Stock del Herramienta", "El Stock Máximo debe ser mayor que el Stock Óptimo");
                     return event.getOldStep();
                 }
-                if (getReplacementSelected().getStock().getMinimeStock() > getReplacementSelected().getStock().getOptimeStock())
+                if (getToolSelected().getStock().getMinimeStock() > getToolSelected().getStock().getOptimeStock())
                 {
-                    addError(null, "Error en el Stock del Repuesto", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                    addError(null, "Error en el Stock del Herramienta", "El Stock Mínimo debe ser menor que el Stock Óptimo");
                     return event.getOldStep();
                 }
             }
 
-            if (validateFields("Altura", getReplacementSelected().getDimension().getHight(), 1))
+            if (validateFields("Altura", getToolSelected().getDimension().getHight(), 1))
             {
                 return event.getOldStep();
             }
@@ -1055,7 +1055,7 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
                 return event.getOldStep();
             }
-            if (validateFields("Ancho", getReplacementSelected().getDimension().getWidth(), 1))
+            if (validateFields("Ancho", getToolSelected().getDimension().getWidth(), 1))
             {
                 return event.getOldStep();
             }
@@ -1064,7 +1064,7 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
                 return event.getOldStep();
             }
-            if (validateFields("Largo", getReplacementSelected().getDimension().getLarge(), 1))
+            if (validateFields("Largo", getToolSelected().getDimension().getLarge(), 1))
             {
                 return event.getOldStep();
             }
@@ -1073,7 +1073,7 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
                 return event.getOldStep();
             }
-            if (validateFields("Peso", getReplacementSelected().getDimension().getWeight(), 1))
+            if (validateFields("Peso", getToolSelected().getDimension().getWeight(), 1))
             {
                 return event.getOldStep();
             }
@@ -1082,9 +1082,9 @@ public class ScReplacementBean
                 addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
                 return event.getOldStep();
             }
-            if (!Utilities.isEmpty(getReplacementSelected().getDimension().getVolume()))
+            if (!Utilities.isEmpty(getToolSelected().getDimension().getVolume()))
             {
-                if (validateFields("Volumen", getReplacementSelected().getDimension().getVolume(), 1))
+                if (validateFields("Volumen", getToolSelected().getDimension().getVolume(), 1))
                 {
                     return event.getOldStep();
                 }
@@ -1094,9 +1094,9 @@ public class ScReplacementBean
                     return event.getOldStep();
                 }
             }
-            if (!Utilities.isEmpty(getReplacementSelected().getDimension().getThickness()))
+            if (!Utilities.isEmpty(getToolSelected().getDimension().getThickness()))
             {
-                if (validateFields("Grosor", getReplacementSelected().getDimension().getThickness(), 1))
+                if (validateFields("Grosor", getToolSelected().getDimension().getThickness(), 1))
                 {
                     return event.getOldStep();
                 }
@@ -1106,9 +1106,9 @@ public class ScReplacementBean
                     return event.getOldStep();
                 }
             }
-            if (!Utilities.isEmpty(getReplacementSelected().getDimension().getRadio()))
+            if (!Utilities.isEmpty(getToolSelected().getDimension().getRadio()))
             {
-                if (validateFields("Radio", getReplacementSelected().getDimension().getRadio(), 1))
+                if (validateFields("Radio", getToolSelected().getDimension().getRadio(), 1))
                 {
                     return event.getOldStep();
                 }
@@ -1118,9 +1118,9 @@ public class ScReplacementBean
                     return event.getOldStep();
                 }
             }
-            if (!Utilities.isEmpty(getReplacementSelected().getDimension().getWeight()))
+            if (!Utilities.isEmpty(getToolSelected().getDimension().getWeight()))
             {
-                if (validateFields("Peso", getReplacementSelected().getDimension().getWeight(), 1))
+                if (validateFields("Peso", getToolSelected().getDimension().getWeight(), 1))
                 {
                     return event.getOldStep();
                 }
@@ -1136,28 +1136,28 @@ public class ScReplacementBean
  
     /**
      * Método encargado de guardar temporalmente un adjunto.
-     * @param replacementAttached adjunto que sera guardado
+     * @param toolAttached adjunto que sera guardado
      * @param attachedListSave lista de adjuntos a la que será agregado el adjunto en cuestión
      * @param type tipo del adjunto, puede ser una observación, especificación o característica
-     * @param replacement repuesto o consumible al que pertenece el adjunto
+     * @param tool repuesto o consumible al que pertenece el adjunto
      * @author Gustavo Chavarro Ortiz
      */
-    public void saveAttached(ScReplacementAttached replacementAttached, ScReplacement replacement ,
-            List<ScReplacementAttached> attachedListSave,String type)
+    public void saveAttached(ScToolAttached toolAttached, ScTool tool ,
+            List<ScToolAttached> attachedListSave,String type)
     {
-        if(replacementAttached != null)
+        if(toolAttached != null)
         {
-            if(!Utilities.isEmpty(replacementAttached.getTittle()) && 
-                    !Utilities.isEmpty(replacementAttached.getDescription())
+            if(!Utilities.isEmpty(toolAttached.getTittle()) && 
+                    !Utilities.isEmpty(toolAttached.getDescription())
                     && !Utilities.isEmpty(type))
             {
                 if(attachedListSave != null)
                 {
                     //Guardamos exitosamente el adjunto
-                    replacementAttached.setReplacement(replacement);
-                    replacementAttached.setType(type);
-                    attachedListSave.add(replacementAttached);
-                    setReplacementAttachedSave(new ScReplacementAttached());
+                    toolAttached.setTool(tool);
+                    toolAttached.setType(type);
+                    attachedListSave.add(toolAttached);
+                    setToolAttachedSave(new ScToolAttached());
                 }
                 else
                 {
@@ -1185,15 +1185,15 @@ public class ScReplacementBean
      * Método encargado de retornar la lista de adjuntos de acuerdo a un tipo
      * @param attachedListSave lista de donde serán extraidos los adjuntos
      * @param type tipo del adjunto extraido
-     * @return List<ScReplacementAttached> tipo del adjunto a devolver
+     * @return List<ScToolAttached> tipo del adjunto a devolver
      * @author Gustavo Chavarro Ortiz
      */
-    public List<ScReplacementAttached> getAttachedList(List<ScReplacementAttached> attachedListSave, String type)
+    public List<ScToolAttached> getAttachedList(List<ScToolAttached> attachedListSave, String type)
     {
-        List<ScReplacementAttached> result = new ArrayList<ScReplacementAttached>();
+        List<ScToolAttached> result = new ArrayList<ScToolAttached>();
         if(attachedListSave != null && !attachedListSave.isEmpty())
         {
-            for(ScReplacementAttached attached: attachedListSave)
+            for(ScToolAttached attached: attachedListSave)
             {
                 if(attached.getType().equals(type))
                 {
@@ -1207,22 +1207,22 @@ public class ScReplacementBean
     
     /**
      * Método encargado de eliminar un adjunto.
-     * @param replacementAttached adjunto que sera guardado
+     * @param toolAttached adjunto que sera guardado
      * @param attachedListSave lista de adjuntos a la que será agregado el adjunto en cuestión
      * @author Gustavo Chavarro Ortiz
      */
-    public void deleteAttached(List<ScReplacementAttached> attachedListSave, ScReplacementAttached replacementAttached)
+    public void deleteAttached(List<ScToolAttached> attachedListSave, ScToolAttached toolAttached)
     {
         int index = 0;
-        if(replacementAttached != null)
+        if(toolAttached != null)
         {
             if(attachedListSave != null && !attachedListSave.isEmpty())
             {
-                for(ScReplacementAttached attached: attachedListSave)
+                for(ScToolAttached attached: attachedListSave)
                 {
-                    if(attached.getType().equals(replacementAttached.getType()) && attached.getTittle()
-                            .equals(replacementAttached.getTittle()) && attached.getDescription()
-                            .equals(replacementAttached.getDescription()))
+                    if(attached.getType().equals(toolAttached.getType()) && attached.getTittle()
+                            .equals(toolAttached.getTittle()) && attached.getDescription()
+                            .equals(toolAttached.getDescription()))
                     {
                         break;
                     }
@@ -1256,7 +1256,7 @@ public class ScReplacementBean
      * asistente
      * @author Gustavo Chavarro Ortiz
      */
-    public String onFlowProcessViewReplacement(FlowEvent event)
+    public String onFlowProcessViewTool(FlowEvent event)
     {
 
         return event.getNewStep();
@@ -1268,61 +1268,61 @@ public class ScReplacementBean
      *
      * @author Gustavo Chavarro Ortiz
      */
-    public void saveReplacement()
+    public void saveTool()
     {
         //Valido que el repuesto no sea nulo
-        if (getReplacementSave() != null)
+        if (getToolSave() != null)
         {
-            if (getReplacementAttachedSave()!= null)
+            if (getToolAttachedSave()!= null)
             {
                 //Le agrego la lista de especificaciones
-                getReplacementSave().setReplacementAttacheds(getAttachedListSave());
+                getToolSave().setToolAttacheds(getAttachedListSave());
             }
             if (getDocumentsListSave() != null)
             {
                 //Le agrego la lista de documentos
-                getReplacementSave().setReplacementDocuments(getDocumentsListSave());
+                getToolSave().setToolDocuments(getDocumentsListSave());
             }
             //Almacenamos el repuesto
             try
             {
                 if (getMeasureUnitSaveHigh() != null)
                 {
-                    getReplacementSave().getDimension().setHight(getReplacementSave().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
+                    getToolSave().getDimension().setHight(getToolSave().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
                 }
                 if (getMeasureUnitSaveWidth() != null)
                 {
-                    getReplacementSave().getDimension().setWidth(getReplacementSave().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
+                    getToolSave().getDimension().setWidth(getToolSave().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
                 }
                 if (getMeasureUnitSaveLarge() != null)
                 {
-                    getReplacementSave().getDimension().setLarge(getReplacementSave().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
+                    getToolSave().getDimension().setLarge(getToolSave().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
                 }
                 if (getMeasureUnitSaveWeight() != null)
                 {
-                    getReplacementSave().getDimension().setWeight(getReplacementSave().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
+                    getToolSave().getDimension().setWeight(getToolSave().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
                 }
                 if (getMeasureUnitSaveVolume() != null)
                 {
-                    getReplacementSave().getDimension().setVolume(getReplacementSave().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
+                    getToolSave().getDimension().setVolume(getToolSave().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
                 }
                 if (getMeasureUnitSaveThickness() != null)
                 {
-                    getReplacementSave().getDimension().setThickness(getReplacementSave().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
+                    getToolSave().getDimension().setThickness(getToolSave().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
                 }
                 if (getMeasureUnitSaveRadio() != null)
                 {
-                    getReplacementSave().getDimension().setRadio(getReplacementSave().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
+                    getToolSave().getDimension().setRadio(getToolSave().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
                 }
-                getScReplacementServer().saveReplacement(getReplacementSave());
-                getReplacementList().add(getReplacementSave());
-                cleanReplacementSave();
+                getScToolServer().saveTool(getToolSave());
+                getToolList().add(getToolSave());
+                cleanToolSave();
             }
             catch (Exception e)
             {
                 log.error("Error almacenando el repuesto", e);
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                cleanReplacementSave();
+                cleanToolSave();
             }
 
         }
@@ -1335,37 +1335,37 @@ public class ScReplacementBean
     public void joinColumnsUpdate()
     {
         //Valido que el repuesto no sea nulo
-        if (getReplacementSelected() != null)
+        if (getToolSelected() != null)
         {
         //Almacenamos el repuesto
 
             if (getMeasureUnitSaveHigh() != null)
             {
-                getReplacementSelected().getDimension().setHight(getReplacementSelected().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
+                getToolSelected().getDimension().setHight(getToolSelected().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
             }
             if (getMeasureUnitSaveWidth() != null)
             {
-                getReplacementSelected().getDimension().setWidth(getReplacementSelected().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
+                getToolSelected().getDimension().setWidth(getToolSelected().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
             }
             if (getMeasureUnitSaveLarge() != null)
             {
-                getReplacementSelected().getDimension().setLarge(getReplacementSelected().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
+                getToolSelected().getDimension().setLarge(getToolSelected().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
             }
             if (getMeasureUnitSaveWeight() != null)
             {
-                getReplacementSelected().getDimension().setWeight(getReplacementSelected().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
+                getToolSelected().getDimension().setWeight(getToolSelected().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
             }
             if (getMeasureUnitSaveVolume() != null)
             {
-                getReplacementSelected().getDimension().setVolume(getReplacementSelected().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
+                getToolSelected().getDimension().setVolume(getToolSelected().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
             }
             if (getMeasureUnitSaveThickness() != null)
             {
-                getReplacementSelected().getDimension().setThickness(getReplacementSelected().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
+                getToolSelected().getDimension().setThickness(getToolSelected().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
             }
             if (getMeasureUnitSaveRadio() != null)
             {
-                getReplacementSelected().getDimension().setRadio(getReplacementSelected().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
+                getToolSelected().getDimension().setRadio(getToolSelected().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
             }
         }
     }
@@ -1376,35 +1376,35 @@ public class ScReplacementBean
      *
      * @author Gustavo Chavarro Ortiz
      */
-    public void updateReplacement()
+    public void updateTool()
     {
         //Valido que el repuesto no sea nulo
-        if (getReplacementSelected() != null)
+        if (getToolSelected() != null)
         {
             joinColumnsUpdate();
             try
             {
-                getScReplacementServer().updateReplacement(getReplacementSelected());
+                getScToolServer().updateTool(getToolSelected());
                 int index = 0;
-                for (ScReplacement replacement : getReplacementList())
+                for (ScTool tool : getToolList())
                 {
-                    if (replacement.getIdReplacement().equals(getReplacementSelected().getIdReplacement()))
+                    if (tool.getIdTool().equals(getToolSelected().getIdTool()))
                     {
                         break;
                     }
                     index++;
                 }
-                if (index < getReplacementList().size())
+                if (index < getToolList().size())
                 {
-                    getReplacementList().set(index, getReplacementSelected());
+                    getToolList().set(index, getToolSelected());
                 }
-                cleanReplacementSave();
+                cleanToolSave();
             }
             catch (Exception e)
             {
                 log.error("Error actualizando el repuesto", e);
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                cleanReplacementSave();
+                cleanToolSave();
             }
 
         }
@@ -1416,20 +1416,20 @@ public class ScReplacementBean
      *
      * @autor Gustavo Chavarro Ortiz
      */
-    public void deleteReplacement()
+    public void deleteTool()
     {
-        if (getReplacementSelected() != null)
+        if (getToolSelected() != null)
         {
             try
             {
-                getScReplacementServer().deleteReplacement(getReplacementSelected());
-                getReplacementList().remove(getReplacementSelected());
+                getScToolServer().deleteTool(getToolSelected());
+                getToolList().remove(getToolSelected());
             }
             catch (Exception e)
             {
                 log.error("Error eliminando el repuesto", e);
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                cleanReplacementSave();
+                cleanToolSave();
             }
         }
     }
@@ -1441,8 +1441,8 @@ public class ScReplacementBean
      */
     public void cleanListSaves()
     {
-        setAttachedListSave(new ArrayList<ScReplacementAttached>());
-        setDocumentsListSave(new ArrayList<ScReplacementDocuments>());
+        setAttachedListSave(new ArrayList<ScToolAttached>());
+        setDocumentsListSave(new ArrayList<ScToolDocuments>());
     }
 
     /**
@@ -1573,10 +1573,10 @@ public class ScReplacementBean
                         switch (option)
                         {
                             case 1://opción para guardar
-                                getReplacementSave().setPathPicture(file.getAbsolutePath());
+                                getToolSave().setPathPicture(file.getAbsolutePath());
                                 break;
                             case 2://opción para actualizar
-                                getReplacementSelected().setPathPicture(file.getAbsolutePath());
+                                getToolSelected().setPathPicture(file.getAbsolutePath());
                                 break;
                             default:
                                 break;
@@ -1610,11 +1610,11 @@ public class ScReplacementBean
         {
             case 1://opción para guardar
                 RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
-                RequestContext.getCurrentInstance().execute("PF('dialogReplacementSave').show()");
+                RequestContext.getCurrentInstance().execute("PF('dialogToolSave').show()");
                 break;
             case 2://opción para actualizar
                 RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
-                RequestContext.getCurrentInstance().execute("PF('dialogReplacementUpdate').show()");
+                RequestContext.getCurrentInstance().execute("PF('dialogToolUpdate').show()");
                 break;
             default:
                 break;
@@ -1625,20 +1625,20 @@ public class ScReplacementBean
      * Método encargado de visualizar la imagen de un elemento.
      *
      * @return String cadena con la ruta de la imagen
-     * @param replacement repuesto al que se le consultará la imagen
+     * @param tool repuesto al que se le consultará la imagen
      * @author Gustavo Chavarro Ortiz
      */
-    public String searchImage(ScReplacement replacement)
+    public String searchImage(ScTool tool)
     {
         try
         {
-            if (replacement != null)
+            if (tool != null)
             {
-                if (!Utilities.isEmpty(replacement.getPathPicture())) 
+                if (!Utilities.isEmpty(tool.getPathPicture())) 
                 {
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(replacement.getPathPicture())));
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(tool.getPathPicture())));
                     //la constante me permite mapear imagenes externas
-                    return DMESConstants.PATH_EXTERN_PICTURES + replacement.getPathPicture();
+                    return DMESConstants.PATH_EXTERN_PICTURES + tool.getPathPicture();
                 }
             }
         }
@@ -1652,64 +1652,64 @@ public class ScReplacementBean
     /**
      * Método encargado de limpiar los campos para eliminar un repuesto
      *
-     * @param replacement repuesto a eliminar
+     * @param tool repuesto a eliminar
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectedForDelete(ScReplacement replacement)
+    public void selectedForDelete(ScTool tool)
     {
         cleansTypesMeasures();
-        setReplacementSelected(replacement);
+        setToolSelected(tool);
     }
 
     /**
      * Método encargado de limpiar los campos para actualizar un repuesto
      *
-     * @param replacement repuesto a actualizarlo
+     * @param tool repuesto a actualizarlo
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectedForUpdate(ScReplacement replacement)
+    public void selectedForUpdate(ScTool tool)
     {
         cleansTypesMeasures();
 
         try
         {
-            //setReplacementSelected((ScReplacement) replacement.clone());
-            setReplacementSelected(replacement);
-//            setReplacementSelected(getScReplacementServer().getReplacementsById(replacement.getIdReplacement()));
+            //setToolSelected((ScTool) tool.clone());
+            setToolSelected(tool);
+//            setToolSelected(getScToolServer().getToolsById(tool.getIdTool()));
         }
         catch (Exception e)
         {
             log.error("Error al intentar consultar el repuesto a actualizar", e);
         }
 
-        fillListReplacementLocation(replacement.getStock().getIdStore());
-        if (!Utilities.isEmpty(getReplacementSelected().getDimension().getHight()))
+        fillListToolLocation(tool.getStock().getIdStore());
+        if (!Utilities.isEmpty(getToolSelected().getDimension().getHight()))
         {
-            valueToList(getReplacementSelected().getDimension().getHight(), 1);
+            valueToList(getToolSelected().getDimension().getHight(), 1);
         }
-        if (!Utilities.isEmpty(getReplacementSelected().getDimension().getWidth()))
+        if (!Utilities.isEmpty(getToolSelected().getDimension().getWidth()))
         {
-            valueToList(getReplacementSelected().getDimension().getWidth(), 2);
+            valueToList(getToolSelected().getDimension().getWidth(), 2);
         }
-        if (!Utilities.isEmpty(getReplacementSelected().getDimension().getLarge()))
+        if (!Utilities.isEmpty(getToolSelected().getDimension().getLarge()))
         {
-            valueToList(getReplacementSelected().getDimension().getLarge(), 3);
+            valueToList(getToolSelected().getDimension().getLarge(), 3);
         }
-        if (!Utilities.isEmpty(getReplacementSelected().getDimension().getWeight()))
+        if (!Utilities.isEmpty(getToolSelected().getDimension().getWeight()))
         {
-            valueToList(getReplacementSelected().getDimension().getWeight(), 4);
+            valueToList(getToolSelected().getDimension().getWeight(), 4);
         }
-        if (!Utilities.isEmpty(getReplacementSelected().getDimension().getVolume()))
+        if (!Utilities.isEmpty(getToolSelected().getDimension().getVolume()))
         {
-            valueToList(getReplacementSelected().getDimension().getVolume(), 5);
+            valueToList(getToolSelected().getDimension().getVolume(), 5);
         }
-        if (!Utilities.isEmpty(getReplacementSelected().getDimension().getThickness()))
+        if (!Utilities.isEmpty(getToolSelected().getDimension().getThickness()))
         {
-            valueToList(getReplacementSelected().getDimension().getThickness(), 6);
+            valueToList(getToolSelected().getDimension().getThickness(), 6);
         }
-        if (!Utilities.isEmpty(getReplacementSelected().getDimension().getRadio()))
+        if (!Utilities.isEmpty(getToolSelected().getDimension().getRadio()))
         {
-            valueToList(getReplacementSelected().getDimension().getRadio(), 7);
+            valueToList(getToolSelected().getDimension().getRadio(), 7);
         }
     }
 
@@ -1731,7 +1731,7 @@ public class ScReplacementBean
 
             case 1://Ajustamos la altura
 
-                getReplacementSelected().getDimension().setHight(fields[0]);
+                getToolSelected().getDimension().setHight(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1743,7 +1743,7 @@ public class ScReplacementBean
                 break;
             case 2://Ajustamos el ancho
 
-                getReplacementSelected().getDimension().setWidth(fields[0]);
+                getToolSelected().getDimension().setWidth(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1755,7 +1755,7 @@ public class ScReplacementBean
                 break;
             case 3://Ajustamos el largo
 
-                getReplacementSelected().getDimension().setLarge(fields[0]);
+                getToolSelected().getDimension().setLarge(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1767,7 +1767,7 @@ public class ScReplacementBean
                 break;
             case 4://Ajustamos el Peso
 
-                getReplacementSelected().getDimension().setWeight(fields[0]);
+                getToolSelected().getDimension().setWeight(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1779,7 +1779,7 @@ public class ScReplacementBean
                 break;
             case 5://Ajustamos el Volumen
 
-                getReplacementSelected().getDimension().setVolume(fields[0]);
+                getToolSelected().getDimension().setVolume(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1791,7 +1791,7 @@ public class ScReplacementBean
                 break;
             case 6://Ajustamos el Grosor
 
-                getReplacementSelected().getDimension().setThickness(fields[0]);
+                getToolSelected().getDimension().setThickness(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1803,7 +1803,7 @@ public class ScReplacementBean
                 break;
             case 7://Ajustamos el Radio
 
-                getReplacementSelected().getDimension().setRadio(fields[0]);
+                getToolSelected().getDimension().setRadio(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1868,13 +1868,13 @@ public class ScReplacementBean
                                     switch (option)
                                     {
                                         case 1://opción para guardar
-                                            getReplaceDocumentsSave().setReplacement(getReplacementSave());
+                                            getReplaceDocumentsSave().setTool(getToolSave());
                                             getDocumentsListSave().add(getReplaceDocumentsSave());
 
                                             break;
                                         case 2://opción para actualizar
-                                            getReplaceDocumentsSave().setReplacement(getReplacementSelected());
-                                            getReplacementSelected().getReplacementDocuments().add(getReplaceDocumentsSave());
+                                            getReplaceDocumentsSave().setTool(getToolSelected());
+                                            getToolSelected().getToolDocuments().add(getReplaceDocumentsSave());
 
                                             break;
                                         default:
@@ -1919,11 +1919,11 @@ public class ScReplacementBean
         {
             case 1://opción para guardar
                 RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
-                RequestContext.getCurrentInstance().execute("PF('dialogReplacementSave').show()");
+                RequestContext.getCurrentInstance().execute("PF('dialogToolSave').show()");
                 break;
             case 2://opción para actualizar
                 RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
-                RequestContext.getCurrentInstance().execute("PF('dialogReplacementUpdate').show()");
+                RequestContext.getCurrentInstance().execute("PF('dialogToolUpdate').show()");
                 break;
             default:
                 break;
@@ -1938,7 +1938,7 @@ public class ScReplacementBean
      */
     public void cleanDocumentSave()
     {
-        setReplaceDocumentsSave(new ScReplacementDocuments());
+        setReplaceDocumentsSave(new ScToolDocuments());
     }
 
     /**
@@ -1952,7 +1952,7 @@ public class ScReplacementBean
         try
         {
             //Consultamos la tabla de parámetros iniciales
-            Object object = getScReplacementServer().getInitialParameters();
+            Object object = getScToolServer().getInitialParameters();
             //Extraemos la información en un arreglo
             Object[] data = (Object[]) object;
             if (data != null)
@@ -1987,7 +1987,7 @@ public class ScReplacementBean
      * @param scDocumentsSelected registro del documento a descargar
      * @author Gustavo Chavarro Ortiz
      */
-    public void downloadDocument(ScReplacementDocuments scDocumentsSelected)
+    public void downloadDocument(ScToolDocuments scDocumentsSelected)
     {
         try
         {
@@ -2143,34 +2143,34 @@ public class ScReplacementBean
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
 
-    public List<ScReplacement> getReplacementList()
+    public List<ScTool> getToolList()
     {
-        return replacementList;
+        return toolList;
     }
 
-    public void setReplacementList(List<ScReplacement> replacementList)
+    public void setToolList(List<ScTool> toolList)
     {
-        this.replacementList = replacementList;
+        this.toolList = toolList;
     }
 
-    public ScReplacement getReplacementSelected()
+    public ScTool getToolSelected()
     {
-        return replacementSelected;
+        return toolSelected;
     }
 
-    public void setReplacementSelected(ScReplacement replacementSelected)
+    public void setToolSelected(ScTool toolSelected)
     {
-        this.replacementSelected = replacementSelected;
+        this.toolSelected = toolSelected;
     }
 
-    public ScReplacement getReplacementSave()
+    public ScTool getToolSave()
     {
-        return replacementSave;
+        return toolSave;
     }
 
-    public void setReplacementSave(ScReplacement replacementSave)
+    public void setToolSave(ScTool toolSave)
     {
-        this.replacementSave = replacementSave;
+        this.toolSave = toolSave;
     }
 
     public ScMeasureUnit getMeasureUnitSave()
@@ -2253,24 +2253,24 @@ public class ScReplacementBean
         this.measureUnitSaveWeight = measureUnitSaveWeight;
     }
 
-    public ScLocation getReplacementLocationSave()
+    public ScLocation getToolLocationSave()
     {
-        return replacementLocationSave;
+        return toolLocationSave;
     }
 
-    public void setReplacementLocationSave(ScLocation replacementLocationSave)
+    public void setToolLocationSave(ScLocation toolLocationSave)
     {
-        this.replacementLocationSave = replacementLocationSave;
+        this.toolLocationSave = toolLocationSave;
     }
 
-    public ScLocation getReplacementLocationSelected()
+    public ScLocation getToolLocationSelected()
     {
-        return replacementLocationSelected;
+        return toolLocationSelected;
     }
 
-    public void setReplacementLocationSelected(ScLocation replacementLocationSelected)
+    public void setToolLocationSelected(ScLocation toolLocationSelected)
     {
-        this.replacementLocationSelected = replacementLocationSelected;
+        this.toolLocationSelected = toolLocationSelected;
     }
 
     public ScStore getStoreSave()
@@ -2333,22 +2333,22 @@ public class ScReplacementBean
         this.costCenterSave = costCenterSave;
     }
 
-    public ScReplacementAttached getReplacementAttachedSave()
+    public ScToolAttached getToolAttachedSave()
     {
-        return replacementAttachedSave;
+        return toolAttachedSave;
     }
 
-    public void setReplacementAttachedSave(ScReplacementAttached replacementAttachedSave)
+    public void setToolAttachedSave(ScToolAttached toolAttachedSave)
     {
-        this.replacementAttachedSave = replacementAttachedSave;
+        this.toolAttachedSave = toolAttachedSave;
     }
 
-    public ScReplacementDocuments getReplaceDocumentsSave()
+    public ScToolDocuments getReplaceDocumentsSave()
     {
         return replaceDocumentsSave;
     }
 
-    public void setReplaceDocumentsSave(ScReplacementDocuments replaceDocumentsSave)
+    public void setReplaceDocumentsSave(ScToolDocuments replaceDocumentsSave)
     {
         this.replaceDocumentsSave = replaceDocumentsSave;
     }
@@ -2393,14 +2393,14 @@ public class ScReplacementBean
         this.measureUnitsList = measureUnitsList;
     }
 
-    public List<ScLocation> getReplacementLocationsList()
+    public List<ScLocation> getToolLocationsList()
     {
-        return replacementLocationsList;
+        return toolLocationsList;
     }
 
-    public void setReplacementLocationsList(List<ScLocation> replacementLocationsList)
+    public void setToolLocationsList(List<ScLocation> toolLocationsList)
     {
-        this.replacementLocationsList = replacementLocationsList;
+        this.toolLocationsList = toolLocationsList;
     }
 
     public List<ScStore> getStoresList()
@@ -2423,22 +2423,22 @@ public class ScReplacementBean
         this.priorityList = priorityList;
     }
 
-    public List<ScReplacementAttached> getAttachedListSave()
+    public List<ScToolAttached> getAttachedListSave()
     {
         return attachedListSave;
     }
 
-    public void setAttachedListSave(List<ScReplacementAttached> attachedListSave)
+    public void setAttachedListSave(List<ScToolAttached> attachedListSave)
     {
         this.attachedListSave = attachedListSave;
     }
 
-    public List<ScReplacementDocuments> getDocumentsListSave()
+    public List<ScToolDocuments> getDocumentsListSave()
     {
         return documentsListSave;
     }
 
-    public void setDocumentsListSave(List<ScReplacementDocuments> documentsListSave)
+    public void setDocumentsListSave(List<ScToolDocuments> documentsListSave)
     {
         this.documentsListSave = documentsListSave;
     }
@@ -2473,14 +2473,14 @@ public class ScReplacementBean
         this.fileUpdate = fileUpdate;
     }
 
-    public IScReplacement getScReplacementServer()
+    public IScTool getScToolServer()
     {
-        return scReplacementServer;
+        return scToolServer;
     }
 
-    public void setScReplacementServer(IScReplacement scReplacementServer)
+    public void setScToolServer(IScTool scToolServer)
     {
-        this.scReplacementServer = scReplacementServer;
+        this.scToolServer = scToolServer;
     }
 
     public List<ScTime> getTimeList()

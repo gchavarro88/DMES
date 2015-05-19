@@ -51,6 +51,7 @@
     <bean id="scInputServer" class="com.sip.dmes.dao.bs.ScInputDao"></bean>
     <bean id="scProductFormulationServer" class="com.sip.dmes.dao.bs.ScProductFormulationDao"></bean>
     <bean id="scReplacementServer" class="com.sip.dmes.dao.bs.ScReplacementDao"></bean>
+    <bean id="scToolServer" class="com.sip.dmes.dao.bs.ScToolDao"></bean>
     <!--
     <bean id="scOperatingConditionsServer" class="com.sip.dmes.dao.bs.ScOperatingConditionsDao"></bean>
     <bean id="scMaintenancePlanServer" class="com.sip.dmes.dao.bs.ScMaintenancePlanDao"></bean>-->
