@@ -23,8 +23,10 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.el.MethodExpression;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.tabview.TabView;
@@ -357,9 +359,13 @@ public class TemplateBean implements Serializable
     }
     
     
-    public String cleanSessionIdleMonitor()
+    public String cleanSessionIdleMonitor() throws Exception
     {
-        cleanSession();
+//        cleanSession();
+        
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        ((HttpSession) context.getSession(false)).invalidate();
+        context.redirect("/");
         return "exit";
     }
     
