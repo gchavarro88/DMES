@@ -70,7 +70,7 @@ public class ScInputBean
     private ScMeasureUnit measureUnitSaveWeight; //Unidad de medida seleccionado para agregar
 
     private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
-    private ScDistributionUnit distributionUnitSave; //Unidad de empaque seleccionado para agregar
+    private ScDistributionUnit distributionUnitSave; //UnidaScInputBeand de empaque seleccionado para agregar
     private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al insumo
     private ScLocation inputLocationSave; //Localizacion seleccionada para agregar
     private ScLocation inputLocationSelected; //Localizacion seleccionada para agregar al insumo
@@ -105,7 +105,7 @@ public class ScInputBean
     //Persistencia
     private IScInput scInputServer; //Dao de persistencia del insumos
 
-    private final static Logger log = Logger.getLogger(ScInputDao.class);
+    private final static Logger log = Logger.getLogger(ScInputBean.class);
 
     //Constantes
     //Tabs

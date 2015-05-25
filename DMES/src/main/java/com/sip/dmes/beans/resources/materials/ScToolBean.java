@@ -98,7 +98,7 @@ public class ScToolBean
     //Persistencia
     private IScTool scToolServer; //Dao de persistencia del repuestos
 
-    private final static Logger log = Logger.getLogger(ScToolDao.class);
+    private final static Logger log = Logger.getLogger(ScToolBean.class);
 
     //Constantes
     //Tabs

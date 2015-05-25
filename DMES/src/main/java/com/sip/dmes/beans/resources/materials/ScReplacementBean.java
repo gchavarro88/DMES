@@ -98,7 +98,7 @@ public class ScReplacementBean
     //Persistencia
     private IScReplacement scReplacementServer; //Dao de persistencia del repuestos
 
-    private final static Logger log = Logger.getLogger(ScReplacementDao.class);
+    private final static Logger log = Logger.getLogger(ScReplacementBean.class);
 
     //Constantes
     //Tabs

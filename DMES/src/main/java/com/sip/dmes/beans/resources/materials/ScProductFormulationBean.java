@@ -123,7 +123,7 @@ public class ScProductFormulationBean
     private IScProductFormulation scProductFormulationServer; //Dao de persistencia del productos
     
     
-    private final static Logger log = Logger.getLogger(ScProductFormulationDao.class);
+    private final static Logger log = Logger.getLogger(ScProductFormulationBean.class);
    
     //Constantes
     

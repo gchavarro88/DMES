@@ -3,6 +3,9 @@
   <persistence-unit name="DMES_PersistenceUnit" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>com.sip.dmes.entitys.ScCostCenter</class>
+    <class>com.sip.dmes.entitys.ScStoreOrderState</class>
+    <class>com.sip.dmes.entitys.ScStoreOrderItem</class>
+    <class>com.sip.dmes.entitys.ScStoreOrder</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>
