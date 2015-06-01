@@ -5,9 +5,12 @@
  */
 package com.sip.dmes.beans.resources.materials.store;
 
-import com.sip.dmes.dao.bo.IScInput;
+import com.sip.dmes.beans.SessionBean;
+import com.sip.dmes.dao.bo.IScStoreOrder;
+import com.sip.dmes.entitys.ScStoreOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -22,9 +25,13 @@ public class ScstoreOrdersBean
 {
 
     //Declaración de Variables
-    
+    private ScStoreOrder storeOrderAdd;
+    private ScStoreOrder storeOrderUpdate;
+    private List<ScStoreOrder> storeOrderList;
     //Persistencia
-    private IScInput scInputServer; //Dao de persistencia del insumos
+    private IScStoreOrder scStoreOrderServer; //Dao de persistencia del insumos
+    private SessionBean sessionBean;//Bean de la sesion del usuario
+    
 
     private final static Logger log = Logger.getLogger(ScstoreOrdersBean.class);
 
@@ -43,9 +50,22 @@ public class ScstoreOrdersBean
     @PostConstruct
     public void initData()
     {
-        
+        fillListStoreOrders();
     }
 
+    public void fillListStoreOrders()
+    {
+        try
+        {
+            //Se consultan todos los insumos y se guardan en la lista ordenados por la fecha
+            setStoreOrderList(getScStoreOrderServer().getAllStoreOrders());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las ordenes del almacén de la tabla", e);
+        }
+    }
+    
     
     /**
      * Método encargado de recibir una fecha y devolverla en una cadena de caracteres
@@ -140,5 +160,66 @@ public class ScstoreOrdersBean
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, tittle, message));
     }
 
+    
 
+
+    
+    
+    /**
+     * Application's Setters and Getters
+     */
+    
+    public ScStoreOrder getStoreOrderAdd()
+    {
+        return storeOrderAdd;
+    }
+
+    public void setStoreOrderAdd(ScStoreOrder storeOrderAdd)
+    {
+        this.storeOrderAdd = storeOrderAdd;
+    }
+
+    public ScStoreOrder getStoreOrderUpdate()
+    {
+        return storeOrderUpdate;
+    }
+
+    public void setStoreOrderUpdate(ScStoreOrder storeOrderUpdate)
+    {
+        this.storeOrderUpdate = storeOrderUpdate;
+    }
+
+    public List<ScStoreOrder> getStoreOrderList()
+    {
+        return storeOrderList;
+    }
+
+    public void setStoreOrderList(List<ScStoreOrder> storeOrderList)
+    {
+        this.storeOrderList = storeOrderList;
+    }
+
+    public IScStoreOrder getScStoreOrderServer()
+    {
+        return scStoreOrderServer;
+    }
+
+    public void setScStoreOrderServer(IScStoreOrder scStoreOrderServer)
+    {
+        this.scStoreOrderServer = scStoreOrderServer;
+    }
+
+    
+
+    public SessionBean getSessionBean()
+    {
+        return sessionBean;
+    }
+
+    public void setSessionBean(SessionBean sessionBean)
+    {
+        this.sessionBean = sessionBean;
+    }
+    
+    
 }

@@ -22,7 +22,7 @@
                       draggable="false" closable="false" resizable="false">
                 <p:graphicImage value="/images/loadBar.gif"/>
             </p:dialog>
-            <p:idleMonitor timeout="#{(session.maxInactiveInterval-3)*1000}">
+            <p:idleMonitor timeout="#{(session.maxInactiveInterval-5)*1000}">
                 <p:ajax event="idle" oncomplete="PF('dialogClose').show();" />
             </p:idleMonitor>
              

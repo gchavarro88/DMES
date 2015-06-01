@@ -59,6 +59,11 @@ public class ScStoreOrder implements Serializable
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
+    @Column(name = "required_by")
+    private String requiredBy;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "order_class")
     private String orderClass;
     @Basic(optional = false)
@@ -73,7 +78,10 @@ public class ScStoreOrder implements Serializable
     @NotNull
     @Column(name = "reason_cancellation")
     private String  reasonCancellation;
-    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "amount_items")
+    private long amountItems;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "storeOrder", fetch = FetchType.EAGER)
     private List<ScStoreOrderItem> storeOrderItemList;
@@ -181,6 +189,37 @@ public class ScStoreOrder implements Serializable
         this.idState = idState;
     }
 
+    public String getRequiredBy()
+    {
+        return requiredBy;
+    }
+
+    public void setRequiredBy(String requiredBy)
+    {
+        this.requiredBy = requiredBy;
+    }
+
+    public String getReasonCancellation()
+    {
+        return reasonCancellation;
+    }
+
+    public void setReasonCancellation(String reasonCancellation)
+    {
+        this.reasonCancellation = reasonCancellation;
+    }
+
+    public long getAmountItems()
+    {
+        return amountItems;
+    }
+
+    public void setAmountItems(long amountItems)
+    {
+        this.amountItems = amountItems;
+    }
+
+    
     @Override
     public int hashCode()
     {

@@ -36,16 +36,16 @@
             <h:form id="formInput">
                 <p:remoteCommand name="storeOrderInit" update=":formInput:scDataTableStoreOrders" />
                 <p:dataTable id="scDataTableStoreOrders" draggableColumns="true" emptyMessage="No existe información para visualizar" 
-                             value="#{scInputBean.storeOrderList}" var="storeOrder"
+                             value="#{scStoreOrderBean.storeOrderList}" var="storeOrder"
                              paginator="true" rows="15"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowKey="#{storeOrder.idInput}"
+                             rowKey="#{storeOrder.idStoreOrder}"
                              resizableColumns="true" 
                              liveResize="true" rowsPerPageTemplate="15,30,50" 
-                             selectionMode="single" paginatorPosition="top" selection="#{scInputBean.storeOrderSelected}"
-                             sortBy="#{storeOrder.idInput}"
+                             selectionMode="single" paginatorPosition="top" selection="#{scStoreOrderBean.storeOrderUpdate}"
+                             sortBy="#{storeOrder.idStoreOrder}"
                              >
 <!--                    <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
@@ -53,69 +53,69 @@
                             <p:tooltip for="btnAdd" value="Agregar un Insumo"/>
                         </p:commandButton>
                     </f:facet>-->
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" />
+<!--                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" />-->
                     <p:column headerText="Administración">
                         <center>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scInputBean.selectedForUpdate(storeOrder)}"
+<!--                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener=""
                                              oncomplete="PF('dialogInputUpdate').show()" update=":formWizardUpdate:" 
                                              >
                                 <p:tooltip for="btnEdit" value="Editar un Insumo"/>
                             </p:commandButton>
                             <p:spacer width="10"/>
                             <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogInputDelete').show()"
-                                             actionListener="#{scInputBean.selectedForDelete(storeOrder)}" update=":formWizardDelete">
+                                             actionListener="" update=":formWizardDelete">
                                 <p:tooltip for="btnDelete" value="Eliminar un Insumo"/>
-                            </p:commandButton>
+                            </p:commandButton>-->
                         </center>
                     </p:column>
-                    <p:column headerText="Insumo" sortBy="#{storeOrder.description}" id="columnInputName">    
+                    <p:column id="columnOrderId" headerText="No." 
+                    sortBy="#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}">    
                         <center>
-                            <p:outputLabel value="#{storeOrder.description}" id="lblIntputName"/>
-                            <p:tooltip for="lblIntputName" value="#{storeOrder.description}"/>
+                            <p:outputLabel 
+                            value="#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
+                            id="lblOrderId"/>
+                            <p:tooltip for="lblOrderId" 
+                            value="#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnMark" headerText="Marca" sortBy="#{storeOrder.mark}">    
+                    <p:column headerText="Tipo de Orden" sortBy="#{storeOrder.orderType}" id="columnTypeOrder">    
                         <center>
-                            <p:outputLabel value="#{storeOrder.mark}" id="lblMark"/>
-                            <p:tooltip for="lblMark" value="#{storeOrder.mark}"/>
+                            <p:outputLabel value="#{storeOrder.orderType}" id="lblOrderType"/>
+                            <p:tooltip for="lblOrderType" value="#{storeOrder.orderType}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnSerie" headerText="Serie" sortBy="#{storeOrder.serie}">    
+                    <p:column id="columnOrderClass" headerText="Clase de Recurso" sortBy="#{storeOrder.orderClass}">    
                         <center>
-                            <p:outputLabel value="#{storeOrder.serie}" id="lblSerie"/>
-                            <p:tooltip for="lblSerie" value="#{storeOrder.serie}"/>
+                            <p:outputLabel value="#{storeOrder.orderClass}" id="lblOrderClass"/>
+                            <p:tooltip for="lblOrderClass" value="#{storeOrder.orderClass}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnStore" headerText="Almacen" sortBy="#{storeOrder.storeOrderStock.idStore.name}">    
+                    <p:column id="columnRequiredBy" headerText="Requerido Por" sortBy="#{storeOrder.requiredBy}">    
                         <center>
-                            <p:outputLabel value="#{storeOrder.storeOrderStock.idStore.name}" id="lblStore"/>
-                            <p:tooltip for="lblStore" value="#{storeOrder.storeOrderStock.idStore.name}"/>
+                            <p:outputLabel value="#{storeOrder.requiredBy}" id="lblRequiredBy"/>
+                            <p:tooltip for="lblRequiredBy" value="#{storeOrder.requiredBy}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnLocation" headerText="Localización" sortBy="#{storeOrder.storeOrderLocation.location}">    
+                    <p:column id="columnNumberItems" headerText="No. Items" sortBy="#{storeOrder.amountItems}">    
                         <center>
-                            <p:outputLabel value="#{storeOrder.storeOrderLocation.location}" id="lblLocation"/>
-                            <p:tooltip for="lblLocation" value="#{storeOrder.storeOrderLocation.location}"/>
+                            <p:outputLabel value="#{storeOrder.amountItems}" id="lblNumberItems"/>
+                            <p:tooltip for="lblNumberItems" value="#{storeOrder.amountItems}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnAmount" headerText="Cantidad" sortBy="#{storeOrder.storeOrderStock.currentStock}">    
+                    <p:column id="columnDate" headerText="Fecha" 
+                        sortBy="#{scStoreOrderBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}">    
                         <center>
-                            <p:outputLabel value="#{storeOrder.storeOrderStock.currentStock}" id="lblamount"/>
-                            <p:tooltip for="lblamount" value="#{storeOrder.storeOrderStock.currentStock}"/>
+                            <p:outputLabel 
+                            value="#{scStoreOrderBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}" 
+                            id="lblDate"/>
+                            <p:tooltip for="lblDate" 
+                            value="#{scStoreOrderBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}"/>
                         </center>
                     </p:column>
-
-                    <p:column id="columPackingUnit" headerText="Und. Empaque" sortBy="#{storeOrder.packingUnit}">    
+                    <p:column id="columnState" headerText="Estado" sortBy="#{storeOrder.idState.description}">    
                         <center>
-                            <p:outputLabel value="#{storeOrder.packingUnit.acronym}" id="lblPackingUnit"/>
-                            <p:tooltip for="lblPackingUnit" value="#{storeOrder.packingUnit.acronym}"/>
-                        </center>
-                    </p:column>
-
-                    <p:column id="columnValue" headerText="Valor" sortBy="#{storeOrder.value}">    
-                        <center>
-                            <p:outputLabel value="#{storeOrder.value} #{storeOrder.money.acronym}" id="lblValue"/>
-                            <p:tooltip for="lblValue" value="#{storeOrder.value} #{storeOrder.money.acronym}"/>
+                            <p:outputLabel value="#{storeOrder.idState.description}" id="lblState"/>
+                            <p:tooltip for="lblState" value="#{storeOrder.idState.description}"/>
                         </center>
                     </p:column>
                 </p:dataTable>

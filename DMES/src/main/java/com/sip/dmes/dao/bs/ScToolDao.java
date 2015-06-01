@@ -27,10 +27,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- *
- * @author carlos guzman
- */
+
 @Repository(value = "IScTool")
 public class ScToolDao implements IScTool
 {

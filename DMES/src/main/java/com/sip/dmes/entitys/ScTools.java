@@ -23,10 +23,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- *
- * @author carlos guzman
- */
+
 @Entity
 @Table(name = "sc_tools", schema = "dmes")
 @NamedQueries(
