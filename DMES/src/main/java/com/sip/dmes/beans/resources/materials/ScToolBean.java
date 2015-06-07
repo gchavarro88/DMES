@@ -1548,6 +1548,18 @@ public class ScToolBean
      */
     public void handleFileUpload(int option)
     {
+        
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
+                break;
+            default:
+                break;
+        }
         //Validamos que el evento de copiado no sea nulo
         if (getPictureFile() != null)
         {
@@ -1559,7 +1571,7 @@ public class ScToolBean
             //Validamos que el archivo contenga los tipos permitidos
             if (DMESConstants.TYPES_EXTENTIONS_IMAGES.contains(fileType))
             {
-                String folderName = DMESConstants.FILE_PATH_INPUTS_IMG;
+                String folderName = DMESConstants.FILE_PATH_TOOLS_IMG;
                 //Creamos el folder
                 File folder = new File(PATH_FILE + "/" + folderName);
                 folder.mkdirs();
@@ -1609,11 +1621,9 @@ public class ScToolBean
         switch (option)
         {
             case 1://opción para guardar
-                RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogToolSave').show()");
                 break;
             case 2://opción para actualizar
-                RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogToolUpdate').show()");
                 break;
             default:
@@ -1828,6 +1838,17 @@ public class ScToolBean
      */
     public void handleDocumentUpload(int option)
     {
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
+                break;
+            default:
+                break;
+        }
         //Validamos que el evento de copiado no sea nulo
         int bytesToMegabytes = 10485760; //Valor de representación de 1megabytes a bytes
         if (!Utilities.isEmpty(getReplaceDocumentsSave().getDocumentTittle()))
@@ -1848,7 +1869,7 @@ public class ScToolBean
                         {
                             String firstName = getSessionBean().getScUser().getIdPerson().getFirstName().replaceAll(" ", "_");
                             String lastName = getSessionBean().getScUser().getIdPerson().getLastName().replaceAll(" ", "_");
-                            String folderName = DMESConstants.FILE_PATH_INPUTS_DOCS;
+                            String folderName = DMESConstants.FILE_PATH_TOOLS_DOCS;
                             //Creamos el folder
                             File folder = new File(PATH_FILE + "/" + folderName);
                             folder.mkdirs();
@@ -1918,11 +1939,9 @@ public class ScToolBean
         switch (option)
         {
             case 1://opción para guardar
-                RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogToolSave').show()");
                 break;
             case 2://opción para actualizar
-                RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogToolUpdate').show()");
                 break;
             default:

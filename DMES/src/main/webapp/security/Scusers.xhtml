@@ -81,8 +81,8 @@
                                              selectionMode="single"
                                              >
                                     <p:ajax event="rowSelect" update=":formWizard:dataTablePersons"/>
-                                    <p:column selectionMode="single" width="16"/>
-                                    <p:column headerText="Personas Disponibles">
+                                    <p:column  selectionMode="single" width="16"/>
+                                    <p:column  headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
                                     </p:column> 
                                 </p:dataTable>
@@ -104,8 +104,8 @@
                                          scrollHeight="260" selectionMode="single"
                                          paginatorPosition="top" selection="#{scusersBean.roleSelectedAdd}">
                                 <p:ajax event="rowSelect" update=":formWizard:dataTableRoles"/>
-                                <p:column selectionMode="single" width="16"/>
-                                <p:column headerText="Roles Activos" >
+                                <p:column  selectionMode="single" width="16"/>
+                                <p:column  headerText="Roles Activos" >
                                     <p:outputLabel value="#{roles.name}"/>
                                 </p:column> 
                             </p:dataTable>
@@ -242,8 +242,8 @@
                                              paginatorPosition="top" selection="#{scusersBean.userUpdate.idPerson}"
                                              >
                                     <p:ajax event="rowSelect" update=":formWizardUpdate:dataTablePersonsUpdate" />
-                                    <p:column selectionMode="single" width="16"/>
-                                    <p:column headerText="Personas Disponibles">
+                                    <p:column  selectionMode="single" width="16"/>
+                                    <p:column  headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
                                     </p:column> 
                                 </p:dataTable>
@@ -264,8 +264,8 @@
                                          selectionMode="single"
                                          paginatorPosition="top" selection="#{scusersBean.userUpdate.idRole}">
                                 <p:ajax event="rowSelect" update=":formWizardUpdate:dataTableRolesUpdate"/>
-                                <p:column selectionMode="single" width="16"/>
-                                <p:column headerText="Roles Activos" >
+                                <p:column  selectionMode="single" width="16"/>
+                                <p:column  headerText="Roles Activos" >
                                     <p:outputLabel value="#{roles.name}"/>   
                                 </p:column> 
                             </p:dataTable>
@@ -319,7 +319,7 @@
             <!--         finaliza el dialogo para actualizar Usuarios               -->
 
 <!--           inicial el dialogo para visualizar un rol           -->
-            <p:dialog id="dialogUsersView" widgetVar="dialogUsersView" position="center top" width="450"
+            <p:dialog id="dialogUsersView" widgetVar="dialogUsersView" position="center top" width="600"
                                   closable="true" draggable="true" dynamic="true" header="Detalle de Usuarios"
                                   hideEffect="explode" modal="true" showEffect="explode" resizable="true"
                                   >
@@ -330,13 +330,13 @@
                                 <p:outputLabel  value="Nombre del Usuario:"/>
                             </td>
                             <td width="40%" align="left">
-                                <p:inputText value="#{scusersBean.userSelected.login}" disabled="true"/>
+                                <p:outputLabel value="#{scusersBean.userSelected.login}" />
                             </td>
                             <td width="10%" align="right">
                                 <p:outputLabel  value="Nombre del Grupo o Rol:"/>
                             </td>
                             <td width="40%" align="left">
-                                <p:inputText id="tfRolUser" value="#{scusersBean.userSelected.idRole.name}" disabled="true"/>
+                                <p:outputLabel id="tfRolUser" value="#{scusersBean.userSelected.idRole.name}" />
                                 <p:tooltip for="tfRolUser" value="#{scusersBean.userSelected.idRole.name}"/>
                             </td>
                         </tr>
@@ -345,14 +345,14 @@
                                 <p:outputLabel  value="Nombre del Tercero:"/>
                             </td>
                             <td width="40%" align="left">
-                                <p:inputText value="#{scusersBean.userSelected.idPerson.lastName} #{scusersBean.userSelected.idPerson.firstName}" 
-                                             disabled="true"/>
+                                <p:outputLabel value="#{scusersBean.userSelected.idPerson.lastName} #{scusersBean.userSelected.idPerson.firstName}" 
+                                             />
                             </td>
                             <td width="10%" align="right">
                                 <p:outputLabel  value="Fecha de Creación:"/>
                             </td>
                             <td width="40%" align="left">
-                                <p:inputText value="#{scusersBean.userSelected.creationDate}" disabled="true"/>
+                                <p:outputLabel value="#{scusersBean.userSelected.creationDate}" />
                             </td>
                         </tr>
                         <tr>
@@ -360,8 +360,8 @@
                                 <p:outputLabel  value="Fecha de Modificación:"/>
                             </td>
                             <td width="40%" align="left">
-                                <p:inputText value="#{scusersBean.userSelected.modifyDate}"
-                                             disabled="true"/>
+                                <p:outputLabel value="#{scusersBean.userSelected.modifyDate}"
+                                             />
                             </td>
                             <td width="50%">
                                 
@@ -378,19 +378,19 @@
             </p:dialog>
 <!--           finaliza el dialogo para visualizar un rol           -->
             
-           
+            
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formUsers">
                  <p:remoteCommand name="userInit" update=":formUsers:scUsersDataTable" />
                 <p:dataTable id="scUsersDataTable" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{scusersBean.usersList}" var="user"
-                             paginator="true" rows="15"  
+                             paginator="true" rows="10"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowKey="#{user.idUser}"
                              resizableColumns="true" 
-                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
                              selectionMode="single" paginatorPosition="top" selection="#{scusersBean.userSelected}"
                              sortBy="#{user.login}"
                              >
@@ -402,7 +402,7 @@
                         </p:commandButton>
                     </f:facet>
                     <p:ajax event="rowSelect" oncomplete="PF('dialogUsersView').show()"/>
-                    <p:column headerText="Administración">
+                    <p:column headerText="Administración" width="84">
                         <center>
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scusersBean.getUserByDataTableUpdate(user)}"
                                              oncomplete="PF('dialogUserUpdate').show()" update=":formWizardUpdate" 
@@ -417,26 +417,26 @@
                         </center>
                     </p:column>
                     
-                    <p:column id="columnLogin" headerText="Usuario" sortBy="#{user.login}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{user.login}" id="columnLogin" headerText="Usuario" sortBy="#{user.login}">    
                         <center>
                             <p:outputLabel value="#{user.login}" id="lblLogin"/>
                             <p:tooltip for="lblLogin" value="#{user.login}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnNames" headerText="Nombre" 
+                    <p:column filterMatchMode="contains"  filterBy="#{user.idPerson.lastName} #{user.idPerson.firstName}" id="columnNames" headerText="Nombre" 
                               sortBy="#{user.idPerson.lastName} #{user.idPerson.firstName}">    
                         <center>
                             <p:outputLabel value="#{user.idPerson.lastName} #{user.idPerson.firstName}" id="lblNames"/>
                             <p:tooltip for="lblNames" value="#{user.idPerson.lastName} #{user.idPerson.firstName}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnRolName" headerText="Grupo o Rol" sortBy="#{user.idRole.name}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{user.idRole.name}" id="columnRolName" headerText="Grupo o Rol" sortBy="#{user.idRole.name}">    
                         <center>
                             <p:outputLabel value="#{user.idRole.name}" id="lblRoleName"/>
                             <p:tooltip for="lblRoleName" value="#{user.idRole.name}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnUserCreationDate" headerText="Fecha de Creación" 
+                    <p:column filterMatchMode="contains"  filterBy="#{scusersBean.getFormatDate(user.creationDate)}" id="columnUserCreationDate" headerText="Fecha de Creación" 
                               sortBy="#{scusersBean.getFormatDate(user.creationDate)}">    
                         <center>
                             <p:outputLabel value="#{scusersBean.getFormatDate(user.creationDate)}" id="lblUserCreationDate"/>

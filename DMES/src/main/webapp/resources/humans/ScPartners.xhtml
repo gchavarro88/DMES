@@ -44,8 +44,8 @@
                                          selectionMode="single"
                                          >
                                     <p:ajax event="rowSelect" update=":formWizard:dataTablePersons"/>
-                                    <p:column selectionMode="single" width="16"/>
-                                    <p:column headerText="Personas Disponibles">
+                                    <p:column  selectionMode="single" width="16"/>
+                                    <p:column  headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
                                     </p:column> 
                                 </p:dataTable>
@@ -174,34 +174,34 @@
                                                              var="serviceOrProducts" 
                                                              value="#{scpartnersBean.servicesOrProductsList}"
                                                              rowKey="#{serviceOrProducts.idServiceOrProducts}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{serviceOrProducts.idServiceOrProducts}">
-                                                    <p:column style="width:32px">
+                                                    <p:column  style="width:32px">
                                                         <p:commandButton icon="ui-icon-close" update="dataTableProductsOrServicesSave" title="Eliminar Servicio o Producto"
                                                                          process=":formWizard:dataTableProductsOrServicesSave" actionListener="#{scpartnersBean.removeProductOrServiceSave(serviceOrProducts)}" >
                                                         </p:commandButton>
                                                     </p:column>
-                                                    <p:column headerText="Nombre del Producto" sortBy="#{serviceOrProducts.nameServiceOrProduct}">
+                                                    <p:column  headerText="Nombre del Producto" sortBy="#{serviceOrProducts.nameServiceOrProduct}">
                                                         <p:outputLabel value="#{serviceOrProducts.nameServiceOrProduct}"/>
                                                     </p:column>
-                                                    <p:column headerText="Tipo" sortBy="#{serviceOrProducts.type}">
+                                                    <p:column  headerText="Tipo" sortBy="#{serviceOrProducts.type}">
                                                         <p:outputLabel value="#{serviceOrProducts.type}"/>
                                                     </p:column>
-                                                    <p:column headerText="Cantidad" sortBy="#{serviceOrProducts.amount}">
+                                                    <p:column  headerText="Cantidad" sortBy="#{serviceOrProducts.amount}">
                                                         <p:outputLabel value="#{serviceOrProducts.amount}"/>
                                                     </p:column>
-                                                    <p:column headerText="Costo" sortBy="#{serviceOrProducts.cost}">
+                                                    <p:column  headerText="Costo" sortBy="#{serviceOrProducts.cost}">
                                                         <p:outputLabel value="#{serviceOrProducts.cost}"/>
                                                     </p:column>
-                                                    <p:column headerText="Garantía" sortBy="#{serviceOrProducts.guarantee}">
+                                                    <p:column  headerText="Garantía" sortBy="#{serviceOrProducts.guarantee}">
                                                         <p:outputLabel value="#{serviceOrProducts.guarantee}"/>
                                                     </p:column>
-                                                    <p:column headerText="Descripción" sortBy="#{serviceOrProducts.description}">
+                                                    <p:column  headerText="Descripción" sortBy="#{serviceOrProducts.description}">
                                                         <p:outputLabel value="#{serviceOrProducts.description}"/>
                                                     </p:column>
                                                 </p:dataTable>
@@ -332,8 +332,8 @@
                                          selectionMode="single"
                                          >
                                     <p:ajax event="rowSelect" update=":formWizardUpdate:dataTablePersonsUpdate"/>
-                                    <p:column selectionMode="single" width="16"/>
-                                    <p:column headerText="Personas Disponibles">
+                                    <p:column  selectionMode="single" width="16"/>
+                                    <p:column  headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
                                     </p:column> 
                                 </p:dataTable>
@@ -468,34 +468,34 @@
                                                              var="serviceOrProducts"
                                                              value="#{scpartnersBean.partnerSelected.scServicesOrProductsList}"
                                                              rowKey="#{serviceOrProducts.idServiceOrProducts}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{serviceOrProducts.idServiceOrProducts}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableProductsOrServicesUpdate" title="Eliminar Servicio o Producto"
                                                                      process=":formWizardUpdate:dataTableProductsOrServicesUpdate" actionListener="#{scpartnersBean.removeProductOrServiceUpdate(serviceOrProducts)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Nombre del Producto" sortBy="#{serviceOrProducts.nameServiceOrProduct}">
+                                                <p:column  headerText="Nombre del Producto" sortBy="#{serviceOrProducts.nameServiceOrProduct}">
                                                     <p:outputLabel value="#{serviceOrProducts.nameServiceOrProduct}"/>
                                                 </p:column>
-                                                <p:column headerText="Tipo" sortBy="#{serviceOrProducts.type}">
+                                                <p:column  headerText="Tipo" sortBy="#{serviceOrProducts.type}">
                                                     <p:outputLabel value="#{serviceOrProducts.type}"/>
                                                 </p:column>
-                                                <p:column headerText="Cantidad" sortBy="#{serviceOrProducts.amount}">
+                                                <p:column  headerText="Cantidad" sortBy="#{serviceOrProducts.amount}">
                                                     <p:outputLabel value="#{serviceOrProducts.amount}"/>
                                                 </p:column>
-                                                <p:column headerText="Costo" sortBy="#{serviceOrProducts.cost}">
+                                                <p:column  headerText="Costo" sortBy="#{serviceOrProducts.cost}">
                                                     <p:outputLabel value="#{serviceOrProducts.cost}"/>
                                                 </p:column>
-                                                <p:column headerText="Garantía" sortBy="#{serviceOrProducts.guarantee}">
+                                                <p:column  headerText="Garantía" sortBy="#{serviceOrProducts.guarantee}">
                                                     <p:outputLabel value="#{serviceOrProducts.guarantee}"/>
                                                 </p:column>
-                                                <p:column headerText="Descripción" sortBy="#{serviceOrProducts.description}">
+                                                <p:column  headerText="Descripción" sortBy="#{serviceOrProducts.description}">
                                                     <p:outputLabel value="#{serviceOrProducts.description}"/>
                                                 </p:column>
                                             </p:dataTable>   
@@ -645,7 +645,7 @@
                                             var="productsOrServices"
                                             value="#{scpartnersBean.partnerSelected.scServicesOrProductsList }"
                                             rowKey="#{productsOrServices.idServiceOrProducts}"
-                                            paginator="true" rows="15"  
+                                            paginator="true" rows="10"  
                                             pageLinks="40" editable="true"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -653,23 +653,23 @@
                                             paginatorPosition="top" selectionMode="single"
                                             sortBy="#{productsOrServices.idServiceOrProducts}">
                                             
-                                    <p:column headerText="Nombre del P/S" sortBy="#{productsOrServices.nameServiceOrProduct}">
+                                    <p:column  headerText="Nombre del P/S" sortBy="#{productsOrServices.nameServiceOrProduct}">
                                        <p:outputLabel value="#{productsOrServices.nameServiceOrProduct}"/>
                                    </p:column>
-                                    <p:column headerText="Tipo" sortBy="#{productsOrServices.type}">
+                                    <p:column  headerText="Tipo" sortBy="#{productsOrServices.type}">
                                        <p:outputLabel value="#{productsOrServices.type}"/>
                                    </p:column>
-                                    <p:column headerText="Descripción" sortBy="#{productsOrServices.description}">
+                                    <p:column  headerText="Descripción" sortBy="#{productsOrServices.description}">
                                        <p:outputLabel id="lblDescriptionView" value="#{productsOrServices.description}"/>
                                        <p:tooltip for="lblDescriptionView" value="#{productsOrServices.description}"/>
                                    </p:column>
-                                    <p:column headerText="Cantidad" sortBy="#{productsOrServices.amount}">
+                                    <p:column  headerText="Cantidad" sortBy="#{productsOrServices.amount}">
                                        <p:outputLabel value="#{productsOrServices.amount}"/>
                                    </p:column>
-                                    <p:column headerText="Costo" sortBy="#{productsOrServices.cost}">
+                                    <p:column  headerText="Costo" sortBy="#{productsOrServices.cost}">
                                        <p:outputLabel value="#{productsOrServices.cost}"/>
                                    </p:column>
-                                    <p:column headerText="Garantía" sortBy="#{productsOrServices.guarantee}">
+                                    <p:column  headerText="Garantía" sortBy="#{productsOrServices.guarantee}">
                                        <p:outputLabel id="lblGuaranteeView" value="#{productsOrServices.guarantee}"/>
                                        <p:tooltip for="lblGuaranteeView" value="#{productsOrServices.guarantee}"/>
                                     </p:column>
@@ -687,13 +687,13 @@
                 <p:remoteCommand name="partnerInit" update=":formPartners:scPartnersDataTable" />
                 <p:dataTable id="scPartnersDataTable" draggableColumns="true" emptyMessage="" 
                              value="#{scpartnersBean.partnerList}" var="partners"
-                             paginator="true" rows="15"  
+                             paginator="true" rows="10"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowKey="#{partners.idPartner}"
                              resizableColumns="true" 
-                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
                              selectionMode="single" paginatorPosition="top" selection="#{scpartnersBean.partnerSelected}"
                              sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}"
                              >
@@ -705,7 +705,7 @@
                             <p:tooltip for="btnAdd" value="Agregar un Proveedor"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:column headerText="Administración">
+                    <p:column headerText="Administración" width="84">
                         <center>
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizardUpdate" onstart="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
                                              oncomplete="PF('dialogPartnerUpdate').show()"
@@ -722,38 +722,38 @@
                         </center>
                     </p:column>	
 <!--                    campos con data-->
-                    <p:column headerText="Cédula" sortBy="#{partners.idPerson.identification}">    
+                    <p:column  headerText="Cédula" sortBy="#{partners.idPerson.identification}">    
                         <center>
                             <p:outputLabel value="#{partners.idPerson.identification}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnNames" headerText="Nombre Proveedor" sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}" id="columnNames" headerText="Nombre Proveedor" sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}">    
                         <center>
                             <p:outputLabel value="#{partners.idPerson.lastName} #{partners.idPerson.firstName}" id="lblNames"/>
                             <p:tooltip for="lblNames" value="#{partners.idPerson.lastName} #{partners.idPerson.firstName}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnPosition" headerText="Cargo" sortBy="#{partners.position}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{partners.position}" id="columnPosition" headerText="Cargo" sortBy="#{partners.position}">    
                         <center>
                             <p:outputLabel value="#{partners.position}" id="lblPosition"/>
                             <p:tooltip for="lblPosition" value="#{partners.position}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnCompany" headerText="Empresa" sortBy="#{partners.companyName}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{partners.companyName}" id="columnCompany" headerText="Empresa" sortBy="#{partners.companyName}">    
                         <center>
                             <p:outputLabel value="#{partners.companyName}" id="lblCompanyName"/>
                             <p:tooltip for="lblCompanyName" value="#{partners.companyName}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnWebCompany" headerText="Web Corporativa" sortBy="#{partners.webPage}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{partners.webPage}" id="columnWebCompany" headerText="Web Corporativa" sortBy="#{partners.webPage}">    
                         <center>
                             <p:outputLabel value="#{partners.webPage}" id="lblWebCompany"/>
                             <p:tooltip for="lblWebCompany" value="#{partners.webPage}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnDateRegister" headerText="Fecha de Registro" sortBy="#{partners.creationDate}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{scpartnersBean.getFormatDate(partners.creationDate)}" id="columnDateRegister" headerText="Fecha de Registro" sortBy="#{partners.creationDate}">    
                         <center>
-                            <p:outputLabel value="#{partners.creationDate}" id="lblDateRegister"/>
+                            <p:outputLabel value="#{scpartnersBean.getFormatDate(partners.creationDate)}" id="lblDateRegister"/>
                             <p:tooltip for="lblDateRegister" value="#{scpartnersBean.getFormatDate(partners.creationDate)}"/>
                         </center>
                     </p:column>

@@ -1803,6 +1803,17 @@ public class ScInputBean
     public void handleFileUpload(int option)
     {
         //Validamos que el evento de copiado no sea nulo
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
+                break;
+            default:
+                break;
+        }
         if (getPictureFile() != null)
         {
 
@@ -1863,11 +1874,9 @@ public class ScInputBean
         switch (option)
         {
             case 1://opción para guardar
-                RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogInputSave').show()");
                 break;
             case 2://opción para actualizar
-                RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogInputUpdate').show()");
                 break;
             default:
@@ -2295,6 +2304,17 @@ public class ScInputBean
      */
     public void handleDocumentUpload(int option)
     {
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
+                break;
+            default:
+                break;
+        }
         //Validamos que el evento de copiado no sea nulo
         int bytesToMegabytes = 10485760; //Valor de representación de 1megabytes a bytes
         if (!Utilities.isEmpty(getDocumentsSave().getDocumentTittle()))
@@ -2385,11 +2405,9 @@ public class ScInputBean
         switch (option)
         {
             case 1://opción para guardar
-                RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogInputSave').show()");
                 break;
             case 2://opción para actualizar
-                RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
                 RequestContext.getCurrentInstance().execute("PF('dialogInputUpdate').show()");
                 break;
             default:

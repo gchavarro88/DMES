@@ -161,22 +161,22 @@
                                                     var="phones" 
                                                     value="#{scpersonBean.personPhoneList}"
                                                     rowKey="#{phones.idPhone}"
-                                                    paginator="true" rows="15"  
+                                                    paginator="true" rows="10"  
                                                     pageLinks="40" editable="true"
                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                     {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                     liveResize="true" rowsPerPageTemplate="15,30,50"
                                                     paginatorPosition="top"
                                                     sortBy="#{phones.idPhone}">
-                                            <p:column style="width:32px">
+                                            <p:column  style="width:32px">
                                                 <p:commandButton icon="ui-icon-close" update="dataTablePhones" title="Eliminar Teléfono"
                                                                  process=":formWizard:dataTablePhones" actionListener="#{scpersonBean.removePhonesByPerson(phones)}" >
                                                 </p:commandButton>
                                             </p:column>
-                                           <p:column headerText="Teléfono" sortBy="#{phones.numberPhone}">
+                                           <p:column  headerText="Teléfono" sortBy="#{phones.numberPhone}">
                                                <p:outputLabel value="#{phones.numberPhone}"/>
                                            </p:column>
-                                           <p:column headerText="Descripción" sortBy="#{phones.description}">
+                                           <p:column  headerText="Descripción" sortBy="#{phones.description}">
                                                <p:outputLabel    value="#{phones.description}"/>
                                            </p:column>
                                        </p:dataTable>
@@ -229,22 +229,22 @@
                                                              var="mails" 
                                                              value="#{scpersonBean.personMailList}"
                                                              rowKey="#{mails.idMail}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{mails.idMail}">
-                                                    <p:column style="width:32px">
+                                                    <p:column  style="width:32px">
                                                         <p:commandButton icon="ui-icon-close" update="dataTableMails" title="Eliminar Correo"
                                                                          process=":formWizard:dataTableMails" actionListener="#{scpersonBean.removeMailsByPerson(mails)}" >
                                                         </p:commandButton>
                                                     </p:column>         
-                                                    <p:column headerText="Correo" sortBy="#{mails.mail}">
+                                                    <p:column  headerText="Correo" sortBy="#{mails.mail}">
                                                         <p:outputLabel  value="#{mails.mail}"/>
                                                     </p:column>
-                                                    <p:column headerText="Descripción" sortBy="#{mails.description}">
+                                                    <p:column  headerText="Descripción" sortBy="#{mails.description}">
                                                         <p:outputLabel value="#{mails.description}"/>
                                                     </p:column>
                                                 </p:dataTable>
@@ -296,23 +296,23 @@
                                                              var="observations" 
                                                              value="#{scpersonBean.personObservationsList}"
                                                              rowKey="#{observations.idPersonObservations}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{observations.tittle}">
-                                            <p:column style="width:32px">
+                                            <p:column  style="width:32px">
                                                 <p:commandButton icon="ui-icon-close" update="dataTableObservations" title="Eliminar Observaciones"
                                                                  process=":formWizard:dataTableObservations" 
                                                                  actionListener="#{scpersonBean.removeObservationsByPerson(observations)}" >
                                                 </p:commandButton>
                                             </p:column>
-                                            <p:column headerText="Título" sortBy="#{observations.tittle}">
+                                            <p:column  headerText="Título" sortBy="#{observations.tittle}">
                                                 <p:outputLabel value="#{observations.tittle}"/>
                                             </p:column>
-                                            <p:column headerText="Observación" sortBy="#{observations.observation}">
+                                            <p:column  headerText="Observación" sortBy="#{observations.observation}">
                                                 <p:outputLabel value="#{observations.observation}"/>
                                             </p:column>
                                         </p:dataTable>
@@ -364,23 +364,23 @@
                                                              var="specifications" 
                                                              value="#{scpersonBean.personSpecificationsList}"
                                                              rowKey="#{specifications.idPersonSpecifications}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{specifications.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                    <p:commandButton icon="ui-icon-close" update="dataTableSpecifications" title="Eliminar Observaciones"
                                                                     process=":formWizard:dataTableSpecifications" 
                                                                     actionListener="#{scpersonBean.removeSpecificationsByPerson(specifications)}" >
                                                    </p:commandButton>
                                                </p:column>
-                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{specifications.tittle}">
                                                     <p:outputLabel value="#{specifications.tittle}"/>
                                                 </p:column>
-                                                <p:column headerText="Especificación" sortBy="#{specifications.specification}">
+                                                <p:column  headerText="Especificación" sortBy="#{specifications.specification}">
                                                     <p:outputLabel value="#{specifications.specification}"/>
                                                 </p:column>
                                                     
@@ -633,22 +633,22 @@
                                                              var="phones" 
                                                              value="#{scpersonBean.personUpdate.scPhonesList}"
                                                              rowKey="#{phones.idPhone}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{phones.idPhone}">
-                                            <p:column style="width:32px">
+                                            <p:column  style="width:32px">
                                                 <p:commandButton icon="ui-icon-close" update="dataTablePhonesUpdate" title="Eliminar Teléfono"
                                                                  process=":formWizardUpdate:dataTablePhonesUpdate" actionListener="#{scpersonBean.removePhonesByPersonUpdate(phones)}" >
                                                 </p:commandButton>
                                             </p:column>
-                                           <p:column headerText="Teléfono" sortBy="#{phones.numberPhone}">
+                                           <p:column  headerText="Teléfono" sortBy="#{phones.numberPhone}">
                                                <p:outputLabel value="#{phones.numberPhone}"/>
                                            </p:column>
-                                           <p:column headerText="Descripción" sortBy="#{phones.description}">
+                                           <p:column  headerText="Descripción" sortBy="#{phones.description}">
                                                <p:outputLabel    value="#{phones.description}"/>
                                            </p:column>
                                         </p:dataTable>
@@ -701,22 +701,22 @@
                                                              var="mails" 
                                                              value="#{scpersonBean.personUpdate.scMailsList}"
                                                              rowKey="#{mails.idMail}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{mails.idMail}">
-                                            <p:column style="width:32px">
+                                            <p:column  style="width:32px">
                                                 <p:commandButton icon="ui-icon-close" update="dataTableMailsUpdate" title="Eliminar Correo"
                                                                  process=":formWizardUpdate:dataTableMailsUpdate" actionListener="#{scpersonBean.removeMailsByPersonUpdate(mails)}" >
                                                 </p:commandButton>
                                             </p:column>         
-                                            <p:column headerText="Correo" sortBy="#{mails.mail}">
+                                            <p:column  headerText="Correo" sortBy="#{mails.mail}">
                                                 <p:outputLabel  value="#{mails.mail}"/>
                                             </p:column>
-                                            <p:column headerText="Descripción" sortBy="#{mails.description}">
+                                            <p:column  headerText="Descripción" sortBy="#{mails.description}">
                                                 <p:outputLabel value="#{mails.description}"/>
                                             </p:column>
                                         </p:dataTable>
@@ -768,23 +768,23 @@
                                                              var="observations" 
                                                              value="#{scpersonBean.personUpdate.scPersonObservationsList}"
                                                              rowKey="#{observations.idPersonObservations}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{observations.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableObservationsUpdate" title="Eliminar Observaciones"
                                                                      process=":formWizardUpdate:dataTableObservationsUpdate" 
                                                                      actionListener="#{scpersonBean.removeObservationsByPersonUpdate(observations)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{observations.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{observations.tittle}">
                                                     <p:outputLabel value="#{observations.tittle}"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{observations.observation}">
+                                                <p:column  headerText="Observación" sortBy="#{observations.observation}">
                                                     <p:outputLabel value="#{observations.observation}"/>
                                                 </p:column>
                                                 </p:dataTable>
@@ -836,23 +836,23 @@
                                                              var="specifications" 
                                                              value="#{scpersonBean.personUpdate.scPersonSpecificationsList}"
                                                              rowKey="#{specifications.idPersonSpecifications}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{specifications.tittle}">
-                                            <p:column style="width:32px">
+                                            <p:column  style="width:32px">
                                                    <p:commandButton icon="ui-icon-close" update="dataTableSpecificationsUpdate" title="Eliminar Observaciones"
                                                                     process=":formWizardUpdate:dataTableSpecificationsUpdate" 
                                                                     actionListener="#{scpersonBean.removeSpecificationsByPersonUpdate(specifications)}" >
                                                    </p:commandButton>
                                                </p:column>
-                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{specifications.tittle}">
                                                     <p:outputLabel value="#{specifications.tittle}"/>
                                                 </p:column>
-                                                <p:column headerText="Especificación" sortBy="#{specifications.specification}">
+                                                <p:column  headerText="Especificación" sortBy="#{specifications.specification}">
                                                     <p:outputLabel value="#{specifications.specification}"/>
                                                 </p:column>
                                                 </p:dataTable>
@@ -1095,7 +1095,7 @@
                                             var="phones"
                                             value="#{scpersonBean.personSelected.scPhonesList}"
                                             rowKey="#{phones.idPhone}"
-                                            paginator="true" rows="15"  
+                                            paginator="true" rows="10"  
                                             pageLinks="40" editable="true"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -1103,10 +1103,10 @@
                                             paginatorPosition="top"
                                             sortBy="#{phones.idPhone}">
                                    
-                                    <p:column headerText="Número Telefónico" sortBy="#{phones.numberPhone}">
+                                    <p:column  headerText="Número Telefónico" sortBy="#{phones.numberPhone}">
                                        <p:outputLabel value="#{phones.numberPhone}"/>
                                    </p:column>
-                                    <p:column headerText="Descripción" sortBy="#{phones.description}">
+                                    <p:column  headerText="Descripción" sortBy="#{phones.description}">
                                        <p:outputLabel value="#{phones.description}"/>
                                    </p:column>
                                </p:dataTable>
@@ -1116,7 +1116,7 @@
                                             var="mails"
                                             value="#{scpersonBean.personSelected.scMailsList}"
                                             rowKey="#{mails.idMail}"
-                                            paginator="true" rows="15"  
+                                            paginator="true" rows="10"  
                                             pageLinks="40" editable="true"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -1124,10 +1124,10 @@
                                             paginatorPosition="top"
                                             sortBy="#{mails.idMail}">
                                    
-                                    <p:column headerText="Correo" sortBy="#{mails.mail}">
+                                    <p:column  headerText="Correo" sortBy="#{mails.mail}">
                                        <p:outputLabel value="#{mails.mail}"/>
                                    </p:column>
-                                    <p:column headerText="Descripción" sortBy="#{mails.description}">
+                                    <p:column  headerText="Descripción" sortBy="#{mails.description}">
                                         <p:outputLabel value="#{mails.description}"/>
                                    </p:column>
                                 </p:dataTable>
@@ -1137,7 +1137,7 @@
                                             var="observations"
                                             value="#{scpersonBean.personSelected.scPersonObservationsList}"
                                             rowKey="#{observations.idPersonObservations}"
-                                            paginator="true" rows="15"  
+                                            paginator="true" rows="10"  
                                             pageLinks="40" editable="true"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -1145,10 +1145,10 @@
                                             paginatorPosition="top"
                                             sortBy="#{observations.idPersonObservations}">
                                    
-                                    <p:column headerText="Título" sortBy="#{observations.tittle}">
+                                    <p:column  headerText="Título" sortBy="#{observations.tittle}">
                                        <p:outputLabel value="#{mails.mail}"/>
                                    </p:column>
-                                    <p:column headerText="Observación" sortBy="#{observations.observation}">
+                                    <p:column  headerText="Observación" sortBy="#{observations.observation}">
                                         <p:outputLabel value="#{observations.observation}"/>
                                    </p:column>
                                 </p:dataTable>
@@ -1158,7 +1158,7 @@
                                             var="specifications"
                                             value="#{scpersonBean.personSelected.scPersonSpecificationsList}"
                                             rowKey="#{specifications.idPersonSpecifications}"
-                                            paginator="true" rows="15"  
+                                            paginator="true" rows="10"  
                                             pageLinks="40" editable="true"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -1166,10 +1166,10 @@
                                             paginatorPosition="top"
                                             sortBy="#{specifications.idPersonSpecifications}">
                                    
-                                    <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                    <p:column  headerText="Título" sortBy="#{specifications.tittle}">
                                        <p:outputLabel value="#{specifications.tittle}"/>
                                    </p:column>
-                                    <p:column headerText="Especificación" sortBy="#{specifications.specification}">
+                                    <p:column  headerText="Especificación" sortBy="#{specifications.specification}">
                                         <p:outputLabel value="#{specifications.specification}"/>
                                    </p:column>
                                 </p:dataTable>
@@ -1188,7 +1188,7 @@
                     value="#{scpersonBean.scPersons}"
                     rowKey="#{person.idPerson}"
                     draggableColumns="true"
-                    paginator="true" rows="15"  
+                    paginator="true" rows="10"  
                     pageLinks="40"
                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                     {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -1206,7 +1206,7 @@
                         </p:commandButton>
                     </f:facet>
                     
-                    <p:column headerText="Administración">
+                    <p:column headerText="Administración" width="84">
                         <center>
                             <p:commandButton  id="btnEdit"  actionListener="#{scpersonBean.getPersonByUpdateDataTable(person)}"
                             icon="ui-icon-pencil" update=":formWizardUpdate:wizardUpdate"
@@ -1223,46 +1223,47 @@
                         </center>
                     </p:column>
                     
-                    <p:column headerText="ID" sortBy="#{person.identification}">
-                        <h:outputText value="#{person.identification}" />
+                    <p:column filterMatchMode="contains"  filterBy="#{person.identification}" headerText="ID" sortBy="#{person.identification}">
+                        <h:outputText value="#{person.identification}"  id="lblidentification"/>
+                        <p:tooltip for="lblidentification" value="#{person.identification}"/>
                     </p:column>
                     
-                    <p:column headerText="Apellidos" sortBy="#{person.lastName}">
+                    <p:column filterMatchMode="contains"  filterBy="#{person.lastName}" headerText="Apellidos" sortBy="#{person.lastName}">
                         <p:outputLabel id="lblLastName" value="#{person.lastName}"/>
                         <p:tooltip for="lblLastName" value="#{person.lastName}"/>
                     </p:column>
                     
-                    <p:column headerText="Nombres">
+                    <p:column filterMatchMode="contains"  filterBy="#{person.firstName}" headerText="Nombres">
                         <p:outputLabel id="lblFirstName" value="#{person.firstName}" />
                         <p:tooltip for="lblLastName" value="#{person.lastName}"/>
                     </p:column>                   
 
-                    <p:column headerText="Edad" sortBy="#{person.age}">
+                    <p:column filterMatchMode="contains"  filterBy="#{person.age}" headerText="Edad" sortBy="#{person.age}">
                         <p:outputLabel value="#{person.age}" id="lblAge"/>
                         <p:tooltip for="lblAge" value="#{person.age}"/> 
                     </p:column>
 
-                    <p:column headerText="Pais" sortBy="#{person.country}">
+                    <p:column filterMatchMode="contains"  filterBy="#{person.country}" headerText="Pais" sortBy="#{person.country}">
                         <p:outputLabel id="lblCountry" value="#{person.country}" />
                         <p:tooltip for="lblCountry" value="#{person.country}"/>
                     </p:column>
                     
-                    <p:column headerText="Ciudad" sortBy="#{person.city}">
+                    <p:column filterMatchMode="contains"  filterBy="#{person.city}" headerText="Ciudad" sortBy="#{person.city}">
                         <p:outputLabel id="lblCity" value="#{person.city}" />
                         <p:tooltip for="lblCity" value="#{person.city}"/>
                     </p:column>
 
-                    <p:column headerText="Direccion" sortBy="#{person.domicilie}">
+                    <p:column filterMatchMode="contains"  filterBy="#{person.domicilie}" headerText="Direccion" sortBy="#{person.domicilie}">
                         <p:outputLabel id="lbldomicilie" value="#{person.domicilie}" />
                         <p:tooltip for="lbldomicilie" value="#{person.domicilie}"/>
                     </p:column>
 
-                    <p:column headerText="Estudios" sortBy="#{person.studies}">
+                    <p:column filterMatchMode="contains"  filterBy="#{person.studies}" headerText="Estudios" sortBy="#{person.studies}">
                         <p:outputLabel id="lblStudies" value="#{person.studies}" />
                         <p:tooltip for="lblStudies" value="#{person.studies}"/>
                     </p:column>
 
-                    <p:column headerText="Inf. personal" sortBy="#{person.personalInformation}">
+                    <p:column filterMatchMode="contains"  filterBy="#{person.personalInformation}" headerText="Inf. personal" sortBy="#{person.personalInformation}">
                         <p:outputLabel id="lblPersonalInformation" value="#{person.personalInformation}" />
                         <p:tooltip for="lblPersonalInformation" value="#{person.personalInformation}"/>
                     </p:column>

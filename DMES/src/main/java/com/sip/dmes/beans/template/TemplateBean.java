@@ -167,6 +167,10 @@ public class TemplateBean implements Serializable
                             getIdModulePermission().getName(),scModulePermissionSelected.getIdModulePermission().
                             getType(),scModulePermissionSelected.getIdModulePermission().getIcone(), scModulePermissionSelected.
                             getIdModulePermission().getPage()), nodeFather);
+                            if(nodeFather.getParent().getParent() == null)
+                            {
+                                nodeIteractive.setExpanded(true);
+                            }
                         }
                         nodeIteractive.setType(scModulePermissionSelected.getIdModulePermission().getType());
                     }
@@ -288,7 +292,7 @@ public class TemplateBean implements Serializable
                if(valueMap > position)
                {
                    entry.setValue( valueMap -1);
-                   System.out.println(valueMap+" Value Map");
+                   //System.out.println(valueMap+" Value Map");
                }
            }
            if(getMainTabs().isEmpty())

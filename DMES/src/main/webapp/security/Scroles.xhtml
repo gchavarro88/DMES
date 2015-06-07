@@ -54,8 +54,8 @@
                                              liveResize="true" rowsPerPageTemplate="10,20,30" 
                                              paginatorPosition="top" selection="#{scrolesBean.listPermissionsAdd}">
 
-                                    <p:column selectionMode="multiple" width="16"/>
-                                    <p:column headerText="Permiso" >
+                                    <p:column  selectionMode="multiple" width="16"/>
+                                    <p:column  headerText="Permiso" >
                                         <p:outputLabel value="Gestionar #{permissions.name}"/>
                                     </p:column> 
                                 </p:dataTable>
@@ -113,8 +113,8 @@
                                              liveResize="true" rowsPerPageTemplate="10,20,30" 
                                              paginatorPosition="top" selection="#{scrolesBean.listPermissionsUpdate}">
 
-                                    <p:column selectionMode="multiple" width="16"/>
-                                    <p:column headerText="Permiso" >
+                                    <p:column  selectionMode="multiple" width="16"/>
+                                    <p:column  headerText="Permiso" >
                                         <p:outputLabel value="Gestionar #{permissions.name}"/>
                                     </p:column> 
                                 </p:dataTable>
@@ -213,8 +213,8 @@
                                     liveResize="true" rowsPerPageTemplate="10,20,30" 
                                     paginatorPosition="top">
 
-                                    <p:column selectionMode="multiple" width="16" disabledSelection="true"/>
-                                    <p:column headerText="Permiso" disabledSelection="true">
+                                    <p:column  selectionMode="multiple" width="16" disabledSelection="true"/>
+                                    <p:column  headerText="Permiso" disabledSelection="true">
                                         <p:outputLabel value="Gestionar #{permissions.name}"/>
                                     </p:column> 
                                 </p:dataTable>
@@ -236,13 +236,13 @@
                 <p:remoteCommand name="roleInit" update=":formRoles:scrolesDataTable" />
                 <p:dataTable id="scrolesDataTable" draggableColumns="true" emptyMessage="" 
                          value="#{scrolesBean.rolesList}" var="roles"
-                         paginator="true" rows="15"  
+                         paginator="true" rows="10"  
                          pageLinks="40"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowKey="#{roles.idRole}"
                          resizableColumns="true" selection="#{scrolesBean.scRolesSelected}"
-                         liveResize="true" rowsPerPageTemplate="15,30,50" 
+                         liveResize="true" rowsPerPageTemplate="10,20,30" 
                          selectionMode="single" paginatorPosition="top"
                          sortBy="#{roles.name}">
                 <f:facet name="header">
@@ -253,7 +253,7 @@
                 </f:facet>
                 <p:ajax event="rowSelect" listener="#{scrolesBean.getModulePermissionsByRoleSelectedView()}" 
                         update=":formViewScRole" oncomplete="PF('dialogRolesView').show()"/>
-                <p:column headerText="Administración">
+                <p:column headerText="Administración" width="84">
                     <center>
                         <p:commandButton icon="ui-icon-pencil" id="btnEdit" 
                         actionListener="#{scrolesBean.getModulePermissionsByRoleSelected(roles)}"
@@ -268,24 +268,19 @@
                         </p:commandButton>
                     </center>
                 </p:column>
-                <p:column headerText="ID" sortBy="#{roles.idRole}">    
-                    <center>
-                        <p:outputLabel value="#{roles.idRole}"/>
-                    </center>
-                </p:column>
-                <p:column id="columnRolName" headerText="Rol" sortBy="#{roles.name}">    
+                <p:column filterMatchMode="contains"  filterBy="#{roles.name}" id="columnRolName" headerText="Rol" sortBy="#{roles.name}">    
                     <center>
                         <p:outputLabel value="#{roles.name}" id="lblRolname"/>
                         <p:tooltip for="lblRolname" value="#{roles.name}"/>
                     </center>
                 </p:column>
-                <p:column id="columnRolDescription" headerText="Descripción" sortBy="#{roles.description}">    
+                <p:column filterMatchMode="contains"  filterBy="#{roles.description}" id="columnRolDescription" headerText="Descripción" sortBy="#{roles.description}">    
                     <center>
                         <p:outputLabel value="#{roles.description}" id="lblRoleDescription"/>
                         <p:tooltip for="lblRoleDescription" value="#{roles.description}"/>
                     </center>
                 </p:column>
-                    <p:column id="columnRolCreationDate" headerText="Fecha de Creación" 
+                    <p:column filterMatchMode="contains"  filterBy="#{scrolesBean.getFormatDate(roles.creationDate)}" id="columnRolCreationDate" headerText="Fecha de Creación" 
                               sortBy="#{scrolesBean.getFormatDate(roles.creationDate)}">    
                     <center>
                         <p:outputLabel value="#{scrolesBean.getFormatDate(roles.creationDate)}" id="lblRoleCreationDate"/>

@@ -225,8 +225,8 @@
                                          selectionMode="single"
                                          >
                                     <p:ajax event="rowSelect" update=":formWizardUpdate:dataTablePersonsUpdate"/>
-                                    <p:column selectionMode="single" width="16"/>
-                                    <p:column headerText="Personas Disponibles">
+                                    <p:column  selectionMode="single" width="16"/>
+                                    <p:column  headerText="Personas Disponibles">
                                         <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
                                     </p:column> 
                                 </p:dataTable>
@@ -368,25 +368,25 @@
                                                              var="workExperiencies"
                                                              value="#{scmachinesBean.employeeSelected.scWorkExperienceList}"
                                                              rowKey="#{workExperiencies.idWorkExperience}"
-                                                             paginator="true" rows="15"  
+                                                             paginator="true" rows="10"  
                                                              pageLinks="40" editable="true"
                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                                              paginatorPosition="top"
                                                              sortBy="#{workExperiencies.idWorkExperience}">
-                                                    <p:column style="width:32px">
+                                                    <p:column  style="width:32px">
                                                         <p:commandButton icon="ui-icon-close" update="dataTableWorkExperienciesUpdate" title="Eliminar experiencia laboral"
                                                                          process=":formWizardUpdate:dataTableWorkExperienciesUpdate" actionListener="#{scmachinesBean.removeWorkExperiencieUpdate(workExperiencies)}" >
                                                         </p:commandButton>
                                                     </p:column>
-                                                    <p:column headerText="Empresa" sortBy="#{workExperiencies.companyName}">
+                                                    <p:column  headerText="Empresa" sortBy="#{workExperiencies.companyName}">
                                                         <p:outputLabel value="#{workExperiencies.companyName}"/>
                                                     </p:column>
-                                                    <p:column headerText="Fecha de Inicio" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}">
+                                                    <p:column  headerText="Fecha de Inicio" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}">
                                                         <p:outputLabel value="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}"/>
                                                     </p:column>
-                                                    <p:column headerText="Fecha de Retiro" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}">
+                                                    <p:column  headerText="Fecha de Retiro" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}">
                                                         <p:outputLabel value="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}"/>
                                                     </p:column>
                                             </p:dataTable>
@@ -440,22 +440,22 @@
                                                          var="competencies" 
                                                          value="#{scmachinesBean.employeeSelected.scCompetenciesList}"
                                                          rowKey="#{competencies.idCompetencies}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top" 
                                                          sortBy="#{competencies.idCompetencies}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableCompetenciesUpdate" title="Eliminar competencia"
                                                                      process=":formWizardUpdate:dataTableCompetenciesUpdate" actionListener="#{scmachinesBean.removeCompetencieUpdate(competencies)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{competencies.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{competencies.tittle}">
                                                     <p:outputLabel value="#{competencies.tittle}"/>
                                                 </p:column>
-                                                <p:column headerText="Descripción" sortBy="#{competencies.description}">
+                                                <p:column  headerText="Descripción" sortBy="#{competencies.description}">
                                                     <p:outputLabel value="#{competencies.description}"/>
                                                 </p:column>
                                             </p:dataTable>
@@ -672,7 +672,7 @@
                                             var="workExperiencies"
                                             value="#{scmachinesBean.employeeSelected.scWorkExperienceList}"
                                             rowKey="#{workExperiencies.idWorkExperience}"
-                                            paginator="true" rows="15"  
+                                            paginator="true" rows="10"  
                                             pageLinks="40" editable="true"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -680,13 +680,13 @@
                                             paginatorPosition="top"
                                             sortBy="#{workExperiencies.idWorkExperience}">
                                    
-                                   <p:column headerText="Empresa" sortBy="#{workExperiencies.companyName}">
+                                   <p:column  headerText="Empresa" sortBy="#{workExperiencies.companyName}">
                                        <p:outputLabel value="#{workExperiencies.companyName}"/>
                                    </p:column>
-                                   <p:column headerText="Fecha de Inicio" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}">
+                                   <p:column  headerText="Fecha de Inicio" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}">
                                        <p:outputLabel value="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}"/>
                                    </p:column>
-                                   <p:column headerText="Fecha de Retiro" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}">
+                                   <p:column  headerText="Fecha de Retiro" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}">
                                        <p:outputLabel value="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}"/>
                                    </p:column>
                                </p:dataTable>
@@ -696,7 +696,7 @@
                                             var="competencies"
                                             value="#{scmachinesBean.employeeSelected.scCompetenciesList}"
                                             rowKey="#{competencies.idCompetencies}"
-                                            paginator="true" rows="15"  
+                                            paginator="true" rows="10"  
                                             pageLinks="40" editable="true"
                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -704,10 +704,10 @@
                                             paginatorPosition="top"
                                             sortBy="#{competencies.idCompetencies}">
                                    
-                                   <p:column headerText="Título" sortBy="#{competencies.tittle}">
+                                   <p:column  headerText="Título" sortBy="#{competencies.tittle}">
                                        <p:outputLabel value="#{competencies.tittle}"/>
                                    </p:column>
-                                   <p:column headerText="Descripción" sortBy="#{competencies.description}">
+                                   <p:column  headerText="Descripción" sortBy="#{competencies.description}">
                                        <p:outputLabel value="#{competencies.description}"/>
                                    </p:column>
                                 </p:dataTable>
@@ -720,13 +720,13 @@
             <h:form id="formMachine">
                 <p:dataTable id="scMachineDataTable" draggableColumns="true" emptyMessage="" 
                              value="#{scmachinesBean.scMachineList}" var="machine"
-                             paginator="true" rows="15"  
+                             paginator="true" rows="10"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowKey="#{machine.idMachine}"
                              resizableColumns="true" 
-                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
                              selectionMode="single" paginatorPosition="top" selection="#{scmachinesBean.scMachineSelected}"
                              sortBy="#{machine.machine}"
                              >
@@ -739,7 +739,8 @@
                     <p:ajax event="rowSelect" listener="#{scmachinesBean.getMachineByDataTable(machine)}" 
                             update=":formWizardView"
                             oncomplete="PF('dialogMachineView').show()"/>
-                    <!--p:column headerText="Administración">
+                    <p:column headerText="Administración" width="84">
+                    <!--
                         <center>
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizardUpdate" onstart="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
                                              oncomplete="PF('dialogEmployeeUpdate').show()"
@@ -753,40 +754,40 @@
                                              >
                                 <p:tooltip for="btnDelete" value="Eliminar Empleado"/>
                             </p:commandButton>
-                        </center>
-                    </p:column-->
+                        </center>-->
+                    </p:column>
                   
-                    <p:column id="columnMachine" headerText="Maquina" sortBy="#{machine.machine}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.machine}" id="columnMachine" headerText="Maquina" sortBy="#{machine.machine}">    
                         <center>
                             <p:outputLabel value="#{machine.machine}" id="lblMachine"/>
                             <p:tooltip for="lblMachine" value="#{machine.machine}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnClassification" headerText="Clasificación" sortBy="#{machine.idTypeClassification.type}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.idTypeClassification.type}" id="columnClassification" headerText="Clasificación" sortBy="#{machine.idTypeClassification.type}">    
                         <center>
                             <p:outputLabel value="#{machine.idTypeClassification.type}" id="lblClassification"/>
                             <p:tooltip for="lblClassification" value="#{machine.idTypeClassification.type}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnPriority" headerText="Prioridad" sortBy="#{machine.idTypePriority.type}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.idTypePriority.type}" id="columnPriority" headerText="Prioridad" sortBy="#{machine.idTypePriority.type}">    
                         <center>
                             <p:outputLabel value="#{machine.idTypePriority.type}" id="lblPriority"/>
                             <p:tooltip for="lblPriority" value="#{machine.idTypePriority.type}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnCost" headerText="Valor/Hora" sortBy="#{machine.cost} #{machine.idTypeCost.type}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.cost} #{machine.idTypeCost.type}" id="columnCost" headerText="Valor/Hora" sortBy="#{machine.cost} #{machine.idTypeCost.type}">    
                         <center>
                             <p:outputLabel value="#{machine.cost} #{machine.idTypeCost.type}" id="lblCost"/>
                             <p:tooltip for="lblCost" value="#{machine.cost} #{machine.idTypeCost.type}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnLocation" headerText="Localización" sortBy="#{machine.location}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.location}" id="columnLocation" headerText="Localización" sortBy="#{machine.location}">    
                         <center>
                             <p:outputLabel value="#{machine.location}" id="lblLocation"/>
                             <p:tooltip for="lblLocation" value="#{machine.location}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnComments" headerText="Observaciones" sortBy="#{machine.comments}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.comments}" id="columnComments" headerText="Observaciones" sortBy="#{machine.comments}">    
                         <center>
                             <p:outputLabel value="#{machine.comments}" id="lblComments"/>
                             <p:tooltip for="lblComments" value="#{machine.comments}"/>

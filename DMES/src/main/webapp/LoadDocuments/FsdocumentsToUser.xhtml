@@ -67,10 +67,10 @@
                                             liveResize="true" rowsPerPageTemplate="4" 
                                             paginatorPosition="top"
                                             sortBy="#{users.idUser}">
-                                    <p:column selectionMode="single" style="width:16px;text-align:center">
+                                    <p:column  selectionMode="single" style="width:16px;text-align:center">
                                         
                                     </p:column>
-                                    <p:column id="clName" sortBy="#{users.idPerson.lastName} #{users.idPerson.firstName}"
+                                    <p:column  id="clName" sortBy="#{users.idPerson.lastName} #{users.idPerson.firstName}"
                                               >
                                         <p:outputLabel value="#{users.idPerson.lastName} #{users.idPerson.firstName}"/>
                                     </p:column>
@@ -97,13 +97,13 @@
                 <p:remoteCommand name="documentToUserInit" update=":formDocumentsToUser:fsDocumentsToUser" />
                 <p:dataTable id="fsDocumentsToUser" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                          value="#{fsDocumentsToUserBean.documentList}" var="documents"
-                         paginator="true" rows="15"  
+                         paginator="true" rows="10"  
                          pageLinks="40"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowKey="#{documents.idDocument}"
                          resizableColumns="true" selection="#{fsDocumentsToUserBean.scDocumentsSelected}"
-                         liveResize="true" rowsPerPageTemplate="15,30,50" 
+                         liveResize="true" rowsPerPageTemplate="10,20,30" 
                          selectionMode="single" paginatorPosition="top"
                          sortBy="#{documents.idDocument}">
                 <f:facet name="header">
@@ -113,7 +113,7 @@
                     </p:commandButton>
                 </f:facet>
                 
-                    <p:column headerText="Administración">
+                    <p:column headerText="Administración" width="84">
                     <center>
                         <p:commandButton icon="ui-icon-arrowthickstop-1-s" id="btnDownload" 
                                          actionListener="#{fsDocumentsToUserBean.downloadDocument(documents)}"
@@ -128,22 +128,22 @@
                         </p:commandButton>
                     </center>
                     </p:column>
-                    <p:column id="columnTittle" headerText="Título" sortBy="#{documents.documentTittle}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{documents.documentTittle}" id="columnTittle" headerText="Título" sortBy="#{documents.documentTittle}">    
                     <center>
                         <p:outputLabel value="#{documents.documentTittle}"/>
                     </center>
                     </p:column>
-                    <p:column id="columnDocument" headerText="Documento" sortBy="#{documents.documentName}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{documents.documentName}" id="columnDocument" headerText="Documento" sortBy="#{documents.documentName}">    
                     <center>
                         <p:outputLabel value="#{documents.documentName}"/>
                     </center>
                     </p:column>
-                    <p:column id="columnDate" headerText="Fecha de Creación" sortBy="#{fsDocumentsToUserBean.getFormatDate(documents.creationDate)}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{fsDocumentsToUserBean.getFormatDate(documents.creationDate)}" id="columnDate" headerText="Fecha de Creación" sortBy="#{fsDocumentsToUserBean.getFormatDate(documents.creationDate)}">    
                     <center>
                         <p:outputLabel value="#{fsDocumentsToUserBean.getFormatDate(documents.creationDate)}"/>
                     </center>
                     </p:column>
-                    <p:column id="columnUser" headerText="Subido a" sortBy="#{documents.idPerson.lastName} #{documents.idPerson.firstName}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{documents.uploadBy}" id="columnUser" headerText="Subido a" sortBy="#{documents.idPerson.lastName} #{documents.idPerson.firstName}">    
                     <center>
                         <p:outputLabel value="#{documents.uploadBy}"/>
                     </center>

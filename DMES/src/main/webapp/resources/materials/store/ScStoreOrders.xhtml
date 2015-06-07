@@ -37,13 +37,13 @@
                 <p:remoteCommand name="storeOrderInit" update=":formInput:scDataTableStoreOrders" />
                 <p:dataTable id="scDataTableStoreOrders" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{scStoreOrderBean.storeOrderList}" var="storeOrder"
-                             paginator="true" rows="15"  
+                             paginator="true" rows="10"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowKey="#{storeOrder.idStoreOrder}"
                              resizableColumns="true" 
-                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
                              selectionMode="single" paginatorPosition="top" selection="#{scStoreOrderBean.storeOrderUpdate}"
                              sortBy="#{storeOrder.idStoreOrder}"
                              >
@@ -54,7 +54,7 @@
                         </p:commandButton>
                     </f:facet>-->
 <!--                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" />-->
-                    <p:column headerText="Administración">
+                    <p:column headerText="Administración" width="84">
                         <center>
 <!--                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener=""
                                              oncomplete="PF('dialogInputUpdate').show()" update=":formWizardUpdate:" 
@@ -68,7 +68,8 @@
                             </p:commandButton>-->
                         </center>
                     </p:column>
-                    <p:column id="columnOrderId" headerText="No." 
+                    <p:column filterMatchMode="contains"  filterBy="#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
+                              id="columnOrderId" headerText="No." 
                     sortBy="#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}">    
                         <center>
                             <p:outputLabel 
@@ -78,31 +79,32 @@
                             value="#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"/>
                         </center>
                     </p:column>
-                    <p:column headerText="Tipo de Orden" sortBy="#{storeOrder.orderType}" id="columnTypeOrder">    
+                    <p:column filterMatchMode="contains"  filterBy="#{storeOrder.orderType}" headerText="Tipo de Orden" sortBy="#{storeOrder.orderType}" id="columnTypeOrder">    
                         <center>
                             <p:outputLabel value="#{storeOrder.orderType}" id="lblOrderType"/>
                             <p:tooltip for="lblOrderType" value="#{storeOrder.orderType}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnOrderClass" headerText="Clase de Recurso" sortBy="#{storeOrder.orderClass}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{storeOrder.orderClass}" id="columnOrderClass" headerText="Clase de Recurso" sortBy="#{storeOrder.orderClass}">    
                         <center>
                             <p:outputLabel value="#{storeOrder.orderClass}" id="lblOrderClass"/>
                             <p:tooltip for="lblOrderClass" value="#{storeOrder.orderClass}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnRequiredBy" headerText="Requerido Por" sortBy="#{storeOrder.requiredBy}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{storeOrder.requiredBy}" id="columnRequiredBy" headerText="Requerido Por" sortBy="#{storeOrder.requiredBy}">    
                         <center>
                             <p:outputLabel value="#{storeOrder.requiredBy}" id="lblRequiredBy"/>
                             <p:tooltip for="lblRequiredBy" value="#{storeOrder.requiredBy}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnNumberItems" headerText="No. Items" sortBy="#{storeOrder.amountItems}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{storeOrder.amountItems}" id="columnNumberItems" headerText="No. Items" sortBy="#{storeOrder.amountItems}">    
                         <center>
                             <p:outputLabel value="#{storeOrder.amountItems}" id="lblNumberItems"/>
                             <p:tooltip for="lblNumberItems" value="#{storeOrder.amountItems}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnDate" headerText="Fecha" 
+                    <p:column filterMatchMode="contains"  filterBy="#{scStoreOrderBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}"
+                              id="columnDate" headerText="Fecha" 
                         sortBy="#{scStoreOrderBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}">    
                         <center>
                             <p:outputLabel 
@@ -112,7 +114,8 @@
                             value="#{scStoreOrderBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnState" headerText="Estado" sortBy="#{storeOrder.idState.description}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{storeOrder.idState.description}"
+                              id="columnState" headerText="Estado" sortBy="#{storeOrder.idState.description}">    
                         <center>
                             <p:outputLabel value="#{storeOrder.idState.description}" id="lblState"/>
                             <p:tooltip for="lblState" value="#{storeOrder.idState.description}"/>

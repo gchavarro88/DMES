@@ -93,7 +93,7 @@
                                                 <f:selectItem itemLabel="Eléctrica" itemValue="Eléctrica"/>
                                                 <f:selectItem itemLabel="Limpieza" itemValue="Limpieza"/>
                                                 <f:selectItem itemLabel="Administrativa" itemValue="Administrativa"/>
-                                                <f:selectItem itemLabel="Varios" itemValue="Específica"/>
+                                                <f:selectItem itemLabel="Varios" itemValue="Varios"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
@@ -469,24 +469,24 @@
                                                          var="specifications" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.attachedListSave, 'SPECIFICATION')}"
                                                          rowKey="#{specifications.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{specifications.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Especificaciones"
                                                                      process="dataTableSpecificationSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.attachedListSave, specifications)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{specifications.tittle}">
                                                     <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{specifications.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{specifications.description}">
+                                                <p:column  headerText="Observación" sortBy="#{specifications.description}">
                                                     <p:outputLabel value="#{specifications.description}" id="outDescription"/>
                                                     <p:tooltip value="#{specifications.description}" for="outDescription"/>
                                                 </p:column>
@@ -538,24 +538,24 @@
                                                          var="feactures" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.attachedListSave, 'FEACTURE')}"
                                                          rowKey="#{feactures.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{feactures.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableFeactureSave" title="Eliminar Características"
                                                                      process="dataTableFeactureSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.attachedListSave, feactures)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{feactures.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{feactures.tittle}">
                                                     <p:outputLabel value="#{feactures.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{feactures.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{feactures.description}">
+                                                <p:column  headerText="Observación" sortBy="#{feactures.description}">
                                                     <p:outputLabel value="#{feactures.description}" id="outDescription"/>
                                                     <p:tooltip value="#{feactures.description}" for="outDescription"/>
                                                 </p:column>
@@ -607,24 +607,24 @@
                                                          var="observation" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.attachedListSave, 'OBSERVATION')}"
                                                          rowKey="#{observation.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{observation.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableObservationSave" title="Eliminar Observaciones"
                                                                      process="dataTableObservationSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.attachedListSave, observation)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{observation.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{observation.tittle}">
                                                     <p:outputLabel value="#{observation.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{observation.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{observation.description}">
+                                                <p:column  headerText="Observación" sortBy="#{observation.description}">
                                                     <p:outputLabel value="#{observation.description}" id="outDescription"/>
                                                     <p:tooltip value="#{observation.description}" for="outDescription"/>
                                                 </p:column>
@@ -646,7 +646,7 @@
                                                          var="document" 
                                                          value="#{scToolBean.documentsListSave}"
                                                          rowKey="#{document.documentTittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -660,25 +660,25 @@
                                                         <p:tooltip for="btnAdd" value="Agregar un Documento"/>
                                                     </p:commandButton>
                                                 </f:facet>
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableDocumentationSave" title="Eliminar Documentos"
                                                                      process="@this" 
                                                                      actionListener="#{scToolBean.deleteDocument(document)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{document.documentTittle}">
+                                                <p:column  headerText="Título" sortBy="#{document.documentTittle}">
                                                     <p:outputLabel value="#{document.documentTittle}" id="outTittle"/>
                                                     <p:tooltip value="#{document.documentTittle}" for="outTittle"/>
                                                 </p:column>                                                 
-                                                <p:column headerText="Documento" sortBy="#{document.documentName}">
+                                                <p:column  headerText="Documento" sortBy="#{document.documentName}">
                                                     <p:outputLabel value="#{document.documentName}" id="documentName"/>
                                                     <p:tooltip value="#{document.documentName}" for="documentName"/>
                                                 </p:column>
-                                                <p:column headerText="Fecha de Subida" sortBy="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
+                                                <p:column  headerText="Fecha de Subida" sortBy="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
                                                     <p:outputLabel value="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" id="uploadDate"/>
                                                     <p:tooltip value="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" for="uploadDate"/>
                                                 </p:column>
-                                                <p:column headerText="Subido por" sortBy="#{document.uploadBy}">
+                                                <p:column  headerText="Subido por" sortBy="#{document.uploadBy}">
                                                     <p:outputLabel value="#{document.uploadBy}" id="uploadBy"/>
                                                     <p:tooltip value="#{document.uploadBy}" for="uploadBy"/>
                                                 </p:column>
@@ -831,7 +831,7 @@
                                                 <f:selectItem itemLabel="Eléctrica" itemValue="Eléctrica"/>
                                                 <f:selectItem itemLabel="Limpieza" itemValue="Limpieza"/>
                                                 <f:selectItem itemLabel="Administrativa" itemValue="Administrativa"/>
-                                                <f:selectItem itemLabel="Varios" itemValue="Específica"/>
+                                                <f:selectItem itemLabel="Varios" itemValue="Varios"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
@@ -1207,24 +1207,24 @@
                                                          var="specifications" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.toolSelected.toolAttacheds, 'SPECIFICATION')}"
                                                          rowKey="#{specifications.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{specifications.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Especificaciones"
                                                                      process="dataTableSpecificationSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.toolSelected.toolAttacheds, specifications)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{specifications.tittle}">
                                                     <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{specifications.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{specifications.description}">
+                                                <p:column  headerText="Observación" sortBy="#{specifications.description}">
                                                     <p:outputLabel value="#{specifications.description}" id="outDescription"/>
                                                     <p:tooltip value="#{specifications.description}" for="outDescription"/>
                                                 </p:column>
@@ -1276,24 +1276,24 @@
                                                          var="feactures" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.toolSelected.toolAttacheds, 'FEACTURE')}"
                                                          rowKey="#{feactures.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{feactures.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableFeactureSave" title="Eliminar Características"
                                                                      process="dataTableFeactureSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.toolSelected.toolAttacheds, feactures)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{feactures.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{feactures.tittle}">
                                                     <p:outputLabel value="#{feactures.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{feactures.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{feactures.description}">
+                                                <p:column  headerText="Observación" sortBy="#{feactures.description}">
                                                     <p:outputLabel value="#{feactures.description}" id="outDescription"/>
                                                     <p:tooltip value="#{feactures.description}" for="outDescription"/>
                                                 </p:column>
@@ -1345,24 +1345,24 @@
                                                          var="observation" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.toolSelected.toolAttacheds, 'OBSERVATION')}"
                                                          rowKey="#{observation.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{observation.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableObservationSave" title="Eliminar Observaciones"
                                                                      process="dataTableObservationSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.toolSelected.toolAttacheds, observation)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{observation.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{observation.tittle}">
                                                     <p:outputLabel value="#{observation.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{observation.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{observation.description}">
+                                                <p:column  headerText="Observación" sortBy="#{observation.description}">
                                                     <p:outputLabel value="#{observation.description}" id="outDescription"/>
                                                     <p:tooltip value="#{observation.description}" for="outDescription"/>
                                                 </p:column>
@@ -1385,7 +1385,7 @@
                                                          var="document" 
                                                          value="#{scToolBean.toolSelected.toolDocuments}"
                                                          rowKey="#{document.documentTittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -1399,25 +1399,25 @@
                                                         <p:tooltip for="btnAdd" value="Agregar un Documento"/>
                                                     </p:commandButton>
                                                 </f:facet>
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableDocumentationSave" title="Eliminar Documentos"
                                                                      process="@this" 
                                                                      actionListener="#{scToolBean.deleteDocumentUpdate(document)}" > 
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{document.documentTittle}">
+                                                <p:column  headerText="Título" sortBy="#{document.documentTittle}">
                                                     <p:outputLabel value="#{document.documentTittle}" id="outTittle"/>
                                                     <p:tooltip value="#{document.documentTittle}" for="outTittle"/>
                                                 </p:column>                                                 
-                                                <p:column headerText="Documento" sortBy="#{document.documentName}">
+                                                <p:column  headerText="Documento" sortBy="#{document.documentName}">
                                                     <p:outputLabel value="#{document.documentName}" id="documentName"/>
                                                     <p:tooltip value="#{document.documentName}" for="documentName"/>
                                                 </p:column>
-                                                <p:column headerText="Fecha de Subida" sortBy="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
+                                                <p:column  headerText="Fecha de Subida" sortBy="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
                                                     <p:outputLabel value="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" id="uploadDate"/>
                                                     <p:tooltip value="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" for="uploadDate"/>
                                                 </p:column>
-                                                <p:column headerText="Subido por" sortBy="#{document.uploadBy}">
+                                                <p:column  headerText="Subido por" sortBy="#{document.uploadBy}">
                                                     <p:outputLabel value="#{document.uploadBy}" id="uploadBy"/>
                                                     <p:tooltip value="#{document.uploadBy}" for="uploadBy"/>
                                                 </p:column>
@@ -1594,7 +1594,7 @@
                                                 <f:selectItem itemLabel="Eléctrica" itemValue="Eléctrica"/>
                                                 <f:selectItem itemLabel="Limpieza" itemValue="Limpieza"/>
                                                 <f:selectItem itemLabel="Administrativa" itemValue="Administrativa"/>
-                                                <f:selectItem itemLabel="Varios" itemValue="Específica"/>
+                                                <f:selectItem itemLabel="Varios" itemValue="Varios"/>
                                             </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
@@ -1928,24 +1928,24 @@
                                                          var="specifications" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.toolSelected.toolAttacheds, 'SPECIFICATION')}"
                                                          rowKey="#{specifications.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{specifications.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Especificaciones"
                                                                      process="dataTableSpecificationSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.toolSelected.toolAttacheds, specifications)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{specifications.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{specifications.tittle}">
                                                     <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{specifications.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{specifications.description}">
+                                                <p:column  headerText="Observación" sortBy="#{specifications.description}">
                                                     <p:outputLabel value="#{specifications.description}" id="outDescription"/>
                                                     <p:tooltip value="#{specifications.description}" for="outDescription"/>
                                                 </p:column>
@@ -1967,24 +1967,24 @@
                                                          var="feactures" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.toolSelected.toolAttacheds, 'FEACTURE')}"
                                                          rowKey="#{feactures.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{feactures.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableFeactureSave" title="Eliminar Características"
                                                                      process="dataTableFeactureSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.toolSelected.toolAttacheds, feactures)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{feactures.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{feactures.tittle}">
                                                     <p:outputLabel value="#{feactures.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{feactures.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{feactures.description}">
+                                                <p:column  headerText="Observación" sortBy="#{feactures.description}">
                                                     <p:outputLabel value="#{feactures.description}" id="outDescription"/>
                                                     <p:tooltip value="#{feactures.description}" for="outDescription"/>
                                                 </p:column>
@@ -2006,24 +2006,24 @@
                                                          var="observation" 
                                                          value="#{scToolBean.getAttachedList(scToolBean.toolSelected.toolAttacheds, 'OBSERVATION')}"
                                                          rowKey="#{observation.tittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                          liveResize="true" rowsPerPageTemplate="15,30,50"
                                                          paginatorPosition="top"
                                                          sortBy="#{observation.tittle}">
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableObservationSave" title="Eliminar Observaciones"
                                                                      process="dataTableObservationSave" 
                                                                      actionListener="#{scToolBean.deleteAttached(scToolBean.toolSelected.toolAttacheds, observation)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{observation.tittle}">
+                                                <p:column  headerText="Título" sortBy="#{observation.tittle}">
                                                     <p:outputLabel value="#{observation.tittle}" id="outTittle"/>
                                                     <p:tooltip value="#{observation.tittle}" for="outTittle"/>
                                                 </p:column>
-                                                <p:column headerText="Observación" sortBy="#{observation.description}">
+                                                <p:column  headerText="Observación" sortBy="#{observation.description}">
                                                     <p:outputLabel value="#{observation.description}" id="outDescription"/>
                                                     <p:tooltip value="#{observation.description}" for="outDescription"/>
                                                 </p:column>
@@ -2045,7 +2045,7 @@
                                                          var="document" 
                                                          value="#{scToolBean.toolSelected.toolDocuments}"
                                                          rowKey="#{document.documentTittle}"
-                                                         paginator="true" rows="15"  
+                                                         paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -2053,25 +2053,25 @@
                                                          paginatorPosition="top"
                                                          sortBy="#{document.documentTittle}">
 
-                                                <p:column style="width:32px">
+                                                <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-arrowthickstop-1-s" update="dataTableDocumentationSave" title="Descargar Documento"
                                                                      process="@this" ajax="false" onstart="start()" oncomplete="stop()"
                                                                      actionListener="#{scToolBean.downloadDocument(document)}" >
                                                     </p:commandButton>
                                                 </p:column>
-                                                <p:column headerText="Título" sortBy="#{document.documentTittle}">
+                                                <p:column  headerText="Título" sortBy="#{document.documentTittle}">
                                                     <p:outputLabel value="#{document.documentTittle}" id="outTittle"/>
                                                     <p:tooltip value="#{document.documentTittle}" for="outTittle"/>
                                                 </p:column>                                                 
-                                                <p:column headerText="Documento" sortBy="#{document.documentName}">
+                                                <p:column  headerText="Documento" sortBy="#{document.documentName}">
                                                     <p:outputLabel value="#{document.documentName}" id="documentName"/>
                                                     <p:tooltip value="#{document.documentName}" for="documentName"/>
                                                 </p:column>
-                                                <p:column headerText="Fecha de Subida" sortBy="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
+                                                <p:column  headerText="Fecha de Subida" sortBy="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
                                                     <p:outputLabel value="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" id="uploadDate"/>
                                                     <p:tooltip value="#{scToolBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" for="uploadDate"/>
                                                 </p:column>
-                                                <p:column headerText="Subido por" sortBy="#{document.uploadBy}">
+                                                <p:column  headerText="Subido por" sortBy="#{document.uploadBy}">
                                                     <p:outputLabel value="#{document.uploadBy}" id="uploadBy"/>
                                                     <p:tooltip value="#{document.uploadBy}" for="uploadBy"/>
                                                 </p:column>
@@ -2214,7 +2214,7 @@
                                 <p:spacer width="20"/>
 
                                 <p:commandButton value="Cancelar" actionListener="#{scToolBean.cleanFieldsLocationTool()}" 
-                                                 oncomplete="PF('toolLocationSave').hide()"
+                                                 oncomplete="PF('toolLocationSave').hide()" 
                                                  update="tfDescriptionLocation,tfLocation,@this"/>
                             </td>
                         </tr>
@@ -2315,13 +2315,13 @@
                 <p:remoteCommand name="toolInit" update=":formTool:scDataTableTools" />
                 <p:dataTable id="scDataTableTools" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{scToolBean.toolList}" var="tool"
-                             paginator="true" rows="15"  
+                             paginator="true" rows="10"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowKey="#{tool.idTool}"
                              resizableColumns="true" 
-                             liveResize="true" rowsPerPageTemplate="15,30,50" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
                              selectionMode="single" paginatorPosition="top" selection="#{scToolBean.toolSelected}"
                              sortBy="#{tool.idTool}"
                              >
@@ -2332,7 +2332,7 @@
                         </p:commandButton>
                     </f:facet>
                     <p:ajax event="rowSelect" oncomplete="PF('dialogToolView').show()" update=":formWizardView:" />
-                    <p:column headerText="Administración">
+                    <p:column headerText="Administración" width="84">
                         <center>
                             <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scToolBean.selectedForUpdate(tool)}"
                                              oncomplete="PF('dialogToolUpdate').show()" update=":formWizardUpdate:" 
@@ -2346,57 +2346,57 @@
                             </p:commandButton>
                         </center>
                     </p:column>
-                    <p:column headerText="Herramienta" sortBy="#{tool.name}" id="columnToolName">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.name}" headerText="Herramienta" sortBy="#{tool.name}" id="columnToolName">    
                         <center>
                             <p:outputLabel value="#{tool.name}" id="lblIntputName"/>
                             <p:tooltip for="lblIntputName" value="#{tool.name}"/>
                         </center>
                     </p:column>
-                    <p:column headerText="Tipo" sortBy="#{tool.typeTool}" id="columnToolType">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.typeTool}" headerText="Tipo" sortBy="#{tool.typeTool}" id="columnToolType">    
                         <center>
                             <p:outputLabel value="#{tool.typeTool}" id="lblToolType"/>
-                            <p:tooltip for="columnToolType" value="#{tool.typeTool}"/>
+                            <p:tooltip for="lblToolType" value="#{tool.typeTool}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnMark" headerText="Marca" sortBy="#{tool.mark}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.mark}" id="columnMark" headerText="Marca" sortBy="#{tool.mark}">    
                         <center>
                             <p:outputLabel value="#{tool.mark}" id="lblMark"/>
                             <p:tooltip for="lblMark" value="#{tool.mark}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnSerie" headerText="Serie" sortBy="#{tool.serie}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.serie}" id="columnSerie" headerText="Serie" sortBy="#{tool.serie}">    
                         <center>
                             <p:outputLabel value="#{tool.serie}" id="lblSerie"/>
                             <p:tooltip for="lblSerie" value="#{tool.serie}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnStore" headerText="Almacen" sortBy="#{tool.stock.idStore.name}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.stock.idStore.name}" id="columnStore" headerText="Almacen" sortBy="#{tool.stock.idStore.name}">    
                         <center>
                             <p:outputLabel value="#{tool.stock.idStore.name}" id="lblStore"/>
                             <p:tooltip for="lblStore" value="#{tool.stock.idStore.name}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnLocation" headerText="Localización" sortBy="#{tool.inputLocation.location}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.inputLocation.location}" id="columnLocation" headerText="Localización" sortBy="#{tool.inputLocation.location}">    
                         <center>
                             <p:outputLabel value="#{tool.inputLocation.location}" id="lblLocation"/>
                             <p:tooltip for="lblLocation" value="#{tool.inputLocation.location}"/>
                         </center>
                     </p:column>
-                    <p:column id="columnAmount" headerText="Cantidad" sortBy="#{tool.stock.currentStock}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.stock.currentStock}" id="columnAmount" headerText="Cantidad" sortBy="#{tool.stock.currentStock}">    
                         <center>
                             <p:outputLabel value="#{tool.stock.currentStock}" id="lblamount"/>
                             <p:tooltip for="lblamount" value="#{tool.stock.currentStock}"/>
                         </center>
                     </p:column>
 
-                    <p:column id="columPackingUnit" headerText="Vida Útil" sortBy="#{tool.usefulLife} #{tool.time.acronym}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.usefulLife} #{tool.time.acronym}" id="columPackingUnit" headerText="Vida Útil" sortBy="#{tool.usefulLife} #{tool.time.acronym}">    
                         <center>
                             <p:outputLabel value="#{tool.usefulLife} #{tool.time.acronym}" id="lblPackingUnit"/>
                             <p:tooltip for="lblPackingUnit" value="#{tool.usefulLife} #{tool.time.acronym}"/>
                         </center>
                     </p:column>
 
-                    <p:column id="columnValue" headerText="Valor" sortBy="#{tool.value}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{tool.value} #{tool.money.acronym}" id="columnValue" headerText="Valor" sortBy="#{tool.value}">    
                         <center>
                             <p:outputLabel value="#{tool.value} #{tool.money.acronym}" id="lblValue"/>
                             <p:tooltip for="lblValue" value="#{tool.value} #{tool.money.acronym}"/>

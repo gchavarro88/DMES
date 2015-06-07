@@ -30,7 +30,7 @@ public class DMESConstants
    public static final Long scClassTypePriority=2L;
    public static final Long scClassTypeLifeSpan=3L;
    public static final Long scClassTypeCost=4L;
-   public static final String TYPES_EXTENTIONS_IMAGES = "png,jpg,jpeg";
+   public static final String TYPES_EXTENTIONS_IMAGES = "png,jpg,jpeg,gif";
    
    //Ruta para imagenes externas
    public static final String PATH_EXTERN_PICTURES = "/dynamic/?file=";
@@ -39,8 +39,20 @@ public class DMESConstants
    public static final String FILE_PATH_INPUTS_IMG = "inputs_filePath/img";//Insumos imagenes
    public static final String FILE_PATH_INPUTS_DOCS = "inputs_filePath/docs";//Insumos
    //Nombres de las carpetas reservadas del sistema
-   public static final String FILE_PATH_PRODUCTS_IMG = "products_filePath/img";//Productos imagenes
+   public static final String FILE_PATH_PRODUCTS_IMG = "product_filePath/img";//Productos imagenes
    public static final String FILE_PATH_PRODUCTS_DOCS = "product_filePath/docs";//Productos
+   //Nombres de las carpetas reservadas del sistema
+   public static final String FILE_PATH_REPLACEMENT_IMG = "replacement_filePath/img";//Insumos imagenes
+   public static final String FILE_PATH_REPLACEMENT_DOCS = "replacement_filePath/docs";//Insumos
+   //Nombres de las carpetas reservadas del sistema
+   public static final String FILE_PATH_TOOLS_IMG = "tools_filePath/img";//Productos imagenes
+   public static final String FILE_PATH_TOOLS_DOCS = "tools_filePath/docs";//Productos
+   //Nombres de las carpetas reservadas del sistema
+   public static final String FILE_PATH_MACHINE_IMG = "machine_filePath/img";//Insumos imagenes
+   public static final String FILE_PATH_MACHINE_DOCS = "machine_filePath/docs";//Insumos
+   //Nombres de las carpetas reservadas del sistema
+   public static final String FILE_PATH_PARTOFMACHINE_IMG = "partofmachine_filePath/img";//Productos imagenes
+   public static final String FILE_PATH_PARTOFMACHINE_DOCS = "partofmachine_filePath/docs";//Productos
    
    //Subida de documentos
     public static final String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";
