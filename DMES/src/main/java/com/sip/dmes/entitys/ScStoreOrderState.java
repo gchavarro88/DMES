@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_store_order_state")
+@Table(schema = "dmes", name = "sc_store_order_state")
 @XmlRootElement
 @NamedQueries(
 {

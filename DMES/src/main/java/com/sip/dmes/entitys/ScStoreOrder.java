@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_store_order")
+@Table(schema = "dmes", name = "sc_store_order")
 @XmlRootElement
 @NamedQueries(
 {
@@ -38,8 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScStoreOrder.findByIdStoreOrder", query = "SELECT s FROM ScStoreOrder s WHERE s.idStoreOrder = :idStoreOrder"),
     @NamedQuery(name = "ScStoreOrder.findByOrderType", query = "SELECT s FROM ScStoreOrder s WHERE s.orderType = :orderType"),
     @NamedQuery(name = "ScStoreOrder.findByIdRequisition", query = "SELECT s FROM ScStoreOrder s WHERE s.idRequisition = :idRequisition"),
-    @NamedQuery(name = "ScStoreOrder.findByOrderClass", query = "SELECT s FROM ScStoreOrder s WHERE s.orderClass = :orderClass"),
-    @NamedQuery(name = "ScStoreOrder.findByOrderState", query = "SELECT s FROM ScStoreOrder s WHERE s.orderState = :orderState")
+    @NamedQuery(name = "ScStoreOrder.findByOrderClass", query = "SELECT s FROM ScStoreOrder s WHERE s.orderClass = :orderClass")
 })
 public class ScStoreOrder implements Serializable
 {
@@ -72,10 +71,6 @@ public class ScStoreOrder implements Serializable
     private Date  creationDate;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "order_state")
-    private long orderState;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "reason_cancellation")
     private String  reasonCancellation;
     @Basic(optional = false)
@@ -99,12 +94,12 @@ public class ScStoreOrder implements Serializable
         this.idStoreOrder = idStoreOrder;
     }
 
-    public ScStoreOrder(Long idStoreOrder, String orderType, String orderClass, long orderState)
+    public ScStoreOrder(Long idStoreOrder, String orderType, String orderClass)
     {
         this.idStoreOrder = idStoreOrder;
         this.orderType = orderType;
         this.orderClass = orderClass;
-        this.orderState = orderState;
+        
     }
 
     public Long getIdStoreOrder()
@@ -145,16 +140,6 @@ public class ScStoreOrder implements Serializable
     public void setOrderClass(String orderClass)
     {
         this.orderClass = orderClass;
-    }
-
-    public long getOrderState()
-    {
-        return orderState;
-    }
-
-    public void setOrderState(long orderState)
-    {
-        this.orderState = orderState;
     }
 
     @XmlTransient

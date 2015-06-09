@@ -10,13 +10,13 @@
     <f:view contentType="text/html">
         <h:head>
             <title>.:DMES:. - Menú Principal</title>
-            
+
             <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
             <script type="text/javascript">
-                
+
             </script>
         </h:head>
-        <h:body >
+        <h:body onload="renderSizePost()">
             <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
             <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
                       draggable="false" closable="false" resizable="false">
@@ -25,8 +25,8 @@
             <p:idleMonitor timeout="#{(session.maxInactiveInterval-5)*1000}">
                 <p:ajax event="idle" oncomplete="PF('dialogClose').show();" />
             </p:idleMonitor>
-             
-            
+
+
             <p:dialog id="dialogClose" widgetVar="dialogClose" position="center" 
                       draggable="true" dynamic="true" header="Cierre de Sesión" closable="false"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="false" 
@@ -42,16 +42,16 @@
                         <tr>
                             <td colspan="2" align="center">
                                 <p:commandButton value="Aceptar" 
-                                                 onclick="window.location='/DMES'"
+                                                 onclick="window.location = '/DMES'"
                                                  />
-                                
+
                             </td>
                         </tr>
                     </table>
                 </h:form>
             </p:dialog>
-            
-            
+
+
             <p:layout styleClass="layoutBordes">
                 <p:layoutUnit position="north" collapseSize="25" collapsible="true" effect="explode"  gutter="1"
                               styleClass="layoutBordes" >
@@ -60,13 +60,13 @@
                             <tr> 
                                 <td width="200">
                                     <p:graphicImage url="images/fondo-Little.png"  styleClass="graphicLayoutNorth"
-                                        height="90" width="150"/>
+                                                    height="90" width="150"/>
                                 </td>
                                 <td  align="left">
                                     <p:graphicImage styleClass="imageTittle" height="90" width="800" 
                                                     url="images/sip.jpg"
-                                    />    
-                                    
+                                                    />    
+
                                 </td>
                                 <td width="280" align="center" valign="middle">
                                     <table class="dataLayoutNorth" >
@@ -77,13 +77,13 @@
                                                         <td colspan="2" align="center">
                                                             <label class="outPutLabelDate">#{templateBean.listDateHeader()}</label>
                                                         </td>
-                                                        
+
                                                     </tr>
                                                     <tr>
                                                         <td><p:outputLabel value="Usuario: " styleClass="outPutLabelTittle"/></td>
                                                         <td style="color: #FFF;">
-                                                           #{templateBean.sessionBean.scUser.idPerson.firstName} 
-                                                               #{templateBean.sessionBean.scUser.idPerson.lastName}
+                                                            #{templateBean.sessionBean.scUser.idPerson.firstName} 
+                                                            #{templateBean.sessionBean.scUser.idPerson.lastName}
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -104,91 +104,92 @@
                 <p:layoutUnit position="west" collapseSize="25" collapsible="true" effect="bind" size="250" gutter="1"
                               styleClass="layoutBordesWest" resizable="true" id="lateral">
                     <f:facet name="header">    
-                    Módulos
+                        Módulos
                     </f:facet>
-<!--            <div >-->
-<!--                <div style="width: 20%; float: left;">-->
+                    <!--            <div >-->
+                    <!--                <div style="width: 20%; float: left;">-->
                     <h:form id="formTreeMenu">
 
-                        
-                                    <p:tree id="treeMenu" value="#{templateBean.root}" var="nodeMenu" 
-                                            selectionMode="single"
-                                            style="border: 0px; text-align: left; font-size: 10px; vertical-align: middle; cursor: default;" 
-                                            animate="true"  highlight="true" dynamic="true" >
-                                        
-                                        <p:treeNode type="Home" styleClass="divItemTreeMenu" >
-                                            <p:graphicImage value="/images/#{nodeMenu.icone}" height="32" width="32"/>  
-                                            <h:outputText value="  #{nodeMenu.name}" />
-                                        </p:treeNode>
-                                        <p:treeNode type="Folder" styleClass="divItemTreeMenu">
-                                            <p:graphicImage value="/images/#{nodeMenu.icone}" height="28" width="28"/>  
-                                            <p:commandLink value="  #{nodeMenu.name}" action="#{templateBean.navigationTree(nodeMenu)}" styleClass="itemTreeMenu"/>
-                                        </p:treeNode>
-                                        <p:treeNode type="Item" styleClass="divItemTreeMenu">
-                                            <p:graphicImage value="/images/#{nodeMenu.icone}" height="20" width="20"/>  
-                                            <p:commandLink value="  #{nodeMenu.name}" actionListener="#{templateBean.navigationTree(nodeMenu)}" styleClass="itemTreeMenu"
-                                                           update=":formMainTabs"/>
-                                        </p:treeNode>
 
-                                    </p:tree>
-                             
+                        <p:tree id="treeMenu" value="#{templateBean.root}" var="nodeMenu" 
+                                selectionMode="single"
+                                style="border: 0px; text-align: left; font-size: 10px; vertical-align: middle; cursor: default;" 
+                                animate="true"  highlight="true" dynamic="true" >
+
+                            <p:treeNode type="Home" styleClass="divItemTreeMenu" >
+                                <p:graphicImage value="/images/#{nodeMenu.icone}" height="32" width="32"/>  
+                                <h:outputText value="  #{nodeMenu.name}" />
+                            </p:treeNode>
+                            <p:treeNode type="Folder" styleClass="divItemTreeMenu">
+                                <p:graphicImage value="/images/#{nodeMenu.icone}" height="28" width="28"/>  
+                                <p:commandLink value="  #{nodeMenu.name}" action="#{templateBean.navigationTree(nodeMenu)}" styleClass="itemTreeMenu"/>
+                            </p:treeNode>
+                            <p:treeNode type="Item" styleClass="divItemTreeMenu">
+                                <p:graphicImage value="/images/#{nodeMenu.icone}" height="20" width="20"/>  
+                                <p:commandLink value="  #{nodeMenu.name}" actionListener="#{templateBean.navigationTree(nodeMenu)}" styleClass="itemTreeMenu"
+                                               update=":formMainTabs"/>
+                            </p:treeNode>
+
+                        </p:tree>
+
                     </h:form>
-                         
+
                 </p:layoutUnit>
-                 <script type="text/javascript">
-                            document.getElementById("lateral").style.height = (60)+"px";
-                            
-                    </script>
-                <p:layoutUnit position="center" 
-                              styleClass="layoutBordes">
-<!--                </div>
-                <div id="divTabs" style=" width:75%; float: right;" >-->
+                <!--                <script type="text/javascript">
+                                   document.getElementById("lateral").style.height = (screen.height - 480)+"px";     
+                                </script>-->
+                <p:layoutUnit position="center" id="layoutCenter" styleClass="layoutBordes">
+                    <!--                </div>
+                                    <div id="divTabs" style=" width:75%; float: right;" >-->
                     <h:form id="formMainTabs">
-                        <p:panel style="padding: 0px; margin: 0px;">
+                        <p:panel style="padding: 0px; margin: 0px;" id="pnlFrame">
                             <f:facet name="header">
                                 <p:commandButton id="tabsMenu" icon="ui-icon-gear"/>
                                 <p:tieredMenu overlay="true" trigger="tabsMenu" my="right top" at="left top"  
-                                        model="#{templateBean.model}" id="menuCloseTabs">
+                                              model="#{templateBean.model}" id="menuCloseTabs">
                                 </p:tieredMenu>
                             </f:facet>
-                            
+
                             <p:tabView  id="tabMain" dynamic="true" var="tabs"
-                                    styleClass="tabViewMain" scrollable="true" 
-                                    value="#{templateBean.mainTabs}" activeIndex="#{templateBean.activeIndex}">
-                            
-                            
-                            
-                            
-                            <p:tab id="tbEmpleados" title="#{tabs.title}" rendered="true"  >
-                                
-                                    
-                                <iframe id="frameEmpleados" src="#{tabs.page}" scrolling="true" class="iframeTab" style="height: 1000px;">
+                                        styleClass="tabViewMain" scrollable="true" 
+                                        value="#{templateBean.mainTabs}" activeIndex="#{templateBean.activeIndex}">
+
+
+
+
+                                <p:tab id="tbEmpleados" title="#{tabs.title}" rendered="true"  >
+
+
+                                    <iframe id="frame" src="#{tabs.page}" scrolling="yes" class="iframeTab" style="height:1000px;">
 
                                     </iframe>
-                                
-<!--                                <script type="text/javascript">
-                                    document.getElementById("frameEmpleados").style.height = (screen.height)+"px";
-                                </script>-->
-                            </p:tab>
-                                
-                        </p:tabView>
-                            <script type="text/javascript">
-                            document.getElementById("formMainTabs:tabMain").style.height = (screen.height)+"px";
-                    </script>
-                                 </p:panel>   
+
+
+                                </p:tab>
+
+                            </p:tabView>
+
+                        </p:panel>   
                     </h:form>
-<!--                </div>-->
-<!--            </div> -->
-                
-                          
-               </p:layoutUnit>      
-            
-</p:layout>
+                    <!--                </div>-->
+                    <!--            </div> -->
+
+
+                </p:layoutUnit>      
+
+            </p:layout>
 
 
 
-                    
-               
+
+            <script type="text/javascript">
+                function renderSizePost()
+                {
+                    alert("Señor usuario, recuerde que el abrir varias pestañas \nreduce la memoria del equipo y ocasiona que la \naplicación sea menos eficiente");
+                    document.getElementById("formMainTabs:pnlFrame").style.height = (screen.height - 220) + "px";
+                    //document.getElementById("layoutCenter").style.height = (screen.height)+"px";
+                }
+            </script>
         </h:body>
     </f:view>
 </html>
