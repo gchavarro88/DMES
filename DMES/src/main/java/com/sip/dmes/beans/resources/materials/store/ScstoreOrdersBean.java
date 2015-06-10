@@ -10,12 +10,15 @@ import com.sip.dmes.dao.bo.IScStoreOrder;
 import com.sip.dmes.entitys.ScStoreOrder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -28,6 +31,8 @@ public class ScstoreOrdersBean
     private ScStoreOrder storeOrderAdd;
     private ScStoreOrder storeOrderUpdate;
     private List<ScStoreOrder> storeOrderList;
+    private int notificationsNumber;
+    private String notificatonsMessage;
     //Persistencia
     private IScStoreOrder scStoreOrderServer; //Dao de persistencia del insumos
     private SessionBean sessionBean;//Bean de la sesion del usuario
@@ -51,8 +56,14 @@ public class ScstoreOrdersBean
     public void initData()
     {
         fillListStoreOrders();
+        searchExpiredOrders();
     }
 
+    
+    /**
+     * Método encargado de consultar las ordenes del almacén pendientes.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void fillListStoreOrders()
     {
         try
@@ -64,6 +75,24 @@ public class ScstoreOrdersBean
         {
             log.error("Error al intentar consultar las ordenes del almacén de la tabla", e);
         }
+    }
+    
+    /**
+     * Método encargado de tomar las ordenes caducadas y mostrarlos
+     * en el panel de notificaciones.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void searchExpiredOrders()
+    {
+        if(getNotificationsNumber() < 1)
+        {
+            setNotificatonsMessage("No existen ordenes vencidas");
+        }
+        else
+        {
+            setNotificatonsMessage("Existen ordenes vencidas por despachar");
+        }
+        
     }
     
     
@@ -219,6 +248,26 @@ public class ScstoreOrdersBean
     public void setSessionBean(SessionBean sessionBean)
     {
         this.sessionBean = sessionBean;
+    }
+
+    public int getNotificationsNumber()
+    {
+        return notificationsNumber;
+    }
+
+    public void setNotificationsNumber(int notificationsNumber)
+    {
+        this.notificationsNumber = notificationsNumber;
+    }
+
+    public String getNotificatonsMessage()
+    {
+        return notificatonsMessage;
+    }
+
+    public void setNotificatonsMessage(String notificatonsMessage)
+    {
+        this.notificatonsMessage = notificatonsMessage;
     }
     
     
