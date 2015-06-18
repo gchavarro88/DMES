@@ -289,3 +289,22 @@ body
     -webkit-border-radius: 10px 10px 10px 10px;
     cursor: pointer;
 }
+
+
+.rowPending
+{
+    text-shadow: 1px 1px 1px #000;
+    -moz-text-shadow: 1px 1px 1px #000;
+    -webkit-text-shadow: 1px 1px 1px #000;
+    font-weight: bold;
+    color: yellow;
+}
+
+.rowExpired
+{
+    text-shadow: 1px 1px 1px #000;
+    -moz-text-shadow: 1px 1px 1px #000;
+    -webkit-text-shadow: 1px 1px 1px #000;
+    font-weight: bold;
+    color: red;
+}

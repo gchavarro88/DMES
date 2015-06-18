@@ -58,5 +58,14 @@ public class DMESConstants
     public static final String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";
     public static final String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
    
+    
+    //Dias de vencimiento para almacén
+    public static Long DAY_WARNING = 1L;
+    public static Long DAY_EXPIRED = 3L;
+    public static Long DAY_FATAL   = 5L;
+    
+    //Estados de las ordenes del almacén
+    public static Long STATE_PROGRAMMED = 1L;
+    public static Long STATE_PROCESS    = 2L;
 }
  

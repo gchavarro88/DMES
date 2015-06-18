@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries(
 {
     @NamedQuery(name = "ScStoreOrder.findAll", query = "SELECT s FROM ScStoreOrder s"),
+    @NamedQuery(name = "ScStoreOrder.findByState", query = "SELECT s FROM ScStoreOrder s WHERE s.idState.idState IN (:storeOrderStatus)"),
     @NamedQuery(name = "ScStoreOrder.findByIdStoreOrder", query = "SELECT s FROM ScStoreOrder s WHERE s.idStoreOrder = :idStoreOrder"),
     @NamedQuery(name = "ScStoreOrder.findByOrderType", query = "SELECT s FROM ScStoreOrder s WHERE s.orderType = :orderType"),
     @NamedQuery(name = "ScStoreOrder.findByIdRequisition", query = "SELECT s FROM ScStoreOrder s WHERE s.idRequisition = :idRequisition"),

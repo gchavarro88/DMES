@@ -8,11 +8,15 @@ package com.sip.dmes.beans.resources.materials.store;
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScStoreOrder;
 import com.sip.dmes.entitys.ScStoreOrder;
+import com.sip.dmes.entitys.ScStoreOrderItem;
+import com.sip.dmes.entitys.ScStoreOrderState;
+import com.sip.dmes.utilities.DMESConstants;
+import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -33,6 +37,15 @@ public class ScstoreOrdersBean
     private List<ScStoreOrder> storeOrderList;
     private int notificationsNumber;
     private String notificatonsMessage;
+    private Long idStoreOrderState;
+    private List<ScStoreOrderState> listStoreOrderState;
+    private Date initDate;
+    private Date endDate;
+    private String filterOrderType;
+    private String filterOrderState;
+    private String filterOrderClass;
+    private String filterOrderRequired;
+   
     //Persistencia
     private IScStoreOrder scStoreOrderServer; //Dao de persistencia del insumos
     private SessionBean sessionBean;//Bean de la sesion del usuario
@@ -40,26 +53,61 @@ public class ScstoreOrdersBean
 
     private final static Logger log = Logger.getLogger(ScstoreOrdersBean.class);
 
-    
+    //Constantes
+    final Long STATE_PROGRAMMED = 1L;
+    final Long STATE_IN_PROCESS = 2L;
+    final Long ONE_MINUTE = 86400000L;
     /**
      * Creates a new instance of ScInputBean
      */
     public ScstoreOrdersBean()
     {
-
+        
     }
 
     /**
      * Método encargado de mostrar los datos iniciales.
+     * @author Gustavo Chavarro Ortiz
      */
     @PostConstruct
     public void initData()
     {
+        searchExpiredOrders();
         fillListStoreOrders();
+        fillListStoreOrdersState();
         searchExpiredOrders();
     }
 
+    /**
+     * Método encargado de reiniciar los valores de los filtros.
+     */
+    public void resetData()
+    {
+        initData();
+        setFilterOrderClass("...");
+        setFilterOrderRequired("...");
+        setFilterOrderState("...");
+        setFilterOrderType("...");
+        setInitDate(null);
+        setEndDate(null);
+    }
     
+    /**
+     * Método encargado de realizar la búsqueda teniendo encuenta los filtros.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void doSearchWithParameters()
+    {
+        try
+        {   
+            setStoreOrderList(getScStoreOrderServer().getStoreOrdersByParameters(getInitDate(), getEndDate(), 
+                    getFilterOrderType(), getFilterOrderClass(), getFilterOrderState(), getFilterOrderRequired()));
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las ordenes con parámetros del almacén de la tabla", e);
+        }
+    }
     /**
      * Método encargado de consultar las ordenes del almacén pendientes.
      * @author Gustavo Chavarro Ortiz
@@ -67,9 +115,12 @@ public class ScstoreOrdersBean
     public void fillListStoreOrders()
     {
         try
-        {
+        {   
             //Se consultan todos los insumos y se guardan en la lista ordenados por la fecha
-            setStoreOrderList(getScStoreOrderServer().getAllStoreOrders());
+            List<Long> statesStore  = new ArrayList<>();
+            statesStore.add(DMESConstants.STATE_PROGRAMMED);
+            statesStore.add(DMESConstants.STATE_PROCESS);
+            setStoreOrderList(getScStoreOrderServer().getStoreOrdersByStatus(statesStore));
         }
         catch (Exception e)
         {
@@ -77,22 +128,133 @@ public class ScstoreOrdersBean
         }
     }
     
+    /** 
+     * Método encargado de consultar las ordenes del almacén pendientes.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListStoreOrdersState()
+    {
+        try
+        { 
+            //Se consultan todos los insumos y se guardan en la lista ordenados por la fecha
+            setListStoreOrderState(getScStoreOrderServer().getAllStoreOrderState());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las ordenes del almacén de la tabla", e);
+        }
+    }
+    
+    public void compare(ScStoreOrderItem item)
+    {
+        if(item != null)
+        {
+            if(item.getAmountDelivery() >= item.getAmountRequired())
+            {
+                item.setComplete(true);
+                if(item.getAmountDelivery() > item.getAmountRequired())
+                {
+                    addInfo(null, "Cantidad Entregada mayor a la cantidad requerida", "");
+                } 
+            }
+            if(item.getAmountDelivery() < item.getAmountRequired())
+            {
+                item.setComplete(false);
+            }
+            item.setAmountPending((item.getAmountRequired()-item.getAmountDelivery()));
+        }
+    }
+    
     /**
-     * Método encargado de tomar las ordenes caducadas y mostrarlos
-     * en el panel de notificaciones.
+     * Método encargado de realizar la validación de las fechas.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void compareToDates()
+    {
+        if((getInitDate() != null && getEndDate()!= null) && (getInitDate().after(getEndDate()))) 
+        {        
+            addError(null, "Validación de Fechas", "La fecha inicial debe ser menor o igual a la fecha final");
+            setEndDate(null);
+            setInitDate(null);
+        }
+    }
+    /**
+     * Método encargado de consultar los estados de las ordenes
      * @author Gustavo Chavarro Ortiz
      */
     public void searchExpiredOrders()
     {
-        if(getNotificationsNumber() < 1)
+        int numberPending = 0;
+        int numberExpired = 0;
+        Date date = new Date();
+        date.setTime(date.getTime()- ONE_MINUTE);
+        try
         {
-            setNotificatonsMessage("No existen ordenes vencidas");
+            for(ScStoreOrder storeOrder: getStoreOrderList())
+            {
+                if(storeOrder.getCreationDate().before(date))
+                {
+                    numberExpired++;
+                }
+                if(storeOrder.getIdState().getIdState().equals(STATE_IN_PROCESS) || 
+                        storeOrder.getIdState().getIdState().equals(STATE_PROGRAMMED))
+                {
+                    numberPending++;
+                }
+            } 
+            if(numberExpired > 0 || numberPending > 0)
+            {
+                setNotificatonsMessage("Orden(es) pendiente(s): "+numberPending+"             "+
+                         "______________ Orden(es) atrasada(s): "+numberExpired+"____________");
+                setNotificationsNumber(numberPending);
+                RequestContext.getCurrentInstance().execute("hiddenCount()");
+            }
+            
         }
-        else
+        catch (Exception ex)
         {
-            setNotificatonsMessage("Existen ordenes vencidas por despachar");
+            log.error("Error al intentar consultar los estados ordenes del almacén de la tabla", ex);
         }
-        
+    }
+    
+    /**
+     * Método encargado de asignar la fila seleccionada a una orden del almacén.
+     * @param storeOrder orden seleccionada
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void updateStoreOrderSelected(ScStoreOrder storeOrder)
+    {
+        if(storeOrder != null)
+        {
+            setStoreOrderUpdate(storeOrder);
+        }
+    }
+    
+    /**
+     * Método encargado de asignar un estilo para cada fila dependiendo de su estado.
+     * @author Gustavo Chavarro Ortiz
+     * @param storeOrder orden del almacén
+     * @return String estilo que será retornado
+     */
+    public String getStyleRow(ScStoreOrder storeOrder)
+    { 
+        String result = "";
+        Date date = new Date(); 
+        date.setTime(date.getTime()- ONE_MINUTE);
+        if(storeOrder != null)
+        {
+           if(storeOrder.getIdState().getIdState().equals(STATE_IN_PROCESS) ||
+                   storeOrder.getIdState().getIdState().equals(STATE_PROGRAMMED))
+           {
+               result = "rowPending";
+               if(storeOrder.getCreationDate().before(date))
+               {
+                   result = "rowExpired"; 
+               }
+           }
+           
+        }
+        return result;
     }
     
     
@@ -268,6 +430,86 @@ public class ScstoreOrdersBean
     public void setNotificatonsMessage(String notificatonsMessage)
     {
         this.notificatonsMessage = notificatonsMessage;
+    }
+
+    public Long getIdStoreOrderState()
+    {
+        return idStoreOrderState;
+    }
+
+    public void setIdStoreOrderState(Long idStoreOrderState)
+    {
+        this.idStoreOrderState = idStoreOrderState;
+    }
+
+    public List<ScStoreOrderState> getListStoreOrderState()
+    {
+        return listStoreOrderState;
+    }
+
+    public void setListStoreOrderState(List<ScStoreOrderState> listStoreOrderState)
+    {
+        this.listStoreOrderState = listStoreOrderState;
+    }
+
+    public Date getInitDate()
+    {
+        return initDate;
+    }
+
+    public void setInitDate(Date initDate)
+    {
+        this.initDate = initDate;
+    }
+
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
+    }
+
+    public String getFilterOrderType()
+    {
+        return filterOrderType;
+    }
+
+    public void setFilterOrderType(String filterOrderType)
+    {
+        this.filterOrderType = filterOrderType;
+    }
+
+    public String getFilterOrderState()
+    {
+        return filterOrderState;
+    }
+
+    public void setFilterOrderState(String filterOrderState)
+    {
+        this.filterOrderState = filterOrderState;
+    }
+
+    public String getFilterOrderClass()
+    {
+        return filterOrderClass;
+    }
+
+    public void setFilterOrderClass(String filterOrderClass)
+    {
+        this.filterOrderClass = filterOrderClass;
+    }
+
+    public String getFilterOrderRequired()
+    {
+        return filterOrderRequired;
+    }
+
+    public void setFilterOrderRequired(String filterOrderRequired)
+    {
+        this.filterOrderRequired = filterOrderRequired;
     }
     
     

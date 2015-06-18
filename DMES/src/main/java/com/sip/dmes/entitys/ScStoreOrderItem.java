@@ -75,7 +75,9 @@ public class ScStoreOrderItem implements Serializable
     @JoinColumn(name = "id_store_order", referencedColumnName = "id_store_order")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScStoreOrder storeOrder;
-
+    //valor booleano que indica si esta completa la orden
+    transient boolean complete;
+    
     public ScStoreOrderItem()
     {
     }
@@ -205,5 +207,16 @@ public class ScStoreOrderItem implements Serializable
     {
         return "com.sip.dmes.entitys.ScStoreOrderItem[ idItem=" + idItem + " ]";
     }
+
+    public boolean isComplete()
+    {
+        return complete;
+    }
+
+    public void setComplete(boolean complete)
+    {
+        this.complete = complete;
+    }
+    
     
 }
