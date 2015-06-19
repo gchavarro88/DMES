@@ -293,18 +293,27 @@ body
 
 .rowPending
 {
-    text-shadow: 1px 1px 1px #000;
+/*    text-shadow: 1px 1px 1px #000;
     -moz-text-shadow: 1px 1px 1px #000;
-    -webkit-text-shadow: 1px 1px 1px #000;
-    font-weight: bold;
-    color: yellow;
+    -webkit-text-shadow: 1px 1px 1px #000;*/
+    //font-weight: bold;
+    color: #F7FE2E;
 }
 
 .rowExpired
 {
-    text-shadow: 1px 1px 1px #000;
+/*    text-shadow: 1px 1px 1px #000;
     -moz-text-shadow: 1px 1px 1px #000;
-    -webkit-text-shadow: 1px 1px 1px #000;
-    font-weight: bold;
-    color: red;
+    -webkit-text-shadow: 1px 1px 1px #000;*/
+    //font-weight: bold;
+    color: #FE2E2E;
+}
+
+.rowProgrammer
+{
+/*    text-shadow: 1px 1px 1px #000;
+    -moz-text-shadow: 1px 1px 1px #000;
+    -webkit-text-shadow: 1px 1px 1px #000;*/
+    //font-weight: bold;
+    color: #088A68;
 }

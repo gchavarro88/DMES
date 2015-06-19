@@ -67,5 +67,6 @@ public class DMESConstants
     //Estados de las ordenes del almacén
     public static Long STATE_PROGRAMMED = 1L;
     public static Long STATE_PROCESS    = 2L;
+    public static Long STATE_LATE    = 3L;
 }
  

@@ -45,7 +45,7 @@ public class ScstoreOrdersBean
     private String filterOrderState;
     private String filterOrderClass;
     private String filterOrderRequired;
-   
+    private ScStoreOrderState orderStateExpired;
     //Persistencia
     private IScStoreOrder scStoreOrderServer; //Dao de persistencia del insumos
     private SessionBean sessionBean;//Bean de la sesion del usuario
@@ -54,8 +54,6 @@ public class ScstoreOrdersBean
     private final static Logger log = Logger.getLogger(ScstoreOrdersBean.class);
 
     //Constantes
-    final Long STATE_PROGRAMMED = 1L;
-    final Long STATE_IN_PROCESS = 2L;
     final Long ONE_MINUTE = 86400000L;
     /**
      * Creates a new instance of ScInputBean
@@ -72,7 +70,6 @@ public class ScstoreOrdersBean
     @PostConstruct
     public void initData()
     {
-        searchExpiredOrders();
         fillListStoreOrders();
         fillListStoreOrdersState();
         searchExpiredOrders();
@@ -120,6 +117,7 @@ public class ScstoreOrdersBean
             List<Long> statesStore  = new ArrayList<>();
             statesStore.add(DMESConstants.STATE_PROGRAMMED);
             statesStore.add(DMESConstants.STATE_PROCESS);
+            statesStore.add(DMESConstants.STATE_LATE);
             setStoreOrderList(getScStoreOrderServer().getStoreOrdersByStatus(statesStore));
         }
         catch (Exception e)
@@ -138,6 +136,16 @@ public class ScstoreOrdersBean
         { 
             //Se consultan todos los insumos y se guardan en la lista ordenados por la fecha
             setListStoreOrderState(getScStoreOrderServer().getAllStoreOrderState());
+            if(getListStoreOrderState() != null)
+            {
+                for(ScStoreOrderState orderState: getListStoreOrderState())
+                {
+                    if(orderState.getIdState().equals(DMESConstants.STATE_LATE))
+                    {
+                        setOrderStateExpired(orderState);
+                    }
+                }
+            }
         }
         catch (Exception e)
         {
@@ -149,19 +157,32 @@ public class ScstoreOrdersBean
     {
         if(item != null)
         {
-            if(item.getAmountDelivery() >= item.getAmountRequired())
+            if(item.getAmountStore() == item.getAmountDelivery())
             {
-                item.setComplete(true);
-                if(item.getAmountDelivery() > item.getAmountRequired())
-                {
-                    addInfo(null, "Cantidad Entregada mayor a la cantidad requerida", "");
-                } 
-            }
-            if(item.getAmountDelivery() < item.getAmountRequired())
-            {
+                addInfo(null, "El Almacén se ha quedado sin stock para  "
+                        + "("+item.getStoreOrder().getOrderClass()+" - "+item.getItemDescription()+")", "");
                 item.setComplete(false);
+                item.setAmountPending((item.getAmountRequired()-item.getAmountDelivery()));
             }
-            item.setAmountPending((item.getAmountRequired()-item.getAmountDelivery()));
+            else 
+            {
+                if(item.getAmountDelivery() >= item.getAmountRequired())
+                {
+                    item.setComplete(true);
+                    if(item.getAmountDelivery() > item.getAmountRequired())
+                    {
+                        addInfo(null, "Cantidad entregada mayor a la cantidad requerida", "");
+                        item.setAmountDelivery(item.getAmountRequired());
+                        
+                    } 
+                }
+                if(item.getAmountDelivery() < item.getAmountRequired())
+                {
+                    item.setComplete(false);
+                    
+                }
+                item.setAmountPending((item.getAmountRequired()-item.getAmountDelivery()));
+            }
         }
     }
     
@@ -190,24 +211,33 @@ public class ScstoreOrdersBean
         date.setTime(date.getTime()- ONE_MINUTE);
         try
         {
-            for(ScStoreOrder storeOrder: getStoreOrderList())
+            if(getStoreOrderList() != null)
             {
-                if(storeOrder.getCreationDate().before(date))
+                for(ScStoreOrder storeOrder: getStoreOrderList())
                 {
-                    numberExpired++;
-                }
-                if(storeOrder.getIdState().getIdState().equals(STATE_IN_PROCESS) || 
-                        storeOrder.getIdState().getIdState().equals(STATE_PROGRAMMED))
+                    
+                    if(storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_PROCESS) || 
+                            storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_PROGRAMMED)
+                            || storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_LATE))
+                    {
+                        if(storeOrder.getCreationDate().before(date))
+                        {
+                            numberExpired++;
+                        }
+                        else
+                        {
+                            numberPending++;
+                        }
+                        
+                    }
+                } 
+                if(numberExpired > 0 || numberPending > 0)
                 {
-                    numberPending++;
+                    setNotificatonsMessage("Orden(es) pendiente(s): "+numberPending+"             "+
+                             "______________ Orden(es) atrasada(s): "+numberExpired+"____________");
+                    setNotificationsNumber(numberPending+numberExpired);
+                    RequestContext.getCurrentInstance().execute("hiddenCount()");
                 }
-            } 
-            if(numberExpired > 0 || numberPending > 0)
-            {
-                setNotificatonsMessage("Orden(es) pendiente(s): "+numberPending+"             "+
-                         "______________ Orden(es) atrasada(s): "+numberExpired+"____________");
-                setNotificationsNumber(numberPending);
-                RequestContext.getCurrentInstance().execute("hiddenCount()");
             }
             
         }
@@ -243,16 +273,35 @@ public class ScstoreOrdersBean
         date.setTime(date.getTime()- ONE_MINUTE);
         if(storeOrder != null)
         {
-           if(storeOrder.getIdState().getIdState().equals(STATE_IN_PROCESS) ||
-                   storeOrder.getIdState().getIdState().equals(STATE_PROGRAMMED))
-           {
-               result = "rowPending";
-               if(storeOrder.getCreationDate().before(date))
+            if((storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_PROCESS) ||
+                storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_PROGRAMMED)||
+                storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_LATE)) &&
+                storeOrder.getCreationDate().before(date))
+            {
+               storeOrder.setIdState(getOrderStateExpired());
+               try
                {
-                   result = "rowExpired"; 
+                   getScStoreOrderServer().setStoreOrder(storeOrder);
                }
-           }
+               catch (Exception ex)
+               {
+                   log.error("Error al  consultar los estados ordenes"+ex);
+               }
+            }   
+            if(storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_PROCESS))
+            {
+                result = "rowPending";
+            }
+             if(storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_PROGRAMMED))
+            {
+                result = "rowProgrammer";
+            }
+            if(storeOrder.getIdState().getIdState().equals(DMESConstants.STATE_LATE))
+            {
+                result = "rowExpired"; 
+            }
            
+               
         }
         return result;
     }
@@ -510,6 +559,16 @@ public class ScstoreOrdersBean
     public void setFilterOrderRequired(String filterOrderRequired)
     {
         this.filterOrderRequired = filterOrderRequired;
+    }
+
+    public ScStoreOrderState getOrderStateExpired()
+    {
+        return orderStateExpired;
+    }
+
+    public void setOrderStateExpired(ScStoreOrderState orderStateExpired)
+    {
+        this.orderStateExpired = orderStateExpired;
     }
     
     

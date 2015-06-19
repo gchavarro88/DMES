@@ -23,4 +23,5 @@ public interface IScStoreOrder
     public List<ScStoreOrder> getStoreOrdersByParameters(Date initDate, Date endDate, String filterOrderType,
             String filterOrderClass, String filterOrderState, String filterOrderRequired) throws Exception;
     
+    public void setStoreOrder(ScStoreOrder storeOrder) throws Exception;
 }

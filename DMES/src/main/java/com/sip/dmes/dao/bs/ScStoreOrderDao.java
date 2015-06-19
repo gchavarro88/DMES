@@ -143,4 +143,20 @@ public class ScStoreOrderDao implements IScStoreOrder
         }
         return result;
     }
+
+    @Override
+    public void setStoreOrder(ScStoreOrder storeOrder) throws Exception
+    {
+        try
+        {
+            if(storeOrder != null)
+            {
+                entityManager.merge(storeOrder);
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar actualizar la order del almacén",e);
+        }
+    }
 }
