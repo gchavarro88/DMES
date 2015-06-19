@@ -75,6 +75,10 @@ public class ScStoreOrderItem implements Serializable
     @JoinColumn(name = "id_store_order", referencedColumnName = "id_store_order")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScStoreOrder storeOrder;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_item_class")
+    private long idItemClass;
     //valor booleano que indica si esta completa la orden
     transient boolean complete;
     
@@ -216,6 +220,16 @@ public class ScStoreOrderItem implements Serializable
     public void setComplete(boolean complete)
     {
         this.complete = complete;
+    }
+
+    public long getIdItemClass()
+    {
+        return idItemClass;
+    }
+
+    public void setIdItemClass(long idItemClass)
+    {
+        this.idItemClass = idItemClass;
     }
     
     

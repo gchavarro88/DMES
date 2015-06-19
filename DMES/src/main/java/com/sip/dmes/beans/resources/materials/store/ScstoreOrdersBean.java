@@ -157,32 +157,29 @@ public class ScstoreOrdersBean
     {
         if(item != null)
         {
+            
+            if(item.getAmountDelivery() >= item.getAmountRequired())
+            {
+                item.setComplete(true);
+                if(item.getAmountDelivery() > item.getAmountRequired())
+                {
+                    addInfo(null, "La cantidad entregada no debe ser mayor a la cantidad requerida", "");
+                    item.setAmountDelivery(item.getAmountRequired());
+                } 
+            }
             if(item.getAmountStore() == item.getAmountDelivery())
             {
                 addInfo(null, "El Almacén se ha quedado sin stock para  "
                         + "("+item.getStoreOrder().getOrderClass()+" - "+item.getItemDescription()+")", "");
                 item.setComplete(false);
                 item.setAmountPending((item.getAmountRequired()-item.getAmountDelivery()));
+                
             }
-            else 
+            if(item.getAmountDelivery() < item.getAmountRequired())
             {
-                if(item.getAmountDelivery() >= item.getAmountRequired())
-                {
-                    item.setComplete(true);
-                    if(item.getAmountDelivery() > item.getAmountRequired())
-                    {
-                        addInfo(null, "Cantidad entregada mayor a la cantidad requerida", "");
-                        item.setAmountDelivery(item.getAmountRequired());
-                        
-                    } 
-                }
-                if(item.getAmountDelivery() < item.getAmountRequired())
-                {
-                    item.setComplete(false);
-                    
-                }
-                item.setAmountPending((item.getAmountRequired()-item.getAmountDelivery()));
+                item.setComplete(false);
             }
+            item.setAmountPending((item.getAmountRequired()-item.getAmountDelivery()));
         }
     }
     
@@ -252,11 +249,11 @@ public class ScstoreOrdersBean
      * @param storeOrder orden seleccionada
      * @author Gustavo Chavarro Ortiz
      */
-    public void updateStoreOrderSelected(ScStoreOrder storeOrder)
+    public void updateStoreOrderSelected()
     {
-        if(storeOrder != null)
+        if(getStoreOrderUpdate() != null)
         {
-            setStoreOrderUpdate(storeOrder);
+            findItemsByOrder(getStoreOrderUpdate());
         }
     }
     
@@ -304,6 +301,64 @@ public class ScstoreOrdersBean
                
         }
         return result;
+    }
+    
+    public void findItemsByOrder(ScStoreOrder storeOrder)
+    {
+        String query = "";//Query que va a consultar los valores de los items
+        //Validamos de que tipo es la orden y de acuerdo al criterio consultamos
+        if(storeOrder.getOrderClass().equalsIgnoreCase(DMESConstants.inputs))
+        {
+            query = DMESConstants.queryInput;//Tipo Insumos
+        }
+        else if(storeOrder.getOrderClass().equalsIgnoreCase(DMESConstants.products))
+        {
+            query = DMESConstants.queryProduct;//Tipo Productos
+        }
+        else if(storeOrder.getOrderClass().equalsIgnoreCase(DMESConstants.replacement))
+        {
+            query = DMESConstants.queryReplacement; //Tipo Repuesto o Consumible
+        }
+        else if(storeOrder.getOrderClass().equalsIgnoreCase(DMESConstants.tools))
+        {
+            query = DMESConstants.queryTool; //Tipo Herramienta
+        }
+        for(ScStoreOrderItem orderItem: storeOrder.getStoreOrderItemList())
+        {
+            query += orderItem.getIdItemClass()+",";
+        }
+        query = query.substring(0, query.length()-1);
+        query += ")";
+        if(storeOrder.getStoreOrderItemList() != null && !storeOrder.getStoreOrderItemList().isEmpty())
+        {
+            try
+            {
+                List<Object []> result = getScStoreOrderServer().getItemsByStoreOrder(query);
+                if(result != null)
+                {
+                    for(Object[] object: result)
+                    {
+                        long id     = Long.parseLong(object[0].toString());
+                        String name = object[1].toString();
+                        long stock  = Long.parseLong(object[2].toString());
+                        for(ScStoreOrderItem orderItem: storeOrder.getStoreOrderItemList())
+                        {
+                            if(orderItem.getIdItemClass() == id)
+                            {
+                                orderItem.setAmountStore(stock);
+                                orderItem.setItemDescription(name);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.error("Error al intentar consultar los datos de los items del almacén", ex);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
     }
     
     

@@ -159,4 +159,22 @@ public class ScStoreOrderDao implements IScStoreOrder
             log.error("Error al intentar actualizar la order del almacén",e);
         }
     }
+
+    @Override
+    public List<Object[]> getItemsByStoreOrder(String namedQuery) throws Exception
+    {
+        List<Object[]> result = null;
+        Query query  = entityManager.createNativeQuery(namedQuery); 
+        try
+        {
+            result = (List<Object[]>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los items de orden del almacén",e);
+        }
+        return result;
+    }
+    
+    
 }

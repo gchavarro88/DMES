@@ -24,4 +24,8 @@ public interface IScStoreOrder
             String filterOrderClass, String filterOrderState, String filterOrderRequired) throws Exception;
     
     public void setStoreOrder(ScStoreOrder storeOrder) throws Exception;
+    
+    public List<Object[]> getItemsByStoreOrder(String namedQuery) throws Exception;
+    
+    
 }

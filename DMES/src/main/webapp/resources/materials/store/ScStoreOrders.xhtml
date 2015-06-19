@@ -165,19 +165,47 @@
                         </p:dataTable>
                         <p:spacer height="10"/>
                         <div style="alignment-adjust: central; text-align: center; vertical-align: middle; width: 100%">
-                            <p:commandButton value="Guardar Orden" oncomplete="PF('dialogStoreOrder').hide()" actionListener="#{scStoreOrderBean.compare(null)}"
-                                             update=":formOrderStore:scDataTableStoreOrders" />
+                            <p:commandButton value="Guardar Orden" oncomplete="PF('dlgConfirmation').show()" />
                             <p:spacer width="10"/>
-                            <p:commandButton value="Cancelar Orden" oncomplete="PF('dialogStoreOrder').hide()"
-                                             update=":formOrderStore:scDataTableStoreOrders" />
+                            <p:commandButton value="Cancelar Orden" oncomplete="PF('dlgCancelation').show()"
+                                              />
                         </div>
                         
                     
                 </h:form>
             </p:dialog>
             <!--         finaliza el dialogo para guardar Insumos-->
-
-
+            <p:dialog id="dlgCancelation" widgetVar="dlgCancelation"
+                      closable="false" closeOnEscape="true" draggable="true" header="Cancelación" hideEffect="explode"
+                       modal="true" position="center top" resizable="false" showEffect="explode" >
+                <p:outputLabel value="Motivo de la Cancelación"/>
+                <br/>
+                <p:inputTextarea autoResize="true" counter="lblArea" label="Motivo de Cancelación" rows="4" maxlength="300" 
+                                 counterTemplate="{0} caracteres restantes." required="yes" requiredMessage="Debe ingresar un motivo de cancelación"/>
+                <br/>
+                <p:outputLabel id="lblArea"/>
+                <br/><br/>
+                <p:spacer height="20"/>
+                <div style="alignment-adjust: central; text-align: center; vertical-align: middle; width: 100%">
+                    <p:commandButton value="Guardar" oncomplete="PF('dlgCancelation').hide();PF('dialogStoreOrder').hide();"
+                                     actionListener="#{scStoreOrderBean.compare(null)}" update=":formOrderStore:scDataTableStoreOrders"/>
+                    <p:spacer width="10"/>
+                    <p:commandButton value="Salir" oncomplete="PF('dlgCancelation').hide()"/>
+                </div>   
+            </p:dialog>
+            <p:dialog id="dlgConfirmation" widgetVar="dlgConfirmation"
+                      closable="false" closeOnEscape="true" draggable="true" header="Confirmación" hideEffect="explode"
+                      modal="true" position="center top" resizable="false" showEffect="explode">
+                    <p:outputLabel value="¿Desea guardar los cambios en la orden?"/>
+                    <p:spacer height="20"/>
+                    <br/><br/>
+                    <div style="alignment-adjust: central; text-align: center; vertical-align: middle; width: 100%">
+                            <p:commandButton value="Aceptar" oncomplete="PF('dlgConfirmation').hide();PF('dialogStoreOrder').hide();"
+                                             actionListener="#{scStoreOrderBean.compare(null)}" update=":formOrderStore:scDataTableStoreOrders"/>
+                            <p:spacer width="10"/>
+                            <p:commandButton value="Cancelar" oncomplete="PF('dlgConfirmation').hide()"/>
+                        </div>   
+            </p:dialog>
             <!--            ######################################################################-->
             <h:form id="formOrderStore">
                 <p:panel style="width: 99%;" toggleable="true" header="Ordenes del Almacén"
@@ -287,7 +315,7 @@
                              sortBy="OA#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
                              rowStyleClass="#{scStoreOrderBean.getStyleRow(storeOrder)}"
                              >
-                    <p:ajax event="rowSelect" listener="#{scStoreOrderBean.updateStoreOrderSelected(storeOrder)}" 
+                    <p:ajax event="rowSelect" listener="#{scStoreOrderBean.updateStoreOrderSelected()}" 
                             update=":formWizardEdit" oncomplete="PF('dialogStoreOrder').show()"/>
                     <f:facet name="header">
                         <div id="imageConuter" >

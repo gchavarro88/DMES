@@ -58,6 +58,12 @@ public class DMESConstants
     public static final String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";
     public static final String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
    
+    //Módulos dentro del almacén
+    public static String inputs = "Insumos";
+    public static String products = "Productos";
+    public static String replacement = "Repuestos y Consumibles";
+    public static String tools = "Herramientas";
+    
     
     //Dias de vencimiento para almacén
     public static Long DAY_WARNING = 1L;
@@ -68,5 +74,19 @@ public class DMESConstants
     public static Long STATE_PROGRAMMED = 1L;
     public static Long STATE_PROCESS    = 2L;
     public static Long STATE_LATE    = 3L;
+    
+    
+    //Querys para consultar los items del almacén
+    public static String queryInput = "SELECT I.ID_INPUT, I.DESCRIPTION, S.CURRENT_STOCK  FROM DMES.SC_INPUT I, DMES.SC_STOCK S\n" +
+    "WHERE I.ID_STOCK = S.ID_STOCK AND I.ID_INPUT IN (";
+    
+    public static String queryProduct = "SELECT P.ID_PRODUCT_FORMULATION, P.DESCRIPTION, S.CURRENT_STOCK  FROM DMES.SC_PRODUCT_FORMULATION P, DMES.SC_STOCK S\n" +
+    "WHERE P.ID_STOCK = S.ID_STOCK AND P.ID_PRODUCT_FORMULATION IN (";
+    
+    public static String queryReplacement = "SELECT R.ID_REPLACEMENT, R.NAME, S.CURRENT_STOCK  FROM DMES.SC_REPLACEMENT R, DMES.SC_STOCK S\n" +
+    "WHERE R.ID_STOCK = S.ID_STOCK AND R.ID_REPLACEMENT IN (";
+    
+    public static String queryTool = "SELECT T.ID_TOOL, T.NAME, S.CURRENT_STOCK  FROM DMES.SC_TOOL T, DMES.SC_STOCK S\n" +
+"WHERE T.ID_STOCK = S.ID_STOCK AND T.ID_TOOL IN (";
 }
  

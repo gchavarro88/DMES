@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.6
--- Started on 2015-06-18 20:12:49 CEST
+-- Started on 2015-06-19 17:40:32 CEST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -952,7 +952,8 @@ CREATE TABLE sc_store_order_item (
     amount_store numeric(18,0) NOT NULL,
     amount_pending numeric(18,0) NOT NULL,
     item_description character varying(200) NOT NULL,
-    id_store_order numeric(18,0) NOT NULL
+    id_store_order numeric(18,0) NOT NULL,
+    id_item_class numeric(18,0)
 );
 
 
@@ -2658,12 +2659,12 @@ INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_cl
 -- Data for Name: sc_store_order_item; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order) VALUES (1, 'Insumos', 5, 0, 13, 5, 'Aceite de Canola', 1);
-INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order) VALUES (2, 'Insumos', 5, 0, 3, 5, 'Aceite de Canola', 1);
-INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order) VALUES (3, 'Insumos', 5, 0, 1, 5, 'Aceite de Canola', 1);
-INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order) VALUES (4, 'Insumos', 5, 0, 234, 5, 'Aceite de Canola', 1);
-INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order) VALUES (5, 'Insumos', 5, 0, 32, 5, 'Aceite de Canola', 1);
-INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order) VALUES (6, 'Insumos', 5, 0, 0, 5, 'Aceite de Canola', 1);
+INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order, id_item_class) VALUES (6, 'Insumos', 5, 0, 0, 5, 'Aceite de Canola', 1, 15);
+INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order, id_item_class) VALUES (5, 'Insumos', 5, 0, 32, 5, 'Aceite de Canola', 1, 14);
+INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order, id_item_class) VALUES (4, 'Insumos', 5, 0, 234, 5, 'Aceite de Canola', 1, 13);
+INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order, id_item_class) VALUES (3, 'Insumos', 5, 0, 1, 5, 'Aceite de Canola', 1, 8);
+INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order, id_item_class) VALUES (2, 'Insumos', 5, 0, 3, 5, 'Aceite de Canola', 1, 7);
+INSERT INTO sc_store_order_item (id_item, class_item, amount_required, amount_delivery, amount_store, amount_pending, item_description, id_store_order, id_item_class) VALUES (1, 'Insumos', 5, 0, 13, 5, 'Aceite de Canola', 1, 5);
 
 
 --
@@ -4555,7 +4556,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2015-06-18 20:12:49 CEST
+-- Completed on 2015-06-19 17:40:33 CEST
 
 --
 -- PostgreSQL database dump complete
