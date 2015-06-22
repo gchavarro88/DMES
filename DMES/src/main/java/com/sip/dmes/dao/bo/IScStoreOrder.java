@@ -27,5 +27,5 @@ public interface IScStoreOrder
     
     public List<Object[]> getItemsByStoreOrder(String namedQuery) throws Exception;
     
-    
+    public void executeUpdate(String update) throws Exception;
 }

@@ -1,16 +1,224 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>             
+        <meta http-equiv="expires" content="0"></meta>
+        <meta http-equiv="Cache-Control" content="no-cache"></meta>             
+        <meta http-equiv="Cache-Control" content="no-cache"></meta>
+        <title>.:DMES:. - Requisiciones del Almacén</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+
+            window.setTimeout("storeOrderInit()", 1000);
+        </script>
+    </h:head>
+    <h:body style="background-color: #000;">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div>
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            
+<!--            ####################################################################            -->
+            <h:form id="formOrderRequisition">
+                <p:panel style="width: 99%;" toggleable="true" header="Requisiciones del Almacén"
+                         toggleOrientation="vertical" toggleTitle="Reduzca el tamaño de este menú">
+                    <table width="100%" style="color: #FFF;">
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Fecha Inicial:" for="initDate"/>
+                            </td>
+                            <td align="left">
+                                <p:calendar value="#{scStoreOrderBean.initDate}" autocomplete="true" effect="explode" id="initDate" pattern="dd-MM-yyyy" 
+                                            title="Ingrese la fecha inicial del rango que desea consultar" mask="true">
+                                    <p:ajax listener="#{scStoreOrderBean.compareToDates()}" event="dateSelect" update="initDate, endDate"/>
+                                </p:calendar>
+                            </td>
+                            <td align="right">
+                                <p:outputLabel value="Fecha Final:" for="endDate"/>
+                            </td>
+                            <td align="left">
+                                <p:calendar value="#{scStoreOrderBean.endDate}" autocomplete="true" effect="explode" id="endDate" pattern="dd-MM-yyyy" 
+                                            title="Ingrese la fecha final del rango que desea consultar" mask="true" >
+                                    <p:ajax listener="#{scStoreOrderBean.compareToDates()}" event="dateSelect" update="initDate, endDate"/>
+                                </p:calendar>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Tipo de Orden:" for="cbOrderType"/>
+                            </td>
+                            <td align="left">
+                                <p:selectOneMenu id="cbOrderType" value="#{scStoreOrderBean.filterOrderType}" 
+                                                 style="width: 160px; top: 6px;"
+                                                 effect="puff"
+                                                 height="140">
+                                    <f:selectItem itemLabel="..." />
+                                    <f:selectItem itemLabel="Entrega" itemValue="Entrega"/>
+                                    <f:selectItem itemLabel="Ingreso" itemValue="Ingreso"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right">
+                                <p:outputLabel value="Clase de Recurso:" for="cbOrderClass"/>
+                            </td>
+                            <td align="left">
+                                <p:selectOneMenu id="cbOrderClass"  value="#{scStoreOrderBean.filterOrderClass}" 
+                                                 style="width:160px; top: 6px;"
+                                                 effect="puff"
+                                                 height="140">
+                                    <f:selectItem itemLabel="..." />
+                                    <f:selectItem itemLabel="Herramientas" itemValue="Herramientas"/>
+                                    <f:selectItem itemLabel="Insumos" itemValue="Insumos"/>
+                                    <f:selectItem itemLabel="Productos" itemValue="Productos"/>
+                                    <f:selectItem itemLabel="Repuestos y Consumibles" itemValue="Repuestos y Consumibles"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr><tr>
+                            <td align="right">
+                                <p:outputLabel value="Requerido Por:" for="cbOrderRequired"/>
+                            </td>
+                            <td align="left">
+                                <p:selectOneMenu id="cbOrderRequired"  value="#{scStoreOrderBean.filterOrderRequired}" 
+                                                 style="width: 160px; top: 6px;"
+                                                 effect="puff"
+                                                 height="140">
+                                    <f:selectItem itemLabel="..." />
+                                    <f:selectItem itemLabel="Mantenimiento" itemValue="Mantenimiento"/>
+                                    <f:selectItem itemLabel="Producción" itemValue="Producción"/>
+                                </p:selectOneMenu>
+                            </td>
+                            <td align="right">
+                                <p:outputLabel value="Estado:" for="cbOrderState"/>
+                            </td>
+                            <td align="left">
+                                <p:selectOneMenu id="cbOrderState"  value="#{scStoreOrderBean.filterOrderState}" 
+                                                 style="width: 160px; top: 6px;"
+                                                 effect="puff"
+                                                 height="140">
+                                    <f:selectItem itemLabel="..." />
+                                    <f:selectItems value="#{scStoreOrderBean.listStoreOrderState}" var="states" itemLabel="#{states.description}" itemValue="#{states.description}"/>
+
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="right">
+                                <p:commandButton value="Buscar" actionListener="#{scStoreOrderBean.doSearchWithParameters()}" 
+                                                 update="scDataTableStoreOrders"/>
+                            </td>
+                            <td colspan="2" align="left">
+                                <p:commandButton value="Limpiar" actionListener="#{scStoreOrderBean.resetData()}" 
+                                                 update="scDataTableStoreOrders,initDate,endDate,cbOrderType,cbOrderClass,cbOrderRequired,cbOrderState"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+
+                <p:remoteCommand name="storeOrderInit" update=":formOrderStore:scDataTableStoreOrders" oncomplete="hiddenCount()"/>
+                <p:dataTable id="scDataTableStoreOrders" draggableColumns="true" emptyMessage="No existe información para visualizar" 
+                             value="#{scStoreOrderBean.storeOrderList}" var="storeOrder"
+                             paginator="true" rows="10"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{storeOrder.idStoreOrder}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                             selectionMode="single" paginatorPosition="top" selection="#{scStoreOrderBean.storeOrderUpdate}"
+                             sortBy="OA#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
+                             rowStyleClass="#{scStoreOrderBean.getStyleRow(storeOrder)}"
+                             >
+                    <p:ajax event="rowSelect" listener="#{scStoreOrderBean.updateStoreOrderSelected()}" 
+                            update=":formWizardEdit" oncomplete="PF('dialogStoreOrder').show()"/>
+                    <f:facet name="header">
+                        <div id="imageConuter" >
+                            <p:graphicImage value="/images/siren.png" class="iconWarning" width="20" height="20" id="alertSiren" onclick="storeOrderInit()"/>
+                            <div class="countIconWarning" id="countIconWarning" >#{scStoreOrderBean.notificationsNumber}</div>
+                            <p:tooltip for="alertSiren" value="#{scStoreOrderBean.notificatonsMessage}"/>
+                        </div>
+                    </f:facet>
+
+                    <!--                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" />-->
+                    <!--                    <p:column headerText="Administración" width="84">
+                                            <center>
+                                                <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener=""
+                                                    oncomplete="PF('dialogInputUpdate').show()" update=":formWizardUpdate:" >
+                                                    <p:tooltip for="btnEdit" value="Editar un Insumo"/>
+                                                    </p:commandButton>
+                                                    <p:spacer width="10"/>
+                                                    <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogInputDelete').show()"
+                                                    actionListener="" update=":formWizardDelete">
+                                                    <p:tooltip for="btnDelete" value="Eliminar un Insumo"/>
+                                                    </p:commandButton>
+                                            </center>
+                                        </p:column>-->  
+                    <p:column filterMatchMode="contains"  filterBy="OA#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
+                              id="columnOrderId" headerText="No." 
+                              sortBy="OA#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}">    
+                        <center>
+                            <p:outputLabel 
+                                value="OA#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
+                                id="lblOrderId"/>
+                            <p:tooltip for="lblOrderId" 
+                                       value="OA#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"/>
+                        </center>
+                    </p:column>
+                    <p:column  headerText="Tipo de Orden" sortBy="#{storeOrder.orderType}" id="columnTypeOrder">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.orderType}" id="lblOrderType"/>
+                            <p:tooltip for="lblOrderType" value="#{storeOrder.orderType}"/>
+                        </center>
+                    </p:column>
+                    <p:column  id="columnOrderClass" headerText="Clase de Recurso" sortBy="#{storeOrder.orderClass}">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.orderClass}" id="lblOrderClass"/>
+                            <p:tooltip for="lblOrderClass" value="#{storeOrder.orderClass}"/>
+                        </center>
+                    </p:column>
+                    <p:column  id="columnRequiredBy" headerText="Requerido Por" sortBy="#{storeOrder.requiredBy}">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.requiredBy}" id="lblRequiredBy"/>
+                            <p:tooltip for="lblRequiredBy" value="#{storeOrder.requiredBy}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{storeOrder.amountItems}"
+                              id="columnNumberItems" headerText="No. Items" sortBy="#{storeOrder.amountItems}">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.amountItems}" id="lblNumberItems"/>
+                            <p:tooltip for="lblNumberItems" value="#{storeOrder.amountItems}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnDate" headerText="Fecha" 
+                              sortBy="#{scStoreOrderBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}">    
+                        <center>
+                            <p:outputLabel 
+                                value="#{scStoreOrderBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}" 
+                                id="lblDate"/>
+                            <p:tooltip for="lblDate" 
+                                       value="#{scStoreOrderBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnState" headerText="Estado" sortBy="#{storeOrder.idState.description}">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.idState.description}" id="lblState"/>
+                            <p:tooltip for="lblState" value="#{storeOrder.idState.description}"/>
+                        </center>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+    </h:body>
 </html>

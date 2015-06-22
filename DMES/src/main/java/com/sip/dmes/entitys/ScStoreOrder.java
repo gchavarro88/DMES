@@ -70,8 +70,7 @@ public class ScStoreOrder implements Serializable
     @NotNull
     @Column(name = "creation_date")
     private Date  creationDate;
-    @Basic(optional = false)
-    @NotNull
+    
     @Column(name = "reason_cancellation")
     private String  reasonCancellation;
     @Basic(optional = false)

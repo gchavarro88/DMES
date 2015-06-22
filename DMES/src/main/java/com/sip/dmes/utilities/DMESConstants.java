@@ -26,10 +26,7 @@ public class DMESConstants
    public static final String PATH_IMAGE_DEFAULT = "/images/imageNotAvailable.png";   
    
    //id clase tipos
-   public static final Long scClassTypeClassification=1L;
-   public static final Long scClassTypePriority=2L;
-   public static final Long scClassTypeLifeSpan=3L;
-   public static final Long scClassTypeCost=4L;
+  
    public static final String TYPES_EXTENTIONS_IMAGES = "png,jpg,jpeg,gif";
    
    //Ruta para imagenes externas
@@ -59,10 +56,10 @@ public class DMESConstants
     public static final String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
    
     //Módulos dentro del almacén
-    public static String inputs = "Insumos";
-    public static String products = "Productos";
-    public static String replacement = "Repuestos y Consumibles";
-    public static String tools = "Herramientas";
+    public static String INPUTS = "Insumos";
+    public static String PRODUCTS = "Productos";
+    public static String REPLACEMENT = "Repuestos y Consumibles";
+    public static String TOOLS = "Herramientas";
     
     
     //Dias de vencimiento para almacén
@@ -74,19 +71,35 @@ public class DMESConstants
     public static Long STATE_PROGRAMMED = 1L;
     public static Long STATE_PROCESS    = 2L;
     public static Long STATE_LATE    = 3L;
+    public static Long STATE_DELIVERED = 4L;
+    public static Long STATE_CANCEL_STORE    = 5L;
+    public static Long STATE_CANCEL_PRODUCTION    = 6L;
+    public static Long STATE_CANCEL_MAINTENANCE    = 7L;
     
     
     //Querys para consultar los items del almacén
-    public static String queryInput = "SELECT I.ID_INPUT, I.DESCRIPTION, S.CURRENT_STOCK  FROM DMES.SC_INPUT I, DMES.SC_STOCK S\n" +
+    public static String QUERY_INPUT = "SELECT I.ID_INPUT, I.DESCRIPTION, S.CURRENT_STOCK  FROM DMES.SC_INPUT I, DMES.SC_STOCK S\n" +
     "WHERE I.ID_STOCK = S.ID_STOCK AND I.ID_INPUT IN (";
     
-    public static String queryProduct = "SELECT P.ID_PRODUCT_FORMULATION, P.DESCRIPTION, S.CURRENT_STOCK  FROM DMES.SC_PRODUCT_FORMULATION P, DMES.SC_STOCK S\n" +
+    public static String QUERY_PRODUCT = "SELECT P.ID_PRODUCT_FORMULATION, P.DESCRIPTION, S.CURRENT_STOCK  FROM DMES.SC_PRODUCT_FORMULATION P, DMES.SC_STOCK S\n" +
     "WHERE P.ID_STOCK = S.ID_STOCK AND P.ID_PRODUCT_FORMULATION IN (";
     
-    public static String queryReplacement = "SELECT R.ID_REPLACEMENT, R.NAME, S.CURRENT_STOCK  FROM DMES.SC_REPLACEMENT R, DMES.SC_STOCK S\n" +
+    public static String QUERY_REPLACEMENT = "SELECT R.ID_REPLACEMENT, R.NAME, S.CURRENT_STOCK  FROM DMES.SC_REPLACEMENT R, DMES.SC_STOCK S\n" +
     "WHERE R.ID_STOCK = S.ID_STOCK AND R.ID_REPLACEMENT IN (";
     
-    public static String queryTool = "SELECT T.ID_TOOL, T.NAME, S.CURRENT_STOCK  FROM DMES.SC_TOOL T, DMES.SC_STOCK S\n" +
-"WHERE T.ID_STOCK = S.ID_STOCK AND T.ID_TOOL IN (";
+    public static String QUERY_TOOL = "SELECT T.ID_TOOL, T.NAME, S.CURRENT_STOCK  FROM DMES.SC_TOOL T, DMES.SC_STOCK S\n" +
+    "WHERE T.ID_STOCK = S.ID_STOCK AND T.ID_TOOL IN (";
+    
+    public static String UPDATE_INPUT = "UPDATE DMES.SC_STOCK  SET CURRENT_STOCK = (CURRENT_STOCK OPERATION) WHERE ID_STOCK = (SELECT I.ID_STOCK  FROM DMES.SC_INPUT I, DMES.SC_STOCK S\n" +
+"    WHERE I.ID_STOCK = S.ID_STOCK AND I.ID_INPUT = NUMBERID )";
+    
+    public static String UPDATE_PRODUCT = "UPDATE DMES.SC_STOCK  SET CURRENT_STOCK = (CURRENT_STOCK OPERATION)  WHERE ID_STOCK = (SELECT P.ID_STOCK  FROM DMES.SC_PRODUCT_FORMULATION P, DMES.SC_STOCK S\n" +
+"    WHERE P.ID_STOCK = S.ID_STOCK AND P.ID_PRODUCT_FORMULATION = NUMBERID )";
+    
+    public static String UPDATE_REPLACEMENT = "UPDATE DMES.SC_STOCK  SET CURRENT_STOCK = (CURRENT_STOCK OPERATION) WHERE ID_STOCK = (SELECT R.ID_STOCK  FROM DMES.SC_REPLACEMENT R, DMES.SC_STOCK S\n" +
+"    WHERE R.ID_STOCK = S.ID_STOCK AND R.ID_REPLACEMENT = NUMBERID )";
+    
+    public static String UPDATE_TOOL = "UPDATE DMES.SC_STOCK  SET CURRENT_STOCK = (CURRENT_STOCK OPERATION) WHERE ID_STOCK = (SELECT T.ID_STOCK  FROM DMES.SC_TOOL T, DMES.SC_STOCK S\n" +
+"    WHERE T.ID_STOCK = S.ID_STOCK AND T.ID_TOOL = NUMBERID )";
 }
  

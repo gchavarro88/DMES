@@ -22,23 +22,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author guschaor
+ * @author gchavarro88
  */
 @Entity
-@Table(schema = "dmes", name = "sc_store_order_item")
+@Table(name = "sc_store_requisition_item")
 @XmlRootElement
 @NamedQueries(
 {
-    @NamedQuery(name = "ScStoreOrderItem.findAll", query = "SELECT s FROM ScStoreOrderItem s"),
-    @NamedQuery(name = "ScStoreOrderItem.findByIdItem", query = "SELECT s FROM ScStoreOrderItem s WHERE s.idItem = :idItem"),
-    @NamedQuery(name = "ScStoreOrderItem.findByClassItem", query = "SELECT s FROM ScStoreOrderItem s WHERE s.classItem = :classItem"),
-    @NamedQuery(name = "ScStoreOrderItem.findByAmountRequired", query = "SELECT s FROM ScStoreOrderItem s WHERE s.amountRequired = :amountRequired"),
-    @NamedQuery(name = "ScStoreOrderItem.findByAmountDelivery", query = "SELECT s FROM ScStoreOrderItem s WHERE s.amountDelivery = :amountDelivery"),
-    @NamedQuery(name = "ScStoreOrderItem.findByAmountStore", query = "SELECT s FROM ScStoreOrderItem s WHERE s.amountStore = :amountStore"),
-    @NamedQuery(name = "ScStoreOrderItem.findByAmountPending", query = "SELECT s FROM ScStoreOrderItem s WHERE s.amountPending = :amountPending"),
-    @NamedQuery(name = "ScStoreOrderItem.findByItemDescription", query = "SELECT s FROM ScStoreOrderItem s WHERE s.itemDescription = :itemDescription")
+    @NamedQuery(name = "ScStoreRequisitionItem.findAll", query = "SELECT s FROM ScStoreRequisitionItem s"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByIdItem", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.idItem = :idItem"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByClassItem", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.classItem = :classItem"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByAmountRequired", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.amountRequired = :amountRequired"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByAmountDelivery", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.amountDelivery = :amountDelivery"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByAmountStore", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.amountStore = :amountStore"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByAmountPending", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.amountPending = :amountPending"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByItemDescription", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.itemDescription = :itemDescription"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByIdItemClass", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.idItemClass = :idItemClass"),
+    @NamedQuery(name = "ScStoreRequisitionItem.findByAmountPendingHidden", query = "SELECT s FROM ScStoreRequisitionItem s WHERE s.amountPendingHidden = :amountPendingHidden")
 })
-public class ScStoreOrderItem implements Serializable
+public class ScStoreRequisitionItem implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
@@ -69,33 +71,27 @@ public class ScStoreOrderItem implements Serializable
     private long amountPending;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "amount_pending_hidden")
-    private long amountPendingHidden;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "item_description")
     private String itemDescription;
-    @JoinColumn(name = "id_store_order", referencedColumnName = "id_store_order")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private ScStoreOrder storeOrder;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "id_item_class")
-    private long idItemClass;
-    //valor booleano que indica si esta completa la orden
-    transient boolean complete;
-    
-    public ScStoreOrderItem()
+    private Long idItemClass;
+    @Column(name = "amount_pending_hidden")
+    private Long amountPendingHidden;
+    @JoinColumn(name = "id_store_requisition", referencedColumnName = "id_store_requisition")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private ScStoreRequisition idStoreRequisition;
+
+    public ScStoreRequisitionItem()
     {
     }
 
-    public ScStoreOrderItem(Long idItem)
+    public ScStoreRequisitionItem(Long idItem)
     {
         this.idItem = idItem;
     }
 
-    public ScStoreOrderItem(Long idItem, String classItem, long amountRequired, long amountDelivery, long amountStore, long amountPending, String itemDescription)
+    public ScStoreRequisitionItem(Long idItem, String classItem, long amountRequired, long amountDelivery, long amountStore, long amountPending, String itemDescription)
     {
         this.idItem = idItem;
         this.classItem = classItem;
@@ -176,14 +172,34 @@ public class ScStoreOrderItem implements Serializable
         this.itemDescription = itemDescription;
     }
 
-    public ScStoreOrder getStoreOrder()
+    public Long getIdItemClass()
     {
-        return storeOrder;
+        return idItemClass;
     }
 
-    public void setStoreOrder(ScStoreOrder idStoreOrder)
+    public void setIdItemClass(Long idItemClass)
     {
-        this.storeOrder = idStoreOrder;
+        this.idItemClass = idItemClass;
+    }
+
+    public Long getAmountPendingHidden()
+    {
+        return amountPendingHidden;
+    }
+
+    public void setAmountPendingHidden(Long amountPendingHidden)
+    {
+        this.amountPendingHidden = amountPendingHidden;
+    }
+
+    public ScStoreRequisition getIdStoreRequisition()
+    {
+        return idStoreRequisition;
+    }
+
+    public void setIdStoreRequisition(ScStoreRequisition idStoreRequisition)
+    {
+        this.idStoreRequisition = idStoreRequisition;
     }
 
     @Override
@@ -198,11 +214,11 @@ public class ScStoreOrderItem implements Serializable
     public boolean equals(Object object)
     {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScStoreOrderItem))
+        if (!(object instanceof ScStoreRequisitionItem))
         {
             return false;
         }
-        ScStoreOrderItem other = (ScStoreOrderItem) object;
+        ScStoreRequisitionItem other = (ScStoreRequisitionItem) object;
         if ((this.idItem == null && other.idItem != null) || (this.idItem != null && !this.idItem.equals(other.idItem)))
         {
             return false;
@@ -213,38 +229,7 @@ public class ScStoreOrderItem implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScStoreOrderItem[ idItem=" + idItem + " ]";
+        return "com.sip.dmes.entitys.ScStoreRequisitionItem[ idItem=" + idItem + " ]";
     }
-
-    public boolean isComplete()
-    {
-        return complete;
-    }
-
-    public void setComplete(boolean complete)
-    {
-        this.complete = complete;
-    }
-
-    public long getIdItemClass()
-    {
-        return idItemClass;
-    }
-
-    public void setIdItemClass(long idItemClass)
-    {
-        this.idItemClass = idItemClass;
-    }
-
-    public long getAmountPendingHidden()
-    {
-        return amountPendingHidden;
-    }
-
-    public void setAmountPendingHidden(long amountPendingHidden)
-    {
-        this.amountPendingHidden = amountPendingHidden;
-    }
-
     
 }

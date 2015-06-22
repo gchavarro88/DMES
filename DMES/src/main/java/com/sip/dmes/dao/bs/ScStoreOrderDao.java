@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Gustavo Chavarro Ortiz
@@ -145,6 +146,7 @@ public class ScStoreOrderDao implements IScStoreOrder
     }
 
     @Override
+    @Transactional
     public void setStoreOrder(ScStoreOrder storeOrder) throws Exception
     {
         try
@@ -174,6 +176,21 @@ public class ScStoreOrderDao implements IScStoreOrder
             log.error("Error al intentar hacer la persistencia de los items de orden del almacén",e);
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public void executeUpdate(String update) throws Exception
+    {
+        try
+        {
+            Query query = entityManager.createNativeQuery(update);
+            int rows = query.executeUpdate();
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando actualizar el stock del almacén",e);
+        }
     }
     
     
