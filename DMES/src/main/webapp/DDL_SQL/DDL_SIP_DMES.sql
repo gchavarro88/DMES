@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.5
--- Started on 2015-06-21 23:32:05 COT
+-- Started on 2015-07-05 23:51:13 COT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -933,7 +933,9 @@ CREATE TABLE sc_store_order (
     creation_date date NOT NULL,
     reason_cancellation character varying(200),
     required_by character varying(200) NOT NULL,
-    amount_items numeric(18,0) NOT NULL
+    amount_items numeric(18,0) NOT NULL,
+    id_employee_create numeric(18,0),
+    id_employee_store numeric(18,0)
 );
 
 
@@ -2283,9 +2285,9 @@ INSERT INTO sc_module_permission (id_module_permission, name, description, icone
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (24, 'Insumos', NULL, 'productos.png', 'Item', 10, 'resources/materials/ScInput.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (26, 'Repuestos y Consumibles', NULL, 'repuestos_y_consumibles.png', 'Item', 10, 'resources/materials/ScReplacement.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (27, 'Herramientas', NULL, 'repuestos_y_consumibles.png', 'Item', 10, 'resources/materials/ScTool.jsf');
-INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (29, 'Requisiciones de Compra', NULL, 'repuestos_y_consumibles.png', 'Item', 23, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (28, 'Gestión de Ordenes', NULL, 'repuestos_y_consumibles.png', 'Item', 23, 'resources/materials/store/ScStoreOrders.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (23, 'Almacén', NULL, 'maquinas.png', 'Folder', 7, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (29, 'Gestión de Requisiciones', NULL, 'repuestos_y_consumibles.png', 'Item', 23, 'resources/materials/store/ScRequisitions.jsf');
 
 
 --
@@ -2684,27 +2686,27 @@ INSERT INTO sc_store (id_store, name) VALUES (5, 'Almacen 5');
 -- Data for Name: sc_store_order; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (3, 'Ingreso', 2, 'Herramientas', 4, '2015-06-22', NULL, 'Mantenimiento', 19);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (4, 'Ingreso', 4, 'Productos', 5, '2015-06-25', NULL, 'Producción', 11);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (9, 'Ingreso', 1, 'Insumos', 1, '2015-06-28', NULL, 'Producción', 5);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (10, 'Entrega', 1, 'Repuestos y Consumibles', 4, '2015-03-21', NULL, 'Producción', 8);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (15, 'Entrega', 1, 'Repuestos y Consumibles', 4, '2015-03-21', NULL, 'Producción', 8);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (18, 'Entrega', 1, 'Repuestos y Consumibles', 4, '2015-03-21', NULL, 'Producción', 8);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (21, 'Ingreso', 1, 'Insumos', 1, '2015-06-28', NULL, 'Producción', 5);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (12, 'Ingreso', 1, 'Herramientas', 1, '2015-06-22', NULL, 'Mantenimiento', 19);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (17, 'Ingreso', 1, 'Insumos', 1, '2015-06-28', NULL, 'Producción', 5);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (20, 'Ingreso', 2, 'Productos', 1, '2015-06-28', NULL, 'Producción', 11);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (22, 'Entrega', 1, 'Repuestos y Consumibles', 3, '2015-03-11', NULL, 'Producción', 8);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (13, 'Ingreso', 2, 'Productos', 5, '2015-06-28', NULL, 'Producción', 11);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (7, 'Ingreso', 1, 'Herramientas', 5, '2015-06-22', NULL, 'Mantenimiento', 19);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (19, 'Ingreso', 1, 'Herramientas', 5, '2015-03-22', 'desd', 'Mantenimiento', 19);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (2, 'Entrega', 1, 'Productos', 5, '2015-06-30', 'deddesd', 'Mantenimiento', 12);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (8, 'Ingreso', 2, 'Productos', 5, '2015-06-28', 'sfdssd', 'Producción', 11);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (14, 'Ingreso', 1, 'Insumos', 5, '2015-06-28', 'pruebas', 'Producción', 5);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (5, 'Entrega', 8, 'Repuestos y Consumibles', 5, '2015-05-11', 'nada', 'Producción', 8);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (11, 'Entrega', 1, 'Productos', 3, '2015-06-20', NULL, 'Mantenimiento', 12);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (6, 'Entrega', 1, 'Productos', 3, '2015-06-20', NULL, 'Mantenimiento', 12);
-INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items) VALUES (1, 'Ingreso', 1, 'Insumos', 2, '2015-06-28', '', 'Producción', 5);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (9, 'Ingreso', 1, 'Insumos', 3, '2015-06-28', NULL, 'Producción', 5, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (3, 'Ingreso', 2, 'Herramientas', 4, '2015-06-22', NULL, 'Mantenimiento', 19, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (4, 'Ingreso', 4, 'Productos', 5, '2015-06-25', NULL, 'Producción', 11, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (10, 'Entrega', 1, 'Repuestos y Consumibles', 4, '2015-03-21', NULL, 'Producción', 8, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (15, 'Entrega', 1, 'Repuestos y Consumibles', 4, '2015-03-21', NULL, 'Producción', 8, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (18, 'Entrega', 1, 'Repuestos y Consumibles', 4, '2015-03-21', NULL, 'Producción', 8, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (22, 'Entrega', 1, 'Repuestos y Consumibles', 3, '2015-03-11', NULL, 'Producción', 8, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (13, 'Ingreso', 2, 'Productos', 5, '2015-06-28', NULL, 'Producción', 11, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (7, 'Ingreso', 1, 'Herramientas', 5, '2015-06-22', NULL, 'Mantenimiento', 19, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (19, 'Ingreso', 1, 'Herramientas', 5, '2015-03-22', 'desd', 'Mantenimiento', 19, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (2, 'Entrega', 1, 'Productos', 5, '2015-06-30', 'deddesd', 'Mantenimiento', 12, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (8, 'Ingreso', 2, 'Productos', 5, '2015-06-28', 'sfdssd', 'Producción', 11, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (14, 'Ingreso', 1, 'Insumos', 5, '2015-06-28', 'pruebas', 'Producción', 5, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (5, 'Entrega', 8, 'Repuestos y Consumibles', 5, '2015-05-11', 'nada', 'Producción', 8, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (11, 'Entrega', 1, 'Productos', 3, '2015-06-20', NULL, 'Mantenimiento', 12, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (6, 'Entrega', 1, 'Productos', 3, '2015-06-20', NULL, 'Mantenimiento', 12, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (12, 'Ingreso', 1, 'Herramientas', 3, '2015-06-22', NULL, 'Mantenimiento', 19, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (1, 'Ingreso', 1, 'Insumos', 3, '2015-06-28', '', 'Producción', 5, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (17, 'Ingreso', 1, 'Insumos', 3, '2015-06-28', NULL, 'Producción', 5, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (20, 'Ingreso', 2, 'Productos', 3, '2015-06-28', NULL, 'Producción', 11, NULL, NULL);
+INSERT INTO sc_store_order (id_store_order, order_type, id_requisition, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store) VALUES (21, 'Ingreso', 1, 'Insumos', 3, '2015-06-28', NULL, 'Producción', 5, NULL, NULL);
 
 
 --
@@ -4678,7 +4680,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2015-06-21 23:32:06 COT
+-- Completed on 2015-07-05 23:51:15 COT
 
 --
 -- PostgreSQL database dump complete

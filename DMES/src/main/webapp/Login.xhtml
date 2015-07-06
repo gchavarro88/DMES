@@ -31,13 +31,13 @@
                     <p>
                         <label for="login">Usuario:</label>
                     <p:inputText id="login" required="true"  value="#{loginBean.login}" requiredMessage="No se ha ingresado un nombre de usuario">
-                        <p:watermark for="login" value="nombre de usuario"/>
+                        <p:watermark for="login" value="Ingrese el nombre de usuario"/>
                     </p:inputText>
                     </p>
 
                     <p>
-                        <label for="password">Password:</label>
-                    <p:password id="password" required="true" value="#{loginBean.password}" requiredMessage="No se ha ingresado un password">
+                        <label for="password">Contraseña:</label>
+                    <p:password id="password" required="true" value="#{loginBean.password}" requiredMessage="No se ha ingresado una contraseña">
                             <p:watermark for="password" value="*********"/>
                         </p:password>
                     </p>
@@ -50,7 +50,7 @@
 <!--                        <button type="submit" class="login-button">Login</button>-->
                     </p>
 
-                    <p class="forgot-password"><p:commandLink>¿Olvidaste tu password?</p:commandLink></p>
+                    <p class="forgot-password"><p:commandLink>¿Olvidaste tu contraseña?</p:commandLink></p>
                 </h:form>
 
             </div>  
