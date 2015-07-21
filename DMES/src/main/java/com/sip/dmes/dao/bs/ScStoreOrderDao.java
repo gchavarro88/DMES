@@ -6,9 +6,13 @@
 package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IScStoreOrder;
+import com.sip.dmes.entitys.ScEmployee;
+import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScStoreOrder;
+import com.sip.dmes.entitys.ScStoreOrderItem;
 import com.sip.dmes.entitys.ScStoreOrderState;
 import com.sip.dmes.utilities.Utilities;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author Gustavo Chavarro Ortiz
  */
-
+ 
 @Repository(value = "IScStoreOrder")
 public class ScStoreOrderDao implements IScStoreOrder
 {
@@ -62,6 +66,24 @@ public class ScStoreOrderDao implements IScStoreOrder
         }
         return result;
     }
+     
+    @Override
+    public List<ScStoreOrder> getStoreOrdersByStatusAndOrderType(List<Long> storeOrdrerStatus, String orderType) throws Exception
+    {
+        List<ScStoreOrder> result = null;
+        Query query  = entityManager.createNamedQuery("ScStoreOrder.findByStateAndOrderType"); 
+        query.setParameter("storeOrderStatus", storeOrdrerStatus);
+        query.setParameter("orderType", orderType);
+        try
+        {
+            result = (List<ScStoreOrder>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las ordenes por estados del almacén",e);
+        }
+        return result;
+    }
 
     @Override
     public List<ScStoreOrderState> getAllStoreOrderState() throws Exception
@@ -78,7 +100,9 @@ public class ScStoreOrderDao implements IScStoreOrder
         }
         return result;
     }
-
+    
+    
+ 
     @Override
     public List<ScStoreOrder> getStoreOrdersByParameters(Date initDate, Date endDate, String filterOrderType, 
             String filterOrderClass, String filterOrderState, String filterOrderRequired) throws Exception
@@ -190,6 +214,65 @@ public class ScStoreOrderDao implements IScStoreOrder
         catch (Exception e)
         {
             log.error("Error intentando actualizar el stock del almacén",e);
+        }
+    }
+
+    @Override
+    public ScEmployee getEmployeeByPerson(ScPerson person) throws Exception
+    {
+        ScEmployee result = null;
+        try
+        {
+            String queryString = "SELECT s FROM ScEmployee s WHERE s.idPerson = :person ";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("person", person);   
+            result = (ScEmployee) query.getSingleResult();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar el empleado", e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<String> getItemsForAutocomplete(String nameQuery) throws Exception
+    {
+        List<Object[]> result = null;
+        List<String> mixed = new ArrayList<>();
+        try
+        {
+            Query query = entityManager.createNativeQuery(nameQuery);
+            result = (List<Object[]>) query.getResultList();
+            for(Object[] object: result)
+            {
+                String temp = object[0]+" - "+object[1];
+                mixed.add(temp);
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar los elementos a agregar", e);
+        }
+        return mixed;
+    }
+
+    @Transactional
+    @Override
+    public void saveStoreOrder(ScStoreOrder storeOrder) throws Exception
+    {
+        try
+        {
+            if(storeOrder != null)
+            {
+                entityManager.persist(storeOrder);
+                entityManager.flush();
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar crear una requisición del almacén", e);
+            throw e;
         }
     }
     

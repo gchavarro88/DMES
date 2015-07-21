@@ -42,18 +42,27 @@ public class ScstoreRequisitionsBean
     private Date endDate;
     private String filterOrderType;
     private String filterOrderState;
-    private String filterOrderClass;
+    private String filterOrderClass;                        
     private String filterOrderRequired;
+    private String itemAdd;
     private ScStoreOrderState orderStateExpired;
-    //Persistencia
-    private IScStoreOrder scStoreOrderServer; //Dao de persistencia del insumos
-    private SessionBean sessionBean;//Bean de la sesion del usuario
+    private List<String> elementsAutocomplete;
     
-
+    //Persistencia
+    private IScStoreOrder scStoreOrderServer; //Dao de persistencia                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 del insumos
+    private SessionBean sessionBean;//Bean de la sesion del usuario
+                                                                
+                                
     private final static Logger log = Logger.getLogger(ScstoreRequisitionsBean.class);
 
     //Constantes
     final Long ONE_MINUTE = 86400000L;
+    final String nameQueryInput = "SELECT id_input, description FROM dmes.sc_input ORDER BY description ASC";
+    final String nameQueryProduct = "SELECT id_product_formulation, description FROM dmes.sc_product_formulation ORDER BY description ASC";
+    final String nameQueryTool = "SELECT id_tool, name FROM dmes.sc_tool ORDER BY name ASC";
+    final String nameQueryReplacement = "SELECT id_replacement, name FROM dmes.sc_replacement ORDER BY name ASC";
+    final String AREA_PRODUCCION = "Producción";
+    final String AREA_MANTENIMIENTO = "Manteniemiento";
     /**
      * Creates a new instance of ScInputBean
      */
@@ -69,6 +78,7 @@ public class ScstoreRequisitionsBean
     @PostConstruct
     public void initData()
     {
+        setStoreOrderAdd(new ScStoreOrder());
         fillListStoreOrders();
         fillListStoreOrdersState();
         searchExpiredOrders();
@@ -83,7 +93,7 @@ public class ScstoreRequisitionsBean
         setFilterOrderClass("...");
         setFilterOrderRequired("...");
         setFilterOrderState("...");
-        setFilterOrderType("...");
+        setFilterOrderType("Entrega");
         setInitDate(null);
         setEndDate(null);
     }
@@ -117,7 +127,7 @@ public class ScstoreRequisitionsBean
             statesStore.add(DMESConstants.STATE_PROGRAMMED);
             statesStore.add(DMESConstants.STATE_PROCESS);
             statesStore.add(DMESConstants.STATE_LATE);
-            setStoreOrderList(getScStoreOrderServer().getStoreOrdersByStatus(statesStore));
+            setStoreOrderList(getScStoreOrderServer().getStoreOrdersByStatusAndOrderType(statesStore, "Entrega"));
         }
         catch (Exception e)
         {
@@ -128,7 +138,7 @@ public class ScstoreRequisitionsBean
     /** 
      * Método encargado de consultar las ordenes del almacén pendientes.
      * @author Gustavo Chavarro Ortiz
-     */
+     */ 
     public void fillListStoreOrdersState()
     {
         try
@@ -207,6 +217,7 @@ public class ScstoreRequisitionsBean
     /**
      * Método encargada de desabilitar los campos mediante el resultado.
      * @param orderItem estado de la orden
+     * @param state
      * @return boolean valor que indica si se deshabilita
      * @author Gustavo Chavarro Ortiz
      */
@@ -296,16 +307,31 @@ public class ScstoreRequisitionsBean
     
     }
     
-    
+    /**
+     * Método encargado de cancelar la orden dependiendo del área que la 
+     * solicitó.
+     * @param storeOrder orden a ser cancelada
+     * @author Gustavo Chavarro Ortiz
+     */
     public void cancelOrderStore(ScStoreOrder storeOrder)
     {
         if(!Utilities.isEmpty(storeOrder.getReasonCancellation()))
         {
-            Long idState = DMESConstants.STATE_CANCEL_STORE;
+            //Modificamos el area que solicita la orden
+            Long idState = 0L;
+            if(storeOrder.getRequiredBy().equals(AREA_MANTENIMIENTO))
+            {
+                idState = DMESConstants.STATE_CANCEL_MAINTENANCE; //A Mantenimiento
+            }
+            else if(storeOrder.getRequiredBy().equals(AREA_PRODUCCION))
+            {
+                idState = DMESConstants.STATE_CANCEL_PRODUCTION; //A Producción
+            }
             for(ScStoreOrderState orderState: getListStoreOrderState())
             {
                 if(orderState.getIdState().equals(idState))
                 {
+                    //Colocamos el estado de acuerdo a quien lo cancela
                     storeOrder.setIdState(orderState);
                     break;
                 } 
@@ -313,7 +339,7 @@ public class ScstoreRequisitionsBean
             try
             {
                 String update = "";
-                String updateBefore="";
+                String updateBefore = "";
                 //Validamos de que tipo es la orden y de acuerdo al criterio consultamos
                 if(storeOrder.getOrderClass().equalsIgnoreCase(DMESConstants.INPUTS))
                 {
@@ -419,7 +445,6 @@ public class ScstoreRequisitionsBean
     
     /**
      * Método encargado de asignar la fila seleccionada a una orden del almacén.
-     * @param storeOrder orden seleccionada
      * @author Gustavo Chavarro Ortiz
      */
     public void updateStoreOrderSelected()
@@ -435,6 +460,66 @@ public class ScstoreRequisitionsBean
                 }       
             }
         }
+    }
+    
+    /**
+     * Método encargado de completar el item que se busca.
+     * @param query palabra o indicio con cual buscar
+     * @return List<String> lista de posibles opciones
+     * @author Gustavo Chavarro Ortiz
+     */
+    public List<String> autocompleteMetod(String query)
+    {
+        List<String> result = new ArrayList<>();
+        if(getElementsAutocomplete() != null && !getElementsAutocomplete().isEmpty())
+        {
+            for(String word: getElementsAutocomplete())
+            {
+                if(word.contains(query))
+                {
+                    result.add(word);
+                }
+            }
+        }
+        return result;
+    }
+    
+    
+    /**
+     * Método encargado de consultar los items para la clase escogida de la requisición.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillAutocompleteList()
+    {
+        getStoreOrderAdd().setStoreOrderItemList(new ArrayList<ScStoreOrderItem>());
+        getStoreOrderAdd().setAmountItems(0);
+        try
+        {
+            if(!Utilities.isEmpty(getStoreOrderAdd().getOrderClass()))
+            {
+                if(getStoreOrderAdd().getOrderClass().equalsIgnoreCase(DMESConstants.INPUTS))
+                {
+                    setElementsAutocomplete(getScStoreOrderServer().getItemsForAutocomplete(nameQueryInput)); 
+                }
+                else if(getStoreOrderAdd().getOrderClass().equalsIgnoreCase(DMESConstants.PRODUCTS))
+                {
+                    setElementsAutocomplete(getScStoreOrderServer().getItemsForAutocomplete(nameQueryProduct)); 
+                }
+                else if(getStoreOrderAdd().getOrderClass().equalsIgnoreCase(DMESConstants.REPLACEMENT))
+                {
+                    setElementsAutocomplete(getScStoreOrderServer().getItemsForAutocomplete(nameQueryReplacement)); 
+                }
+                else if(getStoreOrderAdd().getOrderClass().equalsIgnoreCase(DMESConstants.TOOLS))
+                {
+                    setElementsAutocomplete(getScStoreOrderServer().getItemsForAutocomplete(nameQueryTool)); 
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar obtener los elementos para el item de autocomplementar");
+        }
+        
     }
     
     /**
@@ -538,6 +623,172 @@ public class ScstoreRequisitionsBean
                 log.error("Error al intentar consultar los datos de los items del almacén", ex);
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
+        }
+    }
+    /**
+     * Método encargado de habilitar o deshabilitar el campo donde se escogen los 
+     * items.
+     * @return boolean variable que inidica si se habilita o no
+     * @author Gustavo Chavarro Oritz
+     */
+    public boolean isActiveAutocomplete()
+    {
+        if(getStoreOrderAdd() != null)
+        {
+            if(!Utilities.isEmpty(getStoreOrderAdd().getOrderClass()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    
+    /**
+     * Método encargado de eliminar los items que no se van a solicitar
+     * @param itemDelete item a eliminar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteItemToList(ScStoreOrderItem itemDelete)
+    {
+        int iterator = 0;
+        if(getStoreOrderAdd() != null && getStoreOrderAdd().getStoreOrderItemList() != null)
+        {
+            for(ScStoreOrderItem index: getStoreOrderAdd().getStoreOrderItemList())
+            {
+                
+                if(index.getIdItemClass() == itemDelete.getIdItemClass())
+                {
+                    break;
+                }
+                iterator++;
+            }
+        }
+        if(iterator < getStoreOrderAdd().getStoreOrderItemList().size())
+        {
+            getStoreOrderAdd().getStoreOrderItemList().remove(iterator);
+        }
+    }
+    
+    /**
+     * Método encargado de añadir los items seleccionados a la lista de la requisición.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addItemToList()
+    {
+        ScStoreOrderItem itemAddList = new ScStoreOrderItem();
+        //Validamos que el item no sea nulo
+        if(!Utilities.isEmpty(getItemAdd()))
+        {
+            //Validamos que exista una lista de items
+            if(getStoreOrderAdd() != null && getStoreOrderAdd().getStoreOrderItemList() != null)
+            {
+                String fields[] = getItemAdd().split(" - "); //Separamos el id del item
+                itemAddList.setClassItem(getStoreOrderAdd().getOrderClass()); //Tremos la clase del item
+                itemAddList.setIdItemClass(Long.parseLong(fields[0])); //Traemos el id de la clase del item
+                itemAddList.setItemDescription(fields[1]); //Traemos el nombre del item
+                itemAddList.setAmountRequired(1);//Por defecto pedimos una unidad
+                itemAddList.setAmountPending(1);//Cantidad pendiente por defecto
+                itemAddList.setStoreOrder(getStoreOrderAdd()); //Le asignamos la orden al item
+                boolean exist = false;
+                //Validamos que ya no exista el item
+                for(ScStoreOrderItem index: getStoreOrderAdd().getStoreOrderItemList())
+                {
+                    if(index.getIdItemClass() == (Long.parseLong(fields[0])))
+                    {
+                        exist = true;
+                        break;
+                    }
+                }
+                if(!exist)
+                {
+                    //Si no existe lo agregamos a la lista
+                    getStoreOrderAdd().getStoreOrderItemList().add(itemAddList);
+                    getStoreOrderAdd().setAmountItems(getStoreOrderAdd().getAmountItems()+1);
+                }
+                //Reseteamos el item a pedir
+                setItemAdd("");
+            }
+        }
+    }
+    /**
+     * Método encargado de cancelar la creación de una requisición.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cancelCreateRequisition()
+    {
+        setStoreOrderAdd(new ScStoreOrder());
+        setItemAdd("");
+        RequestContext.getCurrentInstance().execute("PF('dialogStoreRequisition').hide()");
+    }
+    
+    
+    /**
+     * Método encargado de crear la requisición
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void createRequisition()
+    {
+        try
+        {
+            //Validamos que la orden no sea null
+            if(getStoreOrderAdd() != null)
+            { 
+                if(!Utilities.isEmpty(getStoreOrderAdd().getOrderClass()))
+                {
+                    if(!Utilities.isEmpty(getStoreOrderAdd().getRequiredBy()))
+                    {
+                        if(getStoreOrderAdd().getStoreOrderItemList().size() > 0)
+                        {
+                            getStoreOrderAdd().setCreationDate(new Date()); //Añadimos la fecha actual
+                            //Añadimos la persona que crea la orden
+                            getStoreOrderAdd().setEmployeeCreate(getScStoreOrderServer(). 
+                            getEmployeeByPerson(getSessionBean().getScUser().getIdPerson()));
+                            //Añadimos la cantidad de items en la orden
+                            getStoreOrderAdd().setAmountItems(getStoreOrderAdd().getStoreOrderItemList().size());
+                            //Alistmaos las cantidades pendientes de todos los items
+                            for(ScStoreOrderItem item : getStoreOrderAdd().getStoreOrderItemList())
+                            {
+                                item.setAmountPending(item.getAmountRequired());
+                                item.setAmountPendingHidden(item.getAmountRequired());
+                            }
+                            //getStoreOrderAdd().setStoreOrderItemList(null);
+                            //Inicializamos en el estado programada
+                            getStoreOrderAdd().setIdState(new ScStoreOrderState((long) 1));
+                            getStoreOrderAdd().getIdState().setDescription("Programada");
+                            //Actualizamos el tipo a Entrega
+                            getStoreOrderAdd().setOrderType("Entrega");
+                            //Guardamos la requisición
+                            getScStoreOrderServer().saveStoreOrder(getStoreOrderAdd());
+                            //La añadimos a la lista que se visualiza en pantalla
+                            getStoreOrderList().add(getStoreOrderAdd());
+                            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                            setStoreOrderAdd(new ScStoreOrder());
+                            setItemAdd("");
+                            RequestContext.getCurrentInstance().execute("PF('dialogStoreRequisition').hide()");
+                        }
+                        else
+                        {
+                            addError(null, "Error al crear una requisición del Almacén", 
+                                    "Debe seleccionar la menos un item para la requisición");
+                        }
+                    }
+                    else
+                    {
+                        addError(null, "Error al crear una requisición del Almacén", "Debe ingresar el área de la requisición");
+                    }
+                }
+                else
+                {
+                    addError(null, "Error al crear una requisición del Almacén", "Debe ingresar la clase de la requisición");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error al crear la requisición");
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            RequestContext.getCurrentInstance().execute("PF('dialogStoreRequisition').hide()");
         }
     }
     
@@ -804,6 +1055,26 @@ public class ScstoreRequisitionsBean
     public void setOrderStateExpired(ScStoreOrderState orderStateExpired)
     {
         this.orderStateExpired = orderStateExpired;
+    }
+
+    public List<String> getElementsAutocomplete()
+    {
+        return elementsAutocomplete;
+    }
+
+    public void setElementsAutocomplete(List<String> elementsAutocomplete)
+    {
+        this.elementsAutocomplete = elementsAutocomplete;
+    }
+
+    public String getItemAdd()
+    {
+        return itemAdd;
+    }
+
+    public void setItemAdd(String itemAdd)
+    {
+        this.itemAdd = itemAdd;
     }
     
     

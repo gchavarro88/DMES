@@ -13,12 +13,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,15 +38,17 @@ import javax.xml.bind.annotation.XmlTransient;
 {
     @NamedQuery(name = "ScStoreOrder.findAll", query = "SELECT s FROM ScStoreOrder s"),
     @NamedQuery(name = "ScStoreOrder.findByState", query = "SELECT s FROM ScStoreOrder s WHERE s.idState.idState IN (:storeOrderStatus)"),
+    @NamedQuery(name = "ScStoreOrder.findByStateAndOrderType", query = "SELECT s FROM ScStoreOrder s WHERE s.idState.idState IN (:storeOrderStatus) AND s.orderType = :orderType"),
     @NamedQuery(name = "ScStoreOrder.findByIdStoreOrder", query = "SELECT s FROM ScStoreOrder s WHERE s.idStoreOrder = :idStoreOrder"),
     @NamedQuery(name = "ScStoreOrder.findByOrderType", query = "SELECT s FROM ScStoreOrder s WHERE s.orderType = :orderType"),
-    @NamedQuery(name = "ScStoreOrder.findByIdRequisition", query = "SELECT s FROM ScStoreOrder s WHERE s.idRequisition = :idRequisition"),
     @NamedQuery(name = "ScStoreOrder.findByOrderClass", query = "SELECT s FROM ScStoreOrder s WHERE s.orderClass = :orderClass")
 })
 public class ScStoreOrder implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqscstoreorder")
+    @SequenceGenerator(name = "dmes.sqscstoreorder", sequenceName = "dmes.sqscstoreorder", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_store_order")
@@ -54,8 +58,6 @@ public class ScStoreOrder implements Serializable
     @Size(min = 1, max = 200)
     @Column(name = "order_type")
     private String orderType;
-    @Column(name = "id_requisition")
-    private Long idRequisition;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -84,6 +86,14 @@ public class ScStoreOrder implements Serializable
     @JoinColumn(name = "id_state", referencedColumnName = "id_state")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScStoreOrderState idState;
+    
+    @JoinColumn(name = "id_employee_create", referencedColumnName = "id_employee")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private ScEmployee employeeCreate;
+    
+    @JoinColumn(name = "id_employee_store", referencedColumnName = "id_employee", nullable = true)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER)
+    private ScEmployee employeeStore;
 
     public ScStoreOrder()
     {
@@ -122,16 +132,27 @@ public class ScStoreOrder implements Serializable
         this.orderType = orderType;
     }
 
-    public Long getIdRequisition()
+    public ScEmployee getEmployeeCreate()
     {
-        return idRequisition;
+        return employeeCreate;
     }
 
-    public void setIdRequisition(Long idRequisition)
+    public void setEmployeeCreate(ScEmployee employeeCreate)
     {
-        this.idRequisition = idRequisition;
+        this.employeeCreate = employeeCreate;
     }
 
+    public ScEmployee getEmployeeStore()
+    {
+        return employeeStore;
+    }
+
+    public void setEmployeeStore(ScEmployee employeeStore)
+    {
+        this.employeeStore = employeeStore;
+    }
+    
+    
     public String getOrderClass()
     {
         return orderClass;
