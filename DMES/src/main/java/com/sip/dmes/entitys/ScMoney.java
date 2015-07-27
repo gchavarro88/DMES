@@ -6,18 +6,24 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +38,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScMoney.findByDescription", query = "SELECT s FROM ScMoney s WHERE s.description = :description"),
     @NamedQuery(name = "ScMoney.findByAcronym", query = "SELECT s FROM ScMoney s WHERE s.acronym = :acronym")})
 public class ScMoney implements Serializable {
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "trm")
+    private double trm;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMoney", fetch = FetchType.EAGER)
+    private List<ScMachinePart> scMachinePartList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscmoney")
@@ -49,9 +60,6 @@ public class ScMoney implements Serializable {
     @Column(name = "acronym")
     private String acronym;
 
-    @NotNull
-    @Column(name = "trm")
-    Double trm;
     
     public ScMoney() {
     }
@@ -89,15 +97,6 @@ public class ScMoney implements Serializable {
         this.acronym = acronym;
     }
 
-    public Double getTrm()
-    {
-        return trm;
-    }
-
-    public void setTrm(Double trm)
-    {
-        this.trm = trm;
-    }
 
     
     @Override
@@ -125,6 +124,27 @@ public class ScMoney implements Serializable {
     @Override
     public String toString() {
         return idMoney.toString()+","+getAcronym().toString();
+    }
+
+    public double getTrm()
+    {
+        return trm;
+    }
+
+    public void setTrm(double trm)
+    {
+        this.trm = trm;
+    }
+
+    @XmlTransient
+    public List<ScMachinePart> getScMachinePartList()
+    {
+        return scMachinePartList;
+    }
+
+    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
+    {
+        this.scMachinePartList = scMachinePartList;
     }
     
 }

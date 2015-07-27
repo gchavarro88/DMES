@@ -28,6 +28,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,6 +43,10 @@ import javax.validation.constraints.Size;
 })
 public class ScTime implements Serializable, Cloneable
 {
+    @Column(name = "minutes")
+    private Integer minutes;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTime", fetch = FetchType.EAGER)
+    private List<ScMachinePart> scMachinePartList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -53,10 +58,6 @@ public class ScTime implements Serializable, Cloneable
     @Size(min = 1, max = 100)
     @Column(name = "acronym")
     private String acronym;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "minutes")
-    private Integer minutes;
     
 
     public ScTime()
@@ -95,15 +96,6 @@ public class ScTime implements Serializable, Cloneable
         this.acronym = acronym;
     }
 
-    public Integer getMinutes()
-    {
-        return minutes;
-    }
-
-    public void setMinutes(Integer minutes)
-    {
-        this.minutes = minutes;
-    }
 
     @Override
     public int hashCode()
@@ -144,6 +136,27 @@ public class ScTime implements Serializable, Cloneable
     public Object clone() throws CloneNotSupportedException 
     {
         return super.clone();
+    }
+
+    public Integer getMinutes()
+    {
+        return minutes;
+    }
+
+    public void setMinutes(Integer minutes)
+    {
+        this.minutes = minutes;
+    }
+
+    @XmlTransient
+    public List<ScMachinePart> getScMachinePartList()
+    {
+        return scMachinePartList;
+    }
+
+    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
+    {
+        this.scMachinePartList = scMachinePartList;
     }
     
 }

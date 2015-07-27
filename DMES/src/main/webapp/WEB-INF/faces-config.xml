@@ -322,4 +322,19 @@
             <value>#{scStoreOrderServer}</value>
     </managed-property> 
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>scMachinePartBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.resources.materials.ScMachinePartBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+    </managed-property>
+    <managed-property>
+            <property-name>scMachinePartServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IScMachinePart</property-class>
+            <value>#{scMachinePartServer}</value>
+    </managed-property> 
+    </managed-bean>
 </faces-config>

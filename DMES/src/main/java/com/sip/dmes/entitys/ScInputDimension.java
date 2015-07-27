@@ -6,20 +6,25 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -40,6 +45,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScInputDimension.findByRadio", query = "SELECT s FROM ScInputDimension s WHERE s.radio = :radio"),
     @NamedQuery(name = "ScInputDimension.findByObservations", query = "SELECT s FROM ScInputDimension s WHERE s.observations = :observations")})
 public class ScInputDimension implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDimension", fetch = FetchType.EAGER)
+    private List<ScMachinePart> scMachinePartList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscinputdimension")
@@ -177,6 +184,17 @@ public class ScInputDimension implements Serializable {
     @Override
     public String toString() {
         return "com.sip.dmes.entitys.ScInputDimension[ idInputDimension=" + idInputDimension + " ]";
+    }
+
+    @XmlTransient
+    public List<ScMachinePart> getScMachinePartList()
+    {
+        return scMachinePartList;
+    }
+
+    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
+    {
+        this.scMachinePartList = scMachinePartList;
     }
     
 }

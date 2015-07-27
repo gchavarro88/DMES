@@ -2814,8 +2814,8 @@ public class ScProductFormulationBean
             double valueForMin = (double) (getProcessInputSave().getInput().getDistributionValue());
             getProcessInputSave().setTotalValueInput(Utilities.Redondear(getProcessInputSave().getInput().getDistributionValue() *
                     getProcessInputSave().getAmountDistribution(), 2));
-            getProcessInputSave().setTotalValueInput(Utilities.Redondear((getProcessInputSave().getTotalValueInput() 
-                    *getProcessInputSave().getInput().getMoney().getTrm())
+            getProcessInputSave().setTotalValueInput(Utilities.Redondear((getProcessInputSave().getTotalValueInput()
+                    * getProcessInputSave().getInput().getMoney().getTrm())
                     , 2));
         }
         

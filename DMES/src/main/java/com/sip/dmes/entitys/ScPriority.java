@@ -6,16 +6,21 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScPriority.findByDescription", query = "SELECT s FROM ScPriority s WHERE s.description = :description")})
 
 public class ScPriority implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPriority", fetch = FetchType.EAGER)
+    private List<ScMachinePart> scMachinePartList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -106,6 +113,17 @@ public class ScPriority implements Serializable {
     @Override
     public String toString() {
         return idPriority.toString();
+    }
+
+    @XmlTransient
+    public List<ScMachinePart> getScMachinePartList()
+    {
+        return scMachinePartList;
+    }
+
+    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
+    {
+        this.scMachinePartList = scMachinePartList;
     }
     
 }

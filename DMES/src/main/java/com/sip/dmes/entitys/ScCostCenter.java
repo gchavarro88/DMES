@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -46,6 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ScCostCenter implements Serializable
 {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCostCenter", fetch = FetchType.EAGER)
+    private List<ScMachinePart> scMachinePartList;
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -170,6 +173,17 @@ public class ScCostCenter implements Serializable
     public String toString()
     {
         return idCostCenter.toString();
+    }
+
+    @XmlTransient
+    public List<ScMachinePart> getScMachinePartList()
+    {
+        return scMachinePartList;
+    }
+
+    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
+    {
+        this.scMachinePartList = scMachinePartList;
     }
 
 }
