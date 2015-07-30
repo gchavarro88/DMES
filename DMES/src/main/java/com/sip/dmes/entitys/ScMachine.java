@@ -43,7 +43,7 @@ public class ScMachine implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "hour_value")
-    private double hourValue;
+    private Double hourValue;
     @OneToMany(mappedBy = "idMachine", fetch = FetchType.EAGER)
     private List<ScMachineLocation> scMachineLocationList;
     private static final long serialVersionUID = 1L;
@@ -71,7 +71,7 @@ public class ScMachine implements Serializable
         this.idMachine = idMachine;
     }
 
-    public ScMachine(Long idMachine, String name, Long hourValue)
+    public ScMachine(Long idMachine, String name, Double hourValue)
     {
         this.idMachine = idMachine;
         this.name = name;
@@ -133,12 +133,12 @@ public class ScMachine implements Serializable
         this.name = name;
     }
 
-    public double getHourValue()
+    public Double getHourValue()
     {
         return hourValue;
     }
 
-    public void setHourValue(double hourValue)
+    public void setHourValue(Double hourValue)
     {
         this.hourValue = hourValue;
     }

@@ -54,7 +54,7 @@ public class ScMachinePartDocument implements Serializable
     @NotNull
     @Column(name = "id_machine_part_document")
     private long idMachinePartDocument;
-    @Basic(optional = false)
+    @Basic(optional = false) 
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "document_path")
@@ -69,7 +69,7 @@ public class ScMachinePartDocument implements Serializable
     @Column(name = "creation_date")
     @Temporal(TemporalType.DATE)
     private Date creationDate;
-    @Basic(optional = false)
+    @Basic(optional = false) 
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "document_name")
@@ -77,16 +77,18 @@ public class ScMachinePartDocument implements Serializable
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
-    @Column(name = "document_name")
+    @Column(name = "document_type")
     private String documentType;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "upload_by")
     private String uploadBy;
+    
     @JoinColumn(name = "id_machine_part", referencedColumnName = "id_machine_part")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScMachinePart idMachinePart;
+    
     public ScMachinePartDocument()
     {
     }
@@ -176,6 +178,7 @@ public class ScMachinePartDocument implements Serializable
         this.idMachinePart = idMachinePart;
     }
 
+   
 
     public String getDocumentType()
     {
@@ -185,7 +188,7 @@ public class ScMachinePartDocument implements Serializable
     public void setDocumentType(String documentType)
     {
         this.documentType = documentType;
-    }
+    } 
 
     @Override
     public int hashCode()

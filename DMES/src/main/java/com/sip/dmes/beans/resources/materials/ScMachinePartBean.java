@@ -691,224 +691,224 @@ public class ScMachinePartBean
      */
     public String onFlowProcessSaveMachinePart(FlowEvent event)
     {
-        int packingUnit = -1;
-        if (event.getNewStep().equals(TAB_GENERAL))
-        {
-            return TAB_GENERAL;
-        }
-        if (event.getOldStep().equals(TAB_GENERAL))
-        {
-            if (validateFields("Nombre Insumo", getMachinePartSave().getDescription(), 3))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Tipo de Material", getMachinePartSave().getTypeMaterial(), 3))
-            {
-                return event.getOldStep();
-            }
-            //Validamos que el valor sea mayor que cero
-            if (validateFields("Valor", getMachinePartSave().getValue() + "", 2))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Moneda", getMachinePartSave().getMoney(), 4))
-            {
-                return event.getOldStep();
-            }
-            //modificamos el precio por unidad
-            getMachinePartSave().getMachinePartStock().setPriceUnit((double) getMachinePartSave().getValue());
-            //modificamos el precio total igual al precio por unidad * el stock actual
-            getMachinePartSave().getMachinePartStock().setTotalValue((double) getMachinePartSave().getValue()
-                    * getMachinePartSave().getMachinePartStock().getCurrentStock());
-
-            if (validateFields("Marca", getMachinePartSave().getMark(), 3))
-            {
-                return event.getOldStep();
-            }
-
-            if (Utilities.isEmpty(getMachinePartSave().getPathPicture()))
-            {
-                getMachinePartSave().setPathPicture(" ");//Setteamos la ruta de la imagen
-            }
-            if (validateFields("Serie", getMachinePartSave().getSerie(), 3))
-            {
-                return event.getOldStep();
-            }
-
-            //Validamos los campos seleccionables
-            if (validateFields("Proveedor y Garantía", getMachinePartSave().getSupplierGuarantee(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Centro de Costos", getMachinePartSave().getCostCenter(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Almacen", getMachinePartSave().getMachinePartStock().getIdMachine(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Localización", getMachinePartSave().getMachinePartLocation(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Prioridad", getMachinePartSave().getPriority(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Unidad de Empaque", getMachinePartSave().getPackingUnit(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Cantidad de Distribución", getMachinePartSave().getDistributionAmount(), 2))
-            {
-                return event.getOldStep();
-            }
-            //Obtenemos el precio de unidad de unidades de distribución
-            getMachinePartSave().setDistributionValue(Utilities.Redondear((getMachinePartSave().getMachinePartStock().
-                    getPriceUnit() / getMachinePartSave().getDistributionAmount()), 2));
-            if (validateFields("Unidad de Distribución", getMachinePartSave().getDistributionUnit(), 4))
-            {
-                return event.getOldStep();
-            }
-
-            //Agregamos la fecha de creación del insumo
-            getMachinePartSave().setCreationDate(new Date());
-
-            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-            if (getMachinePartSave().getExpiryDate() != null && getMachinePartSave().getExpiryDate().before(getMachinePartSave().getCreationDate()))
-            {
-                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
-                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-
-        }
-        //Si pasamos de la pestaña de datos generales a stock y dimensiones
-        else if (event.getOldStep().equals(TAB_STOCK))
-        {
-            //Validamos que ninguno de los campos del stock sea vacio o negativo
-            if (validateFields("Stock Máximo", getMachinePartSave().getMachinePartStock().getMaximeStock(), 2))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Stocguschaork Mínimo", getMachinePartSave().getMachinePartStock().getMinimeStock(), 2))
-            {
-                return event.getOldStep();
-            }
-            if (getMachinePartSave().getMachinePartStock().getMaximeStock() <= getMachinePartSave().getMachinePartStock().getMinimeStock())
-            {
-                addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Mínimo");
-                return event.getOldStep();
-            }
-            if (validateFields("Stock Real", getMachinePartSave().getMachinePartStock().getCurrentStock(), 2))
-            {
-                return event.getOldStep();
-            }
-
-            if (validateFields("Stock Óptimo", getMachinePartSave().getMachinePartStock().getOptimeStock(), 2))
-            {
-                return event.getOldStep();
-            }
-            else
-            {
-                if (getMachinePartSave().getMachinePartStock().getMaximeStock() < getMachinePartSave().getMachinePartStock().getOptimeStock())
-                {
-                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
-                    return event.getOldStep();
-                }
-                if (getMachinePartSave().getMachinePartStock().getMinimeStock() > getMachinePartSave().getMachinePartStock().getOptimeStock())
-                {
-                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
-                    return event.getOldStep();
-                }
-            }
-
-            if (validateFields("Altura", getMachinePartSave().getDimension().getHight(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if (getMeasureUnitSaveHigh() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
-                return event.getOldStep();
-            }
-            if (validateFields("Ancho", getMachinePartSave().getDimension().getWidth(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if (getMeasureUnitSaveWidth() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
-                return event.getOldStep();
-            }
-            if (validateFields("Largo", getMachinePartSave().getDimension().getLarge(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if (getMeasureUnitSaveLarge() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
-                return event.getOldStep();
-            }
-            if (validateFields("Peso", getMachinePartSave().getDimension().getWeight(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if (getMeasureUnitSaveWeight() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-                return event.getOldStep();
-            }
-            if (!Utilities.isEmpty(getMachinePartSave().getDimension().getVolume()))
-            {
-                if (validateFields("Volumen", getMachinePartSave().getDimension().getVolume(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if (getMeasureUnitSaveVolume() == null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
-                    return event.getOldStep();
-                }
-            }
-            if (!Utilities.isEmpty(getMachinePartSave().getDimension().getThickness()))
-            {
-                if (validateFields("Grosor", getMachinePartSave().getDimension().getThickness(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if (getMeasureUnitSaveThickness() == null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
-                    return event.getOldStep();
-                }
-            }
-            if (!Utilities.isEmpty(getMachinePartSave().getDimension().getRadio()))
-            {
-                if (validateFields("Radio", getMachinePartSave().getDimension().getRadio(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if (getMeasureUnitSaveRadio() == null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
-                    return event.getOldStep();
-                }
-            }
-            if (!Utilities.isEmpty(getMachinePartSave().getDimension().getWeight()))
-            {
-                if (validateFields("Peso", getMachinePartSave().getDimension().getWeight(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if (getMeasureUnitSaveWeight() == null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-                    return event.getOldStep();
-                }
-            }
-        }
+//        int packingUnit = -1;
+//        if (event.getNewStep().equals(TAB_GENERAL))
+//        {
+//            return TAB_GENERAL;
+//        }
+//        if (event.getOldStep().equals(TAB_GENERAL))
+//        {
+//            if (validateFields("Nombre Insumo", getMachinePartSave().getDescription(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Tipo de Material", getMachinePartSave().getTypeMaterial(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            //Validamos que el valor sea mayor que cero
+//            if (validateFields("Valor", getMachinePartSave().getValue() + "", 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Moneda", getMachinePartSave().getMoney(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            //modificamos el precio por unidad
+//            getMachinePartSave().getMachinePartStock().setPriceUnit((double) getMachinePartSave().getValue());
+//            //modificamos el precio total igual al precio por unidad * el stock actual
+//            getMachinePartSave().getMachinePartStock().setTotalValue((double) getMachinePartSave().getValue()
+//                    * getMachinePartSave().getMachinePartStock().getCurrentStock());
+//
+//            if (validateFields("Marca", getMachinePartSave().getMark(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//
+//            if (Utilities.isEmpty(getMachinePartSave().getPathPicture()))
+//            {
+//                getMachinePartSave().setPathPicture(" ");//Setteamos la ruta de la imagen
+//            }
+//            if (validateFields("Serie", getMachinePartSave().getSerie(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//
+//            //Validamos los campos seleccionables
+//            if (validateFields("Proveedor y Garantía", getMachinePartSave().getSupplierGuarantee(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Centro de Costos", getMachinePartSave().getCostCenter(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Almacen", getMachinePartSave().getMachinePartStock().getIdMachine(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Localización", getMachinePartSave().getMachinePartLocation(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Prioridad", getMachinePartSave().getPriority(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Unidad de Empaque", getMachinePartSave().getPackingUnit(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Cantidad de Distribución", getMachinePartSave().getDistributionAmount(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            //Obtenemos el precio de unidad de unidades de distribución
+//            getMachinePartSave().setDistributionValue(Utilities.Redondear((getMachinePartSave().getMachinePartStock().
+//                    getPriceUnit() / getMachinePartSave().getDistributionAmount()), 2));
+//            if (validateFields("Unidad de Distribución", getMachinePartSave().getDistributionUnit(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//
+//            //Agregamos la fecha de creación del insumo
+//            getMachinePartSave().setCreationDate(new Date());
+//
+//            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+//            if (getMachinePartSave().getExpiryDate() != null && getMachinePartSave().getExpiryDate().before(getMachinePartSave().getCreationDate()))
+//            {
+//                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+//                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+//                return event.getOldStep();
+//            }
+//
+//        }
+//        //Si pasamos de la pestaña de datos generales a stock y dimensiones
+//        else if (event.getOldStep().equals(TAB_STOCK))
+//        {
+//            //Validamos que ninguno de los campos del stock sea vacio o negativo
+//            if (validateFields("Stock Máximo", getMachinePartSave().getMachinePartStock().getMaximeStock(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Stocguschaork Mínimo", getMachinePartSave().getMachinePartStock().getMinimeStock(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (getMachinePartSave().getMachinePartStock().getMaximeStock() <= getMachinePartSave().getMachinePartStock().getMinimeStock())
+//            {
+//                addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Stock Real", getMachinePartSave().getMachinePartStock().getCurrentStock(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//
+//            if (validateFields("Stock Óptimo", getMachinePartSave().getMachinePartStock().getOptimeStock(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            else
+//            {
+//                if (getMachinePartSave().getMachinePartStock().getMaximeStock() < getMachinePartSave().getMachinePartStock().getOptimeStock())
+//                {
+//                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+//                    return event.getOldStep();
+//                }
+//                if (getMachinePartSave().getMachinePartStock().getMinimeStock() > getMachinePartSave().getMachinePartStock().getOptimeStock())
+//                {
+//                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+//                    return event.getOldStep();
+//                }
+//            }
+//
+//            if (validateFields("Altura", getMachinePartSave().getDimension().getHight(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if (getMeasureUnitSaveHigh() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Ancho", getMachinePartSave().getDimension().getWidth(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if (getMeasureUnitSaveWidth() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Largo", getMachinePartSave().getDimension().getLarge(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if (getMeasureUnitSaveLarge() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Peso", getMachinePartSave().getDimension().getWeight(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if (getMeasureUnitSaveWeight() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+//                return event.getOldStep();
+//            }
+//            if (!Utilities.isEmpty(getMachinePartSave().getDimension().getVolume()))
+//            {
+//                if (validateFields("Volumen", getMachinePartSave().getDimension().getVolume(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if (getMeasureUnitSaveVolume() == null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if (!Utilities.isEmpty(getMachinePartSave().getDimension().getThickness()))
+//            {
+//                if (validateFields("Grosor", getMachinePartSave().getDimension().getThickness(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if (getMeasureUnitSaveThickness() == null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if (!Utilities.isEmpty(getMachinePartSave().getDimension().getRadio()))
+//            {
+//                if (validateFields("Radio", getMachinePartSave().getDimension().getRadio(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if (getMeasureUnitSaveRadio() == null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if (!Utilities.isEmpty(getMachinePartSave().getDimension().getWeight()))
+//            {
+//                if (validateFields("Peso", getMachinePartSave().getDimension().getWeight(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if (getMeasureUnitSaveWeight() == null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+//                    return event.getOldStep();
+//                }
+//            }
+//        }
 
         return event.getNewStep();
     }
@@ -984,209 +984,209 @@ public class ScMachinePartBean
      */
     public String onFlowProcessUpdateMachinePart(FlowEvent event)
     {
-        int packingUnit = -1;
-        if (event.getNewStep().equals(TAB_GENERAL))
-        {
-            return TAB_GENERAL;
-        }
-        if (event.getOldStep().equals(TAB_GENERAL))
-        {
-            if (validateFields("Nombre Insumo", getMachinePartSelected().getDescription(), 3))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Tipo de Material", getMachinePartSelected().getTypeMaterial(), 3))
-            {
-                return event.getOldStep();
-            }
-            //Validamos que el valor sea mayor que cero
-            if (validateFields("Valor", getMachinePartSelected().getValue() + "", 2))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Moneda", getMachinePartSelected().getMoney(), 4))
-            {
-                return event.getOldStep();
-            }
-            //modificamos el precio por unidad
-            getMachinePartSelected().getMachinePartStock().setPriceUnit((double) getMachinePartSelected().getValue());
-            //modificamos el precio total igual al precio por unidad * el stock actual
-            getMachinePartSelected().getMachinePartStock().setTotalValue((double) getMachinePartSelected().getValue()
-                    * getMachinePartSelected().getMachinePartStock().getCurrentStock());
-
-            if (validateFields("Marca", getMachinePartSelected().getMark(), 3))
-            {
-                return event.getOldStep();
-            }
-
-            if (Utilities.isEmpty(getMachinePartSelected().getPathPicture()))
-            {
-                getMachinePartSelected().setPathPicture(" ");//Setteamos la ruta de la imagen
-            }
-            if (validateFields("Serie", getMachinePartSelected().getSerie(), 3))
-            {
-                return event.getOldStep();
-            }
-
-            //Validamos los campos seleccionables
-            if (validateFields("Proveedor y Garantía", getMachinePartSelected().getSupplierGuarantee(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Centro de Costos", getMachinePartSelected().getCostCenter(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Almacen", getMachinePartSelected().getMachinePartStock().getIdMachine(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Localización", getMachinePartSelected().getMachinePartLocation(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Prioridad", getMachinePartSelected().getPriority(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Unidad de Empaque", getMachinePartSelected().getPackingUnit(), 4))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Cantidad de Distribución", getMachinePartSelected().getDistributionAmount(), 2))
-            {
-                return event.getOldStep();
-            }
-            //Obtenemos el precio de unidad de unidades de distribución
-            getMachinePartSelected().setDistributionValue(Utilities.Redondear((getMachinePartSelected().getMachinePartStock().
-                    getPriceUnit() / getMachinePartSelected().getDistributionAmount()), 2));
-            if (validateFields("Unidad de Distribución", getMachinePartSelected().getDistributionUnit(), 4))
-            {
-                return event.getOldStep();
-            }
-
-            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
-            if (getMachinePartSelected().getExpiryDate() != null && getMachinePartSelected().getExpiryDate().before(getMachinePartSelected().getCreationDate()))
-            {
-                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
-                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
-                return event.getOldStep();
-            }
-        }
-        //Si pasamos de la pestaña de datos generales a stock y dimensiones
-        else if (event.getOldStep().equals(TAB_STOCK))
-        {
-            //Validamos que ninguno de los campos del stock sea vacio o negativo
-            if (validateFields("Stock Máximo", getMachinePartSelected().getMachinePartStock().getMaximeStock(), 2))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Stock Mínimo", getMachinePartSelected().getMachinePartStock().getMinimeStock(), 2))
-            {
-                return event.getOldStep();
-            }
-            if (getMachinePartSelected().getMachinePartStock().getMaximeStock() <= getMachinePartSelected().getMachinePartStock().getMinimeStock())
-            {
-                addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Mínimo");
-                return event.getOldStep();
-            }
-            if (validateFields("Stock Real", getMachinePartSelected().getMachinePartStock().getCurrentStock(), 2))
-            {
-                return event.getOldStep();
-            }
-            if (validateFields("Stock Óptimo", getMachinePartSelected().getMachinePartStock().getOptimeStock(), 2))
-            {
-                return event.getOldStep();
-            }
-            else
-            {
-                if (getMachinePartSelected().getMachinePartStock().getMaximeStock() < getMachinePartSelected().getMachinePartStock().getOptimeStock())
-                {
-                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
-                    return event.getOldStep();
-                }
-                if (getMachinePartSelected().getMachinePartStock().getMinimeStock() > getMachinePartSelected().getMachinePartStock().getOptimeStock())
-                {
-                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
-                    return event.getOldStep();
-                }
-            }
-
-            if (validateFields("Altura", getMachinePartSelected().getDimension().getHight(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if (getMeasureUnitSaveHigh() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
-                return event.getOldStep();
-            }
-            if (validateFields("Ancho", getMachinePartSelected().getDimension().getWidth(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if (getMeasureUnitSaveWidth() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
-                return event.getOldStep();
-            }
-            if (validateFields("Largo", getMachinePartSelected().getDimension().getLarge(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if (getMeasureUnitSaveLarge() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
-                return event.getOldStep();
-            }
-            if (validateFields("Peso", getMachinePartSelected().getDimension().getWeight(), 1))
-            {
-                return event.getOldStep();
-            }
-            else if (getMeasureUnitSaveWeight() == null)
-            {
-                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
-                return event.getOldStep();
-            }
-
-            if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getVolume()))
-            {
-                if (validateFields("Volumen", getMachinePartSelected().getDimension().getVolume(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if (getMeasureUnitSaveVolume() == null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
-                    return event.getOldStep();
-                }
-            }
-            if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getThickness()))
-            {
-                if (validateFields("Grosor", getMachinePartSelected().getDimension().getThickness(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if (getMeasureUnitSaveThickness() == null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
-                    return event.getOldStep();
-                }
-            }
-            if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getRadio()))
-            {
-                if (validateFields("Radio", getMachinePartSelected().getDimension().getRadio(), 1))
-                {
-                    return event.getOldStep();
-                }
-                else if (getMeasureUnitSaveRadio() == null)
-                {
-                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
-                    return event.getOldStep();
-                }
-            }
-
-        }
+//        int packingUnit = -1;
+//        if (event.getNewStep().equals(TAB_GENERAL))
+//        {
+//            return TAB_GENERAL;
+//        }
+//        if (event.getOldStep().equals(TAB_GENERAL))
+//        {
+//            if (validateFields("Nombre Insumo", getMachinePartSelected().getDescription(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Tipo de Material", getMachinePartSelected().getTypeMaterial(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//            //Validamos que el valor sea mayor que cero
+//            if (validateFields("Valor", getMachinePartSelected().getValue() + "", 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Moneda", getMachinePartSelected().getMoney(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            //modificamos el precio por unidad
+//            getMachinePartSelected().getMachinePartStock().setPriceUnit((double) getMachinePartSelected().getValue());
+//            //modificamos el precio total igual al precio por unidad * el stock actual
+//            getMachinePartSelected().getMachinePartStock().setTotalValue((double) getMachinePartSelected().getValue()
+//                    * getMachinePartSelected().getMachinePartStock().getCurrentStock());
+//
+//            if (validateFields("Marca", getMachinePartSelected().getMark(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//
+//            if (Utilities.isEmpty(getMachinePartSelected().getPathPicture()))
+//            {
+//                getMachinePartSelected().setPathPicture(" ");//Setteamos la ruta de la imagen
+//            }
+//            if (validateFields("Serie", getMachinePartSelected().getSerie(), 3))
+//            {
+//                return event.getOldStep();
+//            }
+//
+//            //Validamos los campos seleccionables
+//            if (validateFields("Proveedor y Garantía", getMachinePartSelected().getSupplierGuarantee(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Centro de Costos", getMachinePartSelected().getCostCenter(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Almacen", getMachinePartSelected().getMachinePartStock().getIdMachine(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Localización", getMachinePartSelected().getMachinePartLocation(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Prioridad", getMachinePartSelected().getPriority(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Unidad de Empaque", getMachinePartSelected().getPackingUnit(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Cantidad de Distribución", getMachinePartSelected().getDistributionAmount(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            //Obtenemos el precio de unidad de unidades de distribución
+//            getMachinePartSelected().setDistributionValue(Utilities.Redondear((getMachinePartSelected().getMachinePartStock().
+//                    getPriceUnit() / getMachinePartSelected().getDistributionAmount()), 2));
+//            if (validateFields("Unidad de Distribución", getMachinePartSelected().getDistributionUnit(), 4))
+//            {
+//                return event.getOldStep();
+//            }
+//
+//            //Validamos que la fecha de expiracion sea mayor que la fecha de creacion
+//            if (getMachinePartSelected().getExpiryDate() != null && getMachinePartSelected().getExpiryDate().before(getMachinePartSelected().getCreationDate()))
+//            {
+//                addError(null, "Error en el campo Fecha de Expiración", "La Fecha de Expiración debe ser mayor que la fecha actual");
+//                log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
+//                return event.getOldStep();
+//            }
+//        }
+//        //Si pasamos de la pestaña de datos generales a stock y dimensiones
+//        else if (event.getOldStep().equals(TAB_STOCK))
+//        {
+//            //Validamos que ninguno de los campos del stock sea vacio o negativo
+//            if (validateFields("Stock Máximo", getMachinePartSelected().getMachinePartStock().getMaximeStock(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Stock Mínimo", getMachinePartSelected().getMachinePartStock().getMinimeStock(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (getMachinePartSelected().getMachinePartStock().getMaximeStock() <= getMachinePartSelected().getMachinePartStock().getMinimeStock())
+//            {
+//                addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Stock Real", getMachinePartSelected().getMachinePartStock().getCurrentStock(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Stock Óptimo", getMachinePartSelected().getMachinePartStock().getOptimeStock(), 2))
+//            {
+//                return event.getOldStep();
+//            }
+//            else
+//            {
+//                if (getMachinePartSelected().getMachinePartStock().getMaximeStock() < getMachinePartSelected().getMachinePartStock().getOptimeStock())
+//                {
+//                    addError(null, "Error en el Stock del Insumo", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+//                    return event.getOldStep();
+//                }
+//                if (getMachinePartSelected().getMachinePartStock().getMinimeStock() > getMachinePartSelected().getMachinePartStock().getOptimeStock())
+//                {
+//                    addError(null, "Error en el Stock del Insumo", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+//                    return event.getOldStep();
+//                }
+//            }
+//
+//            if (validateFields("Altura", getMachinePartSelected().getDimension().getHight(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if (getMeasureUnitSaveHigh() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Ancho", getMachinePartSelected().getDimension().getWidth(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if (getMeasureUnitSaveWidth() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Largo", getMachinePartSelected().getDimension().getLarge(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if (getMeasureUnitSaveLarge() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+//                return event.getOldStep();
+//            }
+//            if (validateFields("Peso", getMachinePartSelected().getDimension().getWeight(), 1))
+//            {
+//                return event.getOldStep();
+//            }
+//            else if (getMeasureUnitSaveWeight() == null)
+//            {
+//                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+//                return event.getOldStep();
+//            }
+//
+//            if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getVolume()))
+//            {
+//                if (validateFields("Volumen", getMachinePartSelected().getDimension().getVolume(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if (getMeasureUnitSaveVolume() == null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getThickness()))
+//            {
+//                if (validateFields("Grosor", getMachinePartSelected().getDimension().getThickness(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if (getMeasureUnitSaveThickness() == null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+//                    return event.getOldStep();
+//                }
+//            }
+//            if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getRadio()))
+//            {
+//                if (validateFields("Radio", getMachinePartSelected().getDimension().getRadio(), 1))
+//                {
+//                    return event.getOldStep();
+//                }
+//                else if (getMeasureUnitSaveRadio() == null)
+//                {
+//                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+//                    return event.getOldStep();
+//                }
+//            }
+//
+//        }
         return event.getNewStep();
     }
 
@@ -1239,34 +1239,34 @@ public class ScMachinePartBean
             //Almacenamos el insumo
             try
             {
-                if (getMeasureUnitSaveHigh() != null)
-                {
-                    getMachinePartSave().getDimension().setHight(getMachinePartSave().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
-                }
-                if (getMeasureUnitSaveWidth() != null)
-                {
-                    getMachinePartSave().getDimension().setWidth(getMachinePartSave().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
-                }
-                if (getMeasureUnitSaveLarge() != null)
-                {
-                    getMachinePartSave().getDimension().setLarge(getMachinePartSave().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
-                }
-                if (getMeasureUnitSaveWeight() != null)
-                {
-                    getMachinePartSave().getDimension().setWeight(getMachinePartSave().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
-                }
-                if (getMeasureUnitSaveVolume() != null)
-                {
-                    getMachinePartSave().getDimension().setVolume(getMachinePartSave().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
-                }
-                if (getMeasureUnitSaveThickness() != null)
-                {
-                    getMachinePartSave().getDimension().setThickness(getMachinePartSave().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
-                }
-                if (getMeasureUnitSaveRadio() != null)
-                {
-                    getMachinePartSave().getDimension().setRadio(getMachinePartSave().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
-                }
+//                if (getMeasureUnitSaveHigh() != null)
+//                {
+//                    getMachinePartSave().getDimension().setHight(getMachinePartSave().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
+//                }
+//                if (getMeasureUnitSaveWidth() != null)
+//                {
+//                    getMachinePartSave().getDimension().setWidth(getMachinePartSave().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
+//                }
+//                if (getMeasureUnitSaveLarge() != null)
+//                {
+//                    getMachinePartSave().getDimension().setLarge(getMachinePartSave().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
+//                }
+//                if (getMeasureUnitSaveWeight() != null)
+//                {
+//                    getMachinePartSave().getDimension().setWeight(getMachinePartSave().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
+//                }
+//                if (getMeasureUnitSaveVolume() != null)
+//                {
+//                    getMachinePartSave().getDimension().setVolume(getMachinePartSave().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
+//                }
+//                if (getMeasureUnitSaveThickness() != null)
+//                {
+//                    getMachinePartSave().getDimension().setThickness(getMachinePartSave().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
+//                }
+//                if (getMeasureUnitSaveRadio() != null)
+//                {
+//                    getMachinePartSave().getDimension().setRadio(getMachinePartSave().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
+//                }
                 getScMachinePartServer().saveMachinePart(getMachinePartSave());
                 getMachinePartList().add(getMachinePartSave());
                 cleanMachinePartSave();
@@ -1292,34 +1292,34 @@ public class ScMachinePartBean
         {
         //Almacenamos el insumo
 
-            if (getMeasureUnitSaveHigh() != null)
-            {
-                getMachinePartSelected().getDimension().setHight(getMachinePartSelected().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
-            }
-            if (getMeasureUnitSaveWidth() != null)
-            {
-                getMachinePartSelected().getDimension().setWidth(getMachinePartSelected().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
-            }
-            if (getMeasureUnitSaveLarge() != null)
-            {
-                getMachinePartSelected().getDimension().setLarge(getMachinePartSelected().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
-            }
-            if (getMeasureUnitSaveWeight() != null)
-            {
-                getMachinePartSelected().getDimension().setWeight(getMachinePartSelected().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
-            }
-            if (getMeasureUnitSaveVolume() != null)
-            {
-                getMachinePartSelected().getDimension().setVolume(getMachinePartSelected().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
-            }
-            if (getMeasureUnitSaveThickness() != null)
-            {
-                getMachinePartSelected().getDimension().setThickness(getMachinePartSelected().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
-            }
-            if (getMeasureUnitSaveRadio() != null)
-            {
-                getMachinePartSelected().getDimension().setRadio(getMachinePartSelected().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
-            }
+//            if (getMeasureUnitSaveHigh() != null)
+//            {
+//                getMachinePartSelected().getDimension().setHight(getMachinePartSelected().getDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
+//            }
+//            if (getMeasureUnitSaveWidth() != null)
+//            {
+//                getMachinePartSelected().getDimension().setWidth(getMachinePartSelected().getDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
+//            }
+//            if (getMeasureUnitSaveLarge() != null)
+//            {
+//                getMachinePartSelected().getDimension().setLarge(getMachinePartSelected().getDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
+//            }
+//            if (getMeasureUnitSaveWeight() != null)
+//            {
+//                getMachinePartSelected().getDimension().setWeight(getMachinePartSelected().getDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
+//            }
+//            if (getMeasureUnitSaveVolume() != null)
+//            {
+//                getMachinePartSelected().getDimension().setVolume(getMachinePartSelected().getDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
+//            }
+//            if (getMeasureUnitSaveThickness() != null)
+//            {
+//                getMachinePartSelected().getDimension().setThickness(getMachinePartSelected().getDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
+//            }
+//            if (getMeasureUnitSaveRadio() != null)
+//            {
+//                getMachinePartSelected().getDimension().setRadio(getMachinePartSelected().getDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
+//            }
         }
     }
 
@@ -1659,35 +1659,35 @@ public class ScMachinePartBean
             log.error("Error al intentar consultar el insumo a actualizar", e);
         }
 
-        fillListMachinePartLocation(machinePart.getMachinePartStock().getIdMachine());
-        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getHight()))
-        {
-            valueToList(getMachinePartSelected().getDimension().getHight(), 1);
-        }
-        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getWidth()))
-        {
-            valueToList(getMachinePartSelected().getDimension().getWidth(), 2);
-        }
-        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getLarge()))
-        {
-            valueToList(getMachinePartSelected().getDimension().getLarge(), 3);
-        }
-        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getWeight()))
-        {
-            valueToList(getMachinePartSelected().getDimension().getWeight(), 4);
-        }
-        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getVolume()))
-        {
-            valueToList(getMachinePartSelected().getDimension().getVolume(), 5);
-        }
-        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getThickness()))
-        {
-            valueToList(getMachinePartSelected().getDimension().getThickness(), 6);
-        }
-        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getRadio()))
-        {
-            valueToList(getMachinePartSelected().getDimension().getRadio(), 7);
-        }
+//        fillListMachinePartLocation(machinePart.getMachinePartStock().getIdMachine());
+//        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getHight()))
+//        {
+//            valueToList(getMachinePartSelected().getDimension().getHight(), 1);
+//        }
+//        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getWidth()))
+//        {
+//            valueToList(getMachinePartSelected().getDimension().getWidth(), 2);
+//        }
+//        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getLarge()))
+//        {
+//            valueToList(getMachinePartSelected().getDimension().getLarge(), 3);
+//        }
+//        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getWeight()))
+//        {
+//            valueToList(getMachinePartSelected().getDimension().getWeight(), 4);
+//        }
+//        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getVolume()))
+//        {
+//            valueToList(getMachinePartSelected().getDimension().getVolume(), 5);
+//        }
+//        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getThickness()))
+//        {
+//            valueToList(getMachinePartSelected().getDimension().getThickness(), 6);
+//        }
+//        if (!Utilities.isEmpty(getMachinePartSelected().getDimension().getRadio()))
+//        {
+//            valueToList(getMachinePartSelected().getDimension().getRadio(), 7);
+//        }
     }
 
     /**
@@ -1708,7 +1708,7 @@ public class ScMachinePartBean
 
             case 1://Ajustamos la altura
 
-                getMachinePartSelected().getDimension().setHight(fields[0]);
+//                getMachinePartSelected().getDimension().setHight(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1720,7 +1720,7 @@ public class ScMachinePartBean
                 break;
             case 2://Ajustamos el ancho
 
-                getMachinePartSelected().getDimension().setWidth(fields[0]);
+//                getMachinePartSelected().getDimension().setWidth(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1732,7 +1732,7 @@ public class ScMachinePartBean
                 break;
             case 3://Ajustamos el largo
 
-                getMachinePartSelected().getDimension().setLarge(fields[0]);
+//                getMachinePartSelected().getDimension().setLarge(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1744,7 +1744,7 @@ public class ScMachinePartBean
                 break;
             case 4://Ajustamos el Peso
 
-                getMachinePartSelected().getDimension().setWeight(fields[0]);
+//                getMachinePartSelected().getDimension().setWeight(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1756,7 +1756,7 @@ public class ScMachinePartBean
                 break;
             case 5://Ajustamos el Volumen
 
-                getMachinePartSelected().getDimension().setVolume(fields[0]);
+//                getMachinePartSelected().getDimension().setVolume(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1768,7 +1768,7 @@ public class ScMachinePartBean
                 break;
             case 6://Ajustamos el Grosor
 
-                getMachinePartSelected().getDimension().setThickness(fields[0]);
+//                getMachinePartSelected().getDimension().setThickness(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))
@@ -1780,7 +1780,7 @@ public class ScMachinePartBean
                 break;
             case 7://Ajustamos el Radio
 
-                getMachinePartSelected().getDimension().setRadio(fields[0]);
+//                getMachinePartSelected().getDimension().setRadio(fields[0]);
                 for (ScMeasureUnit measureUnit : getMeasureUnitsList())
                 {
                     if (measureUnit.getAcronym().equals(fields[1]))

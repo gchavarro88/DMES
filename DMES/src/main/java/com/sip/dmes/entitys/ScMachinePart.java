@@ -95,7 +95,7 @@ public class ScMachinePart implements Serializable
     private Long usefulLife;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
-    @NotNull
+    @NotNull 
     @Column(name = "value")
     private BigDecimal value;
     @Basic(optional = false)
@@ -110,8 +110,9 @@ public class ScMachinePart implements Serializable
     private Date creationDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachinePart", fetch = FetchType.EAGER)
     private List<ScMachinePartAttached> scMachinePartAttachedList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "scMachinePart", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachinePart", fetch = FetchType.EAGER)
     private List<ScMachinePartDocument> scMachinePartDocument;
+    
     @JoinColumn(name = "id_time", referencedColumnName = "id_time")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScTime idTime;
@@ -133,6 +134,9 @@ public class ScMachinePart implements Serializable
     @JoinColumn(name = "id_cost_center", referencedColumnName = "id_cost_center")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScCostCenter idCostCenter;
+    @JoinColumn(name = "id_machine", referencedColumnName = "id_machine")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private ScMachine idMachine;
 
     public ScMachinePart()
     {
@@ -266,7 +270,6 @@ public class ScMachinePart implements Serializable
         this.creationDate = creationDate;
     }
 
-    @XmlTransient
     public List<ScMachinePartAttached> getScMachinePartAttachedList()
     {
         return scMachinePartAttachedList;
@@ -287,7 +290,6 @@ public class ScMachinePart implements Serializable
         this.scMachinePartDocument = scMachinePartDocument;
     }
 
-    
     public ScTime getIdTime()
     {
         return idTime;
@@ -306,6 +308,16 @@ public class ScMachinePart implements Serializable
     public void setIdPriority(ScPriority idPriority)
     {
         this.idPriority = idPriority;
+    }
+
+    public ScMachineLocation getIdLocation()
+    {
+        return idLocation;
+    }
+
+    public void setIdLocation(ScMachineLocation idLocation)
+    {
+        this.idLocation = idLocation;
     }
 
     public ScPartner getIdSupplierGuarantee()
@@ -348,17 +360,16 @@ public class ScMachinePart implements Serializable
         this.idCostCenter = idCostCenter;
     }
 
-    public ScMachineLocation getIdLocation()
+    public ScMachine getIdMachine()
     {
-        return idLocation;
+        return idMachine;
     }
 
-    public void setIdLocation(ScMachineLocation idLocation)
+    public void setIdMachine(ScMachine idMachine)
     {
-        this.idLocation = idLocation;
+        this.idMachine = idMachine;
     }
 
-    
     
     @Override
     public int hashCode()

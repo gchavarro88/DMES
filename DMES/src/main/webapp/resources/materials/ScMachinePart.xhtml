@@ -30,7 +30,7 @@
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <!--         Dialogo para guardar nuevos Insumos         -->
             <p:dialog id="dialogInputSave" widgetVar="dialogInputSave" draggable="true" 
-                      closable="true"  header="Crear Insumos" position="center top" width="800"
+                      closable="true"  header="Crear Partes de Máquinas" position="center top" width="800"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
                 <h:form id="formWizardSave" >
@@ -803,7 +803,7 @@
 
             <!--###########inicia el dialogo para actualizar insumos#############-->
             <p:dialog id="dialogInputUpdate" widgetVar="dialogInputUpdate" draggable="true" 
-                      closable="true"  header="Actualizar Insumos" position="center top" width="800"
+                      closable="true"  header="Actualizar Partes de Máquinas" position="center top" width="800"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
                 <h:form id="formWizardUpdate" >
@@ -2385,16 +2385,16 @@
             <h:form id="formMachinePart">
                 <p:remoteCommand name="machinePartInit" update=":formMachinePart:scDataTableMachinePart" />
                 <p:dataTable id="scDataTableMachinePart" draggableColumns="true" emptyMessage="No existe información para visualizar" 
-                             value="#{scInputBean.inputList}" var="machinePart"
+                             value="#{scMachinePartBean.machinePartList}" var="machinePart"
                              paginator="true" rows="10"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowKey="#{input.idInput}"
+                             rowKey="#{machinePart.idMachinePart}"
                              resizableColumns="true" 
                              liveResize="true" rowsPerPageTemplate="10,20,30" 
-                             selectionMode="single" paginatorPosition="top" selection="#{scInputBean.inputSelected}"
-                             sortBy="#{input.idInput}"
+                             selectionMode="single" paginatorPosition="top" selection="#{scMachinePartBean.machinePartSelected}"
+                             sortBy="#{machinePart.idMachinePart}"
                              >
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
@@ -2402,10 +2402,10 @@
                             <p:tooltip for="btnAdd" value="Agregar un Insumo"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" />
+<!--                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" />-->
                     <p:column headerText="Administración" width="84">
                         <center>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scInputBean.selectedForUpdate(input)}"
+<!--                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scInputBean.selectedForUpdate(input)}"
                                              oncomplete="PF('dialogInputUpdate').show()" update=":formWizardUpdate:" 
                                              >
                                 <p:tooltip for="btnEdit" value="Editar un Insumo"/>
@@ -2414,57 +2414,43 @@
                             <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogInputDelete').show()"
                                              actionListener="#{scInputBean.selectedForDelete(input)}" update=":formWizardDelete">
                                 <p:tooltip for="btnDelete" value="Eliminar un Insumo"/>
-                            </p:commandButton>
+                            </p:commandButton>-->
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{input.description}" headerText="Insumo" sortBy="#{input.description}" id="columnInputName">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machinePart.idMachine.name}" id="columnMachine" headerText="Máquina" sortBy="#{machinePart.idMachine.name}">    
                         <center>
-                            <p:outputLabel value="#{input.description}" id="lblIntputName"/>
-                            <p:tooltip for="lblIntputName" value="#{input.description}"/>
+                            <p:outputLabel value="#{machinePart.idMachine.name}" id="lblMachine"/>
+                            <p:tooltip for="lblMachine" value="#{machinePart.idMachine.name}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{input.mark}" id="columnMark" headerText="Marca" sortBy="#{input.mark}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machinePart.name}" headerText="Parte de la máquina" sortBy="#{machinePart.name}" id="columnMachinePartName">    
                         <center>
-                            <p:outputLabel value="#{input.mark}" id="lblMark"/>
-                            <p:tooltip for="lblMark" value="#{input.mark}"/>
+                            <p:outputLabel value="#{machinePart.name}" id="lblMachinePartName"/>
+                            <p:tooltip for="lblMachinePartName" value="#{machinePart.name}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{input.serie}" id="columnSerie" headerText="Serie" sortBy="#{input.serie}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machinePart.mark}" id="columnMark" headerText="Marca" sortBy="#{machinePart.mark}">    
                         <center>
-                            <p:outputLabel value="#{input.serie}" id="lblSerie"/>
-                            <p:tooltip for="lblSerie" value="#{input.serie}"/>
+                            <p:outputLabel value="#{machinePart.mark}" id="lblMark"/>
+                            <p:tooltip for="lblMark" value="#{machinePart.mark}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{input.inputStock.idStore.name}" id="columnStore" headerText="Almacen" sortBy="#{input.inputStock.idStore.name}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machinePart.type}" id="columnStore" headerText="Tipo" sortBy="#{machinePart.type}">    
                         <center>
-                            <p:outputLabel value="#{input.inputStock.idStore.name}" id="lblStore"/>
-                            <p:tooltip for="lblStore" value="#{input.inputStock.idStore.name}"/>
+                            <p:outputLabel value="#{machinePart.type}" id="lblType"/>
+                            <p:tooltip for="lblType" value="#{machinePart.type}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{input.inputLocation.location}" id="columnLocation" headerText="Localización" sortBy="#{input.inputLocation.location}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machinePart.idLocation.location}" id="columnLocation" headerText="Localización" sortBy="#{machinePart.idLocation.location}">    
                         <center>
-                            <p:outputLabel value="#{input.inputLocation.location}" id="lblLocation"/>
-                            <p:tooltip for="lblLocation" value="#{input.inputLocation.location}"/>
+                            <p:outputLabel value="#{machinePart.idLocation.location}" id="lblLocation"/>
+                            <p:tooltip for="lblLocation" value="#{machinePart.idLocation.location}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{input.inputStock.currentStock}" id="columnAmount" headerText="Existencias" sortBy="#{input.inputStock.currentStock}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machinePart.value} #{machinePart.idMoney.acronym}" id="columnValue" headerText="Valor" sortBy="#{machinePart.value}">    
                         <center>
-                            <p:outputLabel value="#{input.inputStock.currentStock}" id="lblamount"/>
-                            <p:tooltip for="lblamount" value="#{input.inputStock.currentStock}"/>
-                        </center>
-                    </p:column>
-
-                    <p:column filterMatchMode="contains"  filterBy="#{input.packingUnit.acronym}" id="columPackingUnit" headerText="Und. Empaque" sortBy="#{input.packingUnit}">    
-                        <center>
-                            <p:outputLabel value="#{input.packingUnit.acronym}" id="lblPackingUnit"/>
-                            <p:tooltip for="lblPackingUnit" value="#{input.packingUnit.acronym}"/>
-                        </center>
-                    </p:column>
-
-                    <p:column filterMatchMode="contains"  filterBy="#{input.value} #{input.money.acronym}" id="columnValue" headerText="Valor" sortBy="#{input.value}">    
-                        <center>
-                            <p:outputLabel value="#{input.value} #{input.money.acronym}" id="lblValue"/>
-                            <p:tooltip for="lblValue" value="#{input.value} #{input.money.acronym}"/>
+                            <p:outputLabel value="#{machinePart.value} #{machinePart.idMoney.acronym}" id="lblValue"/>
+                            <p:tooltip for="lblValue" value="#{machinePart.value} #{machinePart.idMoney.acronym}"/>
                         </center>
                     </p:column>
                 </p:dataTable>
