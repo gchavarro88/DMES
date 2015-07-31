@@ -13,8 +13,8 @@
         <Node id="resources/materials/ScInput.xhtml" x="8" y="495" zoom="true"/>
         <Node id="LoadDocuments/FsdocumentsByUser.xhtml" x="500" y="518" zoom="true"/>
         <Node id="resources/materials/ScProductFormulation.xhtml" x="37" y="86" zoom="true"/>
-        <Node id="Login.xhtml" x="849" y="411" zoom="true"/>
         <Node id="security/Scperson.xhtml" x="146" y="318" zoom="true"/>
+        <Node id="Login.xhtml" x="849" y="411" zoom="true"/>
         <Node id="resources/materials/ScMachines.xhtml" x="745" y="166" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>

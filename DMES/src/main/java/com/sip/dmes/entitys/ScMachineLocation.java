@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author gchavarro88
  */
 @Entity
-@Table(name = "sc_machine_location")
+@Table(name = "sc_machine_location", schema = "dmes")
 @XmlRootElement
 @NamedQueries(
 {

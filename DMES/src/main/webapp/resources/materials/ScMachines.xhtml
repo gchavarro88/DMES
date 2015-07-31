@@ -719,7 +719,7 @@
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formMachine">
                 <p:dataTable id="scMachineDataTable" draggableColumns="true" emptyMessage="" 
-                             value="#{scmachinesBean.scMachineList}" var="machine"
+                             value="#{scMachineBean.machineList}" var="machine"
                              paginator="true" rows="10"  
                              pageLinks="40"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
@@ -727,18 +727,18 @@
                              rowKey="#{machine.idMachine}"
                              resizableColumns="true" 
                              liveResize="true" rowsPerPageTemplate="10,20,30" 
-                             selectionMode="single" paginatorPosition="top" selection="#{scmachinesBean.scMachineSelected}"
-                             sortBy="#{machine.machine}"
+                             selectionMode="single" paginatorPosition="top" selection="#{scMachineBean.machineUpdate}"
+                             sortBy="#{machine.name}"
                              >
                     <f:facet name="header">
-                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"
                                          oncomplete="PF('dialogMachineSave').show()">
                             <p:tooltip for="btnAdd" value="Agregar una Maquina"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" listener="#{scmachinesBean.getMachineByDataTable(machine)}" 
+<!--                    <p:ajax event="rowSelect" listener="#{scmachinesBean.getMachineByDataTable(machine)}" 
                             update=":formWizardView"
-                            oncomplete="PF('dialogMachineView').show()"/>
+                            oncomplete="PF('dialogMachineView').show()"/>-->
                     <p:column headerText="Administración" width="84">
                     <!--
                         <center>
@@ -757,40 +757,17 @@
                         </center>-->
                     </p:column>
                   
-                    <p:column filterMatchMode="contains"  filterBy="#{machine.machine}" id="columnMachine" headerText="Maquina" sortBy="#{machine.machine}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.name}" id="columnMachine" headerText="Maquina" sortBy="#{machine.name}">    
                         <center>
-                            <p:outputLabel value="#{machine.machine}" id="lblMachine"/>
-                            <p:tooltip for="lblMachine" value="#{machine.machine}"/>
+                            <p:outputLabel value="#{machine.name}" id="lblMachine"/>
+                            <p:tooltip for="lblMachine" value="#{machine.name}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{machine.idTypeClassification.type}" id="columnClassification" headerText="Clasificación" sortBy="#{machine.idTypeClassification.type}">    
+                    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.hourValue}" id="columnComments" headerText="Hora" sortBy="#{machine.hourValue}">    
                         <center>
-                            <p:outputLabel value="#{machine.idTypeClassification.type}" id="lblClassification"/>
-                            <p:tooltip for="lblClassification" value="#{machine.idTypeClassification.type}"/>
-                        </center>
-                    </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{machine.idTypePriority.type}" id="columnPriority" headerText="Prioridad" sortBy="#{machine.idTypePriority.type}">    
-                        <center>
-                            <p:outputLabel value="#{machine.idTypePriority.type}" id="lblPriority"/>
-                            <p:tooltip for="lblPriority" value="#{machine.idTypePriority.type}"/>
-                        </center>
-                    </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{machine.cost} #{machine.idTypeCost.type}" id="columnCost" headerText="Valor/Hora" sortBy="#{machine.cost} #{machine.idTypeCost.type}">    
-                        <center>
-                            <p:outputLabel value="#{machine.cost} #{machine.idTypeCost.type}" id="lblCost"/>
-                            <p:tooltip for="lblCost" value="#{machine.cost} #{machine.idTypeCost.type}"/>
-                        </center>
-                    </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{machine.location}" id="columnLocation" headerText="Localización" sortBy="#{machine.location}">    
-                        <center>
-                            <p:outputLabel value="#{machine.location}" id="lblLocation"/>
-                            <p:tooltip for="lblLocation" value="#{machine.location}"/>
-                        </center>
-                    </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{machine.comments}" id="columnComments" headerText="Observaciones" sortBy="#{machine.comments}">    
-                        <center>
-                            <p:outputLabel value="#{machine.comments}" id="lblComments"/>
-                            <p:tooltip for="lblComments" value="#{machine.comments}"/>
+                            <p:outputLabel value="#{machine.hourValue}" id="lblComments"/>
+                            <p:tooltip for="lblComments" value="#{machine.hourValue}"/>
                         </center>
                     </p:column>
 
