@@ -80,6 +80,7 @@ public class ScMachinePartDao  implements  IScMachinePart
         try
         {
             entityManager.remove(entityManager.contains(machinePart)?machinePart:entityManager.merge(machinePart));
+            entityManager.flush(); 
 //            entityManager.remove(entityManager.contains(machinePart.getDimension())?machinePart:entityManager.merge(machinePart.getDimension()));
 //            entityManager.remove(entityManager.contains(machinePart.getMachinePartStock())?machinePart:entityManager.merge(machinePart.getMachinePartStock()));
         }

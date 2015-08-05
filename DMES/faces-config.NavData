@@ -3,8 +3,8 @@
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
         <Node id="LoadDocuments/FsdocumentsToUser.xhtml" x="150" y="600" zoom="true"/>
-        <Node id="resources/humans/ScEmployees.xhtml" x="431" y="388" zoom="true"/>
         <Node id="resources/humans/ScPartners.xhtml" x="487" y="292" zoom="true"/>
+        <Node id="resources/humans/ScEmployees.xhtml" x="431" y="388" zoom="true"/>
         <Node id="SC_main_menu/mainMenu.xhtml" x="499" y="66" zoom="true"/>
         <Node id="security/Scusers.xhtml" x="840" y="102" zoom="true"/>
         <Node id="Help.xhtml" x="150" y="150" zoom="true"/>
@@ -13,8 +13,8 @@
         <Node id="resources/materials/ScInput.xhtml" x="8" y="495" zoom="true"/>
         <Node id="LoadDocuments/FsdocumentsByUser.xhtml" x="500" y="518" zoom="true"/>
         <Node id="resources/materials/ScProductFormulation.xhtml" x="37" y="86" zoom="true"/>
-        <Node id="security/Scperson.xhtml" x="146" y="318" zoom="true"/>
         <Node id="Login.xhtml" x="849" y="411" zoom="true"/>
+        <Node id="security/Scperson.xhtml" x="146" y="318" zoom="true"/>
         <Node id="resources/materials/ScMachines.xhtml" x="745" y="166" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
