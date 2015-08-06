@@ -9,7 +9,7 @@ import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScMachine;
-import com.sip.dmes.entitys.ScMachineLocation;
+
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPartner;
@@ -40,7 +40,6 @@ public interface IScMachinePart
     
 //    public List<ScDistributionUnit > getAllDistributionUnits() throws Exception;
     
-    public List<ScMachineLocation> getAllMachinePartLocations(ScMachine machine) throws Exception;
     
     public List<ScMeasureUnit> getAllMeasureUnits() throws Exception;
     
@@ -55,8 +54,6 @@ public interface IScMachinePart
 //    public void savePackingUnit(ScPackingUnit packingUnit) throws Exception;
     
 //    public void saveDistributionUnit(ScDistributionUnit distributionUnit) throws Exception;
-    
-    public void saveLocationMachinePart(ScMachineLocation machineLocation) throws Exception;
 
     public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception;
     

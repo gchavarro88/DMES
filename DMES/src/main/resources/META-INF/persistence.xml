@@ -12,7 +12,6 @@
     <class>com.sip.dmes.entitys.ScMachinePartDocument</class>
     <class>com.sip.dmes.entitys.ScMachinePart</class>
     <class>com.sip.dmes.entitys.ScMachinePartAttached</class>
-    <class>com.sip.dmes.entitys.ScMachineLocation</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

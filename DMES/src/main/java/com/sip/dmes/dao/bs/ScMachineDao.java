@@ -10,7 +10,7 @@ import com.sip.dmes.dao.bo.IScMachinePart;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScMachine;
-import com.sip.dmes.entitys.ScMachineLocation;
+
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPartner;

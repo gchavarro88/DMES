@@ -119,9 +119,7 @@ public class ScMachinePart implements Serializable
     @JoinColumn(name = "id_priority", referencedColumnName = "id_priority")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScPriority idPriority;
-    @JoinColumn(name = "id_location", referencedColumnName = "id_location")
-    @ManyToOne(optional = false)
-    private ScMachineLocation idLocation;
+    
     @JoinColumn(name = "id_supplier_guarantee", referencedColumnName = "id_partner")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScPartner idSupplierGuarantee;
@@ -310,15 +308,6 @@ public class ScMachinePart implements Serializable
         this.idPriority = idPriority;
     }
 
-    public ScMachineLocation getIdLocation()
-    {
-        return idLocation;
-    }
-
-    public void setIdLocation(ScMachineLocation idLocation)
-    {
-        this.idLocation = idLocation;
-    }
 
     public ScPartner getIdSupplierGuarantee()
     {

@@ -38,7 +38,7 @@
 
                 <h:form id="formWizardSave" >
 
-                    <p:wizard  flowListener="#{scMachinePartBean.onFlowProcessSaveInput}" id="wizardSave" widgetVar="wizardSave" 
+                    <p:wizard  flowListener="#{scMachinePartBean.onFlowProcessSaveMachinePart}" id="wizardSave" widgetVar="wizardSave" 
                                backLabel="Atras" nextLabel="Siguiente">
                         <p:tab title="Datos del Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los datos básicos de la parte de la máquina">
@@ -59,7 +59,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre Insumo*"/>
+                                            <p:outputLabel  for="tfNameInput" value="Nombre de la máquina*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scMachinePartBean.machinePartSave.name}"
@@ -118,6 +118,13 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
+                                            <p:outputLabel  for="cbTypeField" value="Tipo*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="cbTypeField"  value="#{scMachinePartBean.machinePartSave.type}"
+                                                            />
+                                        </td>
+                                        <td width="10%" align="right">
                                             <p:outputLabel  for="cbSupplier" value="Proveedor*"/>
                                         </td>
                                         <td width="40%" align="left">
@@ -129,6 +136,9 @@
                                                 <f:selectItems value="#{scMachinePartBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
                                             </p:selectOneMenu>
                                         </td>
+                                        
+                                    </tr>
+                                    <tr>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbCostCenter" value="Centro de Costos*"/>
                                         </td>
@@ -144,8 +154,6 @@
                                             <p:commandButton  id="btnAddCostCenter" icon="ui-icon-circle-plus"  oncomplete="PF('centerCostSave').show()" style="top: -8px;"/>
                                             <p:tooltip for="btnAddCostCenter" value="Agregue nuevos centros de costos"/>
                                         </td>
-                                    </tr>
-                                    <tr>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfMachine" value="Maquina*"/>
                                         </td>
@@ -156,25 +164,9 @@
                                                              height="140" >
                                                 <f:selectItem itemLabel="..." />
                                                 <f:selectItems value="#{scMachinePartBean.machinesList}" var="machines" itemLabel="#{machines.name}"/>
-                                                <p:ajax event="change" update="cbLocation,btnAddLocationInput" listener="#{scMachinePartBean.withOutMachine(scMachinePartBean.machinePartSave.idMachine)}"/>
                                             </p:selectOneMenu>
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="cbLocation" value="Localización*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbLocation"  value="#{scMachinePartBean.machinePartSave.idLocation}" style="width: 70%;" 
-                                                             converter="inputLocationConverter" converterMessage="Error en el tipo de dato de la localización de la máquina"
-                                                             effect="puff" disabled="#{scMachinePartBean.withOutMachine(scMachinePartBean.machinePartSave.idMachine)}"
-                                                             height="140">
-                                                <f:selectItem itemLabel="..." />
-                                                <f:selectItems  value="#{scMachinePartBean.machinePartLocationsList}" var="machineLocations" itemLabel="#{machineLocations.location}"/>
-                                            </p:selectOneMenu>
-                                            <p:spacer width="5px"/>
-                                            <p:commandButton  id="btnAddLocationInput" icon="ui-icon-circle-plus"  oncomplete="PF('inputLocationSave').show()" style="top: -8px;"
-                                                               disabled ="#{scMachinePartBean.withOutMachine(scMachinePartBean.machinePartSave.idMachine)}"/>
-                                            <p:tooltip for="btnAddLocationInput" value="Agregue nuevas localizaciones"/>
-                                        </td>
+                                        
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
@@ -189,13 +181,7 @@
                                                 <f:selectItems value="#{scMachinePartBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
                                             </p:selectOneMenu>
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="cbTypeField" value="Tipo*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="cbTypeField"  value="#{scMachinePartBean.machinePartSave.type}"
-                                                            />
-                                        </td>
+                                        <td colspan="2"></td>
                                     </tr>
                                 </table>
                             </p:panel>
@@ -692,7 +678,42 @@
             <!--         finaliza el dialogo para guardar Insumos               -->
 
             
-            
+            <!--            Dialogo para subir imagenes width="10%" align="right" -->
+            <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Insumo" value="#{scMachinePartBean.pictureFile}" mode="simple"
+                                      >       >        
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                         actionListener="#{scMachinePartBean.handleFileUpload(1)}" ajax="false" ignoreAutoUpdate="true"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para subir imagenes-->
+            <!--            Dialogo para actualizar imagenes width="10%" align="right" -->
+            <p:dialog id="pictureUpdate" widgetVar="pictureUpdate" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Insumo" value="#{scMachinePartBean.pictureFile}" mode="simple"
+                                      >       >        
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadDocumentUpdate" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                         actionListener="#{scMachinePartBean.handleFileUpload(2)}" ajax="false" ignoreAutoUpdate="true" />
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para actualizar imagenes-->
             
             
             
@@ -791,12 +812,6 @@
                         <center>
                             <p:outputLabel value="#{machinePart.type}" id="lblType"/>
                             <p:tooltip for="lblType" value="#{machinePart.type}"/>
-                        </center>
-                    </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{machinePart.idLocation.location}" id="columnLocation" headerText="Localización" sortBy="#{machinePart.idLocation.location}">    
-                        <center>
-                            <p:outputLabel value="#{machinePart.idLocation.location}" id="lblLocation"/>
-                            <p:tooltip for="lblLocation" value="#{machinePart.idLocation.location}"/>
                         </center>
                     </p:column>
                     <p:column filterMatchMode="contains"  filterBy="#{machinePart.value} #{machinePart.idMoney.acronym}" id="columnValue" headerText="Valor" sortBy="#{machinePart.value}">    

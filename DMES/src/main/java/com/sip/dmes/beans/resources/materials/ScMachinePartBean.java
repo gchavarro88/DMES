@@ -10,7 +10,7 @@ import com.sip.dmes.dao.bo.IScMachinePart;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScDistributionUnit;
 import com.sip.dmes.entitys.ScMachinePart;
-import com.sip.dmes.entitys.ScMachineLocation;
+
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachinePartAttached;
 import com.sip.dmes.entitys.ScMachinePartDocument;
@@ -69,8 +69,7 @@ public class ScMachinePartBean
     private ScPackingUnit packingUnitSave; //Unidad de empaque seleccionado para agregar
     private ScDistributionUnit distributionUnitSave; //UnidaScMachinePartBeand de empaque seleccionado para agregar
     private ScPackingUnit packingUnitSelected; //Unidad de empaque seleccionado para agregar al parte de máquina
-    private ScMachineLocation locaionSave; //Localizacion seleccionada para agregar
-    private ScMachineLocation loationSelected; //Localizacion seleccionada para agregar al parte de máquina
+    
     private ScMachine machineSave; //Localizacion seleccionada para agregar
     private ScMachine machineSelected; //Localizacion seleccionada para agregar al parte de máquina
     private ScPriority prioritySave; //Prioridad seleccionada para agregar al parte de máquina
@@ -87,7 +86,7 @@ public class ScMachinePartBean
     private List<ScMeasureUnit> measureUnitsList;//Lista de unidades de medida
     private List<ScPackingUnit> packingUnitsList;//Lista de unidades de empaque
     private List<ScDistributionUnit> distributionUnitsList;//Lista de unidades de distribución
-    private List<ScMachineLocation> machineLocationsList;//Lista de localizaciones
+    
     private List<ScMachine> machinesList;//Lista de almacenes
     private List<ScPriority> priorityList;//Lista de prioridades
     private List<ScMachinePartAttached> machineAttachedSave;//Lista de especificaciones a guardar
@@ -234,24 +233,7 @@ public class ScMachinePartBean
 //        }
 //    }
 
-    /**
-     * Método encargado de llenar la lista de localizaciones.
-     *
-     * @param machine almacen que contiene las localizaciones
-     * @author Gustavo Chavarro Ortiz
-     */
-    public void fillListMachinePartLocation(ScMachine machine)
-    {
-        try
-        {
-            //Se consultan todos los proveedores existentes
-            setMachinePartLocationsList(getScMachinePartServer().getAllMachinePartLocations(machine));
-        }
-        catch (Exception e)
-        {
-            log.error("Error al intentar consultar las localizaciones para las partes de una máquina", e);
-        }
-    }
+    
 
     /**
      * Método encargado de llenar la lista de almacenes.
@@ -337,7 +319,7 @@ public class ScMachinePartBean
         setCostCenterSave(new ScCostCenter());
         setPackingUnitSave(new ScPackingUnit());
         setDistributionUnitSave(new ScDistributionUnit());
-        setMachinePartLocationSave(new ScMachineLocation());
+
         setMeasureUnitSave(new ScMeasureUnit());
         cleanDocumentSave();
         cleanMachinePartSave();
@@ -425,16 +407,6 @@ public class ScMachinePartBean
     public void cleanFieldsPriority()
     {
         setPrioritySave(new ScPriority());
-    }
-
-    /**
-     * Método encargado de vaciar los objetos.
-     *
-     * @author Gustavo Chavarro Ortiz
-     */
-    public void cleanFieldsLocationMachinePart()
-    {
-        setMachinePartLocationSave(new ScMachineLocation());
     }
 
     /**
@@ -550,72 +522,7 @@ public class ScMachinePartBean
 //
 //    }
 
-    /**
-     * Método encargado de verificar si se ha seleccionado una máquina
-     *
-     * @param machine almacen que contiene las localizaciones
-     * @return boolean parametro que dice si tiene o no una máquina seleccionado
-     * @author Gustavo Chavarro Ortiz
-     */
-    public boolean withOutMachine(ScMachine machine)
-    {
-        boolean result = false;
-        if (machine == null || Utilities.isEmpty(machine.getName()))
-        {
-            result = true;
-        }
-        else
-        {
-            fillListMachinePartLocation(machine);
-        }
-        return result;
-    }
-
-    /**
-     * Método encargado de agregar una unidad de localizacion
-     *
-     * @author Gustavo Chavarro Ortiz
-     */
-    public void addMachinePartLocations()
-    {
-        try
-        {
-            if (getMachinePartLocationSave() != null)
-            {
-                ScMachine machineLocation = null;
-                //Agregamos el almacen de la localizacion
-//                if (getMachinePartSave().getMachinePartStock().getIdMachine() != null)
-//                {
-//                    machineLocation = getMachinePartSave().getMachinePartStock().getIdMachine();
-//                }
-                //Para una actualizacion de datos
-//                else
-//                {
-//                    machineLocation = getMachinePartSelected().getMachinePartStock().getIdMachine();
-//                }
-                getMachinePartLocationSave().setIdMachine(machineLocation);
-                //Se realiza la persistencia de la localizacion
-                getScMachinePartServer().saveLocationMachinePart(getMachinePartLocationSave());
-                if (getMachinePartLocationsList() == null)
-                {
-                    setMachinePartLocationsList(new ArrayList<ScMachineLocation>());
-                }
-                getMachinePartLocationsList().add(getMachinePartLocationSave());
-                cleanFieldsLocationMachinePart();
-            }
-            else
-            {
-                log.error("Error al intentar crear la localización desde partes de máquina");
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            }
-
-        }
-        catch (Exception e)
-        {
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar crear la localización desde partes de máquina", e);
-        }
-    }
+    
 
     
 
@@ -748,10 +655,7 @@ public class ScMachinePartBean
             {
                 return event.getOldStep();
             }
-            if (validateFields("Localización", getMachinePartSave().getIdLocation(), 4))
-            {
-                return event.getOldStep();
-            }
+            
             if (validateFields("Prioridad", getMachinePartSave().getIdPriority(), 4))
             {
                 return event.getOldStep();
@@ -2357,35 +2261,7 @@ public class ScMachinePartBean
         this.packingUnitsList = packingUnitsList;
     }
 
-    public ScMachineLocation getMachinePartLocationSave()
-    {
-        return locaionSave;
-    }
-
-    public void setMachinePartLocationSave(ScMachineLocation locaionSave)
-    {
-        this.locaionSave = locaionSave;
-    }
-
-    public ScMachineLocation getMachinePartLocationSelected()
-    {
-        return loationSelected;
-    }
-
-    public void setMachinePartLocationSelected(ScMachineLocation loationSelected)
-    {
-        this.loationSelected = loationSelected;
-    }
-
-    public List<ScMachineLocation> getMachinePartLocationsList()
-    {
-        return machineLocationsList;
-    }
-
-    public void setMachinePartLocationsList(List<ScMachineLocation> machineLocationsList)
-    {
-        this.machineLocationsList = machineLocationsList;
-    }
+    
 
     public List<ScMachine> getMachinesList()
     {
@@ -2437,16 +2313,7 @@ public class ScMachinePartBean
         this.priorityList = priorityList;
     }
 
-    public List<ScMachineLocation> getMachineLocationsList()
-    {
-        return machineLocationsList;
-    }
-
-    public void setMachineLocationsList(List<ScMachineLocation> machineLocationsList)
-    {
-        this.machineLocationsList = machineLocationsList;
-    }
-
+    
     public List<ScMachinePartAttached> getMachineAttachedSave()
     {
         return machineAttachedSave;
@@ -2467,26 +2334,7 @@ public class ScMachinePartBean
         this.machineAttachedUpdate = machineAttachedUpdate;
     }
 
-    public ScMachineLocation getLocaionSave()
-    {
-        return locaionSave;
-    }
-
-    public void setLocaionSave(ScMachineLocation locaionSave)
-    {
-        this.locaionSave = locaionSave;
-    }
-
-    public ScMachineLocation getLoationSelected()
-    {
-        return loationSelected;
-    }
-
-    public void setLoationSelected(ScMachineLocation loationSelected)
-    {
-        this.loationSelected = loationSelected;
-    }
-
+    
     public ScMachinePartAttached getMachinePartAttachedSave()
     {
         return machinePartAttachedSave;

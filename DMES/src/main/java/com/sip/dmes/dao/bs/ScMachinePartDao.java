@@ -11,7 +11,7 @@ import com.sip.dmes.entitys.ScDistributionUnit;
 import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScMachine;
-import com.sip.dmes.entitys.ScMachineLocation;
+
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPackingUnit;
@@ -170,21 +170,7 @@ public class ScMachinePartDao  implements  IScMachinePart
 //        }
 //    }
 
-    @Override
-    @Transactional
-    public void saveLocationMachinePart(ScMachineLocation machinePartLocation) throws Exception
-    {
-        try
-        {
-            entityManager.persist(machinePartLocation);
-            entityManager.flush();
-        }
-        catch (Exception e)
-        {
-            log.error("Error al intentar hacer la persistencia de una localización de una  máquina",e);
-            throw e;
-        }
-    }
+   
 
 //    @Override
 //    public List<ScPackingUnit> getAllPackingUnits() throws Exception
@@ -202,22 +188,7 @@ public class ScMachinePartDao  implements  IScMachinePart
 //        return result;
 //    }
 
-    @Override
-    public List<ScMachineLocation> getAllMachinePartLocations(ScMachine  machine) throws Exception
-    {
-        List<ScMachineLocation> result = null;
-        Query query  = entityManager.createNamedQuery("ScMachineLocation.findByMachine"); 
-        query.setParameter("machine", machine);
-        try
-        {
-            result = (List<ScMachineLocation>) query.getResultList();
-        }
-        catch (Exception e)
-        {
-            log.error("Error al intentar hacer la persistencia las localizaciones de la parte de una máquina",e);
-        }
-        return result;
-    }
+   
 
     @Override
     public List<ScMachine> getAllMachines() throws Exception

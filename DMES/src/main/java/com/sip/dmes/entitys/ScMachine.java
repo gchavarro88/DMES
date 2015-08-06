@@ -39,14 +39,10 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ScMachine implements Serializable
 {
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "hour_value")
-    private Double hourValue;
-    @OneToMany(mappedBy = "idMachine", fetch = FetchType.EAGER)
-    private List<ScMachineLocation> scMachineLocationList;
+    
     private static final long serialVersionUID = 1L;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    
     @Id
     @GeneratedValue(generator = "dmes.sqscmachine")
     @SequenceGenerator(name = "dmes.sqscmachine", sequenceName = "dmes.sqscmachine", allocationSize = 1)
@@ -60,7 +56,11 @@ public class ScMachine implements Serializable
     @Column(name = "name")
     private String name;
     
-    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "hour_value")
+    private Double hourValue;
+       
     
     public ScMachine()
     {
@@ -143,17 +143,5 @@ public class ScMachine implements Serializable
         this.hourValue = hourValue;
     }
 
-    @XmlTransient
-    public List<ScMachineLocation> getScMachineLocationList()
-    {
-        return scMachineLocationList;
-    }
-
-    public void setScMachineLocationList(List<ScMachineLocation> scMachineLocationList)
-    {
-        this.scMachineLocationList = scMachineLocationList;
-    }
-
-    
 
 }
