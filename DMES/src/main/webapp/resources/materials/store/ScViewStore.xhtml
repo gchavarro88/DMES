@@ -12,21 +12,20 @@
         <title>.:DMES:. - Ordenes del Almacén</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
         <script type="text/javascript">
-            function start() {
-                PF('statusDialog').show();
-            }
-
+            
         </script>
     </h:head>
     <h:body style="background-color: #000;">
-        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
-        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
-                  draggable="false" closable="false" resizable="false">
-            <p:graphicImage value="/images/loadBar.gif"/>
+        
+        <p:panel  widgetVar="statusDialog" header="Loading..."  
+                  closable="false" >
+            
             <p:spacer height="10"/>
             <p:outputLabel  value="The Primefaces library 5.0 is broken for this component, please search more information in http://www.primefaces.com/faq"/>
-        </p:dialog>
-        
+        </p:panel>
+        <script type="text/javascript">
+           
+        </script>
     </h:body>
 </html>
 
