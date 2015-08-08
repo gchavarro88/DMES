@@ -7,17 +7,14 @@ package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IScMachinePart;
 import com.sip.dmes.entitys.ScCostCenter;
-import com.sip.dmes.entitys.ScDistributionUnit;
 import com.sip.dmes.entitys.ScMachinePart;
-import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScMachine;
 
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
-import com.sip.dmes.entitys.ScPackingUnit;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
-import com.sip.dmes.entitys.ScStore;
+import com.sip.dmes.entitys.ScTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -63,7 +60,7 @@ public class ScMachinePartDao  implements  IScMachinePart
         try
         {
 //            entityManager.persist(machinePart.getMachinePartStock());
-//            entityManager.persist(machinePart.getDimension());
+            entityManager.persist(machinePart.getIdDimension());
             entityManager.persist(machinePart);
         }
         catch (Exception e)
@@ -96,7 +93,7 @@ public class ScMachinePartDao  implements  IScMachinePart
     {
         try
         {
-//            entityManager.merge(machinePart.getDimension());
+            entityManager.merge(machinePart.getIdDimension());
 //            entityManager.merge(machinePart.getMachinePartStock());
             entityManager.merge(machinePart);
         }
@@ -333,6 +330,22 @@ public class ScMachinePartDao  implements  IScMachinePart
         catch (Exception e)
         {
             log.error("Error al intentar hacer la persistencia del insumo",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScTime> getAllTimes() throws Exception
+    {
+        List<ScTime> result = null;
+        Query query  = entityManager.createNamedQuery("ScTime.findAll"); 
+        try
+        {
+            result = (List<ScTime>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los tiempos",e);
         }
         return result;
     }

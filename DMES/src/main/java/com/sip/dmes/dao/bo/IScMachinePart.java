@@ -14,6 +14,7 @@ import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScTime;
 import java.util.List;
 
 /**
@@ -50,6 +51,8 @@ public interface IScMachinePart
     public List<ScPriority> getAllPrioritys() throws Exception;
     
     public void saveCostCenter(ScCostCenter costCenter) throws Exception;
+    
+    public List<ScTime> getAllTimes() throws Exception;
     
 //    public void savePackingUnit(ScPackingUnit packingUnit) throws Exception;
     
