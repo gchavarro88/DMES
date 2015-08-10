@@ -132,6 +132,10 @@ public class ScProductFormulation implements Serializable, Cloneable
     @JoinColumn(name = "id_partner", referencedColumnName = "id_partner")
     @ManyToOne(optional = false)
     private ScPartner supplierGuarantee;
+    
+    @JoinColumn(name = "id_stock", referencedColumnName = "id_stock")
+    @ManyToOne(optional = false)
+    private ScInputStock stock;
 
     public ScProductFormulation()
     {
@@ -340,6 +344,16 @@ public class ScProductFormulation implements Serializable, Cloneable
     public void setProcessProducts(List<ScProcessProduct> processProducts)
     {
         this.processProducts = processProducts;
+    }
+
+    public ScInputStock getStock()
+    {
+        return stock;
+    }
+
+    public void setStock(ScInputStock stock)
+    {
+        this.stock = stock;
     }
 
     
