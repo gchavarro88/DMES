@@ -679,7 +679,7 @@ public class ScMachinePartBean
             {
                 return event.getOldStep();
             }
-            if (validateFields("Vida Útil", getMachinePartSave().getValue() + "", 2))
+            if (validateFields("Vida Útil", getMachinePartSave().getUsefulLife()+ "", 2))
             {
                 return event.getOldStep();
             }
@@ -918,7 +918,7 @@ public class ScMachinePartBean
             {
                 return event.getOldStep();
             }
-            if (validateFields("Vida Útil", getMachinePartSelected().getValue() + "", 2))
+            if (validateFields("Vida Útil", getMachinePartSelected().getUsefulLife() + "", 2))
             {
                 return event.getOldStep();
             }

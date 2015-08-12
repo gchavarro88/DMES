@@ -80,8 +80,18 @@
                                             <p:outputLabel  for="tfClasification" value="Clasificación*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfClasification"  value="#{scMachinePartBean.machinePartSave.clasification}" 
-                                                             />
+                                            <p:selectOneMenu    id="tfClasification"  value="#{scMachinePartBean.machinePartSave.clasification}" 
+                                                                >
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItem itemLabel="Automática" itemValue="Automática"/>
+                                                <f:selectItem itemLabel="Eléctrica" itemValue="Eléctrica"/>
+                                                <f:selectItem itemLabel="Electromecánica" itemValue="Electromecánica"/>
+                                                <f:selectItem itemLabel="Eletrónica" itemValue="Eletrónica"/>
+                                                <f:selectItem itemLabel="Manual" itemValue="Manual"/>
+                                                <f:selectItem itemLabel="Mecánica" itemValue="Mecánica"/>
+                                                <f:selectItem itemLabel="Plc" itemValue="Plc"/>
+                                                <f:selectItem itemLabel="Semiautomática" itemValue="Semiautomática"/>
+                                            </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfValueInput" value="Valor*"/>
@@ -723,7 +733,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre de la máquina*"/>
+                                            <p:outputLabel  for="tfNameInput" value="Nombre de la parte de la máquina*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scMachinePartBean.machinePartSelected.name}"
@@ -744,8 +754,18 @@
                                             <p:outputLabel  for="tfClasification" value="Clasificación*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfClasification"  value="#{scMachinePartBean.machinePartSelected.clasification}" 
-                                                             />
+                                            <p:selectOneMenu    id="tfClasification"  value="#{scMachinePartBean.machinePartSelected.clasification}" 
+                                                                >
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItem itemLabel="Automática" itemValue="Automática"/>
+                                                <f:selectItem itemLabel="Eléctrica" itemValue="Eléctrica"/>
+                                                <f:selectItem itemLabel="Electromecánica" itemValue="Electromecánica"/>
+                                                <f:selectItem itemLabel="Eletrónica" itemValue="Eletrónica"/>
+                                                <f:selectItem itemLabel="Manual" itemValue="Manual"/>
+                                                <f:selectItem itemLabel="Mecánica" itemValue="Mecánica"/>
+                                                <f:selectItem itemLabel="Plc" itemValue="Plc"/>
+                                                <f:selectItem itemLabel="Semiautomática" itemValue="Semiautomática"/>
+                                            </p:selectOneMenu>
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfValueInput" value="Valor*"/>
@@ -1379,7 +1399,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre de la máquina*"/>
+                                            <p:outputLabel  for="tfNameInput" value="Nombre de la parte de la máquina*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scMachinePartBean.machinePartSelected.name}"
@@ -1828,7 +1848,52 @@
             </p:dialog>
             <!--         finaliza el dialogo para ver partes de maquina    -->
             
-            
+            <!--           dialogo para crear una medida-->
+            <p:dialog id="measureSave" widgetVar="measureSave" draggable="true" 
+                      closable="true"  header="Agregar una Medida" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formMeasure">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAcronym" value="Medida"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAcronym"  value="#{scMachinePartBean.measureUnitSave.acronym}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la unidad de medida"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfTypeMeasure" value="Tipo"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfTypeMeasure"  value="#{scMachinePartBean.measureUnitSave.type}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el tipo de medida"/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td  align="center" colspan="2">
+                                <p:commandButton value="Guardar" actionListener="#{scMachinePartBean.addMeasure()}"  
+                                                 onsuccess="PF('measureSave').hide()"
+                                                 update="@this,tfAcronym,tfTypeMeasure,:formWizardSave:cbMeasureHigh,:formWizardSave:cbMeasureWidth,:formWizardSave:cbMeasureLarge,
+                                                 :formWizardSave:cbMeasureVolume,:formWizardSave:cbMeasureThickness,:formWizardSave:cbMeasureRadio,:formWizardSave:cbMeasureWeight
+                                                 ,:formWizardUpdate:cbMeasureHigh,:formWizardUpdate:cbMeasureWidth,:formWizardUpdate:cbMeasureLarge,
+                                                 :formWizardUpdate:cbMeasureVolume,:formWizardUpdate:cbMeasureThickness,:formWizardUpdate:cbMeasureRadio,
+                                                 :formWizardUpdate:cbMeasureWeight"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scMachinePartBean.cleanFieldsMeasure()}" 
+                                                 oncomplete="PF('measureSave').hide()"
+                                                 update="@this,tfAcronym,tfTypeMeasure"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            <!--         fin  dialogo para crear una medida-->
             
             <!--            Dialogo para subir imagenes width="10%" align="right" -->
             <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
@@ -1872,7 +1937,7 @@
                       closable="true"  header="Cargar Documento..." position="center top" 
                       hideEffect="explode" modal="true" showEffect="explode" 
                       >
-
+                
                 <h:form enctype="multipart/form-data" prependId="false">
                     <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
                         <p:outputLabel for="tfDocument" value="Título del Documento"/>

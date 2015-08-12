@@ -86,10 +86,8 @@ public class ScReplacement implements Serializable, Cloneable
     @Column(name = "value")
     private Double value;
     @Size(max = 2000)
-    
-    @Column(name = "path_picture")
+    @Column(name = "path_picture") 
     private String pathPicture;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2000)
