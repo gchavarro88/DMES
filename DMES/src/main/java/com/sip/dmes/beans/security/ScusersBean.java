@@ -310,6 +310,12 @@ public class ScusersBean
         }
     }
     
+    public void getUserSelected(ScUsers userSelected)
+    {
+        setUserSelected(userSelected);
+    }
+    
+    
     public void getUserByDataTableUpdate(ScUsers userSelected)
     {
         try

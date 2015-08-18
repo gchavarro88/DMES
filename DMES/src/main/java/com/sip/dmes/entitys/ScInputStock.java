@@ -6,9 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -95,69 +91,87 @@ public class ScInputStock implements Serializable {
         this.optimeStock = optimeStock;
     }
 
-    public Long getIdInputStock() {
+    public Long getIdInputStock()
+    {
         return idInputStock;
     }
 
-    public void setIdInputStock(Long idInputStock) {
+    public void setIdInputStock(Long idInputStock)
+    {
         this.idInputStock = idInputStock;
     }
 
-    public long getMaximeStock() {
+    public long getMaximeStock()
+    {
         return maximeStock;
     }
 
-    public void setMaximeStock(long maximeStock) {
+    public void setMaximeStock(long maximeStock)
+    {
         this.maximeStock = maximeStock;
     }
 
-    public long getMinimeStock() {
+    public long getMinimeStock()
+    {
         return minimeStock;
     }
 
-    public void setMinimeStock(long minimeStock) {
+    public void setMinimeStock(long minimeStock)
+    {
         this.minimeStock = minimeStock;
     }
 
-    public long getCurrentStock() {
+    public long getCurrentStock()
+    {
         return currentStock;
     }
 
-    public void setCurrentStock(long currentStock) {
+    public void setCurrentStock(long currentStock)
+    {
         this.currentStock = currentStock;
     }
 
-    public Double getPriceUnit() {
+    public Double getPriceUnit()
+    {
         return priceUnit;
     }
 
-    public void setPriceUnit(Double priceUnit) {
+    public void setPriceUnit(Double priceUnit)
+    {
         this.priceUnit = priceUnit;
     }
 
-    public Double getTotalValue() {
+    public Double getTotalValue()
+    {
         return totalValue;
     }
 
-    public void setTotalValue(Double totalValue) {
+    public void setTotalValue(Double totalValue)
+    {
         this.totalValue = totalValue;
     }
 
-    public long getOptimeStock() {
+    public long getOptimeStock()
+    {
         return optimeStock;
     }
 
-    public void setOptimeStock(long optimeStock) {
+    public void setOptimeStock(long optimeStock)
+    {
         this.optimeStock = optimeStock;
     }
 
-    public ScStore getIdStore() {
+    public ScStore getIdStore()
+    {
         return idStore;
     }
 
-    public void setIdStore(ScStore idStore) {
+    public void setIdStore(ScStore idStore)
+    {
         this.idStore = idStore;
     }
+
+    
 
     @Override
     public int hashCode() {

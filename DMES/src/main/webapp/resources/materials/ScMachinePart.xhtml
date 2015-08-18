@@ -22,12 +22,12 @@
     </h:head>
     <h:body style="background-color: #000;">
         <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
-        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..." position="center top"
                   draggable="false" closable="false" resizable="false">
             <p:graphicImage value="/images/loadBar.gif"/>
         </p:dialog>
         <div>
-            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+
             <!--         Dialogo para guardar nuevos Parte de Máquinas         -->
             
            
@@ -59,7 +59,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre de la máquina*"/>
+                                            <p:outputLabel  for="tfNameInput" value="Parte de la máquina*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scMachinePartBean.machinePartSave.name}"
@@ -127,13 +127,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="cbTypeField" value="Tipo*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="cbTypeField"  value="#{scMachinePartBean.machinePartSave.type}"
-                                                            />
-                                        </td>
+                                        <td colspan="2"></td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbSupplier" value="Proveedor*"/>
                                         </td>
@@ -638,7 +632,7 @@
                                 <table width="98%" cellspacing="10" style="text-align: center;">
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInputSave" value="Nombre de la parte de la máquina"/>
+                                            <p:outputLabel  for="tfNameInputSave" value="Parte de la máquina"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:outputLabel    id="tfNameInputSave"  value="#{scMachinePartBean.machinePartSave.name}"/>
@@ -652,12 +646,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfTypeMaterialSave" value="Tipo"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:outputLabel    id="tfTypeMaterialSave"  value="#{scMachinePartBean.machinePartSave.type}"/>
-                                        </td>
+                                        <td colspan="2"></td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfValueInputSave" value="Valor"/>
                                         </td>
@@ -733,7 +722,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre de la parte de la máquina*"/>
+                                            <p:outputLabel  for="tfNameInput" value="Parte de la máquina*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scMachinePartBean.machinePartSelected.name}"
@@ -801,13 +790,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="cbTypeField" value="Tipo*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="cbTypeField"  value="#{scMachinePartBean.machinePartSelected.type}"
-                                                            />
-                                        </td>
+                                        <td colspan="2"></td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbSupplier" value="Proveedor*"/>
                                         </td>
@@ -1073,7 +1056,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleSpecification,tfSpecificationSave,dataTableSpecificationUpdate"
-                                                                             actionListener="#{scMachinePartBean.saveAttached(scMachinePartBean.machinePartSelected.scMachinePartAttachedList, scMachinePartBean.machinePartSelected , scMachinePartBean.machineAttachedSave , 'SPECIFICATION')}"/>
+                                                                             actionListener="#{scMachinePartBean.saveAttached(scMachinePartBean.machinePartAttachedSave, scMachinePartBean.machinePartSelected, scMachinePartBean.machinePartSelected.scMachinePartAttachedList, 'SPECIFICATION')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -1142,7 +1125,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleFeacture,tfFeactureSave,dataTableFeactureSave"
-                                                                             actionListener="#{scMachinePartBean.saveAttached(scMachinePartBean.machinePartSelected.scMachinePartAttachedList, scMachinePartBean.machinePartSelected , scMachinePartBean.machineAttachedSave, 'FEACTURE')}"/>
+                                                                             actionListener="#{scMachinePartBean.saveAttached(scMachinePartBean.machinePartAttachedSave, scMachinePartBean.machinePartSelected, scMachinePartBean.machinePartSelected.scMachinePartAttachedList, 'FEACTURE')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -1211,7 +1194,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleObservation,tfObservationSave,dataTableObservationSave"
-                                                            actionListener="#{scMachinePartBean.saveAttached(scMachinePartBean.machinePartSelected.scMachinePartAttachedList, scMachinePartBean.machinePartSelected , scMachinePartBean.machineAttachedSave, 'OBSERVATION')}"/>
+                                                            actionListener="#{scMachinePartBean.saveAttached(scMachinePartBean.machinePartAttachedSave, scMachinePartBean.machinePartSelected, scMachinePartBean.machinePartSelected.scMachinePartAttachedList, 'OBSERVATION')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -1312,7 +1295,7 @@
                                 <table width="98%" cellspacing="10" style="text-align: center;">
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInputSave" value="Nombre de la parte de la máquina"/>
+                                            <p:outputLabel  for="tfNameInputSave" value="Parte de la máquina"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:outputLabel    id="tfNameInputSave"  value="#{scMachinePartBean.machinePartSelected.name}"/>
@@ -1326,12 +1309,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfTypeMaterialSave" value="Tipo"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:outputLabel    id="tfTypeMaterialSave"  value="#{scMachinePartBean.machinePartSelected.type}"/>
-                                        </td>
+                                        <td colspan="2"></td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfValueInputSave" value="Valor"/>
                                         </td>
@@ -1399,7 +1377,7 @@
                                     </tr>
                                     <tr>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameInput" value="Nombre de la parte de la máquina*"/>
+                                            <p:outputLabel  for="tfNameInput" value="Parte de la máquina*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameInput"  value="#{scMachinePartBean.machinePartSelected.name}"
@@ -1457,13 +1435,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="cbTypeField" value="Tipo*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText    id="cbTypeField"  value="#{scMachinePartBean.machinePartSelected.type}"
-                                                            readonly="true"/>
-                                        </td>
+                                        <td colspan="2"></td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="cbSupplier" value="Proveedor*"/>
                                         </td>
@@ -1942,7 +1914,8 @@
                     <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
                         <p:outputLabel for="tfDocument" value="Título del Documento"/>
 
-                        <p:inputText value="#{scMachinePartBean.documentsSave.documentTittle}" id="tfDocument"/> 
+                        <p:inputText value="#{scMachinePartBean.documentsSave.documentTittle}" id="tfDocument"  required="true"
+                                     requiredMessage="Debe ingresar el nombre del documento"/> 
 
                         <p:fileUpload label="Documento de la Parte de Máquina" value="#{scMachinePartBean.fileSave}" mode="simple"
                                       update=":formWizardSave:dataTableDocumentationSave">  
@@ -1966,7 +1939,8 @@
                     <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
                         <p:outputLabel for="tfDocumentUpdate" value="Título del Documento"/>
 
-                        <p:inputText value="#{scMachinePartBean.documentsSave.documentTittle}" id="tfDocumentUpdate"/> 
+                        <p:inputText value="#{scMachinePartBean.documentsSave.documentTittle}" id="tfDocumentUpdate" required="true"
+                                     requiredMessage="Debe ingresar el nombre del documento"/> 
 
                         <p:fileUpload label="Documento de la Parte de una Máquina" value="#{scMachinePartBean.fileSave}" mode="simple"
                                       update=":formWizardUpdate:dataTableDocumentationSave">  
@@ -2057,9 +2031,11 @@
                 </h:form>
 
             </p:dialog>
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <!--            finaliza el dialogo para eliminar registros            -->
 <!--        #######################################################################-->
             <h:form id="formMachinePart">
+                
                 <p:remoteCommand name="machinePartInit" update=":formMachinePart:scDataTableMachinePart" />
                 <p:dataTable id="scDataTableMachinePart" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{scMachinePartBean.machinePartList}" var="machinePart"
@@ -2079,22 +2055,7 @@
                             <p:tooltip for="btnAdd" value="Agregar un Parte de Máquina"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogPartMachineView').show()" update=":formWizardView:" 
-                            listener="#{scMachinePartBean.selectedForUpdate(scMachinePartBean.machinePartSelected)}"/>
-                    <p:column headerText="Administración" width="84">
-                        <center>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scMachinePartBean.selectedForUpdate(machinePart)}"
-                                             oncomplete="PF('dialogPartMachineUpdate').show()" update=":formWizardUpdate"
-                                             >
-                                <p:tooltip for="btnEdit" value="Editar un Parte de Máquina"/>
-                            </p:commandButton>
-                            <p:spacer width="10"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogPartMachineDelete').show()"
-                                             actionListener="#{scMachinePartBean.selectedForDelete(machinePart)}" >
-                                <p:tooltip for="btnDelete" value="Eliminar un Parte de Máquina"/>
-                            </p:commandButton>
-                        </center>
-                    </p:column>
+                    
                     <p:column filterMatchMode="contains"  filterBy="#{machinePart.idMachine.name}" id="columnMachine" headerText="Máquina" sortBy="#{machinePart.idMachine.name}">    
                         <center>
                             <p:outputLabel value="#{machinePart.idMachine.name}" id="lblMachine"/>
@@ -2113,16 +2074,32 @@
                             <p:tooltip for="lblMark" value="#{machinePart.mark}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{machinePart.type}" id="columnStore" headerText="Tipo" sortBy="#{machinePart.type}">    
-                        <center>
-                            <p:outputLabel value="#{machinePart.type}" id="lblType"/>
-                            <p:tooltip for="lblType" value="#{machinePart.type}"/>
-                        </center>
-                    </p:column>
+                   
                     <p:column filterMatchMode="contains"  filterBy="#{machinePart.value} #{machinePart.idMoney.acronym}" id="columnValue" headerText="Valor" sortBy="#{machinePart.value}">    
                         <center>
                             <p:outputLabel value="#{machinePart.value} #{machinePart.idMoney.acronym}" id="lblValue"/>
                             <p:tooltip for="lblValue" value="#{machinePart.value} #{machinePart.idMoney.acronym}"/>
+                        </center>
+                    </p:column>
+                            
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" update=":formWizardView:"
+                            actionListener="#{scMachinePartBean.selectedForDelete(machinePart)}"
+                            oncomplete="PF('dialogPartMachineView').show()">
+                                <p:tooltip for="btnSearch" value="Visualizar una Parte de Máquina"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scMachinePartBean.selectedForUpdate(machinePart)}"
+                                             oncomplete="PF('dialogPartMachineUpdate').show()" update=":formWizardUpdate"
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar un Parte de Máquina"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogPartMachineDelete').show()"
+                                             actionListener="#{scMachinePartBean.selectedForDelete(machinePart)}" >
+                                <p:tooltip for="btnDelete" value="Eliminar un Parte de Máquina"/>
+                            </p:commandButton>
                         </center>
                     </p:column>
                 </p:dataTable>

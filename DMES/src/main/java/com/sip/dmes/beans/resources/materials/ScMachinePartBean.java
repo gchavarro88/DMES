@@ -657,10 +657,10 @@ public class ScMachinePartBean
                 return event.getOldStep();
             }
             
-            if (validateFields("Tipo", getMachinePartSave().getType(), 3))
-            {
-                return event.getOldStep();
-            }
+//            if (validateFields("Tipo", getMachinePartSave().getType(), 3))
+//            {
+//                return event.getOldStep();
+//            }
             //Validamos los campos seleccionables
             if (validateFields("Proveedor y Garantía", getMachinePartSave().getIdSupplierGuarantee(), 4))
             {
@@ -896,10 +896,10 @@ public class ScMachinePartBean
                 return event.getOldStep();
             }
             
-            if (validateFields("Tipo", getMachinePartSelected().getType(), 3))
-            {
-                return event.getOldStep();
-            }
+//            if (validateFields("Tipo", getMachinePartSelected().getType(), 3))
+//            {
+//                return event.getOldStep();
+//            }
             //Validamos los campos seleccionables
             if (validateFields("Proveedor y Garantía", getMachinePartSelected().getIdSupplierGuarantee(), 4))
             {
@@ -1736,9 +1736,11 @@ public class ScMachinePartBean
         {
             case 1://opción para guardar
                 RequestContext.getCurrentInstance().execute("PF('documentSave').hide()");
+                RequestContext.getCurrentInstance().execute("start();");
                 break;
             case 2://opción para actualizar
                 RequestContext.getCurrentInstance().execute("PF('documentUpdate').hide()");
+                RequestContext.getCurrentInstance().execute("start();");
                 break;
             default:
                 break;
@@ -1833,9 +1835,11 @@ public class ScMachinePartBean
         switch (option)
         {
             case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("stop();");
                 RequestContext.getCurrentInstance().execute("PF('dialogPartMachineSave').show()");
                 break;
             case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("stop();");
                 RequestContext.getCurrentInstance().execute("PF('dialogPartMachineUpdate').show()");
                 break;
             default:

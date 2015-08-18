@@ -12,6 +12,7 @@ import com.sip.dmes.dao.bo.IScPersonDocumentationAttached;
 import com.sip.dmes.dao.bo.IScPersonObservations;
 import com.sip.dmes.dao.bo.IScPersonSpecifications;
 import com.sip.dmes.dao.bo.IScPhones;
+import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScMails;
 import com.sip.dmes.entitys.ScPerson;
 import com.sip.dmes.entitys.ScPersonDocumentationAttached;
@@ -20,8 +21,10 @@ import com.sip.dmes.entitys.ScPersonSpecifications;
 import com.sip.dmes.entitys.ScPhones;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -34,8 +37,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -64,7 +69,7 @@ public class ScpersonBean
     private List<ScPhones> personPhoneListBk;
     private List<ScPersonObservations> personObservationsListBk;
     private List<ScPersonSpecifications> personSpecificationsListBk;
-    
+    private UploadedFile pictureFile; //Archivo que se copiara para la imagen del insumo
     private List<ScMails> personMailListBk;
     private ScPerson personAdd;
     private ScPerson personUpdate;
@@ -91,7 +96,10 @@ public class ScpersonBean
     private final String TAB_SPECIFICATIONS_UPDATE = "tabSpecificationsUpdate";
     private final String TAB_DOCUMENTATIONS_UPDATE = "tabDocumentationsUpdate";
     private final String TAB_CONFIRM_UPDATE = "tabConfirmUpdate";
-    
+    //files
+    private int MAX_SIZE_FILE = 5;//Tamaño en megas del archivo
+    private String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";
+    private String PATH_FILE = System.getProperty("user.home"); //Obtenemos la ruta del servidor
     
     
      
@@ -255,7 +263,36 @@ public class ScpersonBean
             }
         }
     }
-
+ 
+    /** 
+     * Método encargado de visualizar la imagen de un elemento.
+     *
+     * @return String cadena con la ruta de la imagen
+     * @param input insumo al que se le consultará la imagen
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String searchImage(ScPerson person)
+    {
+        try
+        {
+            if (person != null)
+            {
+                if (!Utilities.isEmpty(person.getPathPhoto())) 
+                {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(person.getPathPhoto())));
+                    //la constante me permite mapear imagenes externas
+                    return DMESConstants.PATH_EXTERN_PICTURES + person.getPathPhoto();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR, "La imagen no existe");
+        }
+        return DMESConstants.PATH_IMAGE_DEFAULT;
+    }
+    
+    
     public void removePhonesByPerson(ScPhones phones)
     {
         int i=0;
@@ -764,7 +801,95 @@ public class ScpersonBean
         }
     }
     
-    
+    /**
+     * Método encargado de realizar la copia del archivo que se desea cargar.
+     *
+     * @param option se escoge la opción entre guardar y actualizar
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void handleFileUpload(int option)
+    {
+        //Validamos que el evento de copiado no sea nulo
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
+                break;
+            default:
+                break;
+        }
+        if (getPictureFile() != null)
+        {
+
+            String fileName = getPictureFile().getFileName(); //Extraemos el nombre del archivo
+            long fileSize = getPictureFile().getSize(); //Extraemos el tamaño del archivo
+            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+            String fileType = fileName.substring(positionLimitName + 1, fileName.length()); //Extraemos el tipo del archivo
+            //Validamos que el archivo contenga los tipos permitidos
+            if (DMESConstants.TYPES_EXTENTIONS_IMAGES.contains(fileType))
+            {
+                String folderName = DMESConstants.FILE_PATH_INPUTS_IMG;
+                //Creamos el folder
+                File folder = new File(PATH_FILE + "/" + folderName);
+                folder.mkdirs();
+                //Creamos el archivo con la ruta y el nombre de la carpeta
+                File file = new File(folder + "/" + fileName);
+                try
+                {
+                    //Creamos el archivo y lo enviamos al metodo que lo escribe
+                    if (writeFile(getPictureFile().getInputstream(), file))
+                    {
+                        switch (option)
+                        {
+                            case 1://opción para guardar
+                                getPersonAdd().setPathPhoto(file.getAbsolutePath());
+                                break;
+                            case 2://opción para actualizar
+                                getPersonUpdate().setPathPhoto(file.getAbsolutePath());
+                                break;
+                            default:
+                                break;
+                        }
+                        //addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                    }
+                    //Si sucede un error al escribir el archivo
+                    else
+                    {
+                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    }
+                }
+                catch (Exception e)
+                {
+                    //Excepción de escritura
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error("Error al intentar guardar la imagen", e);
+                }
+            }
+            //El tipo no pertenece
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos " + DMESConstants.TYPES_EXTENTIONS_IMAGES);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
+        }
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('dialogPersonSave').show()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('dialogPersonUpdate').show()");
+                break;
+            default:
+                break;
+        }
+    }
     
     
     
@@ -1188,6 +1313,16 @@ public class ScpersonBean
     public List<ScMails> getPersonMailListBk()
     {
         return personMailListBk;
+    }
+
+    public UploadedFile getPictureFile()
+    {
+        return pictureFile;
+    }
+
+    public void setPictureFile(UploadedFile pictureFile)
+    {
+        this.pictureFile = pictureFile;
     }
 
    

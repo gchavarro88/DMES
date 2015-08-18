@@ -1660,6 +1660,15 @@ public class ScProductFormulationBean
         cleansTypesMeasures();
         setProductSelected(product);
     }
+    /**
+     * Método encargado de limpiar los campos para visualizar un producto
+     * @param product producto a actualizaro 
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForView(ScProductFormulation product)
+    {
+        setProductSelected(product);
+    }
     
     /**
      * Método encargado de limpiar los campos para actualizar un producto

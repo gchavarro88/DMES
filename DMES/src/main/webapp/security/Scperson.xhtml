@@ -37,6 +37,19 @@
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="10%" align="right">
+                                            <p:outputLabel  value="Imagen"/>
+                                        </td>
+                                        <td width="40%" align="left" valign="middle">
+                                        <h:graphicImage value="#{scpersonBean.searchImage(scpersonBean.personAdd)}" alt="Imagen no disponible" id="imageSave" 
+                                                            width="120" height="120"  />
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureSave').show()" style="top: -10px;"
+                                                              ignoreAutoUpdate="true"/>                                       
+                                        </td>
+                                        <td colspan="2" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
                                             <p:outputLabel  for="tfId" value="Cédula"/>
                                         </td>
                                         <td width="40%" align="left">
@@ -513,6 +526,19 @@
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="10%" align="right">
+                                            <p:outputLabel  value="Imagen"/>
+                                        </td>
+                                        <td width="40%" align="left" valign="middle">
+                                        <h:graphicImage value="#{scpersonBean.searchImage(scpersonBean.personUpdate)}" alt="Imagen no disponible" id="imageUpdate" 
+                                                            width="120" height="120"  />
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureUpdate').show()" style="top: -10px;"
+                                                              ignoreAutoUpdate="true"/>                                       
+                                        </td>
+                                        <td colspan="2" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
                                             <p:outputLabel  for="tfLastNameUpdate" value="Apellidos"/>
                                         </td>
                                         <td width="40%" align="left">
@@ -962,7 +988,7 @@
             <!--         finaliza el dialogo para actualizar Usuarios               -->
             
             <!--             inicia el dialogo para elimianr registros           -->
-            <p:dialog id="dialogPersonDelete" widgetVar="dialogPersonDelete" 
+            <p:dialog id="dialogPersonDelete" widgetVar="dialogPersonDelete" position="center top"
                       closable="true" draggable="true" dynamic="true" header="Eliminar Terceros"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="false">
                 <h:form id="formDeleteScPerson">
@@ -1179,6 +1205,45 @@
                 </p:dialog>
 <!--            finaliza el dialgo para ver en detalle un tercero-->
             
+
+<!--            Dialogo para subir imagenes width="10%" align="right" -->
+            <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Insumo" value="#{scpersonBean.pictureFile}" mode="simple"
+                                      >       >        
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                         actionListener="#{scpersonBean.handleFileUpload(1)}" ajax="false" ignoreAutoUpdate="true"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para subir imagenes-->
+            <!--            Dialogo para actualizar imagenes width="10%" align="right" -->
+            <p:dialog id="pictureUpdate" widgetVar="pictureUpdate" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Insumo" value="#{scpersonBean.pictureFile}" mode="simple"
+                                      >       >        
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadDocumentUpdate" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                         actionListener="#{scpersonBean.handleFileUpload(2)}" ajax="false" ignoreAutoUpdate="true" />
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para actualizar imagenes-->
+
+
             <h:form id="formPerson">
                 <p:remoteCommand name="personInit" update=":formPerson:dataTablePersons" />
                 <p:growl autoUpdate="true" showDetail="true" life="8000" />
@@ -1196,9 +1261,9 @@
                     selectionMode="single" paginatorPosition="top"
                     selection="#{scpersonBean.personSelected}"
                     sortBy="#{person.lastName} #{person.firstName}">
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogPersonView').show()" 
+<!--                    <p:ajax event="rowSelect" oncomplete="PF('dialogPersonView').show()" 
                             
-                            update=":formWizardView" />
+                            update=":formWizardView" />-->
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"
                                          oncomplete="PF('dialogPersonSave').show()">
@@ -1206,22 +1271,7 @@
                         </p:commandButton>
                     </f:facet>
                     
-                    <p:column headerText="Administración" width="84">
-                        <center>
-                            <p:commandButton  id="btnEdit"  actionListener="#{scpersonBean.getPersonByUpdateDataTable(person)}"
-                            icon="ui-icon-pencil" update=":formWizardUpdate:wizardUpdate"
-                            oncomplete="PF('dialogPersonUpdate').show()"                  >
-                                <p:tooltip for="btnEdit" value="Editar un Tercero"/>
-                            </p:commandButton>
-
-                            <p:spacer width="10"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formDeleteScPerson"
-                            actionListener="#{scpersonBean.getPersonByDataTable(person)}"
-                            oncomplete="PF('dialogPersonDelete').show()">
-                                <p:tooltip for="btnDelete" value="Eliminar un Tercero"/>
-                            </p:commandButton>
-                        </center>
-                    </p:column>
+                    
                     
                     <p:column filterMatchMode="contains"  filterBy="#{person.identification}" headerText="ID" sortBy="#{person.identification}">
                         <h:outputText value="#{person.identification}"  id="lblidentification"/>
@@ -1238,36 +1288,36 @@
                         <p:tooltip for="lblLastName" value="#{person.lastName}"/>
                     </p:column>                   
 
-                    <p:column filterMatchMode="contains"  filterBy="#{person.age}" headerText="Edad" sortBy="#{person.age}">
-                        <p:outputLabel value="#{person.age}" id="lblAge"/>
-                        <p:tooltip for="lblAge" value="#{person.age}"/> 
-                    </p:column>
-
-                    <p:column filterMatchMode="contains"  filterBy="#{person.country}" headerText="Pais" sortBy="#{person.country}">
-                        <p:outputLabel id="lblCountry" value="#{person.country}" />
-                        <p:tooltip for="lblCountry" value="#{person.country}"/>
-                    </p:column>
-                    
-                    <p:column filterMatchMode="contains"  filterBy="#{person.city}" headerText="Ciudad" sortBy="#{person.city}">
-                        <p:outputLabel id="lblCity" value="#{person.city}" />
-                        <p:tooltip for="lblCity" value="#{person.city}"/>
-                    </p:column>
-
-                    <p:column filterMatchMode="contains"  filterBy="#{person.domicilie}" headerText="Direccion" sortBy="#{person.domicilie}">
-                        <p:outputLabel id="lbldomicilie" value="#{person.domicilie}" />
-                        <p:tooltip for="lbldomicilie" value="#{person.domicilie}"/>
-                    </p:column>
 
                     <p:column filterMatchMode="contains"  filterBy="#{person.studies}" headerText="Estudios" sortBy="#{person.studies}">
                         <p:outputLabel id="lblStudies" value="#{person.studies}" />
                         <p:tooltip for="lblStudies" value="#{person.studies}"/>
                     </p:column>
 
-                    <p:column filterMatchMode="contains"  filterBy="#{person.personalInformation}" headerText="Inf. personal" sortBy="#{person.personalInformation}">
-                        <p:outputLabel id="lblPersonalInformation" value="#{person.personalInformation}" />
-                        <p:tooltip for="lblPersonalInformation" value="#{person.personalInformation}"/>
-                    </p:column>
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" update=":formWizardView"
+                            actionListener="#{scpersonBean.getPersonByDataTable(person)}"
+                            oncomplete="PF('dialogPersonView').show()">
+                                <p:tooltip for="btnSearch" value="Visualizar un Tercero"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton  id="btnEdit"  actionListener="#{scpersonBean.getPersonByUpdateDataTable(person)}"
+                            icon="ui-icon-pencil" update=":formWizardUpdate:wizardUpdate"
+                            oncomplete="PF('dialogPersonUpdate').show()"                  >
+                                <p:tooltip for="btnEdit" value="Editar un Tercero"/>
+                            </p:commandButton>
 
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formDeleteScPerson"
+                            actionListener="#{scpersonBean.getPersonByDataTable(person)}"
+                            oncomplete="PF('dialogPersonDelete').show()">
+                                <p:tooltip for="btnDelete" value="Eliminar un Tercero"/>
+                            </p:commandButton>
+                            
+                        </center>
+                    </p:column>
                 </p:dataTable>
 
             </h:form>

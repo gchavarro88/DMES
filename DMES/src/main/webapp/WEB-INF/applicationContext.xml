@@ -55,6 +55,7 @@
     <bean id="scStoreOrderServer" class="com.sip.dmes.dao.bs.ScStoreOrderDao"></bean>
     <bean id="scMachinePartServer" class="com.sip.dmes.dao.bs.ScMachinePartDao"></bean>
     <bean id="scMachineServer" class="com.sip.dmes.dao.bs.ScMachineDao"></bean>
+    <bean id="scStoreViewServer" class="com.sip.dmes.dao.bs.ScStoreViewDao"></bean>
     <!--
     <bean id="scOperatingConditionsServer" class="com.sip.dmes.dao.bs.ScOperatingConditionsDao"></bean>
     <bean id="scMaintenancePlanServer" class="com.sip.dmes.dao.bs.ScMaintenancePlanDao"></bean>-->

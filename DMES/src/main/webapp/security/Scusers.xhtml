@@ -49,7 +49,7 @@
                                             feedback="true" maxlength="16" promptLabel="Ingrese solo números y letras" 
                                             goodLabel="Seguridad Media" required="true" requiredMessage="Campo obligatorio debe ingresar la contraseña"
                                             weakLabel="Seguridad Baja" strongLabel="Seguridad Alta" match="tfPassword2" 
-                                            validatorMessage="El password debe ser igual en los dos campos"/>                                    
+                                            validatorMessage="La Contraseña debe ser igual en los dos campos"/>                                    
                                         </td>
                                     </tr>
                                     <tr>
@@ -379,6 +379,9 @@
 <!--           finaliza el dialogo para visualizar un rol           -->
             
             
+
+
+
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form id="formUsers">
                  <p:remoteCommand name="userInit" update=":formUsers:scUsersDataTable" />
@@ -401,21 +404,7 @@
                             <p:tooltip for="btnAdd" value="Agregar un Usuario"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogUsersView').show()"/>
-                    <p:column headerText="Administración" width="84">
-                        <center>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scusersBean.getUserByDataTableUpdate(user)}"
-                                             oncomplete="PF('dialogUserUpdate').show()" update=":formWizardUpdate" 
-                                             >
-                                <p:tooltip for="btnEdit" value="Editar Usuario"/>
-                            </p:commandButton>
-                            <p:spacer width="10"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogUsersDelete').show()"
-                                             actionListener="#{scusersBean.getUserByDataTable(user)}" update=":formDeleteScUser">
-                                <p:tooltip for="btnDelete" value="Eliminar Usuario"/>
-                            </p:commandButton>
-                        </center>
-                    </p:column>
+                    
                     
                     <p:column filterMatchMode="contains"  filterBy="#{user.login}" id="columnLogin" headerText="Usuario" sortBy="#{user.login}">    
                         <center>
@@ -443,7 +432,27 @@
                             <p:tooltip for="lblUserCreationDate" value="#{scusersBean.getFormatDate(user.creationDate)}"/>
                         </center>
                     </p:column>
-
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogUsersView').show()"/>
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" update=":formViewScRole"
+                            actionListener="#{scusersBean.getUserSelected(user)}"
+                            oncomplete="PF('dialogUsersView').show()">
+                                <p:tooltip for="btnSearch" value="Visualizar un Usuario"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scusersBean.getUserByDataTableUpdate(user)}"
+                                             oncomplete="PF('dialogUserUpdate').show()" update=":formWizardUpdate" 
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar Usuario"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogUsersDelete').show()"
+                                             actionListener="#{scusersBean.getUserByDataTable(user)}" update=":formDeleteScUser">
+                                <p:tooltip for="btnDelete" value="Eliminar Usuario"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>
                 </p:dataTable>
             </h:form>
         </div>

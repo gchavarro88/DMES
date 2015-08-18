@@ -1669,6 +1669,17 @@ public class ScReplacementBean
         cleansTypesMeasures();
         setReplacementSelected(replacement);
     }
+    
+    /**
+     * Método encargado de limpiar los campos para visualizar un repuesto
+     *
+     * @param replacement repuesto a visualizar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForView(ScReplacement replacement)
+    {
+        setReplacementSelected(replacement);
+    }
 
     /**
      * Método encargado de limpiar los campos para actualizar un repuesto

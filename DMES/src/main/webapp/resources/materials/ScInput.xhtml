@@ -22,7 +22,7 @@
     </h:head>
     <h:body style="background-color: #000;">
         <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
-        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..." position="center top"
                   draggable="false" closable="false" resizable="false">
             <p:graphicImage value="/images/loadBar.gif"/>
         </p:dialog>
@@ -85,7 +85,9 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfValueInput"  value="#{scInputBean.inputSave.value}" 
-                                                            requiredMessage="Debe ingresar el valor del insumo" style="width: 100px;"/>
+                                                            requiredMessage="Debe ingresar el valor del insumo" style="width: 100px;">
+                                                <p:tooltip for="" value="Valor correspondiente a la unidad de empaque"
+                                            </p:inputText>
                                             <p:spacer width="5"/>
                                             <p:selectOneMenu id="cbMoney"  value="#{scInputBean.inputSave.money}" 
                                                              converter="moneyConverter" converterMessage="Error en el tipo de dato de la moneda" style="width: 100px; top: 6px;"
@@ -2402,21 +2404,7 @@
                             <p:tooltip for="btnAdd" value="Agregar un Insumo"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogInputView').show()" update=":formWizardView:" />
-                    <p:column headerText="Administración" width="84">
-                        <center>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scInputBean.selectedForUpdate(input)}"
-                                             oncomplete="PF('dialogInputUpdate').show()" update=":formWizardUpdate:" 
-                                             >
-                                <p:tooltip for="btnEdit" value="Editar un Insumo"/>
-                            </p:commandButton>
-                            <p:spacer width="10"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogInputDelete').show()"
-                                             actionListener="#{scInputBean.selectedForDelete(input)}" update=":formWizardDelete">
-                                <p:tooltip for="btnDelete" value="Eliminar un Insumo"/>
-                            </p:commandButton>
-                        </center>
-                    </p:column>
+                    
                     <p:column filterMatchMode="contains"  filterBy="#{input.description}" headerText="Insumo" sortBy="#{input.description}" id="columnInputName">    
                         <center>
                             <p:outputLabel value="#{input.description}" id="lblIntputName"/>
@@ -2465,6 +2453,26 @@
                         <center>
                             <p:outputLabel value="#{input.value} #{input.money.acronym}" id="lblValue"/>
                             <p:tooltip for="lblValue" value="#{input.value} #{input.money.acronym}"/>
+                        </center>
+                    </p:column>
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" update=":formWizardView:"
+                            actionListener="#{scInputBean.selectedForView(input)}"
+                            oncomplete="PF('dialogInputView').show()">
+                                <p:tooltip for="btnSearch" value="Visualizar un Insumo"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scInputBean.selectedForUpdate(input)}"
+                                             oncomplete="PF('dialogInputUpdate').show()" update=":formWizardUpdate:" 
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar un Insumo"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogInputDelete').show()"
+                                             actionListener="#{scInputBean.selectedForDelete(input)}" update=":formWizardDelete">
+                                <p:tooltip for="btnDelete" value="Eliminar un Insumo"/>
+                            </p:commandButton>
                         </center>
                     </p:column>
                 </p:dataTable>

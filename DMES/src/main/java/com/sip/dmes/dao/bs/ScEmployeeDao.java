@@ -89,7 +89,7 @@ public class ScEmployeeDao implements IScEmployee
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consutlar los empleados", e);
+            log.error("Error al intentar consultar los empleados", e);
         }
         return result;
     }

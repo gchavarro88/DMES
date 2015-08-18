@@ -50,7 +50,7 @@ public class ScPhones implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "number_phone")
-    private long numberPhone;
+    private Long numberPhone;
     @Size(max = 100)
     @Column(name = "description")
     private String description;
@@ -65,7 +65,7 @@ public class ScPhones implements Serializable {
         this.idPhone = idPhone;
     }
 
-    public ScPhones(Long idPhone, long numberPhone) {
+    public ScPhones(Long idPhone, Long numberPhone) {
         this.idPhone = idPhone;
         this.numberPhone = numberPhone;
     }
@@ -78,11 +78,11 @@ public class ScPhones implements Serializable {
         this.idPhone = idPhone;
     }
 
-    public long getNumberPhone() {
+    public Long getNumberPhone() {
         return numberPhone;
     }
 
-    public void setNumberPhone(long numberPhone) {
+    public void setNumberPhone(Long numberPhone) {
         this.numberPhone = numberPhone;
     }
 

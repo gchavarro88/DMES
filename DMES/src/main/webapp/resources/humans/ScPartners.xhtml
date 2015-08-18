@@ -697,30 +697,14 @@
                              selectionMode="single" paginatorPosition="top" selection="#{scpartnersBean.partnerSelected}"
                              sortBy="#{partners.idPerson.lastName} #{partners.idPerson.firstName}"
                              >
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogPartnerView').show()"
-                            update=":formWizardView"  />
+                    
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
                                          oncomplete="PF('dialogPartnerSave').show()">
                             <p:tooltip for="btnAdd" value="Agregar un Proveedor"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:column headerText="Administración" width="84">
-                        <center>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizardUpdate" onstart="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
-                                             oncomplete="PF('dialogPartnerUpdate').show()"
-                                             actionListener="#{scpartnersBean.getPartnerByDataTableUpdate(partners)}">
-                                <p:tooltip for="btnEdit" value="Editar Empleado"/>
-                            </p:commandButton>
-                            <p:spacer width="10"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formDeleteScPartner"
-                                             oncomplete="PF('dialogPartnerDelete').show()"
-                                             actionListener="#{scpartnersBean.getPartnerByDataTable(partners)}"
-                                             >
-                                <p:tooltip for="btnDelete" value="Eliminar Proveedor"/>
-                            </p:commandButton>
-                        </center>
-                    </p:column>	
+                    
 <!--                    campos con data-->
                     <p:column  headerText="Cédula" sortBy="#{partners.idPerson.identification}">    
                         <center>
@@ -757,6 +741,29 @@
                             <p:tooltip for="lblDateRegister" value="#{scpartnersBean.getFormatDate(partners.creationDate)}"/>
                         </center>
                     </p:column>
+                   
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" update=":formWizardView"
+                            actionListener="#{scpartnersBean.getPartnerByDataTableUpdate(partners)}"
+                            oncomplete="PF('dialogPartnerView').show()">
+                                <p:tooltip for="btnSearch" value="Visualizar un Proveedor"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizardUpdate" onstart="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
+                                         oncomplete="PF('dialogPartnerUpdate').show()"
+                                         actionListener="#{scpartnersBean.getPartnerByDataTableUpdate(partners)}">
+                                <p:tooltip for="btnEdit" value="Editar Empleado"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formDeleteScPartner"
+                                         oncomplete="PF('dialogPartnerDelete').show()"
+                                         actionListener="#{scpartnersBean.getPartnerByDataTable(partners)}"
+                                         >
+                                <p:tooltip for="btnDelete" value="Eliminar Proveedor"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>	
                 </p:dataTable>
             </h:form>
         </div>

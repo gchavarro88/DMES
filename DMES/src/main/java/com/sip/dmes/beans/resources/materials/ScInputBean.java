@@ -1925,6 +1925,17 @@ public class ScInputBean
     }
 
     /**
+     * Método encargado de limpiar los campos para visualizar un insumo
+     *
+     * @param input insumo a visualizar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForView(ScInput input)
+    {
+        setInputSelected(input);
+    }
+    
+    /**
      * Método encargado de limpiar los campos para actualizar un insumo
      *
      * @param input insumo a actualizarlo

@@ -1670,7 +1670,7 @@ public class ScToolBean
         cleansTypesMeasures();
         setToolSelected(tool);
     }
-
+    
     /**
      * Método encargado de limpiar los campos para actualizar un repuesto
      *

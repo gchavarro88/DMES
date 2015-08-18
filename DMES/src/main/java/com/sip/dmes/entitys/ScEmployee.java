@@ -45,8 +45,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "ScEmployee.findByActive", query = "SELECT s FROM ScEmployee s WHERE s.active = :active"),
     @NamedQuery(name = "ScEmployee.findBySalary", query = "SELECT s FROM ScEmployee s WHERE s.salary = :salary"),
     @NamedQuery(name = "ScEmployee.findByHourValue", query = "SELECT s FROM ScEmployee s WHERE s.hourValue = :hourValue"),
-    @NamedQuery(name = "ScEmployee.findByPorcentage", query = "SELECT s FROM ScEmployee s WHERE s.porcentage = :porcentage"),
-    @NamedQuery(name = "ScEmployee.findByAmount", query = "SELECT s FROM ScEmployee s WHERE s.amount = :amount"),
     @NamedQuery(name = "ScEmployee.findByCreationDate", query = "SELECT s FROM ScEmployee s WHERE s.creationDate = :creationDate"),
     @NamedQuery(name = "ScEmployee.findByModifyDate", query = "SELECT s FROM ScEmployee s WHERE s.modifyDate = :modifyDate"),
     @NamedQuery(name = "ScEmployee.deleteByPerson", query = "DELETE FROM ScEmployee s WHERE s.idPerson = :idPerson"),
@@ -89,10 +87,6 @@ public class ScEmployee implements Serializable, Cloneable
     private BigDecimal salary;
     @Column(name = "hour_value")
     private BigDecimal hourValue;
-    @Column(name = "porcentage")
-    private BigDecimal porcentage;
-    @Column(name = "amount")
-    private BigDecimal amount;
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
@@ -208,26 +202,6 @@ public class ScEmployee implements Serializable, Cloneable
         this.hourValue = hourValue;
     }
 
-    public BigDecimal getPorcentage()
-    {
-        return porcentage;
-    }
-
-    public void setPorcentage(BigDecimal porcentage)
-    {
-        this.porcentage = porcentage;
-    }
-
-    public BigDecimal getAmount()
-    {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount)
-    {
-        this.amount = amount;
-    }
-
     public Date getCreationDate()
     {
         return creationDate;
@@ -295,11 +269,7 @@ public class ScEmployee implements Serializable, Cloneable
             return false;
         }
         ScEmployee other = (ScEmployee) object;
-        if ((this.idEmployee == null && other.idEmployee != null) || (this.idEmployee != null && !this.idEmployee.equals(other.idEmployee)))
-        {
-            return false;
-        }
-        return true;
+        return !((this.idEmployee == null && other.idEmployee != null) || (this.idEmployee != null && !this.idEmployee.equals(other.idEmployee)));
     }
 
     @Override

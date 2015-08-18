@@ -3344,21 +3344,7 @@
                             <p:tooltip for="btnAdd" value="Agregar un Producto"/>
                         </p:commandButton>
                     </f:facet>
-                    <p:ajax event="rowSelect" oncomplete="PF('dialogProductView').show()" update=":formWizardView"/>
-                    <p:column headerText="Administración" width="84">
-                        <center>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scProductFormulationBean.selectedForUpdate(product)}"
-                                             oncomplete="PF('dialogProductUpdate').show()" update=":formWizardUpdate"
-                                             >
-                                <p:tooltip for="btnEdit" value="Editar un Producto"/>
-                            </p:commandButton>
-                            <p:spacer width="10"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete" actionListener="#{scProductFormulationBean.selectedForDelete(product)}"
-                                             oncomplete="PF('dialogProductDelete').show()" update=":formWizardDelete">
-                                <p:tooltip for="btnDelete" value="Eliminar un Producto"/>
-                            </p:commandButton>
-                        </center>
-                    </p:column>
+                    
                     <p:column filterMatchMode="contains"  filterBy="#{product.description}" headerText="Form. Producto" sortBy="#{product.description}" id="columnProductName">    
                         <center>
                             <p:outputLabel value="#{product.description}" id="lblProductFormulationName"/>
@@ -3407,6 +3393,27 @@
                         <center>
                             <p:outputLabel value="#{product.value} #{product.money.acronym}" id="lblValue"/>
                             <p:tooltip for="lblValue" value="#{product.value} #{product.money.acronym}" />
+                        </center>
+                    </p:column>
+                    
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" update=":formWizardView"
+                            actionListener="#{scProductFormulationBean.selectedForView(product)}"
+                            oncomplete="PF('dialogProductView').show()">
+                                <p:tooltip for="btnSearch" value="Visualizar una Formulación de Producto"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scProductFormulationBean.selectedForUpdate(product)}"
+                                             oncomplete="PF('dialogProductUpdate').show()" update=":formWizardUpdate"
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar un Producto"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" actionListener="#{scProductFormulationBean.selectedForDelete(product)}"
+                                             oncomplete="PF('dialogProductDelete').show()" update=":formWizardDelete">
+                                <p:tooltip for="btnDelete" value="Eliminar un Producto"/>
+                            </p:commandButton>
                         </center>
                     </p:column>
                 </p:dataTable>

@@ -57,7 +57,7 @@ public class ScPerson implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "identification")
-    private long identification;
+    private Long identification;
     
    
     private static final long serialVersionUID = 1L;
@@ -356,12 +356,12 @@ public class ScPerson implements Serializable
         this.scPersonSpecificationsList = scPersonSpecificationsList;
     }
 
-    public long getIdentification()
+    public Long getIdentification()
     {
         return identification;
     }
 
-    public void setIdentification(long identification)
+    public void setIdentification(Long identification)
     {
         this.identification = identification;
     }

@@ -164,38 +164,30 @@ public class ScemployeesBean
         return newPerson;
     }
     
-    public String onFlowProcessSaveEmployee(FlowEvent event) 
+    public String onFlowProcessSaveEmployee(FlowEvent event)  
     {    
         if(event.getOldStep().equals(TAB_PERSON_SAVE))
         {
             if(getPersonAdd() == null || getPersonAdd().getLastName().length() < 1)
             {
                 addError(null, "Error al intentar crear un nuevo empleado", "Debe seleccionar un tercero");
-                return event.getOldStep();
+                return event.getOldStep(); 
             }
         }
         if(event.getOldStep().equals(TAB_EMPLOYEE_SAVE))
         {
-            if(getEmployeeAdd().getSalary().doubleValue() < 1)
+            if(getEmployeeAdd().getSalary() == null || getEmployeeAdd().getSalary().doubleValue() < 1)
             {
                 addError(null, "Error al intentar crear un nuevo empleado", "El salario debe ser mayor que 0");
                 return event.getOldStep();
             }
-            else if(getEmployeeAdd().getHourValue().doubleValue() < 1)
+            else if(getEmployeeAdd().getHourValue() == null || getEmployeeAdd().getHourValue().doubleValue() < 1)
             {
                 addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser mayor que 0");
                 return event.getOldStep();
             }
-            else if(getEmployeeAdd().getAmount().doubleValue() < 1)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El rango del cargo debe ser mayor que 0");
-                return event.getOldStep();
-            }
-            else if(getEmployeeAdd().getPorcentage().doubleValue() < 1)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El porcentaje rango del cargo debe ser mayor que 0");
-                return event.getOldStep();
-            }
+           
+            
         }
         if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
         {
@@ -214,25 +206,16 @@ public class ScemployeesBean
         }
         if(event.getOldStep().equals(TAB_EMPLOYEE_UPDATE))
         {
-            if(getEmployeeSelected().getSalary().doubleValue() < 1)
+            if(getEmployeeSelected().getSalary() == null || getEmployeeSelected().getSalary().doubleValue() < 1)
             {
                 addError(null, "Error al intentar actualizar un nuevo empleado", "El salario debe ser mayor que 0");
             }
-            else if(getEmployeeSelected().getHourValue().doubleValue() < 1)
+            else if(getEmployeeSelected().getHourValue() == null ||  getEmployeeSelected().getHourValue().doubleValue() < 1)
             {
                 addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser mayor que 0");
                 return event.getOldStep();
             }
-            else if(getEmployeeSelected().getAmount().doubleValue() < 1)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El rango del cargo debe ser mayor que 0");
-                return event.getOldStep();
-            }
-            else if(getEmployeeSelected().getPorcentage().doubleValue() < 1)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El porcentaje rango del cargo debe ser mayor que 0");
-                return event.getOldStep();
-            }
+           
         }
             return event.getNewStep(); 
     }
@@ -268,7 +251,7 @@ public class ScemployeesBean
         {
             for(ScWorkExperience workExperienceList: getWorkExperiencesListAdd())
             {
-                    if(workExperienceList.getCompanyName().
+                    if(workExperienceList.getCompanyName(). 
                     equalsIgnoreCase(workExperienceDelete.getCompanyName()))
                     {
                         getWorkExperiencesListAdd().remove(i);
