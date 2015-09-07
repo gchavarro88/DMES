@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>             <meta http-equiv="expires" content="0"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>
+        <title>.:DMES:. - Usuarios</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        <script type="text/javascript">
+            window.setTimeout("userInit()",500);
+        </script>
+    </h:head>
+    <h:body style="background-color: #000;">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div>
+            <!--         Dialogo para guardar nuevos Usuarios         -->
+            <p:dialog id="dialogUserSave" widgetVar="dialogUserSave" draggable="true" 
+                      closable="true"  header="Crear Usuarios" position="center top" width="450"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+
+
+                <h:form id="formWizard">
+                    <p:wizard  flowListener="#{scusersBean.onFlowProcessSaveUser}" id="wizardSave" widgetVar="wizardSave">
+                        <p:tab title="Datos del Usuario" id="tabUser" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del usuario">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfNameUSer" value="Nombre de Usuario"/>
+                                        </td>
+                                        <td width="80%" align="left">
+                                            <p:inputText    id="tfNameUSer"  value="#{scusersBean.userAdd.login}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el nombre de usuario"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfPassword1" value="Contraseña"/>
+                                        </td>
+                                        <td width="80%" align="left">
+                                            <p:password  id="tfPassword1" value="#{scusersBean.userAdd.password}" 
+                                            feedback="true" maxlength="16" promptLabel="Ingrese solo números y letras" 
+                                            goodLabel="Seguridad Media" required="true" requiredMessage="Campo obligatorio debe ingresar la contraseña"
+                                            weakLabel="Seguridad Baja" strongLabel="Seguridad Alta" match="tfPassword2" 
+                                            validatorMessage="La Contraseña debe ser igual en los dos campos"/>                                    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfPassword2" value="Repita la Contraseña"/>
+                                        </td>
+                                        <td width="80%" align="left">
+                                            <p:password  id="tfPassword2" value="#{scusersBean.password2}" 
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar la contraseña"
+                                            maxlength="16"/>                                    
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="Tercero" id="tabPerson" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar la persona a la que se le va asignar el usuario">
+                            <p:panel header="Agregar Tercero" style="text-align: center;">
+                                <p:dataTable id="dataTablePersons" value="#{scusersBean.personsList}"
+                                             paginator="true" rows="10"  var="persons"
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowKey="#{persons.idPerson}"
+                                             resizableColumns="true" 
+                                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                             sortBy="#{persons.lastName} #{persons.firstName}"
+                                             paginatorPosition="top" selection="#{scusersBean.personSelectedAdd}"
+                                             selectionMode="single"
+                                             >
+                                    <p:ajax event="rowSelect" update=":formWizard:dataTablePersons"/>
+                                    <p:column  selectionMode="single" width="16"/>
+                                    <p:column  headerText="Personas Disponibles">
+                                        <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
+                                    </p:column> 
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Grupos y Roles" id="tabRoles" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para seleccionar el grupo o rol que se le va a asignar al usuario">
+                        <p:panel header="Agregar Grupo y Rol" style="text-align: center;">
+                            <p:dataTable id="dataTableRoles" value="#{scusersBean.rolesList}"
+                                         paginator="true" rows="10"  var="roles"
+                                         pageLinks="40"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowKey="#{roles.idRole}"
+                                         resizableColumns="true" 
+                                         liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                         sortBy="#{roles.name}"
+                                         scrollable="true"
+                                         scrollHeight="260" selectionMode="single"
+                                         paginatorPosition="top" selection="#{scusersBean.roleSelectedAdd}">
+                                <p:ajax event="rowSelect" update=":formWizard:dataTableRoles"/>
+                                <p:column  selectionMode="single" width="16"/>
+                                <p:column  headerText="Roles Activos" >
+                                    <p:outputLabel value="#{roles.name}"/>
+                                </p:column> 
+                            </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab title="Confirmar datos" id="tabAccept" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para confirmar los datos del usuario a crear">
+                            <p:panel header="Crear Usuario" style="text-align: center;">
+                                <table width="98%" cellspacing="10" style="text-align: center;">
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Nombre de Usuario:" /> </td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.userAdd.login}"/> </td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Grupo o Rol:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.roleSelectedAdd.name}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Tercero:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.personSelectedAdd.lastName} #{scusersBean.personSelectedAdd.firstName}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Fecha de Creación:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.getCurrentDate()}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="98%" colspan="2">
+                                            <p:commandButton id="btnSaveUser" value="Guardar Usuario" onsuccess="PF('dialogUserSave').hide()"
+                                            actionListener="#{scusersBean.saveUser()}" update=":formUsers:scUsersDataTable,:formWizard"
+                                            oncomplete="PF('wizardSave').loadStep('tabUser', false)"
+                                                            />
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelUser" value="Cancelar" oncomplete="PF('dialogUserSave').hide();PF('wizardSave').loadStep('tabUser', false)"
+                                                             actionListener="#{scusersBean.cleanFields()}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabUser', true)" listener="#{scusersBean.cleanFields()}"/>
+            </p:dialog>
+            <!--         finaliza el dialogo para guardar Usuarios               -->
+
+            
+            <!--             inicia el dialogo para elimianr registros           -->
+            <p:dialog id="dialogUsersDelete" widgetVar="dialogUsersDelete" position="center top" 
+                      closable="true" draggable="true" dynamic="true" header="Eliminar Usuarios"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="false">
+                <h:form id="formDeleteScUser">
+                    <table width="100%" cellspacing="30" style="padding: 0px; margin: 0px;">
+                        <tr>
+                            <td>
+                                <p:outputLabel value="¿Desea eliminar el usuario #{scusersBean.userSelected.login}?" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <p:commandButton value="Eliminar" actionListener="#{scusersBean.deleteUser()}"  
+                                                 onsuccess="PF('dialogUsersDelete').hide()"
+                                                 update="@this,:formUsers:scUsersDataTable"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" oncomplete="PF('dialogUsersDelete').hide()"
+                                                 update="@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+<!--            finaliza el dialogo para eliminar registros            -->
+
+<!--         Dialogo para Actualizar  Usuarios         -->
+            <p:dialog id="dialogUserUpdate" widgetVar="dialogUserUpdate" position="center top" width="450"
+                      closable="true" draggable="true" dynamic="true" header="Actualizar Usuarios"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+
+
+                <h:form id="formWizardUpdate">
+                    <p:wizard  flowListener="#{scusersBean.onFlowProcessUpdateUser}" id="wizardUpdate" widgetVar="wizardUpdate">
+                        <p:tab title="Datos del Usuario" id="tabUserUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del usuario">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfNameUserUpdate" value="Nombre de Usuario"/>
+                                        </td>
+                                        <td width="80%" align="left">
+                                            <p:inputText    id="tfNameUserUpdate"  value="#{scusersBean.userUpdate.login}"
+                                                            required="true" requiredMessage="Campo obligatorio debe ingresar el nombre de usuario"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfPassword1Update" value="Contraseña"/>
+                                        </td>
+                                        <td width="80%" align="left">
+                                            <p:password  id="tfPassword1Update" value="#{scusersBean.userUpdate.password}" 
+                                            feedback="true" maxlength="16" promptLabel="Ingrese solo números y letras" 
+                                            goodLabel="Seguridad Media" requiredMessage="Campo obligatorio debe ingresar la contraseña"
+                                            weakLabel="Seguridad Baja" strongLabel="Seguridad Alta" match="tfPassword2Update" 
+                                            validatorMessage="El password debe ser igual en los dos campos"/>                                    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfPassword2Update" value="Repita la Contraseña"/>
+                                        </td>
+                                        <td width="80%" align="left">
+                                            <p:password  id="tfPassword2Update" value="#{scusersBean.updatePassword2}" 
+                                            requiredMessage="Campo obligatorio debe ingresar la contraseña"
+                                            maxlength="16"/>                                    
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="Persona" id="tabPersonUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar la persona a la que se le va asignar el usuario">
+                            <p:panel header="Agregar Persona" style="text-align: center;">
+                                <p:dataTable id="dataTablePersonsUpdate" value="#{scusersBean.personsList}"
+                                             paginator="true" rows="10"  var="persons"
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowKey="#{persons.idPerson}"
+                                             resizableColumns="true" 
+                                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                             sortBy="#{persons.lastName} #{persons.firstName}" selectionMode="single"
+                                             paginatorPosition="top" selection="#{scusersBean.userUpdate.idPerson}"
+                                             >
+                                    <p:ajax event="rowSelect" update=":formWizardUpdate:dataTablePersonsUpdate" />
+                                    <p:column  selectionMode="single" width="16"/>
+                                    <p:column  headerText="Personas Disponibles">
+                                        <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
+                                    </p:column> 
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab title="Grupos y Roles" id="tabRolesUpdate" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para seleccionar el grupo o rol que se le va a asignar al usuario">
+                        <p:panel header="Agregar Grupo y Rol" style="text-align: center;">
+                            <p:dataTable id="dataTableRolesUpdate" value="#{scusersBean.rolesList}"
+                                         paginator="true" rows="10"  var="roles"
+                                         pageLinks="40"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowKey="#{roles.idRole}"
+                                         resizableColumns="true" 
+                                         liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                         sortBy="#{roles.name}"
+                                         selectionMode="single"
+                                         paginatorPosition="top" selection="#{scusersBean.userUpdate.idRole}">
+                                <p:ajax event="rowSelect" update=":formWizardUpdate:dataTableRolesUpdate"/>
+                                <p:column  selectionMode="single" width="16"/>
+                                <p:column  headerText="Roles Activos" >
+                                    <p:outputLabel value="#{roles.name}"/>   
+                                </p:column> 
+                            </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+
+                        <p:tab title="Confirmar datos" id="tabAcceptUpdate" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para confirmar los datos del usuario a crear">
+                            <p:panel header="Crear Usuario" style="text-align: center;">
+                                <table width="98%" cellspacing="10" style="text-align: center;">
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Nombre de Usuario:" /> </td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.userUpdate.login}"/> </td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Grupo o Rol:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.userUpdate.idRole.name}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Tercero:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel 
+                                        value="#{scusersBean.userUpdate.idPerson.lastName} #{scusersBean.userUpdate.idPerson.firstName}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Fecha de Creación:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.userUpdate.creationDate}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td align="left" width="40%"><p:outputLabel value="Fecha de Modificación:"/></td>
+                                        <td align="right" width="60%"><p:outputLabel value="#{scusersBean.currentDate}"/></td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="98%" colspan="2">
+                                            <p:commandButton id="btnSaveUserUpdate" value="Actualizar Usuario" onsuccess="PF('dialogUserUpdate').hide()"
+                                            actionListener="#{scusersBean.updateUser()}" update=":formUsers:scUsersDataTable,:formWizardUpdate"
+                                            oncomplete="PF('wizardUpdate').loadStep('tabUserUpdate', false)"
+                                                            />
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelUserUpdate" value="Cancelar"  actionListener="#{scusersBean.cleanFields()}"
+                                                             oncomplete="PF('dialogUserUpdate').hide();PF('wizardUpdate').loadStep('tabUserUpdate', false)"
+                                                             />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabUserUpdate', true)" listener="#{scusersBean.cleanFields()}"/>
+            </p:dialog>
+            <!--         finaliza el dialogo para actualizar Usuarios               -->
+
+<!--           inicial el dialogo para visualizar un rol           -->
+            <p:dialog id="dialogUsersView" widgetVar="dialogUsersView" position="center top" width="600"
+                                  closable="true" draggable="true" dynamic="true" header="Detalle de Usuarios"
+                                  hideEffect="explode" modal="true" showEffect="explode" resizable="true"
+                                  >
+                <h:form id="formViewScRole">
+                    <table cellspacing="30">
+                        <tr>
+                            <td width="10%" align="right">
+                                <p:outputLabel  value="Nombre del Usuario:"/>
+                            </td>
+                            <td width="40%" align="left">
+                                <p:outputLabel value="#{scusersBean.userSelected.login}" />
+                            </td>
+                            <td width="10%" align="right">
+                                <p:outputLabel  value="Nombre del Grupo o Rol:"/>
+                            </td>
+                            <td width="40%" align="left">
+                                <p:outputLabel id="tfRolUser" value="#{scusersBean.userSelected.idRole.name}" />
+                                <p:tooltip for="tfRolUser" value="#{scusersBean.userSelected.idRole.name}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%" align="right">
+                                <p:outputLabel  value="Nombre del Tercero:"/>
+                            </td>
+                            <td width="40%" align="left">
+                                <p:outputLabel value="#{scusersBean.userSelected.idPerson.lastName} #{scusersBean.userSelected.idPerson.firstName}" 
+                                             />
+                            </td>
+                            <td width="10%" align="right">
+                                <p:outputLabel  value="Fecha de Creación:"/>
+                            </td>
+                            <td width="40%" align="left">
+                                <p:outputLabel value="#{scusersBean.userSelected.creationDate}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="10%" align="right">
+                                <p:outputLabel  value="Fecha de Modificación:"/>
+                            </td>
+                            <td width="40%" align="left">
+                                <p:outputLabel value="#{scusersBean.userSelected.modifyDate}"
+                                             />
+                            </td>
+                            <td width="50%">
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" align="center">
+                                <p:commandButton value="Aceptar" oncomplete="PF('dialogUsersView').hide()"
+                                                 update="@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+<!--           finaliza el dialogo para visualizar un rol           -->
+            
+            
+
+
+
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            <h:form id="formUsers">
+                 <p:remoteCommand name="userInit" update=":formUsers:scUsersDataTable" />
+                <p:dataTable id="scUsersDataTable" draggableColumns="true" emptyMessage="No existe información para visualizar" 
+                             value="#{scusersBean.usersList}" var="user"
+                             paginator="true" rows="10"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{user.idUser}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                             selectionMode="single" paginatorPosition="top" selection="#{scusersBean.userSelected}"
+                             sortBy="#{user.login}"
+                             >
+                    <f:facet name="header">
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                         actionListener="#{scusersBean.fillListPersonsAvailables()}"
+                                         oncomplete="PF('dialogUserSave').show()">
+                            <p:tooltip for="btnAdd" value="Agregar un Usuario"/>
+                        </p:commandButton>
+                    </f:facet>
+                    
+                    
+                    <p:column filterMatchMode="contains"  filterBy="#{user.login}" id="columnLogin" headerText="Usuario" sortBy="#{user.login}">    
+                        <center>
+                            <p:outputLabel value="#{user.login}" id="lblLogin"/>
+                            <p:tooltip for="lblLogin" value="#{user.login}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{user.idPerson.lastName} #{user.idPerson.firstName}" id="columnNames" headerText="Nombre" 
+                              sortBy="#{user.idPerson.lastName} #{user.idPerson.firstName}">    
+                        <center>
+                            <p:outputLabel value="#{user.idPerson.lastName} #{user.idPerson.firstName}" id="lblNames"/>
+                            <p:tooltip for="lblNames" value="#{user.idPerson.lastName} #{user.idPerson.firstName}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{user.idRole.name}" id="columnRolName" headerText="Grupo o Rol" sortBy="#{user.idRole.name}">    
+                        <center>
+                            <p:outputLabel value="#{user.idRole.name}" id="lblRoleName"/>
+                            <p:tooltip for="lblRoleName" value="#{user.idRole.name}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{scusersBean.getFormatDate(user.creationDate)}" id="columnUserCreationDate" headerText="Fecha de Creación" 
+                              sortBy="#{scusersBean.getFormatDate(user.creationDate)}">    
+                        <center>
+                            <p:outputLabel value="#{scusersBean.getFormatDate(user.creationDate)}" id="lblUserCreationDate"/>
+                            <p:tooltip for="lblUserCreationDate" value="#{scusersBean.getFormatDate(user.creationDate)}"/>
+                        </center>
+                    </p:column>
+                    <p:ajax event="rowSelect" oncomplete="PF('dialogUsersView').show()"/>
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" update=":formViewScRole"
+                            actionListener="#{scusersBean.getUserSelected(user)}"
+                            oncomplete="PF('dialogUsersView').show()">
+                                <p:tooltip for="btnSearch" value="Visualizar un Usuario"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" actionListener="#{scusersBean.getUserByDataTableUpdate(user)}"
+                                             oncomplete="PF('dialogUserUpdate').show()" update=":formWizardUpdate" 
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar Usuario"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogUsersDelete').show()"
+                                             actionListener="#{scusersBean.getUserByDataTable(user)}" update=":formDeleteScUser">
+                                <p:tooltip for="btnDelete" value="Eliminar Usuario"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+
+    </h:body>
+</html>
+

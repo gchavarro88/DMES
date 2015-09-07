@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/context 
+                            http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                            http://www.springframework.org/schema/tx 
+                            http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+    <!-- Add JPA support -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="DMES_PersistenceUnit"></property>
+    </bean> 
+
+    <!-- Add Transaction support -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    
+    <!--    <bean id="IParameter" class="com.carvajal.vmi.dao.ParameterImpl" scope="prototype">
+        <property name="em" ref="entityManagerFactory"/>
+    </bean>    -->
+           
+   
+    <!-- Use @Transaction annotations for managing transactions -->
+    <tx:annotation-driven transaction-manager="transactionManager" />   
+
+    <!--Use @Component annotations for bean definitions -->    
+    <context:component-scan base-package="com.sip.dmes"/>  
+    
+    
+    <!--Beans --> 
+    <bean id="scUsersServer" class="com.sip.dmes.dao.bs.ScUsersDao"></bean>
+    <bean id="scModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScModulePermissionByRoleDao"></bean>
+    <bean id="scRolesServer" class="com.sip.dmes.dao.bs.ScRolesDao"></bean>
+    <!-- <bean id="scSubModulePermissionByRoleServer" class="com.sip.dmes.dao.bs.ScSubmodulePermissionByRoleDao"></bean>-->
+    <bean id="scModulePermissionServer" class="com.sip.dmes.dao.bs.ScModulePermissionDao"></bean>
+    <bean id="scPersonServer" class="com.sip.dmes.dao.bs.ScPersonDao"></bean>
+    <bean id="scPhonesServer" class="com.sip.dmes.dao.bs.ScPhonesDao"></bean>
+    <bean id="scMailsServer" class="com.sip.dmes.dao.bs.ScMailsDao"></bean>
+    <bean id="scPersonDocumentationAttachedServer" class="com.sip.dmes.dao.bs.ScPersonDocumentationAttachedDao"></bean>
+    <bean id="scPersonObservationsServer" class="com.sip.dmes.dao.bs.ScPersonObservationsDao"></bean>
+    <bean id="scPersonSpecificationsServer" class="com.sip.dmes.dao.bs.ScPersonSpecificationsDao"></bean>
+    <bean id="scEmployeeServer" class="com.sip.dmes.dao.bs.ScEmployeeDao"></bean>
+    <bean id="scPartnerServer" class="com.sip.dmes.dao.bs.ScPartnerDao"></bean>
+    <bean id="fsDocumentsServer" class="com.sip.dmes.dao.bs.FsDocumentsDao"></bean>
+    <bean id="scInputServer" class="com.sip.dmes.dao.bs.ScInputDao"></bean>
+    <bean id="scProductFormulationServer" class="com.sip.dmes.dao.bs.ScProductFormulationDao"></bean>
+    <bean id="scReplacementServer" class="com.sip.dmes.dao.bs.ScReplacementDao"></bean>
+    <bean id="scToolServer" class="com.sip.dmes.dao.bs.ScToolDao"></bean>
+    <bean id="scStoreOrderServer" class="com.sip.dmes.dao.bs.ScStoreOrderDao"></bean>
+    <bean id="scMachinePartServer" class="com.sip.dmes.dao.bs.ScMachinePartDao"></bean>
+    <bean id="scMachineServer" class="com.sip.dmes.dao.bs.ScMachineDao"></bean>
+    <bean id="scStoreViewServer" class="com.sip.dmes.dao.bs.ScStoreViewDao"></bean>
+    <!--
+    <bean id="scOperatingConditionsServer" class="com.sip.dmes.dao.bs.ScOperatingConditionsDao"></bean>
+    <bean id="scMaintenancePlanServer" class="com.sip.dmes.dao.bs.ScMaintenancePlanDao"></bean>-->
+    
+</beans>
