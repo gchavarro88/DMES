@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>             
+        <meta http-equiv="expires" content="0"></meta>
+        <meta http-equiv="Cache-Control" content="no-cache"></meta>             
+        <meta http-equiv="Cache-Control" content="no-cache"></meta>
+        <title>.:DMES:. - Ordenes del Almacén</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+
+            window.setTimeout("storeRequisitionInit()", 1000);
+            function hiddenCount()
+            {
+
+            }
+
+        </script>
+    </h:head>
+    <h:body style="background-color: #000;">
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div>
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+        </div>
+        
+        <!--            ######################################################################-->
+            <h:form id="formManagementStore">
+                <p:panel style="width: 99%;" toggleable="true" header="Visibidad del Almacén"
+                         >
+                    <table width="100%" style="color: #FFF;">
+                        <tr>
+                            <td width="10%" align="right">
+                                    <p:outputLabel  for="tfOrderClass" value="Clase de Recurso"/>
+                                </td>
+                                <td width="40%" align="left">
+                                        <p:selectOneMenu id="tfOrderClass"  value="#{scStoreRequisitionsBean.storeOrderAdd.orderClass}" 
+                                                     style="width:160px; top: 6px;"
+                                                     effect="puff"
+                                                     height="140">
+                                        <f:selectItem itemLabel="..." />
+                                        <f:selectItem itemLabel="Herramientas" itemValue="Herramientas"/>
+                                        <f:selectItem itemLabel="Insumos" itemValue="Insumos"/>
+                                        <f:selectItem itemLabel="Productos" itemValue="Productos"/>
+                                        <f:selectItem itemLabel="Repuestos y Consumibles" itemValue="Repuestos y Consumibles"/>
+                                        <p:ajax listener="#{ScviewStoreBean.fillAutocompleteList()}" update="tfOrderItem,lblOrderItem,scDataTableViewStore"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            
+                            <td>
+                                    <p:autoComplete id="tfOrderItem" completeMethod="#{scStoreRequisitionsBean.autocompleteMetod}" 
+                                                    forceSelection="true" effect="explode" disabled="#{scStoreRequisitionsBean.activeAutocomplete}"
+                                                    value="#{scStoreRequisitionsBean.itemAdd}" emptyMessage="No hay resultados" 
+                                                    placeholder="Ingrese cualquier caracter"/>
+                                    <p:spacer width="5"/>
+                                    <p:commandButton icon="ui-icon-plus" id="btnAddItem" 
+                                                     actionListener="#{scStoreRequisitionsBean.addItemToList()}" update="tfOrderItem,scDataTableItems"/>
+                                    <p:tooltip for="tfOrderItem" value="#{storeItem.amountRequired}"/>
+                                </td>
+                        </tr>
+                        
+                    </table>
+                </p:panel>
+
+                <p:remoteCommand name="storeRequisitionInit" update=":formManagementStore:scDataTableViewStore" />
+                <p:dataTable id="scDataTableViewStore" draggableColumns="true" emptyMessage="No existe información para visualizar" 
+                             value="#{scStoreRequisitionsBean.storeOrderList}" var="storeOrder"
+                             paginator="true" rows="10"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{storeOrder.idStoreOrder}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                             selectionMode="single" paginatorPosition="top" selection="#{scStoreRequisitionsBean.storeOrderUpdate}"
+                             sortBy="OA#{scStoreRequisitionsBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
+                             rowStyleClass="#{scStoreRequisitionsBean.getStyleRow(storeOrder)}"
+                             >
+                    
+                    
+
+                    <p:column filterMatchMode="contains"  filterBy="OA#{scStoreRequisitionsBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
+                              id="columnOrderId" headerText="No." 
+                              sortBy="OA#{scStoreRequisitionsBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}">    
+                        <center>
+                            <p:outputLabel 
+                                value="OA#{scStoreRequisitionsBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"
+                                id="lblOrderId"/>
+                            <p:tooltip for="lblOrderId" 
+                                       value="OA#{scStoreRequisitionsBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}#{storeOrder.idStoreOrder}"/>
+                        </center>
+                    </p:column>
+                    <p:column  id="columnOrderClass" headerText="Clase de Recurso" sortBy="#{storeOrder.orderClass}">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.orderClass}" id="lblOrderClass"/>
+                            <p:tooltip for="lblOrderClass" value="#{storeOrder.orderClass}"/>
+                        </center>
+                    </p:column>
+                    <p:column  id="columnRequiredBy" headerText="Requerido Por" sortBy="#{storeOrder.requiredBy}">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.requiredBy}" id="lblRequiredBy"/>
+                            <p:tooltip for="lblRequiredBy" value="#{storeOrder.requiredBy}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{storeOrder.amountItems}"
+                              id="columnNumberItems" headerText="No. Items" sortBy="#{storeOrder.amountItems}">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.amountItems}" id="lblNumberItems"/>
+                            <p:tooltip for="lblNumberItems" value="#{storeOrder.amountItems}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnDate" headerText="Fecha" 
+                              sortBy="#{scStoreRequisitionsBean.getFormatDateGlobal('yyyyMMdd', storeOrder.creationDate)}">    
+                        <center>
+                            <p:outputLabel 
+                                value="#{scStoreRequisitionsBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}" 
+                                id="lblDate"/>
+                            <p:tooltip for="lblDate" 
+                                       value="#{scStoreRequisitionsBean.getFormatDateGlobal('dd-MM-yyyy', storeOrder.creationDate)}"/>
+                        </center>
+                    </p:column>
+                    <p:column id="columnState" headerText="Estado" sortBy="#{storeOrder.idState.description}">    
+                        <center>
+                            <p:outputLabel value="#{storeOrder.idState.description}" id="lblState"/>
+                            <p:tooltip for="lblState" value="#{storeOrder.idState.description}"/>
+                        </center>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+    </h:body>
+</html>
+

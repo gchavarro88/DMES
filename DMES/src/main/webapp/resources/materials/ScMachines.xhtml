@@ -1,0 +1,780 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>             <meta http-equiv="expires" content="0"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>
+        <title>.:DMES:. - Maquinas</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        
+    </h:head>
+    <h:body style="background-color: #000;">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div>
+            <!--         Dialogo para guardar nuevas Maquinas         -->
+            <p:dialog id="dialogEmployeeSave" widgetVar="dialogMachineSave" draggable="true" 
+                      closable="true"  header="Crear Maquinas" position="center top" width="750"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                <h:form id="formWizard">
+                    <p:wizard  flowListener="#{scmachinesBean.onFlowProcessSaveMachine}" id="wizardSave" widgetVar="wizardSave">
+                        <p:tab title="Datos Generales" id="tabGeneralData" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para ingresar datos generales de la Maquina">
+                            
+                            <p:panel header="Ingresar Datos Generales" style="text-align: center; width: 100%;">
+                             <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfTypeOfMachineSave" value="Tipo De Maquina"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfTypeOfMachineSave"  value="#{scmachinesBean.scMachineAdd.machine}" maxlength="100"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el tipo de maquina">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="20%" align="left">
+                                           <p:outputLabel  for="tfTypeOfClassificationSave" value="Clasificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                           <p:selectOneMenu id="tfTypeOfClassificationSave" value="#{scmachinesBean.typeClassification}" effect="fold" required="true">
+                                               <f:selectItem itemLabel="Seleccionar" itemValue="" /> 
+                                               <f:selectItems value="#{scmachinesBean.typesClassification}" />
+                                           </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                 
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfBrandSave" value="Marca"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfBrandSave"  value="#{scmachinesBean.scMachineAdd.brand}" maxlength="100"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la marca de la maquina">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="20%" align="left">
+                                           <p:outputLabel  for="tfTypeOfPrioritySave" value="Prioridad"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:selectOneMenu id="tfTypeOfPrioritySave" value="#{scmachinesBean.typePriority}" effect="fold" required="true">
+                                               <f:selectItem itemLabel="Seleccionar" itemValue="" /> 
+                                               <f:selectItems value="#{scmachinesBean.typesPriority}" />
+                                           </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfSeriesSave" value="Serie"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfSeriesSave"  value="#{scmachinesBean.scMachineAdd.series}" maxlength="100"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la serie de la maquina">
+                                            </p:inputText>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfLocationSave" value="Localización"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfLocationSave"  value="#{scmachinesBean.scMachineAdd.location}" maxlength="100"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la localización de la maquina">
+                                            </p:inputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfLifeSpanSave" value="Vida Útil"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText id="tfLifeSpanSave"  value="#{scmachinesBean.scMachineAdd.lifespan}" maxlength="18"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la vida útil de la maquina">
+                                            </p:inputText>
+                                        </td>
+                                        <td>
+                                           <p:selectOneMenu id="tfTypeOfLifeSpanSave" value="#{scmachinesBean.typeLifeSpan}" effect="fold" required="true">
+                                              <f:selectItems value="#{scmachinesBean.typesLifeSpan}" />
+                                           </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfCostSave" value="Valor/Hora"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText id="tfCostSave"  value="#{scmachinesBean.scMachineAdd.cost}" maxlength="18"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el valor de la hora">
+                                            </p:inputText>
+                                        </td>
+                                        <td>
+                                           <p:selectOneMenu id="tfTypeOfCostSave" value="#{scmachinesBean.typeCost}" effect="fold" required="true"> 
+                                              <f:selectItems value="#{scmachinesBean.typesCost}" />
+                                           </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                        
+                                    <tr>
+                                        <td>
+                                           <p:outputLabel  for="tfCostCenter" value="Centro De Costo"/>
+                                        </td>
+                                        <td>
+                                            <p:selectOneMenu id="tfCostCenter" value="#{scmachinesBean.costCenter}" effect="fold" required="true">
+                                              <f:selectItem itemLabel="Seleccionar" itemValue="" /> 
+                                              <f:selectItems value="#{scmachinesBean.costCenters}" />
+                                           </p:selectOneMenu>
+                                        </td>
+                                        
+                                        <td>
+                                           <p:outputLabel  for="tfPartner" value="Proveedor"/>
+                                        </td>
+                                        <td>
+                                            <p:selectOneMenu id="tfPartner" value="#{scmachinesBean.partner}" effect="fold" required="true">
+                                              <f:selectItem itemLabel="Seleccionar" itemValue="" /> 
+                                              <f:selectItems value="#{scmachinesBean.partners}" />
+                                           </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    <td width="40%">
+                                        <p:outputLabel for="tfMachineDescriptionSave" value="Observación"/>
+                                    </td>
+                                    <td width="60%">
+                                        <p:inputTextarea id="tfMachineDescriptionSave" value="#{scmachinesBean.scMachineAdd.comments}" maxlength="2000" required="true"/>        
+                                    </td> 
+                                    </tr>
+                                 
+                                </table>
+                            </p:panel>
+                            
+                        </p:tab>
+                        
+                        <p:tab title="Campos Personalizados" id="tabCustomFields" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para ingresar datos personalizados de la Maquina">
+                            
+                            <p:panel header="Ingresar Campos Personalizados" style="text-align: center; width: 100%;">
+                             <table width="98%" cellspacing="10" >
+                                 <tr>
+                                     
+                                 </tr>     
+                             </table>
+                            </p:panel>
+                            
+                        </p:tab>
+
+                    </p:wizard>
+                </h:form>
+
+            </p:dialog>
+            <!--         finaliza el dialogo para guardar Usuarios               -->
+            
+            
+            <!--             inicia el dialogo para elimianr registros           -->
+            <p:dialog id="dialogEmployeeDelete" widgetVar="dialogEmployeeDelete" position="center top" 
+                      closable="true" draggable="true" dynamic="true" header="Eliminar Empleados"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="false">
+                <h:form id="formDeleteScEmployee">
+                    <table width="100%" cellspacing="30" style="padding: 0px; margin: 0px;">
+                        <tr>
+                            <td>
+                                <p:outputLabel value="¿Desea eliminar el empleado 
+                                #{scmachinesBean.employeeSelected.idPerson.lastName} #{scmachinesBean.employeeSelected.idPerson.firstName}?" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <p:commandButton value="Eliminar" actionListener="#{scmachinesBean.deleteEmployee()}"  
+                                                 onsuccess="PF('dialogEmployeeDelete').hide()"
+                                                 update="@this,:formEmployees:scEmployeesDataTable"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" oncomplete="PF('dialogEmployeeDelete').hide()"
+                                                 update="@this"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+<!--            finaliza el dialogo para eliminar registros            -->
+
+
+            <!--         Dialogo para actualizar nuevos Empleados         -->
+            <p:dialog id="dialogEmployeeUpdate" widgetVar="dialogEmployeeUpdate" draggable="true" 
+                      header="Actualizar Empleados" position="center top" width="750"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                <h:form id="formWizardUpdate">
+                    <p:wizard  flowListener="#{scmachinesBean.onFlowProcessUpdateEmployee}" id="wizardUpdate" widgetVar="wizardUpdate">
+                        <p:tab title="Tercero" id="tabPersonUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para seleccionar el tercero">
+                            
+                            <p:panel header="Actualizar Tercero" style="text-align: center; width: 100%;">
+                            <center>    
+                                <p:dataTable id="dataTablePersonsUpdate" value="#{scmachinesBean.personsListUpdate}"
+                                         paginator="true" rows="10"  var="persons"
+                                         pageLinks="40" style="width: 400px;"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowKey="#{persons.idPerson}"
+                                         resizableColumns="true" 
+                                         liveResize="true" rowsPerPageTemplate="10,20,30" 
+                                         sortBy="#{persons.lastName} #{persons.firstName}"
+                                         paginatorPosition="top" selection="#{scmachinesBean.employeeSelected.idPerson}"
+                                         selectionMode="single"
+                                         >
+                                    <p:ajax event="rowSelect" update=":formWizardUpdate:dataTablePersonsUpdate"/>
+                                    <p:column  selectionMode="single" width="16"/>
+                                    <p:column  headerText="Personas Disponibles">
+                                        <p:outputLabel value="#{persons.lastName} #{persons.firstName}"/>
+                                    </p:column> 
+                                </p:dataTable>
+                            </center>
+                            </p:panel>
+                            
+                        </p:tab>
+                        
+<!--                        datos basicos del empleado-->
+                        <p:tab title="Datos del Empleado" id="tabEmployeeUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del empleado">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfPositionUpdate" value="Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfPositionUpdate"  value="#{scmachinesBean.employeeSelected.position}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el cargo del empleado">
+                                            
+                                            </p:inputText>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfFormationUpdate" value="Formación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfFormationUpdate"  value="#{scmachinesBean.employeeSelected.formation}"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfSalaryUpdate" value="Salario"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfSalaryUpdate"  value="#{scmachinesBean.employeeSelected.salary}"
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar el salario del empleado">
+                                            
+                                            </p:inputText>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfHourValueUpdate" value="Valor Hora"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfHourValueUpdate"  value="#{scmachinesBean.employeeSelected.hourValue}"
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor de la hora del empleado">
+                                            
+                                            </p:inputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfPorcentageUpdate" value="Porcentaje de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfPorcentageUpdate"  value="#{scmachinesBean.employeeSelected.porcentage}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el porcentaje del rango del empleado">
+                                                
+                                            </p:inputText>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfRangeAmountUpdate" value="Cantidad de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfRangeAmountUpdate"  value="#{scmachinesBean.employeeSelected.amount}"
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar la cantidad del rango el empleado">                               
+                                                
+                                            </p:inputText>    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  for="tfadmitionDateUpdate" value="Fecha de Ingreso"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:calendar  id="tfadmitionDateUpdate" value="#{scmachinesBean.employeeSelected.admissionDate}" pattern="dd/MM/yyyy"
+                                            required="true" requiredMessage="Campo obligatorio debe ingresar la fecha de admisión del empleado"
+                                            />                                    
+                                            <p:tooltip for="tfadmitionDateUpdate" value="Debe ingresar una fecha con el formato dd/mm/aaaa"/>
+                                        </td>
+                                        <td colspan="2">
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        
+<!--                        experiencia laboral           -->
+                        <p:tab title="Experiencia Laboral" id="tabWorkExperiencieUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para ingresar la experiencia laboral del empleado">
+                            <p:panel header="Actualizar Experiencia Laboral" style="text-align: center;">
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td>
+                                        <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfNameCompanyUpdate" value="Nombre de la Empresa"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputText id="tfNameCompanyUpdate" value="#{scmachinesBean.workExperienceAdd.companyName}"
+                                                                 />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfInitDateUpdate" value="Fecha de Inicio"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:calendar id="tfInitDateUpdate" value="#{scmachinesBean.workExperienceAdd.initDate}" 
+                                                        pattern="dd/MM/yyyy" effect="explode" />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                <p:outputLabel for="tfInitEndUpdate" value="Fecha de Retiro"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:calendar id="tfInitEndUpdate" value="#{scmachinesBean.workExperienceAdd.endDate}" 
+                                                        pattern="dd/MM/yyyy" effect="explode" />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfNameCompanyUpdate,tfInitDateUpdate,tfInitEndUpdate,dataTableWorkExperienciesUpdate"
+                                                                             actionListener="#{scmachinesBean.updateWorkExperiencieAdd()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </td>    
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p:dataTable id="dataTableWorkExperienciesUpdate" 
+                                                             var="workExperiencies"
+                                                             value="#{scmachinesBean.employeeSelected.scWorkExperienceList}"
+                                                             rowKey="#{workExperiencies.idWorkExperience}"
+                                                             paginator="true" rows="10"  
+                                                             pageLinks="40" editable="true"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                             paginatorPosition="top"
+                                                             sortBy="#{workExperiencies.idWorkExperience}">
+                                                    <p:column  style="width:32px">
+                                                        <p:commandButton icon="ui-icon-close" update="dataTableWorkExperienciesUpdate" title="Eliminar experiencia laboral"
+                                                                         process=":formWizardUpdate:dataTableWorkExperienciesUpdate" actionListener="#{scmachinesBean.removeWorkExperiencieUpdate(workExperiencies)}" >
+                                                        </p:commandButton>
+                                                    </p:column>
+                                                    <p:column  headerText="Empresa" sortBy="#{workExperiencies.companyName}">
+                                                        <p:outputLabel value="#{workExperiencies.companyName}"/>
+                                                    </p:column>
+                                                    <p:column  headerText="Fecha de Inicio" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}">
+                                                        <p:outputLabel value="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}"/>
+                                                    </p:column>
+                                                    <p:column  headerText="Fecha de Retiro" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}">
+                                                        <p:outputLabel value="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}"/>
+                                                    </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        
+<!--                        compentencias -->
+                        <p:tab title="Competencias" id="tabCompetencieUpdate" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para ingresar las competencias del empleado">
+                            <p:panel header="Actualizar Compentencia" style="text-align: center;">
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td>
+                                        <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfCompentencieTittleUpdate" value="Título"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputText id="tfCompentencieTittleUpdate" value="#{scmachinesBean.competenciesAdd.tittle}"
+                                                                 />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%" >
+                                                <p:outputLabel for="tfCompetencieDescriptionUpdate" value="Descripción"/>
+                                                </td>
+                                                <td width="60%">
+                                                    <p:inputTextarea id="tfCompetencieDescriptionUpdate" value="#{scmachinesBean.competenciesAdd.description}" 
+                                                     />
+                                                </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfCompentencieTittleUpdate,tfCompetencieDescriptionUpdate,dataTableCompetenciesUpdate"
+                                                                             actionListener="#{scmachinesBean.updateCompetencieAdd()}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p:dataTable id="dataTableCompetenciesUpdate" 
+                                                         var="competencies" 
+                                                         value="#{scmachinesBean.employeeSelected.scCompetenciesList}"
+                                                         rowKey="#{competencies.idCompetencies}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top" 
+                                                         sortBy="#{competencies.idCompetencies}">
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableCompetenciesUpdate" title="Eliminar competencia"
+                                                                     process=":formWizardUpdate:dataTableCompetenciesUpdate" actionListener="#{scmachinesBean.removeCompetencieUpdate(competencies)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Título" sortBy="#{competencies.tittle}">
+                                                    <p:outputLabel value="#{competencies.tittle}"/>
+                                                </p:column>
+                                                <p:column  headerText="Descripción" sortBy="#{competencies.description}">
+                                                    <p:outputLabel value="#{competencies.description}"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>      
+                                </table>
+                            </p:panel>
+                        </p:tab>
+<!--                        confirmar datos al guardar-->
+                        <p:tab title="Confirmar datos" id="tabAcceptUpdate" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para confirmar los datos del empleado a crear">
+                            <p:panel header="Crear Empleado" style="text-align: center;">
+                                <table width="98%" cellspacing="10" style="text-align: center;">
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Nombre"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scmachinesBean.employeeSelected.idPerson.lastName} #{scmachinesBean.employeeSelected.idPerson.firstName}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Identificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scmachinesBean.employeeSelected.idPerson.identification}"/>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scmachinesBean.employeeSelected.position}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Formación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.employeeSelected.formation}"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Salario"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.employeeSelected.salary}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Valor Hora"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scmachinesBean.employeeSelected.hourValue}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Porcentaje de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.employeeSelected.porcentage}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Cantidad de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel   value="#{scmachinesBean.employeeSelected.amount}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Ingreso"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.getFormatDate(scmachinesBean.employeeSelected.admissionDate)}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Creación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.getFormatDate(scmachinesBean.employeeSelected.creationDate)}"/>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Modificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.getFormatDate(scmachinesBean.employeeSelected.modifyDate)}"/>
+                                        </td>
+                                         <td colspan="2">
+                                        
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="98%" colspan="2">
+                                            <p:commandButton id="btnSaveUser" value="Guardar Usuario" onsuccess="PF('dialogEmployeeUpdate').hide()"
+                                                             actionListener="#{scmachinesBean.updateEmployee()}" update=":formEmployees:scEmployeesDataTable,:formWizardUpdate"
+                                            oncomplete="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"/>
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelUser" value="Cancelar" oncomplete="PF('dialogEmployeeUpdate').hide();PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
+                                                             actionListener="#{scmachinesBean.cleanValues()}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+
+                        </p:tab>
+                    </p:wizard>
+                </h:form>
+            </p:dialog>
+            <!--         finaliza el dialogo para actualizar Usuarios               -->
+            
+            
+<!--            inicial el dialogo para ver en detalle una maquina-->
+                <p:dialog id="dialogMachineView" widgetVar="dialogMachineView" draggable="true" 
+                      header="Visualización en Detalle de la Maquina" position="center top" width="750"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+                    <h:form id="formWizardView">
+                        <p:tabView dynamic="true" activeIndex="0">
+                            <p:tab title="Datos Básicos">
+                                <table>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Nombre"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scmachinesBean.employeeSelected.idPerson.lastName} #{scmachinesBean.employeeSelected.idPerson.firstName}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Identificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scmachinesBean.employeeSelected.idPerson.identification}"/>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel  value="Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scmachinesBean.employeeSelected.position}"/>
+                                            
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Formación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.employeeSelected.formation}"/>                                
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Salario"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.employeeSelected.salary}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Valor Hora"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel  value="#{scmachinesBean.employeeSelected.hourValue}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Porcentaje de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.employeeSelected.porcentage}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Cantidad de Rango del Cargo"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel   value="#{scmachinesBean.employeeSelected.amount}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Ingreso"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.getFormatDate(scmachinesBean.employeeSelected.admissionDate)}"/>
+                                        </td>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Creación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.getFormatDate(scmachinesBean.employeeSelected.creationDate)}"/>
+                                        </td>
+                                    </tr>
+                                     <tr>
+                                        <td width="20%" align="left">
+                                            <p:outputLabel value="Fecha de Modificación"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:outputLabel value="#{scmachinesBean.getFormatDate(scmachinesBean.employeeSelected.modifyDate)}"/>
+                                        </td>
+                                         <td colspan="2">
+                                        
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:tab>
+                            <p:tab title="Experiencias Laborales" > 
+                                <p:dataTable 
+                                            var="workExperiencies"
+                                            value="#{scmachinesBean.employeeSelected.scWorkExperienceList}"
+                                            rowKey="#{workExperiencies.idWorkExperience}"
+                                            paginator="true" rows="10"  
+                                            pageLinks="40" editable="true"
+                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                            {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            liveResize="true" rowsPerPageTemplate="15,30,50"
+                                            paginatorPosition="top"
+                                            sortBy="#{workExperiencies.idWorkExperience}">
+                                   
+                                   <p:column  headerText="Empresa" sortBy="#{workExperiencies.companyName}">
+                                       <p:outputLabel value="#{workExperiencies.companyName}"/>
+                                   </p:column>
+                                   <p:column  headerText="Fecha de Inicio" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}">
+                                       <p:outputLabel value="#{scmachinesBean.getFormatDate(workExperiencies.initDate)}"/>
+                                   </p:column>
+                                   <p:column  headerText="Fecha de Retiro" sortBy="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}">
+                                       <p:outputLabel value="#{scmachinesBean.getFormatDate(workExperiencies.endDate)}"/>
+                                   </p:column>
+                               </p:dataTable>
+                            </p:tab>
+                            <p:tab title="Competencias"> 
+                                <p:dataTable 
+                                            var="competencies"
+                                            value="#{scmachinesBean.employeeSelected.scCompetenciesList}"
+                                            rowKey="#{competencies.idCompetencies}"
+                                            paginator="true" rows="10"  
+                                            pageLinks="40" editable="true"
+                                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                            {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            liveResize="true" rowsPerPageTemplate="15,30,50"
+                                            paginatorPosition="top"
+                                            sortBy="#{competencies.idCompetencies}">
+                                   
+                                   <p:column  headerText="Título" sortBy="#{competencies.tittle}">
+                                       <p:outputLabel value="#{competencies.tittle}"/>
+                                   </p:column>
+                                   <p:column  headerText="Descripción" sortBy="#{competencies.description}">
+                                       <p:outputLabel value="#{competencies.description}"/>
+                                   </p:column>
+                                </p:dataTable>
+                            </p:tab>
+                        </p:tabView>
+                    </h:form>
+                </p:dialog>
+<!--            finaliza el dialgo para ver en detalle una maquina-->
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            <h:form id="formMachine">
+                <p:dataTable id="scMachineDataTable" draggableColumns="true" emptyMessage="" 
+                             value="#{scMachineBean.machineList}" var="machine"
+                             paginator="true" rows="10"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{machine.idMachine}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                             selectionMode="single" paginatorPosition="top" selection="#{scMachineBean.machineUpdate}"
+                             sortBy="#{machine.name}"
+                             >
+                    <f:facet name="header">
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"
+                                         oncomplete="PF('dialogMachineSave').show()">
+                            <p:tooltip for="btnAdd" value="Agregar una Maquina"/>
+                        </p:commandButton>
+                    </f:facet>
+<!--                    <p:ajax event="rowSelect" listener="#{scmachinesBean.getMachineByDataTable(machine)}" 
+                            update=":formWizardView"
+                            oncomplete="PF('dialogMachineView').show()"/>-->
+                    <p:column headerText="Admin" width="84">
+                    <!--
+                        <center>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizardUpdate" onstart="PF('wizardUpdate').loadStep('tabPersonUpdate', false)"
+                                             oncomplete="PF('dialogEmployeeUpdate').show()"
+                            actionListener="#{scmachinesBean.getEmployeeByDataTableUpdate(employees)}"                 >
+                                <p:tooltip for="btnEdit" value="Editar Empleado"/>
+                            </p:commandButton>
+                            <p:spacer width="10"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formDeleteScEmployee"
+                                             oncomplete="PF('dialogEmployeeDelete').show()"
+                            actionListener="#{scmachinesBean.getEmployeeByDataTable(employees)}"
+                                             >
+                                <p:tooltip for="btnDelete" value="Eliminar Empleado"/>
+                            </p:commandButton>
+                        </center>-->
+                    </p:column>
+                  
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.name}" id="columnMachine" headerText="Maquina" sortBy="#{machine.name}">    
+                        <center>
+                            <p:outputLabel value="#{machine.name}" id="lblMachine"/>
+                            <p:tooltip for="lblMachine" value="#{machine.name}"/>
+                        </center>
+                    </p:column>
+                    
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.hourValue}" id="columnComments" headerText="Hora" sortBy="#{machine.hourValue}">    
+                        <center>
+                            <p:outputLabel value="#{machine.hourValue}" id="lblComments"/>
+                            <p:tooltip for="lblComments" value="#{machine.hourValue}"/>
+                        </center>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </div>
+
+    </h:body>
+</html>
+
