@@ -15,6 +15,7 @@ import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -86,4 +87,135 @@ public class ScMachineDao  implements  IScMachine
         }
     }
 
+    
+    @Override
+    public List<ScPartner> getAllPartners() throws Exception
+    {
+        List<ScPartner> result = null;
+        Query query  = entityManager.createNamedQuery("ScPartner.findAll"); 
+        try
+        {
+            result = (List<ScPartner>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los proveedores",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScCostCenter> getAllCostCenter() throws Exception
+    {
+        List<ScCostCenter> result = null;
+        Query query  = entityManager.createNamedQuery("ScCostCenter.findAll"); 
+        try
+        {
+            result = (List<ScCostCenter>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los centros de costo",e);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public void saveCostCenter(ScCostCenter costCenter) throws Exception
+    {
+        try
+        {
+            entityManager.persist(costCenter);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de un centro de costos",e);
+            throw e;
+        }
+    }
+
+
+   
+
+    @Override
+    public List<ScPriority> getAllPrioritys() throws Exception
+    {
+        List<ScPriority> result = null;
+        Query query  = entityManager.createNamedQuery("ScPriority.findAll"); 
+        try
+        {
+            result = (List<ScPriority>) query.getResultList();
+        }
+        catch (Exception e) 
+        {
+            log.error("Error al intentar hacer la persistencia de las prioridades",e);
+        }
+        return result;
+    }
+ 
+    @Override
+    public List<ScMeasureUnit> getAllMeasureUnits() throws Exception
+    {
+        List<ScMeasureUnit> result = null;
+        Query query  = entityManager.createNamedQuery("ScMeasureUnit.findAll"); 
+        try
+        {
+            result = (List<ScMeasureUnit>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las medidas",e);
+        }
+        return result;
+    }
+    
+    @Override
+    public List<ScMoney> getAllMoneys() throws Exception
+    {
+        List<ScMoney> result = null;
+        Query query  = entityManager.createNamedQuery("ScMoney.findAll"); 
+        try
+        {
+            result = (List<ScMoney>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las monedas",e);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception
+    {
+        try
+        {
+            entityManager.persist(measureUnit);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de una medida",e);
+            throw e;
+        }
+    }
+    
+     @Override
+    public List<ScTime> getAllTimes() throws Exception
+    {
+        List<ScTime> result = null;
+        Query query  = entityManager.createNamedQuery("ScTime.findAll"); 
+        try
+        {
+            result = (List<ScTime>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los tiempos",e);
+        }
+        return result;
+    }
 }

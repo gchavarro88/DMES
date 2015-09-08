@@ -84,6 +84,12 @@ public class ScMachineBean
     private UploadedFile fileSave;//Documento a subir
     private UploadedFile fileUpdate;//Documento a actualizar
     
+    
+    private ScLocation factoryLocationSave; //Localizacion seleccionada para agregar
+    private ScLocation factoryLocationSelected; //Localizacion seleccionada para agregar al repuesto
+    private ScPriority prioritySave; //Prioridad seleccionada para agregar al repuesto
+    private UploadedFile pictureFile; //Archivo que se copiara para la imagen del repuesto
+    private ScCostCenter costCenterSave; //Centro de Costo para agregar
     private SessionBean sessionBean; //Bean de sesion
     private IScMachine scMachineServer;
     
@@ -145,7 +151,39 @@ public class ScMachineBean
     
     
     
-    
+    /**
+     * Método encargado de agregar una medida.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addMeasure()
+    {
+        try
+        {
+            if (getMeasureUnitSave() != null)
+            {
+                getScMachineServer().saveMeasureUnit(getMeasureUnitSave());
+                if (getMeasureUnitsList() == null)
+                {
+                    setMeasureUnitsList(new ArrayList<ScMeasureUnit>());
+                }
+                getMeasureUnitsList().add(getMeasureUnitSave());
+                cleanFieldsMeasure();
+            }
+            else
+            {
+                log.error("Error al intentar crear la unidad de medida para máquinas");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar agregar una unidad de medida desde máquinas", e);
+        }
+
+    }
     
     
     /**
@@ -465,7 +503,7 @@ public class ScMachineBean
                         {
                             String firstName = getSessionBean().getScUser().getIdPerson().getFirstName().replaceAll(" ", "_");
                             String lastName = getSessionBean().getScUser().getIdPerson().getLastName().replaceAll(" ", "_");
-                            String folderName = DMESConstants.FILE_PATH_TOOLS_DOCS;
+                            String folderName = DMESConstants.FILE_PATH_MACHINE_DOCS;
                             //Creamos el folder
                             File folder = new File(PATH_FILE + "/" + folderName);
                             folder.mkdirs();
@@ -553,9 +591,176 @@ public class ScMachineBean
      */
     public void cleanDocumentSave()
     {
-        
+        setMachineDocumentSave(new ScMachineDocument());
+    }
+    
+    /**
+     * Método encargado de vaciar los objetos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsCostCenter()
+    {
+        setCostCenterSave(new ScCostCenter());
     }
 
+    /**
+     * Método encargado de vaciar los objetos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsMeasure()
+    {
+        setMeasureUnitSave(new ScMeasureUnit());
+    }
+
+    /**
+     * Método encargado de vaciar los objetos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsPriority()
+    {
+        setPrioritySave(new ScPriority());
+    }
+
+    
+    /**
+     * Método encargado de agregar un centro de costos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addCostCenter()
+    {
+        try
+        {
+            if (getCostCenterSave() != null)
+            {
+                if (Utilities.isNumeric(getCostCenterSave().getCostCenter()))
+                {
+                    getCostCenterSave().setCreationDate(new Date());
+                    getScMachineServer().saveCostCenter(getCostCenterSave());
+                    if (getCostCenterList() == null)
+                    {
+                        setCostCenterList(new ArrayList<ScCostCenter>());
+                    }
+                    getCostCenterList().add(getCostCenterSave());
+                    cleanFieldsCostCenter();
+                }
+                else
+                {
+                    log.error("Error al intentar crear el centro de costos desde máquinas");
+                    addError(null, "Error al crear un centro de costos", "Debe ingresar solo números para el campo código del centro de costo");
+                }
+            }
+            else
+            {
+                log.error("Error al intentar crear el centro de costos desde máquinas");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar agregar un centro de costos desde máquinas", e);
+        }
+
+    }
+    
+    
+    /**
+     * Método encargado de realizar la copia del archivo que se desea cargar.
+     *
+     * @param option se escoge la opción entre guardar y actualizar
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public void handleFileUpload(int option)
+    {
+        
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('pictureSave').hide()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('pictureUpdate').hide()");
+                break;
+            default:
+                break;
+        }
+        //Validamos que el evento de copiado no sea nulo
+        if (getPictureFile() != null)
+        {
+
+            String fileName = getPictureFile().getFileName(); //Extraemos el nombre del archivo
+            long fileSize = getPictureFile().getSize(); //Extraemos el tamaño del archivo
+            int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
+            String fileType = fileName.substring(positionLimitName + 1, fileName.length()); //Extraemos el tipo del archivo
+            //Validamos que el archivo contenga los tipos permitidos
+            if (DMESConstants.TYPES_EXTENTIONS_IMAGES.contains(fileType))
+            {
+                String folderName = DMESConstants.FILE_PATH_MACHINE_IMG;
+                //Creamos el folder
+                File folder = new File(PATH_FILE + "/" + folderName);
+                folder.mkdirs();
+                //Creamos el archivo con la ruta y el nombre de la carpeta
+                File file = new File(folder + "/" + fileName);
+                try
+                {
+                    //Creamos el archivo y lo enviamos al metodo que lo escribe
+                    if (writeFile(getPictureFile().getInputstream(), file))
+                    {
+                        switch (option)
+                        {
+                            case 1://opción para guardar
+                                getMachineSave().setPathPicture(file.getAbsolutePath());
+                                break;
+                            case 2://opción para actualizar
+                                getMachineSelected().setPathPicture(file.getAbsolutePath());
+                                break;
+                            default:
+                                break;
+                        }
+                        //addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                    }
+                    //Si sucede un error al escribir el archivo
+                    else
+                    {
+                        addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    }
+                }
+                catch (Exception e)
+                {
+                    //Excepción de escritura
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error("Error al intentar guardar la imagen", e);
+                }
+            }
+            //El tipo no pertenece
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo no pertenece a los tipos permitidos " + DMESConstants.TYPES_EXTENTIONS_IMAGES);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El archivo se encuentra vacio");
+        }
+        switch (option)
+        {
+            case 1://opción para guardar
+                RequestContext.getCurrentInstance().execute("PF('dialogMachineSave').show()");
+                break;
+            case 2://opción para actualizar
+                RequestContext.getCurrentInstance().execute("PF('dialogMachineUpdate').show()");
+                break;
+            default:
+                break;
+        }
+    }
+    
+    
     
     /** 
      * Método encargado de visualizar la imagen de un elemento.
@@ -668,7 +873,7 @@ public class ScMachineBean
         }
 
     }
-
+    
     /**
      * Método encargado de recibir una entrada de datos y un archivo para
      * posteriormente escribir los datos en el archivo.
@@ -1090,6 +1295,56 @@ public class ScMachineBean
     public void setMachineAttachedUpdate(ScMachineAttached machineAttachedUpdate)
     {
         this.machineAttachedUpdate = machineAttachedUpdate;
+    }
+
+    public ScLocation getFactoryLocationSave()
+    {
+        return factoryLocationSave;
+    }
+
+    public void setFactoryLocationSave(ScLocation factoryLocationSave)
+    {
+        this.factoryLocationSave = factoryLocationSave;
+    }
+
+    public ScLocation getFactoryLocationSelected()
+    {
+        return factoryLocationSelected;
+    }
+
+    public void setFactoryLocationSelected(ScLocation factoryLocationSelected)
+    {
+        this.factoryLocationSelected = factoryLocationSelected;
+    }
+
+    public ScPriority getPrioritySave()
+    {
+        return prioritySave;
+    }
+
+    public void setPrioritySave(ScPriority prioritySave)
+    {
+        this.prioritySave = prioritySave;
+    }
+
+    public UploadedFile getPictureFile()
+    {
+        return pictureFile;
+    }
+
+    public void setPictureFile(UploadedFile pictureFile)
+    {
+        this.pictureFile = pictureFile;
+    }
+
+    public ScCostCenter getCostCenterSave()
+    {
+        return costCenterSave;
+    }
+
+    public void setCostCenterSave(ScCostCenter costCenterSave)
+    {
+        this.costCenterSave = costCenterSave;
     }
     
     

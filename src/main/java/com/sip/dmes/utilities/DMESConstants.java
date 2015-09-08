@@ -45,11 +45,11 @@ public class DMESConstants
    public static final String FILE_PATH_TOOLS_IMG = "tools_filePath/img";//Productos imagenes
    public static final String FILE_PATH_TOOLS_DOCS = "tools_filePath/docs";//Productos
    //Nombres de las carpetas reservadas del sistema
-   public static final String FILE_PATH_MACHINE_IMG = "machine_filePath/img";//Insumos imagenes
-   public static final String FILE_PATH_MACHINE_DOCS = "machine_filePath/docs";//Insumos
+   public static final String FILE_PATH_MACHINE_IMG = "machine_filePath/img";//maquina imagenes
+   public static final String FILE_PATH_MACHINE_DOCS = "machine_filePath/docs";//maquina
    //Nombres de las carpetas reservadas del sistema
-   public static final String FILE_PATH_PARTOFMACHINE_IMG = "partofmachine_filePath/img";//Productos imagenes
-   public static final String FILE_PATH_PARTOFMACHINE_DOCS = "partofmachine_filePath/docs";//Productos
+   public static final String FILE_PATH_PARTOFMACHINE_IMG = "partofmachine_filePath/img";//Partes de Maquina imagenes
+   public static final String FILE_PATH_PARTOFMACHINE_DOCS = "partofmachine_filePath/docs";//Partes de Maquina
    
    //Subida de documentos
     public static final String EXTENSION_FILE = "pdf,xls,doc,xlsx,docx,txt,pps,ppt,pptx,ppsx";

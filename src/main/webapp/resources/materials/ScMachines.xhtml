@@ -503,6 +503,185 @@
             </p:dialog>
             <!--################ finaliza el dialogo para visualizar Máquinas ######################33-->
             
+            
+            
+            <!--           dialogo para crear un centro de costos-->
+            <p:dialog id="centerCostSave" widgetVar="centerCostSave" draggable="true"  
+                      closable="true"  header="Agregar un Centro de Costos" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formCostCenter">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAreaCostCenter" value="Nombre del Área"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAreaCostCenter"  value="#{scMachineBean.costCenterSave.description}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el área del centro de costos"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfcodigoCostCenter" value="Código"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfcodigoCostCenter"  value="#{scMachineBean.costCenterSave.costCenter}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el código del centro de costos"/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td  align="center" colspan="2">
+                                <p:commandButton value="Guardar" actionListener="#{scMachineBean.addCostCenter()}"  
+                                                 onsuccess="PF('centerCostSave').hide()"
+                                                 update="@this,tfAreaCostCenter,tfcodigoCostCenter,:formWizardSave:cbCostCenter,:formWizardUpdate:cbCostCenter"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scMachineBean.cleanFieldsCostCenter()}" 
+                                                 oncomplete="PF('centerCostSave').hide()"
+                                                 update="@this,tfAreaCostCenter,tfcodigoCostCenter"/>
+                            </td>
+                        </tr>
+                    </table> 
+                </h:form>
+            </p:dialog>
+            <!--         fin  dialogo para crear un centro de costos-->
+            <!--           dialogo para crear una medida-->
+            <p:dialog id="measureSave" widgetVar="measureSave" draggable="true" 
+                      closable="true"  header="Agregar una Medida" position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+                <h:form id="formMeasure">
+                    <table width="98%" cellspacing="10" >
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfAcronym" value="Medida"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfAcronym"  value="#{scMachineBean.measureUnitSave.acronym}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar la unidad de medida"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="20%" align="right">
+                                <p:outputLabel  for="tfTypeMeasure" value="Tipo"/>
+                            </td>
+                            <td width="80%" align="left">
+                                <p:inputText    id="tfTypeMeasure"  value="#{scMachineBean.measureUnitSave.type}"
+                                                required="true" requiredMessage="Campo obligatorio debe ingresar el tipo de medida"/>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td  align="center" colspan="2">
+                                <p:commandButton value="Guardar" actionListener="#{scMachineBean.addMeasure()}"  
+                                                 onsuccess="PF('measureSave').hide()"
+                                                 update="@this,tfAcronym,tfTypeMeasure,:formWizardSave:cbMeasureHigh,:formWizardSave:cbMeasureWidth,:formWizardSave:cbMeasureLarge,
+                                                 :formWizardSave:cbMeasureVolume,:formWizardSave:cbMeasureThickness,:formWizardSave:cbMeasureRadio,:formWizardSave:cbMeasureWeight
+                                                 ,:formWizardUpdate:cbMeasureHigh,:formWizardUpdate:cbMeasureWidth,:formWizardUpdate:cbMeasureLarge,
+                                                 :formWizardUpdate:cbMeasureVolume,:formWizardUpdate:cbMeasureThickness,:formWizardUpdate:cbMeasureRadio,
+                                                 :formWizardUpdate:cbMeasureWeight"/>
+                                <p:spacer width="20"/>
+
+                                <p:commandButton value="Cancelar" actionListener="#{scMachineBean.cleanFieldsMeasure()}" 
+                                                 oncomplete="PF('measureSave').hide()"
+                                                 update="@this,tfAcronym,tfTypeMeasure"/>
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
+            </p:dialog>
+            <!--         fin  dialogo para crear una medida-->
+
+            
+            <!--            Dialogo para subir imagenes width="10%" align="right" -->
+            <p:dialog id="pictureSave" widgetVar="pictureSave" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Herramienta" value="#{scMachineBean.pictureFile}" mode="simple"
+                                      >       >        
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadDocument" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                         actionListener="#{scMachineBean.handleFileUpload(1)}" ajax="false" ignoreAutoUpdate="true"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para subir imagenes-->
+            <!--            Dialogo para actualizar imagenes width="10%" align="right" -->
+            <p:dialog id="pictureUpdate" widgetVar="pictureUpdate" draggable="true" 
+                      closable="true"  header="Cargar Imagen..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:fileUpload label="Imagen del Herramienta" value="#{scMachineBean.pictureFile}" mode="simple"
+                                      >       >        
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadDocumentUpdate" value="Cargar" icon="ui-icon-circle-arrow-s"
+                                         actionListener="#{scMachineBean.handleFileUpload(2)}" ajax="false" ignoreAutoUpdate="true" />
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para actualizar imagenes-->
+
+            <!--            Dialogo para subir documentos width="10%" align="right" -->
+            <p:dialog id="documentSave" widgetVar="documentSave" draggable="true" 
+                      closable="true"  header="Cargar Documento..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:outputLabel for="tfDocument" value="Título del Documento"/>
+
+                        <p:inputText value="#{scMachineBean.machineDocumentSave.documentTittle}" id="tfDocument"/> 
+
+                        <p:fileUpload label="Documento de un Herramienta" value="#{scMachineBean.fileSave}" mode="simple"
+                                      update=":formWizardSave:dataTableDocumentationSave">  
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadFile" value="Cargar" icon="ui-icon-circle-arrow-s" 
+                                         actionListener="#{scMachineBean.handleDocumentUpload(1)}" ajax="false" 
+                                         update=":formWizardSave:dataTableDocumentationSave"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para subir documentos-->
+
+            <!--            Dialogo para subir actualizar -->
+            <p:dialog id="documentUpdate" widgetVar="documentUpdate" draggable="true" 
+                      closable="true"  header="Actualizar Documento..." position="center top" 
+                      hideEffect="explode" modal="true" showEffect="explode" 
+                      >
+
+                <h:form enctype="multipart/form-data" prependId="false">
+                    <p:panelGrid columns="2" style="border: 0px solid; text-align: center;">
+                        <p:outputLabel for="tfDocumentUpdate" value="Título del Documento"/>
+
+                        <p:inputText value="#{scMachineBean.machineDocumentSave.documentTittle}" id="tfDocumentUpdate"/> 
+
+                        <p:fileUpload label="Documento de un Herramienta" value="#{scMachineBean.fileSave}" mode="simple"
+                                      update=":formWizardUpdate:dataTableDocumentationSave">  
+                        </p:fileUpload>
+
+                        <p:commandButton id="btnLoadFileUpdate" value="Cargar" icon="ui-icon-circle-arrow-s" 
+                                         actionListener="#{scMachineBean.handleDocumentUpload(2)}" ajax="false" 
+                                         update=":formWizardUpdate:dataTableDocumentationSave"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+            <!--            finaliza el dialogo para actualizar documentos-->
+            
+            
+            
             <h:form id="formMachine">
                 <p:dataTable id="scMachineDataTable" draggableColumns="true" emptyMessage="" 
                              value="#{scMachineBean.machineList}" var="machine"
@@ -577,7 +756,8 @@
                                 <p:tooltip for="btnEdit" value="Editar una Máquina"/>
                             </p:commandButton>
                             <p:spacer width="3"/>
-                            <p:commandButton icon="ui-icon-close" id="btnDelete">
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formWizardDelete" 
+                                             actionListener="#{scMachineBean.selectedForDelete(machine)}" oncomplete="PF('dialogMachineDelete').show()">
                                 <p:tooltip for="btnDelete" value="Eliminar una Máquina"/>
                             </p:commandButton>
                         </center>

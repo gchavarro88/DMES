@@ -58,7 +58,7 @@ public class ScToolBean
 {
 
     //Declaración de Variables
-    private List<ScTool> toolList;//Lista de repuestos de la tabla
+    private List<ScTool> toolList;//Lista de herramientas de la tabla
     private ScTool toolSelected; //Herramienta seleccionado para consulta, edición o eliminación
     private ScTool toolSave; //Herramienta seleccionado para agregar
     private ScMeasureUnit measureUnitSave; //Unidad de medida seleccionado para agregar
@@ -96,7 +96,7 @@ public class ScToolBean
     private UploadedFile fileUpdate;//Documento a actualizar
 
     //Persistencia
-    private IScTool scToolServer; //Dao de persistencia del repuestos
+    private IScTool scToolServer; //Dao de persistencia del herramientas
 
     private final static Logger log = Logger.getLogger(ScToolBean.class);
 
@@ -142,7 +142,7 @@ public class ScToolBean
     }
 
     /**
-     * Método encargado de llenar la lista de repuestos.
+     * Método encargado de llenar la lista de herramientas.
      *
      * @author Gustavo Chavarro Ortiz
      */
@@ -150,12 +150,12 @@ public class ScToolBean
     {
         try
         {
-            //Se consultan todos los repuestos y se guardan en la lista ordenados por la fecha
+            //Se consultan todos los herramientas y se guardan en la lista ordenados por la fecha
             setToolList(getScToolServer().getAllTools());
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los repuestos de la tabla", e);
+            log.error("Error al intentar consultar los herramientas de la tabla", e);
         }
     }
 
@@ -173,7 +173,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los proveedores para los repuestos", e);
+            log.error("Error al intentar consultar los proveedores para los herramientas", e);
         }
     }
     
@@ -191,7 +191,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los tiempos para los repuestos", e);
+            log.error("Error al intentar consultar los tiempos para los herramientas", e);
         }
     }
 
@@ -209,7 +209,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los proveedores para los repuestos", e);
+            log.error("Error al intentar consultar los proveedores para los herramientas", e);
         }
     }
 
@@ -230,7 +230,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar las localizaciones para los repuestos", e);
+            log.error("Error al intentar consultar las localizaciones para los herramientas", e);
         }
     }
 
@@ -248,7 +248,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los almacenes para los repuestos", e);
+            log.error("Error al intentar consultar los almacenes para los herramientas", e);
         }
     }
 
@@ -266,7 +266,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar las prioridades para los repuestos", e);
+            log.error("Error al intentar consultar las prioridades para los herramientas", e);
         }
     }
 
@@ -284,7 +284,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar las medidas para los repuestos", e);
+            log.error("Error al intentar consultar las medidas para los herramientas", e);
         }
     }
 
@@ -302,7 +302,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar las monedas para los repuestos", e);
+            log.error("Error al intentar consultar las monedas para los herramientas", e);
         }
     }
 
@@ -422,13 +422,13 @@ public class ScToolBean
                 }
                 else
                 {
-                    log.error("Error al intentar crear el centro de costos desde repuestos");
+                    log.error("Error al intentar crear el centro de costos desde herramientas");
                     addError(null, "Error al crear un centro de costos", "Debe ingresar solo números para el campo código del centro de costo");
                 }
             }
             else
             {
-                log.error("Error al intentar crear el centro de costos desde repuestos");
+                log.error("Error al intentar crear el centro de costos desde herramientas");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
 
@@ -436,7 +436,7 @@ public class ScToolBean
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar agregar un centro de costos desde repuestos", e);
+            log.error("Error al intentar agregar un centro de costos desde herramientas", e);
         }
 
     }
@@ -462,7 +462,7 @@ public class ScToolBean
             }
             else
             {
-                log.error("Error al intentar crear la unidad de medida para repuestos");
+                log.error("Error al intentar crear la unidad de medida para herramientas");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
 
@@ -470,7 +470,7 @@ public class ScToolBean
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar agregar una unidad de medida desde repuestos", e);
+            log.error("Error al intentar agregar una unidad de medida desde herramientas", e);
         }
 
     }
@@ -531,7 +531,7 @@ public class ScToolBean
             }
             else
             {
-                log.error("Error al intentar crear la localización desde repuestos");
+                log.error("Error al intentar crear la localización desde herramientas");
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
 
@@ -539,7 +539,7 @@ public class ScToolBean
         catch (Exception e)
         {
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar crear la localización desde repuestos", e);
+            log.error("Error al intentar crear la localización desde herramientas", e);
         }
     }
 
@@ -609,7 +609,7 @@ public class ScToolBean
      * Método encargado de llevar el flujo al guardar un repuesto.
      *
      * @param event evento en el cual se encuentra el asistente para crear
-     * repuestos
+     * herramientas
      * @return String al final retorna el nombre de la siguiente pestaña del
      * asistente
      * @author Gustavo Chavarro Ortiz
@@ -918,7 +918,7 @@ public class ScToolBean
      * Método encargado de llevar el flujo al actualizar un repuesto.
      *
      * @param event evento en el cual se encuentra el asistente para actualizar
-     * repuestos
+     * herramientas
      * @return String al final retorna el nombre de la siguiente pestaña del
      * asistente
      * @author Gustavo Chavarro Ortiz
@@ -1251,7 +1251,7 @@ public class ScToolBean
      * Método encargado de llevar el flujo al actualizar un repuesto.
      *
      * @param event evento en el cual se encuentra el asistente para actualizar
-     * repuestos
+     * herramientas
      * @return String al final retorna el nombre de la siguiente pestaña del
      * asistente
      * @author Gustavo Chavarro Ortiz

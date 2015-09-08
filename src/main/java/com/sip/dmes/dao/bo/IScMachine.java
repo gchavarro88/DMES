@@ -5,7 +5,15 @@
  */
 package com.sip.dmes.dao.bo;
 
+import com.sip.dmes.entitys.ScCostCenter;
+import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScMachine;
+import com.sip.dmes.entitys.ScMeasureUnit;
+import com.sip.dmes.entitys.ScMoney;
+import com.sip.dmes.entitys.ScPartner;
+import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScStore;
+import com.sip.dmes.entitys.ScTime;
 import java.util.List;
 
 public interface IScMachine 
@@ -17,4 +25,20 @@ public interface IScMachine
     
     public void deleteMachine(ScMachine machine) throws Exception;
 
+    public void saveCostCenter(ScCostCenter costCenter) throws Exception;
+    
+    public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception;
+    
+    public List<ScPartner> getAllPartners() throws Exception;
+    
+    public List<ScCostCenter > getAllCostCenter() throws Exception;
+    
+    public List<ScTime> getAllTimes() throws Exception;
+    
+    public List<ScMeasureUnit> getAllMeasureUnits() throws Exception;
+    
+    public List<ScMoney> getAllMoneys() throws Exception;
+    
+    public List<ScPriority> getAllPrioritys() throws Exception;
+    
 }
