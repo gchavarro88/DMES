@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.5
--- Started on 2015-09-08 01:00:56 COT
+-- Started on 2015-09-08 14:23:55 COT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -5461,7 +5461,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2015-09-08 01:00:57 COT
+-- Completed on 2015-09-08 14:23:56 COT
 
 --
 -- PostgreSQL database dump complete
