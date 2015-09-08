@@ -43,12 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ScTime implements Serializable, Cloneable
 {
-    @Column(name = "minutes")
-    private Integer minutes;
-    @OneToMany(mappedBy = "idTime", fetch = FetchType.EAGER)
-    private List<ScMachine> scMachineList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTime", fetch = FetchType.EAGER)
-    private List<ScMachinePart> scMachinePartList;
+    
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -60,7 +56,8 @@ public class ScTime implements Serializable, Cloneable
     @Size(min = 1, max = 100)
     @Column(name = "acronym")
     private String acronym;
-    
+    @Column(name = "minutes")
+    private Integer minutes;
 
     public ScTime()
     {
@@ -141,16 +138,6 @@ public class ScTime implements Serializable, Cloneable
     }
 
 
-    @XmlTransient
-    public List<ScMachinePart> getScMachinePartList()
-    {
-        return scMachinePartList;
-    }
-
-    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
-    {
-        this.scMachinePartList = scMachinePartList;
-    }
 
     public Integer getMinutes()
     {
@@ -162,15 +149,5 @@ public class ScTime implements Serializable, Cloneable
         this.minutes = minutes;
     }
 
-    @XmlTransient
-    public List<ScMachine> getScMachineList()
-    {
-        return scMachineList;
-    }
-
-    public void setScMachineList(List<ScMachine> scMachineList)
-    {
-        this.scMachineList = scMachineList;
-    }
     
 }

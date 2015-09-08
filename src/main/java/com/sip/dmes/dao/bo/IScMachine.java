@@ -14,5 +14,7 @@ public interface IScMachine
     public List<ScMachine> getAllMachine()throws Exception;
     
     public Object getInitialParameters() throws Exception;
+    
+    public void deleteMachine(ScMachine machine) throws Exception;
 
 }

@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Machines | Templates
  * and open the template in the editor.
  */
 package com.sip.dmes.dao.bs;
@@ -71,5 +71,19 @@ public class ScMachineDao  implements  IScMachine
         return result;
     }
 
+    @Override
+    @Transactional
+    public void deleteMachine(ScMachine machine) throws Exception
+    {
+        try
+        {
+            entityManager.remove(entityManager.contains(machine)?machine:entityManager.merge(machine));
+            entityManager.remove(entityManager.contains(machine.getIdDimension())?machine:entityManager.merge(machine.getIdDimension()));
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las máquinas",e);
+        }
+    }
 
 }

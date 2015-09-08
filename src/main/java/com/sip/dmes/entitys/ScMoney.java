@@ -40,12 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ScMoney implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "trm")
-    private Double trm;
-    @OneToMany(mappedBy = "idMoney", fetch = FetchType.EAGER)
-    private List<ScMachine> scMachineList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMoney", fetch = FetchType.EAGER)
-    private List<ScMachinePart> scMachinePartList;
+    
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscmoney")
@@ -57,6 +53,8 @@ public class ScMoney implements Serializable {
     @Size(max = 200)
     @Column(name = "description")
     private String description;
+    @Column(name = "trm")
+    private Double trm;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -130,17 +128,6 @@ public class ScMoney implements Serializable {
     }
 
 
-    @XmlTransient
-    public List<ScMachinePart> getScMachinePartList()
-    {
-        return scMachinePartList;
-    }
-
-    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
-    {
-        this.scMachinePartList = scMachinePartList;
-    }
-
     public Double getTrm()
     {
         return trm;
@@ -151,15 +138,5 @@ public class ScMoney implements Serializable {
         this.trm = trm;
     }
 
-    @XmlTransient
-    public List<ScMachine> getScMachineList()
-    {
-        return scMachineList;
-    }
-
-    public void setScMachineList(List<ScMachine> scMachineList)
-    {
-        this.scMachineList = scMachineList;
-    }
-    
+   
 }

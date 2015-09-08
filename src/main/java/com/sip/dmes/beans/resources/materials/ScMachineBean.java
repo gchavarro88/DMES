@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template file, choose Machines | Templates
  * and open the template in the editor.
  */
 package com.sip.dmes.beans.resources.materials;
@@ -9,8 +9,10 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IScMachine;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScFactoryLocation;
+import com.sip.dmes.entitys.ScInputDimension;
 import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScMachine;
+import com.sip.dmes.entitys.ScMachineAttached;
 import com.sip.dmes.entitys.ScMachineDocument;
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
@@ -18,9 +20,9 @@ import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
 import com.sip.dmes.entitys.ScStore;
 import com.sip.dmes.entitys.ScTime;
-import com.sip.dmes.entitys.ScTool;
-import com.sip.dmes.entitys.ScToolAttached;
-import com.sip.dmes.entitys.ScToolDocuments;
+import com.sip.dmes.entitys.ScMachine;
+import com.sip.dmes.entitys.ScMachineAttached;
+
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.io.BufferedReader;
@@ -32,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -56,6 +59,8 @@ public class ScMachineBean
     private ScMachine machineSelected; //Máquina seleccionada
     private ScMachineDocument machineDocumentSave;
     private ScMachineDocument machineDocumentUpdate;
+    private ScMachineAttached machineAttachedSave;
+    private ScMachineAttached machineAttachedUpdate;
     
     private ScMeasureUnit measureUnitSave; //Unidad de medida seleccionado para agregar
     private ScMeasureUnit measureUnitSaveHigh; //Unidad de medida seleccionado para agregar
@@ -74,6 +79,7 @@ public class ScMachineBean
     private List<ScTime> timeList;//Lista de tiempos
     private List<ScPriority> priorityList;//Lista de prioridades
     private List<ScMachineDocument> listMachineDocument;//Lista de documentos a guardar
+    private List<ScMachineAttached> listMachineAttached;//Lista de adjuntos a guardar
     private List<ScMoney> moneyList;//Lista de monedas
     private UploadedFile fileSave;//Documento a subir
     private UploadedFile fileUpdate;//Documento a actualizar
@@ -124,24 +130,193 @@ public class ScMachineBean
         }
     }
     
+    public void cleansTypesMeasures()
+    {
+        setMeasureUnitSaveHigh(new ScMeasureUnit());
+        setMeasureUnitSaveWidth(new ScMeasureUnit());
+        setMeasureUnitSaveRadio(new ScMeasureUnit());
+        setMeasureUnitSaveVolume(new ScMeasureUnit());
+        setMeasureUnitSaveLarge(new ScMeasureUnit());
+        setMeasureUnitSaveThickness(new ScMeasureUnit());
+        setMeasureUnitSaveWeight(new ScMeasureUnit());
+        setMoneySave(new ScMoney());
+    }
+
     
     
     
     
     
     
+    /**
+     * Método encargado de inicializar todas las listas para crear un máquina.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanListSaves()
+    {
+        setListMachineAttached(new ArrayList<ScMachineAttached>());
+        setListMachineDocument(new ArrayList<ScMachineDocument>());
+    }
+    
+    public void cleanMachineSave()
+    {
+        setMachineSave(new ScMachine());
+        
+        //Creamos el objeto de dimension para la segunda pestaña
+        getMachineSave().setIdDimension(new ScInputDimension());
+        cleanListSaves();
+        setMachineAttachedSave(new ScMachineAttached());
+        setMachineDocumentSave(new ScMachineDocument());
+        cleansTypesMeasures();
+    }
+    
+    /**
+     * Método encargado de limpiar los campos para eliminar un máquina
+     *
+     * @param machine máquina a eliminar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForDelete(ScMachine machine)
+    {
+        cleansTypesMeasures();
+        setMachineSelected(machine);
+    }
     
     
     
+    /**
+     * Método encargado de limpiar los campos para actualizar un maquina
+     *
+     * @param machine maquina a actualizarla
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForUpdate(ScMachine machine)
+    {
+        cleansTypesMeasures();
+
+        
+        setMachineUpdate(machine);
+        
+        if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getHight()))
+        {
+            valueToList(getMachineUpdate().getIdDimension().getHight(), 1);
+        }
+        if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getWidth()))
+        {
+            valueToList(getMachineUpdate().getIdDimension().getWidth(), 2);
+        }
+        if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getLarge()))
+        {
+            valueToList(getMachineUpdate().getIdDimension().getLarge(), 3);
+        }
+        if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getWeight()))
+        {
+            valueToList(getMachineUpdate().getIdDimension().getWeight(), 4);
+        }
+        if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getVolume()))
+        {
+            valueToList(getMachineUpdate().getIdDimension().getVolume(), 5);
+        }
+        if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getThickness()))
+        {
+            valueToList(getMachineUpdate().getIdDimension().getThickness(), 6);
+        }
+        if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getRadio()))
+        {
+            valueToList(getMachineUpdate().getIdDimension().getRadio(), 7);
+        }
+    }
     
     
+    /**
+     * Método encargado de retornar la lista de adjuntos de acuerdo a un tipo
+     * @param attachedListSave lista de donde serán extraidos los adjuntos
+     * @param type tipo del adjunto extraido
+     * @return List<ScMachineAttached> tipo del adjunto a devolver
+     * @author Gustavo Chavarro Ortiz
+     */
+    public List<ScMachineAttached> getAttachedList(List<ScMachineAttached> attachedListSave, String type)
+    {
+        List<ScMachineAttached> result = new ArrayList<ScMachineAttached>();
+        if(attachedListSave != null && !attachedListSave.isEmpty())
+        {
+            for(ScMachineAttached attached: attachedListSave)
+            {
+                if(attached.getType().equals(type))
+                {
+                    result.add(attached);
+                }
+            }
+        }
+        return result;
+    }
     
     
+    /**
+     * Método encargado de eliminar una máquina.
+     *
+     * @autor Gustavo Chavarro Ortiz
+     */
+    public void deleteMachine()
+    {
+        if (getMachineSelected() != null)
+        {
+            try
+            {
+                getScMachineServer().deleteMachine(getMachineSelected());
+                getMachineList().remove(getMachineSelected());
+            }
+            catch (Exception e)
+            {
+                log.error("Error eliminando el máquina", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanMachineSave();
+            }
+        }
+    }
+
     
-    
-    
-    
-    
+    /**
+     * Método encargado de eliminar un adjunto.
+     * @param machineAttached adjunto que sera guardado
+     * @param attachedListSave lista de adjuntos a la que será agregado el adjunto en cuestión
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteAttached(List<ScMachineAttached> attachedListSave, ScMachineAttached machineAttached)
+    {
+        int index = 0;
+        if(machineAttached != null)
+        {
+            if(attachedListSave != null && !attachedListSave.isEmpty())
+            {
+                for(ScMachineAttached attached: attachedListSave)
+                {
+                    if(attached.getType().equals(machineAttached.getType()) && attached.getTittle()
+                            .equals(machineAttached.getTittle()) && attached.getDescription()
+                            .equals(machineAttached.getDescription()))
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                if(index < attachedListSave.size())
+                {
+                    attachedListSave.remove(index);
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
     
     
     /**
@@ -458,7 +633,7 @@ public class ScMachineBean
      * @param scDocumentsSelected registro del documento a descargar
      * @author Gustavo Chavarro Ortiz
      */
-    public void downloadDocument(ScToolDocuments scDocumentsSelected)
+    public void downloadDocument(ScMachineDocument scDocumentsSelected)
     {
         try
         {
@@ -473,7 +648,7 @@ public class ScMachineBean
             int numRead = 0;
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance()
                     .getExternalContext().getResponse();
-            response.setContentType(scDocumentsSelected.getTypeDocument());
+            response.setContentType(scDocumentsSelected.getDocumentType());
             response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             OutputStream responseOutputStream = response.getOutputStream();
 
@@ -885,6 +1060,36 @@ public class ScMachineBean
     public void setMachineSelected(ScMachine machineSelected)
     {
         this.machineSelected = machineSelected;
+    }
+
+    public List<ScMachineAttached> getListMachineAttached()
+    {
+        return listMachineAttached;
+    }
+
+    public void setListMachineAttached(List<ScMachineAttached> listMachineAttached)
+    {
+        this.listMachineAttached = listMachineAttached;
+    }
+
+    public ScMachineAttached getMachineAttachedSave()
+    {
+        return machineAttachedSave;
+    }
+
+    public void setMachineAttachedSave(ScMachineAttached machineAttachedSave)
+    {
+        this.machineAttachedSave = machineAttachedSave;
+    }
+
+    public ScMachineAttached getMachineAttachedUpdate()
+    {
+        return machineAttachedUpdate;
+    }
+
+    public void setMachineAttachedUpdate(ScMachineAttached machineAttachedUpdate)
+    {
+        this.machineAttachedUpdate = machineAttachedUpdate;
     }
     
     

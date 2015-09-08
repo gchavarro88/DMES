@@ -47,8 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ScPartner implements Serializable, Cloneable
 {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSupplierGuarantee", fetch = FetchType.EAGER)
-    private List<ScMachinePart> scMachinePartList;
+    
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -234,14 +233,5 @@ public class ScPartner implements Serializable, Cloneable
         return super.clone();
     }
 
-    @XmlTransient
-    public List<ScMachinePart> getScMachinePartList()
-    {
-        return scMachinePartList;
-    }
-
-    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
-    {
-        this.scMachinePartList = scMachinePartList;
-    }
+   
 }
