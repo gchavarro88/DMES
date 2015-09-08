@@ -45,6 +45,8 @@ public class ScTime implements Serializable, Cloneable
 {
     @Column(name = "minutes")
     private Integer minutes;
+    @OneToMany(mappedBy = "idTime", fetch = FetchType.EAGER)
+    private List<ScMachine> scMachineList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTime", fetch = FetchType.EAGER)
     private List<ScMachinePart> scMachinePartList;
     private static final long serialVersionUID = 1L;
@@ -138,6 +140,18 @@ public class ScTime implements Serializable, Cloneable
         return super.clone();
     }
 
+
+    @XmlTransient
+    public List<ScMachinePart> getScMachinePartList()
+    {
+        return scMachinePartList;
+    }
+
+    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
+    {
+        this.scMachinePartList = scMachinePartList;
+    }
+
     public Integer getMinutes()
     {
         return minutes;
@@ -149,14 +163,14 @@ public class ScTime implements Serializable, Cloneable
     }
 
     @XmlTransient
-    public List<ScMachinePart> getScMachinePartList()
+    public List<ScMachine> getScMachineList()
     {
-        return scMachinePartList;
+        return scMachineList;
     }
 
-    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
+    public void setScMachineList(List<ScMachine> scMachineList)
     {
-        this.scMachinePartList = scMachinePartList;
+        this.scMachineList = scMachineList;
     }
     
 }

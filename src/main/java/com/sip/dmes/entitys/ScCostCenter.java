@@ -47,6 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ScCostCenter implements Serializable
 {
+    @OneToMany(mappedBy = "idCostCenter", fetch = FetchType.EAGER)
+    private List<ScMachine> scMachineList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCostCenter", fetch = FetchType.EAGER)
     private List<ScMachinePart> scMachinePartList;
     
@@ -184,6 +186,17 @@ public class ScCostCenter implements Serializable
     public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
     {
         this.scMachinePartList = scMachinePartList;
+    }
+
+    @XmlTransient
+    public List<ScMachine> getScMachineList()
+    {
+        return scMachineList;
+    }
+
+    public void setScMachineList(List<ScMachine> scMachineList)
+    {
+        this.scMachineList = scMachineList;
     }
 
 }

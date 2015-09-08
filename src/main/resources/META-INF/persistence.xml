@@ -3,6 +3,10 @@
   <persistence-unit name="DMES_PersistenceUnit" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>com.sip.dmes.entitys.ScTurn</class>
+    <class>com.sip.dmes.entitys.ScMachineDocument</class>
+    <class>com.sip.dmes.entitys.ScMachineAttached</class>
+    <class>com.sip.dmes.entitys.ScMachineConditions</class>
+    <class>com.sip.dmes.entitys.ScFactoryLocation</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

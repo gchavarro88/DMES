@@ -54,6 +54,22 @@ public class ScMachineDao  implements  IScMachine
         return result;
     }
 
-    
+    @Override
+    public Object getInitialParameters() throws Exception
+    {
+        Object result = null;
+        try
+        {
+            String sql = "SELECT MAX_SIZE_FILE, EXTENSION, PATH FROM dmes.sc_constants_load_files";
+            Query query = entityManager.createNativeQuery(sql);
+            result = query.getSingleResult();
+        }
+        catch(Exception e)
+        {
+            log.error("Error al intentar consultar los parámetros iniciales para cargar archivos",e);
+        }
+        return result;
+    }
+
 
 }

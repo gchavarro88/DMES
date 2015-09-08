@@ -45,6 +45,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScInputDimension.findByRadio", query = "SELECT s FROM ScInputDimension s WHERE s.radio = :radio"),
     @NamedQuery(name = "ScInputDimension.findByObservations", query = "SELECT s FROM ScInputDimension s WHERE s.observations = :observations")})
 public class ScInputDimension implements Serializable {
+    @OneToMany(mappedBy = "idDimension", fetch = FetchType.EAGER)
+    private List<ScMachine> scMachineList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDimension", fetch = FetchType.EAGER)
     private List<ScMachinePart> scMachinePartList;
     private static final long serialVersionUID = 1L;
@@ -195,6 +197,17 @@ public class ScInputDimension implements Serializable {
     public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
     {
         this.scMachinePartList = scMachinePartList;
+    }
+
+    @XmlTransient
+    public List<ScMachine> getScMachineList()
+    {
+        return scMachineList;
+    }
+
+    public void setScMachineList(List<ScMachine> scMachineList)
+    {
+        this.scMachineList = scMachineList;
     }
     
 }

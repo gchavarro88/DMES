@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScPriority.findByDescription", query = "SELECT s FROM ScPriority s WHERE s.description = :description")})
 
 public class ScPriority implements Serializable {
+    @OneToMany(mappedBy = "idPriority", fetch = FetchType.EAGER)
+    private List<ScMachine> scMachineList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPriority", fetch = FetchType.EAGER)
     private List<ScMachinePart> scMachinePartList;
     private static final long serialVersionUID = 1L;
@@ -124,6 +126,17 @@ public class ScPriority implements Serializable {
     public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
     {
         this.scMachinePartList = scMachinePartList;
+    }
+
+    @XmlTransient
+    public List<ScMachine> getScMachineList()
+    {
+        return scMachineList;
+    }
+
+    public void setScMachineList(List<ScMachine> scMachineList)
+    {
+        this.scMachineList = scMachineList;
     }
     
 }

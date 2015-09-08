@@ -39,8 +39,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScMoney.findByAcronym", query = "SELECT s FROM ScMoney s WHERE s.acronym = :acronym")})
 public class ScMoney implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "trm")
-    private double trm;
+    private Double trm;
+    @OneToMany(mappedBy = "idMoney", fetch = FetchType.EAGER)
+    private List<ScMachine> scMachineList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMoney", fetch = FetchType.EAGER)
     private List<ScMachinePart> scMachinePartList;
     private static final long serialVersionUID = 1L;
@@ -126,15 +129,6 @@ public class ScMoney implements Serializable {
         return idMoney.toString()+","+getAcronym().toString();
     }
 
-    public double getTrm()
-    {
-        return trm;
-    }
-
-    public void setTrm(double trm)
-    {
-        this.trm = trm;
-    }
 
     @XmlTransient
     public List<ScMachinePart> getScMachinePartList()
@@ -145,6 +139,27 @@ public class ScMoney implements Serializable {
     public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
     {
         this.scMachinePartList = scMachinePartList;
+    }
+
+    public Double getTrm()
+    {
+        return trm;
+    }
+
+    public void setTrm(Double trm)
+    {
+        this.trm = trm;
+    }
+
+    @XmlTransient
+    public List<ScMachine> getScMachineList()
+    {
+        return scMachineList;
+    }
+
+    public void setScMachineList(List<ScMachine> scMachineList)
+    {
+        this.scMachineList = scMachineList;
     }
     
 }
