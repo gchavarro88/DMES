@@ -120,7 +120,7 @@ public class ScFactoryLocation implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScFactoryLocation[ idFactoryLocation=" + idFactoryLocation + " ]";
+        return idFactoryLocation+","+location;
     }
     
 }

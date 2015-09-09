@@ -44,6 +44,7 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.FlowEvent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -85,8 +86,8 @@ public class ScMachineBean
     private UploadedFile fileUpdate;//Documento a actualizar
     
     
-    private ScLocation factoryLocationSave; //Localizacion seleccionada para agregar
-    private ScLocation factoryLocationSelected; //Localizacion seleccionada para agregar al repuesto
+    private ScFactoryLocation factoryLocationSave; //Localizacion seleccionada para agregar
+    private ScFactoryLocation factoryLocationSelected; //Localizacion seleccionada para agregar al repuesto
     private ScPriority prioritySave; //Prioridad seleccionada para agregar al repuesto
     private UploadedFile pictureFile; //Archivo que se copiara para la imagen del repuesto
     private ScCostCenter costCenterSave; //Centro de Costo para agregar
@@ -116,6 +117,14 @@ public class ScMachineBean
     public void init()
     {
         fillListMachine();
+        fillListPartners();
+        fillListCostCenter();
+        fillListPriority();
+        fillListMeasure();
+        fillListMoney();
+        fillListTimes();
+        fillListFactoryLocation();
+        cleanFieldsInit();
         getinitalParameters();
         
     }
@@ -134,6 +143,152 @@ public class ScMachineBean
         {
             log.error("Error al intentar consultar las máquinas");
         }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de proveedores.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListPartners()
+    {
+        try
+        {
+            //Se consultan todos los proveedores existentes
+            setPartnersList(getScMachineServer().getAllPartners());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar los proveedores para las máquinas", e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de tiempos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListTimes()
+    {
+        try
+        {
+            //Se consultan todos los tiempos existentes
+            setTimeList(getScMachineServer().getAllTimes());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar los tiempos para las máquinas", e);
+        }
+    }
+    
+    /**
+     * Método encargado de llenar la lista de tiempos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListFactoryLocation()
+    {
+        try
+        {
+            //Se consultan todos los tiempos existentes
+            setFactoryLocationsList(getScMachineServer().getAllFactoryLocations());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las localizaciones de fábrica para las máquinas", e);
+        }
+    }
+
+    /**
+     * Método encargado de llenar la lista de centros de costo.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListCostCenter()
+    {
+        try
+        {
+            //Se consultan todos los proveedores existentes
+            setCostCenterList(getScMachineServer().getAllCostCenter());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar los proveedores para las máquinas", e);
+        }
+    }
+
+
+    
+    
+    /**
+     * Método encargado de llenar la lista de prioridades.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListPriority()
+    {
+        try
+        {
+            //Se consultan todos almacenes disponibles
+            setPriorityList(getScMachineServer().getAllPrioritys());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las prioridades para las máquinas", e);
+        }
+    }
+
+    /**
+     * Método encargado de llenar la lista de medidas.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListMeasure()
+    {
+        try
+        {
+            //Se consultan todos almacenes disponibles
+            setMeasureUnitsList(getScMachineServer().getAllMeasureUnits());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las medidas para las máquinas", e);
+        }
+    }
+
+    /**
+     * Método encargado de llenar la lista de medidas.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListMoney()
+    {
+        try
+        {
+            //Se consultan todas las monedas disponibles
+            setMoneyList(getScMachineServer().getAllMoneys());
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las monedas para las máquinas", e);
+        }
+    }
+
+    /**
+     * Método encargado de vaciar los objetos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void cleanFieldsInit()
+    {
+
+        setMachineSelected(new ScMachine());
+        setCostCenterSave(new ScCostCenter());
+        setMeasureUnitSave(new ScMeasureUnit());
+        cleanDocumentSave();
+        cleanMachineSave();
+        setListMachineDocument(new ArrayList<ScMachineDocument>());
+        setListMachineAttached(new ArrayList<ScMachineAttached>());
     }
     
     public void cleansTypesMeasures()
@@ -314,6 +469,279 @@ public class ScMachineBean
         }
     }
 
+    
+    /**
+     * Método encargado de llevar el flujo al guardar un máquina.
+     *
+     * @param event evento en el cual se encuentra el asistente para crear
+     * máquinas
+     * @return String al final retorna el nombre de la siguiente pestaña del
+     * asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessSaveMachine(FlowEvent event)
+    {
+        int packingUnit = -1;
+        if (event.getNewStep().equals(TAB_GENERAL))
+        {
+            return TAB_GENERAL;
+        }
+        if (event.getOldStep().equals(TAB_GENERAL))
+        {
+            if (validateFields("Nombre Máquina", getMachineSave().getName(), 3))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Vida Útil", getMachineSave().getUsefulLife()+ "", 2))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Unidad de Tiempo", getMachineSave().getIdTime(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Tipo de Máquina", getMachineSave().getType(), 3))
+            {
+                return event.getOldStep();
+            }
+            //Validamos que el valor sea mayor que cero
+            if (validateFields("Valor Hora", getMachineSave().getHourValue()+ "", 1))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Moneda", getMachineSave().getIdMoney(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Marca", getMachineSave().getMark(), 3))
+            {
+                return event.getOldStep();
+            }
+
+            if (Utilities.isEmpty(getMachineSave().getPathPicture()))
+            {
+                getMachineSave().setPathPicture(" ");//Setteamos la ruta de la imagen
+            }
+            if (validateFields("Serie", getMachineSave().getSerie(), 3))
+            {
+                return event.getOldStep();
+            }
+
+            //Validamos los campos seleccionables
+            if (validateFields("Proveedor y Garantía", getMachineSave().getIdPartner(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Centro de Costos", getMachineSave().getIdCostCenter(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Localización", getMachineSave().getFactoryLocation(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Prioridad", getMachineSave().getIdPriority(), 4))
+            {
+                return event.getOldStep();
+            }
+            for(ScTime time: getTimeList())
+            {
+                if(time.getIdTime().equals(getMachineSave().getIdTime().getIdTime()))
+                {
+                    getMachineSave().setIdTime(time);
+                }
+            }
+            //Agregamos la fecha de creación del máquina
+            //getMachineSave().setCreationDate(new Date());
+            //getMachineSave().setValueMinutes((getMachineSave().getUsefulLife() * getMachineSave().getIdTime().getMinutes()));
+        }
+        //Si pasamos de la pestaña de datos generales a stock y dimensiones
+        else if (event.getOldStep().equals(TAB_STOCK))
+        {
+            if (validateFields("Altura", getMachineSave().getIdDimension().getHight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if (getMeasureUnitSaveHigh() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+                return event.getOldStep();
+            }
+            if (validateFields("Ancho", getMachineSave().getIdDimension().getWidth(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if (getMeasureUnitSaveWidth() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+                return event.getOldStep();
+            }
+            if (validateFields("Largo", getMachineSave().getIdDimension().getLarge(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if (getMeasureUnitSaveLarge() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+                return event.getOldStep();
+            }
+            if (validateFields("Peso", getMachineSave().getIdDimension().getWeight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if (getMeasureUnitSaveWeight() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                return event.getOldStep();
+            }
+            if (!Utilities.isEmpty(getMachineSave().getIdDimension().getVolume()))
+            {
+                if (validateFields("Volumen", getMachineSave().getIdDimension().getVolume(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveVolume() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+                    return event.getOldStep();
+                }
+            }
+            if (!Utilities.isEmpty(getMachineSave().getIdDimension().getThickness()))
+            {
+                if (validateFields("Grosor", getMachineSave().getIdDimension().getThickness(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveThickness() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+                    return event.getOldStep();
+                }
+            }
+            if (!Utilities.isEmpty(getMachineSave().getIdDimension().getRadio()))
+            {
+                if (validateFields("Radio", getMachineSave().getIdDimension().getRadio(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveRadio() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+                    return event.getOldStep();
+                }
+            }
+            if (!Utilities.isEmpty(getMachineSave().getIdDimension().getWeight()))
+            {
+                if (validateFields("Peso", getMachineSave().getIdDimension().getWeight(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveWeight() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                    return event.getOldStep();
+                }
+            }
+        }
+
+        return event.getNewStep();
+    }
+    
+    /**
+     * Método encargado de validar los campos doubles.
+     *
+     * @param nameField nombre del campo a evaluar
+     * @param value valor del campo a evaluar
+     * @param option opción del tipo de dato que se validar
+     * @return boolean si se puede validar o no
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean validateFields(String nameField, Object value, int option)
+    {
+        boolean isInvalid = false;
+        String message1 = "Error en el campo " + nameField;
+
+        try
+        {
+            if (value != null && !Utilities.isEmpty(value.toString()))
+            {
+                switch (option)
+                {
+                    case 1: //Casos de tipo double 
+                        String messageDouble2 = "Debe ingresar un número mayor que cero y usar"
+                                + "como separador de decimales el punto, ejemplo: 3.24";
+                        try
+                        {
+
+                            double parseo = Double.parseDouble((String) value);//parseo
+                            if (parseo <= 0)
+                            {
+                                throw new Exception(nameField + " menor o igual a cero");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            isInvalid = true;
+                            addError(null, message1, messageDouble2);
+                            log.error(message1 + ", " + messageDouble2);
+                        }
+                        break;
+                    case 2: //Casos de tipo int
+                        String messageInt2 = "Debe ingresar un número mayor que cero sin puntos ni comas,"
+                                + "ejemplo: 1256786";
+                        try
+                        {
+
+                            Long parseo = Long.parseLong(value.toString());//parseo
+                            if (parseo <= 0)
+                            {
+                                throw new Exception(nameField + " menor o igual a cero");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            isInvalid = true;
+                            addError(null, message1, messageInt2);
+                            log.error(message1 + ", " + messageInt2);
+                        }
+                        break;
+                    case 3: //Casos de tipo String
+                        String messageString2 = "Campo obligatorio, debe ingresar algún valor";
+                        if (Utilities.isEmpty(value.toString()))
+                        {
+                            isInvalid = true;
+                            addError(null, message1 + nameField, messageString2);
+                            log.error(message1 + ", " + messageString2);
+                        }
+                        break;
+                    case 4://Casos de campos seleccionables
+                        String messageObject2 = "Campo obligatorio, debe seleccionar un valor para este campo";
+                        if (value == null)
+                        {
+                            isInvalid = true;
+                            addError(null, message1 + nameField, messageObject2);
+                            log.error(message1 + ", " + messageObject2);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                String messageObject2 = "Campo obligatorio, debe ingresar un valor para el campo " + nameField;
+                addError(null, message1, messageObject2);
+                log.error(message1 + ", " + messageObject2);
+                isInvalid = true;
+            }
+        }
+        catch (Exception e)
+        {
+            //Excepción no rematada debido que hay campos con tipos diferentes a String
+        }
+        return isInvalid;
+    }
+    
     
     /**
      * Método encargado de eliminar un adjunto.
@@ -599,6 +1027,16 @@ public class ScMachineBean
      *
      * @author Gustavo Chavarro Ortiz
      */
+    public void cleanFieldsLocationFactory()
+    {
+        setFactoryLocationSave(new ScFactoryLocation());
+    }
+    
+    /**
+     * Método encargado de vaciar los objetos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
     public void cleanFieldsCostCenter()
     {
         setCostCenterSave(new ScCostCenter());
@@ -668,6 +1106,48 @@ public class ScMachineBean
 
     }
     
+    
+    /**
+     * Método encargado de agregar un centro de costos.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addFactoryLocation()
+    {
+        try
+        {
+            if (getFactoryLocationSave()!= null)
+            {
+                if (!Utilities.isEmpty(getFactoryLocationSave().getLocation()))
+                {
+                    getScMachineServer().saveFactoryLocation(getFactoryLocationSave());
+                    if (getFactoryLocationsList()== null)
+                    {
+                        setFactoryLocationsList(new ArrayList<ScFactoryLocation>());
+                    }
+                    getFactoryLocationsList().add(getFactoryLocationSave());
+                    cleanFieldsLocationFactory();
+                }
+                else
+                {
+                    log.error("Error al intentar crear la localización de máquinas desde máquinas");
+                    addError(null, "Error al crear la localización de la fábrica", "Debe ingresar la localización de la fábrica");
+                }
+            }
+            else
+            {
+                log.error("Error al intentar crear la localización de la fábrica desde máquinas");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error("Error al intentar agregar la localización de la fábrica desde máquinas", e);
+        }
+
+    }
     
     /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
@@ -1297,25 +1777,26 @@ public class ScMachineBean
         this.machineAttachedUpdate = machineAttachedUpdate;
     }
 
-    public ScLocation getFactoryLocationSave()
+    public ScFactoryLocation getFactoryLocationSave()
     {
         return factoryLocationSave;
     }
 
-    public void setFactoryLocationSave(ScLocation factoryLocationSave)
+    public void setFactoryLocationSave(ScFactoryLocation factoryLocationSave)
     {
         this.factoryLocationSave = factoryLocationSave;
     }
 
-    public ScLocation getFactoryLocationSelected()
+    public ScFactoryLocation getFactoryLocationSelected()
     {
         return factoryLocationSelected;
     }
 
-    public void setFactoryLocationSelected(ScLocation factoryLocationSelected)
+    public void setFactoryLocationSelected(ScFactoryLocation factoryLocationSelected)
     {
         this.factoryLocationSelected = factoryLocationSelected;
     }
+
 
     public ScPriority getPrioritySave()
     {

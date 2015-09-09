@@ -150,12 +150,12 @@ public class ScToolBean
     {
         try
         {
-            //Se consultan todos los herramientas y se guardan en la lista ordenados por la fecha
+            //Se consultan todos las herramientas y se guardan en la lista ordenados por la fecha
             setToolList(getScToolServer().getAllTools());
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los herramientas de la tabla", e);
+            log.error("Error al intentar consultar las herramientas de la tabla", e);
         }
     }
 
@@ -173,7 +173,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los proveedores para los herramientas", e);
+            log.error("Error al intentar consultar los proveedores para las herramientas", e);
         }
     }
     
@@ -191,7 +191,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los tiempos para los herramientas", e);
+            log.error("Error al intentar consultar los tiempos para las herramientas", e);
         }
     }
 
@@ -209,7 +209,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los proveedores para los herramientas", e);
+            log.error("Error al intentar consultar los proveedores para las herramientas", e);
         }
     }
 
@@ -230,7 +230,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar las localizaciones para los herramientas", e);
+            log.error("Error al intentar consultar las localizaciones para las herramientas", e);
         }
     }
 
@@ -248,7 +248,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar los almacenes para los herramientas", e);
+            log.error("Error al intentar consultar los almacenes para las herramientas", e);
         }
     }
 
@@ -266,7 +266,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar las prioridades para los herramientas", e);
+            log.error("Error al intentar consultar las prioridades para las herramientas", e);
         }
     }
 
@@ -284,7 +284,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar las medidas para los herramientas", e);
+            log.error("Error al intentar consultar las medidas para las herramientas", e);
         }
     }
 
@@ -302,7 +302,7 @@ public class ScToolBean
         }
         catch (Exception e)
         {
-            log.error("Error al intentar consultar las monedas para los herramientas", e);
+            log.error("Error al intentar consultar las monedas para las herramientas", e);
         }
     }
 

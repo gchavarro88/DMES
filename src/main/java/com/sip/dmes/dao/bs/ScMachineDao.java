@@ -8,6 +8,7 @@ package com.sip.dmes.dao.bs;
 import com.sip.dmes.dao.bo.IScMachine;
 import com.sip.dmes.dao.bo.IScMachinePart;
 import com.sip.dmes.entitys.ScCostCenter;
+import com.sip.dmes.entitys.ScFactoryLocation;
 import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScMachine;
 
@@ -218,4 +219,37 @@ public class ScMachineDao  implements  IScMachine
         }
         return result;
     }
+
+    @Override
+    public List<ScFactoryLocation> getAllFactoryLocations() throws Exception
+    {
+        List<ScFactoryLocation> result = null;
+        Query query  = entityManager.createNamedQuery("ScFactoryLocation.findAll"); 
+        try
+        {
+            result = (List<ScFactoryLocation>) query.getResultList();
+        }
+        catch (Exception e) 
+        {
+            log.error("Error al intentar hacer la persistencia de las localizaciones de la fábrica",e);
+        }
+        return result;
+    }
+
+    @Override
+    public void saveFactoryLocation(ScFactoryLocation factoryLocation) throws Exception
+    {
+        try
+        {
+            entityManager.persist(factoryLocation);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de una localización de fábrica",e);
+            throw e;
+        }
+    }
 }
+    
+

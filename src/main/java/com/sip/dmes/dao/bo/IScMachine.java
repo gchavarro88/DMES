@@ -6,6 +6,7 @@
 package com.sip.dmes.dao.bo;
 
 import com.sip.dmes.entitys.ScCostCenter;
+import com.sip.dmes.entitys.ScFactoryLocation;
 import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMeasureUnit;
@@ -27,6 +28,8 @@ public interface IScMachine
 
     public void saveCostCenter(ScCostCenter costCenter) throws Exception;
     
+    public void saveFactoryLocation(ScFactoryLocation factoryLocation) throws Exception;
+    
     public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception;
     
     public List<ScPartner> getAllPartners() throws Exception;
@@ -40,5 +43,7 @@ public interface IScMachine
     public List<ScMoney> getAllMoneys() throws Exception;
     
     public List<ScPriority> getAllPrioritys() throws Exception;
+    
+    public List<ScFactoryLocation> getAllFactoryLocations() throws Exception;
     
 }
