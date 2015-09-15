@@ -1553,6 +1553,7 @@ public class ScInputBean
                 getScInputServer().saveInput(getInputSave());
                 getInputList().add(getInputSave());
                 cleanInputSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -1635,6 +1636,7 @@ public class ScInputBean
                     getInputList().set(index, getInputSelected());
                 }
                 cleanInputSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {

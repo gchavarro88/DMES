@@ -10,11 +10,13 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -38,6 +40,8 @@ public class ScMachineConditions implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqscmachineconditions")
+    @SequenceGenerator(name = "dmes.sqscmachineconditions", sequenceName = "dmes.sqscmachineconditions", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_condition")
@@ -51,7 +55,7 @@ public class ScMachineConditions implements Serializable
     @Column(name = "description")
     private String description;
     @JoinColumn(name = "id_machine", referencedColumnName = "id_machine")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScMachine idMachine;
 
     public ScMachineConditions()

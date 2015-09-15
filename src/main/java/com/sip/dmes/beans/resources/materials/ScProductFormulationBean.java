@@ -1545,6 +1545,7 @@ public class ScProductFormulationBean
                 getScProductFormulationServer().saveProductFormulation(getProductSave());
                 getProductList().add(getProductSave());
                 cleanProductSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -1627,6 +1628,7 @@ public class ScProductFormulationBean
                     getProductList().set(index, getProductSelected());
                 }
                 cleanProductSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -2007,6 +2009,7 @@ public class ScProductFormulationBean
             {
                 getScProductFormulationServer().deleteProductFormulation(getProductSelected());
                 getProductList().remove(getProductSelected());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {

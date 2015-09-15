@@ -22,6 +22,7 @@ import com.sip.dmes.entitys.ScStore;
 import com.sip.dmes.entitys.ScTime;
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachineAttached;
+import com.sip.dmes.entitys.ScMachineConditions;
 
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
@@ -62,6 +63,8 @@ public class ScMachineBean
     private ScMachineDocument machineDocumentUpdate;
     private ScMachineAttached machineAttachedSave;
     private ScMachineAttached machineAttachedUpdate;
+    private ScMachineConditions machineConditionSave;
+    private ScMachineConditions machineConditionUpdate;
     
     private ScMeasureUnit measureUnitSave; //Unidad de medida seleccionado para agregar
     private ScMeasureUnit measureUnitSaveHigh; //Unidad de medida seleccionado para agregar
@@ -81,6 +84,7 @@ public class ScMachineBean
     private List<ScPriority> priorityList;//Lista de prioridades
     private List<ScMachineDocument> listMachineDocument;//Lista de documentos a guardar
     private List<ScMachineAttached> listMachineAttached;//Lista de adjuntos a guardar
+    private List<ScMachineConditions> listMachineConditions; //Lista de condiciones
     private List<ScMoney> moneyList;//Lista de monedas
     private UploadedFile fileSave;//Documento a subir
     private UploadedFile fileUpdate;//Documento a actualizar
@@ -284,6 +288,7 @@ public class ScMachineBean
 
         setMachineSelected(new ScMachine());
         setCostCenterSave(new ScCostCenter());
+        setMachineConditionSave(new ScMachineConditions());
         setMeasureUnitSave(new ScMeasureUnit());
         cleanDocumentSave();
         cleanMachineSave();
@@ -339,7 +344,64 @@ public class ScMachineBean
         }
 
     }
-    
+    /**
+     * Método encargado de permitir mostrar un combo box.
+     *
+     * @param value valor del tool que permite habilitar el combo box
+     * @param option valor del tipo de medida
+     * @return boolean valor que permite mostrar u ocultar un combo box
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean showItem(String value, int option)
+    {
+        boolean result = false;
+        if (!Utilities.isEmpty(value))
+        {
+            try
+            {
+                Double number = Double.parseDouble(value);
+                if (number > 0)
+                {
+                    result = true;
+                }
+            }
+            catch (Exception e)
+            {
+                //No se realiza ninguna acción
+            }
+        }
+        if (!result)
+        {
+            switch (option)
+            {
+                case 1: //Alto
+                    setMeasureUnitSaveHigh(null);
+                    break;
+                case 2://Ancho
+                    setMeasureUnitSaveWidth(null);
+                    break;
+                case 3://Largo
+                    setMeasureUnitSaveLarge(null);
+                    break;
+                case 4://Volumen
+                    setMeasureUnitSaveVolume(null);
+                    break;
+                case 5://Grosor
+                    setMeasureUnitSaveThickness(null);
+                    break;
+                case 6://Radio
+                    setMeasureUnitSaveRadio(null);
+                    break;
+                case 7://Peso
+                    setMeasureUnitSaveWeight(null);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return result;
+    }
     
     /**
      * Método encargado de inicializar todas las listas para crear un máquina.
@@ -355,7 +417,7 @@ public class ScMachineBean
     public void cleanMachineSave()
     {
         setMachineSave(new ScMachine());
-        
+        getMachineSave().setIdDimension(new ScInputDimension());
         //Creamos el objeto de dimension para la segunda pestaña
         getMachineSave().setIdDimension(new ScInputDimension());
         cleanListSaves();
@@ -459,6 +521,7 @@ public class ScMachineBean
             {
                 getScMachineServer().deleteMachine(getMachineSelected());
                 getMachineList().remove(getMachineSelected());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -469,6 +532,65 @@ public class ScMachineBean
         }
     }
 
+    /**
+     * Método encargado de borrar un documento agregada a la lista para guardar
+     * un inusmo.
+     *
+     * @param documents documento a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteDocument(ScMachineDocument documents)
+    {
+        if (getListMachineDocument() != null && !getListMachineDocument().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for (ScMachineDocument iterator : getListMachineDocument())
+            {
+                if (iterator.getDocumentTittle().equals(documents.getDocumentTittle())
+                        && iterator.getDocumentPath().equals(documents.getDocumentPath()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getListMachineDocument().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+
+    /**
+     * Método encargado de borrar un documento agregada a la lista para guardar
+     * un inusmo.
+     *
+     * @param documents documento a borrar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteDocumentUpdate(ScMachineDocument documents)
+    {
+        if (getMachineUpdate().getScMachineDocumentList() != null && !getMachineUpdate().getScMachineDocumentList().isEmpty())
+        {
+            int index = 0; //Posición del objeto que se eliminará
+            for (ScMachineDocument iterator : getMachineUpdate().getScMachineDocumentList())
+            {
+                if (iterator.getDocumentTittle().equals(documents.getDocumentTittle())
+                        && iterator.getDocumentPath().equals(documents.getDocumentPath()))
+                {
+                    break;//Rompempos el ciclo
+                }
+                index++;//Aumentamos la posición
+            }
+            getMachineUpdate().getScMachineDocumentList().remove(index);//Removemos el elemento en la posición hallada
+        }
+        else
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR + ", " + DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
     
     /**
      * Método encargado de llevar el flujo al guardar un máquina.
@@ -482,6 +604,10 @@ public class ScMachineBean
     public String onFlowProcessSaveMachine(FlowEvent event)
     {
         int packingUnit = -1;
+        setMachineDocumentSave(new ScMachineDocument());
+        setMachineAttachedSave(new ScMachineAttached());
+        setMachineConditionSave(new ScMachineConditions());
+        
         if (event.getNewStep().equals(TAB_GENERAL))
         {
             return TAB_GENERAL;
@@ -648,6 +774,187 @@ public class ScMachineBean
     }
     
     /**
+     * Método encargado de llevar el flujo al actualizar un máquina.
+     *
+     * @param event evento en el cual se encuentra el asistente para crear
+     * máquinas
+     * @return String al final retorna el nombre de la siguiente pestaña del
+     * asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessUpdateMachine(FlowEvent event)
+    {
+        int packingUnit = -1;
+        setMachineDocumentUpdate(new ScMachineDocument());
+        setMachineAttachedUpdate(new ScMachineAttached());
+        setMachineConditionUpdate(new ScMachineConditions());
+        if (event.getNewStep().equals(TAB_GENERAL))
+        {
+            return TAB_GENERAL;
+        }
+        if (event.getOldStep().equals(TAB_GENERAL))
+        {
+            if (validateFields("Nombre Máquina", getMachineUpdate().getName(), 3))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Vida Útil", getMachineUpdate().getUsefulLife()+ "", 2))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Unidad de Tiempo", getMachineUpdate().getIdTime(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Tipo de Máquina", getMachineUpdate().getType(), 3))
+            {
+                return event.getOldStep();
+            }
+            //Validamos que el valor sea mayor que cero
+            if (validateFields("Valor Hora", getMachineUpdate().getHourValue()+ "", 1))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Moneda", getMachineUpdate().getIdMoney(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Marca", getMachineUpdate().getMark(), 3))
+            {
+                return event.getOldStep();
+            }
+
+            if (Utilities.isEmpty(getMachineUpdate().getPathPicture()))
+            {
+                getMachineUpdate().setPathPicture(" ");//Setteamos la ruta de la imagen
+            }
+            if (validateFields("Serie", getMachineUpdate().getSerie(), 3))
+            {
+                return event.getOldStep();
+            }
+
+            //Validamos los campos seleccionables
+            if (validateFields("Proveedor y Garantía", getMachineUpdate().getIdPartner(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Centro de Costos", getMachineUpdate().getIdCostCenter(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Localización", getMachineUpdate().getFactoryLocation(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Prioridad", getMachineUpdate().getIdPriority(), 4))
+            {
+                return event.getOldStep();
+            }
+            for(ScTime time: getTimeList())
+            {
+                if(time.getIdTime().equals(getMachineUpdate().getIdTime().getIdTime()))
+                {
+                    getMachineUpdate().setIdTime(time);
+                }
+            }
+            //Agregamos la fecha de creación del máquina
+            //getMachineUpdate().setCreationDate(new Date());
+            //getMachineUpdate().setValueMinutes((getMachineUpdate().getUsefulLife() * getMachineUpdate().getIdTime().getMinutes()));
+        }
+        //Si pasamos de la pestaña de datos generales a stock y dimensiones
+        else if (event.getOldStep().equals(TAB_STOCK))
+        {
+            if (validateFields("Altura", getMachineUpdate().getIdDimension().getHight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if (getMeasureUnitSaveHigh() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para la Altura");
+                return event.getOldStep();
+            }
+            if (validateFields("Ancho", getMachineUpdate().getIdDimension().getWidth(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if (getMeasureUnitSaveWidth() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Ancho");
+                return event.getOldStep();
+            }
+            if (validateFields("Largo", getMachineUpdate().getIdDimension().getLarge(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if (getMeasureUnitSaveLarge() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Largo");
+                return event.getOldStep();
+            }
+            if (validateFields("Peso", getMachineUpdate().getIdDimension().getWeight(), 1))
+            {
+                return event.getOldStep();
+            }
+            else if (getMeasureUnitSaveWeight() == null)
+            {
+                addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                return event.getOldStep();
+            }
+            if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getVolume()))
+            {
+                if (validateFields("Volumen", getMachineUpdate().getIdDimension().getVolume(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveVolume() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Volumen");
+                    return event.getOldStep();
+                }
+            }
+            if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getThickness()))
+            {
+                if (validateFields("Grosor", getMachineUpdate().getIdDimension().getThickness(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveThickness() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Grosor");
+                    return event.getOldStep();
+                }
+            }
+            if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getRadio()))
+            {
+                if (validateFields("Radio", getMachineUpdate().getIdDimension().getRadio(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveRadio() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Radio");
+                    return event.getOldStep();
+                }
+            }
+            if (!Utilities.isEmpty(getMachineUpdate().getIdDimension().getWeight()))
+            {
+                if (validateFields("Peso", getMachineUpdate().getIdDimension().getWeight(), 1))
+                {
+                    return event.getOldStep();
+                }
+                else if (getMeasureUnitSaveWeight() == null)
+                {
+                    addError(null, "Campo obligatorio", "Debe seleccionar una unidad de medida para el Peso");
+                    return event.getOldStep();
+                }
+            }
+        }
+
+        return event.getNewStep();
+    }
+    
+    
+    /**
      * Método encargado de validar los campos doubles.
      *
      * @param nameField nombre del campo a evaluar
@@ -741,6 +1048,138 @@ public class ScMachineBean
         }
         return isInvalid;
     }
+    
+    /**
+     * Método encargado de guardar temporalmente una condicion.
+     * @param machineCondition condicion que sera guardado
+     * @param listMachineConditions lista de condiciones a la que será agregado el adjunto en cuestión
+     * @param machine repuesto o consumible al que pertenece el adjunto
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveCondition(ScMachineConditions machineCondition, ScMachine machine ,
+            List<ScMachineConditions> listMachineConditions)
+    {
+        if(machineCondition != null)
+        {
+            if(!Utilities.isEmpty(machineCondition.getType()) && 
+                    !Utilities.isEmpty(machineCondition.getDescription()))
+            {
+                if(listMachineConditions != null)
+                {
+                    //Guardamos exitosamente el adjunto
+                    machineCondition.setIdMachine(machine);
+                    listMachineConditions.add(machineCondition);
+                    setMachineConditionSave(new ScMachineConditions());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+             
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una condición", 
+                            "Debe ingresar los campos tipo y Descripción de la condición");
+                    log.error("Error al intentar guardar una condición, "
+                            + "Debe ingresar los campos tipo y Descripción de la condición");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de eliminar un adjunto.
+     * @param machineConditions adjunto que sera guardado
+     * @param conditionListSave lista de condiciones a la que será agregado el adjunto en cuestión
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void deleteCondition(List<ScMachineConditions> conditionListSave, ScMachineConditions machineConditions)
+    {
+        int index = 0;
+        if(machineConditions != null)
+        {
+            if(conditionListSave != null && !conditionListSave.isEmpty())
+            {
+                for(ScMachineConditions conditions: conditionListSave)
+                {
+                    if(conditions.getType().equals(machineConditions.getType()) && conditions.getDescription()
+                            .equals(machineConditions.getDescription()))
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                if(index < conditionListSave.size())
+                {
+                    conditionListSave.remove(index);
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    /**
+     * Método encargado de guardar temporalmente un adjunto.
+     * @param machineAttached adjunto que sera guardado
+     * @param attachedListSave lista de adjuntos a la que será agregado el adjunto en cuestión
+     * @param type tipo del adjunto, puede ser una observación, especificación o característica
+     * @param machine repuesto o consumible al que pertenece el adjunto
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveAttached(ScMachineAttached machineAttached, ScMachine machine ,
+            List<ScMachineAttached> attachedListSave,String type)
+    {
+        if(machineAttached != null)
+        {
+            if(!Utilities.isEmpty(machineAttached.getTittle()) && 
+                    !Utilities.isEmpty(machineAttached.getDescription())
+                    && !Utilities.isEmpty(type))
+            {
+                if(attachedListSave != null)
+                {
+                    //Guardamos exitosamente el adjunto
+                    machineAttached.setIdMachine(machine);
+                    machineAttached.setType(type);
+                    attachedListSave.add(machineAttached);
+                    setMachineAttachedSave(new ScMachineAttached());
+                }
+                else
+                {
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                    log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                }
+             
+            }
+            else
+            {
+                addError(null, "Error al intentar guardar una especificación", 
+                            "Debe ingresar los campos Título y Descripción de la especificación");
+                    log.error("Error al intentar guardar una especificación, "
+                            + "Debe ingresar los campos Título y Descripción de la especificación");
+            }
+        }
+        else
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+", "+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
     
     
     /**
@@ -1150,6 +1589,158 @@ public class ScMachineBean
     }
     
     /**
+     * Método encargado de realizar la persistencia de un repuesto, guardando
+     * listas y objetos incluidos en el.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveMachine()
+    {
+        //Valido que el repuesto no sea nulo
+        if (getMachineSave() != null)
+        {
+            if (getListMachineAttached()!= null)
+            {
+                //Le agrego la lista de especificaciones
+                getMachineSave().setScMachineAttachedList(getListMachineAttached());
+            }
+            if (getListMachineDocument() != null)
+            {
+                //Le agrego la lista de documentos
+                getMachineSave().setScMachineDocumentList(getListMachineDocument());
+            }
+            //Almacenamos el repuesto
+            try
+            {
+                if (getMeasureUnitSaveHigh() != null)
+                {
+                    getMachineSave().getIdDimension().setHight(getMachineSave().getIdDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
+                }
+                if (getMeasureUnitSaveWidth() != null)
+                {
+                    getMachineSave().getIdDimension().setWidth(getMachineSave().getIdDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
+                }
+                if (getMeasureUnitSaveLarge() != null)
+                {
+                    getMachineSave().getIdDimension().setLarge(getMachineSave().getIdDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
+                }
+                if (getMeasureUnitSaveWeight() != null)
+                {
+                    getMachineSave().getIdDimension().setWeight(getMachineSave().getIdDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
+                }
+                if (getMeasureUnitSaveVolume() != null)
+                {
+                    getMachineSave().getIdDimension().setVolume(getMachineSave().getIdDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
+                }
+                if (getMeasureUnitSaveThickness() != null)
+                {
+                    getMachineSave().getIdDimension().setThickness(getMachineSave().getIdDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
+                }
+                if (getMeasureUnitSaveRadio() != null)
+                {
+                    getMachineSave().getIdDimension().setRadio(getMachineSave().getIdDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
+                }
+                getScMachineServer().saveMachine(getMachineSave());
+                getMachineList().add(getMachineSave());
+                cleanMachineSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+            }
+            catch (Exception e)
+            {
+                log.error("Error almacenando el repuesto", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanMachineSave();
+            }
+
+        }
+
+    }
+    /**
+     * Método encargado de unir las columnas para las dimensiones
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void joinColumnsUpdate()
+    {
+        //Valido que el repuesto no sea nulo
+        if (getMachineUpdate() != null)
+        {
+        //Almacenamos el repuesto
+
+            if (getMeasureUnitSaveHigh() != null)
+            {
+                getMachineUpdate().getIdDimension().setHight(getMachineUpdate().getIdDimension().getHight() + "-" + getMeasureUnitSaveHigh().getAcronym());
+            }
+            if (getMeasureUnitSaveWidth() != null)
+            {
+                getMachineUpdate().getIdDimension().setWidth(getMachineUpdate().getIdDimension().getWidth() + "-" + getMeasureUnitSaveWidth().getAcronym());
+            }
+            if (getMeasureUnitSaveLarge() != null)
+            {
+                getMachineUpdate().getIdDimension().setLarge(getMachineUpdate().getIdDimension().getLarge() + "-" + getMeasureUnitSaveLarge().getAcronym());
+            }
+            if (getMeasureUnitSaveWeight() != null)
+            {
+                getMachineUpdate().getIdDimension().setWeight(getMachineUpdate().getIdDimension().getWeight() + "-" + getMeasureUnitSaveWeight().getAcronym());
+            }
+            if (getMeasureUnitSaveVolume() != null)
+            {
+                getMachineUpdate().getIdDimension().setVolume(getMachineUpdate().getIdDimension().getVolume() + "-" + getMeasureUnitSaveVolume().getAcronym());
+            }
+            if (getMeasureUnitSaveThickness() != null)
+            {
+                getMachineUpdate().getIdDimension().setThickness(getMachineUpdate().getIdDimension().getThickness() + "-" + getMeasureUnitSaveThickness().getAcronym());
+            }
+            if (getMeasureUnitSaveRadio() != null)
+            {
+                getMachineUpdate().getIdDimension().setRadio(getMachineUpdate().getIdDimension().getRadio() + "-" + getMeasureUnitSaveRadio().getAcronym());
+            }
+        }
+    }
+    
+    /**
+     * Método encargado de realizar la persistencia de un repuesto, actualizando
+     * listas y objetos incluidos en el.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void updateMachine()
+    {
+        //Valido que el repuesto no sea nulo
+        if (getMachineUpdate() != null)
+        {
+            joinColumnsUpdate();
+            try
+            {
+                getScMachineServer().updateMachine(getMachineUpdate());
+                int index = 0;
+                for (ScMachine machine : getMachineList())
+                {
+                    if (machine.getIdMachine().equals(getMachineUpdate().getIdMachine()))
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                if (index < getMachineList().size())
+                {
+                    getMachineList().set(index, getMachineUpdate());
+                }
+                
+                cleanMachineSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+            }
+            catch (Exception e)
+            {
+                log.error("Error actualizando la máquina", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+                cleanMachineSave();
+            }
+
+        }
+
+    }
+    
+    /**
      * Método encargado de realizar la copia del archivo que se desea cargar.
      *
      * @param option se escoge la opción entre guardar y actualizar
@@ -1315,15 +1906,15 @@ public class ScMachineBean
      * Método encargado de permitir descargar los archivos que se encuentran en
      * la tabla del usuario.
      *
-     * @param scDocumentsSelected registro del documento a descargar
+     * @param scDocumentSelected registro del documento a descargar
      * @author Gustavo Chavarro Ortiz
      */
-    public void downloadDocument(ScMachineDocument scDocumentsSelected)
+    public void downloadDocument(ScMachineDocument scDocumentSelected)
     {
         try
         {
-            String fileName = scDocumentsSelected.getDocumentName();
-            String path = scDocumentsSelected.getDocumentPath();
+            String fileName = scDocumentSelected.getDocumentName();
+            String path = scDocumentSelected.getDocumentPath();
             int positionLimitName = fileName.indexOf("."); //Extraemos la posicion del delimitar del tipo del archivo
             String fileType = fileName.substring(positionLimitName + 1, fileName.length()); //Extraemos el tipo del archivo
             File fileToDownload = new File(path + "/" + fileName);
@@ -1333,7 +1924,7 @@ public class ScMachineBean
             int numRead = 0;
             HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance()
                     .getExternalContext().getResponse();
-            response.setContentType(scDocumentsSelected.getDocumentType());
+            response.setContentType(scDocumentSelected.getDocumentType());
             response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             OutputStream responseOutputStream = response.getOutputStream();
 
@@ -1537,7 +2128,9 @@ public class ScMachineBean
         this.machineDocumentSave = machineDocumentSave;
     }
 
-    public ScMachineDocument getMachineDocumentUpdate()
+    
+
+    public ScMachineDocument getScMachineDocumentListUpdate()
     {
         return machineDocumentUpdate;
     }
@@ -1826,6 +2419,36 @@ public class ScMachineBean
     public void setCostCenterSave(ScCostCenter costCenterSave)
     {
         this.costCenterSave = costCenterSave;
+    }
+
+    public ScMachineConditions getMachineConditionSave()
+    {
+        return machineConditionSave;
+    }
+
+    public void setMachineConditionSave(ScMachineConditions machineConditionSave)
+    {
+        this.machineConditionSave = machineConditionSave;
+    }
+
+    public ScMachineConditions getMachineConditionUpdate()
+    {
+        return machineConditionUpdate;
+    }
+
+    public void setMachineConditionUpdate(ScMachineConditions machineConditionUpdate)
+    {
+        this.machineConditionUpdate = machineConditionUpdate;
+    }
+
+    public List<ScMachineConditions> getListMachineConditions()
+    {
+        return listMachineConditions;
+    }
+
+    public void setListMachineConditions(List<ScMachineConditions> listMachineConditions)
+    {
+        this.listMachineConditions = listMachineConditions;
     }
     
     

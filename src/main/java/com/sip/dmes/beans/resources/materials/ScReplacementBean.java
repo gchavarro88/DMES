@@ -616,6 +616,8 @@ public class ScReplacementBean
      */
     public String onFlowProcessSaveReplacement(FlowEvent event)
     {
+        setReplaceDocumentsSave(new ScReplacementDocuments());
+        setReplacementAttachedSave(new ScReplacementAttached());
         int packingUnit = -1;
         if (event.getNewStep().equals(TAB_GENERAL))
         {
@@ -925,6 +927,8 @@ public class ScReplacementBean
      */
     public String onFlowProcessUpdateReplacement(FlowEvent event)
     {
+        setReplaceDocumentsSave(new ScReplacementDocuments());
+        setReplacementAttachedSave(new ScReplacementAttached());
         if (event.getNewStep().equals(TAB_GENERAL))
         {
             return TAB_GENERAL;
@@ -1317,6 +1321,7 @@ public class ScReplacementBean
                 getScReplacementServer().saveReplacement(getReplacementSave());
                 getReplacementList().add(getReplacementSave());
                 cleanReplacementSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -1399,6 +1404,7 @@ public class ScReplacementBean
                     getReplacementList().set(index, getReplacementSelected());
                 }
                 cleanReplacementSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -1424,6 +1430,7 @@ public class ScReplacementBean
             {
                 getScReplacementServer().deleteReplacement(getReplacementSelected());
                 getReplacementList().remove(getReplacementSelected());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {

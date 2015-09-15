@@ -237,6 +237,7 @@ public class ScMachineDao  implements  IScMachine
     }
 
     @Override
+    @Transactional
     public void saveFactoryLocation(ScFactoryLocation factoryLocation) throws Exception
     {
         try
@@ -248,6 +249,40 @@ public class ScMachineDao  implements  IScMachine
         {
             log.error("Error al intentar hacer la persistencia de una localización de fábrica",e);
             throw e;
+        }
+    }
+    
+    @Override
+    @Transactional 
+    public void saveMachine(ScMachine machine) throws Exception
+    {
+        try
+        {
+            
+            entityManager.persist(machine.getIdDimension());
+            entityManager.persist(machine);
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las máquinas",e);
+            throw e;
+        }
+    }
+    
+    
+    @Override
+    @Transactional
+    public void updateMachine(ScMachine machine) throws Exception
+    {
+        try
+        {
+            entityManager.merge(machine.getIdDimension());
+            entityManager.merge(machine);
+            entityManager.flush();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las maquinas",e);
         }
     }
 }

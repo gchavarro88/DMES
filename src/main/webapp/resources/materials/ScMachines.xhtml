@@ -31,7 +31,7 @@
                     <p:wizard  flowListener="#{scMachineBean.onFlowProcessSaveMachine}" id="wizardSave" widgetVar="wizardSave" 
                                backLabel="Atras" nextLabel="Siguiente">
                         <p:tab title="Datos Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para los datos básicos de herramientas">
+                               titletip="Pestaña para los datos básicos de maquinas">
                             <p:panel header="Datos Básicos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -99,7 +99,7 @@
                                             <p:inputText    id="tfValueMachine"  value="#{scMachineBean.machineSave.hourValue}" 
                                                             requiredMessage="Debe ingresar el valor de la herramienta" style="width: 100px;"/>
                                             <p:spacer width="5"/>
-                                            <p:selectOneMenu id="cbMoney"  value="#{scMachineBean.machineSave.money}" 
+                                            <p:selectOneMenu id="cbMoney"  value="#{scMachineBean.machineSave.idMoney}" 
                                                              converter="moneyConverter" converterMessage="Error en el tipo de dato de la moneda" style="width: 100px; top: 6px;"
                                                              effect="puff"
                                                              height="140">
@@ -219,62 +219,8 @@
                         <!--                        finaliza la pestaña para datos generales -->
 
                         <!--                        inicia la pestaña para el stock y -->
-                        <p:tab title="Stock y Dimensiones" id="tabStock" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para el stock">
-                            <p:panel header="Stock" toggleable="true" toggleTitle="Presione para minimizar el panel de Stock">
-                                <table width="98%" cellspacing="10" >
-                                    <tr>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  for="tfMaximeStock" value="Stock Máximo*"/>
-                                        </td>
-                                        <td width="30%" align="left">
-                                            <p:inputText    id="tfMaximeStock"  value="#{scMachineBean.machineSave.stock.maximeStock}"
-                                                            />
-                                        </td>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo*"/>
-                                        </td>
-                                        <td width="30%" align="left">
-                                            <p:inputText    id="tfMinimeStock"  value="#{scMachineBean.machineSave.stock.minimeStock}"
-                                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  for="tfCurrentStock" value="Stock Real*"/>
-                                        </td>
-                                        <td width="30%" align="left">
-                                            <p:inputText    id="tfCurrentStock"  value="#{scMachineBean.machineSave.stock.currentStock}"
-                                                            >
-                                                <p:ajax event="keyup" update="tfValueTotal" listener="#{scMachineBean.calcuteTotalPrice()}"/>
-                                            </p:inputText>
-                                        </td>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo*"/>
-                                        </td>
-                                        <td width="30%" align="left">
-                                            <p:inputText    id="tfOptimeStock"  value="#{scMachineBean.machineSave.stock.optimeStock}"
-                                                            />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  for="tfPriceUnit" value="Precio por Und"/>
-                                        </td>
-                                        <td width="30%" align="left">
-                                            <p:inputText    id="tfPriceUnit"  value="#{scMachineBean.machineSave.stock.priceUnit} #{scMachineBean.machineSave.money.acronym}" disabled="true"
-                                                            />
-                                        </td>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
-                                        </td>
-                                        <td width="30%" align="left">
-                                            <p:inputText    id="tfValueTotal"  value="#{scMachineBean.machineSave.stock.totalValue}  #{scMachineBean.machineSave.money.acronym}" disabled="true"
-                                                            />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </p:panel>
+                        <p:tab title="Dimensiones" id="tabStock" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las idDimensiones">
                             <p:panel header="Dimensiones" 
                                      id="pnlDimension">
                                 <f:facet name="header">
@@ -294,7 +240,7 @@
                                         </td>
                                         <td width="40%" align="left">
 
-                                            <p:inputText    id="tfHigh"  value="#{scMachineBean.machineSave.dimension.hight}"
+                                            <p:inputText    id="tfHigh"  value="#{scMachineBean.machineSave.idDimension.hight}"
                                                             requiredMessage="Debe ingresar la altura" style="width: 100px;">
                                                 <p:ajax event="keyup" update=":formWizardSave:cbMeasureHigh" />
                                             </p:inputText>
@@ -302,7 +248,7 @@
                                             <p:selectOneMenu id="cbMeasureHigh"  value="#{scMachineBean.measureUnitSaveHigh}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.dimension.hight, 1)}" >
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.idDimension.hight, 1)}" >
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -313,7 +259,7 @@
                                             <p:outputLabel  for="tfWidth" value="Ancho*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfWidth"  value="#{scMachineBean.machineSave.dimension.width}"
+                                            <p:inputText    id="tfWidth"  value="#{scMachineBean.machineSave.idDimension.width}"
                                                             requiredMessage="Debe ingresar el ancho" style="width: 100px;">
                                                 <p:ajax event="keyup" update=":formWizardSave:cbMeasureWidth" />
                                             </p:inputText>
@@ -321,7 +267,7 @@
                                             <p:selectOneMenu id="cbMeasureWidth"  value="#{scMachineBean.measureUnitSaveWidth}" style="width: 60px; top: 6px;"
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.dimension.width, 2)}">
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.idDimension.width, 2)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -332,7 +278,7 @@
                                             <p:outputLabel  for="tfLarge" value="Largo*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfLarge"  value="#{scMachineBean.machineSave.dimension.large}"
+                                            <p:inputText    id="tfLarge"  value="#{scMachineBean.machineSave.idDimension.large}"
                                                             requiredMessage="Debe ingresar el alto" style="width: 100px;">
                                                 <p:ajax event="keyup" update=":formWizardSave:cbMeasureLarge" />
                                             </p:inputText>
@@ -340,7 +286,7 @@
                                             <p:selectOneMenu id="cbMeasureLarge"  value="#{scMachineBean.measureUnitSaveLarge}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.dimension.large, 3)}">
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.idDimension.large, 3)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -349,7 +295,7 @@
                                             <p:outputLabel  for="tfVolume" value="Volumen"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfVolume"  value="#{scMachineBean.machineSave.dimension.volume}"
+                                            <p:inputText    id="tfVolume"  value="#{scMachineBean.machineSave.idDimension.volume}"
                                                             requiredMessage="Debe ingresar el volumen" style="width: 100px; ">
                                                 <p:ajax event="keyup" update=":formWizardSave:cbMeasureVolume" />
                                             </p:inputText>
@@ -357,7 +303,7 @@
                                             <p:selectOneMenu id="cbMeasureVolume"  value="#{scMachineBean.measureUnitSaveVolume}" style="width: 60px; top: 6px; " 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.dimension.volume, 4)}"> 
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.idDimension.volume, 4)}"> 
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -368,7 +314,7 @@
                                             <p:outputLabel  for="tfThickness" value="Grosor"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfThickness"  value="#{scMachineBean.machineSave.dimension.thickness}"
+                                            <p:inputText    id="tfThickness"  value="#{scMachineBean.machineSave.idDimension.thickness}"
                                                             requiredMessage="Debe ingresar el grosor" style="width: 100px;">
                                                 <p:ajax event="keyup" update=":formWizardSave:cbMeasureThickness" />
                                             </p:inputText>
@@ -376,7 +322,7 @@
                                             <p:selectOneMenu id="cbMeasureThickness"  value="#{scMachineBean.measureUnitSaveThickness}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.dimension.thickness, 5)}"> 
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.idDimension.thickness, 5)}"> 
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -385,7 +331,7 @@
                                             <p:outputLabel  for="tfRadio" value="Radio"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfRadio"  value="#{scMachineBean.machineSave.dimension.radio}"
+                                            <p:inputText    id="tfRadio"  value="#{scMachineBean.machineSave.idDimension.radio}"
                                                             requiredMessage="Debe ingresar el radio" style="width: 100px;">
                                                 <p:ajax event="keyup" update=":formWizardSave:cbMeasureRadio" />
                                             </p:inputText>
@@ -393,7 +339,7 @@
                                             <p:selectOneMenu id="cbMeasureRadio"  value="#{scMachineBean.measureUnitSaveRadio}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.dimension.radio, 6)}">
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.idDimension.radio, 6)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -404,7 +350,7 @@
                                             <p:outputLabel  for="tfWeight" value="Peso*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputText    id="tfWeight"  value="#{scMachineBean.machineSave.dimension.weight}"
+                                            <p:inputText    id="tfWeight"  value="#{scMachineBean.machineSave.idDimension.weight}"
                                                             requiredMessage="Debe ingresar el peso" style="width: 100px;">
                                                 <p:ajax event="keyup" update=":formWizardSave:cbMeasureWeight" />
                                             </p:inputText>
@@ -412,7 +358,7 @@
                                             <p:selectOneMenu id="cbMeasureWeight"  value="#{scMachineBean.measureUnitSaveWeight}" style="width: 60px; top: 6px;" 
                                                              converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
                                                              required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
-                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.dimension.weight, 7)}">
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineSave.idDimension.weight, 7)}">
                                                 <f:selectItem itemLabel="Und." />
                                                 <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
                                             </p:selectOneMenu>
@@ -421,7 +367,7 @@
                                             <p:outputLabel  for="tfObservationsDimension" value="Observaciones"/>
                                         </td>
                                         <td  width="40%" align="left"> 
-                                            <p:inputTextarea   id="tfObservationsDimension"  value="#{scMachineBean.machineSave.dimension.observations}"
+                                            <p:inputTextarea   id="tfObservationsDimension"  value="#{scMachineBean.machineSave.idDimension.observations}"
                                                                style="width: 98%;"     />
                                         </td>
                                     </tr>
@@ -429,10 +375,10 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <!--                        finaliza pestaña para stock y dimensiones-->
+                        <!--                        finaliza pestaña para stock y idDimensiones-->
                         <!--                        inicia pestaña para especificaciones-->
                         <p:tab title="Especificaciones" id="tabSpecifications" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las especificaciones de herramientas">
+                               titletip="Pestaña para las especificaciones de maquinas">
                             <p:panel header="Especificaciones" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -459,7 +405,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleSpecification,tfSpecificationSave,dataTableSpecificationSave"
-                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineSave, scMachineBean.attachedListSave, 'SPECIFICATION')}"/>
+                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineSave, scMachineBean.listMachineAttached, 'SPECIFICATION')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -469,7 +415,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableSpecificationSave"
                                                          var="specifications" 
-                                                         value="#{scMachineBean.getAttachedList(scMachineBean.attachedListSave, 'SPECIFICATION')}"
+                                                         value="#{scMachineBean.getAttachedList(scMachineBean.listMachineAttached, 'SPECIFICATION')}"
                                                          rowKey="#{specifications.tittle}"
                                                          paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
@@ -481,7 +427,7 @@
                                                 <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableSpecificationSave" title="Eliminar Especificaciones"
                                                                      process="dataTableSpecificationSave" 
-                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.attachedListSave, specifications)}" >
+                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.listMachineAttached, specifications)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column  headerText="Título" sortBy="#{specifications.tittle}">
@@ -501,7 +447,7 @@
                         <!--                        finaliza pestaña para especificaciones-->
                         <!--                        inicia pestaña para características-->
                         <p:tab title="Características" id="tabFeactures" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las características de herramientas">
+                               titletip="Pestaña para las características de maquinas">
                             <p:panel header="Características" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -528,7 +474,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleFeacture,tfFeactureSave,dataTableFeactureSave"
-                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineSave, scMachineBean.attachedListSave, 'FEACTURE')}"/>
+                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineSave, scMachineBean.listMachineAttached, 'FEACTURE')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -538,7 +484,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableFeactureSave"
                                                          var="feactures" 
-                                                         value="#{scMachineBean.getAttachedList(scMachineBean.attachedListSave, 'FEACTURE')}"
+                                                         value="#{scMachineBean.getAttachedList(scMachineBean.listMachineAttached, 'FEACTURE')}"
                                                          rowKey="#{feactures.tittle}"
                                                          paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
@@ -550,7 +496,7 @@
                                                 <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableFeactureSave" title="Eliminar Características"
                                                                      process="dataTableFeactureSave" 
-                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.attachedListSave, feactures)}" >
+                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.listMachineAttached, feactures)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column  headerText="Título" sortBy="#{feactures.tittle}">
@@ -570,7 +516,7 @@
                         <!--                        finaliza pestaña para características-->
                         <!--                        inicia pestaña para observaciones-->
                         <p:tab title="Observaciones" id="tabObservations" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las observaciones de herramientas">
+                               titletip="Pestaña para las observaciones de maquinas">
                             <p:panel header="Observaciones" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
@@ -597,7 +543,7 @@
                                                     <td colspan="2">
                                                         <center>
                                                             <p:commandButton value="Guardar" update="tfTittleObservation,tfObservationSave,dataTableObservationSave"
-                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineSave, scMachineBean.attachedListSave, 'OBSERVATION')}"/>
+                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineSave, scMachineBean.listMachineAttached, 'OBSERVATION')}"/>
                                                         </center>
                                                     </td>
                                                 </tr>
@@ -607,7 +553,7 @@
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableObservationSave"
                                                          var="observation" 
-                                                         value="#{scMachineBean.getAttachedList(scMachineBean.attachedListSave, 'OBSERVATION')}"
+                                                         value="#{scMachineBean.getAttachedList(scMachineBean.listMachineAttached, 'OBSERVATION')}"
                                                          rowKey="#{observation.tittle}"
                                                          paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
@@ -619,7 +565,7 @@
                                                 <p:column  style="width:32px">
                                                     <p:commandButton icon="ui-icon-close" update="dataTableObservationSave" title="Eliminar Observaciones"
                                                                      process="dataTableObservationSave" 
-                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.attachedListSave, observation)}" >
+                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.listMachineAttached, observation)}" >
                                                     </p:commandButton>
                                                 </p:column>
                                                 <p:column  headerText="Título" sortBy="#{observation.tittle}">
@@ -637,16 +583,92 @@
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para observaciones-->
+                        <!--                        inicia pestaña para condiciones-->
+                        <p:tab title="Condiciones" id="tabConditions" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las condiciones de funcionamiento de maquinas">
+                            <p:panel header="Condiciones de Funcionamiento" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTypeCondition" value="Tipo de Condición"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:selectOneMenu id="tfTypeCondition"  value="#{scMachineBean.machineConditionSave.type}" 
+                                                             style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                            <f:selectItem itemLabel="..." />
+                                                            <f:selectItem itemLabel="Interna" itemValue="Interna"/>
+                                                            <f:selectItem itemLabel="Externa" itemValue="Externa"/>
+                                                        </p:selectOneMenu>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfDescriptionCondition" value="Descripción"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfDescriptionCondition" value="#{scMachineBean.machineConditionSave.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTypeCondition,tfDescriptionCondition,dataTableConditionSave"
+                                                                             actionListener="#{scMachineBean.saveCondition(scMachineBean.machineConditionSave, scMachineBean.machineSave , scMachineBean.listMachineConditions)}"/>
+                                                        </center>
+                                                        
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableConditionSave"
+                                                         var="condition" 
+                                                         value="#{scMachineBean.listMachineConditions}"
+                                                         rowKey="#{condition.idCondition}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{condition.type}">
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableConditionSave" title="Eliminar Condiciones"
+                                                                     process="dataTableConditionSave" 
+                                                                     actionListener="#{scMachineBean.deleteCondition(scMachineBean.listMachineConditions, condition)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Tipo" sortBy="#{condition.type}">
+                                                    <p:outputLabel value="#{condition.type}" id="outTittle"/>
+                                                    <p:tooltip value="#{condition.type}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Descripción" sortBy="#{condition.description}">
+                                                    <p:outputLabel value="#{condition.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{condition.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para condiciones-->
                         <!--                        inicia pestaña para documentos-->
                         <p:tab title="Documentos" id="tabDocuments" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para los documentos de herramientas">
+                               titletip="Pestaña para los documentos de maquinas">
                             <p:panel header="Documentos" >
                                 <table width="98%" cellspacing="10" >
                                     <tr>
                                         <td width="60%" align="center" valign="top">
                                             <p:dataTable id="dataTableDocumentationSave"
                                                          var="document" 
-                                                         value="#{scMachineBean.documentsListSave}"
+                                                         value="#{scMachineBean.listMachineDocument}"
                                                          rowKey="#{document.documentTittle}"
                                                          paginator="true" rows="10"  
                                                          pageLinks="40" editable="true"
@@ -693,77 +715,947 @@
                         <!--                        finaliza pestaña para documentos                         -->
                         <!--        inicia la pestaña para confirmar datos de guardar-->
                         <p:tab title="Confirmar datos" id="tabConfirmSave" titleStyleClass="tabTittleSavePerson"
-                               titletip="Pestaña para confirmar los datos de herramientas a crear">
-                            <p:panel header="Crear Máquina y Consumible" style="text-align: center;">
-                                <table width="98%" cellspacing="10" style="text-align: center;">
+                               titletip="Pestaña para confirmar los datos de maquinas a crear">
+                            <table>
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfNameMachineSave" value="Nombre Máquina"/>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Nombre Máquina*"/>
                                         </td>
-                                        <td width="40%" align="left">
-                                            <p:outputLabel    id="tfNameMachineSave"  value="#{scMachineBean.machineSave.name}"/>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineSave.name}"
+                                          />
+
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfExpiryDateSave" value="Vida Útil"/>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Vida Útil"/>
                                         </td>
-                                        <td width="40%" align="left">
-                                            <p:outputLabel    id="tfExpiryDateSave"  value="#{scMachineBean.machineSave.usefulLife} #{scMachineBean.machineSave.time.acronym}"
-                                                              />
+                                        <td width="30%" align="right">
+                                            <p:outputLabel   value="#{scMachineBean.machineSave.usefulLife} #{scMachineBean.machineSave.idTime.acronym}"
+                                                            />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfTypeMaterialSave" value="Tipo"/>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Tipo*"/>
                                         </td>
-                                        <td width="40%" align="left">
-                                            <p:outputLabel    id="tfTypeMaterialSave"  value="#{scMachineBean.machineSave.typeMachine}"/>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel  value="#{scMachineBean.machineSave.type}" 
+                                                           />
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfValueMachineSave" value="Valor"/>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Valor Hora*"/>
                                         </td>
-                                        <td width="40%" align="left">
-                                            <p:outputLabel    id="tfValueMachineSave"  value="#{scMachineBean.machineSave.value} #{scMachineBean.machineSave.money.acronym}"/>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel    value="#{scMachineBean.machineSave.hourValue} #{scMachineBean.machineSave.idMoney.acronym}" 
+                                                            />
                                         </td>
                                     </tr> 
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfMarkMachineSave" value="Marca"/>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Marca*"/>
                                         </td>
-                                        <td width="40%" align="left">
-                                            <p:outputLabel    id="tfMarkMachineSave"  value="#{scMachineBean.machineSave.mark}"
-                                                              />
+                                        <td width="30%" align="right">
+                                            <p:outputLabel    value="#{scMachineBean.machineSave.mark}"
+                                                            />
                                         </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfSerieMachineSave" value="Serie"/>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Serie*"/>
                                         </td>
-                                        <td width="40%" align="left">
-                                            <p:outputLabel    id="tfSerieMachineSave"  value="#{scMachineBean.machineSave.serie}"
-                                                              />
+                                        <td width="30%" align="right">
+                                            <p:outputLabel    value="#{scMachineBean.machineSave.serie}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                
+                                
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Proveedor*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineSave.idPartner.companyName}" />
+                                                
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Centro de Costos*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineSave.idCostCenter.costCenter}"/>
+                                                
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Prioridad*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineSave.idPriority.name}"/>
+                                                
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Descripción"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineSave.description}" 
+                                                            />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="98%" colspan="2">
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Localización*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel  value="#{scMachineBean.machineSave.factoryLocation.location}"/>
+                                                
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Clasificación*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineSave.clasification}" 
+                                                             />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="98%" colspan="4">
                                             <p:commandButton id="btnSaveMachine" value="Guardar Máquina" onsuccess="PF('dialogMachineSave').hide()"
-                                                             actionListener="#{scMachineBean.saveMachine()}" update=":formMachine:scDataTableMachines,:formWizardSave"
+                                                             actionListener="#{scMachineBean.saveMachine()}" update=":formMachine:scMachineDataTable,:formWizardSave"
                                                              oncomplete="PF('wizardSave').loadStep('tabGeneral', false)"/>
                                             <p:spacer width="30"/>
                                             <p:commandButton id="btnCancelPartner" value="Cancelar" oncomplete="PF('dialogMachineSave').hide();PF('wizardSave').loadStep('tabGeneral', false)"
-                                                             actionListener="#{scMachineBean.cleanMachineSave()}" update=":formMachine:scDataTableMachines,:formWizardSave"/>
+                                                             actionListener="#{scMachineBean.cleanMachineSave()}" update=":formMachine:scMachineDataTable,:formWizardSave"/>
                                         </td>
                                     </tr>
-                                </table>
-                            </p:panel>
+                            </table>
 
                         </p:tab>
                         <!--        finaliza la pestaña para confirmar datos de guardar-->
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" listener="#{scMachineBean.cleanMachineSave()}" update=":formMachine:scDataTableMachines,:formWizardSave"/>
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" listener="#{scMachineBean.cleanMachineSave()}" update=":formMachine:scMachineDataTable,:formWizardSave"/>
             </p:dialog>
             <!--         finaliza el dialogo para guardar Máquinas               -->
 
            
-            
+                        
+             <!--         Dialogo para actualizar nuevos Máquinas         -->
+            <p:dialog id="dialogMachineUpdate" widgetVar="dialogMachineUpdate" draggable="true" 
+                      closable="true"  header="Crear Máquinas" position="center top" width="800"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+
+                <h:form id="formWizardUpdate" >
+
+                    <p:wizard  flowListener="#{scMachineBean.onFlowProcessUpdateMachine}" id="wizardUpdate" widgetVar="wizardUpdate" 
+                               backLabel="Atras" nextLabel="Siguiente">
+                        <p:tab title="Datos Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos de maquinas">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Imagen"/>
+                                        </td>
+                                        <td width="40%" align="left" valign="middle">
+                                            <h:graphicImage value="#{scMachineBean.searchImage(scMachineBean.machineUpdate)}" alt="Imagen no disponible" id="imageUpdate" 
+                                                            width="120" height="120"  />
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnPicture" icon="ui-icon-image"  oncomplete="PF('pictureUpdate').show()" style="top: -10px;"
+                                                              ignoreAutoUpdate="true"/>                                       
+                                        </td>
+                                        <td colspan="2" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfNameMachine" value="Nombre Máquina*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfNameMachine"  value="#{scMachineBean.machineUpdate.name}"
+                                                            />
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfUsefulLife" value="Vida Útil"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfUsefulLife"  value="#{scMachineBean.machineUpdate.usefulLife}"
+                                                            style="width: 100px;"/>
+                                            <p:spacer width="5"/>
+                                            <p:selectOneMenu id="cbTime"  value="#{scMachineBean.machineUpdate.idTime}" 
+                                                             converter="timeConverter" converterMessage="Error en el tipo de dato del tiempo" style="width: 100px; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scMachineBean.timeList}" var="time" itemLabel="#{time.acronym}"/>
+
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbTypeMachine" value="Tipo*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbTypeMachine"  value="#{scMachineBean.machineUpdate.type}" 
+                                                             style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItem itemLabel="Cortadoras" itemValue="Cortadoras"/>
+                                                <f:selectItem itemLabel="Dobladoras" itemValue="Dobladoras"/>
+                                                <f:selectItem itemLabel="Punzadoras" itemValue="Punzadoras"/>
+                                                <f:selectItem itemLabel="Soldadoras" itemValue="Soldadoras"/>
+                                                <f:selectItem itemLabel="Troqueleadoras" itemValue="Troqueleadoras"/>
+                                                
+                                                
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfValueMachine" value="Valor Hora*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfValueMachine"  value="#{scMachineBean.machineUpdate.hourValue}" 
+                                                            requiredMessage="Debe ingresar el valor de la herramienta" style="width: 100px;"/>
+                                            <p:spacer width="5"/>
+                                            <p:selectOneMenu id="cbMoney"  value="#{scMachineBean.machineUpdate.idMoney}" 
+                                                             converter="moneyConverter" converterMessage="Error en el tipo de dato de la moneda" style="width: 100px; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{scMachineBean.moneyList}" var="money" itemLabel="#{money.acronym} #{money.description}"/>
+
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfMarkMachine" value="Marca*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfMarkMachine"  value="#{scMachineBean.machineUpdate.mark}"
+                                                            requiredMessage="Campo obligatorio debe ingresar la marca de la herramienta"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfSerieMachine" value="Serie*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfSerieMachine"  value="#{scMachineBean.machineUpdate.serie}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbSupplier" value="Proveedor*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbSupplier"  value="#{scMachineBean.machineUpdate.idPartner}" style="width: 70%;"
+                                                             converter="partnerConverter" converterMessage="Error en el tipo de dato del proveedor y garantía"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItems value="#{scMachineBean.partnersList}" var="partners" itemLabel="#{partners.companyName}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbCostCenter" value="Centro de Costos*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbCostCenter"  value="#{scMachineBean.machineUpdate.idCostCenter}" style="width: 70%;" 
+                                                             converter="costCenterConverter" converterMessage="Error en el tipo de dato del centro de costos"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItems  value="#{scMachineBean.costCenterList}" var="costCenters" itemLabel="#{costCenters.description}"/>
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddCostCenter" icon="ui-icon-circle-plus"  oncomplete="PF('centerCostUpdate').show()" style="top: -8px;"/>
+                                            <p:tooltip for="btnAddCostCenter" value="Agregue nuevos centros de costos"/>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfProirity" value="Prioridad*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="tfProirity"  value="#{scMachineBean.machineUpdate.idPriority}" style="width: 70%;"
+                                                             converter="priorityConverter" converterMessage="Error en el tipo de dato de la prioridad"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItems value="#{scMachineBean.priorityList}" var="priority" itemLabel="#{priority.name}"/>e
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputTextarea  id="tfDescription"  value="#{scMachineBean.machineUpdate.description}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfLocationFactory" value="Localización*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="tfLocationFactory"  value="#{scMachineBean.machineUpdate.factoryLocation}" style="width: 70%;"
+                                                             converter="factoryLocationConverter" converterMessage="Error en el tipo de dato de la localización de fábrica"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItems value="#{scMachineBean.factoryLocationsList}" var="location" itemLabel="#{location.location}"/>e
+                                            </p:selectOneMenu>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton  id="btnAddFactory" icon="ui-icon-circle-plus"  oncomplete="PF('factoryLocationUpdate').show()" style="top: -8px;"/>
+                                            <p:tooltip for="btnAddFactory" value="Agregue nuevas localización dentro de la fábrica"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfClasification" value="Clasificación*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="tfClasification"  value="#{scMachineBean.machineUpdate.clasification}" 
+                                                             style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..." />
+                                                <f:selectItem itemLabel="Mecánica" itemValue="Mecánica"/>
+                                                <f:selectItem itemLabel="Eléctrica" itemValue="Eléctrica"/>
+                                                <f:selectItem itemLabel="Electrónica" itemValue="Eléctrica"/>
+                                                <f:selectItem itemLabel="Hidráulica" itemValue="Hidráulica"/>
+                                                <f:selectItem itemLabel="Térmica" itemValue="Térmica"/>
+                                                
+                                                
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                                
+                            </p:panel>
+                        </p:tab> 
+                        <!--                        finaliza la pestaña para datos generales -->
+
+                        <!--                        inicia la pestaña para el stock y -->
+                        <p:tab title="Dimensiones" id="tabStock" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las idDimensiones">
+                            <p:panel header="Dimensiones" 
+                                     id="pnlDimension">
+                                <f:facet name="header">
+                                    <p:outputLabel value="Dimensiones" style="text-align: center;"/>
+                                </f:facet>
+                                <f:facet name="header">
+                                    <p:commandButton icon="ui-icon-plus" id="btnAddMeasure" style="float: right;"  
+                                                     oncomplete="PF('measureUpdate').show()">
+                                        <p:tooltip for="btnAddMeasure" value="Agregar una medida"/>
+                                    </p:commandButton>
+                                </f:facet>
+                                <table width="98%" cellspacing="10"  >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfHigh" value="Altura*"/>
+
+                                        </td>
+                                        <td width="40%" align="left">
+
+                                            <p:inputText    id="tfHigh"  value="#{scMachineBean.machineUpdate.idDimension.hight}"
+                                                            requiredMessage="Debe ingresar la altura" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureHigh" />
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureHigh"  value="#{scMachineBean.measureUnitSaveHigh}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineUpdate.idDimension.hight, 1)}" >
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
+
+
+                                        </td> 
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfWidth" value="Ancho*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfWidth"  value="#{scMachineBean.machineUpdate.idDimension.width}"
+                                                            requiredMessage="Debe ingresar el ancho" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureWidth" />
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureWidth"  value="#{scMachineBean.measureUnitSaveWidth}" style="width: 60px; top: 6px;"
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineUpdate.idDimension.width, 2)}">
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfLarge" value="Largo*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfLarge"  value="#{scMachineBean.machineUpdate.idDimension.large}"
+                                                            requiredMessage="Debe ingresar el alto" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureLarge" />
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureLarge"  value="#{scMachineBean.measureUnitSaveLarge}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineUpdate.idDimension.large, 3)}">
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfVolume" value="Volumen"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfVolume"  value="#{scMachineBean.machineUpdate.idDimension.volume}"
+                                                            requiredMessage="Debe ingresar el volumen" style="width: 100px; ">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureVolume" />
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureVolume"  value="#{scMachineBean.measureUnitSaveVolume}" style="width: 60px; top: 6px; " 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineUpdate.idDimension.volume, 4)}"> 
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfThickness" value="Grosor"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfThickness"  value="#{scMachineBean.machineUpdate.idDimension.thickness}"
+                                                            requiredMessage="Debe ingresar el grosor" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureThickness" />
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureThickness"  value="#{scMachineBean.measureUnitSaveThickness}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineUpdate.idDimension.thickness, 5)}"> 
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfRadio" value="Radio"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfRadio"  value="#{scMachineBean.machineUpdate.idDimension.radio}"
+                                                            requiredMessage="Debe ingresar el radio" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureRadio" />
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureRadio"  value="#{scMachineBean.measureUnitSaveRadio}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineUpdate.idDimension.radio, 6)}">
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfWeight" value="Peso*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfWeight"  value="#{scMachineBean.machineUpdate.idDimension.weight}"
+                                                            requiredMessage="Debe ingresar el peso" style="width: 100px;">
+                                                <p:ajax event="keyup" update=":formWizardUpdate:cbMeasureWeight" />
+                                            </p:inputText>
+                                            <p:spacer width="5px"/>
+                                            <p:selectOneMenu id="cbMeasureWeight"  value="#{scMachineBean.measureUnitSaveWeight}" style="width: 60px; top: 6px;" 
+                                                             converter="measureConverter" converterMessage="Error en el tipo de dato de la medida"
+                                                             required="true" requiredMessage="Campo obligatorio debe seleccionar una medida" effect="puff"
+                                                             height="140" disabled="#{!scMachineBean.showItem(scMachineBean.machineUpdate.idDimension.weight, 7)}">
+                                                <f:selectItem itemLabel="Und." />
+                                                <f:selectItems  value="#{scMachineBean.measureUnitsList}" var="measure" itemLabel="#{measure.acronym}"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfObservationsDimension" value="Observaciones"/>
+                                        </td>
+                                        <td  width="40%" align="left"> 
+                                            <p:inputTextarea   id="tfObservationsDimension"  value="#{scMachineBean.machineUpdate.idDimension.observations}"
+                                                               style="width: 98%;"     />
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para stock y idDimensiones-->
+                        <!--                        inicia pestaña para especificaciones-->
+                        <p:tab title="Especificaciones" id="tabSpecifications" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las especificaciones de maquinas">
+                            <p:panel header="Especificaciones" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTittleSpecification" value="Título"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTittleSpecification" value="#{scMachineBean.machineAttachedSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleSpecification" value="Ingrese el título de la especificacion a Realizar"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfSpecificationUpdate" value="Especificación"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfSpecificationUpdate" value="#{scMachineBean.machineAttachedSave.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTittleSpecification,tfSpecificationUpdate,dataTableSpecificationUpdate"
+                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineUpdate, scMachineBean.machineUpdate.scMachineAttachedList, 'SPECIFICATION')}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableSpecificationUpdate"
+                                                         var="specifications" 
+                                                         value="#{scMachineBean.getAttachedList(scMachineBean.machineUpdate.scMachineAttachedList, 'SPECIFICATION')}"
+                                                         rowKey="#{specifications.tittle}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{specifications.tittle}">
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableSpecificationUpdate" title="Eliminar Especificaciones"
+                                                                     process="dataTableSpecificationUpdate" 
+                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.machineUpdate.scMachineAttachedList, specifications)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Título" sortBy="#{specifications.tittle}">
+                                                    <p:outputLabel value="#{specifications.tittle}" id="outTittle"/>
+                                                    <p:tooltip value="#{specifications.tittle}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Observación" sortBy="#{specifications.description}">
+                                                    <p:outputLabel value="#{specifications.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{specifications.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para especificaciones-->
+                        <!--                        inicia pestaña para características-->
+                        <p:tab title="Características" id="tabFeactures" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las características de maquinas">
+                            <p:panel header="Características" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTittleFeacture" value="Título"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTittleFeacture" value="#{scMachineBean.machineAttachedSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleFeacture" value="Ingrese el título de la característica a Realizar"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfFeactureUpdate" value="Característica"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfFeactureUpdate" value="#{scMachineBean.machineAttachedSave.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTittleFeacture,tfFeactureUpdate,dataTableFeactureUpdate"
+                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineUpdate, scMachineBean.machineUpdate.scMachineAttachedList, 'FEACTURE')}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableFeactureUpdate"
+                                                         var="feactures" 
+                                                         value="#{scMachineBean.getAttachedList(scMachineBean.machineUpdate.scMachineAttachedList, 'FEACTURE')}"
+                                                         rowKey="#{feactures.tittle}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{feactures.tittle}">
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableFeactureUpdate" title="Eliminar Características"
+                                                                     process="dataTableFeactureUpdate" 
+                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.machineUpdate.scMachineAttachedList, feactures)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Título" sortBy="#{feactures.tittle}">
+                                                    <p:outputLabel value="#{feactures.tittle}" id="outTittle"/>
+                                                    <p:tooltip value="#{feactures.tittle}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Observación" sortBy="#{feactures.description}">
+                                                    <p:outputLabel value="#{feactures.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{feactures.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para características-->
+                        <!--                        inicia pestaña para observaciones-->
+                        <p:tab title="Observaciones" id="tabObservations" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las observaciones de maquinas">
+                            <p:panel header="Observaciones" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTittleObservation" value="Título"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTittleObservation" value="#{scMachineBean.machineAttachedSave.tittle}"/>
+                                                        <p:tooltip for="tfTittleObservation" value="Ingrese el título de la observación a Realizar"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfObservationUpdate" value="Observación"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfObservationUpdate" value="#{scMachineBean.machineAttachedSave.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTittleObservation,tfObservationUpdate,dataTableObservationUpdate"
+                                                                             actionListener="#{scMachineBean.saveAttached(scMachineBean.machineAttachedSave, scMachineBean.machineUpdate, scMachineBean.machineUpdate.scMachineAttachedList, 'OBSERVATION')}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableObservationUpdate"
+                                                         var="observation" 
+                                                         value="#{scMachineBean.getAttachedList(scMachineBean.machineUpdate.scMachineAttachedList, 'OBSERVATION')}"
+                                                         rowKey="#{observation.tittle}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{observation.tittle}">
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableObservationUpdate" title="Eliminar Observaciones"
+                                                                     process="dataTableObservationUpdate" 
+                                                                     actionListener="#{scMachineBean.deleteAttached(scMachineBean.machineUpdate.scMachineAttachedList, observation)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Título" sortBy="#{observation.tittle}">
+                                                    <p:outputLabel value="#{observation.tittle}" id="outTittle"/>
+                                                    <p:tooltip value="#{observation.tittle}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Observación" sortBy="#{observation.description}">
+                                                    <p:outputLabel value="#{observation.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{observation.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para observaciones-->
+                        <!--                        inicia pestaña para documentos-->
+                        
+                        <!--                        inicia pestaña para condiciones-->
+                        <p:tab title="Condiciones" id="tabConditions" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las condiciones de funcionamiento de maquinas">
+                            <p:panel header="Condiciones de Funcionamiento" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTypeCondition" value="Tipo de Condición"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:selectOneMenu id="tfTypeCondition"  value="#{scMachineBean.machineConditionSave.type}" 
+                                                             style="width: 70%; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                            <f:selectItem itemLabel="..." />
+                                                            <f:selectItem itemLabel="Interna" itemValue="Interna"/>
+                                                            <f:selectItem itemLabel="Externa" itemValue="Externa"/>
+                                                        </p:selectOneMenu>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfDescriptionCondition" value="Descripción"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfDescriptionCondition" value="#{scMachineBean.machineConditionSave.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTypeCondition,tfDescriptionCondition,dataTableConditionSave"
+                                                                             actionListener="#{scMachineBean.saveCondition(scMachineBean.machineConditionSave, scMachineBean.machineUpdate , scMachineBean.machineUpdate.scMachineConditionsList)}"/>
+                                                        </center>
+                                                        
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableConditionSave"
+                                                         var="condition" 
+                                                         value="#{scMachineBean.machineUpdate.scMachineConditionsList}"
+                                                         rowKey="#{condition.idCondition}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{condition.type}">
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableConditionSave" title="Eliminar Condiciones"
+                                                                     process="dataTableConditionSave" 
+                                                                     actionListener="#{scMachineBean.deleteCondition(scMachineBean.machineUpdate.scMachineConditionsList, condition)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Tipo" sortBy="#{condition.type}">
+                                                    <p:outputLabel value="#{condition.type}" id="outTittle"/>
+                                                    <p:tooltip value="#{condition.type}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Descripción" sortBy="#{condition.description}">
+                                                    <p:outputLabel value="#{condition.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{condition.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para condiciones-->
+                        <p:tab title="Documentos" id="tabDocuments" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los documentos de maquinas">
+                            <p:panel header="Documentos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableDocumentationUpdate"
+                                                         var="document" 
+                                                         value="#{scMachineBean.machineUpdate.scMachineDocumentList}"
+                                                         rowKey="#{document.documentTittle}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{document.documentTittle}">
+
+                                                <f:facet name="header">
+                                                    <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                                                     oncomplete="PF('documentUpdate').show()">
+                                                        <p:tooltip for="btnAdd" value="Agregar un Documento"/>
+                                                    </p:commandButton>
+                                                </f:facet>
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableDocumentationUpdate" title="Eliminar Documentos"
+                                                                     process="@this" 
+                                                                     actionListener="#{scMachineBean.deleteDocumentUpdate(document)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Título" sortBy="#{document.documentTittle}">
+                                                    <p:outputLabel value="#{document.documentTittle}" id="outTittle"/>
+                                                    <p:tooltip value="#{document.documentTittle}" for="outTittle"/>
+                                                </p:column>                                                 
+                                                <p:column  headerText="Documento" sortBy="#{document.documentName}">
+                                                    <p:outputLabel value="#{document.documentName}" id="documentName"/>
+                                                    <p:tooltip value="#{document.documentName}" for="documentName"/>
+                                                </p:column>
+                                                <p:column  headerText="Fecha de Subida" sortBy="#{scMachineBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}">
+                                                    <p:outputLabel value="#{scMachineBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" id="uploadDate"/>
+                                                    <p:tooltip value="#{scMachineBean.getFormatDateGlobal('dd/MM/yyyy hh:mm:ss', document.creationDate)}" for="uploadDate"/>
+                                                </p:column>
+                                                <p:column  headerText="Subido por" sortBy="#{document.uploadBy}">
+                                                    <p:outputLabel value="#{document.uploadBy}" id="uploadBy"/>
+                                                    <p:tooltip value="#{document.uploadBy}" for="uploadBy"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para documentos                         -->
+                        <!--        inicia la pestaña para confirmar datos de guardar-->
+                        <p:tab title="Confirmar datos" id="tabConfirmUpdate" titleStyleClass="tabTittleSavePerson"
+                               titletip="Pestaña para confirmar los datos de maquinas a actualizar">
+                            <table>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Nombre Máquina*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineUpdate.name}"
+                                          />
+
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Vida Útil"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel   value="#{scMachineBean.machineUpdate.usefulLife} #{scMachineBean.machineUpdate.idTime.acronym}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Tipo*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel  value="#{scMachineBean.machineUpdate.type}" 
+                                                           />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Valor Hora*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel    value="#{scMachineBean.machineUpdate.hourValue} #{scMachineBean.machineUpdate.idMoney.acronym}" 
+                                                            />
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Marca*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel    value="#{scMachineBean.machineUpdate.mark}"
+                                                            />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Serie*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel    value="#{scMachineBean.machineUpdate.serie}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                
+                                
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Proveedor*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineUpdate.idPartner.companyName}" />
+                                                
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Centro de Costos*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineUpdate.idCostCenter.costCenter}"/>
+                                                
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel   value="Prioridad*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineUpdate.idPriority.name}"/>
+                                                
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Descripción"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineUpdate.description}" 
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Localización*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel  value="#{scMachineBean.machineUpdate.factoryLocation.location}"/>
+                                                
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  value="Clasificación*"/>
+                                        </td>
+                                        <td width="30%" align="right">
+                                            <p:outputLabel value="#{scMachineBean.machineUpdate.clasification}" 
+                                                             />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="98%" colspan="4">
+                                            <p:commandButton id="btnUpdateMachine" value="Actualizar Máquina" onsuccess="PF('dialogMachineUpdate').hide()"
+                                                             actionListener="#{scMachineBean.updateMachine()}" update=":formMachine:scMachineDataTable,:formWizardUpdate"
+                                                             oncomplete="PF('wizardUpdate').loadStep('tabGeneral', false)"/>
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelPartner" value="Cancelar" oncomplete="PF('dialogMachineUpdate').hide();PF('wizardUpdate').loadStep('tabGeneral', false)"
+                                                             actionListener="#{scMachineBean.cleanMachineSave()}" update=":formMachine:scMachineDataTable,:formWizardUpdate"/>
+                                        </td>
+                                    </tr>
+                            </table>
+
+                        </p:tab>
+                        <!--        finaliza la pestaña para confirmar datos de guardar-->
+                    </p:wizard>
+                </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardUpdate').loadStep('tabGeneral', true)" listener="#{scMachineBean.cleanMachineSave()}" update=":formMachine:scMachineDataTable,:formWizardUpdate"/>
+            </p:dialog>
+            <!--         finaliza el dialogo para guardar Máquinas               -->
+
             
             
             
@@ -935,7 +1827,7 @@
                         <!--                        finaliza la pestaña para datos generales -->
 
                         <!--                        inicia la pestaña para el stock y -->
-                        <p:tab title="Stock y Dimensiones" id="tabStock" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Dimensiones" id="tabStock" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para el stock">
                             
                             <p:panel header="Dimensiones" 
@@ -1086,7 +1978,7 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <!--                        finaliza pestaña para stock y dimensiones-->
+                        <!--                        finaliza pestaña para stock y idDimensiones-->
                         <!--                        inicia pestaña para especificaciones-->
                         <p:tab title="Especificaciones" id="tabSpecifications" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las especificaciones de máquinas">
@@ -1181,6 +2073,40 @@
                                                 <p:column  headerText="Observación" sortBy="#{observation.description}">
                                                     <p:outputLabel value="#{observation.description}" id="outDescription"/>
                                                     <p:tooltip value="#{observation.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para observaciones-->
+                        <!--                        inicia pestaña para observaciones-->
+                        <p:tab title="Condiciones" id="tabConditions" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para las condiciones de funcionamiento de máquinas">
+                            <p:panel header="Condiciones de Funcionamiento" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td align="center" valign="top">
+                                            <p:dataTable id="dataTableConditionSave"
+                                                         var="condition" 
+                                                         value="#{scMachineBean.machineSelected.scMachineConditionsList}"
+                                                         rowKey="#{condition.tittle}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40" editable="true"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{condition.tittle}">
+                                               
+                                                <p:column  headerText="Tipo" sortBy="#{condition.type}">
+                                                    <p:outputLabel value="#{condition.type}" id="outTittle"/>
+                                                    <p:tooltip value="#{condition.type}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Descripción" sortBy="#{condition.description}">
+                                                    <p:outputLabel value="#{condition.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{condition.description}" for="outDescription"/>
                                                 </p:column>
                                             </p:dataTable>
                                         </td>
@@ -1420,12 +2346,12 @@
             </p:dialog>
             <!--            finaliza el dialogo para actualizar documentos-->
             
-            !--           dialogo para crear un centro de costos-->
+            <!--           dialogo para crear un centro de costos-->
             <p:dialog id="factoryLocationSave" widgetVar="factoryLocationSave" draggable="true"  
                       closable="true"  header="Agregar una Localización en la Fábrica" position="center top" 
                       hideEffect="explode" modal="true" showEffect="explode" 
                       >
-                <h:form id="formCostCenter">
+                <h:form id="formFactoryLocation">
                     <table width="98%" cellspacing="10" >
                         <tr>
                             <td width="20%" align="right">
@@ -1477,7 +2403,7 @@
                              sortBy="#{machine.name}"
                              >
                     <f:facet name="header">
-                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;" oncomplete="PF('dialogMachineSave').show()"
                                          >
                             <p:tooltip for="btnAdd" value="Agregar una Maquina"/>
                         </p:commandButton>
@@ -1532,9 +2458,10 @@
                                 <p:tooltip for="btnSearch" value="Visualizar una Máquina"/>
                             </p:commandButton>
                             <p:spacer width="3"/>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit"
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizardUpdate"
+                                             actionListener="#{scMachineBean.selectedForUpdate(machine)}" oncomplete="PF('dialogMachineUpdate').show()"
                                              >
-                                <p:tooltip for="btnEdit" value="Editar una Máquina"/>
+                                <p:tooltip for="btnEdit" value="Editar una Máquina" />
                             </p:commandButton>
                             <p:spacer width="3"/>
                             <p:commandButton icon="ui-icon-close" id="btnDelete" update=":formWizardDelete" 

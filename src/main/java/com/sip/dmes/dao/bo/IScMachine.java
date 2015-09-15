@@ -28,6 +28,10 @@ public interface IScMachine
 
     public void saveCostCenter(ScCostCenter costCenter) throws Exception;
     
+    public void saveMachine(ScMachine machine) throws Exception;
+    
+    public void updateMachine(ScMachine machine) throws Exception;
+    
     public void saveFactoryLocation(ScFactoryLocation factoryLocation) throws Exception;
     
     public void saveMeasureUnit(ScMeasureUnit measureUnit) throws Exception;

@@ -86,7 +86,7 @@ public class ScMachinePartDocument implements Serializable
     private String uploadBy;
     
     @JoinColumn(name = "id_machine_part", referencedColumnName = "id_machine_part")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScMachinePart idMachinePart;
     
     public ScMachinePartDocument()

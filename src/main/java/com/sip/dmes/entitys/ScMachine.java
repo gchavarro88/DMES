@@ -76,10 +76,13 @@ public class ScMachine implements Serializable
     private String clasification;
     @Column(name = "path_picture")
     private String pathPicture;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachine", fetch = FetchType.EAGER)
     private List<ScMachineAttached> scMachineAttachedList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachine", fetch = FetchType.EAGER)
     private List<ScMachineDocument> scMachineDocumentList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachine", fetch = FetchType.EAGER)
     private List<ScMachineConditions> scMachineConditionsList;
     @JoinColumn(name = "id_time", referencedColumnName = "id_time")
@@ -131,7 +134,7 @@ public class ScMachine implements Serializable
     public int hashCode()
     {
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.idMachine);
+        hash = 53 * hash + Objects.hashCode(this.idMachine);
         return hash;
     }
 
@@ -153,6 +156,11 @@ public class ScMachine implements Serializable
         }
         return true;
     }
+
+
+   
+
+    
 
     @Override
     public String toString()

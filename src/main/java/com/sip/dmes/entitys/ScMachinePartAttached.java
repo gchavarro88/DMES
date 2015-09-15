@@ -63,7 +63,7 @@ public class ScMachinePartAttached implements Serializable
     @Column(name = "description")
     private String description;
     @JoinColumn(name = "id_machine_part", referencedColumnName = "id_machine_part")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScMachinePart idMachinePart;
 
     public ScMachinePartAttached()

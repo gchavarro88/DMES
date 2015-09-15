@@ -616,6 +616,9 @@ public class ScToolBean
      */
     public String onFlowProcessSaveTool(FlowEvent event)
     {
+        setToolAttachedSave(new ScToolAttached());
+        setReplaceDocumentsSave(new ScToolDocuments());
+        
         int packingUnit = -1;
         if (event.getNewStep().equals(TAB_GENERAL))
         {
@@ -925,6 +928,8 @@ public class ScToolBean
      */
     public String onFlowProcessUpdateTool(FlowEvent event)
     {
+        setToolAttachedSave(new ScToolAttached());
+        setReplaceDocumentsSave(new ScToolDocuments());
         if (event.getNewStep().equals(TAB_GENERAL))
         {
             return TAB_GENERAL;
@@ -1317,6 +1322,7 @@ public class ScToolBean
                 getScToolServer().saveTool(getToolSave());
                 getToolList().add(getToolSave());
                 cleanToolSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -1399,6 +1405,7 @@ public class ScToolBean
                     getToolList().set(index, getToolSelected());
                 }
                 cleanToolSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -1424,6 +1431,7 @@ public class ScToolBean
             {
                 getScToolServer().deleteTool(getToolSelected());
                 getToolList().remove(getToolSelected());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {

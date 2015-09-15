@@ -7,15 +7,17 @@ package com.sip.dmes.entitys;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,19 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries(
 {
-    @NamedQuery(name = "ScMachineDocument.findAll", query = "SELECT s FROM ScMachineDocument s"),
-    @NamedQuery(name = "ScMachineDocument.findByIdMachineDocument", query = "SELECT s FROM ScMachineDocument s WHERE s.idMachineDocument = :idMachineDocument"),
-    @NamedQuery(name = "ScMachineDocument.findByDocumentPath", query = "SELECT s FROM ScMachineDocument s WHERE s.documentPath = :documentPath"),
-    @NamedQuery(name = "ScMachineDocument.findByDocumentTittle", query = "SELECT s FROM ScMachineDocument s WHERE s.documentTittle = :documentTittle"),
-    @NamedQuery(name = "ScMachineDocument.findByCreationDate", query = "SELECT s FROM ScMachineDocument s WHERE s.creationDate = :creationDate"),
-    @NamedQuery(name = "ScMachineDocument.findByDocumentName", query = "SELECT s FROM ScMachineDocument s WHERE s.documentName = :documentName"),
-    @NamedQuery(name = "ScMachineDocument.findByUploadBy", query = "SELECT s FROM ScMachineDocument s WHERE s.uploadBy = :uploadBy"),
-    @NamedQuery(name = "ScMachineDocument.findByDocumentType", query = "SELECT s FROM ScMachineDocument s WHERE s.documentType = :documentType")
+    @NamedQuery(name = "ScMachineDocument.findAll", query = "SELECT s FROM ScMachineDocument s")
+    
 })
 public class ScMachineDocument implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqscmachinedocument")
+    @SequenceGenerator(name = "dmes.sqscmachinedocument", sequenceName = "dmes.sqscmachinedocument", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_machine_document")
@@ -80,7 +78,7 @@ public class ScMachineDocument implements Serializable
     @Column(name = "document_type")
     private String documentType;
     @JoinColumn(name = "id_machine", referencedColumnName = "id_machine")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScMachine idMachine;
 
     public ScMachineDocument()
@@ -192,20 +190,53 @@ public class ScMachineDocument implements Serializable
     }
 
     @Override
-    public boolean equals(Object object)
+    public boolean equals(Object obj)
     {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScMachineDocument))
+        if (obj == null)
         {
             return false;
         }
-        ScMachineDocument other = (ScMachineDocument) object;
-        if ((this.idMachineDocument == null && other.idMachineDocument != null) || (this.idMachineDocument != null && !this.idMachineDocument.equals(other.idMachineDocument)))
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ScMachineDocument other = (ScMachineDocument) obj;
+        if (!Objects.equals(this.idMachineDocument, other.idMachineDocument))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.documentPath, other.documentPath))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.documentTittle, other.documentTittle))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.creationDate, other.creationDate))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.documentName, other.documentName))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.uploadBy, other.uploadBy))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.documentType, other.documentType))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.idMachine, other.idMachine))
         {
             return false;
         }
         return true;
     }
+
+    
 
     @Override
     public String toString()

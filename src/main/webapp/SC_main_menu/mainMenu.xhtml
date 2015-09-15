@@ -155,15 +155,15 @@
 
                             <p:tabView  id="tabMain" dynamic="true" var="tabs"
                                         styleClass="tabViewMain" scrollable="true" 
-                                        value="#{templateBean.mainTabs}" activeIndex="#{templateBean.activeIndex}">
+                                        value="#{templateBean.mainTabs}" activeIndex="#{templateBean.activeIndex}" cache="true" >
 
 
 
 
-                                <p:tab id="tbEmpleados" title="#{tabs.title}" rendered="true"  >
+                                <p:tab id="tbEmpleados" title="#{tabs.title}" rendered="true"  closable="true">
 
 
-                                    <iframe id="frame" src="#{tabs.page}" scrolling="yes" class="iframeTab" style="height: 1000px;">
+                                    <iframe id="frame" src="#{tabs.page}" scrolling="yes" class="iframeTab" style="height: 1000px;" >
 
                                     </iframe>
 

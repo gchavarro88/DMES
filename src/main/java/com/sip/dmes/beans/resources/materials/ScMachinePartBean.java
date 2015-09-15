@@ -617,7 +617,8 @@ public class ScMachinePartBean
      */
     public String onFlowProcessSaveMachinePart(FlowEvent event)
     {
-        
+        setMachinePartAttachedSave(new ScMachinePartAttached());
+        setDocumentsSave(new ScMachinePartDocument());
         if (event.getNewStep().equals(TAB_GENERAL))
         {
             return TAB_GENERAL;
@@ -857,6 +858,8 @@ public class ScMachinePartBean
      */
     public String onFlowProcessUpdateMachinePart(FlowEvent event)
     {
+        setMachinePartAttachedUpdate(new ScMachinePartAttached());
+        setDocumentsSave(new ScMachinePartDocument());
         if (event.getNewStep().equals(TAB_GENERAL))
         {
             return TAB_GENERAL;
@@ -1092,7 +1095,7 @@ public class ScMachinePartBean
                 getScMachinePartServer().saveMachinePart(getMachinePartSave());
                 getMachinePartList().add(getMachinePartSave());
                 cleanMachinePartSave();
-                addError(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -1175,6 +1178,7 @@ public class ScMachinePartBean
                     getMachinePartList().set(index, getMachinePartSelected());
                 }
                 cleanMachinePartSave();
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
@@ -1200,6 +1204,7 @@ public class ScMachinePartBean
             {
                 getScMachinePartServer().deleteMachinePart(getMachinePartSelected());
                 getMachinePartList().remove(getMachinePartSelected());
+                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
             {
