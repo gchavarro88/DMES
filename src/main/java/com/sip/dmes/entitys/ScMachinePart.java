@@ -110,26 +110,26 @@ public class ScMachinePart implements Serializable
     private List<ScMachinePartDocument> scMachinePartDocument;
     
     @JoinColumn(name = "id_time", referencedColumnName = "id_time")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScTime idTime;
     @JoinColumn(name = "id_priority", referencedColumnName = "id_priority")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScPriority idPriority;
     
     @JoinColumn(name = "id_supplier_guarantee", referencedColumnName = "id_partner")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScPartner idSupplierGuarantee;
     @JoinColumn(name = "id_money", referencedColumnName = "id_money")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScMoney idMoney;
     @JoinColumn(name = "id_dimension", referencedColumnName = "id_input_dimension")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScInputDimension idDimension;
     @JoinColumn(name = "id_cost_center", referencedColumnName = "id_cost_center")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScCostCenter idCostCenter;
     @JoinColumn(name = "id_machine", referencedColumnName = "id_machine")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScMachine idMachine;
 
     public ScMachinePart()

@@ -1788,7 +1788,7 @@ public class ScMachineBean
                                 getMachineSave().setPathPicture(file.getAbsolutePath());
                                 break;
                             case 2://opción para actualizar
-                                getMachineSelected().setPathPicture(file.getAbsolutePath());
+                                getMachineUpdate().setPathPicture(file.getAbsolutePath());
                                 break;
                             default:
                                 break;

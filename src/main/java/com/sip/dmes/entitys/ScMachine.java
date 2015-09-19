@@ -85,26 +85,30 @@ public class ScMachine implements Serializable
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachine", fetch = FetchType.EAGER)
     private List<ScMachineConditions> scMachineConditionsList;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachine", fetch = FetchType.EAGER)
+    private List<ScMachinePart> scMachinePartList;
+    
     @JoinColumn(name = "id_time", referencedColumnName = "id_time")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScTime idTime;
     @JoinColumn(name = "id_priority", referencedColumnName = "id_priority")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScPriority idPriority;
     @JoinColumn(name = "id_money", referencedColumnName = "id_money")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScMoney idMoney;
     @JoinColumn(name = "id_dimension", referencedColumnName = "id_input_dimension")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScInputDimension idDimension;
     @JoinColumn(name = "id_cost_center", referencedColumnName = "id_cost_center")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScCostCenter idCostCenter;
     @JoinColumn(name = "id_partner", referencedColumnName = "id_partner")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScPartner idPartner;
     @JoinColumn(name = "id_location", referencedColumnName = "id_factory_location")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private ScFactoryLocation factoryLocation;
     
     private static final long serialVersionUID = 1L;
@@ -373,6 +377,16 @@ public class ScMachine implements Serializable
     public void setPathPicture(String pathPicture)
     {
         this.pathPicture = pathPicture;
+    }
+
+    public List<ScMachinePart> getScMachinePartList()
+    {
+        return scMachinePartList;
+    }
+
+    public void setScMachinePartList(List<ScMachinePart> scMachinePartList)
+    {
+        this.scMachinePartList = scMachinePartList;
     }
 
     
