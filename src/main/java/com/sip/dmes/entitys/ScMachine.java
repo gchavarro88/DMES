@@ -137,8 +137,8 @@ public class ScMachine implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.idMachine);
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.idMachine);
         return hash;
     }
 
@@ -160,7 +160,6 @@ public class ScMachine implements Serializable
         }
         return true;
     }
-
 
    
 

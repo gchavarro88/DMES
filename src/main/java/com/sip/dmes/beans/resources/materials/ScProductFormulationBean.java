@@ -13,6 +13,7 @@ import com.sip.dmes.entitys.ScDistributionUnit;
 import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScInput;
 import com.sip.dmes.entitys.ScInputDimension;
+import com.sip.dmes.entitys.ScInputStock;
 import com.sip.dmes.entitys.ScLocation;
 import com.sip.dmes.entitys.ScMachine;
 
@@ -463,7 +464,7 @@ public class ScProductFormulationBean
     public void cleanProductSave()
     {
         setProductSave(new ScProductFormulation());
-        
+        getProductSave().setStock(new ScInputStock());
         //Creamos el objeto de dimension para la segunda pestaña
         getProductSave().setLocation(new ScLocation(0L));
         getProductSave().setDimension(new ScInputDimension());
@@ -586,6 +587,27 @@ public class ScProductFormulationBean
     
     
     
+    /**
+     * Método encargado de calcular el precio total de un repuesto.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void calcuteTotalPrice()
+    {
+        getProductSave().getStock().setTotalValue(Double.parseDouble((getProductSave().getValue()
+                * getProductSave().getStock().getCurrentStock())+""));
+    }
+
+    /**
+     * Método encargado de calcular el precio total de un repuesto.
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void calcuteTotalPriceUpdate()
+    {
+        getProductSelected().getStock().setTotalValue(Double.parseDouble((getProductSelected().getValue()
+                * getProductSelected().getStock().getCurrentStock())+""));
+    }
     
     /**
      * Método encargado de guardar temporalmente una especificación.
@@ -1127,12 +1149,12 @@ public class ScProductFormulationBean
                 return event.getOldStep();
             }
             
-            
+            getProductSave().getStock().setPriceUnit(Double.parseDouble((getProductSave().getValue()+"")));
         }
         //Si pasamos de la pestaña de dimensiones
         else if(event.getOldStep().equals(TAB_DIMENSION))
         {
-            
+            getProductSave().getStock().setIdStore(getStoreSelected());
             
             if(validateFields("Altura", getProductSave().getDimension().getHight(), 1))
             {
@@ -1809,12 +1831,13 @@ public class ScProductFormulationBean
                 log.error("Error en el campo Unidad de Empaque, El Valor Unidad de Empaque debe ser un número mayor a cero");
                 return event.getOldStep();
             }
+            getProductSelected().getStock().setPriceUnit(Double.parseDouble((getProductSelected().getValue()+"")));
         }
         //Si pasamos de la pestaña de dimensiones
         else if(event.getOldStep().equals(TAB_DIMENSION))
         {
-            
-            
+            getProductSelected().getStock().setIdStore(getStoreSelected());
+                    
             if(validateFields("Altura", getProductSelected().getDimension().getHight(), 1))
             {
                 return event.getOldStep();

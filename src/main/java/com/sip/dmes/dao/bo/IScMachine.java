@@ -50,4 +50,5 @@ public interface IScMachine
     
     public List<ScFactoryLocation> getAllFactoryLocations() throws Exception;
     
+    public List<Object[]> getCapacityByIdMachine(Long idMachine) throws Exception;
 }

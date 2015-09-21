@@ -2081,7 +2081,7 @@
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para observaciones-->
-                        <!--                        inicia pestaña para observaciones-->
+                        <!--                        inicia pestaña para condiciones-->
                         <p:tab title="Condiciones" id="tabConditions" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para las condiciones de funcionamiento de máquinas">
                             <p:panel header="Condiciones de Funcionamiento" >
@@ -2114,7 +2114,7 @@
                                 </table>
                             </p:panel>
                         </p:tab>
-                        <!--                        finaliza pestaña para observaciones-->
+                        <!--                        finaliza pestaña para condiciones-->
                         <!--                        inicia pestaña para documentos-->
                         <p:tab title="Documentos" id="tabDocuments" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para los documentos de máquinas">
@@ -2208,6 +2208,51 @@
                             </p:panel>
                         </p:tab>
                         <!--                        finaliza pestaña para partes de la maquina                   -->
+                         <!--                        inicia pestaña para la capacidad de la máquina-->
+                        <p:tab title="Capacidad" id="tabCapabilities" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para la capacidad de la máquina">
+                            <p:panel header="Capacidad de la máquina" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableCapacity"
+                                                         var="capability" 
+                                                         value="#{scMachineBean.capacity}"
+                                                         rowKey="#{capability[0]}"
+                                                         paginator="true" rows="10"  
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{capability[0]}">
+
+                                                <p:column  headerText="Producto" sortBy="#{capability[0]}">
+                                                    <p:outputLabel value="#{capability[0]}" id="outTittle"/>
+                                                    <p:tooltip value="#{capability[0]}" for="outTittle"/>
+                                                </p:column>                                                 
+                                                <p:column  headerText="Proceso" sortBy="#{capability[1]}">
+                                                    <p:outputLabel value="#{capability[1]}" id="documentName"/>
+                                                    <p:tooltip value="##{capability[1]}" for="documentName"/>
+                                                </p:column>
+                                                <p:column  headerText="Tipo de Proceso" sortBy="#{capability[2]}">
+                                                    <p:outputLabel value="#{capability[2]}" id="uploadBy"/>
+                                                    <p:tooltip value="#{capability[2]}" for="uploadBy"/>
+                                                </p:column>
+                                                <p:column  headerText="Tiempo de Proceso" sortBy="#{capability[3]}">
+                                                    <p:outputLabel value="#{capability[3]}" id="machinePartMark"/>
+                                                    <p:tooltip value="#{capability[3]}" for="machinePartMark"/>
+                                                </p:column>
+                                                <p:column  headerText="Valor del Proceso" sortBy="#{capability[4]}">
+                                                    <p:outputLabel value="#{capability[4]}" id="machinePartSerie"/>
+                                                    <p:tooltip value="#{capability[4]}" for="machinePartSerie"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para la capacidad de la maquina                   -->
                     </p:tabView>
                 </h:form>
                 
@@ -2461,13 +2506,7 @@
                             <p:tooltip for="lblMachine" value="#{machine.name}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{machine.factoryLocation.location}" id="columnFactoryLocation" 
-                              headerText="Localización" sortBy="#{machine.factoryLocation.location}">    
-                        <center>
-                            <p:outputLabel value="#{machine.factoryLocation.location}" id="lblFactoryLocation"/>
-                            <p:tooltip for="lblFactoryLocation" value="#{machine.factoryLocation.location}"/>
-                        </center>
-                    </p:column>
+                    
                     <p:column filterMatchMode="contains"  filterBy="#{machine.mark}" id="columnMark" 
                               headerText="Marca" sortBy="#{machine.mark}">    
                         <center>
@@ -2494,6 +2533,13 @@
                         <center>
                             <p:outputLabel value="#{machine.clasification}" id="lblClasification"/>
                             <p:tooltip for="lblClasification" value="#{machine.clasification}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{machine.factoryLocation.location}" id="columnFactoryLocation" 
+                              headerText="Localización" sortBy="#{machine.factoryLocation.location}">    
+                        <center>
+                            <p:outputLabel value="#{machine.factoryLocation.location}" id="lblFactoryLocation"/>
+                            <p:tooltip for="lblFactoryLocation" value="#{machine.factoryLocation.location}"/>
                         </center>
                     </p:column>
                     <p:column headerText="Admin" width="100">

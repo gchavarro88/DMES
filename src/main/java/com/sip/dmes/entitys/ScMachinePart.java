@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -347,30 +348,35 @@ public class ScMachinePart implements Serializable
         this.idMachine = idMachine;
     }
 
-    
     @Override
     public int hashCode()
     {
-        int hash = 0;
-        hash += (idMachinePart != null ? idMachinePart.hashCode() : 0);
+        int hash = 3;
+        hash = 73 * hash + Objects.hashCode(this.idMachinePart);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
+    public boolean equals(Object obj)
     {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScMachinePart))
+        if (obj == null)
         {
             return false;
         }
-        ScMachinePart other = (ScMachinePart) object;
-        if ((this.idMachinePart == null && other.idMachinePart != null) || (this.idMachinePart != null && !this.idMachinePart.equals(other.idMachinePart)))
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ScMachinePart other = (ScMachinePart) obj;
+        if (!Objects.equals(this.idMachinePart, other.idMachinePart))
         {
             return false;
         }
         return true;
     }
+
+    
+   
 
     @Override
     public String toString()

@@ -6,10 +6,8 @@
 package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IScMachine;
-import com.sip.dmes.dao.bo.IScMachinePart;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScFactoryLocation;
-import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScMachine;
 
 import com.sip.dmes.entitys.ScMeasureUnit;
@@ -284,6 +282,27 @@ public class ScMachineDao  implements  IScMachine
         {
             log.error("Error al intentar hacer la persistencia de las maquinas",e);
         }
+    }
+
+    @Override
+    public List<Object[]> getCapacityByIdMachine(Long idMachine) throws Exception
+    {
+        List<Object[]> result = null;
+        try
+        {
+            String nativeQuery = "SELECT pf.description, pp.name, pt.type, pm.time_use||' Minutos' AS process_time, pm.total_value_machine||' '||m.acronym \n" +
+            "AS process_cost FROM dmes.sc_process_machine pm, dmes.sc_procces_product pp, dmes.sc_product_formulation pf, dmes.sc_process_type pt, \n" +
+            "dmes.sc_machine ma, dmes.sc_money m WHERE pm.id_process = pp.id_process_product AND pp.id_product_formulation = pf.id_product_formulation \n" +
+            "AND pt.id_process_type = pp.id_process_type AND pm.id_machine = ma.id_machine AND ma.id_money = m.id_money AND pm.id_machine = "+idMachine;
+            
+            Query query = entityManager.createNativeQuery(nativeQuery);
+            result = (List<Object[]>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las capacidades de la máquina "+idMachine,e);
+        }
+        return result;
     }
 }
     

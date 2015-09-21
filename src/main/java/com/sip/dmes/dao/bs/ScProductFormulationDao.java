@@ -67,6 +67,7 @@ public class ScProductFormulationDao implements IScProductFormulation
         try
         {
             entityManager.persist(productFormulation.getDimension());
+            entityManager.persist(productFormulation.getStock());
             entityManager.persist(productFormulation);
         }
         catch (Exception e)
@@ -86,6 +87,7 @@ public class ScProductFormulationDao implements IScProductFormulation
         {
             entityManager.remove(entityManager.contains(productFormulation) ? productFormulation : entityManager.merge(productFormulation));
             entityManager.remove(entityManager.contains(productFormulation.getDimension()) ? productFormulation : entityManager.merge(productFormulation.getDimension()));
+            entityManager.remove(entityManager.contains(productFormulation.getStock()) ? productFormulation : entityManager.merge(productFormulation.getStock()));
             entityManager.flush();
         }
         catch (Exception e)
@@ -112,6 +114,8 @@ public class ScProductFormulationDao implements IScProductFormulation
                 }
             }
             entityManager.merge(productFormulation);
+            entityManager.merge(productFormulation.getStock());
+            entityManager.merge(productFormulation.getDimension());
             entityManager.flush();
         }
         catch (Exception e)

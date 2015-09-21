@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.9
 -- Dumped by pg_dump version 9.3.5
--- Started on 2015-09-14 21:52:02 COT
+-- Started on 2015-09-20 21:06:46 COT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2320,13 +2320,10 @@ INSERT INTO sc_factory_location (id_factory_location, location, description) VAL
 -- Data for Name: sc_input; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (7, 'dsdf', '2015-03-30', 1, 'dsfsd', 4333, ' ', 1, '22', '2015-03-17', 'amiguis', 6, 2, 6, 3, 3, 12, 1, 12, 361.00, 5);
-INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (5, 'sdfsd', '2015-03-18', 15, 'fsfsd', 12323, '/home/gchavarro88/inputs_filePath/img/2014-08-10.jpg', 1, 'dfsdfsd', '2015-03-09', 'dddxxx', 4, 1, 4, 4, 1, 8400, 1, 12, 1026.00, 1);
 INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (15, 'ninguno', '2015-04-30', 1, 'ninguno', 1000, '/home/gchavarro88/inputs_filePath/img/producto1.png', 4, '655555', '2015-04-25', 'producto pepe', 14, 2, 25, 4, 1, 51100, 2, 100, 10.00, 2);
 INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (14, '23', NULL, 1, '33', 33, '/home/gchavarro88/inputs_filePath/img/corre papeles.jpg', 3, '33', '2015-04-25', 'Prueba Jhon', 13, 2, 21, 4, 1, 23, 1, 23, 1.00, 6);
 INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (16, 'plomo', NULL, 15, 'complex', 2000, '/home/gchavarro88/inputs_filePath/img/desorientado.jpg', 1, 'plom098', '2015-04-25', 'cercha', 15, 1, 26, 3, 2, 500, 1, 10, 200.00, 12);
 INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (8, 'Tipo de Prueba de Material', '2015-08-26', 1, 'Nike', 1200, '/home/gchavarro88/inputs_filePath/img/producto1.jpg', 4, '1212', '2015-03-19', 'Prueba de Insumo', 7, 1, 7, 4, 3, 123, 1, 3, 400.00, 5);
-INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (13, 'Prueba', NULL, 1, 'Prueba', 1223, ' ', 4, 'AC3232323', '2015-03-29', 'Prueba de Insumo', 12, 2, 12, 5, 3, 72, 3, 12, 101.92, 7);
 INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (17, 'verdura', '2016-02-26', 19, 'planton', 800000, ' ', 13, 'pl09oi', '2015-08-17', 'platano', 36, 1, 57, 4, 3, 1000, 1, 10, 80000.00, 3);
 INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_input_dimension, id_packing, id_money, total_amount_distribution, id_distribution_unit, distribution_amount, distribution_value, id_location) VALUES (18, 'liquido ', '2016-01-07', 16, 'brisa', 400000, ' ', 4, '5ty65', '2015-08-17', 'water', 37, 2, 58, 5, 1, 1440, 1, 10, 40000.00, 6);
 
@@ -2338,9 +2335,6 @@ INSERT INTO sc_input (id_input, type_material, expiry_date, supplier_guarantee, 
 --
 
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (2, '23-Mms', '23-Mms', '3-Mms', '23-Mts', '12-Mms', '23-Mms', '2-Mms', '');
-INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (12, '33-Mms', '33-KMS', '3-Mms', '55-KMS', '', '', '', '');
-INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (6, '1-Mms', '23-KMS', '23-KMS', '', '', '', '', '');
-INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (4, '1-Mms', '1-Mms', '1-Mms', '1-Mts', '1-Mms', '1-KMS', '1-Mms', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (21, '1-Mms', '1-Mms', '1-KMS', '1-Mts', '', '', '', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (25, '12-Mts', '12-Mts', '12-Mms', '12-Mms', '', '', '', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (26, '54-Mts', '78-cmt', '8-Mms', '23-Mms', '', '', '', '');
@@ -2373,10 +2367,9 @@ INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight,
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (60, '32-Mms', '43-Mms', '33-Mts', '65-KMS', '', '', '', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (61, '1-Mms', '1-Mms', '1-KMS', '1-Mts', '', '', '', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (62, '2-KMS', '2-Mms', '2-Mms', '2-Mts', '', '', '', '');
-INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (63, '56-Mts', '4-Mms', '4-Mts', '4-Mms', '', '', '', '');
-INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (64, '78-Mms', '7-Mms', '7-Mms', '7-Mts', '', '', '', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (65, '65-KMS', '7-Mms', '78-Mms', '57-Mms', '', '', '', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (66, '76-Mms', '8-PruebaYoleidy', '87-Mms', '8-Mts', '', '', '', '');
+INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (69, '1-Mts', '1-Mts', '1-Mts', '1-Mts', '', '', '', '');
 
 
 --
@@ -2385,16 +2378,9 @@ INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight,
 -- Data for Name: sc_input_documents; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (4, '/home/guschaor/inputs_filePath/docs/carta laboral ip total.pdf', 'Hoja de Vida', '2015-03-12', 'carta laboral ip total.pdf', 'guschaor', 'carta laboral ip total.pdf', 5);
-INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (5, '/home/guschaor/inputs_filePath/docs/FActura une  HeiDy.pdf', 'Patron', '2015-03-12', 'FActura une  HeiDy.pdf', 'guschaor', 'FActura une  HeiDy.pdf', 5);
-INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (6, '/home/guschaor/inputs_filePath/docs/CVJ_CERT_TRABAJO_CO.pdf', 'Prueba de documento v', '2015-03-19', 'CVJ_CERT_TRABAJO_CO.pdf', 'guschaor', 'application/pdf', 5);
-INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (7, '/home/guschaor/inputs_filePath/docs', 'Segunda prueba', '2015-03-19', 'carta laboral ip total.pdf', 'guschaor', 'application/pdf', 5);
-INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (8, '/home/gchavarro88/inputs_filePath/docs', 'IVR 1', '2015-04-18', 'Esquema IVR.pdf', 'jguerrero', 'application/pdf', 5);
-INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (9, '/home/gchavarro88/inputs_filePath/docs', 'dfdgf', '2015-04-25', 'GuiaCalidad.pdf', 'jguerrero', 'application/pdf', 13);
 INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (10, '/home/gchavarro88/inputs_filePath/docs', '222', '2015-04-25', 'GSI-R-29 Formulario PQR V2.pdf', 'jguerrero', 'application/pdf', 14);
 INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (11, '/home/gchavarro88/inputs_filePath/docs', 'tiii', '2015-04-25', 'MANUAL DE CALIDAD FELIX DE BEDOUT.doc', 'jguerrero', 'application/octet-stream', 15);
 INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (12, '/home/gchavarro88/inputs_filePath/docs', 'plande trabajo', '2015-04-25', 'Plan de Trabajo Modalides version 1-2012 (1).docx', 'yaconcha', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 16);
-INSERT INTO sc_input_documents (id_input_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_input) VALUES (13, '/home/guschaor/inputs_filePath/docs', 'test', '2015-05-29', 'HV JORGE HENAO.doc', 'guschaor', 'application/msword', 13);
 
 
 --
@@ -2411,11 +2397,6 @@ INSERT INTO sc_input_documents (id_input_documents, document_path, document_titt
 -- Data for Name: sc_input_feactures; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_input) VALUES (8, 'sdfsdf', 'sdfsddf', 5);
-INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_input) VALUES (9, 'sdfsdfs', 'fsdfsd', 5);
-INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_input) VALUES (10, 'sdfsdfsd', 'sdfsdf', 5);
-INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_input) VALUES (11, 'sdfsdfsd', 'fsdfsd', 5);
-INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_input) VALUES (13, 'prueba', 'nada', 13);
 INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_input) VALUES (14, 'rojo', 'prueba', 16);
 INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_input) VALUES (15, 'rojo', 'prueba', 16);
 INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_input) VALUES (16, 'hoka5', 'nadasergg', 17);
@@ -2428,9 +2409,6 @@ INSERT INTO sc_input_feactures (id_input_feactures, tittle, description, id_inpu
 -- Data for Name: sc_input_observations; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_input_observations (id_input_observation, tittle, description, id_input) VALUES (5, 'fsdfsdf', 'dfsdfs', 5);
-INSERT INTO sc_input_observations (id_input_observation, tittle, description, id_input) VALUES (6, 'sdfsdf', 'sdfsdf', 5);
-INSERT INTO sc_input_observations (id_input_observation, tittle, description, id_input) VALUES (7, 'sdfsdfs', 'sdfsdfsd', 5);
 INSERT INTO sc_input_observations (id_input_observation, tittle, description, id_input) VALUES (9, 'hola6', 'nadasd', 17);
 INSERT INTO sc_input_observations (id_input_observation, tittle, description, id_input) VALUES (10, 'hola7', 'buenas', 17);
 INSERT INTO sc_input_observations (id_input_observation, tittle, description, id_input) VALUES (11, 'hola', 'prueba', 18);
@@ -2442,10 +2420,6 @@ INSERT INTO sc_input_observations (id_input_observation, tittle, description, id
 -- Data for Name: sc_input_specifications; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_input_specifications (id_input_specifications, description, tittle, creation_date, id_input) VALUES (10, 'sdfsd', 'dfsdf', '2015-03-09', 5);
-INSERT INTO sc_input_specifications (id_input_specifications, description, tittle, creation_date, id_input) VALUES (11, 'sdfsd', 'dfsfsd', '2015-03-09', 5);
-INSERT INTO sc_input_specifications (id_input_specifications, description, tittle, creation_date, id_input) VALUES (12, 'sdfsd', 'sdfsdf', '2015-03-09', 5);
-INSERT INTO sc_input_specifications (id_input_specifications, description, tittle, creation_date, id_input) VALUES (15, 'hjghjg', 'jhghg', '2015-04-25', 13);
 INSERT INTO sc_input_specifications (id_input_specifications, description, tittle, creation_date, id_input) VALUES (16, 'v', 'm', '2015-04-25', 16);
 INSERT INTO sc_input_specifications (id_input_specifications, description, tittle, creation_date, id_input) VALUES (17, 'prueba', 'hola', '2015-08-17', 17);
 INSERT INTO sc_input_specifications (id_input_specifications, description, tittle, creation_date, id_input) VALUES (18, 'preuba2', 'hola2', '2015-08-17', 17);
@@ -2483,14 +2457,13 @@ INSERT INTO sc_location (id_location, location, description, id_store) VALUES (1
 -- Data for Name: sc_machine; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (1, 'Máquina 1', 1000.00, 'Maquina para Comidas', 1, 1, 12, 1, 1, 1, 1, 'Shines', 'SA233', 'Cortadora', 'Electricas', 7, NULL);
 INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (2, 'Máquina 2', 2000.00, 'Maquina para cortar tela', 2, 1, 23, 1, 2, 2, 2, 'Chromium', 'CE233', 'Cortadora', 'Electricas', 7, NULL);
-INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (3, 'Máquina 4', 4000.00, 'Maquina para empacar', 3, 2, 23, 1, 3, 3, 1, 'Titanium', 'AT3334', 'Empaquetadora', 'Eléctricas', 7, NULL);
-INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (7, 'Diseñadora de Software', 12000.00, 'Máquina especializada en el diseño de software', 2, 3, 2, 19, 13, 1, 2, 'Samsung', 'S4AC23', 'Troqueleadoras', 'Eléctrica', 62, '/home/ubuntu/machine_filePath/img/team.png');
-INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (8, 'zxzxcz', 6757667.00, '67567576', 2, 1, 6767567, 1, 13, 3, 1, 'trytryt', '567567567', 'Dobladoras', 'Mecánica', 63, '/home/ubuntu/machine_filePath/img/producto1.png');
-INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (9, 'vvvv', 55.00, '', 1, 3, 567567, 1, 17, 4, 1, 'hhh', '454545', 'Dobladoras', 'Mecánica', 64, ' ');
 INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (10, 'tapadora RD3', 60000.00, 'fsf', 1, 4, 5, 18, 13, 2, 1, 'cuerperty', 'dfw4', 'Troqueleadoras', 'Eléctrica', 65, '/home/ubuntu/machine_filePath/img/10428615_764352153627787_7203881861240549227_n.jpg');
 INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (11, 'rotador', 70000.00, 'adf', 1, 3, 56, 17, 13, 3, 2, 'sentes', 't7y7', 'Soldadoras', 'Eléctrica', 66, '/home/ubuntu/machine_filePath/img/1559846_725206147504724_1463329936_n.jpg');
+INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (7, 'Diseñadora de Software', 12000.00, 'Máquina especializada en el diseño de software', 2, 3, 2, 19, 13, 1, 2, 'Samsung', 'S4AC23', 'Troqueleadoras', 'Eléctrica', 62, '/home/ubuntu/machine_filePath/img/Selección_652.png');
+INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (3, 'Máquina 4', 4000.00, 'Maquina para empacar', 3, 2, 23, 1, 3, 3, 1, 'Titanium', 'AT3334', 'Cortadoras', 'Mecánica', 7, '/home/ubuntu/machine_filePath/img/producto1.png');
+INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (14, 'Enrolladora', 120000.00, 'Prueba de Sip', 2, 4, 3, 20, 1, 2, 2, 'Shimano', 'AC23445', 'Troqueleadoras', 'Eléctrica', 69, '/home/ubuntu/machine_filePath/img/yoe.jpg');
+INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, id_time, useful_life, id_partner, id_cost_center, id_money, id_location, mark, serie, type, clasification, id_dimension, path_picture) VALUES (1, 'Máquina 1', 1000.00, 'Maquina para Comidas', 1, 1, 12, 1, 1, 1, 1, 'Shines', 'SA233', 'Cortadoras', 'Eléctrica', 7, '/home/ubuntu/machine_filePath/img/producto2.jpg');
 
 
 --
@@ -2501,17 +2474,14 @@ INSERT INTO sc_machine (id_machine, name, hour_value, description, id_priority, 
 
 INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (1, 'SPECIFICATION', 'Diseño UML', 'Diseño en el lenguaje de modelamiento universal', 7);
 INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (2, 'FEACTURE', 'Software no gratuito', 'software cobrado por la empresa staruml', 7);
-INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (3, 'SPECIFICATION', 'hgfhgf', 'hfgh', 8);
-INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (4, 'FEACTURE', 'gfgh', 'hfhg', 8);
-INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (5, 'OBSERVATION', 'fghfhg', 'fghfgh', 8);
-INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (6, 'SPECIFICATION', '777', '777', 9);
-INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (7, 'FEACTURE', '777', '777', 9);
-INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (8, 'OBSERVATION', 'fgdfgdfg', 'dfgdgf', 9);
 INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (9, 'SPECIFICATION', 'tuti', 'tkg', 10);
 INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (10, 'SPECIFICATION', 'iyo', 'zhfhfj', 10);
 INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (11, 'FEACTURE', 'iykut', 'm,', 10);
 INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (12, 'FEACTURE', 'add', 'fyuj', 10);
 INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (13, 'OBSERVATION', 'kf', '647yfjf', 10);
+INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (20, 'SPECIFICATION', 'Prueba', 'Prueba', 14);
+INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (21, 'FEACTURE', 'Prueba', 'Prueba', 14);
+INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_machine) VALUES (22, 'OBSERVATION', 'Prueba', 'Prueba3', 14);
 
 
 --
@@ -2520,6 +2490,8 @@ INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_mach
 -- Data for Name: sc_machine_conditions; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
+INSERT INTO sc_machine_conditions (id_condition, type, description, id_machine) VALUES (1, 'Interna', 'jhgjgjh', 1);
+INSERT INTO sc_machine_conditions (id_condition, type, description, id_machine) VALUES (2, 'Interna', 'jkhjkl', 3);
 
 
 --
@@ -2529,9 +2501,8 @@ INSERT INTO sc_machine_attached (id_attached, type, tittle, description, id_mach
 --
 
 INSERT INTO sc_machine_document (id_machine_document, document_path, document_tittle, creation_date, document_name, upload_by, id_machine, document_type) VALUES (1, '/home/ubuntu/machine_filePath/docs', 'Documento de prueba', '2015-09-12', 'Certificado HTML 5.pdf', 'guschaor', 7, 'application/stream');
-INSERT INTO sc_machine_document (id_machine_document, document_path, document_tittle, creation_date, document_name, upload_by, id_machine, document_type) VALUES (2, '/home/ubuntu/machine_filePath/docs', 'ghghg', '2015-09-12', 'MANUAL DE CALIDAD FELIX DE BEDOUT.doc', 'jguerrero', 8, 'application/msword');
-INSERT INTO sc_machine_document (id_machine_document, document_path, document_tittle, creation_date, document_name, upload_by, id_machine, document_type) VALUES (3, '/home/ubuntu/machine_filePath/docs', 'fsfddfs', '2015-09-12', 'GuiaCalidad.pdf', 'jguerrero', 9, 'application/pdf');
 INSERT INTO sc_machine_document (id_machine_document, document_path, document_tittle, creation_date, document_name, upload_by, id_machine, document_type) VALUES (4, '/home/ubuntu/machine_filePath/docs', 'tuyo', '2015-09-14', '11-08-09 revision bd.docx', 'yaconcha', 10, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+INSERT INTO sc_machine_document (id_machine_document, document_path, document_tittle, creation_date, document_name, upload_by, id_machine, document_type) VALUES (5, '/home/ubuntu/machine_filePath/docs', 'fjhf', '2015-09-17', 'MANUAL DE CALIDAD FELIX DE BEDOUT.doc', 'jguerrero', 1, 'application/msword');
 
 
 --
@@ -3163,7 +3134,6 @@ INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (24, 20, 10, 40, 30000000, 1200000000, 2, 15);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (26, 3, 2, 2, 333, 666, 3, 2);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (32, 100, 10, 20, 565656, 11313120, 1, 20);
-INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (4, 1, 7, 0, 7, 7, 1, 7);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (6, 12, 11, 2, 4, 48, 1, 11);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (31, 500, 100, 206, 5645645, 1129129000, 2, 300);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (14, 515151, 12, 518, 1000, 511000, 2, 111);
@@ -3183,6 +3153,7 @@ INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (35, 100, 30, 80, 2000000, 160000000, 3, 60);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (36, 200, 70, 100, 800000, 80000000, 3, 170);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (37, 200, 50, 144, 400000, 57600000, 2, 180);
+INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (4, 10, 7, 6, 12323, 73938, 1, 8);
 
 
 --
@@ -3318,7 +3289,6 @@ INSERT INTO sc_time (id_time, acronym, minutes) VALUES (4, 'Año(s)', 525600);
 -- Data for Name: sc_tool; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_tool_dimension, id_money, id_location, name, "time", value_minutes) VALUES (1, 'Mecánica', 122, 15, 'test', 222.00, '/home/gchavarro88/inputs_filePath/img/linuxito.png', 4, 'test', '2015-05-13', 'test', 22, 1, 34, 3, 6, 'test', 1, 175680);
 INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_tool_dimension, id_money, id_location, name, "time", value_minutes) VALUES (2, 'Mecánica', 120, 1, 'martillos y martillos', 12000.00, '/home/gchavarro88/inputs_filePath/img/desorientado.jpg', 12, 'mart123', '2015-05-14', 'hola', 23, 2, 35, 3, 7, 'martillo', 2, 1209600);
 INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_tool_dimension, id_money, id_location, name, "time", value_minutes) VALUES (4, 'Limpieza', 30, 16, 'samsung', 30000.00, '/home/gchavarro88/inputs_filePath/img/banda peligrp.jpg', 2, 'cem-80', '2015-05-30', 'solo para celulares samsung duos', 25, 1, 37, 3, 10, 'cargador', 3, 1296000);
 INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_tool_dimension, id_money, id_location, name, "time", value_minutes) VALUES (5, 'Administrativa', 33, 15, '32232', 333.00, '/home/gchavarro88/inputs_filePath/img/producto1.jpg', 1, '3w3we', '2015-05-30', 'desde', 26, 1, 38, 4, 7, 'Yoelidy', 2, 332640);
@@ -3331,6 +3301,7 @@ INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, 
 INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_tool_dimension, id_money, id_location, name, "time", value_minutes) VALUES (11, 'Eléctrica', 64665, 16, 'gato', 565656.00, '/home/gchavarro88/tools_filePath/img/producto2.jpg', 4, '5656mlñj', '2015-06-15', '', 32, 1, 44, 1, 5, 'Alicate de Tor', 2, 651823200);
 INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_tool_dimension, id_money, id_location, name, "time", value_minutes) VALUES (12, 'Eléctrica', 54545, 16, 'gato', 455.00, '/home/gchavarro88/tools_filePath/img/producto1.png', 4, '4545', '2015-06-15', '', 33, 1, 45, 1, 6, 'Alicate montañero', 2, 549813600);
 INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_tool_dimension, id_money, id_location, name, "time", value_minutes) VALUES (13, 'Eléctrica', 2, 16, 'bosch', 2000000.00, ' ', 1, 'mi897rd', '2015-08-12', '', 35, 1, 55, 3, 13, 'pilidora', 4, 1051200);
+INSERT INTO sc_tool (id_tool, type_tool, useful_life, supplier_guarantee, mark, value, path_picture, cost_center, serie, creation_date, description, id_stock, id_priority, id_tool_dimension, id_money, id_location, name, "time", value_minutes) VALUES (1, 'Mecánica', 122, 15, 'test', 222.00, '/home/ubuntu/tools_filePath/img/flecha oee.jpg', 4, 'test', '2015-05-13', 'test', 22, 1, 34, 3, 6, 'test', 1, 175680);
 
 
 --
@@ -3506,7 +3477,7 @@ SELECT pg_catalog.setval('sqscinput', 18, true);
 -- Name: sqscinputdimension; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscinputdimension', 66, true);
+SELECT pg_catalog.setval('sqscinputdimension', 69, true);
 
 
 --
@@ -3569,7 +3540,7 @@ SELECT pg_catalog.setval('sqsclocation', 17, true);
 -- Name: sqscmachine; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmachine', 11, true);
+SELECT pg_catalog.setval('sqscmachine', 14, true);
 
 
 --
@@ -3578,7 +3549,7 @@ SELECT pg_catalog.setval('sqscmachine', 11, true);
 -- Name: sqscmachineattached; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmachineattached', 13, true);
+SELECT pg_catalog.setval('sqscmachineattached', 22, true);
 
 
 --
@@ -3587,7 +3558,7 @@ SELECT pg_catalog.setval('sqscmachineattached', 13, true);
 -- Name: sqscmachineconditions; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmachineconditions', 1, false);
+SELECT pg_catalog.setval('sqscmachineconditions', 2, true);
 
 
 --
@@ -3596,7 +3567,7 @@ SELECT pg_catalog.setval('sqscmachineconditions', 1, false);
 -- Name: sqscmachinedocument; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmachinedocument', 4, true);
+SELECT pg_catalog.setval('sqscmachinedocument', 7, true);
 
 
 --
@@ -5543,7 +5514,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2015-09-14 21:56:40 COT
+-- Completed on 2015-09-20 21:11:29 COT
 
 --
 -- PostgreSQL database dump complete

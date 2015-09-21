@@ -10,15 +10,11 @@ import com.sip.dmes.dao.bo.IScMachine;
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScFactoryLocation;
 import com.sip.dmes.entitys.ScInputDimension;
-import com.sip.dmes.entitys.ScLocation;
-import com.sip.dmes.entitys.ScMachine;
-import com.sip.dmes.entitys.ScMachineAttached;
 import com.sip.dmes.entitys.ScMachineDocument;
 import com.sip.dmes.entitys.ScMeasureUnit;
 import com.sip.dmes.entitys.ScMoney;
 import com.sip.dmes.entitys.ScPartner;
 import com.sip.dmes.entitys.ScPriority;
-import com.sip.dmes.entitys.ScStore;
 import com.sip.dmes.entitys.ScTime;
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachineAttached;
@@ -97,6 +93,8 @@ public class ScMachineBean
     private ScCostCenter costCenterSave; //Centro de Costo para agregar
     private SessionBean sessionBean; //Bean de sesion
     private IScMachine scMachineServer;
+    private List<Object[]> capacity;//Capacidad de la máquina a visualizar
+    
     
     private final static Logger log = Logger.getLogger(ScMachineBean.class);
     //Constantes
@@ -279,6 +277,24 @@ public class ScMachineBean
     }
 
     /**
+     * Método encargado de llenar la lista de capacidades
+     *
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListCapabilities(ScMachine machine)
+    {
+        try
+        {
+            //Se consultan todas las capacidades
+            setCapacity(getScMachineServer().getCapacityByIdMachine(machine.getIdMachine()));
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar las monedas para las máquinas", e);
+        }
+    }
+    
+    /**
      * Método encargado de vaciar los objetos.
      *
      * @author Gustavo Chavarro Ortiz
@@ -294,6 +310,7 @@ public class ScMachineBean
         cleanMachineSave();
         setListMachineDocument(new ArrayList<ScMachineDocument>());
         setListMachineAttached(new ArrayList<ScMachineAttached>());
+        setListMachineConditions(new ArrayList<ScMachineConditions>());
     }
     
     public void cleansTypesMeasures()
@@ -436,6 +453,7 @@ public class ScMachineBean
     {
         cleansTypesMeasures();
         setMachineSelected(machine);
+        fillListCapabilities(getMachineSelected());
     }
     
     
@@ -2450,8 +2468,18 @@ public class ScMachineBean
     {
         this.listMachineConditions = listMachineConditions;
     }
+
+    public List<Object[]> getCapacity()
+    {
+        return capacity;
+    }
+
+    public void setCapacity(List<Object[]> capacity)
+    {
+        this.capacity = capacity;
+    }
     
-    
+        
     
     
     

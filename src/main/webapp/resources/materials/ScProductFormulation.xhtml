@@ -1254,9 +1254,63 @@
                         <!--                        finaliza la pestaña para datos generales-->
 
                         <!--                        inicia la pestaña para las dimensiones-->
-                        <p:tab title="Dimensiones" id="tabDimension" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las dimensiones">
-
+                        <p:tab title="Stock y Dimensiones" id="tabDimension" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para el Stock y las Dimensiones">
+                            <p:panel header="Stock" toggleable="true" toggleTitle="Presione para minimizar el panel de Stock">
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfMaximeStock" value="Stock Máximo*"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfMaximeStock"  value="#{scProductFormulationBean.productSave.stock.maximeStock}"
+                                                            />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo*"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfMinimeStock"  value="#{scProductFormulationBean.productSave.stock.minimeStock}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfCurrentStock" value="Stock Real*"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfCurrentStock"  value="#{scProductFormulationBean.productSave.stock.currentStock}"
+                                                            >
+                                                <p:ajax event="keyup" update="tfValueTotal" listener="#{scProductFormulationBean.calcuteTotalPrice()}"
+                                                       />
+                                            </p:inputText>
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo*"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfOptimeStock"  value="#{scProductFormulationBean.productSave.stock.optimeStock}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfPriceUnit" value="Precio por Und"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfPriceUnit"  value="#{scProductFormulationBean.productSave.stock.priceUnit} #{scProductFormulationBean.productSave.money.acronym}" disabled="true"
+                                                            />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfValueTotal"  value="#{scProductFormulationBean.productSave.stock.totalValue}  #{scProductFormulationBean.productSave.money.acronym}" disabled="true"
+                                        />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>    
                             <p:panel header="Dimensiones" id="pnlDimension">
                                 <f:facet name="header">
                                     <p:commandButton icon="ui-icon-plus" id="btnAddMeasure" style="float: right;"  
@@ -2489,9 +2543,62 @@
                         <!--                        finaliza la pestaña para datos generales-->
 
                         <!--                        inicia la pestaña para las dimensiones-->
-                        <p:tab title="Dimensiones" id="tabDimension" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para las dimensiones">
-
+                        <p:tab title="Stockt y Dimensiones" id="tabDimension" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para el stock y las dimensiones">
+                            <p:panel header="Stock" toggleable="true" toggleTitle="Presione para minimizar el panel de Stock">
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfMaximeStock" value="Stock Máximo*"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfMaximeStock"  value="#{scProductFormulationBean.productSelected.stock.maximeStock}"
+                                                            />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfMinimeStock" value="Stock Mínimo*"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfMinimeStock"  value="#{scProductFormulationBean.productSelected.stock.minimeStock}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfCurrentStock" value="Stock Real*"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfCurrentStock"  value="#{scProductFormulationBean.productSelected.stock.currentStock}"
+                                                            >
+                                                <p:ajax event="keyup" update="tfValueTotal" listener="#{scProductFormulationBean.calcuteTotalPriceUpdate()}"/>
+                                            </p:inputText>
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfOptimeStock" value="Stock Óptimo*"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfOptimeStock"  value="#{scProductFormulationBean.productSelected.stock.optimeStock}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfPriceUnit" value="Precio por Und"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfPriceUnit"  value="#{scProductFormulationBean.productSelected.stock.priceUnit} #{scProductFormulationBean.productSelected.money.acronym}" disabled="true"
+                                                            />
+                                        </td>
+                                        <td width="20%" align="right">
+                                            <p:outputLabel  for="tfValueTotal" value="Valor Total"/>
+                                        </td>
+                                        <td width="30%" align="left">
+                                            <p:inputText    id="tfValueTotal"  value="#{scProductFormulationBean.productSelected.stock.totalValue}  #{scProductFormulationBean.productSelected.money.acronym}" disabled="true"
+                                        />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>    
                             <p:panel header="Dimensiones" id="pnlDimension">
                                 <f:facet name="header">
                                     <p:commandButton icon="ui-icon-plus" id="btnAddMeasure" style="float: right;"  
