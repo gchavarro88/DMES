@@ -7,6 +7,16 @@
     <class>com.sip.dmes.entitys.ScMachineAttached</class>
     <class>com.sip.dmes.entitys.ScMachineConditions</class>
     <class>com.sip.dmes.entitys.ScFactoryLocation</class>
+    <class>com.sip.dmes.entitys.ScMaintenanceState</class>
+    <class>com.sip.dmes.entitys.ScMaintenanceClasification</class>
+    <class>com.sip.dmes.entitys.ScWorkforce</class>
+    <class>com.sip.dmes.entitys.OtMaintenance</class>
+    <class>com.sip.dmes.entitys.ScStopMachine</class>
+    <class>com.sip.dmes.entitys.ScMaintenanceActivity</class>
+    <class>com.sip.dmes.entitys.ScMaintenanceTool</class>
+    <class>com.sip.dmes.entitys.OtMaintenanceCorrective</class>
+    <class>com.sip.dmes.entitys.ScMaintenanceReplacement</class>
+    <class>com.sip.dmes.entitys.ScMaintenanceDamage</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>NONE</validation-mode>

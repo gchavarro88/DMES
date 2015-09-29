@@ -370,4 +370,17 @@
             <value>#{scStoreViewServer}</value>
     </managed-property> 
     </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>OtmaintenanceCorrectiveBean</managed-bean-name>
+        <managed-bean-class>com.sip.dmes.beans.maintenance.OtmaintenanceCorrectiveBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+        <managed-property>
+            <property-name>sessionBean</property-name>
+            <property-class>com.sip.dmes.beans.SessionBean</property-class>
+            <value>#{sessionBean}</value>
+        </managed-property>
+    </managed-bean>
+    
+    
 </faces-config>
