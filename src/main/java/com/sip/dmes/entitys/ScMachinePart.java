@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScMachinePart.findByName", query = "SELECT s FROM ScMachinePart s WHERE s.name = :name"),
     @NamedQuery(name = "ScMachinePart.findByDescription", query = "SELECT s FROM ScMachinePart s WHERE s.description = :description"),
     @NamedQuery(name = "ScMachinePart.findByClasification", query = "SELECT s FROM ScMachinePart s WHERE s.clasification = :clasification"),
-    
+    @NamedQuery(name = "ScMachinePart.findByIdMachine", query = "SELECT s FROM ScMachinePart s WHERE s.idMachine.idMachine = :idMachine"),
     @NamedQuery(name = "ScMachinePart.findByMark", query = "SELECT s FROM ScMachinePart s WHERE s.mark = :mark"),
     @NamedQuery(name = "ScMachinePart.findBySerie", query = "SELECT s FROM ScMachinePart s WHERE s.serie = :serie"),
     @NamedQuery(name = "ScMachinePart.findByUsefulLife", query = "SELECT s FROM ScMachinePart s WHERE s.usefulLife = :usefulLife"),
@@ -381,7 +381,7 @@ public class ScMachinePart implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScMachinePart[ idMachinePart=" + idMachinePart + " ]";
+        return idMachinePart+","+name;
     }
     
 }

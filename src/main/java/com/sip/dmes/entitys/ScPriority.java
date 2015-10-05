@@ -111,7 +111,7 @@ public class ScPriority implements Serializable {
 
     @Override
     public String toString() {
-        return idPriority.toString();
+        return idPriority+","+name;
     }
 
     

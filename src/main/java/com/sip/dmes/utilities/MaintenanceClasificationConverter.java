@@ -9,7 +9,7 @@ package com.sip.dmes.utilities;
 
 
 import com.sip.dmes.entitys.ScCostCenter;
-import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScMachine;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -20,8 +20,8 @@ import javax.faces.convert.FacesConverter;
  *
  * @author Gustavo
  */
-@FacesConverter("priorityConverter")
-public class PriorityConverter implements Converter{
+@FacesConverter("maintenanceClasificationConverter")
+public class MaintenanceClasificationConverter implements Converter{
 
     /**
      *
@@ -33,16 +33,16 @@ public class PriorityConverter implements Converter{
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) 
     {
-        ScPriority priority = null;
+        ScMachine machine = null;
         if(value.length()>0)
         {   
             String fields[] = value.split(",");
-            FacesMessage msg = new FacesMessage("Error al convertir el centro de costo", "Formato no válido");
-            priority = new ScPriority(Long.parseLong(fields[0]));
-            priority.setName(fields[1]);
+            FacesMessage msg = new FacesMessage("Error al convertir la máquina", "Formato no válido");
+            machine = new ScMachine(Long.parseLong(fields[0]));
+            machine.setName(fields[1]);
         }
         
-        return priority;
+        return machine;
     }
 
     /**

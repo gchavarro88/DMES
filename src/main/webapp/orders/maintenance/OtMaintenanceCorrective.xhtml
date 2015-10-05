@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>             <meta http-equiv="expires" content="0"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>
+        <title>.:DMES:. - Mantenimiento Correctivo</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+            //window.setTimeout("correctiveInit()",1000);
+        </script>
+    </h:head>
+    <h:body style="background-color: #000;">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div>
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+
+                  <!--         Dialogo para guardar nuevos Herramientas         -->
+            <p:dialog id="dialogMaintenance" widgetVar="dialogMaintenance" draggable="true" 
+                      closable="true"  header="Crear Mantenimientos Correctivos" position="center top" width="800"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+
+                <h:form id="formWizarMaintenanceSave" >
+
+                    <p:wizard  flowListener="#{OtmaintenanceCorrectiveBean.onFlowProcessSaveMaintenance}" id="wizardSave" widgetVar="wizardSave" 
+                               backLabel="Atras" nextLabel="Siguiente">
+                        <p:tab title="Datos Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos de mantenimientos correctivos">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfNameMaintenance" value="Nombre Mantenimiento*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfNameMaintenance"  value="#{OtmaintenanceCorrectiveBean.orderSave.name}"
+                                                            />
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputTextarea    id="tfDescription"  value="#{OtmaintenanceCorrectiveBean.orderSave.description}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbMachine" value="Máquina*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbMachine"  value="#{OtmaintenanceCorrectiveBean.machineSave}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" converter="machineConverter"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listMachines}" var="machine" itemLabel="#{machine.name}"/>
+                                                <p:ajax event="change" listener="#{OtmaintenanceCorrectiveBean.fillListMachinePart(OtmaintenanceCorrectiveBean.machineSave)}" update="cbMachinePart"/>
+                                            </p:selectOneMenu>                                                
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbMachinePart" value="Parte de Máquina*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbMachinePart"  value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" disabled="#{OtmaintenanceCorrectiveBean.isComboDisable(OtmaintenanceCorrectiveBean.machineSave)}"
+                                                             height="140" converter="machinePartConverter"
+                                                             >
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listMachineParts}" var="machinePart" itemLabel="#{machinePart.name}"/>
+                                                
+                                            </p:selectOneMenu>                                                
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbClasification" value="Clasificación*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbClasification"  value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMaintenanceClasification}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" converter="maintenanceClasificationConverter"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listClasifications}" var="clasification" 
+                                                               itemLabel="#{clasification.clasification}"/>
+                                                
+                                            </p:selectOneMenu>                                                
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbPrority" value="Prioridad*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbPrority"  value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idPriority}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" converter="priorityConverter"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listPriority}" var="priority" 
+                                                               itemLabel="#{priority.name}"/>
+                                            </p:selectOneMenu> 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbDamage" value="Daño*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbDamage"  value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMaintenanceDamage}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" converter="damageConverter"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listDamage}" var="damage" 
+                                                               itemLabel="#{damage.damage}"/>
+                                                
+                                            </p:selectOneMenu>                                                
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDamage" value="Descripción del Daño"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputTextarea    id="tfDamage"  value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.descriptionDamage}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+ 
+                    </p:wizard>
+                </h:form>
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" listener="#{OtmaintenanceCorrectiveBean.cleanValues()}"
+                    update=":formCorrective:otDataTableCorrective,:formWizarMaintenanceSave"/>
+            </p:dialog>
+            <!--         finaliza el dialogo para guardar Herramientas               -->
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <!--            Tabla de Mantenimientos                                                   -->
+            <h:form id="formCorrective">
+                <p:remoteCommand name="correctiveInit" update=":formCorrective:otDataTableCorrective" />
+                <p:dataTable id="otDataTableCorrective" draggableColumns="true" emptyMessage="No existe información para visualizar" 
+                             value="#{OtmaintenanceCorrectiveBean.correctiveList}" var="corrective"
+                             paginator="true" rows="10"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{corrective.idMaintenanceCorrective}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                             selectionMode="single" paginatorPosition="top"
+                             sortBy="#{corrective.idMaintenanceCorrective}"
+                             >
+                    <f:facet name="header">
+                        <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
+                                         oncomplete="PF('dialogMaintenance').show()">
+                            <p:tooltip for="btnAdd" value="Agregar un Mantenimiento"/>
+                        </p:commandButton>
+                    </f:facet>
+
+                    <p:column filterMatchMode="contains"  filterBy="#{corrective.name}" headerText="Mantenimiento" 
+                              sortBy="#{corrective.name}" id="columnName">    
+                        <center>
+                            <p:outputLabel value="#{corrective.name}" id="lblName"/>
+                            <p:tooltip for="lblName" value="#{corrective.name}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.idMachinePart.idMachine.name}"
+                              headerText="Máquina" sortBy="#{corrective.idMaintenance.idMachinePart.idMachine.name}" id="columnMachine">    
+                        <center>
+                            <p:outputLabel value="#{corrective.idMaintenance.idMachinePart.idMachine.name}" id="lblMachine"/>
+                            <p:tooltip for="lblMachine" value="#{corrective.idMaintenance.idMachinePart.idMachine.name}"/>
+                        </center>
+                    </p:column>
+
+                    <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.idMachinePart.name}" 
+                              id="columnMachinePart" headerText="Parte de Máquina" sortBy="#{corrective.idMaintenance.idMachinePart.name}">    
+                        <center>
+                            <p:outputLabel value="#{corrective.idMaintenance.idMachinePart.name}" id="lblMachinePart"/>
+                            <p:tooltip for="lblMachinePart" value="#{corrective.idMaintenance.idMachinePart.name}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.idMachinePart.idMachine.name}"
+                              headerText="Daño" sortBy="#{corrective.idMaintenance.idMaintenanceDamage.damage}" id="columnDamage">    
+                        <center>
+                            <p:outputLabel value="#{corrective.idMaintenance.idMachinePart.idMachine.name}" id="lblDamage"/>
+                            <p:tooltip for="lblDamage" value="#{corrective.idMaintenance.idMachinePart.idMachine.name}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.creationDate}" 
+                              id="columnCreationDate" headerText="Fecha Creación" sortBy="#{corrective.idMaintenance.creationDate}">    
+                        <center>
+                            <p:outputLabel value="#{corrective.idMaintenance.creationDate}" id="lblCreationDate"/>
+                            <p:tooltip for="lblCreationDate" value="#{corrective.idMaintenance.creationDate}"/>
+                        </center>
+                    </p:column>
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" 
+                                             oncomplete="PF('dialogMaintenanceView').show()">
+                                <p:tooltip for="btnSearch" value="Visualizar un Mantenimiento"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" 
+                                             oncomplete="PF('dialogMaintenanceUpdate').show()"  
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar un Mantenimiento"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogMaintenanceDelete').show()"
+                                             >
+                                <p:tooltip for="btnDelete" value="Eliminar un Mantenimiento"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+        </div>
+    </h:body>
+</html>
+

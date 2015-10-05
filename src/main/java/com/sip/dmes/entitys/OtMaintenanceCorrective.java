@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OtMaintenanceCorrective.findAll", query = "SELECT o FROM OtMaintenanceCorrective o"),
     @NamedQuery(name = "OtMaintenanceCorrective.findByIdMaintenanceCorrective", query = "SELECT o FROM OtMaintenanceCorrective o WHERE o.idMaintenanceCorrective = :idMaintenanceCorrective"),
     @NamedQuery(name = "OtMaintenanceCorrective.findByName", query = "SELECT o FROM OtMaintenanceCorrective o WHERE o.name = :name"),
+    @NamedQuery(name = "OtMaintenanceCorrective.findByToday", query = "SELECT o FROM OtMaintenanceCorrective o WHERE o.idMaintenance.creationDate >= :creationDate"),
     @NamedQuery(name = "OtMaintenanceCorrective.findByDescription", query = "SELECT o FROM OtMaintenanceCorrective o WHERE o.description = :description")
 })
 public class OtMaintenanceCorrective implements Serializable

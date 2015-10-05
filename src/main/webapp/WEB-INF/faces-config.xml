@@ -380,6 +380,11 @@
             <property-class>com.sip.dmes.beans.SessionBean</property-class>
             <value>#{sessionBean}</value>
         </managed-property>
+        <managed-property>
+            <property-name>otMaintenanceCorrectiveServer</property-name>
+            <property-class>com.sip.dmes.dao.bo.IOtMaintenanceCorrective</property-class>
+            <value>#{otMaintenanceCorrectiveServer}</value>
+        </managed-property>
     </managed-bean>
     
     

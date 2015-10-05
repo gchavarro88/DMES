@@ -6,21 +6,19 @@
 package com.sip.dmes.beans.maintenance;
 
 import com.sip.dmes.beans.SessionBean;
-import com.sip.dmes.dao.bo.IScEmployee;
-import com.sip.dmes.dao.bo.IScPerson;
-import com.sip.dmes.entitys.ScCompetencies;
-import com.sip.dmes.entitys.ScEmployee;
-import com.sip.dmes.entitys.ScPerson;
-import com.sip.dmes.entitys.ScTurn;
-import com.sip.dmes.entitys.ScWorkExperience;
+import com.sip.dmes.dao.bo.IOtMaintenanceCorrective;
+import com.sip.dmes.entitys.OtMaintenance;
+import com.sip.dmes.entitys.OtMaintenanceCorrective;
+import com.sip.dmes.entitys.ScMachine;
+import com.sip.dmes.entitys.ScMachinePart;
+import com.sip.dmes.entitys.ScMaintenanceClasification;
+import com.sip.dmes.entitys.ScMaintenanceDamage;
+import com.sip.dmes.entitys.ScPriority;
 
 import com.sip.dmes.utilities.DMESConstants;
-import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -36,23 +34,35 @@ public class OtmaintenanceCorrectiveBean
 {
     
     private SessionBean sessionBean;
-    private IScEmployee scEmployeeServer;
-    private IScPerson scPersonServer;
-    private ScPerson personAdd;
-    private ScPerson personUpdate;
-    private ScEmployee employeeAdd;
-    private ScEmployee employeeSelected;
-    private ScEmployee employeeUpdate;
-    private ScWorkExperience workExperienceAdd;
-    private ScWorkExperience workExperienceUpdate;
-    private ScCompetencies competenciesAdd;
-    private ScCompetencies competenciesUpdate;
-    private List<ScCompetencies> competenciesListAdd;
-    private List<ScWorkExperience> workExperiencesListAdd;
-    private List<ScPerson> personsList;
-    private List<ScPerson> personsListUpdate;
-    private List<ScEmployee> employeesList;
-    private List<ScTurn> turnList;
+    private IOtMaintenanceCorrective otMaintenanceCorrectiveServer;
+    private OtMaintenanceCorrective orderSave;
+    private OtMaintenanceCorrective orderUpdate;
+    private OtMaintenanceCorrective orderSelected;
+    private List<ScMachine> listMachines;
+    private ScMachine machineSave;
+    private ScMachine machineUpdate;
+    private List<ScMachinePart> listMachineParts;
+    private List<ScMaintenanceClasification> listClasifications;
+    private List<ScPriority> listPriority;
+    private List<ScMaintenanceDamage> listDamage;
+    
+//    private IScPerson scPersonServer;
+//    private ScPerson personAdd;
+//    private ScPerson personUpdate;
+//    private ScEmployee employeeAdd;
+//    private ScEmployee employeeSelected;
+//    private ScEmployee employeeUpdate;
+//    private ScWorkExperience workExperienceAdd;
+//    private ScWorkExperience workExperienceUpdate;
+//    private ScCompetencies competenciesAdd;
+//    private ScCompetencies competenciesUpdate;
+    
+//    private List<ScCompetencies> competenciesListAdd;
+//    private List<ScWorkExperience> workExperiencesListAdd;
+//    private List<ScPerson> personsList;
+//    private List<ScPerson> personsListUpdate;
+    private List<OtMaintenanceCorrective> correctiveList;
+//    private List<ScTurn> turnList;
     private final static Logger log = Logger.getLogger(OtmaintenanceCorrectiveBean.class);
     
     
@@ -76,480 +86,181 @@ public class OtmaintenanceCorrectiveBean
     @PostConstruct
     public void initData()
     {
+        fillListCorrectives();
         cleanValues();
-        fillListEmployee();
-        fillListPersons();
-        fillListTurns();
+        fillListMachines();
+        fillListClasification();
+        fillListDamages();
+        fillListPriorities();
     }   
     
-    public void fillListEmployee()
+    /**
+     * Método encargado de carga la lista inicial de mantenimientos correctivos
+     * @author Gustavo Chavarro Ortiz
+    */
+    public void fillListCorrectives()
     {
-        if(getEmployeesList() == null)
+        if(getCorrectiveList()== null)
         {
             try
             {
-                setEmployeesList(getScEmployeeServer().getAllEmployees());
+                setCorrectiveList(getOtMaintenanceCorrectiveServer().getAllCorrectives());
             }
             catch (Exception e)
             {
-                log.error("Error al intentar consutlar la lista de empleados para visualizar", e);
+                log.error("Error al intentar consutlar la lista de mantenimientos correctivos para visualizar", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    /**
+     * Método encargado de carga la lista inicial de máquinas
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListMachines()
+    {
+        if(getListMachines()== null)
+        {
+            try
+            {
+                setListMachines(getOtMaintenanceCorrectiveServer().getAllMachines());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de máquinas para visualizar", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    /**
+     * Método encargado de carga la lista inicial de clasificaciones
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListClasification()
+    {
+        if(getListClasifications()== null)
+        { 
+            try
+            {
+                setListClasifications(getOtMaintenanceCorrectiveServer().getAllClasifications());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de clasificaciones para visualizar", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    /**
+     * Método encargado de carga la lista inicial de prioridades
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListPriorities()
+    {
+        if(getListPriority()== null)
+        {
+            try
+            {
+                setListPriority(getOtMaintenanceCorrectiveServer().getAllPriorities());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de prioridades para visualizar", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    /**
+     * Método encargado de carga la lista inicial de daños
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListDamages()
+    {
+        if(getListDamage()== null)
+        {
+            try
+            {
+                setListDamage(getOtMaintenanceCorrectiveServer().getAllDamage());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de daños para visualizar", e);
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
         }
     }
     
     
-    public void fillListPersons()
-    { 
-        try
-        { 
-            if(getPersonsList() == null)
-            {
-                List personsWithOutEmployee = getScPersonServer().findPersonWithOutPartnerOrEmployee();
-                if(personsWithOutEmployee != null)
-                {
-                    setPersonsList(new ArrayList<ScPerson>());
-                    for (Object object : personsWithOutEmployee)
-                    {
-                        getPersonsList().add(ObjectToScPerson(object));
-                    }
-                }
-            }
-        }
-        catch (Exception e)
-        { 
-            log.error("Error al intentar consultar las personas que no cuentan con un usuario",e);
-        }
     
-    }
-    
-    
-    public void fillListTurns()
-    { 
-        try
-        { 
-            if(getTurnList() == null)
-            {
-                setTurnList(getScEmployeeServer().getAllTurns());
-            }
-        }
-        catch (Exception e)
-        { 
-            log.error("Error al intentar consultar los turnos",e);
-        }
-    
-    }
-    
-    public void numericValidation(String field)
+    /**
+     * Método encargado de carga una lista de máquinas dependiendo de la máquina
+     * que se ha seleccionado.
+     * @param machine máquina a la que se le van a consultar las partes
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListMachinePart(ScMachine machine)
     {
-        if(!Utilities.isNumeric(field))
+        try
         {
-            addError(null, "Valor no numérico", "Debe ingresar un valor numérico, "
-                    + "de lo contrario no podrá ir al siguiente paso");
+            setListMachineParts(getOtMaintenanceCorrectiveServer().getAllMachinePartByMachine(machine));
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consutlar la lista de partes de máquinas para visualizar", e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
         }
     }
+    
+    /**
+     * Método encargado de limpiar los valores iniciales.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void cleanValues()
     {
-        setPersonAdd(new ScPerson());
-        setPersonUpdate(new ScPerson());
-        setEmployeeAdd(new ScEmployee());
-        setEmployeeSelected(new ScEmployee());
-        setEmployeeUpdate(new ScEmployee());
-        setWorkExperienceAdd(new ScWorkExperience());
-        setWorkExperienceUpdate(new ScWorkExperience());
-        setCompetenciesAdd(new ScCompetencies());
-        setCompetenciesUpdate(new ScCompetencies());
-        setCompetenciesListAdd(new ArrayList<ScCompetencies>());
-        setWorkExperiencesListAdd(new ArrayList<ScWorkExperience>());
-        //setPersonsList(new ArrayList<ScPerson>());
-        //setEmployeesList(new ArrayList<ScEmployee>());
+        setOrderSave(new OtMaintenanceCorrective());
+        getOrderSave().setIdMaintenance(new OtMaintenance());
+        getOrderSave().getIdMaintenance().setIdMachinePart(new ScMachinePart());
+        
     }
     
-    public ScPerson ObjectToScPerson(Object object)
+    
+    /**
+     * Método encargado de habilitar o deshabilitar el combo para partes de máquina
+     * @param machine que se evalua para ver si habilita el combo de partes de máquina
+     * @return boolean variable que indica si deshabilita el combo box
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean isComboDisable(ScMachine machine)
     {
-        Object[] objectList = ((Object[]) object);
-        ScPerson newPerson = new ScPerson();
-        newPerson.setIdPerson(Long.parseLong(objectList[0].toString()));
-        newPerson.setFirstName(objectList[1].toString());
-        newPerson.setLastName(objectList[2].toString());
-        newPerson.setAge(Short.parseShort(objectList[3].toString()));
-        newPerson.setCountry(objectList[4].toString());
-        newPerson.setCity(objectList[5].toString());
-        newPerson.setPersonalInformation(objectList[6] !=null ? objectList[6].toString():"");
-        newPerson.setDomicilie(objectList[7].toString());
-        newPerson.setStudies(objectList[8] !=null ? objectList[8].toString():"");
-        newPerson.setDescription(objectList[9] !=null ? objectList[9].toString():"");
-        newPerson.setPathPhoto(objectList[10] !=null ? objectList[10].toString():"/");
-        newPerson.setIdentification(Long.parseLong(objectList[13].toString()));
-        return newPerson;
+        boolean result = true;
+        if(machine != null && machine.getName().length() > 0)
+        {
+            result = false;
+        }
+        return result;
     }
     
-    public String onFlowProcessSaveEmployee(FlowEvent event)  
-    {    
-        if(event.getOldStep().equals(TAB_PERSON_SAVE))
-        {
-            if(getPersonAdd() == null || getPersonAdd().getLastName().length() < 1)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "Debe seleccionar un tercero");
-                return event.getOldStep(); 
-            }
-        }
-        if(event.getOldStep().equals(TAB_EMPLOYEE_SAVE))
-        {
-            if(getEmployeeAdd().getIdTurn() == null)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "Debe seleccionar un turno");
-                return event.getOldStep();
-            }
-            else if(getEmployeeAdd().getSalary() == null || getEmployeeAdd().getSalary() < 1)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El salario debe ser mayor que 0");
-                return event.getOldStep();
-            }
-            else if(getEmployeeAdd().getHourValue() == null || getEmployeeAdd().getHourValue() < 1)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser mayor que 0");
-                return event.getOldStep();
-            }
-            else if(getEmployeeAdd().getHourValue() <= getEmployeeAdd().getSalary())
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser menor o igual al salario");
-                return event.getOldStep();
-            }
-        }
-        if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
-        {
-            getEmployeeAdd().setCreationDate(new Date());
-        }
+    /**
+     * Método encargado de llevar el flujo al guardar un mantenimiento.
+     *
+     * @param event evento en el cual se encuentra el asistente para crear
+     * herramientas
+     * @return String al final retorna el nombre de la siguiente pestaña del
+     * asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessSaveMaintenance(FlowEvent event)
+    {
         
         
-            return event.getNewStep();  
+        return event.getNewStep();
     }
-    
-    public String onFlowProcessUpdateEmployee(FlowEvent event) 
-    {    
-        if(event.getNewStep().equals(TAB_CONFIRM_UPDATE))
-        {
-            getEmployeeSelected().setModifyDate(new Date());
-        }
-        if(event.getOldStep().equals(TAB_EMPLOYEE_UPDATE))
-        {
-            if(getEmployeeSelected().getIdTurn() == null)
-            {
-                addError(null, "Error al intentar actualizar un nuevo empleado", "Debe seleccionar un turno");
-                return event.getOldStep();
-            }
-            else if(getEmployeeSelected().getSalary() == null || getEmployeeSelected().getSalary() < 1)
-            {
-                addError(null, "Error al intentar actualizar un nuevo empleado", "El salario debe ser mayor que 0");
-            }
-            else if(getEmployeeSelected().getHourValue() == null ||  getEmployeeSelected().getHourValue() < 1)
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser mayor que 0");
-                return event.getOldStep();
-            }
-            else if(getEmployeeSelected().getHourValue() <= getEmployeeSelected().getSalary())
-            {
-                addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser menor o igual al salario");
-                return event.getOldStep();
-            }
-           
-        }
-            return event.getNewStep(); 
-    }
-    
-    public void saveWorkExperiencieAdd()
-    {
-        if(getWorkExperienceAdd() != null && getWorkExperiencesListAdd() != null)
-        {
-            if(getWorkExperienceAdd().getInitDate().before(getWorkExperienceAdd().getEndDate()))
-            {
-                getWorkExperienceAdd().setIdEmployee(getEmployeeAdd());
-                getWorkExperiencesListAdd().add(getWorkExperienceAdd());
-                setWorkExperienceAdd(new ScWorkExperience());
-                addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
-            }
-            else
-            {
-                log.error("Error al intentar agregar una experiencia laboral");
-                addError(null, "Error al Agregar una Experiencia Laboral ", "La fecha inicial debe ser menor a la fecha final");
-            }
-        }
-        else
-        {
-            log.error("Error al intentar agregar una experiencia laboral");
-            addError(null, "Error al Agregar una Experiencia Laboral ", "Debe ingresar el nombre de la empresa");
-        }
-    }
-    
-    public void removeWorkExperiencie(ScWorkExperience workExperienceDelete)
-    {
-        int i=0;
-        if(getWorkExperiencesListAdd() != null)
-        {
-            for(ScWorkExperience workExperienceList: getWorkExperiencesListAdd())
-            {
-                    if(workExperienceList.getCompanyName(). 
-                    equalsIgnoreCase(workExperienceDelete.getCompanyName()))
-                    {
-                        getWorkExperiencesListAdd().remove(i);
-                        addInfo(null, "Experiencia Laboral Eliminada", "Se eliminó la experiencia laboral con éxito");
-                        break;
-                    }
-                    i++;
-            }
-        }
-    }
-    
-    
-    public void saveCompetencieAdd()
-    {
-        if(getCompetenciesAdd() != null && getCompetenciesListAdd()!= null)
-        {
-            getCompetenciesAdd().setIdEmployee(getEmployeeAdd());
-            getCompetenciesListAdd().add(getCompetenciesAdd());
-            setCompetenciesAdd(new ScCompetencies());
-            addInfo(null, "Competencia Agregada", "Se agregó la competencia con éxito");
-        }
-        else
-        {
-            log.error("Error al intentar agregar una competencia");
-            addError(null, "Error al Agregar una Competencia ", "No se pudo agregar la competencia");
-        }
-    }
-    
-    public void removeCompetencie(ScCompetencies competencies)
-    {
-        int i=0;
-        if(getWorkExperiencesListAdd() != null)
-        {
-            for(ScCompetencies competenciesList: getCompetenciesListAdd())
-            {
-                    if(competenciesList.getTittle().equals(competencies.getTittle()))
-                    {
-                        getCompetenciesListAdd().remove(i);
-                        addInfo(null, "Compentencia Eliminada", "Se eliminó la competencia con éxito");
-                        break;
-                    }
-                    i++;
-            }
-        }
-    }
-    
-    public void saveEmployee()
-    {
-        if(getEmployeeAdd() != null)
-        {
-            if(getPersonAdd() != null)
-            {
-                getEmployeeAdd().setIdPerson(getPersonAdd());
-            }
-            if(!getWorkExperiencesListAdd().isEmpty())
-            {
-                getEmployeeAdd().setScWorkExperienceList(getWorkExperiencesListAdd());
-            }
-            if(!getCompetenciesListAdd().isEmpty())
-            {
-                getEmployeeAdd().setScCompetenciesList(getCompetenciesListAdd());
-            }
-            try
-            {
-                getEmployeeAdd().setActive('Y');
-                getScEmployeeServer().createEmployee(getEmployeeAdd());
-                getPersonsList().remove(getPersonAdd());
-                getEmployeesList().add(getEmployeeAdd());
-                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-                cleanValues();
-            }
-            catch(Exception e)
-            {
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                log.error("Error al intentar crear un nuevo empleado",e);
-            }
-        }
-    
-    }
-    
-    public void getEmployeeByDataTable(ScEmployee employeeSelected)
-    {
-        try
-        {
-            if(employeeSelected != null)
-            {
-                setEmployeeSelected(employeeSelected);
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error intentando asignar el empleado seleccionado para operaciones de CRUD",e);
-        }
-    }
-    
-    public void removeWorkExperiencieUpdate(ScWorkExperience workExperienceDelete)
-    {
-        int i=0;
-        if(getEmployeeSelected().getScWorkExperienceList() != null)
-        {
-            for(ScWorkExperience workExperienceList: getEmployeeSelected().getScWorkExperienceList())
-            {
-                    if(workExperienceList.getCompanyName().
-                    equalsIgnoreCase(workExperienceDelete.getCompanyName()))
-                    {
-                        getEmployeeSelected().getScWorkExperienceList().remove(i);
-                        addInfo(null, "Experiencia Laboral Eliminada", "Se eliminó la experiencia laboral con éxito");
-                        break;
-                    }
-                    i++;
-            }
-        }
-    }
-    
-    public void updateWorkExperiencieAdd()
-    {
-        if(getWorkExperienceAdd() != null && getEmployeeSelected().getScWorkExperienceList() != null)
-        {
-            if(getWorkExperienceAdd().getInitDate().before(getWorkExperienceAdd().getEndDate()))
-            {
-                getWorkExperienceAdd().setIdEmployee(getEmployeeSelected());
-                getEmployeeSelected().getScWorkExperienceList().add(getWorkExperienceAdd());
-                setWorkExperienceAdd(new ScWorkExperience());
-                addInfo(null, "Experiencia Laboral Agregada", "Se agregó la experiencia laboral con éxito");
-            }
-            else
-            {
-                log.error("Error al intentar agregar una experiencia laboral");
-                addError(null, "Error al Agregar una Experiencia Laboral ", "La fecha inicial debe ser menor a la fecha final");
-            }
-        }
-        else
-        {
-            log.error("Error al intentar agregar una experiencia laboral");
-            addError(null, "Error al Agregar una Experiencia Laboral ", "No se pudo agregar la experiencia laboral");
-        }
-    }
-    
-    public void updateCompetencieAdd()
-    {
-        if(getCompetenciesAdd() != null && getEmployeeSelected().getScCompetenciesList()!= null)
-        {
-            getCompetenciesAdd().setIdEmployee(getEmployeeSelected());
-            getEmployeeSelected().getScCompetenciesList().add(getCompetenciesAdd());
-            setCompetenciesAdd(new ScCompetencies());
-            addInfo(null, "Competencia Agregada", "Se agregó la competencia con éxito");
-        }
-        else
-        {
-            log.error("Error al intentar agregar una competencia");
-            addError(null, "Error al Agregar una Competencia ", "No se pudo agregar la competencia");
-        }
-    }
-    
-    public void removeCompetencieUpdate(ScCompetencies competencies)
-    {
-        int i=0;
-        if(getEmployeeSelected().getScCompetenciesList() != null)
-        {
-            for(ScCompetencies competenciesList: getEmployeeSelected().getScCompetenciesList())
-            {
-                    if(competenciesList.getTittle().equals(competencies.getTittle()))
-                    {
-                        getEmployeeSelected().getScCompetenciesList().remove(i);
-                        addInfo(null, "Compentencia Eliminada", "Se eliminó la competencia con éxito");
-                        break;
-                    }
-                    i++;
-            }
-        }
-    }
-    
-    public void updateEmployee()
-    {
-        if(getEmployeeSelected()!= null)
-        {
-            try
-            {
-                getEmployeeSelected().setActive('Y');
-                getScEmployeeServer().updateEmployee(getEmployeeSelected());
-                getPersonsListUpdate().remove(getEmployeeSelected().getIdPerson());
-                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-                int index = 0;
-                for(ScEmployee employee: getEmployeesList())
-                {
-                    if(employee.getIdEmployee().equals(getEmployeeSelected().getIdEmployee()))
-                    {   
-                        break;
-                    }
-                    index++;
-                }
-                if(index < getEmployeesList().size())
-                {
-                    getEmployeesList().set(index, getEmployeeSelected());
-                }
-                cleanValues();
-            }
-            catch(Exception e)
-            {
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-                log.error("Error al intentar crear un nuevo empleado",e);
-            }
-        }
-    }
-    
-    public void getEmployeeByDataTableUpdate(ScEmployee employeeSelected)
-    {
-        try
-        {
-            if(employeeSelected != null)
-            {
-                setPersonsList(null);
-                fillListPersons();
-                setEmployeeSelected((ScEmployee) employeeSelected.clone());
-                setPersonsListUpdate(getPersonsList());
-                getPersonsListUpdate().add(employeeSelected.getIdPerson());
-            }
-        }
-        catch (Exception e)
-        {
-            log.error("Error intentando asignar el empleado seleccionado para operaciones de CRUD",e);
-        }
-    }
-    
-    public void deleteEmployee()
-    {
-        try
-        {
-            int i=0;
-            if(getEmployeeSelected() != null)
-            {
-                for(ScEmployee employee: getEmployeesList())
-                {
-                    if(Objects.equals(employee.getIdEmployee(), getEmployeeSelected().getIdEmployee()))
-                    {
-                        getScEmployeeServer().deleteteEmployeeById(getEmployeeSelected());
-                        getEmployeesList().remove(i);
-                        addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-                        getPersonsList().add(getEmployeeSelected().getIdPerson());
-                        break;
-                    }
-                    i++;
-                }
-            }
-        }
-        catch(Exception e)
-        {
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            log.error("Error al intentar eliminar un empleado", e);
-        }
-    
-    }
-    
-    public void calculateHour(ScEmployee employee)
-    {
-        if(employee != null)
-        {
-            employee.setHourValue(employee.getSalary()/DMESConstants.DAYS_LABORAL);
-        }
-    }
+        
+        
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
      * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón
@@ -642,175 +353,126 @@ public class OtmaintenanceCorrectiveBean
         this.sessionBean = sessionBean;
     }
 
-    public IScEmployee getScEmployeeServer()
+    public IOtMaintenanceCorrective getOtMaintenanceCorrectiveServer()
     {
-        return scEmployeeServer;
+        return otMaintenanceCorrectiveServer;
     }
 
-    public void setScEmployeeServer(IScEmployee scEmployeeServer)
+    public void setOtMaintenanceCorrectiveServer(IOtMaintenanceCorrective otMaintenanceCorrectiveServer)
     {
-        this.scEmployeeServer = scEmployeeServer;
+        this.otMaintenanceCorrectiveServer = otMaintenanceCorrectiveServer;
     }
 
-    public IScPerson getScPersonServer()
+    public List<OtMaintenanceCorrective> getCorrectiveList()
     {
-        return scPersonServer;
+        return correctiveList;
     }
 
-    public void setScPersonServer(IScPerson scPersonServer)
+    public void setCorrectiveList(List<OtMaintenanceCorrective> correctiveList)
     {
-        this.scPersonServer = scPersonServer;
+        this.correctiveList = correctiveList;
     }
 
-    public ScPerson getPersonAdd()
+    public OtMaintenanceCorrective getOrderSave()
     {
-        return personAdd;
+        return orderSave;
     }
 
-    public void setPersonAdd(ScPerson personAdd)
+    public void setOrderSave(OtMaintenanceCorrective orderSave)
     {
-        this.personAdd = personAdd;
+        this.orderSave = orderSave;
     }
 
-    public ScPerson getPersonUpdate()
+    public OtMaintenanceCorrective getOrderUpdate()
     {
-        return personUpdate;
+        return orderUpdate;
     }
 
-    public void setPersonUpdate(ScPerson personUpdate)
+    public void setOrderUpdate(OtMaintenanceCorrective orderUpdate)
     {
-        this.personUpdate = personUpdate;
+        this.orderUpdate = orderUpdate;
     }
 
-    public ScEmployee getEmployeeAdd()
+    public OtMaintenanceCorrective getOrderSelected()
     {
-        return employeeAdd;
+        return orderSelected;
     }
 
-    public void setEmployeeAdd(ScEmployee employeeAdd)
+    public void setOrderSelected(OtMaintenanceCorrective orderSelected)
     {
-        this.employeeAdd = employeeAdd;
+        this.orderSelected = orderSelected;
     }
 
-    public ScEmployee getEmployeeUpdate()
+    public List<ScMachine> getListMachines()
     {
-        return employeeUpdate;
+        return listMachines;
     }
 
-    public void setEmployeeUpdate(ScEmployee employeeUpdate)
+    public void setListMachines(List<ScMachine> listMachines)
     {
-        this.employeeUpdate = employeeUpdate;
+        this.listMachines = listMachines;
     }
 
-    public List<ScPerson> getPersonsList()
+    public ScMachine getMachineSave()
     {
-        return personsList;
-    } 
-
-    public void setPersonsList(List<ScPerson> personsList)
-    {
-        this.personsList = personsList;
+        return machineSave;
     }
 
-    public List<ScEmployee> getEmployeesList()
+    public void setMachineSave(ScMachine machineSave)
     {
-        return employeesList;
-    } 
-
-    public void setEmployeesList(List<ScEmployee> employeesList)
-    {
-        this.employeesList = employeesList;
+        this.machineSave = machineSave;
     }
 
-    public ScEmployee getEmployeeSelected()
+    public ScMachine getMachineUpdate()
     {
-        return employeeSelected;
+        return machineUpdate;
     }
 
-    public void setEmployeeSelected(ScEmployee employeeSelected)
+    public void setMachineUpdate(ScMachine machineUpdate)
     {
-        this.employeeSelected = employeeSelected;
+        this.machineUpdate = machineUpdate;
     }
 
-    public ScWorkExperience getWorkExperienceAdd()
+    public List<ScMachinePart> getListMachineParts()
     {
-        return workExperienceAdd;
+        return listMachineParts;
     }
 
-    public void setWorkExperienceAdd(ScWorkExperience workExperienceAdd)
+    public void setListMachineParts(List<ScMachinePart> listMachineParts)
     {
-        this.workExperienceAdd = workExperienceAdd;
+        this.listMachineParts = listMachineParts;
     }
 
-    public ScWorkExperience getWorkExperienceUpdate()
+    public List<ScMaintenanceClasification> getListClasifications()
     {
-        return workExperienceUpdate;
+        return listClasifications;
     }
 
-    public void setWorkExperienceUpdate(ScWorkExperience workExperienceUpdate)
+    public void setListClasifications(List<ScMaintenanceClasification> listClasifications)
     {
-        this.workExperienceUpdate = workExperienceUpdate;
+        this.listClasifications = listClasifications;
     }
 
-    public ScCompetencies getCompetenciesAdd()
+    public List<ScPriority> getListPriority()
     {
-        return competenciesAdd;
+        return listPriority;
     }
 
-    public void setCompetenciesAdd(ScCompetencies competenciesAdd)
+    public void setListPriority(List<ScPriority> listPriority)
     {
-        this.competenciesAdd = competenciesAdd;
+        this.listPriority = listPriority;
     }
 
-    public ScCompetencies getCompetenciesUpdate()
+    public List<ScMaintenanceDamage> getListDamage()
     {
-        return competenciesUpdate;
+        return listDamage;
     }
 
-    public void setCompetenciesUpdate(ScCompetencies competenciesUpdate)
+    public void setListDamage(List<ScMaintenanceDamage> listDamage)
     {
-        this.competenciesUpdate = competenciesUpdate;
+        this.listDamage = listDamage;
     }
 
-    public List<ScCompetencies> getCompetenciesListAdd()
-    {
-        return competenciesListAdd;
-    }
-
-    public void setCompetenciesListAdd(List<ScCompetencies> competenciesListAdd)
-    {
-        this.competenciesListAdd = competenciesListAdd;
-    }
-
-    public List<ScWorkExperience> getWorkExperiencesListAdd()
-    {
-        return workExperiencesListAdd;
-    }
-
-    public void setWorkExperiencesListAdd(List<ScWorkExperience> workExperiencesListAdd)
-    {
-        this.workExperiencesListAdd = workExperiencesListAdd;
-    }
-
-    public List<ScPerson> getPersonsListUpdate()
-    {
-        return personsListUpdate;
-    }
-
-    public void setPersonsListUpdate(List<ScPerson> personsListUpdate)
-    {
-        this.personsListUpdate = personsListUpdate;
-    }
-
-    public List<ScTurn> getTurnList()
-    {
-        return turnList;
-    }
-
-    public void setTurnList(List<ScTurn> turnList)
-    {
-        this.turnList = turnList;
-    }
     
     
 }

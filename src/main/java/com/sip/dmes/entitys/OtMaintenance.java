@@ -6,6 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -21,6 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -58,7 +60,8 @@ public class OtMaintenance implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    private long creationDate;
+    @Temporal(javax.persistence.TemporalType.DATE) 
+    private Date creationDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "duration")
@@ -66,10 +69,7 @@ public class OtMaintenance implements Serializable
     @Size(max = 400)
     @Column(name = "description_damage")
     private String descriptionDamage;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaintenance", fetch = FetchType.EAGER)
-    private List<OtMaintenanceCorrective> otMaintenanceCorrectiveList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaintenance", fetch = FetchType.EAGER)
-    private List<ScStopMachine> scStopMachineList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaintenance", fetch = FetchType.EAGER)
     private List<ScMaintenanceReplacement> scMaintenanceReplacementList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaintenance", fetch = FetchType.EAGER)
@@ -104,7 +104,7 @@ public class OtMaintenance implements Serializable
         this.idMaintenance = idMaintenance;
     }
 
-    public OtMaintenance(Long idMaintenance, long creationDate, long duration)
+    public OtMaintenance(Long idMaintenance, Date creationDate, long duration)
     {
         this.idMaintenance = idMaintenance;
         this.creationDate = creationDate;
@@ -131,12 +131,12 @@ public class OtMaintenance implements Serializable
         this.description = description;
     }
 
-    public long getCreationDate()
+    public Date getCreationDate()
     {
         return creationDate;
     }
 
-    public void setCreationDate(long creationDate)
+    public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
     }
@@ -161,27 +161,7 @@ public class OtMaintenance implements Serializable
         this.descriptionDamage = descriptionDamage;
     }
 
-    @XmlTransient
-    public List<OtMaintenanceCorrective> getOtMaintenanceCorrectiveList()
-    {
-        return otMaintenanceCorrectiveList;
-    }
-
-    public void setOtMaintenanceCorrectiveList(List<OtMaintenanceCorrective> otMaintenanceCorrectiveList)
-    {
-        this.otMaintenanceCorrectiveList = otMaintenanceCorrectiveList;
-    }
-
-    @XmlTransient
-    public List<ScStopMachine> getScStopMachineList()
-    {
-        return scStopMachineList;
-    }
-
-    public void setScStopMachineList(List<ScStopMachine> scStopMachineList)
-    {
-        this.scStopMachineList = scStopMachineList;
-    }
+    
 
     @XmlTransient
     public List<ScMaintenanceReplacement> getScMaintenanceReplacementList()
