@@ -139,10 +139,165 @@
                                                             />
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Duración*"/>
+                                        </td>
+                                        
+                                        <td width="90%" align="left" colspan="3" >
+                                            <p:spinner id="minutes" value="#{OtmaintenanceCorrectiveBean.months}" min="0" max="59"
+                                                       maxlength="2" size="2"/>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Minutos"/>
+                                            <p:spacer width="5"/>
+                                            <p:spinner id="hours" value="#{OtmaintenanceCorrectiveBean.days}"  min="0" max="23"
+                                                       maxlength="2" size="2"/>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Horas"/>
+                                            <p:spacer width="5"/>
+                                            <p:spinner id="days" value="#{OtmaintenanceCorrectiveBean.hours}" min="0" max="30"
+                                                       maxlength="2" size="2"/>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Días"/>
+                                            <p:spacer width="5"/>
+                                            <p:spinner id="months" value="#{OtmaintenanceCorrectiveBean.minutes}"  min="0" max="12"
+                                                       maxlength="2" size="2"/>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Meses"/>
+                                        </td>
+                                    </tr>
                                 </table>
                             </p:panel>
                         </p:tab> 
- 
+                        <p:tab title="Actividades" id="tabActivities" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para asignar las actividades del mantenimiento">
+                            <p:panel header="Actividades del Mantenimiento" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTitleActivity" value="Nombre de la Actividad*"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTitleActivity" value="#{OtmaintenanceCorrectiveBean.activitySave.name}"/>
+                                                        <p:tooltip for="tfTitleActivity" value="Ingrese el título la actividad a realizar"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfDescriptionActivity" value="Descripción"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfDescriptionActivity" value="#{OtmaintenanceCorrectiveBean.activitySave.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTitleActivity,tfDescriptionActivity,dataTableActivitys"
+                                                                             actionListener="#{OtmaintenanceCorrectiveBean.saveActivity(OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceActivityList,
+                                                                                               OtmaintenanceCorrectiveBean.activitySave, OtmaintenanceCorrectiveBean.orderSave.idMaintenance)}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableActivitys"
+                                                         var="activity" 
+                                                         value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceActivityList}"
+                                                         rowKey="#{activity.name}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{activity.name}">
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableActivitys" title="Eliminar Actividades"
+                                                                     process="dataTableActivitys" 
+                                                                     actionListener="#{OtmaintenanceCorrectiveBean.deleteActivity(OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceActivityList, activity)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Actividad" sortBy="#{activity.name}">
+                                                    <p:outputLabel value="#{activity.name}" id="outTittle"/>
+                                                    <p:tooltip value="#{activity.name}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Descripción" sortBy="#{activity.description}">
+                                                    <p:outputLabel value="#{activity.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{activity.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="Mano de Obra" id="tabEmployees" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para asignar la mano de obra">
+                            <p:panel header="Mano de Obra y Empleado" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfWorkForceType" value="Tipo de Mano de Obra"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputTextarea id="tfWorkForceType" required="true" requiredMessage="Error en el Campo Tipo de  Mano de Obra,
+                                                             Debe ingresar el tipo de la mano de obra" 
+                                                             value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.typeWorkforce}"/>
+                                            <p:tooltip for="tfWorkForceType" value="Ingrese el tipo de  la mano de obra a realizar"/>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfWorkForce" value="Descripción Mano de Obra"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputTextarea id="tfWorkForce" required="true" requiredMessage="Error en el Campo Descripción Mano de Obra,
+                                                             Debe ingresar la descripción de la mano de obra" 
+                                                             value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.workforce}"/>
+                                            <p:tooltip for="tfWorkForce" value="Ingrese la descripción de  la mano de obra a realizar"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td width="60%" align="center" valign="top" colspan="4">
+                                            <p:dataTable id="dataTableEmployees" 
+                                                         var="employees" 
+                                                         value="#{OtmaintenanceCorrectiveBean.employeesList}"
+                                                         rowKey="#{employees.idEmployee}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         selectionMode="single"
+                                                         selection="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.idEmployee}"
+                                                         sortBy="#{employees.idPerson.lastName} #{employees.idPerson.firstName}">
+                                                
+                                                <p:ajax event="rowSelect" update="dataTableEmployees"/>
+                                                <p:column selectionMode="single" width="15">
+                                                    
+                                                </p:column>
+                                                <p:column  headerText="Empleado" sortBy="#{employees.idPerson.lastName} #{employees.idPerson.firstName}">
+                                                    <p:outputLabel value="#{employees.idPerson.lastName} #{employees.idPerson.firstName}" id="outTittle"/>
+                                                    <p:tooltip value="#{employees.idPerson.lastName} #{employees.idPerson.firstName}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Cargo" sortBy="#{employees.position}">
+                                                    <p:outputLabel value="#{employees.position}" id="outDescription"/>
+                                                    <p:tooltip value="#{employees.position}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="prueba"></p:tab>
                     </p:wizard>
                 </h:form>
                 <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" listener="#{OtmaintenanceCorrectiveBean.cleanValues()}"

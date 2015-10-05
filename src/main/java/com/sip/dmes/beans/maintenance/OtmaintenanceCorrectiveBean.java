@@ -9,14 +9,20 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IOtMaintenanceCorrective;
 import com.sip.dmes.entitys.OtMaintenance;
 import com.sip.dmes.entitys.OtMaintenanceCorrective;
+import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachinePart;
+import com.sip.dmes.entitys.ScMaintenanceActivity;
 import com.sip.dmes.entitys.ScMaintenanceClasification;
 import com.sip.dmes.entitys.ScMaintenanceDamage;
+import com.sip.dmes.entitys.ScMaintenanceState;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScWorkforce;
 
 import com.sip.dmes.utilities.DMESConstants;
+import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -45,37 +51,24 @@ public class OtmaintenanceCorrectiveBean
     private List<ScMaintenanceClasification> listClasifications;
     private List<ScPriority> listPriority;
     private List<ScMaintenanceDamage> listDamage;
-    
-//    private IScPerson scPersonServer;
-//    private ScPerson personAdd;
-//    private ScPerson personUpdate;
-//    private ScEmployee employeeAdd;
-//    private ScEmployee employeeSelected;
-//    private ScEmployee employeeUpdate;
-//    private ScWorkExperience workExperienceAdd;
-//    private ScWorkExperience workExperienceUpdate;
-//    private ScCompetencies competenciesAdd;
-//    private ScCompetencies competenciesUpdate;
-    
-//    private List<ScCompetencies> competenciesListAdd;
-//    private List<ScWorkExperience> workExperiencesListAdd;
-//    private List<ScPerson> personsList;
-//    private List<ScPerson> personsListUpdate;
+    private int months;
+    private int days;
+    private int hours;
+    private int minutes;
+    private ScMaintenanceActivity activitySave;
+    private ScMaintenanceActivity activityUpdate;
     private List<OtMaintenanceCorrective> correctiveList;
-//    private List<ScTurn> turnList;
+    private List<ScEmployee> employeesList;
+    
+    
     private final static Logger log = Logger.getLogger(OtmaintenanceCorrectiveBean.class);
-    
-    
-    private final String TAB_PERSON_SAVE = "tabPerson";
-    private final String TAB_PERSON_UPDATE = "tabPersonUpdate";
-    private final String TAB_CONFIRM_SAVE = "tabAcceptSave";
-    private final String TAB_CONFIRM_UPDATE = "tabAcceptUpdate";
-    private final String TAB_EMPLOYEE_SAVE = "tabEmployee";
-    private final String TAB_EMPLOYEE_UPDATE = "tabEmployeeUpdate";
+    private final String TAB_GENERAL = "tabGeneral";
+    private final String TAB_ACTIVITIES = "tabActivities";
+    private final String TAB_EMPLOYEES = "tabEmployees";
     
 
     /**
-     * Creates a new instance of ScemployeesBean
+     * Creates a new instance of OtmaintenanceCorrectiveBean
      */
     public OtmaintenanceCorrectiveBean()
     {
@@ -92,6 +85,7 @@ public class OtmaintenanceCorrectiveBean
         fillListClasification();
         fillListDamages();
         fillListPriorities();
+        fillListEmployees();
     }   
     
     /**
@@ -194,6 +188,25 @@ public class OtmaintenanceCorrectiveBean
         }
     }
     
+    /**
+     * Método encargado de carga la lista inicial de empleados
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListEmployees()
+    {
+        if(getEmployeesList()== null)
+        {
+            try
+            {
+                setEmployeesList(getOtMaintenanceCorrectiveServer().getAllEmployees());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de daños para visualizar", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
     
     
     /**
@@ -204,15 +217,18 @@ public class OtmaintenanceCorrectiveBean
      */
     public void fillListMachinePart(ScMachine machine)
     {
-        try
+        if(machine != null)
         {
-            setListMachineParts(getOtMaintenanceCorrectiveServer().getAllMachinePartByMachine(machine));
-        }
-        catch (Exception e)
-        {
-            log.error("Error al intentar consutlar la lista de partes de máquinas para visualizar", e);
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-        }
+            try
+            {
+                setListMachineParts(getOtMaintenanceCorrectiveServer().getAllMachinePartByMachine(machine));
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de partes de máquinas para visualizar", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }        
     }
     
     /**
@@ -223,7 +239,13 @@ public class OtmaintenanceCorrectiveBean
     {
         setOrderSave(new OtMaintenanceCorrective());
         getOrderSave().setIdMaintenance(new OtMaintenance());
+        getOrderSave().getIdMaintenance().setIdMaintenanceState(new ScMaintenanceState(1L));
+        getOrderSave().getIdMaintenance().setScMaintenanceActivityList(new ArrayList<ScMaintenanceActivity>());
         getOrderSave().getIdMaintenance().setIdMachinePart(new ScMachinePart());
+        getOrderSave().getIdMaintenance().setIdWorkforce(new ScWorkforce());
+        setMonths(0); setDays(0); setHours(0); setMinutes(0);
+        setActivitySave(new ScMaintenanceActivity());
+        setActivityUpdate(new ScMaintenanceActivity());
         
     }
     
@@ -255,12 +277,219 @@ public class OtmaintenanceCorrectiveBean
      */
     public String onFlowProcessSaveMaintenance(FlowEvent event)
     {
-        
-        
+        if (event.getOldStep().equals(TAB_GENERAL))
+        {
+            if (validateFields("Nombre Mantenimiento", getOrderSave().getName(), 3)) 
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Máquina", getMachineSave(), 4))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Parte de Máquina", getOrderSave().getIdMaintenance().getIdMachinePart(), 4))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Clasificación", getOrderSave().getIdMaintenance().getIdMaintenanceClasification(), 4))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Prioridad", getOrderSave().getIdMaintenance().getIdPriority(), 4))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Daño", getOrderSave().getIdMaintenance().getIdMaintenanceDamage(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (getMonths() == 0 && getDays() == 0 && getHours() == 0 && getMinutes() == 0)
+            {
+                addError(null, "Error en el Campo Duración", "Campo obligatorio, debe ingresar un valor para el campo Duración");
+                return event.getOldStep();
+            }
+        }
+        else if(event.getOldStep().equals(TAB_ACTIVITIES))
+        {
+            getOrderSave().getIdMaintenance().setCreationDate(new Date());
+            
+            if(getOrderSave().getIdMaintenance().getScMaintenanceActivityList().isEmpty())
+            {
+                addError(null, "Error en el Campo Actividades", "Debe ingresar por lo menos una actividad");
+                return event.getOldStep();
+            }
+        }
+        else if(event.getOldStep().equals(TAB_EMPLOYEES))
+        {
+            if(validateFields("Empleado", getOrderSave().getIdMaintenance().getIdWorkforce().getIdEmployee(), 4))
+            {
+                return event.getOldStep();
+            }
+        }
         return event.getNewStep();
     }
+    
+    /**
+     * Método encargado de adicionar una actividad en la lista de actividades
+     * @param listActivities lista de actividades
+     * @param activity actividad a incluir en la lista de actividades
+     * @param idMaintenance id del mantenimiento asociado
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void saveActivity(List<ScMaintenanceActivity> listActivities, ScMaintenanceActivity activity, OtMaintenance idMaintenance)
+    {
+        if(listActivities != null && activity != null)
+        {
+            if(activity.getName() != null && activity.getName().length() > 0)
+            {
+                activity.setIdMaintenance(idMaintenance);
+                listActivities.add(activity);
+                setActivitySave(new ScMaintenanceActivity());
+                setActivityUpdate(new ScMaintenanceActivity());
+            }
+            else
+            {
+                log.error("Debe ingresar el nombre de la actividad");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe ingresar el nombre de la actividad");
+            }
+        }
+        else
+        {
+            log.error("La actividad o la lista de actividades no puede ser nula");
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
+    public void deleteActivity(List<ScMaintenanceActivity> listActivities, ScMaintenanceActivity activity)
+    {
+        if(listActivities != null && activity != null)
+        {
+            if(activity.getName() != null && activity.getName().length() > 0)
+            {
+                int position =0;
+                for(ScMaintenanceActivity activityIndex: listActivities)
+                {
+                    if(activityIndex.getName().equals(activity.getName())
+                            && activityIndex.getDescription().equals(activity.getDescription()))
+                    {
+                        break;
+                    }
+                    position++;
+                }
+                if(position < listActivities.size())
+                {
+                    listActivities.remove(position);
+                }
+            }
+            else
+            {
+                log.error("Debe ingresar el nombre de la actividad");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe ingresar el nombre de la actividad");
+            }
+        }
+        else
+        {
+            log.error("La actividad o la lista de actividades no puede ser nula");
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
         
-        
+    /**
+     * Método encargado de validar los campos doubles.
+     *
+     * @param nameField nombre del campo a evaluar
+     * @param value valor del campo a evaluar
+     * @param option opción del tipo de dato que se validar
+     * @return boolean si se puede validar o no
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean validateFields(String nameField, Object value, int option)
+    {
+        boolean isInvalid = false;
+        String message1 = "Error en el campo " + nameField;
+
+        try
+        {
+            if (value != null && !Utilities.isEmpty(value.toString()))
+            {
+                switch (option)
+                {
+                    case 1: //Casos de tipo double 
+                        String messageDouble2 = "Debe ingresar un número mayor que cero y usar"
+                                + "como separador de decimales el punto, ejemplo: 3.24";
+                        try
+                        {
+
+                            double parseo = Double.parseDouble((String) value);//parseo
+                            if (parseo <= 0)
+                            {
+                                throw new Exception(nameField + " menor o igual a cero");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            isInvalid = true;
+                            addError(null, message1, messageDouble2);
+                            log.error(message1 + ", " + messageDouble2);
+                        }
+                        break;
+                    case 2: //Casos de tipo int
+                        String messageInt2 = "Debe ingresar un número mayor que cero sin puntos ni comas,"
+                                + "ejemplo: 1256786";
+                        try
+                        {
+
+                            Long parseo = Long.parseLong(value.toString());//parseo
+                            if (parseo <= 0)
+                            {
+                                throw new Exception(nameField + " menor o igual a cero");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            isInvalid = true;
+                            addError(null, message1, messageInt2);
+                            log.error(message1 + ", " + messageInt2);
+                        }
+                        break;
+                    case 3: //Casos de tipo String
+                        String messageString2 = "Campo obligatorio, debe ingresar algún valor";
+                        if (Utilities.isEmpty(value.toString()))
+                        {
+                            isInvalid = true;
+                            addError(null, message1 + nameField, messageString2);
+                            log.error(message1 + ", " + messageString2);
+                        }
+                        break;
+                    case 4://Casos de campos seleccionables
+                        String messageObject2 = "Campo obligatorio, debe seleccionar un valor para este campo";
+                        if (value == null)
+                        {
+                            isInvalid = true;
+                            addError(null, message1 + nameField, messageObject2);
+                            log.error(message1 + ", " + messageObject2);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                String messageObject2 = "Campo obligatorio, debe ingresar un valor para el campo " + nameField;
+                addError(null, message1, messageObject2);
+                log.error(message1 + ", " + messageObject2);
+                isInvalid = true;
+            }
+        }
+        catch (Exception e)
+        {
+            //Excepción no rematada debido que hay campos con tipos diferentes a String
+        }
+        return isInvalid;
+    }
+    
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
      * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón
@@ -471,6 +700,76 @@ public class OtmaintenanceCorrectiveBean
     public void setListDamage(List<ScMaintenanceDamage> listDamage)
     {
         this.listDamage = listDamage;
+    }
+
+    public int getMonths()
+    {
+        return months;
+    }
+
+    public void setMonths(int months)
+    {
+        this.months = months;
+    }
+
+    public int getDays()
+    {
+        return days;
+    }
+
+    public void setDays(int days)
+    {
+        this.days = days;
+    }
+
+    public int getHours()
+    {
+        return hours;
+    }
+
+    public void setHours(int hours)
+    {
+        this.hours = hours;
+    }
+
+    public int getMinutes()
+    {
+        return minutes;
+    }
+
+    public void setMinutes(int minutes)
+    {
+        this.minutes = minutes;
+    }
+
+    public ScMaintenanceActivity getActivitySave()
+    {
+        return activitySave;
+    }
+
+    public void setActivitySave(ScMaintenanceActivity activitySave)
+    {
+        this.activitySave = activitySave;
+    }
+
+    public ScMaintenanceActivity getActivityUpdate()
+    {
+        return activityUpdate;
+    }
+
+    public void setActivityUpdate(ScMaintenanceActivity activityUpdate)
+    {
+        this.activityUpdate = activityUpdate;
+    }
+
+    public List<ScEmployee> getEmployeesList()
+    {
+        return employeesList;
+    }
+
+    public void setEmployeesList(List<ScEmployee> employeesList)
+    {
+        this.employeesList = employeesList;
     }
 
     

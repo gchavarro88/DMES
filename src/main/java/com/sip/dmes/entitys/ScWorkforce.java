@@ -54,6 +54,11 @@ public class ScWorkforce implements Serializable
     @Size(min = 1, max = 200)
     @Column(name = "workforce")
     private String workforce;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "type_workforce")
+    private String typeWorkforce;
     @JoinColumn(name = "id_employee", referencedColumnName = "id_employee")
     @ManyToOne(fetch = FetchType.EAGER)
     private ScEmployee idEmployee;
@@ -116,6 +121,18 @@ public class ScWorkforce implements Serializable
         this.otMaintenanceList = otMaintenanceList;
     }
 
+    public String getTypeWorkforce()
+    {
+        return typeWorkforce;
+    }
+
+    public void setTypeWorkforce(String typeWorkforce)
+    {
+        this.typeWorkforce = typeWorkforce;
+    }
+
+    
+    
     @Override
     public int hashCode()
     {

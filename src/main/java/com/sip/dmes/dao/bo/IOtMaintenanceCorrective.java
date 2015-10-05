@@ -7,6 +7,7 @@ package com.sip.dmes.dao.bo;
 
 
 import com.sip.dmes.entitys.OtMaintenanceCorrective;
+import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScMaintenanceClasification;
@@ -28,6 +29,8 @@ public interface IOtMaintenanceCorrective
     public List<ScPriority> getAllPriorities() throws Exception;
     
     public List<ScMaintenanceDamage> getAllDamage() throws Exception;
+    
+    public List<ScEmployee> getAllEmployees() throws Exception;
 //  
 //    public void deleteTool(ScTool tool) throws Exception;
 //     

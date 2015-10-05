@@ -7,6 +7,7 @@ package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IOtMaintenanceCorrective;
 import com.sip.dmes.entitys.OtMaintenanceCorrective;
+import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScMaintenanceClasification;
@@ -143,6 +144,22 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
         catch (Exception e)
         {
             log.error("Error al intentar hacer la persistencia de los daños del mantenimiento",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScEmployee> getAllEmployees() throws Exception
+    {
+        List<ScEmployee> result =null;
+        Query query  = entityManager.createNamedQuery("ScEmployee.findAll"); 
+        try
+        {
+            result = (List<ScEmployee>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los empleados del mantenimiento",e);
         }
         return result;
     }

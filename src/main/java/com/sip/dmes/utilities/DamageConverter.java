@@ -9,6 +9,7 @@ package com.sip.dmes.utilities;
 
 
 
+import com.sip.dmes.entitys.ScMaintenanceDamage;
 import com.sip.dmes.entitys.ScTime;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -33,15 +34,15 @@ public class DamageConverter implements Converter{
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) 
     {
-        ScTime time = null;
+        ScMaintenanceDamage damage = null;
         if(value.length()>0)
         {   
             String fields[] = value.split(",");
             FacesMessage msg = new FacesMessage("Error al convertir la unidad de tiempo", "Formato no válido");
-            time = new ScTime(Long.parseLong(fields[0]));
-            time.setAcronym(fields[1]);
+            damage = new ScMaintenanceDamage(Long.parseLong(fields[0]));
+            damage.setDamage(fields[1]);
         }
-        return time;
+        return damage;
     }
 
     /**

@@ -10,6 +10,7 @@ package com.sip.dmes.utilities;
 
 import com.sip.dmes.entitys.ScCostCenter;
 import com.sip.dmes.entitys.ScMachine;
+import com.sip.dmes.entitys.ScMaintenanceClasification;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -33,16 +34,16 @@ public class MaintenanceClasificationConverter implements Converter{
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) 
     {
-        ScMachine machine = null;
+        ScMaintenanceClasification clasification = null;
         if(value.length()>0)
         {   
             String fields[] = value.split(",");
             FacesMessage msg = new FacesMessage("Error al convertir la máquina", "Formato no válido");
-            machine = new ScMachine(Long.parseLong(fields[0]));
-            machine.setName(fields[1]);
+            clasification = new ScMaintenanceClasification(Long.parseLong(fields[0]));
+            clasification.setClasification(fields[1]);
         }
         
-        return machine;
+        return clasification;
     }
 
     /**

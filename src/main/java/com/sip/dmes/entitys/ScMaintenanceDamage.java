@@ -124,7 +124,7 @@ public class ScMaintenanceDamage implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScMaintenanceDamage[ idMaintenanceDamage=" + idMaintenanceDamage + " ]";
+        return idMaintenanceDamage+","+damage;
     }
     
 }

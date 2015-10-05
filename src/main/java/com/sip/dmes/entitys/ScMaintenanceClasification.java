@@ -124,7 +124,7 @@ public class ScMaintenanceClasification implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScMaintenanceClasification[ idMaintenanceClasification=" + idMaintenanceClasification + " ]";
+        return  idMaintenanceClasification+","+clasification ;
     }
     
 }
