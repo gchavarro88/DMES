@@ -43,6 +43,8 @@ public class ScMaintenanceTool implements Serializable
     @NotNull
     @Column(name = "id_maintenance_tool")
     private Long idMaintenanceTool;
+    @Column(name = "amount")
+    private Long amount;
     @JoinColumn(name = "id_tool", referencedColumnName = "id_tool")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScTool idTool;
@@ -89,6 +91,15 @@ public class ScMaintenanceTool implements Serializable
         this.idMaintenance = idMaintenance;
     }
 
+    public Long getAmount()
+    {
+        return amount;
+    }
+
+    public void setAmount(Long amount)
+    {
+        this.amount = amount;
+    }
     @Override
     public int hashCode()
     {

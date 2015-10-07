@@ -13,6 +13,8 @@ import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScMaintenanceClasification;
 import com.sip.dmes.entitys.ScMaintenanceDamage;
 import com.sip.dmes.entitys.ScPriority;
+import com.sip.dmes.entitys.ScReplacement;
+import com.sip.dmes.entitys.ScTool;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -160,6 +162,38 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
         catch (Exception e)
         {
             log.error("Error al intentar hacer la persistencia de los empleados del mantenimiento",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScReplacement> getAllReplacements() throws Exception
+    {
+        List<ScReplacement> result =null;
+        Query query  = entityManager.createNamedQuery("ScReplacement.findAll"); 
+        try
+        {
+            result = (List<ScReplacement>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los repuestos y consumibles del mantenimiento",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScTool> getAllTools() throws Exception
+    {
+        List<ScTool> result =null;
+        Query query  = entityManager.createNamedQuery("ScTool.findAll"); 
+        try
+        {
+            result = (List<ScTool>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de las herramientas del mantenimiento",e);
         }
         return result;
     }

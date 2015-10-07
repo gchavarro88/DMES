@@ -43,6 +43,8 @@ public class ScMaintenanceReplacement implements Serializable
     @NotNull
     @Column(name = "id_maintenance_replacement")
     private Long idMaintenanceReplacement;
+    @Column(name = "amount")
+    private Long amount;
     @JoinColumn(name = "id_replacement", referencedColumnName = "id_replacement")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScReplacement idReplacement;
@@ -89,6 +91,18 @@ public class ScMaintenanceReplacement implements Serializable
         this.idMaintenance = idMaintenance;
     }
 
+    public Long getAmount()
+    {
+        return amount;
+    }
+
+    public void setAmount(Long amount)
+    {
+        this.amount = amount;
+    }
+
+    
+    
     @Override
     public int hashCode()
     {
@@ -118,5 +132,6 @@ public class ScMaintenanceReplacement implements Serializable
     {
         return "com.sip.dmes.entitys.ScMaintenanceReplacement[ idMaintenanceReplacement=" + idMaintenanceReplacement + " ]";
     }
+    
     
 }

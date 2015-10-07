@@ -23,7 +23,7 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter("machineConverter")
 public class MachineConverter implements Converter{
 
-    /**
+    /** 
      *
      * @param context
      * @param component
