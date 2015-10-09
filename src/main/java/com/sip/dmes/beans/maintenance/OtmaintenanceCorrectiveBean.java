@@ -489,11 +489,21 @@ public class OtmaintenanceCorrectiveBean
         getOrderSave().getIdMaintenance().setScMaintenanceReplacementList(new ArrayList<ScMaintenanceReplacement>());
         getOrderSave().getIdMaintenance().setScMaintenanceToolList(new ArrayList<ScMaintenanceTool>());
         setMonths(0); setDays(0); setHours(0); setMinutes(0);
+        setEndDate(null);
+        setItemAdd("");
+        setMachineSave(new ScMachine());
+        setMachineUpdate(new ScMachine());
         setActivitySave(new ScMaintenanceActivity());
         setActivityUpdate(new ScMaintenanceActivity());
         
     }
     
+    public void saveMaintenance()
+    {
+        getOrderSave().getIdMaintenance().setDescription(getOrderSave().getDescription());
+        
+    
+    }
     
     /**
      * Método encargado de habilitar o deshabilitar el combo para partes de máquina

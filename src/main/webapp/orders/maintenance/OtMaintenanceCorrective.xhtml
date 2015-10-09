@@ -496,7 +496,127 @@
                                 
                             </p:panel>
                         </p:tab> 
-                        
+                        <p:tab title="Confirmar" id="tabConfirm" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para confirmar los datos de la orden de mantenimiento a guardar">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Nombre Mantenimiento"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel   value="#{OtmaintenanceCorrectiveBean.orderSave.name}"
+                                                            />
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputTextarea    id="tfDescription"  value="#{OtmaintenanceCorrectiveBean.orderSave.description}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Máquina"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel 
+                                            value="#{OtmaintenanceCorrectiveBean.machineSave.name} - #{OtmaintenanceCorrectiveBean.machineSave.mark} - #{OtmaintenanceCorrectiveBean.machineSave.serie}" />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Parte de Máquina"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  
+                                            value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart.name} - #{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart.name} - #{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart.name}"/>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel value="Clasificación"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMaintenanceClasification.clasification}" 
+                                                           />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Prioridad"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idPriority.name}" 
+                                                             />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Daño*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMaintenanceDamage.damage}" 
+                                                             />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Empleado"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputTextarea    value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.idEmployee.idPerson.lastName} #{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.idEmployee.idPerson.firstName}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Duración"/>
+                                        </td> 
+                                        
+                                        <td width="90%" align="left" colspan="3" >
+                                            <p:outputLabel  value="#{OtmaintenanceCorrectiveBean.minutes}" />
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Minutos"/>
+                                            <p:spacer width="20"/>
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.hours}" />
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:outputLabel  value="#{OtmaintenanceCorrectiveBean.days}"/>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Días"/>
+                                            <p:spacer width="20"/>
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.months}" />
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Meses"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Fecha de Inicio*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel   
+                                            value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceCorrectiveBean.orderSave.idMaintenance.creationDate)}"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Fecha de Finalización"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  
+                                            value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceCorrectiveBean.endDate)}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="98%" align="right" colspan="4">
+                                            <p:commandButton id="btnSaveMaintenance" value="Guardar Mantenimiento" onsuccess="PF('dialogMaintenance').hide()"
+                                                             actionListener="#{OtmaintenanceCorrectiveBean.saveTool()}" update=":formCorrective:otDataTableCorrective,:formWizarMaintenanceSave"
+                                                             oncomplete="PF('wizardSave').loadStep('tabGeneral', false)"/>
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelMaintenance" value="Cancelar" oncomplete="PF('dialogMaintenance').hide();PF('wizardSave').loadStep('tabGeneral', false)"
+                                                             actionListener="#{OtmaintenanceCorrectiveBean.cleanValues()}" update=":formCorrective:otDataTableCorrective,:formWizarMaintenanceSave"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
                     </p:wizard>
                 </h:form>
                 <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" listener="#{OtmaintenanceCorrectiveBean.cleanValues()}"

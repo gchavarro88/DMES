@@ -198,6 +198,21 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
         return result;
     }
 
+    @Override
+    public void saveMaintenance(OtMaintenanceCorrective orderSave, Date endDate) throws Exception
+    {
+        try
+        {
+            entityManager.persist(orderSave);
+            
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los herramientas",e);
+            throw e;
+        }
+    }
+
     
 
     

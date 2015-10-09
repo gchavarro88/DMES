@@ -15,6 +15,7 @@ import com.sip.dmes.entitys.ScMaintenanceDamage;
 import com.sip.dmes.entitys.ScPriority;
 import com.sip.dmes.entitys.ScReplacement;
 import com.sip.dmes.entitys.ScTool;
+import java.util.Date;
 import java.util.List;
 
 public interface IOtMaintenanceCorrective 
@@ -42,5 +43,7 @@ public interface IOtMaintenanceCorrective
     public List<ScTool> getAllTools() throws Exception;
     
     public Object getInitialParameters() throws Exception;
+    
+    public void saveMaintenance(OtMaintenanceCorrective orderSave, Date endDate) throws Exception;
 
 }
