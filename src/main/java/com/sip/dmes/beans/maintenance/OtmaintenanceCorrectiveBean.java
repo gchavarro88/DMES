@@ -27,6 +27,7 @@ import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -65,7 +66,10 @@ public class OtmaintenanceCorrectiveBean
     private List<ScEmployee> employeesList;
     private List<ScTool> listTools;
     private List<ScReplacement> listReplacements;
+    private Date endDate;
     private String itemAdd;
+    private int startHour;
+    private int startMinutes;
     
     private final static Logger log = Logger.getLogger(OtmaintenanceCorrectiveBean.class);
     private final String TAB_GENERAL = "tabGeneral";
@@ -477,6 +481,7 @@ public class OtmaintenanceCorrectiveBean
     {
         setOrderSave(new OtMaintenanceCorrective());
         getOrderSave().setIdMaintenance(new OtMaintenance());
+        getOrderSave().getIdMaintenance().setCreationDate(new Date());
         getOrderSave().getIdMaintenance().setIdMaintenanceState(new ScMaintenanceState(1L));
         getOrderSave().getIdMaintenance().setScMaintenanceActivityList(new ArrayList<ScMaintenanceActivity>());
         getOrderSave().getIdMaintenance().setIdMachinePart(new ScMachinePart());
@@ -730,7 +735,6 @@ public class OtmaintenanceCorrectiveBean
         return isInvalid;
     }
     
-    
     /**
      * Método encargado de completar el item que se busca.
      * @param query palabra o indicio con cual buscar
@@ -775,6 +779,29 @@ public class OtmaintenanceCorrectiveBean
             }
         }
         return result;
+    }
+    
+    public void addTime(OtMaintenanceCorrective order)
+    {
+        if(order != null)
+        {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.clear(Calendar.MINUTE);
+            calendar.clear(Calendar.HOUR_OF_DAY);
+            calendar.clear(Calendar.HOUR);
+            calendar.clear(Calendar.SECOND);
+            calendar.add(Calendar.HOUR, getStartHour());
+            calendar.add(Calendar.MINUTE, getStartMinutes());
+            order.getIdMaintenance().setCreationDate(calendar.getTime()); //Se acomoda la fecha inicial
+            
+            calendar.add(Calendar.MONTH, getMonths());
+            calendar.add(Calendar.DAY_OF_YEAR, getDays());
+            calendar.add(Calendar.HOUR, getHours());
+            calendar.add(Calendar.MINUTE, getMinutes());
+            setEndDate(calendar.getTime()); //Se acomoda la fecha final
+        }
+        
     }
     
     /**
@@ -1087,6 +1114,36 @@ public class OtmaintenanceCorrectiveBean
     public void setItemAdd(String itemAdd)
     {
         this.itemAdd = itemAdd;
+    }
+
+    public int getStartHour()
+    {
+        return startHour;
+    }
+
+    public void setStartHour(int startHour)
+    {
+        this.startHour = startHour;
+    }
+
+    public int getStartMinutes()
+    {
+        return startMinutes;
+    }
+
+    public void setStartMinutes(int startMinutes)
+    {
+        this.startMinutes = startMinutes;
+    }
+
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
     }
 
     
