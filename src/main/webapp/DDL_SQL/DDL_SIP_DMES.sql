@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.6
--- Started on 2015-10-07 19:33:53 CEST
+-- Started on 2015-10-10 07:13:49 CEST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -4455,7 +4455,1798 @@ SELECT pg_catalog.setval('sqscworkforce', 1, false);
 SELECT pg_catalog.setval('sqtype', 1, false);
 
 
--- Completed on 2015-10-07 19:33:53 CEST
+--
+-- TOC entry 3251 (class 2606 OID 54691)
+-- Name: PK_DISTRIBUTION_UNIT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_distribution_unit
+    ADD CONSTRAINT "PK_DISTRIBUTION_UNIT" PRIMARY KEY (id_distribution_unit);
+
+
+--
+-- TOC entry 3257 (class 2606 OID 54693)
+-- Name: PK_FACTORY_LOCATION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_factory_location
+    ADD CONSTRAINT "PK_FACTORY_LOCATION" PRIMARY KEY (id_factory_location);
+
+
+--
+-- TOC entry 3261 (class 2606 OID 54695)
+-- Name: PK_INPUT_DIMENSION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_input_dimension
+    ADD CONSTRAINT "PK_INPUT_DIMENSION" PRIMARY KEY (id_input_dimension);
+
+
+--
+-- TOC entry 3265 (class 2606 OID 54697)
+-- Name: PK_INPUT_EQUIVALENCES; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_input_equivalence
+    ADD CONSTRAINT "PK_INPUT_EQUIVALENCES" PRIMARY KEY (id_input_equivalence);
+
+
+--
+-- TOC entry 3273 (class 2606 OID 54699)
+-- Name: PK_INPUT_LOCATION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_location
+    ADD CONSTRAINT "PK_INPUT_LOCATION" PRIMARY KEY (id_location);
+
+
+--
+-- TOC entry 3369 (class 2606 OID 54701)
+-- Name: PK_INPUT_STOCK; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_stock
+    ADD CONSTRAINT "PK_INPUT_STOCK" PRIMARY KEY (id_stock);
+
+
+--
+-- TOC entry 3281 (class 2606 OID 54703)
+-- Name: PK_MACHINE_DOCUMENT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_machine_document
+    ADD CONSTRAINT "PK_MACHINE_DOCUMENT" PRIMARY KEY (id_machine_document);
+
+
+--
+-- TOC entry 3283 (class 2606 OID 54705)
+-- Name: PK_MACHINE_PART; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_machine_part
+    ADD CONSTRAINT "PK_MACHINE_PART" PRIMARY KEY (id_machine_part);
+
+
+--
+-- TOC entry 3285 (class 2606 OID 54707)
+-- Name: PK_MACHINE_PART_ATTACHED; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_machine_part_attached
+    ADD CONSTRAINT "PK_MACHINE_PART_ATTACHED" PRIMARY KEY (id_machine_part_attached);
+
+
+--
+-- TOC entry 3287 (class 2606 OID 54709)
+-- Name: PK_MACHINE_PART_DOCUMENT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_machine_part_document
+    ADD CONSTRAINT "PK_MACHINE_PART_DOCUMENT" PRIMARY KEY (id_machine_part_document);
+
+
+--
+-- TOC entry 3237 (class 2606 OID 54711)
+-- Name: PK_MAINTENANCE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY ot_maintenance
+    ADD CONSTRAINT "PK_MAINTENANCE" PRIMARY KEY (id_maintenance);
+
+
+--
+-- TOC entry 3291 (class 2606 OID 54713)
+-- Name: PK_MAINTENANCE_ACTIVITY; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_maintenance_activity
+    ADD CONSTRAINT "PK_MAINTENANCE_ACTIVITY" PRIMARY KEY (id_maintenance_activity);
+
+
+--
+-- TOC entry 3293 (class 2606 OID 54715)
+-- Name: PK_MAINTENANCE_CLASIFICATION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_maintenance_clasification
+    ADD CONSTRAINT "PK_MAINTENANCE_CLASIFICATION" PRIMARY KEY (id_maintenance_clasification);
+
+
+--
+-- TOC entry 3239 (class 2606 OID 54717)
+-- Name: PK_MAINTENANCE_CORRECTIVE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY ot_maintenance_corrective
+    ADD CONSTRAINT "PK_MAINTENANCE_CORRECTIVE" PRIMARY KEY (id_maintenance_corrective);
+
+
+--
+-- TOC entry 3295 (class 2606 OID 54719)
+-- Name: PK_MAINTENANCE_DAMAGE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_maintenance_damage
+    ADD CONSTRAINT "PK_MAINTENANCE_DAMAGE" PRIMARY KEY (id_maintenance_damage);
+
+
+--
+-- TOC entry 3299 (class 2606 OID 54721)
+-- Name: PK_MAINTENANCE_REPLACEMENT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_maintenance_replacement
+    ADD CONSTRAINT "PK_MAINTENANCE_REPLACEMENT" PRIMARY KEY (id_maintenance_replacement);
+
+
+--
+-- TOC entry 3301 (class 2606 OID 54723)
+-- Name: PK_MAINTENANCE_STATE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_maintenance_state
+    ADD CONSTRAINT "PK_MAINTENANCE_STATE" PRIMARY KEY (id_maintenance_state);
+
+
+--
+-- TOC entry 3303 (class 2606 OID 54725)
+-- Name: PK_MAINTENANCE_TOOL; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_maintenance_tool
+    ADD CONSTRAINT "PK_MAINTENANCE_TOOL" PRIMARY KEY (id_maintenance_tool);
+
+
+--
+-- TOC entry 3341 (class 2606 OID 54727)
+-- Name: PK_PROCESS_ATTACHED; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_process_attached
+    ADD CONSTRAINT "PK_PROCESS_ATTACHED" PRIMARY KEY (id_process_attached);
+
+
+--
+-- TOC entry 3343 (class 2606 OID 54729)
+-- Name: PK_PROCESS_EMPLOYEE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_process_employee
+    ADD CONSTRAINT "PK_PROCESS_EMPLOYEE" PRIMARY KEY (id_process_employee);
+
+
+--
+-- TOC entry 3345 (class 2606 OID 54731)
+-- Name: PK_PROCESS_INPUT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_process_input
+    ADD CONSTRAINT "PK_PROCESS_INPUT" PRIMARY KEY (id_process_input);
+
+
+--
+-- TOC entry 3339 (class 2606 OID 54733)
+-- Name: PK_PROCESS_PRODUCT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_procces_product
+    ADD CONSTRAINT "PK_PROCESS_PRODUCT" PRIMARY KEY (id_process_product);
+
+
+--
+-- TOC entry 3349 (class 2606 OID 54735)
+-- Name: PK_PROCESS_TYPE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_process_type
+    ADD CONSTRAINT "PK_PROCESS_TYPE" PRIMARY KEY (id_process_type);
+
+
+--
+-- TOC entry 3351 (class 2606 OID 54737)
+-- Name: PK_PRODUCT_ATTACHED; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_product_attached
+    ADD CONSTRAINT "PK_PRODUCT_ATTACHED" PRIMARY KEY (id_product_attached);
+
+
+--
+-- TOC entry 3359 (class 2606 OID 54739)
+-- Name: PK_REPLACEMENT_ATTACHED; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_replacement_attached
+    ADD CONSTRAINT "PK_REPLACEMENT_ATTACHED" PRIMARY KEY (id_replacement_attached);
+
+
+--
+-- TOC entry 3241 (class 2606 OID 54741)
+-- Name: PK_SCHEDULE_MAINTENANCE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY ot_maintenance_schedule
+    ADD CONSTRAINT "PK_SCHEDULE_MAINTENANCE" PRIMARY KEY (id_schedule_maintenance);
+
+
+--
+-- TOC entry 3247 (class 2606 OID 54743)
+-- Name: PK_SC_CONSTANTS_LOAD_FILES; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_constants_load_files
+    ADD CONSTRAINT "PK_SC_CONSTANTS_LOAD_FILES" PRIMARY KEY (id_constants_load_file);
+
+
+--
+-- TOC entry 3259 (class 2606 OID 54745)
+-- Name: PK_SC_INPUT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "PK_SC_INPUT" PRIMARY KEY (id_input);
+
+
+--
+-- TOC entry 3263 (class 2606 OID 54747)
+-- Name: PK_SC_INPUT_DOCUMENTS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_input_documents
+    ADD CONSTRAINT "PK_SC_INPUT_DOCUMENTS" PRIMARY KEY (id_input_documents);
+
+
+--
+-- TOC entry 3267 (class 2606 OID 54749)
+-- Name: PK_SC_INPUT_FEATURES; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_input_feactures
+    ADD CONSTRAINT "PK_SC_INPUT_FEATURES" PRIMARY KEY (id_input_feactures);
+
+
+--
+-- TOC entry 3269 (class 2606 OID 54751)
+-- Name: PK_SC_INPUT_OBSERVATIONS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_input_observations
+    ADD CONSTRAINT "PK_SC_INPUT_OBSERVATIONS" PRIMARY KEY (id_input_observation);
+
+
+--
+-- TOC entry 3271 (class 2606 OID 54753)
+-- Name: PK_SC_INPUT_SPECIFICATIONS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_input_specifications
+    ADD CONSTRAINT "PK_SC_INPUT_SPECIFICATIONS" PRIMARY KEY (id_input_specifications);
+
+
+--
+-- TOC entry 3315 (class 2606 OID 54755)
+-- Name: PK_SC_M0NEY; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_money
+    ADD CONSTRAINT "PK_SC_M0NEY" PRIMARY KEY (id_money);
+
+
+--
+-- TOC entry 3275 (class 2606 OID 54757)
+-- Name: PK_SC_MACHINE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_machine
+    ADD CONSTRAINT "PK_SC_MACHINE" PRIMARY KEY (id_machine);
+
+
+--
+-- TOC entry 3277 (class 2606 OID 54759)
+-- Name: PK_SC_MACHINE_ATTACHED; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_machine_attached
+    ADD CONSTRAINT "PK_SC_MACHINE_ATTACHED" PRIMARY KEY (id_attached);
+
+
+--
+-- TOC entry 3279 (class 2606 OID 54761)
+-- Name: PK_SC_MACHINE_CONDITION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_machine_conditions
+    ADD CONSTRAINT "PK_SC_MACHINE_CONDITION" PRIMARY KEY (id_condition);
+
+
+--
+-- TOC entry 3305 (class 2606 OID 54763)
+-- Name: PK_SC_MEASURE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_measure_unit
+    ADD CONSTRAINT "PK_SC_MEASURE" PRIMARY KEY (id_measure);
+
+
+--
+-- TOC entry 3319 (class 2606 OID 54765)
+-- Name: PK_SC_PACKING; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_packing_unit
+    ADD CONSTRAINT "PK_SC_PACKING" PRIMARY KEY (id_packing);
+
+
+--
+-- TOC entry 3337 (class 2606 OID 54767)
+-- Name: PK_SC_PRIORITY; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_priority
+    ADD CONSTRAINT "PK_SC_PRIORITY" PRIMARY KEY (id_priority);
+
+
+--
+-- TOC entry 3347 (class 2606 OID 54769)
+-- Name: PK_SC_PROCESS_MACHINE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_process_machine
+    ADD CONSTRAINT "PK_SC_PROCESS_MACHINE" PRIMARY KEY (id_process_machine);
+
+
+--
+-- TOC entry 3353 (class 2606 OID 54771)
+-- Name: PK_SC_PRODUCT_DOCUMENTS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_product_documents
+    ADD CONSTRAINT "PK_SC_PRODUCT_DOCUMENTS" PRIMARY KEY (id_product_documents);
+
+
+--
+-- TOC entry 3355 (class 2606 OID 54773)
+-- Name: PK_SC_PRODUCT_FORMULATION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_product_formulation
+    ADD CONSTRAINT "PK_SC_PRODUCT_FORMULATION" PRIMARY KEY (id_product_formulation);
+
+
+--
+-- TOC entry 3357 (class 2606 OID 54775)
+-- Name: PK_SC_REPLACEMENT; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "PK_SC_REPLACEMENT" PRIMARY KEY (id_replacement);
+
+
+--
+-- TOC entry 3361 (class 2606 OID 54777)
+-- Name: PK_SC_REPLACEMENT_DOCUMENTS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_replacement_documents
+    ADD CONSTRAINT "PK_SC_REPLACEMENT_DOCUMENTS" PRIMARY KEY (id_replacement_documents);
+
+
+--
+-- TOC entry 3373 (class 2606 OID 54779)
+-- Name: PK_SC_STORE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_store
+    ADD CONSTRAINT "PK_SC_STORE" PRIMARY KEY (id_store);
+
+
+--
+-- TOC entry 3391 (class 2606 OID 54781)
+-- Name: PK_SC_TOOL; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "PK_SC_TOOL" PRIMARY KEY (id_tool);
+
+
+--
+-- TOC entry 3395 (class 2606 OID 54783)
+-- Name: PK_SC_TOOL_DOCUMENTS; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_tool_documents
+    ADD CONSTRAINT "PK_SC_TOOL_DOCUMENTS" PRIMARY KEY (id_tool_documents);
+
+
+--
+-- TOC entry 3371 (class 2606 OID 54785)
+-- Name: PK_STOP_MACHINE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_stop_machine
+    ADD CONSTRAINT "PK_STOP_MACHINE" PRIMARY KEY (id_stop_machine);
+
+
+--
+-- TOC entry 3375 (class 2606 OID 54787)
+-- Name: PK_STORE_ORDER; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_store_order
+    ADD CONSTRAINT "PK_STORE_ORDER" PRIMARY KEY (id_store_order);
+
+
+--
+-- TOC entry 3377 (class 2606 OID 54789)
+-- Name: PK_STORE_ORDER_ITEM; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_store_order_item
+    ADD CONSTRAINT "PK_STORE_ORDER_ITEM" PRIMARY KEY (id_item);
+
+
+--
+-- TOC entry 3379 (class 2606 OID 54791)
+-- Name: PK_STORE_ORDER_STATE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_store_order_state
+    ADD CONSTRAINT "PK_STORE_ORDER_STATE" PRIMARY KEY (id_state);
+
+
+--
+-- TOC entry 3381 (class 2606 OID 54793)
+-- Name: PK_STORE_REQUISITION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_store_requisition
+    ADD CONSTRAINT "PK_STORE_REQUISITION" PRIMARY KEY (id_store_requisition);
+
+
+--
+-- TOC entry 3383 (class 2606 OID 54795)
+-- Name: PK_STORE_REQUISITION_ITEM; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_store_requisition_item
+    ADD CONSTRAINT "PK_STORE_REQUISITION_ITEM" PRIMARY KEY (id_item);
+
+
+--
+-- TOC entry 3385 (class 2606 OID 54797)
+-- Name: PK_STORE_REQUISITION_STATE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_store_requisition_state
+    ADD CONSTRAINT "PK_STORE_REQUISITION_STATE" PRIMARY KEY (id_state);
+
+
+--
+-- TOC entry 3387 (class 2606 OID 54799)
+-- Name: PK_TIME; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_time
+    ADD CONSTRAINT "PK_TIME" PRIMARY KEY (id_time);
+
+
+--
+-- TOC entry 3393 (class 2606 OID 54801)
+-- Name: PK_TOOL_ATTACHED; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_tool_attached
+    ADD CONSTRAINT "PK_TOOL_ATTACHED" PRIMARY KEY (id_tool_attached);
+
+
+--
+-- TOC entry 3397 (class 2606 OID 54803)
+-- Name: PK_TURN; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_turn
+    ADD CONSTRAINT "PK_TURN" PRIMARY KEY (id_turn);
+
+
+--
+-- TOC entry 3407 (class 2606 OID 54805)
+-- Name: PK_WORKFORCE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_workforce
+    ADD CONSTRAINT "PK_WORKFORCE" PRIMARY KEY (id_workforce);
+
+
+--
+-- TOC entry 3325 (class 2606 OID 54807)
+-- Name: UK_IDENTIFICATION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_person
+    ADD CONSTRAINT "UK_IDENTIFICATION" UNIQUE (identification);
+
+
+--
+-- TOC entry 3363 (class 2606 OID 54809)
+-- Name: UK_ROLENAME; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_roles
+    ADD CONSTRAINT "UK_ROLENAME" UNIQUE (name);
+
+
+--
+-- TOC entry 3311 (class 2606 OID 54811)
+-- Name: UK_SC_ROLES_SC_MODULE_PERMISSION; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_module_permission_by_role
+    ADD CONSTRAINT "UK_SC_ROLES_SC_MODULE_PERMISSION" UNIQUE (id_role, id_module_permission);
+
+
+--
+-- TOC entry 3389 (class 2606 OID 54813)
+-- Name: UK_TIME; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_time
+    ADD CONSTRAINT "UK_TIME" UNIQUE (acronym);
+
+
+--
+-- TOC entry 3307 (class 2606 OID 54815)
+-- Name: UK_UNIT_MEASURE; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_measure_unit
+    ADD CONSTRAINT "UK_UNIT_MEASURE" UNIQUE (acronym);
+
+
+--
+-- TOC entry 3401 (class 2606 OID 54817)
+-- Name: UK_USERNAME; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_users
+    ADD CONSTRAINT "UK_USERNAME" UNIQUE (login);
+
+
+--
+-- TOC entry 3243 (class 2606 OID 54819)
+-- Name: pk_class_type; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_class_type
+    ADD CONSTRAINT pk_class_type PRIMARY KEY (id_class_type);
+
+
+--
+-- TOC entry 3245 (class 2606 OID 54821)
+-- Name: pk_competencies; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_competencies
+    ADD CONSTRAINT pk_competencies PRIMARY KEY (id_competencies);
+
+
+--
+-- TOC entry 3249 (class 2606 OID 54823)
+-- Name: pk_cost_center; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_cost_center
+    ADD CONSTRAINT pk_cost_center PRIMARY KEY (id_cost_center);
+
+
+--
+-- TOC entry 3253 (class 2606 OID 54825)
+-- Name: pk_document; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_documents
+    ADD CONSTRAINT pk_document PRIMARY KEY (id_document);
+
+
+--
+-- TOC entry 3255 (class 2606 OID 54827)
+-- Name: pk_employee; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_employee
+    ADD CONSTRAINT pk_employee PRIMARY KEY (id_employee);
+
+
+--
+-- TOC entry 3289 (class 2606 OID 54829)
+-- Name: pk_mails; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_mails
+    ADD CONSTRAINT pk_mails PRIMARY KEY (id_mail);
+
+
+--
+-- TOC entry 3297 (class 2606 OID 54831)
+-- Name: pk_maintenance_plan; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_maintenance_plan
+    ADD CONSTRAINT pk_maintenance_plan PRIMARY KEY (id_maintenance_plan);
+
+
+--
+-- TOC entry 3313 (class 2606 OID 54833)
+-- Name: pk_module_permission_by_role; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_module_permission_by_role
+    ADD CONSTRAINT pk_module_permission_by_role PRIMARY KEY (id_module_permission_by_role);
+
+
+--
+-- TOC entry 3317 (class 2606 OID 54835)
+-- Name: pk_operatin_condition; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_operating_conditions
+    ADD CONSTRAINT pk_operatin_condition PRIMARY KEY (id_operating_condition);
+
+
+--
+-- TOC entry 3321 (class 2606 OID 54837)
+-- Name: pk_partner; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_partner
+    ADD CONSTRAINT pk_partner PRIMARY KEY (id_partner);
+
+
+--
+-- TOC entry 3323 (class 2606 OID 54839)
+-- Name: pk_parts_and_consumables; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_parts_and_consumables
+    ADD CONSTRAINT pk_parts_and_consumables PRIMARY KEY (id_parts_and_consumables);
+
+
+--
+-- TOC entry 3327 (class 2606 OID 54841)
+-- Name: pk_person; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_person
+    ADD CONSTRAINT pk_person PRIMARY KEY (id_person);
+
+
+--
+-- TOC entry 3329 (class 2606 OID 54843)
+-- Name: pk_person_observations; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_person_observations
+    ADD CONSTRAINT pk_person_observations PRIMARY KEY (id_person_observations);
+
+
+--
+-- TOC entry 3331 (class 2606 OID 54845)
+-- Name: pk_person_specifications; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_person_specifications
+    ADD CONSTRAINT pk_person_specifications PRIMARY KEY (id_person_specifications);
+
+
+--
+-- TOC entry 3333 (class 2606 OID 54847)
+-- Name: pk_phones; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_phones
+    ADD CONSTRAINT pk_phones PRIMARY KEY (id_phone);
+
+
+--
+-- TOC entry 3335 (class 2606 OID 54849)
+-- Name: pk_photo; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_photo
+    ADD CONSTRAINT pk_photo PRIMARY KEY (id_photo);
+
+
+--
+-- TOC entry 3309 (class 2606 OID 54851)
+-- Name: pk_sc_module_permission; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_module_permission
+    ADD CONSTRAINT pk_sc_module_permission PRIMARY KEY (id_module_permission);
+
+
+--
+-- TOC entry 3365 (class 2606 OID 54853)
+-- Name: pk_sc_roles; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_roles
+    ADD CONSTRAINT pk_sc_roles PRIMARY KEY (id_role);
+
+
+--
+-- TOC entry 3367 (class 2606 OID 54855)
+-- Name: pk_service_or_product; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_services_or_products
+    ADD CONSTRAINT pk_service_or_product PRIMARY KEY (id_service_or_products);
+
+
+--
+-- TOC entry 3399 (class 2606 OID 54857)
+-- Name: pk_type; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_type
+    ADD CONSTRAINT pk_type PRIMARY KEY (id_type);
+
+
+--
+-- TOC entry 3403 (class 2606 OID 54859)
+-- Name: pk_users; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_users
+    ADD CONSTRAINT pk_users PRIMARY KEY (id_user);
+
+
+--
+-- TOC entry 3405 (class 2606 OID 54861)
+-- Name: pk_work_experience; Type: CONSTRAINT; Schema: dmes; Owner: sipPrueba; Tablespace: 
+--
+
+ALTER TABLE ONLY sc_work_experience
+    ADD CONSTRAINT pk_work_experience PRIMARY KEY (id_work_experience);
+
+
+--
+-- TOC entry 3419 (class 2606 OID 54862)
+-- Name: FK_CENTER_COST_INPUT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_CENTER_COST_INPUT" FOREIGN KEY (cost_center) REFERENCES sc_cost_center(id_cost_center);
+
+
+--
+-- TOC entry 3489 (class 2606 OID 54867)
+-- Name: FK_COSTCENTER_REPLACEMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "FK_COSTCENTER_REPLACEMENT" FOREIGN KEY (cost_center) REFERENCES sc_cost_center(id_cost_center);
+
+
+--
+-- TOC entry 3506 (class 2606 OID 54872)
+-- Name: FK_COSTCENTER_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "FK_COSTCENTER_TOOL" FOREIGN KEY (cost_center) REFERENCES sc_cost_center(id_cost_center);
+
+
+--
+-- TOC entry 3444 (class 2606 OID 54877)
+-- Name: FK_COST_CENTER_MACHINE_PART; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part
+    ADD CONSTRAINT "FK_COST_CENTER_MACHINE_PART" FOREIGN KEY (id_cost_center) REFERENCES sc_cost_center(id_cost_center);
+
+
+--
+-- TOC entry 3445 (class 2606 OID 54882)
+-- Name: FK_DIMENSION_MACHINE_PART; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part
+    ADD CONSTRAINT "FK_DIMENSION_MACHINE_PART" FOREIGN KEY (id_dimension) REFERENCES sc_input_dimension(id_input_dimension);
+
+
+--
+-- TOC entry 3490 (class 2606 OID 54887)
+-- Name: FK_DIMENSION_REPLACEMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "FK_DIMENSION_REPLACEMENT" FOREIGN KEY (id_replacement_dimension) REFERENCES sc_input_dimension(id_input_dimension);
+
+
+--
+-- TOC entry 3507 (class 2606 OID 54892)
+-- Name: FK_DIMENSION_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "FK_DIMENSION_TOOL" FOREIGN KEY (id_tool_dimension) REFERENCES sc_input_dimension(id_input_dimension);
+
+
+--
+-- TOC entry 3434 (class 2606 OID 54897)
+-- Name: FK_FACTORY_LOCATION_MACHINE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine
+    ADD CONSTRAINT "FK_FACTORY_LOCATION_MACHINE" FOREIGN KEY (id_location) REFERENCES sc_factory_location(id_factory_location);
+
+
+--
+-- TOC entry 3429 (class 2606 OID 54902)
+-- Name: FK_INPUT_EQUIVALENCE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input_equivalence
+    ADD CONSTRAINT "FK_INPUT_EQUIVALENCE" FOREIGN KEY (id_input) REFERENCES sc_input(id_input);
+
+
+--
+-- TOC entry 3430 (class 2606 OID 54907)
+-- Name: FK_INPUT_FEACTURES; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input_feactures
+    ADD CONSTRAINT "FK_INPUT_FEACTURES" FOREIGN KEY (id_input) REFERENCES sc_input(id_input);
+
+
+--
+-- TOC entry 3431 (class 2606 OID 54912)
+-- Name: FK_INPUT_OBSERVATIONS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input_observations
+    ADD CONSTRAINT "FK_INPUT_OBSERVATIONS" FOREIGN KEY (id_input) REFERENCES sc_input(id_input);
+
+
+--
+-- TOC entry 3432 (class 2606 OID 54917)
+-- Name: FK_INPUT_SPECIFICATIONS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input_specifications
+    ADD CONSTRAINT "FK_INPUT_SPECIFICATIONS" FOREIGN KEY (id_input) REFERENCES sc_input(id_input);
+
+
+--
+-- TOC entry 3500 (class 2606 OID 54922)
+-- Name: FK_INPUT_STOCK_STORE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_stock
+    ADD CONSTRAINT "FK_INPUT_STOCK_STORE" FOREIGN KEY (id_store) REFERENCES sc_store(id_store);
+
+
+--
+-- TOC entry 3491 (class 2606 OID 54927)
+-- Name: FK_LOCATION_REPLACEMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "FK_LOCATION_REPLACEMENT" FOREIGN KEY (id_location) REFERENCES sc_location(id_location);
+
+
+--
+-- TOC entry 3433 (class 2606 OID 54932)
+-- Name: FK_LOCATION_STORE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_location
+    ADD CONSTRAINT "FK_LOCATION_STORE" FOREIGN KEY (id_store) REFERENCES sc_store(id_store);
+
+
+--
+-- TOC entry 3508 (class 2606 OID 54937)
+-- Name: FK_LOCATION_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "FK_LOCATION_TOOL" FOREIGN KEY (id_location) REFERENCES sc_location(id_location);
+
+
+--
+-- TOC entry 3441 (class 2606 OID 54942)
+-- Name: FK_MACHINE_ATTACHED; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_attached
+    ADD CONSTRAINT "FK_MACHINE_ATTACHED" FOREIGN KEY (id_machine) REFERENCES sc_machine(id_machine);
+
+
+--
+-- TOC entry 3442 (class 2606 OID 54947)
+-- Name: FK_MACHINE_CONDITION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_conditions
+    ADD CONSTRAINT "FK_MACHINE_CONDITION" FOREIGN KEY (id_machine) REFERENCES sc_machine(id_machine);
+
+
+--
+-- TOC entry 3435 (class 2606 OID 54952)
+-- Name: FK_MACHINE_COST_CENTER; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine
+    ADD CONSTRAINT "FK_MACHINE_COST_CENTER" FOREIGN KEY (id_cost_center) REFERENCES sc_cost_center(id_cost_center);
+
+
+--
+-- TOC entry 3436 (class 2606 OID 54957)
+-- Name: FK_MACHINE_DIMENSION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine
+    ADD CONSTRAINT "FK_MACHINE_DIMENSION" FOREIGN KEY (id_dimension) REFERENCES sc_input_dimension(id_input_dimension);
+
+
+--
+-- TOC entry 3443 (class 2606 OID 54962)
+-- Name: FK_MACHINE_DOCUMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_document
+    ADD CONSTRAINT "FK_MACHINE_DOCUMENT" FOREIGN KEY (id_machine) REFERENCES sc_machine(id_machine);
+
+
+--
+-- TOC entry 3446 (class 2606 OID 54967)
+-- Name: FK_MACHINE_MACHINE_PART; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part
+    ADD CONSTRAINT "FK_MACHINE_MACHINE_PART" FOREIGN KEY (id_machine) REFERENCES sc_machine(id_machine);
+
+
+--
+-- TOC entry 3437 (class 2606 OID 54972)
+-- Name: FK_MACHINE_MONEY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine
+    ADD CONSTRAINT "FK_MACHINE_MONEY" FOREIGN KEY (id_money) REFERENCES sc_money(id_money);
+
+
+--
+-- TOC entry 3438 (class 2606 OID 54977)
+-- Name: FK_MACHINE_PARTNER; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine
+    ADD CONSTRAINT "FK_MACHINE_PARTNER" FOREIGN KEY (id_partner) REFERENCES sc_partner(id_partner);
+
+
+--
+-- TOC entry 3451 (class 2606 OID 54982)
+-- Name: FK_MACHINE_PART_ATTACHED; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part_attached
+    ADD CONSTRAINT "FK_MACHINE_PART_ATTACHED" FOREIGN KEY (id_machine_part) REFERENCES sc_machine_part(id_machine_part);
+
+
+--
+-- TOC entry 3452 (class 2606 OID 54987)
+-- Name: FK_MACHINE_PART_DOCUMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part_document
+    ADD CONSTRAINT "FK_MACHINE_PART_DOCUMENT" FOREIGN KEY (id_machine_part) REFERENCES sc_machine_part(id_machine_part);
+
+
+--
+-- TOC entry 3439 (class 2606 OID 54992)
+-- Name: FK_MACHINE_PRIORITY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine
+    ADD CONSTRAINT "FK_MACHINE_PRIORITY" FOREIGN KEY (id_priority) REFERENCES sc_priority(id_priority);
+
+
+--
+-- TOC entry 3440 (class 2606 OID 54997)
+-- Name: FK_MACHINE_TIME; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine
+    ADD CONSTRAINT "FK_MACHINE_TIME" FOREIGN KEY (id_time) REFERENCES sc_time(id_time);
+
+
+--
+-- TOC entry 3454 (class 2606 OID 55002)
+-- Name: FK_MAINTENANCE_ACTIVITY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_activity
+    ADD CONSTRAINT "FK_MAINTENANCE_ACTIVITY" FOREIGN KEY (id_maintenance) REFERENCES ot_maintenance(id_maintenance);
+
+
+--
+-- TOC entry 3408 (class 2606 OID 55007)
+-- Name: FK_MAINTENANCE_CLASIFICATION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY ot_maintenance
+    ADD CONSTRAINT "FK_MAINTENANCE_CLASIFICATION" FOREIGN KEY (id_maintenance_clasification) REFERENCES sc_maintenance_clasification(id_maintenance_clasification);
+
+
+--
+-- TOC entry 3414 (class 2606 OID 55012)
+-- Name: FK_MAINTENANCE_CORRECTIVE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY ot_maintenance_corrective
+    ADD CONSTRAINT "FK_MAINTENANCE_CORRECTIVE" FOREIGN KEY (id_maintenance) REFERENCES ot_maintenance(id_maintenance);
+
+
+--
+-- TOC entry 3409 (class 2606 OID 55017)
+-- Name: FK_MAINTENANCE_DAMAGE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY ot_maintenance
+    ADD CONSTRAINT "FK_MAINTENANCE_DAMAGE" FOREIGN KEY (id_maintenance_damage) REFERENCES sc_maintenance_damage(id_maintenance_damage);
+
+
+--
+-- TOC entry 3410 (class 2606 OID 55022)
+-- Name: FK_MAINTENANCE_MACHINE_PART; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY ot_maintenance
+    ADD CONSTRAINT "FK_MAINTENANCE_MACHINE_PART" FOREIGN KEY (id_machine_part) REFERENCES sc_machine_part(id_machine_part);
+
+
+--
+-- TOC entry 3411 (class 2606 OID 55027)
+-- Name: FK_MAINTENANCE_PRIORITY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY ot_maintenance
+    ADD CONSTRAINT "FK_MAINTENANCE_PRIORITY" FOREIGN KEY (id_priority) REFERENCES sc_priority(id_priority);
+
+
+--
+-- TOC entry 3461 (class 2606 OID 55032)
+-- Name: FK_MAINTENANCE_REPLACEMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_replacement
+    ADD CONSTRAINT "FK_MAINTENANCE_REPLACEMENT" FOREIGN KEY (id_replacement) REFERENCES sc_replacement(id_replacement);
+
+
+--
+-- TOC entry 3462 (class 2606 OID 55037)
+-- Name: FK_MAINTENANCE_REPLACEMENT_MAINTENANCE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_replacement
+    ADD CONSTRAINT "FK_MAINTENANCE_REPLACEMENT_MAINTENANCE" FOREIGN KEY (id_maintenance) REFERENCES ot_maintenance(id_maintenance);
+
+
+--
+-- TOC entry 3412 (class 2606 OID 55042)
+-- Name: FK_MAINTENANCE_STATE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY ot_maintenance
+    ADD CONSTRAINT "FK_MAINTENANCE_STATE" FOREIGN KEY (id_maintenance_state) REFERENCES sc_maintenance_state(id_maintenance_state);
+
+
+--
+-- TOC entry 3501 (class 2606 OID 55047)
+-- Name: FK_MAINTENANCE_STOP_MACHINE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_stop_machine
+    ADD CONSTRAINT "FK_MAINTENANCE_STOP_MACHINE" FOREIGN KEY (id_maintenance) REFERENCES ot_maintenance(id_maintenance);
+
+
+--
+-- TOC entry 3463 (class 2606 OID 55052)
+-- Name: FK_MAINTENANCE_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_tool
+    ADD CONSTRAINT "FK_MAINTENANCE_TOOL" FOREIGN KEY (id_tool) REFERENCES sc_tool(id_tool);
+
+
+--
+-- TOC entry 3464 (class 2606 OID 55057)
+-- Name: FK_MAINTENANCE_TOOL_MAINTENANCE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_tool
+    ADD CONSTRAINT "FK_MAINTENANCE_TOOL_MAINTENANCE" FOREIGN KEY (id_maintenance) REFERENCES ot_maintenance(id_maintenance);
+
+
+--
+-- TOC entry 3413 (class 2606 OID 55062)
+-- Name: FK_MAINTENANCE_WORKFORCE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY ot_maintenance
+    ADD CONSTRAINT "FK_MAINTENANCE_WORKFORCE" FOREIGN KEY (id_workforce) REFERENCES sc_workforce(id_workforce);
+
+
+--
+-- TOC entry 3447 (class 2606 OID 55067)
+-- Name: FK_MONEY_MACHINE_PART; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part
+    ADD CONSTRAINT "FK_MONEY_MACHINE_PART" FOREIGN KEY (id_money) REFERENCES sc_money(id_money);
+
+
+--
+-- TOC entry 3492 (class 2606 OID 55072)
+-- Name: FK_MONEY_REPLACEMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "FK_MONEY_REPLACEMENT" FOREIGN KEY (id_money) REFERENCES sc_money(id_money);
+
+
+--
+-- TOC entry 3509 (class 2606 OID 55077)
+-- Name: FK_MONEY_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "FK_MONEY_TOOL" FOREIGN KEY (id_money) REFERENCES sc_money(id_money);
+
+
+--
+-- TOC entry 3448 (class 2606 OID 55082)
+-- Name: FK_PRIORITY_MACHINE_PART; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part
+    ADD CONSTRAINT "FK_PRIORITY_MACHINE_PART" FOREIGN KEY (id_priority) REFERENCES sc_priority(id_priority);
+
+
+--
+-- TOC entry 3493 (class 2606 OID 55087)
+-- Name: FK_PRIORITY_REPLACEMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "FK_PRIORITY_REPLACEMENT" FOREIGN KEY (id_priority) REFERENCES sc_priority(id_priority);
+
+
+--
+-- TOC entry 3510 (class 2606 OID 55092)
+-- Name: FK_PRIORITY_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "FK_PRIORITY_TOOL" FOREIGN KEY (id_priority) REFERENCES sc_priority(id_priority);
+
+
+--
+-- TOC entry 3474 (class 2606 OID 55097)
+-- Name: FK_PROCESS_EMPLOYEE_EMPLOYEE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_process_employee
+    ADD CONSTRAINT "FK_PROCESS_EMPLOYEE_EMPLOYEE" FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
+
+
+--
+-- TOC entry 3475 (class 2606 OID 55102)
+-- Name: FK_PROCESS_EMPLOYEE_PROCESS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_process_employee
+    ADD CONSTRAINT "FK_PROCESS_EMPLOYEE_PROCESS" FOREIGN KEY (id_process) REFERENCES sc_procces_product(id_process_product);
+
+
+--
+-- TOC entry 3476 (class 2606 OID 55107)
+-- Name: FK_PROCESS_INPUT_INPUT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_process_input
+    ADD CONSTRAINT "FK_PROCESS_INPUT_INPUT" FOREIGN KEY (id_input) REFERENCES sc_input(id_input);
+
+
+--
+-- TOC entry 3477 (class 2606 OID 55112)
+-- Name: FK_PROCESS_INPUT_PROCESS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_process_input
+    ADD CONSTRAINT "FK_PROCESS_INPUT_PROCESS" FOREIGN KEY (id_process) REFERENCES sc_procces_product(id_process_product);
+
+
+--
+-- TOC entry 3478 (class 2606 OID 55117)
+-- Name: FK_PROCESS_MACHINE_MACHINE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_process_machine
+    ADD CONSTRAINT "FK_PROCESS_MACHINE_MACHINE" FOREIGN KEY (id_machine) REFERENCES sc_machine(id_machine);
+
+
+--
+-- TOC entry 3479 (class 2606 OID 55122)
+-- Name: FK_PROCESS_PROCESS_MACHINE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_process_machine
+    ADD CONSTRAINT "FK_PROCESS_PROCESS_MACHINE" FOREIGN KEY (id_process) REFERENCES sc_procces_product(id_process_product);
+
+
+--
+-- TOC entry 3472 (class 2606 OID 55127)
+-- Name: FK_PROCESS_PROCESS_TYPE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_procces_product
+    ADD CONSTRAINT "FK_PROCESS_PROCESS_TYPE" FOREIGN KEY (id_process_type) REFERENCES sc_process_type(id_process_type);
+
+
+--
+-- TOC entry 3473 (class 2606 OID 55132)
+-- Name: FK_PROCESS_PRODUCT_FORMULATION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_procces_product
+    ADD CONSTRAINT "FK_PROCESS_PRODUCT_FORMULATION" FOREIGN KEY (id_product_formulation) REFERENCES sc_product_formulation(id_product_formulation);
+
+
+--
+-- TOC entry 3482 (class 2606 OID 55137)
+-- Name: FK_PRODUCT_DIMENSION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_formulation
+    ADD CONSTRAINT "FK_PRODUCT_DIMENSION" FOREIGN KEY (id_product_dimension) REFERENCES sc_input_dimension(id_input_dimension);
+
+
+--
+-- TOC entry 3480 (class 2606 OID 55142)
+-- Name: FK_PRODUCT_FORMULATION_ATTACHED; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_attached
+    ADD CONSTRAINT "FK_PRODUCT_FORMULATION_ATTACHED" FOREIGN KEY (id_product_formulation) REFERENCES sc_product_formulation(id_product_formulation);
+
+
+--
+-- TOC entry 3483 (class 2606 OID 55147)
+-- Name: FK_PRODUCT_FORMULATION_COST_CENTER; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_formulation
+    ADD CONSTRAINT "FK_PRODUCT_FORMULATION_COST_CENTER" FOREIGN KEY (id_cost_center) REFERENCES sc_cost_center(id_cost_center);
+
+
+--
+-- TOC entry 3484 (class 2606 OID 55152)
+-- Name: FK_PRODUCT_FORMULATION_MONEY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_formulation
+    ADD CONSTRAINT "FK_PRODUCT_FORMULATION_MONEY" FOREIGN KEY (id_money) REFERENCES sc_money(id_money);
+
+
+--
+-- TOC entry 3485 (class 2606 OID 55157)
+-- Name: FK_PRODUCT_FORMULATION_PACKING; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_formulation
+    ADD CONSTRAINT "FK_PRODUCT_FORMULATION_PACKING" FOREIGN KEY (id_packing) REFERENCES sc_packing_unit(id_packing);
+
+
+--
+-- TOC entry 3486 (class 2606 OID 55162)
+-- Name: FK_PRODUCT_FORMULATION_PARTNER; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_formulation
+    ADD CONSTRAINT "FK_PRODUCT_FORMULATION_PARTNER" FOREIGN KEY (id_partner) REFERENCES sc_partner(id_partner);
+
+
+--
+-- TOC entry 3487 (class 2606 OID 55167)
+-- Name: FK_PRODUCT_FORMULATION_PRIORITY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_formulation
+    ADD CONSTRAINT "FK_PRODUCT_FORMULATION_PRIORITY" FOREIGN KEY (id_priority) REFERENCES sc_priority(id_priority);
+
+
+--
+-- TOC entry 3488 (class 2606 OID 55172)
+-- Name: FK_PRODUCT_FORMULATION_STOCK; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_formulation
+    ADD CONSTRAINT "FK_PRODUCT_FORMULATION_STOCK" FOREIGN KEY (id_stock) REFERENCES sc_stock(id_stock);
+
+
+--
+-- TOC entry 3497 (class 2606 OID 55177)
+-- Name: FK_REPLACEMENT_FORMULATION_ATTACHED; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement_attached
+    ADD CONSTRAINT "FK_REPLACEMENT_FORMULATION_ATTACHED" FOREIGN KEY (id_replacement) REFERENCES sc_replacement(id_replacement);
+
+
+--
+-- TOC entry 3415 (class 2606 OID 55182)
+-- Name: FK_SCHEDULE_MAINTENANCE_EMPLOYEE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY ot_maintenance_schedule
+    ADD CONSTRAINT "FK_SCHEDULE_MAINTENANCE_EMPLOYEE" FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
+
+
+--
+-- TOC entry 3420 (class 2606 OID 55187)
+-- Name: FK_SC_INPUT_DISTRIBUTION_UNIT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_SC_INPUT_DISTRIBUTION_UNIT" FOREIGN KEY (id_distribution_unit) REFERENCES sc_distribution_unit(id_distribution_unit);
+
+
+--
+-- TOC entry 3428 (class 2606 OID 55192)
+-- Name: FK_SC_INPUT_DOCUMENTS_INPUT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input_documents
+    ADD CONSTRAINT "FK_SC_INPUT_DOCUMENTS_INPUT" FOREIGN KEY (id_input) REFERENCES sc_input(id_input);
+
+
+--
+-- TOC entry 3421 (class 2606 OID 55197)
+-- Name: FK_SC_INPUT_LOCATION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_SC_INPUT_LOCATION" FOREIGN KEY (id_location) REFERENCES sc_location(id_location);
+
+
+--
+-- TOC entry 3422 (class 2606 OID 55202)
+-- Name: FK_SC_INPUT_MONEY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_SC_INPUT_MONEY" FOREIGN KEY (id_money) REFERENCES sc_money(id_money);
+
+
+--
+-- TOC entry 3423 (class 2606 OID 55207)
+-- Name: FK_SC_INPUT_PACKING_UNIT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_SC_INPUT_PACKING_UNIT" FOREIGN KEY (id_packing) REFERENCES sc_packing_unit(id_packing);
+
+
+--
+-- TOC entry 3424 (class 2606 OID 55212)
+-- Name: FK_SC_INPUT_SC_DIMENSION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_SC_INPUT_SC_DIMENSION" FOREIGN KEY (id_input_dimension) REFERENCES sc_input_dimension(id_input_dimension);
+
+
+--
+-- TOC entry 3425 (class 2606 OID 55217)
+-- Name: FK_SC_INPUT_SC_PRIORITY; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_SC_INPUT_SC_PRIORITY" FOREIGN KEY (id_priority) REFERENCES sc_priority(id_priority);
+
+
+--
+-- TOC entry 3426 (class 2606 OID 55222)
+-- Name: FK_SC_INPUT_STOCK; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_SC_INPUT_STOCK" FOREIGN KEY (id_stock) REFERENCES sc_stock(id_stock);
+
+
+--
+-- TOC entry 3481 (class 2606 OID 55227)
+-- Name: FK_SC_PRODUCT_DOCUMENTS_INPUT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_product_documents
+    ADD CONSTRAINT "FK_SC_PRODUCT_DOCUMENTS_INPUT" FOREIGN KEY (id_product_formulation) REFERENCES sc_product_formulation(id_product_formulation);
+
+
+--
+-- TOC entry 3498 (class 2606 OID 55232)
+-- Name: FK_SC_REPLACEMENT_DOCUMENTS_; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement_documents
+    ADD CONSTRAINT "FK_SC_REPLACEMENT_DOCUMENTS_" FOREIGN KEY (id_replacement) REFERENCES sc_replacement(id_replacement);
+
+
+--
+-- TOC entry 3515 (class 2606 OID 55237)
+-- Name: FK_SC_TOOL_DOCUMENTS_; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool_documents
+    ADD CONSTRAINT "FK_SC_TOOL_DOCUMENTS_" FOREIGN KEY (id_tool) REFERENCES sc_tool(id_tool);
+
+
+--
+-- TOC entry 3494 (class 2606 OID 55242)
+-- Name: FK_STOCK_REPLACEMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "FK_STOCK_REPLACEMENT" FOREIGN KEY (id_stock) REFERENCES sc_stock(id_stock);
+
+
+--
+-- TOC entry 3511 (class 2606 OID 55247)
+-- Name: FK_STOCK_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "FK_STOCK_TOOL" FOREIGN KEY (id_stock) REFERENCES sc_stock(id_stock);
+
+
+--
+-- TOC entry 3503 (class 2606 OID 55252)
+-- Name: FK_STORE_ORDER; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_store_order_item
+    ADD CONSTRAINT "FK_STORE_ORDER" FOREIGN KEY (id_store_order) REFERENCES sc_store_order(id_store_order);
+
+
+--
+-- TOC entry 3502 (class 2606 OID 55257)
+-- Name: FK_STORE_ORDER_STATE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_store_order
+    ADD CONSTRAINT "FK_STORE_ORDER_STATE" FOREIGN KEY (id_state) REFERENCES sc_store_order_state(id_state);
+
+
+--
+-- TOC entry 3505 (class 2606 OID 55262)
+-- Name: FK_STORE_REQUISITION; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_store_requisition_item
+    ADD CONSTRAINT "FK_STORE_REQUISITION" FOREIGN KEY (id_store_requisition) REFERENCES sc_store_requisition(id_store_requisition);
+
+
+--
+-- TOC entry 3504 (class 2606 OID 55267)
+-- Name: FK_STORE_REQUISITION_STATE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_store_requisition
+    ADD CONSTRAINT "FK_STORE_REQUISITION_STATE" FOREIGN KEY (id_state) REFERENCES sc_store_requisition_state(id_state);
+
+
+--
+-- TOC entry 3495 (class 2606 OID 55272)
+-- Name: FK_SUPPLIER_GUARANTEE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "FK_SUPPLIER_GUARANTEE" FOREIGN KEY (supplier_guarantee) REFERENCES sc_partner(id_partner);
+
+
+--
+-- TOC entry 3449 (class 2606 OID 55277)
+-- Name: FK_SUPPLIER_GUARANTEE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part
+    ADD CONSTRAINT "FK_SUPPLIER_GUARANTEE" FOREIGN KEY (id_supplier_guarantee) REFERENCES sc_partner(id_partner);
+
+
+--
+-- TOC entry 3427 (class 2606 OID 55282)
+-- Name: FK_SUPPLIER_PARTNERS; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_input
+    ADD CONSTRAINT "FK_SUPPLIER_PARTNERS" FOREIGN KEY (supplier_guarantee) REFERENCES sc_partner(id_partner);
+
+
+--
+-- TOC entry 3512 (class 2606 OID 55287)
+-- Name: FK_SUPPLIER_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "FK_SUPPLIER_TOOL" FOREIGN KEY (supplier_guarantee) REFERENCES sc_partner(id_partner);
+
+
+--
+-- TOC entry 3450 (class 2606 OID 55292)
+-- Name: FK_TIME_MACHINE_PART; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_machine_part
+    ADD CONSTRAINT "FK_TIME_MACHINE_PART" FOREIGN KEY (id_time) REFERENCES sc_time(id_time);
+
+
+--
+-- TOC entry 3496 (class 2606 OID 55297)
+-- Name: FK_TIME_REPLACEMENT; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_replacement
+    ADD CONSTRAINT "FK_TIME_REPLACEMENT" FOREIGN KEY ("time") REFERENCES sc_time(id_time);
+
+
+--
+-- TOC entry 3513 (class 2606 OID 55302)
+-- Name: FK_TIME_TOOL; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool
+    ADD CONSTRAINT "FK_TIME_TOOL" FOREIGN KEY ("time") REFERENCES sc_time(id_time);
+
+
+--
+-- TOC entry 3514 (class 2606 OID 55307)
+-- Name: FK_TOOL_ATTACHED; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_tool_attached
+    ADD CONSTRAINT "FK_TOOL_ATTACHED" FOREIGN KEY (id_tool) REFERENCES sc_tool(id_tool);
+
+
+--
+-- TOC entry 3520 (class 2606 OID 55312)
+-- Name: FK_WORKFORCE_EMPLOYEE; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_workforce
+    ADD CONSTRAINT "FK_WORKFORCE_EMPLOYEE" FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
+
+
+--
+-- TOC entry 3418 (class 2606 OID 55317)
+-- Name: fk_employee_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_employee
+    ADD CONSTRAINT fk_employee_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- TOC entry 3453 (class 2606 OID 55322)
+-- Name: fk_mails_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_mails
+    ADD CONSTRAINT fk_mails_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- TOC entry 3465 (class 2606 OID 55327)
+-- Name: fk_module_permission; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_module_permission_by_role
+    ADD CONSTRAINT fk_module_permission FOREIGN KEY (id_module_permission) REFERENCES sc_module_permission(id_module_permission);
+
+
+--
+-- TOC entry 3466 (class 2606 OID 55332)
+-- Name: fk_module_permission_by_role_for_role; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_module_permission_by_role
+    ADD CONSTRAINT fk_module_permission_by_role_for_role FOREIGN KEY (id_role) REFERENCES sc_roles(id_role);
+
+
+--
+-- TOC entry 3467 (class 2606 OID 55337)
+-- Name: fk_partner_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_partner
+    ADD CONSTRAINT fk_partner_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- TOC entry 3455 (class 2606 OID 55342)
+-- Name: fk_parts_and_consumables; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_plan
+    ADD CONSTRAINT fk_parts_and_consumables FOREIGN KEY (id_parts_and_consumables) REFERENCES sc_parts_and_consumables(id_parts_and_consumables);
+
+
+--
+-- TOC entry 3517 (class 2606 OID 55347)
+-- Name: fk_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_users
+    ADD CONSTRAINT fk_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- TOC entry 3469 (class 2606 OID 55352)
+-- Name: fk_person_observation_for_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_person_observations
+    ADD CONSTRAINT fk_person_observation_for_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- TOC entry 3470 (class 2606 OID 55357)
+-- Name: fk_person_specifications_for_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_person_specifications
+    ADD CONSTRAINT fk_person_specifications_for_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- TOC entry 3471 (class 2606 OID 55362)
+-- Name: fk_phones_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_phones
+    ADD CONSTRAINT fk_phones_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- TOC entry 3518 (class 2606 OID 55367)
+-- Name: fk_role; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_users
+    ADD CONSTRAINT fk_role FOREIGN KEY (id_role) REFERENCES sc_roles(id_role);
+
+
+--
+-- TOC entry 3417 (class 2606 OID 55372)
+-- Name: fk_sc_person_to_sc_documents; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_documents
+    ADD CONSTRAINT fk_sc_person_to_sc_documents FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
+
+
+--
+-- TOC entry 3499 (class 2606 OID 55377)
+-- Name: fk_service_or_product_partner; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_services_or_products
+    ADD CONSTRAINT fk_service_or_product_partner FOREIGN KEY (id_partner) REFERENCES sc_partner(id_partner);
+
+
+--
+-- TOC entry 3456 (class 2606 OID 55382)
+-- Name: fk_type; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_plan
+    ADD CONSTRAINT fk_type FOREIGN KEY (id_type_maintenance) REFERENCES sc_type(id_type);
+
+
+--
+-- TOC entry 3468 (class 2606 OID 55387)
+-- Name: fk_type; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_parts_and_consumables
+    ADD CONSTRAINT fk_type FOREIGN KEY (id_type) REFERENCES sc_type(id_type);
+
+
+--
+-- TOC entry 3457 (class 2606 OID 55392)
+-- Name: fk_type2; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_plan
+    ADD CONSTRAINT fk_type2 FOREIGN KEY (id_type_hand_work_classification) REFERENCES sc_type(id_type);
+
+
+--
+-- TOC entry 3458 (class 2606 OID 55397)
+-- Name: fk_type4; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_plan
+    ADD CONSTRAINT fk_type4 FOREIGN KEY (id_type_frequency) REFERENCES sc_type(id_type);
+
+
+--
+-- TOC entry 3459 (class 2606 OID 55402)
+-- Name: fk_type5; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_plan
+    ADD CONSTRAINT fk_type5 FOREIGN KEY (id_type_downtime) REFERENCES sc_type(id_type);
+
+
+--
+-- TOC entry 3460 (class 2606 OID 55407)
+-- Name: fk_type6; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_maintenance_plan
+    ADD CONSTRAINT fk_type6 FOREIGN KEY (id_type_unit_unemployment) REFERENCES sc_type(id_type);
+
+
+--
+-- TOC entry 3519 (class 2606 OID 55412)
+-- Name: fk_work_experience_employee; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_work_experience
+    ADD CONSTRAINT fk_work_experience_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
+
+
+--
+-- TOC entry 3516 (class 2606 OID 55417)
+-- Name: id_class_type; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_type
+    ADD CONSTRAINT id_class_type FOREIGN KEY (id_class_type) REFERENCES sc_class_type(id_class_type);
+
+
+--
+-- TOC entry 3416 (class 2606 OID 55422)
+-- Name: id_competencies_employee; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
+--
+
+ALTER TABLE ONLY sc_competencies
+    ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
+
+
+-- Completed on 2015-10-10 07:13:50 CEST
 
 --
 -- PostgreSQL database dump complete
