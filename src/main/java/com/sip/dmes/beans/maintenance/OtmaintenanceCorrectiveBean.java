@@ -15,9 +15,9 @@ import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScMaintenanceActivity;
 import com.sip.dmes.entitys.ScMaintenanceClasification;
 import com.sip.dmes.entitys.ScMaintenanceDamage;
-import com.sip.dmes.entitys.ScMaintenanceReplacement;
+
 import com.sip.dmes.entitys.ScMaintenanceState;
-import com.sip.dmes.entitys.ScMaintenanceTool;
+
 import com.sip.dmes.entitys.ScPriority;
 import com.sip.dmes.entitys.ScReplacement;
 import com.sip.dmes.entitys.ScTool;
@@ -293,91 +293,91 @@ public class OtmaintenanceCorrectiveBean
      * @param maintenance orden de mantenimiento a la que se le añada el repuesto
      * @author Gustavo Chavarro Ortiz
      */
-    public void addItemToListReplacement(String item, List<ScMaintenanceReplacement> replacementList, OtMaintenance maintenance)
-    {
-        ScMaintenanceReplacement maintenanceReplacement = new ScMaintenanceReplacement();
-        //Validamos que el item no sea nulo
-        if(!Utilities.isEmpty(item))
-        {
-            //Obtengo el id y el nombre del item
-            int startPosition = item.indexOf("[");
-            String id = item.substring((startPosition+1), item.length()-1); //Id del repuesto
-            Long idReplacement = new Long(id);
-            String nameReplacement = item.substring(0, (startPosition-3)); //Nombre del repuesto
-            boolean exist = false;
-            
-            for(ScMaintenanceReplacement maintenanceReplacementItem: replacementList)
-            {
-                if(maintenanceReplacementItem.getIdReplacement().getIdReplacement().equals(idReplacement))
-                {
-                    exist = true;
-                    break;
-                }
-            }
-            if(!exist)
-            {
-                //Validamos que exista una lista de items
-                if(getListReplacements()!= null)
-                {
-                    for(ScReplacement replacement: getListReplacements())
-                    {
-                        if(replacement.getIdReplacement().equals(idReplacement))
-                        {
-                            maintenanceReplacement.setAmount(1L);
-                            maintenanceReplacement.setIdMaintenance(maintenance);
-                            maintenanceReplacement.setIdReplacement(replacement);
-                            replacementList.add(maintenanceReplacement);
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                log.error("Error el repuesto ya existe en la lista");
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Error el repuesto ya existe en la lista");
-            }
-        }
-        setItemAdd("");
-    }
+//    public void addItemToListReplacement(String item, List<ScMaintenanceReplacement> replacementList, OtMaintenance maintenance)
+//    {
+//        ScMaintenanceReplacement maintenanceReplacement = new ScMaintenanceReplacement();
+//        //Validamos que el item no sea nulo
+//        if(!Utilities.isEmpty(item))
+//        {
+//            //Obtengo el id y el nombre del item
+//            int startPosition = item.indexOf("[");
+//            String id = item.substring((startPosition+1), item.length()-1); //Id del repuesto
+//            Long idReplacement = new Long(id);
+//            String nameReplacement = item.substring(0, (startPosition-3)); //Nombre del repuesto
+//            boolean exist = false;
+//            
+//            for(ScMaintenanceReplacement maintenanceReplacementItem: replacementList)
+//            {
+//                if(maintenanceReplacementItem.getIdReplacement().getIdReplacement().equals(idReplacement))
+//                {
+//                    exist = true;
+//                    break;
+//                }
+//            }
+//            if(!exist)
+//            {
+//                //Validamos que exista una lista de items
+//                if(getListReplacements()!= null)
+//                {
+//                    for(ScReplacement replacement: getListReplacements())
+//                    {
+//                        if(replacement.getIdReplacement().equals(idReplacement))
+//                        {
+//                            maintenanceReplacement.setAmount(1L);
+//                            maintenanceReplacement.setIdMaintenance(maintenance);
+//                            maintenanceReplacement.setIdReplacement(replacement);
+//                            replacementList.add(maintenanceReplacement);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//            else
+//            {
+//                log.error("Error el repuesto ya existe en la lista");
+//                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Error el repuesto ya existe en la lista");
+//            }
+//        }
+//        setItemAdd("");
+//    }
     /**
      * Método encargado de eliminar un repuesto de la lista.
      * @param replacementList lista de repuestos
      * @param itemDelete repuesto a eliminar de la lista
      * @author Gustavo Chavarro
      */
-    public void deleteItemListReplacement(List<ScMaintenanceReplacement> replacementList, ScMaintenanceReplacement itemDelete)
-    {
-        if(replacementList != null && itemDelete != null)
-        {
-            if(itemDelete.getIdReplacement().getIdReplacement() != null)
-            {
-                int position =0;
-                for(ScMaintenanceReplacement maintenanceReplacement: replacementList)
-                {
-                    if(maintenanceReplacement.getIdReplacement().getIdReplacement().equals(itemDelete.getIdReplacement().getIdReplacement()))
-                    {
-                        break;
-                    }
-                    position++;
-                }
-                if(position < replacementList.size())
-                {
-                    replacementList.remove(position);
-                }
-            }
-            else
-            {
-                log.error("Error en el id del repuesto a eliminar");
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Error en el id del repuesto a eliminar");
-            }
-        }
-        else
-        {
-            log.error("El repuesto o la lista no pueden estar vacíos");
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-        }
-    }
+//    public void deleteItemListReplacement(List<ScMaintenanceReplacement> replacementList, ScMaintenanceReplacement itemDelete)
+//    {
+//        if(replacementList != null && itemDelete != null)
+//        {
+//            if(itemDelete.getIdReplacement().getIdReplacement() != null)
+//            {
+//                int position =0;
+//                for(ScMaintenanceReplacement maintenanceReplacement: replacementList)
+//                {
+//                    if(maintenanceReplacement.getIdReplacement().getIdReplacement().equals(itemDelete.getIdReplacement().getIdReplacement()))
+//                    {
+//                        break;
+//                    }
+//                    position++;
+//                }
+//                if(position < replacementList.size())
+//                {
+//                    replacementList.remove(position);
+//                }
+//            }
+//            else
+//            {
+//                log.error("Error en el id del repuesto a eliminar");
+//                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Error en el id del repuesto a eliminar");
+//            }
+//        }
+//        else
+//        {
+//            log.error("El repuesto o la lista no pueden estar vacíos");
+//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+//        }
+//    }
     
     /**
      * Método encargado de añadir los items seleccionados a la lista de la orden de mantenimiento.
@@ -386,92 +386,92 @@ public class OtmaintenanceCorrectiveBean
      * @param maintenance orden de mantenimiento a la que se le añada el herramienta
      * @author Gustavo Chavarro Ortiz
      */
-    public void addItemToListTool(String item, List<ScMaintenanceTool> toolList, OtMaintenance maintenance)
-    {
-        ScMaintenanceTool maintenanceTool = new ScMaintenanceTool();
-        //Validamos que el item no sea nulo
-        if(!Utilities.isEmpty(item))
-        {
-            //Obtengo el id y el nombre del item
-            int startPosition = item.indexOf("[");
-            String id = item.substring((startPosition+1), item.length()-1); //Id del herramienta
-            Long idTool = new Long(id);
-            String nameTool = item.substring(0, (startPosition-3)); //Nombre del herramienta
-            boolean exist = false;
-            
-            for(ScMaintenanceTool maintenanceToolItem: toolList)
-            {
-                if(maintenanceToolItem.getIdTool().getIdTool().equals(idTool))
-                {
-                    exist = true;
-                    break;
-                }
-            }
-            if(!exist)
-            {
-                //Validamos que exista una lista de items
-                if(getListTools()!= null)
-                {
-                    for(ScTool tool: getListTools())
-                    {
-                        if(tool.getIdTool().equals(idTool))
-                        {
-                            maintenanceTool.setAmount(1L);
-                            maintenanceTool.setIdMaintenance(maintenance);
-                            maintenanceTool.setIdTool(tool);
-                            toolList.add(maintenanceTool);
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                log.error("Error la herramienta ya existe en la lista");
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Error la herramienta ya existe en la lista");
-            }
-        }
-        setItemAdd("");
-    }
-    
+//    public void addItemToListTool(String item, List<ScMaintenanceTool> toolList, OtMaintenance maintenance)
+//    {
+//        ScMaintenanceTool maintenanceTool = new ScMaintenanceTool();
+//        //Validamos que el item no sea nulo
+//        if(!Utilities.isEmpty(item))
+//        {
+//            //Obtengo el id y el nombre del item
+//            int startPosition = item.indexOf("[");
+//            String id = item.substring((startPosition+1), item.length()-1); //Id del herramienta
+//            Long idTool = new Long(id);
+//            String nameTool = item.substring(0, (startPosition-3)); //Nombre del herramienta
+//            boolean exist = false;
+//            
+//            for(ScMaintenanceTool maintenanceToolItem: toolList)
+//            {
+//                if(maintenanceToolItem.getIdTool().getIdTool().equals(idTool))
+//                {
+//                    exist = true;
+//                    break;
+//                }
+//            }
+//            if(!exist)
+//            {
+//                //Validamos que exista una lista de items
+//                if(getListTools()!= null)
+//                {
+//                    for(ScTool tool: getListTools())
+//                    {
+//                        if(tool.getIdTool().equals(idTool))
+//                        {
+//                            maintenanceTool.setAmount(1L);
+//                            maintenanceTool.setIdMaintenance(maintenance);
+//                            maintenanceTool.setIdTool(tool);
+//                            toolList.add(maintenanceTool);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//            else
+//            {
+//                log.error("Error la herramienta ya existe en la lista");
+//                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Error la herramienta ya existe en la lista");
+//            }
+//        }
+//        setItemAdd("");
+//    }
+//    
     /**
      * Método encargado de eliminar una herramienta de la lista.
      * @param toolList lista herramientas
      * @param itemDelete herramienta a eliminar de la lista
      * @author Gustavo Chavarro
      */
-    public void deleteItemListTool(List<ScMaintenanceTool> toolList, ScMaintenanceTool itemDelete)
-    {
-        if(toolList != null && itemDelete != null)
-        {
-            if(itemDelete.getIdTool().getIdTool() != null)
-            {
-                int position =0;
-                for(ScMaintenanceTool maintenanceTool: toolList)
-                {
-                    if(maintenanceTool.getIdTool().getIdTool().equals(itemDelete.getIdTool().getIdTool()))
-                    {
-                        break;
-                    }
-                    position++;
-                }
-                if(position < toolList.size())
-                {
-                    toolList.remove(position);
-                }
-            }
-            else
-            {
-                log.error("Error en el id de la herramienta a eliminar");
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Error en el id de la herramienta a eliminar");
-            }
-        }
-        else
-        {
-            log.error("La herramienta o la lista no pueden estar vacíos");
-            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-        }
-    }
+//    public void deleteItemListTool(List<ScMaintenanceTool> toolList, ScMaintenanceTool itemDelete)
+//    {
+//        if(toolList != null && itemDelete != null)
+//        {
+//            if(itemDelete.getIdTool().getIdTool() != null)
+//            {
+//                int position =0;
+//                for(ScMaintenanceTool maintenanceTool: toolList)
+//                {
+//                    if(maintenanceTool.getIdTool().getIdTool().equals(itemDelete.getIdTool().getIdTool()))
+//                    {
+//                        break;
+//                    }
+//                    position++;
+//                }
+//                if(position < toolList.size())
+//                {
+//                    toolList.remove(position);
+//                }
+//            }
+//            else
+//            {
+//                log.error("Error en el id de la herramienta a eliminar");
+//                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Error en el id de la herramienta a eliminar");
+//            }
+//        }
+//        else
+//        {
+//            log.error("La herramienta o la lista no pueden estar vacíos");
+//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+//        }
+//    }
     
     /**
      * Método encargado de limpiar los valores iniciales.
@@ -486,8 +486,8 @@ public class OtmaintenanceCorrectiveBean
         getOrderSave().getIdMaintenance().setScMaintenanceActivityList(new ArrayList<ScMaintenanceActivity>());
         getOrderSave().getIdMaintenance().setIdMachinePart(new ScMachinePart());
         getOrderSave().getIdMaintenance().setIdWorkforce(new ScWorkforce());
-        getOrderSave().getIdMaintenance().setScMaintenanceReplacementList(new ArrayList<ScMaintenanceReplacement>());
-        getOrderSave().getIdMaintenance().setScMaintenanceToolList(new ArrayList<ScMaintenanceTool>());
+        //getOrderSave().getIdMaintenance().setScMaintenanceReplacementList(new ArrayList<ScMaintenanceReplacement>());
+        //getOrderSave().getIdMaintenance().setScMaintenanceToolList(new ArrayList<ScMaintenanceTool>());
         setMonths(0); setDays(0); setHours(0); setMinutes(0);
         setEndDate(null);
         setItemAdd("");

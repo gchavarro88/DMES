@@ -68,6 +68,9 @@ public class ScStoreOrder implements Serializable
     @Size(min = 1, max = 200)
     @Column(name = "order_class")
     private String orderClass;
+    @Column(name = "id_order_request")
+    private String idOrderRequest;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
@@ -223,6 +226,16 @@ public class ScStoreOrder implements Serializable
     public void setAmountItems(long amountItems)
     {
         this.amountItems = amountItems;
+    }
+
+    public String getIdOrderRequest()
+    {
+        return idOrderRequest; 
+    }
+
+    public void setIdOrderRequest(String idOrderRequest)
+    {
+        this.idOrderRequest = idOrderRequest;
     }
 
     

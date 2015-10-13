@@ -69,11 +69,6 @@ public class OtMaintenance implements Serializable
     @Size(max = 400)
     @Column(name = "description_damage")
     private String descriptionDamage;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaintenance", fetch = FetchType.EAGER)
-    private List<ScMaintenanceReplacement> scMaintenanceReplacementList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMaintenance", fetch = FetchType.EAGER)
-    private List<ScMaintenanceTool> scMaintenanceToolList;
     @JoinColumn(name = "id_workforce", referencedColumnName = "id_workforce")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScWorkforce idWorkforce;
@@ -162,28 +157,6 @@ public class OtMaintenance implements Serializable
     }
 
     
-
-    @XmlTransient
-    public List<ScMaintenanceReplacement> getScMaintenanceReplacementList()
-    {
-        return scMaintenanceReplacementList;
-    }
-
-    public void setScMaintenanceReplacementList(List<ScMaintenanceReplacement> scMaintenanceReplacementList)
-    {
-        this.scMaintenanceReplacementList = scMaintenanceReplacementList;
-    }
-
-    @XmlTransient
-    public List<ScMaintenanceTool> getScMaintenanceToolList()
-    {
-        return scMaintenanceToolList;
-    }
-
-    public void setScMaintenanceToolList(List<ScMaintenanceTool> scMaintenanceToolList)
-    {
-        this.scMaintenanceToolList = scMaintenanceToolList;
-    }
 
     public ScWorkforce getIdWorkforce()
     {

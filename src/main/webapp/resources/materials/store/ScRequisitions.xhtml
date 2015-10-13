@@ -76,17 +76,17 @@
                                         <f:selectItem itemLabel="..." />
                                         <f:selectItem itemLabel="Mantenimiento" itemValue="Mantenimiento"/>
                                         <f:selectItem itemLabel="Producción" itemValue="Producción"/>
+                                        <p:ajax listener="#{scStoreRequisitionsBean.fillAutocompleteList()}" update="tfOrderId"/>
                                     </p:selectOneMenu>
                                 </td>
                             </tr>
                             <tr>
-                                
                                 <td width="10%" align="right">
-                                    <p:outputLabel  for="tfOrderCreateBy" value="Creado por"/>
+                                    <p:outputLabel  for="tfOrderId" value="No de La Orden"/>
                                 </td>
                                 <td width="40%" align="left">
-                                    <p:inputText    id="tfOrderCreateBy"  readonly="true"
-                                                    value="#{scStoreRequisitionsBean.sessionBean.scUser.idPerson.lastName} #{scStoreRequisitionsBean.sessionBean.scUser.idPerson.lastName}"
+                                    <p:inputText    id="tfOrderId"  disabled="#{scStoreRequisitionsBean.requestBy(scStoreRequisitionsBean.storeOrderAdd)}"
+                                                    value="#{scStoreRequisitionsBean.storeOrderAdd.idOrderRequest}"
                                                     />
                                 </td>
                                 <td width="10%" align="right">
@@ -104,6 +104,20 @@
                                     <p:tooltip for="tfOrderItem" value="#{storeItem.amountRequired}"/>
                                 </td>
                                 
+                            </tr>
+                            <tr>
+                                <td width="10%" align="right">
+                                    <p:outputLabel  for="tfOrderCreateBy" value="Creado por"/>
+                                </td>
+                                <td width="40%" align="left">
+                                    <p:inputText    id="tfOrderCreateBy"  readonly="true"
+                                                    value="#{scStoreRequisitionsBean.sessionBean.scUser.idPerson.lastName} #{scStoreRequisitionsBean.sessionBean.scUser.idPerson.lastName}"
+                                                    />
+                                </td>
+                                <td width="10%" align="right">
+                                </td>
+                                <td width="40%" align="left">
+                                </td>
                             </tr>
                         </table>
                         <p:dataTable id="scDataTableItems" emptyMessage="No existe información para visualizar" 

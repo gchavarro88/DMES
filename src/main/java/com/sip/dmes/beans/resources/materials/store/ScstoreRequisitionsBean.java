@@ -61,8 +61,12 @@ public class ScstoreRequisitionsBean
     final String nameQueryProduct = "SELECT id_product_formulation, description FROM dmes.sc_product_formulation ORDER BY description ASC";
     final String nameQueryTool = "SELECT id_tool, name FROM dmes.sc_tool ORDER BY name ASC";
     final String nameQueryReplacement = "SELECT id_replacement, name FROM dmes.sc_replacement ORDER BY name ASC";
+    final String nameQueryMaintenance = "SELECT id_maintenance FROM dmes.ot_maintenance WHERE id_maintenance_state  IN (1,2)";
     final String AREA_PRODUCCION = "Producción";
     final String AREA_MANTENIMIENTO = "Manteniemiento";
+    final String ORDER_CLASS_TOOL = "Herramientas";
+    final String ORDER_CLASS_REPLACEMENT = "Repuestos y Consumibles";
+    
     /**
      * Creates a new instance of ScInputBean
      */
@@ -792,6 +796,41 @@ public class ScstoreRequisitionsBean
         }
     }
     
+    /**
+     * Método encargado de completar la lista de ordenes dependiendo del área que la 
+     * solicite.
+     * @param storeOrder orden para verificar si es de mantenimiento o de producción
+     */
+    public void fillAutocompleteListOrders(ScStoreOrder storeOrder)
+    {
+        if(storeOrder != null)
+        {
+            if(storeOrder.)
+            {
+            
+            }
+        }
+    }
+    
+    
+    /**
+     * Método encargado de habilitar o deshabilitar el campo del numero de la orden.
+     * @param storeOrder orden a guardar
+     * @return boolean valor que permite deshabilitar o habilitar (true inhabilita o false habilita)
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean requestBy(ScStoreOrder storeOrder)
+    {
+         boolean result = true;
+         if(storeOrder != null)
+         {
+            if(!Utilities.isEmpty(storeOrder.getRequiredBy()))
+            {
+                result = false;
+            }
+         }
+         return result;
+    }
     
     /**
      * Método encargado de recibir una fecha y devolverla en una cadena de caracteres
