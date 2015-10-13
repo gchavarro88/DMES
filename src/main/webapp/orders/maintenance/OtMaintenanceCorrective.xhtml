@@ -510,10 +510,10 @@
 
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                            <p:outputLabel   value="Descripción"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputTextarea    id="tfDescription"  value="#{OtmaintenanceCorrectiveBean.orderSave.description}"
+                                            <p:inputTextarea     value="#{OtmaintenanceCorrectiveBean.orderSave.description}"
                                                             />
                                         </td>
                                     </tr>
@@ -607,7 +607,7 @@
                                     <tr>
                                         <td width="98%" align="right" colspan="4">
                                             <p:commandButton id="btnSaveMaintenance" value="Guardar Mantenimiento" onsuccess="PF('dialogMaintenance').hide()"
-                                                             actionListener="#{OtmaintenanceCorrectiveBean.saveTool()}" update=":formCorrective:otDataTableCorrective,:formWizarMaintenanceSave"
+                                                             actionListener="#{OtmaintenanceCorrectiveBean.saveMaintenance()}" update=":formCorrective:otDataTableCorrective,:formWizarMaintenanceSave"
                                                              oncomplete="PF('wizardSave').loadStep('tabGeneral', false)"/>
                                             <p:spacer width="30"/>
                                             <p:commandButton id="btnCancelMaintenance" value="Cancelar" oncomplete="PF('dialogMaintenance').hide();PF('wizardSave').loadStep('tabGeneral', false)"

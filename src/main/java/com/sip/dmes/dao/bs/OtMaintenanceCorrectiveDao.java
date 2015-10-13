@@ -7,6 +7,7 @@ package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IOtMaintenanceCorrective;
 import com.sip.dmes.entitys.OtMaintenanceCorrective;
+import com.sip.dmes.entitys.OtMaintenanceSchedule;
 import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachinePart;
@@ -22,6 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository(value = "IOtMaintenanceCorrective")
@@ -199,16 +201,21 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
     }
 
     @Override
+    @Transactional
     public void saveMaintenance(OtMaintenanceCorrective orderSave, Date endDate) throws Exception
-    {
+    {   OtMaintenanceSchedule maintenanceSchedule = new OtMaintenanceSchedule();
         try
         {
             entityManager.persist(orderSave);
-            
+            maintenanceSchedule.setIdEmployee(orderSave.getIdMaintenance().getIdWorkforce().getIdEmployee());
+            maintenanceSchedule.setCreationDate(orderSave.getIdMaintenance().getCreationDate());
+            maintenanceSchedule.setEndDate(endDate);
+            maintenanceSchedule.setIdMaintenance(orderSave.getIdMaintenance().getIdMaintenance());
+            entityManager.persist(maintenanceSchedule);
         }
         catch (Exception e)
         {
-            log.error("Error al intentar hacer la persistencia de los herramientas",e);
+            log.error("Error al intentar hacer la persistencia de las ordenes de mantenimiento",e);
             throw e;
         }
     }

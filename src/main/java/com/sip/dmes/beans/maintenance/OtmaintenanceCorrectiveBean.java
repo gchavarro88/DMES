@@ -500,7 +500,16 @@ public class OtmaintenanceCorrectiveBean
     
     public void saveMaintenance()
     {
-        getOrderSave().getIdMaintenance().setDescription(getOrderSave().getDescription());
+        try
+        {
+            getOrderSave().getIdMaintenance().setDescription(getOrderSave().getDescription());
+            cleanValues();
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando crear una nueva orden de mantenimiento",e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
         
     
     }
@@ -514,7 +523,8 @@ public class OtmaintenanceCorrectiveBean
     public boolean isComboDisable(ScMachine machine)
     {
         boolean result = true;
-        if(machine != null && machine.getName().length() > 0)
+//        && machine.getName().length() > 0
+        if(machine != null )
         {
             result = false;
         }

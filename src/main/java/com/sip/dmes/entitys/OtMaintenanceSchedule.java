@@ -55,6 +55,11 @@ public class OtMaintenanceSchedule implements Serializable
     private Date creationDate;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "end_date")
+    @Temporal(TemporalType.DATE)
+    private Date endDate;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "id_maintenance")
     private long idMaintenance;
     @JoinColumn(name = "id_employee", referencedColumnName = "id_employee")
@@ -117,6 +122,18 @@ public class OtMaintenanceSchedule implements Serializable
         this.idEmployee = idEmployee;
     }
 
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
+    }
+
+    
+    
     @Override
     public int hashCode()
     {
