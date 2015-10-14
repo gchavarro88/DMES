@@ -268,14 +268,18 @@ public class OtmaintenanceCorrectiveBean
      * que se ha seleccionado.
      * @param machine máquina a la que se le van a consultar las partes
      * @author Gustavo Chavarro Ortiz
+     * @param orderSave order a modificar el nombre
      */
-    public void fillListMachinePart(ScMachine machine)
+    public void fillListMachinePart(ScMachine machine, OtMaintenanceCorrective orderSave)
     {
+        orderSave.setName("Correctivo");
+        orderSave.getIdMaintenance().setIdMachinePart(new ScMachinePart());
         if(machine != null)
         {
             try
             {
                 setListMachineParts(getOtMaintenanceCorrectiveServer().getAllMachinePartByMachine(machine));
+                orderSave.setName(orderSave.getName()+"_"+machine.getName());
             }
             catch (Exception e)
             {
@@ -283,6 +287,21 @@ public class OtmaintenanceCorrectiveBean
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
         }        
+    }
+    
+    /**
+     * Método encargado de modificar el nombre del mantenimiento.
+     * @param machinePart parte de máquina a la que se le van a consultar las partes
+     * @author Gustavo Chavarro Ortiz
+     * @param orderSave order a modificar el nombre
+     */
+    public void addPartMachineToName(ScMachinePart machinePart, OtMaintenanceCorrective orderSave)
+    {
+        orderSave.setName("Correctivo"+"_"+getMachineSave().getName());
+        if(machinePart != null)
+        {
+            orderSave.setName(orderSave.getName()+"_"+machinePart.getName());
+        }
     }
     
     
@@ -488,7 +507,7 @@ public class OtmaintenanceCorrectiveBean
         getOrderSave().getIdMaintenance().setIdWorkforce(new ScWorkforce());
         //getOrderSave().getIdMaintenance().setScMaintenanceReplacementList(new ArrayList<ScMaintenanceReplacement>());
         //getOrderSave().getIdMaintenance().setScMaintenanceToolList(new ArrayList<ScMaintenanceTool>());
-        setMonths(0); setDays(0); setHours(0); setMinutes(0);
+        setMonths(0); setDays(0); setHours(0); setMinutes(0); setStartHour(0); setStartMinutes(0);
         setEndDate(null);
         setItemAdd("");
         setMachineSave(new ScMachine());
@@ -500,10 +519,13 @@ public class OtmaintenanceCorrectiveBean
     
     public void saveMaintenance()
     {
-        try
+        try 
         {
             getOrderSave().getIdMaintenance().setDescription(getOrderSave().getDescription());
+            getOtMaintenanceCorrectiveServer().saveMaintenance(getOrderSave(), getEndDate());
+            getCorrectiveList().add(getOrderSave());
             cleanValues();
+            addError(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
         }
         catch (Exception e)
         {
@@ -571,13 +593,11 @@ public class OtmaintenanceCorrectiveBean
             if (getMonths() == 0 && getDays() == 0 && getHours() == 0 && getMinutes() == 0)
             {
                 addError(null, "Error en el Campo Duración", "Campo obligatorio, debe ingresar un valor para el campo Duración");
-                return event.getOldStep();
+                return event.getOldStep(); 
             }
         }
         else if(event.getOldStep().equals(TAB_ACTIVITIES))
-        {
-            getOrderSave().getIdMaintenance().setCreationDate(new Date());
-            
+        {   
             if(getOrderSave().getIdMaintenance().getScMaintenanceActivityList().isEmpty())
             {
                 addError(null, "Error en el Campo Actividades", "Debe ingresar por lo menos una actividad");
@@ -811,6 +831,7 @@ public class OtmaintenanceCorrectiveBean
             calendar.clear(Calendar.HOUR_OF_DAY);
             calendar.clear(Calendar.HOUR);
             calendar.clear(Calendar.SECOND);
+            calendar.clear(Calendar.AM_PM);
             calendar.add(Calendar.HOUR, getStartHour());
             calendar.add(Calendar.MINUTE, getStartMinutes());
             order.getIdMaintenance().setCreationDate(calendar.getTime()); //Se acomoda la fecha inicial

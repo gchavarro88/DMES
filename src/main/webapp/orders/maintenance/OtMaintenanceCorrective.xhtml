@@ -47,7 +47,9 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfNameMaintenance"  value="#{OtmaintenanceCorrectiveBean.orderSave.name}"
-                                                            />
+                                                            readonly="true">
+                                            <p:tooltip for="tfNameMaintenance"   value="#{OtmaintenanceCorrectiveBean.orderSave.name}" />
+                                            </p:inputText>
 
                                         </td>
                                         <td width="10%" align="right">
@@ -69,7 +71,7 @@
                                                              height="140">
                                                 <f:selectItem itemLabel="..."/>
                                                 <f:selectItems value="#{OtmaintenanceCorrectiveBean.listMachines}" var="machine" itemLabel="#{machine.name} - #{machine.mark} - #{machine.serie}"/>
-                                                <p:ajax event="change" listener="#{OtmaintenanceCorrectiveBean.fillListMachinePart(OtmaintenanceCorrectiveBean.machineSave)}" update="cbMachinePart"/>
+                                                <p:ajax event="change" listener="#{OtmaintenanceCorrectiveBean.fillListMachinePart(OtmaintenanceCorrectiveBean.machineSave, OtmaintenanceCorrectiveBean.orderSave)}" update="cbMachinePart,tfNameMaintenance"/>
                                             </p:selectOneMenu>                                                
                                         </td>
                                         <td width="10%" align="right">
@@ -83,7 +85,7 @@
                                                              >
                                                 <f:selectItem itemLabel="..."/>
                                                 <f:selectItems value="#{OtmaintenanceCorrectiveBean.listMachineParts}" var="machinePart" itemLabel="#{machinePart.name} - #{machinePart.mark} - #{machinePart.serie}"/>
-                                                
+                                                <p:ajax event="change" listener="#{OtmaintenanceCorrectiveBean.addPartMachineToName(OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart, OtmaintenanceCorrectiveBean.orderSave)}" update="tfNameMaintenance"/>
                                             </p:selectOneMenu>                                                
                                         </td>
                                     </tr> 
@@ -306,8 +308,7 @@
                                             <p:outputLabel for="tfWorkForce" value="Descripción Mano de Obra"/>
                                         </td>
                                         <td width="40%">
-                                            <p:inputTextarea id="tfWorkForce" required="true" requiredMessage="Error en el Campo Descripción Mano de Obra,
-                                                             Debe ingresar la descripción de la mano de obra" 
+                                            <p:inputTextarea id="tfWorkForce" 
                                                              value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.workforce}"/>
                                             <p:tooltip for="tfWorkForce" value="Ingrese la descripción de  la mano de obra a realizar"/>
                                         </td>
@@ -348,154 +349,7 @@
                                 
                             </p:panel>
                         </p:tab> 
-                        <p:tab title="Repuestos" id="tabReplacements" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para asignar los respuestos y consumibles">
-                            <p:panel header="Repuestos y Consumibles" >
-                                <table width="98%" cellspacing="10" >
-                                    <tr>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  for="tfReplacemente" value="Ingrese el Repuesto o Consumible"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:autoComplete id="tfReplacemente" completeMethod="#{OtmaintenanceCorrectiveBean.autocompleteMethodReplacement}" 
-                                                    forceSelection="true" effect="explode"
-                                                    value="#{OtmaintenanceCorrectiveBean.itemAdd}" emptyMessage="No hay resultados" 
-                                                    placeholder="Ingrese cualquier letra"/>
-                                            <p:spacer width="5"/>
-                                            <p:commandButton icon="ui-icon-plus" id="btnAddItem" 
-                                                             actionListener="#{OtmaintenanceCorrectiveBean.addItemToListReplacement(OtmaintenanceCorrectiveBean.itemAdd, OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceReplacementList, OtmaintenanceCorrectiveBean.orderSave.idMaintenance)}" update="tfReplacemente,dataTableReplacement"/>
-                                            <p:tooltip for="btnAddItem" value="Presione para seleccionar el repuesto"/>
-                                        </td>
-                                            
-                                        <td width="10%" align="right">
-                                        
-                                            
-                                        </td>
-                                        <td width="30%" align="left">
-                                            
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="60%" align="center" valign="top" colspan="4">
-                                            <p:dataTable id="dataTableReplacement" 
-                                                         var="replacement" 
-                                                         value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceReplacementList}"
-                                                         rowKey="#{replacement.idReplacement.idReplacement}"
-                                                         paginator="true" rows="10"  
-                                                         pageLinks="40"
-                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
-                                                         paginatorPosition="top"
-                                                         sortBy="#{replacement.idReplacement.idReplacement}">
-                                                <p:column  style="width:32px">
-                                                    <p:commandButton icon="ui-icon-close" update="dataTableReplacement" title="Eliminar Repuestos"
-                                                                     process="dataTableReplacement" 
-                                                                     actionListener="#{OtmaintenanceCorrectiveBean.deleteItemListReplacement(OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceReplacementList, replacement)}" >
-                                                    </p:commandButton>
-                                                </p:column>
-                                                <p:column  headerText="Repuesto o Consumible" sortBy="#{replacement.idReplacement.name}">
-                                                    <p:outputLabel value="#{replacement.idReplacement.name}" id="outTittle"/>
-                                                    <p:tooltip value="##{replacement.idReplacement.name}" for="outTittle"/>
-                                                </p:column>
-                                                <p:column  headerText="Marca" sortBy="#{replacement.idReplacement.mark}">
-                                                    <p:outputLabel value="#{replacement.idReplacement.mark}" id="outDescription"/>
-                                                    <p:tooltip value="#{replacement.idReplacement.mark}" for="outDescription"/>
-                                                </p:column>
-                                                <p:column  headerText="Serie" sortBy="#{replacement.idReplacement.serie}">
-                                                    <p:outputLabel value="#{replacement.idReplacement.serie}" id="outserie"/>
-                                                    <p:tooltip value="#{replacement.idReplacement.serie}" for="outserie"/>
-                                                </p:column>
-                                                <p:column  headerText="Stock" sortBy="#{replacement.idReplacement.stock.currentStock}">
-                                                    <p:outputLabel value="#{replacement.idReplacement.stock.currentStock}" id="outCurrentStock"/>
-                                                    <p:tooltip value="#{replacement.idReplacement.stock.currentStock}" for="outCurrentStock"/>
-                                                </p:column>
-                                                <p:column  headerText="Cant. Socitadas" sortBy="#{replacement.amount}">
-                                                    <p:spinner value="#{replacement.amount}" id="outAmount" min="1" max="#{replacement.idReplacement.stock.currentStock}"
-                                                               size="4"/>
-                                                    <p:tooltip value="#{replacement.amount}" for="outAmount"/>
-                                                </p:column>
-                                            </p:dataTable>
-                                        </td>
-                                    </tr>
-                                </table>
-                                
-                            </p:panel>
-                        </p:tab> 
-                        <p:tab title="Herramientas" id="tabTools" titleStyleClass="tabTittleSavePerson" 
-                               titletip="Pestaña para asignar las herramientas">
-                            <p:panel header="Herramientas" >
-                                <table width="98%" cellspacing="10" >
-                                    <tr>
-                                        <td width="20%" align="right">
-                                            <p:outputLabel  for="tfToole" value="Ingrese la Herramienta"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:autoComplete id="tfToole" completeMethod="#{OtmaintenanceCorrectiveBean.autocompleteMethodTools}" 
-                                                    forceSelection="true" effect="explode"
-                                                    value="#{OtmaintenanceCorrectiveBean.itemAdd}" emptyMessage="No hay resultados" 
-                                                    placeholder="Ingrese cualquier letra"/>
-                                            <p:spacer width="5"/>
-                                            <p:commandButton icon="ui-icon-plus" id="btnAddItemT" 
-                                                             actionListener="#{OtmaintenanceCorrectiveBean.addItemToListTool(OtmaintenanceCorrectiveBean.itemAdd, OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceToolList, OtmaintenanceCorrectiveBean.orderSave.idMaintenance)}" update="tfToole,dataTableTool"/>
-                                            <p:tooltip for="btnAddItemT" value="Presione para seleccionar el repuesto"/>
-                                        </td>
-                                            
-                                        <td width="10%" align="right">
-                                        
-                                            
-                                        </td>
-                                        <td width="30%" align="left">
-                                            
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="60%" align="center" valign="top" colspan="4">
-                                            <p:dataTable id="dataTableTool" 
-                                                         var="tool" 
-                                                         value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceToolList}"
-                                                         rowKey="#{tool.idTool.idTool}"
-                                                         paginator="true" rows="10"  
-                                                         pageLinks="40"
-                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
-                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
-                                                         paginatorPosition="top"
-                                                         sortBy="#{tool.idTool.idTool}">
-                                                <p:column  style="width:32px">
-                                                    <p:commandButton icon="ui-icon-close" update="dataTableTool" title="Eliminar Herramientas"
-                                                                     process="dataTableTool" 
-                                                                     actionListener="#{OtmaintenanceCorrectiveBean.deleteItemListTool(OtmaintenanceCorrectiveBean.orderSave.idMaintenance.scMaintenanceToolList, tool)}" >
-                                                    </p:commandButton>
-                                                </p:column>
-                                                <p:column  headerText="Herramienta" sortBy="#{tool.idTool.name}">
-                                                    <p:outputLabel value="#{tool.idTool.name}" id="outTittle"/>
-                                                    <p:tooltip value="##{tool.idTool.name}" for="outTittle"/>
-                                                </p:column>
-                                                <p:column  headerText="Marca" sortBy="#{tool.idTool.mark}">
-                                                    <p:outputLabel value="#{tool.idTool.mark}" id="outDescription"/>
-                                                    <p:tooltip value="#{tool.idTool.mark}" for="outDescription"/>
-                                                </p:column>
-                                                <p:column  headerText="Serie" sortBy="#{tool.idTool.serie}">
-                                                    <p:outputLabel value="#{tool.idTool.serie}" id="outserie"/>
-                                                    <p:tooltip value="#{tool.idTool.serie}" for="outserie"/>
-                                                </p:column>
-                                                <p:column  headerText="Stock" sortBy="#{tool.idTool.stock.currentStock}">
-                                                    <p:outputLabel value="#{tool.idTool.stock.currentStock}" id="outCurrentStock"/>
-                                                    <p:tooltip value="#{tool.idTool.stock.currentStock}" for="outCurrentStock"/>
-                                                </p:column>
-                                                <p:column  headerText="Cant. Socitadas" sortBy="#{tool.amount}">
-                                                    <p:spinner value="#{tool.amount}" id="outAmount" min="1" max="#{tool.idTool.stock.currentStock}"
-                                                               size="4"/>
-                                                    <p:tooltip value="#{tool.amount}" for="outAmount"/>
-                                                </p:column>
-                                            </p:dataTable>
-                                        </td>
-                                    </tr>
-                                </table>
-                                
-                            </p:panel>
-                        </p:tab> 
+                        
                         <p:tab title="Confirmar" id="tabConfirm" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para confirmar los datos de la orden de mantenimiento a guardar">
                             <p:panel header="Datos Básicos" >
@@ -513,7 +367,7 @@
                                             <p:outputLabel   value="Descripción"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputTextarea     value="#{OtmaintenanceCorrectiveBean.orderSave.description}"
+                                            <p:outputLabel     value="#{OtmaintenanceCorrectiveBean.orderSave.description}"
                                                             />
                                         </td>
                                     </tr>
@@ -523,14 +377,14 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:outputLabel 
-                                            value="#{OtmaintenanceCorrectiveBean.machineSave.name} - #{OtmaintenanceCorrectiveBean.machineSave.mark} - #{OtmaintenanceCorrectiveBean.machineSave.serie}" />
+                                            value="#{OtmaintenanceCorrectiveBean.machineSave.name}" />
                                         </td>
                                         <td width="10%" align="right">
                                             <p:outputLabel  value="Parte de Máquina"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:outputLabel  
-                                            value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart.name} - #{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart.name} - #{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart.name}"/>
+                                            value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idMachinePart.name}"/>
                                         </td>
                                     </tr> 
                                     <tr>
@@ -561,7 +415,7 @@
                                             <p:outputLabel  value="Empleado"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:inputTextarea    value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.idEmployee.idPerson.lastName} #{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.idEmployee.idPerson.firstName}"
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.idEmployee.idPerson.lastName} #{OtmaintenanceCorrectiveBean.orderSave.idMaintenance.idWorkforce.idEmployee.idPerson.firstName}"
                                                             />
                                         </td>
                                     </tr>
@@ -619,7 +473,7 @@
                         </p:tab> 
                     </p:wizard>
                 </h:form>
-                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', true)" listener="#{OtmaintenanceCorrectiveBean.cleanValues()}"
+                <p:ajax event="close" oncomplete="PF('wizardSave').loadStep('tabGeneral', false)" listener="#{OtmaintenanceCorrectiveBean.cleanValues()}"
                     update=":formCorrective:otDataTableCorrective,:formWizarMaintenanceSave"/>
             </p:dialog>
             <!--         finaliza el dialogo para guardar Herramientas               -->
@@ -686,11 +540,11 @@
                             <p:tooltip for="lblMachinePart" value="#{corrective.idMaintenance.idMachinePart.name}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.idMachinePart.idMachine.name}"
+                    <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.idMaintenanceDamage.damage}"
                               headerText="Daño" sortBy="#{corrective.idMaintenance.idMaintenanceDamage.damage}" id="columnDamage">    
                         <center>
-                            <p:outputLabel value="#{corrective.idMaintenance.idMachinePart.idMachine.name}" id="lblDamage"/>
-                            <p:tooltip for="lblDamage" value="#{corrective.idMaintenance.idMachinePart.idMachine.name}"/>
+                            <p:outputLabel value="#{corrective.idMaintenance.idMaintenanceDamage.damage}" id="lblDamage"/>
+                            <p:tooltip for="lblDamage" value="#{corrective.idMaintenance.idMaintenanceDamage.damage}"/>
                         </center>
                     </p:column>
                     <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.creationDate}" 

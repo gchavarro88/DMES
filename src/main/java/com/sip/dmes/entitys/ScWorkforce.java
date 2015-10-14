@@ -49,8 +49,6 @@ public class ScWorkforce implements Serializable
     @NotNull
     @Column(name = "id_workforce")
     private Long idWorkforce;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 200)
     @Column(name = "workforce")
     private String workforce;

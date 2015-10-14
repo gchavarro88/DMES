@@ -62,6 +62,12 @@ public class OtMaintenance implements Serializable
     @Column(name = "creation_date")
     @Temporal(javax.persistence.TemporalType.DATE) 
     private Date creationDate;
+    @Column(name = "response_date")
+    @Temporal(javax.persistence.TemporalType.DATE) 
+    private Date responseDate;
+    @Column(name = "end_date")
+    @Temporal(javax.persistence.TemporalType.DATE) 
+    private Date endDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "duration")
@@ -229,6 +235,28 @@ public class OtMaintenance implements Serializable
         this.scMaintenanceActivityList = scMaintenanceActivityList;
     }
 
+    public Date getResponseDate()
+    {
+        return responseDate;
+    }
+
+    public void setResponseDate(Date responseDate)
+    {
+        this.responseDate = responseDate;
+    }
+
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
+    }
+
+    
+    
     @Override
     public int hashCode()
     {

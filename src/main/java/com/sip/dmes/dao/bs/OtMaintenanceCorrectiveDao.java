@@ -206,6 +206,8 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
     {   OtMaintenanceSchedule maintenanceSchedule = new OtMaintenanceSchedule();
         try
         {
+            entityManager.persist(orderSave.getIdMaintenance().getIdWorkforce());
+            entityManager.persist(orderSave.getIdMaintenance());
             entityManager.persist(orderSave);
             maintenanceSchedule.setIdEmployee(orderSave.getIdMaintenance().getIdWorkforce().getIdEmployee());
             maintenanceSchedule.setCreationDate(orderSave.getIdMaintenance().getCreationDate());
