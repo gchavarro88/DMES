@@ -217,6 +217,24 @@
                                                     />
                                 </td>
                             </tr>
+                            <tr>
+                                <td width="10%" align="right">
+                                    <p:outputLabel  for="tfOrderId" value="No de La Orden"/>
+                                </td>
+                                <td width="40%" align="left">
+                                    <p:inputText    id="tfOrderId"  readonly="true" 
+                                                       value="#{scStoreOrderBean.storeOrderUpdate.idOrderRequest}"
+                                                    />
+                                </td>
+                                <td width="10%" align="right">
+                                    <p:outputLabel  for="tfCreateBy" value="Creado por"/>
+                                </td>
+                                <td width="40%" align="left">
+                                    <p:inputText    id="tfCreateBy"  readonly="true" 
+                                                    value="#{scStoreOrderBean.storeOrderUpdate.employeeCreate.idPerson.lastName} #{scStoreOrderBean.storeOrderUpdate.employeeCreate.idPerson.firstName}"
+                                                    />
+                                </td>
+                            </tr>
                             <tr style="visibility: #{scStoreOrderBean.storeOrderUpdate.idState.idState > 4?'visible':'hidden' };">
                                 <td width="20%" align="right" >
                                     <p:outputLabel  for="tfCreationDate" value="Razón de Cancelación"/>

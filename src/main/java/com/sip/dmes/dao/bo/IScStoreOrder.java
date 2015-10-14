@@ -37,5 +37,7 @@ public interface IScStoreOrder
     
     public List<String> getItemsForAutocomplete(String nameQuery) throws Exception; 
     
+    public List<String> getItemsForAutocompleteMaintenance(String nameQuery) throws Exception; 
+    
     public void saveStoreOrder(ScStoreOrder storeOrder) throws Exception;
 }

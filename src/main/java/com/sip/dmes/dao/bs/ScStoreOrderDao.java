@@ -275,6 +275,23 @@ public class ScStoreOrderDao implements IScStoreOrder
             throw e;
         }
     }
+
+    @Override
+    public List<String> getItemsForAutocompleteMaintenance(String nameQuery) throws Exception
+    {
+        List<String> result = null;
+        
+        try
+        {
+            Query query = entityManager.createNativeQuery(nameQuery);
+            result = (List<String>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consultar los elementos a agregar", e);
+        }
+        return result;
+    }
     
     
 }

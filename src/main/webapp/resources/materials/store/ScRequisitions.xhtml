@@ -76,7 +76,7 @@
                                         <f:selectItem itemLabel="..." />
                                         <f:selectItem itemLabel="Mantenimiento" itemValue="Mantenimiento"/>
                                         <f:selectItem itemLabel="Producción" itemValue="Producción"/>
-                                        <p:ajax listener="#{scStoreRequisitionsBean.fillAutocompleteList()}" update="tfOrderId"/>
+                                        <p:ajax listener="#{scStoreRequisitionsBean.fillAutocompleteListOrders(scStoreRequisitionsBean.storeOrderAdd)}" update="tfOrderId" />
                                     </p:selectOneMenu>
                                 </td>
                             </tr>
@@ -85,8 +85,10 @@
                                     <p:outputLabel  for="tfOrderId" value="No de La Orden"/>
                                 </td>
                                 <td width="40%" align="left">
-                                    <p:inputText    id="tfOrderId"  disabled="#{scStoreRequisitionsBean.requestBy(scStoreRequisitionsBean.storeOrderAdd)}"
-                                                    value="#{scStoreRequisitionsBean.storeOrderAdd.idOrderRequest}"
+                                    <p:autoComplete    id="tfOrderId"  disabled="#{scStoreRequisitionsBean.requestBy(scStoreRequisitionsBean.storeOrderAdd)}"
+                                                       value="#{scStoreRequisitionsBean.storeOrderAdd.idOrderRequest}" completeMethod="#{scStoreRequisitionsBean.autocompleteMetodMaintenance}"
+                                                    forceSelection="true" effect="explode" emptyMessage="No hay resultados" 
+                                                    placeholder="Ingrese número de la orden"
                                                     />
                                 </td>
                                 <td width="10%" align="right">
@@ -228,12 +230,26 @@
                                                     />
                                 </td>
                                 <td width="10%" align="right">
-                                    <p:outputLabel  for="tfOrderEmployee" value="Creado por"/>
+                                    <p:outputLabel  for="tfOrderId" value="No de La Orden"/>
                                 </td>
                                 <td width="40%" align="left">
-                                    <p:inputText    id="tfOrderEmployee"  readonly="true"
-                                                    value="#{scStoreRequisitionsBean.storeOrderUpdate.employeeCreate.idPerson.lastName} #{scStoreRequisitionsBean.storeOrderUpdate.employeeCreate.idPerson.firstName}"
+                                    <p:inputText    id="tfOrderId"  readonly="true" 
+                                                       value="#{scStoreRequisitionsBean.storeOrderUpdate.idOrderRequest}"
                                                     />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="10%" align="right">
+                                    <p:outputLabel  for="tfOrderCreateBy" value="Creado por"/>
+                                </td>
+                                <td width="40%" align="left">
+                                    <p:inputText    id="tfOrderCreateBy"  readonly="true"
+                                                    value="#{scStoreRequisitionsBean.sessionBean.scUser.idPerson.lastName} #{scStoreRequisitionsBean.sessionBean.scUser.idPerson.lastName}"
+                                                    />
+                                </td>
+                                <td width="10%" align="right">
+                                </td>
+                                <td width="40%" align="left">
                                 </td>
                             </tr>
                             <tr style="visibility: #{scStoreRequisitionsBean.storeOrderUpdate.idState.idState > 4?'visible':'hidden' };">

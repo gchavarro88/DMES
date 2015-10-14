@@ -47,6 +47,7 @@ public class ScstoreRequisitionsBean
     private String itemAdd;
     private ScStoreOrderState orderStateExpired;
     private List<String> elementsAutocomplete;
+    private List<String> maintenanceAutocomplete;
     
     //Persistencia
     private IScStoreOrder scStoreOrderServer; //Dao de persistencia                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 del insumos
@@ -61,9 +62,9 @@ public class ScstoreRequisitionsBean
     final String nameQueryProduct = "SELECT id_product_formulation, description FROM dmes.sc_product_formulation ORDER BY description ASC";
     final String nameQueryTool = "SELECT id_tool, name FROM dmes.sc_tool ORDER BY name ASC";
     final String nameQueryReplacement = "SELECT id_replacement, name FROM dmes.sc_replacement ORDER BY name ASC";
-    final String nameQueryMaintenance = "SELECT id_maintenance FROM dmes.ot_maintenance WHERE id_maintenance_state  IN (1,2)";
+    final String nameQueryMaintenance = "SELECT 'OM'||to_char(creation_date, 'yyyymmdd')||id_maintenance as id_maintenance FROM dmes.ot_maintenance  WHERE id_maintenance_state  IN (1,2)";
     final String AREA_PRODUCCION = "Producción";
-    final String AREA_MANTENIMIENTO = "Manteniemiento";
+    final String AREA_MANTENIMIENTO = "Mantenimiento";
     final String ORDER_CLASS_TOOL = "Herramientas";
     final String ORDER_CLASS_REPLACEMENT = "Repuestos y Consumibles";
     
@@ -479,7 +480,7 @@ public class ScstoreRequisitionsBean
         {
             for(String word: getElementsAutocomplete())
             {
-                if(word.contains(query))
+                if(word.toUpperCase().contains(query.toUpperCase()))
                 {
                     result.add(word);
                 }
@@ -488,6 +489,28 @@ public class ScstoreRequisitionsBean
         return result;
     }
     
+    
+    /**
+     * Método encargado de completar el id de los mantenimientos y de producción.
+     * @param query palabra o indicio con cual buscar
+     * @return List<String> lista de posibles opciones
+     * @author Gustavo Chavarro Ortiz
+     */
+    public List<String> autocompleteMetodMaintenance(String query)
+    {
+        List<String> result = new ArrayList<>();
+        if(getMaintenanceAutocomplete()!= null && !getMaintenanceAutocomplete().isEmpty())
+        {
+            for(String word: getMaintenanceAutocomplete())
+            {
+                if(word.contains(query.toUpperCase()))
+                {
+                    result.add(word);
+                }
+            }
+        }
+        return result;
+    }
     
     /**
      * Método encargado de consultar los items para la clase escogida de la requisición.
@@ -742,39 +765,47 @@ public class ScstoreRequisitionsBean
                 {
                     if(!Utilities.isEmpty(getStoreOrderAdd().getRequiredBy()))
                     {
-                        if(getStoreOrderAdd().getStoreOrderItemList().size() > 0)
+                        if(!Utilities.isEmpty(getStoreOrderAdd().getIdOrderRequest()))
                         {
-                            getStoreOrderAdd().setCreationDate(new Date()); //Añadimos la fecha actual
-                            //Añadimos la persona que crea la orden
-                            getStoreOrderAdd().setEmployeeCreate(getScStoreOrderServer(). 
-                            getEmployeeByPerson(getSessionBean().getScUser().getIdPerson()));
-                            //Añadimos la cantidad de items en la orden
-                            getStoreOrderAdd().setAmountItems(getStoreOrderAdd().getStoreOrderItemList().size());
-                            //Alistmaos las cantidades pendientes de todos los items
-                            for(ScStoreOrderItem item : getStoreOrderAdd().getStoreOrderItemList())
+                            if(getStoreOrderAdd().getStoreOrderItemList().size() > 0)
                             {
-                                item.setAmountPending(item.getAmountRequired());
-                                item.setAmountPendingHidden(item.getAmountRequired());
+                                getStoreOrderAdd().setCreationDate(new Date()); //Añadimos la fecha actual
+                                //Añadimos la persona que crea la orden
+                                getStoreOrderAdd().setEmployeeCreate(getScStoreOrderServer(). 
+                                getEmployeeByPerson(getSessionBean().getScUser().getIdPerson()));
+                                //Añadimos la cantidad de items en la orden
+                                getStoreOrderAdd().setAmountItems(getStoreOrderAdd().getStoreOrderItemList().size());
+                                //Alistmaos las cantidades pendientes de todos los items
+                                for(ScStoreOrderItem item : getStoreOrderAdd().getStoreOrderItemList())
+                                {
+                                    item.setAmountPending(item.getAmountRequired());
+                                    item.setAmountPendingHidden(item.getAmountRequired());
+                                }
+                                //getStoreOrderAdd().setStoreOrderItemList(null);
+                                //Inicializamos en el estado programada
+                                getStoreOrderAdd().setIdState(new ScStoreOrderState((long) 1));
+                                getStoreOrderAdd().getIdState().setDescription("Programada");
+                                //Actualizamos el tipo a Entrega
+                                getStoreOrderAdd().setOrderType("Entrega");
+                                //Guardamos la requisición
+                                getScStoreOrderServer().saveStoreOrder(getStoreOrderAdd());
+                                //La añadimos a la lista que se visualiza en pantalla
+                                getStoreOrderList().add(getStoreOrderAdd());
+                                addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+                                setStoreOrderAdd(new ScStoreOrder());
+                                setItemAdd("");
+                                RequestContext.getCurrentInstance().execute("PF('dialogStoreRequisition').hide()");
                             }
-                            //getStoreOrderAdd().setStoreOrderItemList(null);
-                            //Inicializamos en el estado programada
-                            getStoreOrderAdd().setIdState(new ScStoreOrderState((long) 1));
-                            getStoreOrderAdd().getIdState().setDescription("Programada");
-                            //Actualizamos el tipo a Entrega
-                            getStoreOrderAdd().setOrderType("Entrega");
-                            //Guardamos la requisición
-                            getScStoreOrderServer().saveStoreOrder(getStoreOrderAdd());
-                            //La añadimos a la lista que se visualiza en pantalla
-                            getStoreOrderList().add(getStoreOrderAdd());
-                            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-                            setStoreOrderAdd(new ScStoreOrder());
-                            setItemAdd("");
-                            RequestContext.getCurrentInstance().execute("PF('dialogStoreRequisition').hide()");
+                            else
+                            {
+                                addError(null, "Error al crear una requisición del Almacén", 
+                                        "Debe seleccionar la menos un item para la requisición");
+                            }
                         }
                         else
                         {
                             addError(null, "Error al crear una requisición del Almacén", 
-                                    "Debe seleccionar la menos un item para la requisición");
+                                        "Debe ingresar el No de la Orden de Mantenimiento o Producción");
                         }
                     }
                     else
@@ -805,9 +836,20 @@ public class ScstoreRequisitionsBean
     {
         if(storeOrder != null)
         {
-            if(storeOrder.)
+            try
             {
-            
+                if(storeOrder.getRequiredBy().equals(AREA_PRODUCCION))
+                {
+
+                }
+                else if(storeOrder.getRequiredBy().equals(AREA_MANTENIMIENTO))
+                {
+                    setMaintenanceAutocomplete(getScStoreOrderServer().getItemsForAutocompleteMaintenance(nameQueryMaintenance));
+                }
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consultar los ids para la lista de ordenes",e);
             }
         }
     }
@@ -1114,6 +1156,16 @@ public class ScstoreRequisitionsBean
     public void setItemAdd(String itemAdd)
     {
         this.itemAdd = itemAdd;
+    }
+
+    public List<String> getMaintenanceAutocomplete()
+    {
+        return maintenanceAutocomplete;
+    }
+
+    public void setMaintenanceAutocomplete(List<String> maintenanceAutocomplete)
+    {
+        this.maintenanceAutocomplete = maintenanceAutocomplete;
     }
     
     
