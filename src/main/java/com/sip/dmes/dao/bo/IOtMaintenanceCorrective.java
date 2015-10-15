@@ -35,7 +35,7 @@ public interface IOtMaintenanceCorrective
     
     public List<ScEmployee> getAllEmployees() throws Exception;
 //  
-//    public void deleteTool(ScTool tool) throws Exception;
+    public void deleteMaintenance(OtMaintenanceCorrective orderSelected) throws Exception;
 //     
 //    public void updateTool(ScTool tool) throws Exception;
     public List<ScReplacement> getAllReplacements() throws Exception;

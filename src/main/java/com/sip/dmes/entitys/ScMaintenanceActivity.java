@@ -55,7 +55,7 @@ public class ScMaintenanceActivity implements Serializable
     @Column(name = "description")
     private String description;
     @JoinColumn(name = "id_maintenance", referencedColumnName = "id_maintenance")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false) 
     private OtMaintenance idMaintenance;
 
     public ScMaintenanceActivity()

@@ -222,6 +222,32 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
         }
     }
 
+    @Override
+    @Transactional
+    public void deleteMaintenance(OtMaintenanceCorrective orderSelected) throws Exception
+    {
+        try 
+        {
+            OtMaintenanceSchedule maintenanceSchedule = null; 
+            entityManager.remove(entityManager.contains(orderSelected)?orderSelected:entityManager.merge(orderSelected));
+            entityManager.remove(entityManager.contains(orderSelected.getIdMaintenance())
+            ?orderSelected.getIdMaintenance():entityManager.merge(orderSelected.getIdMaintenance()));            
+            Query query = entityManager.createNamedQuery("OtMaintenanceSchedule.findByManyCriterias");
+            query.setParameter("creationDate", orderSelected.getIdMaintenance().getCreationDate());
+            query.setParameter("endDate", orderSelected.getIdMaintenance().getEndDate());
+            query.setParameter("idMaintenance", orderSelected.getIdMaintenance().getIdMaintenance());
+            maintenanceSchedule = (OtMaintenanceSchedule) query.getSingleResult();
+            entityManager.remove(entityManager.contains(maintenanceSchedule)?maintenanceSchedule:entityManager.merge(maintenanceSchedule));
+        }
+        catch (Exception e)
+        { 
+            log.error("Error al intentar hacer la eliminación de las ordenes de mantenimiento",e);
+            throw e;
+        }
+        
+        
+    }
+
     
 
     

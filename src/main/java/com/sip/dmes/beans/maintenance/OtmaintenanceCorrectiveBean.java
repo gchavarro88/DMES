@@ -300,7 +300,7 @@ public class OtmaintenanceCorrectiveBean
         orderSave.setName("Correctivo"+"_"+getMachineSave().getName());
         if(machinePart != null)
         {
-            orderSave.setName(orderSave.getName()+"_"+machinePart.getName());
+            orderSave.setName(orderSave.getName()+"_"+machinePart.getName()+getFormatDateGlobal("yyyyMMddHHmmss", new Date()));
         }
     }
     
@@ -523,9 +523,10 @@ public class OtmaintenanceCorrectiveBean
         {
             getOrderSave().getIdMaintenance().setDescription(getOrderSave().getDescription());
             getOtMaintenanceCorrectiveServer().saveMaintenance(getOrderSave(), getEndDate());
+            getOrderSave().getIdMaintenance().getIdMachinePart().setIdMachine(getMachineSave());
             getCorrectiveList().add(getOrderSave());
             cleanValues();
-            addError(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
         }
         catch (Exception e)
         {
@@ -534,6 +535,49 @@ public class OtmaintenanceCorrectiveBean
         }
         
     
+    }
+    
+    /**
+     * Método encargardo de permitirle al usuario seleccionar un mantenimiento para visualizar
+     * o para eliminar.
+     * @param orderSelected mantenimiento a cargar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForViewOrDelete(OtMaintenanceCorrective orderSelected)
+    {
+        if(orderSelected != null)
+        {
+            setOrderSelected(orderSelected);
+        }
+    }
+    
+    public void deleteMaintenance()
+    {
+        try 
+        {
+            
+            getOtMaintenanceCorrectiveServer().deleteMaintenance(getOrderSelected());
+            int index = 0;
+            for(OtMaintenanceCorrective ot: getCorrectiveList())
+            {
+                if(ot.getIdMaintenanceCorrective().equals(getOrderSelected().getIdMaintenanceCorrective()))
+                {
+                    break;
+                }
+                index++;
+            }
+            if(index < getCorrectiveList().size())
+            {
+                getCorrectiveList().remove(index);
+            }
+            cleanValues();
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando eliminar una orden de mantenimiento",e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
     }
     
     /**
@@ -594,6 +638,10 @@ public class OtmaintenanceCorrectiveBean
             {
                 addError(null, "Error en el Campo Duración", "Campo obligatorio, debe ingresar un valor para el campo Duración");
                 return event.getOldStep(); 
+            }
+            if(getEndDate() != null)
+            {
+                getOrderSave().getIdMaintenance().setEndDate(getEndDate());
             }
         }
         else if(event.getOldStep().equals(TAB_ACTIVITIES))
