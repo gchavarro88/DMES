@@ -67,6 +67,8 @@ public class ScstoreRequisitionsBean
     final String AREA_MANTENIMIENTO = "Mantenimiento";
     final String ORDER_CLASS_TOOL = "Herramientas";
     final String ORDER_CLASS_REPLACEMENT = "Repuestos y Consumibles";
+    final String ORDER_CLASS_INPUT = "Insumos";
+    final String ORDER_CLASS_PRODUCTS = "Productos";
     
     /**
      * Creates a new instance of ScInputBean
@@ -385,6 +387,28 @@ public class ScstoreRequisitionsBean
             addError(null, "Debe ingresar una razón de cancelación","");
             RequestContext.getCurrentInstance().execute("PF('dialogStoreOrder').show()");
         }
+    }
+    /**
+     * Método encargado de visualizar un item dentro del combo box de agregar un item del almacén.
+     * @param classType tipo de orden a evaluar
+     * @param area area al que pertenece el tipo de orden
+     * @return boolean valor que indica si el tipo de clase se visualizará en el combo box
+     * @author Gustavo Chavarro Ortiz
+     */
+    public boolean renderClass(String classType, String area)
+    {
+        boolean result = true;
+        if(area.equals(AREA_MANTENIMIENTO) && (classType.equals(ORDER_CLASS_REPLACEMENT)
+                || classType.equals(ORDER_CLASS_TOOL)))
+        {
+            result = false;
+        }
+        else if(area.equals(AREA_PRODUCCION) && (classType.equals(ORDER_CLASS_INPUT)
+                || classType.equals(ORDER_CLASS_PRODUCTS)))
+        {
+            result = false;
+        }
+        return result;
     }
     
     /**
@@ -851,6 +875,7 @@ public class ScstoreRequisitionsBean
             {
                 log.error("Error al intentar consultar los ids para la lista de ordenes",e);
             }
+            storeOrder.setOrderClass(null);
         }
     }
     

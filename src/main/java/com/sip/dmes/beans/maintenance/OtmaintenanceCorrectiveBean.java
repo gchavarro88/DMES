@@ -517,6 +517,12 @@ public class OtmaintenanceCorrectiveBean
         
     }
     
+    
+    
+    /**
+     * Metodo encargado de guardar un mantenimiento.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void saveMaintenance()
     {
         try 
@@ -550,6 +556,24 @@ public class OtmaintenanceCorrectiveBean
             setOrderSelected(orderSelected);
         }
     }
+    
+    /**
+     * Método encargardo de permitirle al usuario seleccionar un mantenimiento para actualizar
+     * o para eliminar.
+     * @param orderSelected mantenimiento a cargar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForUpdate(OtMaintenanceCorrective orderSelected)
+    {
+        if(orderSelected != null)
+        {
+            setOrderUpdate(orderSelected);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(getOrderUpdate().getIdMaintenance().getCreationDate());
+            setMonths(calendar.);
+        }
+    }
+    
     
     public void deleteMaintenance()
     {

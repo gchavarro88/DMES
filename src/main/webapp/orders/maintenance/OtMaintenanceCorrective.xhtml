@@ -723,6 +723,14 @@
                         </p:commandButton>
                     </f:facet>
 
+                    <p:column filterMatchMode="contains"  filterBy="OM#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('yyyyMMddHHmmss', corrective.idMaintenance.creationDate)}#{corrective.idMaintenance.idMaintenance}" headerText="No Orden" 
+                              sortBy="#{corrective.name}" id="columnIdMachine">    
+                        <center>
+                            <p:outputLabel id="lblIdMachine" value="OM#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('yyyyMMddHHmmss', corrective.idMaintenance.creationDate)}#{corrective.idMaintenance.idMaintenance}" />
+                            <p:tooltip for="lblIdMachine" value="OM#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('yyyyMMddHHmmss', corrective.idMaintenance.creationDate)}#{corrective.idMaintenance.idMaintenance}"/>
+                        </center>
+                    </p:column>
+                    
                     <p:column filterMatchMode="contains"  filterBy="#{corrective.name}" headerText="Mantenimiento" 
                               sortBy="#{corrective.name}" id="columnName">    
                         <center>
@@ -730,6 +738,7 @@
                             <p:tooltip for="lblName" value="#{corrective.name}"/>
                         </center>
                     </p:column>
+                    
                     <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.idMachinePart.idMachine.name}"
                               headerText="Máquina" sortBy="#{corrective.idMaintenance.idMachinePart.idMachine.name}" id="columnMachine">    
                         <center>
@@ -752,11 +761,11 @@
                             <p:tooltip for="lblDamage" value="#{corrective.idMaintenance.idMaintenanceDamage.damage}"/>
                         </center>
                     </p:column>
-                    <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.creationDate}" 
-                              id="columnCreationDate" headerText="Fecha Creación" sortBy="#{corrective.idMaintenance.creationDate}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy', corrective.idMaintenance.creationDate)}" 
+                              id="columnCreationDate" headerText="Fecha Creación" sortBy="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy', corrective.idMaintenance.creationDate)}">    
                         <center>
-                            <p:outputLabel value="#{corrective.idMaintenance.creationDate}" id="lblCreationDate"/>
-                            <p:tooltip for="lblCreationDate" value="#{corrective.idMaintenance.creationDate}"/>
+                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy', corrective.idMaintenance.creationDate)}" id="lblCreationDate"/>
+                            <p:tooltip for="lblCreationDate" value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy', corrective.idMaintenance.creationDate)}"/>
                         </center>
                     </p:column>
                     <p:column headerText="Admin" width="100">
@@ -766,7 +775,8 @@
                                 <p:tooltip for="btnSearch" value="Visualizar un Mantenimiento"/>
                             </p:commandButton>
                             <p:spacer width="3"/>
-                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" 
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" update=":formWizarMaintenanceUpdate"
+                                             actionListener="#{OtmaintenanceCorrectiveBean.selectedForUpdate(corrective)}"
                                              oncomplete="PF('dialogMaintenanceUpdate').show()"  
                                              >
                                 <p:tooltip for="btnEdit" value="Editar un Mantenimiento"/>

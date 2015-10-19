@@ -48,22 +48,7 @@
                     
                         <table width="98%" cellspacing="10" >
                             <tr>
-                                <td width="10%" align="right">
-                                    <p:outputLabel  for="tfOrderClass" value="Clase de Recurso"/>
-                                </td>
-                                <td width="40%" align="left">
-                                        <p:selectOneMenu id="tfOrderClass"  value="#{scStoreRequisitionsBean.storeOrderAdd.orderClass}" 
-                                                     style="width:160px; top: 6px;"
-                                                     effect="puff"
-                                                     height="140">
-                                        <f:selectItem itemLabel="..." />
-                                        <f:selectItem itemLabel="Herramientas" itemValue="Herramientas"/>
-                                        <f:selectItem itemLabel="Insumos" itemValue="Insumos"/>
-                                        <f:selectItem itemLabel="Productos" itemValue="Productos"/>
-                                        <f:selectItem itemLabel="Repuestos y Consumibles" itemValue="Repuestos y Consumibles"/>
-                                        <p:ajax listener="#{scStoreRequisitionsBean.fillAutocompleteList()}" update="tfOrderItem,lblOrderItem,scDataTableItems"/>
-                                    </p:selectOneMenu>
-                                </td>
+                                
 
                                 <td width="10%" align="right">
                                     <p:outputLabel  for="tfOrderRequired" value="Requerido Por"/>
@@ -76,7 +61,23 @@
                                         <f:selectItem itemLabel="..." />
                                         <f:selectItem itemLabel="Mantenimiento" itemValue="Mantenimiento"/>
                                         <f:selectItem itemLabel="Producción" itemValue="Producción"/>
-                                        <p:ajax listener="#{scStoreRequisitionsBean.fillAutocompleteListOrders(scStoreRequisitionsBean.storeOrderAdd)}" update="tfOrderId" />
+                                        <p:ajax listener="#{scStoreRequisitionsBean.fillAutocompleteListOrders(scStoreRequisitionsBean.storeOrderAdd)}" update="tfOrderId,tfOrderClass,sih,sii,sip,sir" />
+                                    </p:selectOneMenu>
+                                </td>
+                                <td width="10%" align="right">
+                                    <p:outputLabel  for="tfOrderClass" value="Clase de Recurso"/>
+                                </td>
+                                <td width="40%" align="left">
+                                    <p:selectOneMenu id="tfOrderClass"  value="#{scStoreRequisitionsBean.storeOrderAdd.orderClass}" 
+                                                     style="width:160px; top: 6px;"
+                                                     effect="puff"
+                                                     height="140">
+                                        <f:selectItem itemLabel="..." />
+                                        <f:selectItem itemLabel="Herramientas" id="sih" itemValue="Herramientas" itemDisabled="#{scStoreRequisitionsBean.renderClass('Herramientas',scStoreRequisitionsBean.storeOrderAdd.requiredBy)}"/>
+                                        <f:selectItem itemLabel="Repuestos y Consumibles" id="sir" itemValue="Repuestos y Consumibles" itemDisabled="#{scStoreRequisitionsBean.renderClass('Repuestos y Consumibles',scStoreRequisitionsBean.storeOrderAdd.requiredBy)}"/>
+                                        <f:selectItem itemLabel="Insumos" id="sii" itemValue="Insumos" itemDisabled="#{scStoreRequisitionsBean.renderClass('Insumos',scStoreRequisitionsBean.storeOrderAdd.requiredBy)}"/>
+                                        <f:selectItem itemLabel="Productos" id="sip" itemValue="Productos" itemDisabled="#{scStoreRequisitionsBean.renderClass('Productos',scStoreRequisitionsBean.storeOrderAdd.requiredBy)}"/>
+                                        <p:ajax listener="#{scStoreRequisitionsBean.fillAutocompleteList()}" update="tfOrderItem,lblOrderItem,scDataTableItems"/>
                                     </p:selectOneMenu>
                                 </td>
                             </tr>
