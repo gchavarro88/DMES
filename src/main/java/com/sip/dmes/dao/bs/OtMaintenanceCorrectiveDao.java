@@ -13,9 +13,12 @@ import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachinePart;
 import com.sip.dmes.entitys.ScMaintenanceClasification;
 import com.sip.dmes.entitys.ScMaintenanceDamage;
+import com.sip.dmes.entitys.ScMaintenanceState;
 import com.sip.dmes.entitys.ScPriority;
 import com.sip.dmes.entitys.ScReplacement;
 import com.sip.dmes.entitys.ScTool;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -36,13 +39,15 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
     @Override
     public List<OtMaintenanceCorrective> getAllCorrectives() throws Exception
     {
-        Date creationDate = new Date();
-        creationDate.setHours(0);
-        creationDate.setMinutes(0);
-        creationDate.setSeconds(0);
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.clear(Calendar.HOUR_OF_DAY);
+        currentDate.clear(Calendar.HOUR);
+        currentDate.clear(Calendar.MINUTE);
+        currentDate.clear(Calendar.SECOND);
+        currentDate.clear(Calendar.AM_PM);
         List<OtMaintenanceCorrective> result = null;
         Query query  = entityManager.createNamedQuery("OtMaintenanceCorrective.findByToday"); 
-        query.setParameter("creationDate", creationDate);
+        query.setParameter("creationDate", currentDate.getTime());
         try
         {
             result = (List<OtMaintenanceCorrective>) query.getResultList();
@@ -214,6 +219,8 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
             maintenanceSchedule.setEndDate(endDate);
             maintenanceSchedule.setIdMaintenance(orderSave.getIdMaintenance().getIdMaintenance());
             entityManager.persist(maintenanceSchedule);
+            orderSave.getIdMaintenance().setMaintenanceSchedule(maintenanceSchedule.getIdScheduleMaintenance());
+            entityManager.merge(orderSave.getIdMaintenance());
         }
         catch (Exception e)
         {
@@ -248,7 +255,119 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
         
     }
 
-    
+    @Override
+    @Transactional
+    public void updateMaintenance(OtMaintenanceCorrective orderSelected) throws Exception
+    {
+        String startDate = getFormatDateGlobal("yyyy-MM-dd HH:mm:ss", orderSelected.getIdMaintenance().getCreationDate());
+        String finishDate = getFormatDateGlobal("yyyy-MM-dd HH:mm:ss", orderSelected.getIdMaintenance().getEndDate());
+        String nativeQuery = "UPDATE dmes.ot_maintenance_schedule set creation_date = '"+startDate+
+        "', end_date = '"+finishDate+"', id_employee = "+orderSelected.getIdMaintenance().getIdWorkforce().getIdEmployee().getIdEmployee()+
+                " where id_schedule_maintenance = "+orderSelected.getIdMaintenance().getMaintenanceSchedule();
+        try
+        {
+            entityManager.merge(orderSelected.getIdMaintenance().getIdWorkforce());
+            entityManager.merge(orderSelected.getIdMaintenance());
+            entityManager.merge(orderSelected);
+            Query query = entityManager.createNativeQuery(nativeQuery);
+            int rows = query.executeUpdate();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la actualización de las ordenes de mantenimiento",e);
+            throw e;
+        }
+    }
+
+    /**
+     * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
+     * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón
+     * recibido
+     * <p>
+     * @param pattern patrón del formato de la fecha
+     * @param date fecha a visualizar
+     * <p>
+     * @return valor de la fecha en el formato indicado por el patrón de tipo
+     * String
+     * <p>
+     * @author: Gustavo Adolfo Chavarro Ortiz
+     */
+    public String getFormatDateGlobal(String pattern, Date date)
+    {
+        String result = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        if (date != null)
+        {
+            result = simpleDateFormat.format(date);
+        }
+        return result;
+    }
+
+    @Override
+    public List<ScMaintenanceState> getAllMaintenanceStates() throws Exception
+    {
+        
+        List<ScMaintenanceState> result =null;
+        Query query  = entityManager.createNamedQuery("ScMaintenanceState.findAll"); 
+        try
+        {
+            result = (List<ScMaintenanceState>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los estados del mantenimiento",e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<OtMaintenanceCorrective> getMaintenanceByParameters(Date initDate, Date endDate, ScMaintenanceClasification clasification, ScMaintenanceState state) throws Exception
+    {
+        String nameQuery = "SELECT o FROM OtMaintenanceCorrective o WHERE 1=1 ";
+        List<OtMaintenanceCorrective> result = null;
+        if(initDate != null)
+        {
+            nameQuery += " AND o.idMaintenance.creationDate >= :initDate ";
+        }
+        if(endDate != null)
+        {
+            nameQuery += " AND o.idMaintenance.creationDate <= :endDate  ";
+        }
+        if(clasification != null)
+        {
+            nameQuery += " AND o.idMaintenance.idMaintenanceClasification.idMaintenanceClasification = :clasification ";
+        }
+        if(state != null)
+        {
+            nameQuery += " AND o.idMaintenance.idMaintenanceState.idMaintenanceState = :state ";
+        }
+        try
+        {
+            Query query = entityManager.createQuery(nameQuery);
+            if(initDate != null)
+            {
+                query.setParameter("initDate", initDate);
+            }
+            if(endDate != null)
+            {
+                query.setParameter("endDate", endDate);
+            }
+            if(clasification != null)
+            {
+                query.setParameter("clasification", clasification.getIdMaintenanceClasification());
+            }
+            if(state != null)
+            {
+                query.setParameter("state", state.getIdMaintenanceState());
+            }
+            result = (List<OtMaintenanceCorrective>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al intentar hacer la persistencia de los estados del mantenimiento",e);
+        }
+        return result;
+    }
 
     
 

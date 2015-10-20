@@ -71,7 +71,7 @@
                                                              height="140">
                                                 <f:selectItem itemLabel="..."/>
                                                 <f:selectItems value="#{OtmaintenanceCorrectiveBean.listMachines}" var="machine" itemLabel="#{machine.name} - #{machine.mark} - #{machine.serie}"/>
-                                                <p:ajax event="change" listener="#{OtmaintenanceCorrectiveBean.fillListMachinePart(OtmaintenanceCorrectiveBean.machineSave, OtmaintenanceCorrectiveBean.orderSave)}" update="cbMachinePart,tfNameMaintenance"/>
+                                                <p:ajax event="change" listener="#{OtmaintenanceCorrectiveBean.fillListMachinePart(OtmaintenanceCorrectiveBean.machineSave, OtmaintenanceCorrectiveBean.orderSave, 0)}" update="cbMachinePart,tfNameMaintenance"/>
                                             </p:selectOneMenu>                                                
                                         </td>
                                         <td width="10%" align="right">
@@ -150,7 +150,7 @@
                                             <p:spinner id="minutes" value="#{OtmaintenanceCorrectiveBean.minutes}" min="0" max="59"
                                                        maxlength="2" size="2">
                                                 <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave)}"/>
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
                                             <p:outputLabel   value="Minutos"/>
@@ -158,7 +158,7 @@
                                             <p:spinner id="hours" value="#{OtmaintenanceCorrectiveBean.hours}"  min="0" max="23"
                                                        maxlength="2" size="2">
                                                 <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave)}"/>
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
                                             <p:outputLabel   value="Horas"/>
@@ -166,7 +166,7 @@
                                             <p:spinner id="days" value="#{OtmaintenanceCorrectiveBean.days}" min="0" max="30"
                                                        maxlength="2" size="2">
                                                 <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave)}"/>
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
                                             <p:outputLabel   value="Días"/>
@@ -174,7 +174,7 @@
                                             <p:spinner id="months" value="#{OtmaintenanceCorrectiveBean.months}"  min="0" max="12"
                                                        maxlength="2" size="2">
                                             <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave)}"/>
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
                                             <p:outputLabel   value="Meses"/>
@@ -188,7 +188,7 @@
                                             <p:spinner    id="tfStartHour"  value="#{OtmaintenanceCorrectiveBean.startHour}" min="0" max="23"
                                                           size="2"> 
                                                 <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave)}"/>
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
                                             <p:outputLabel  value="Horas"/>
@@ -196,7 +196,7 @@
                                             <p:spinner    id="tfStartMinutes"  value="#{OtmaintenanceCorrectiveBean.startMinutes}" min="0" max="59  "
                                                           size="2">
                                                 <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave)}"/>
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
                                             <p:outputLabel  value="Minutos"/>
@@ -690,7 +690,455 @@
             
             
             
-            
+                             <!--         Dialogo para actualizar 	mantenimientos         -->
+            <p:dialog id="dialogMaintenanceUpdate" widgetVar="dialogMaintenanceUpdate" draggable="true" 
+                      closable="true"  header="Actualizar Mantenimientos Correctivos" position="center top" width="800"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+
+                <h:form id="formWizarMaintenanceUpdate" >
+
+                    <p:wizard  flowListener="#{OtmaintenanceCorrectiveBean.onFlowProcessUpdateMaintenance}" id="wizardUpdate" widgetVar="wizardUpdate" 
+                               backLabel="Atras" nextLabel="Siguiente">
+                        <p:tab title="Datos Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos de mantenimientos correctivos">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfNameMaintenance" value="Nombre Mantenimiento*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfNameMaintenance"  value="#{OtmaintenanceCorrectiveBean.orderUpdate.name}"
+                                                            readonly="true">
+                                            <p:tooltip for="tfNameMaintenance"   value="#{OtmaintenanceCorrectiveBean.orderUpdate.name}" />
+                                            </p:inputText>
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputTextarea    id="tfDescription"  value="#{OtmaintenanceCorrectiveBean.orderUpdate.description}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbMachine" value="Máquina*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbMachine"  value="#{OtmaintenanceCorrectiveBean.machineUpdate}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" converter="machineConverter"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listMachines}" var="machine" itemLabel="#{machine.name} - #{machine.mark} - #{machine.serie}"/>
+                                                <p:ajax event="change" listener="#{OtmaintenanceCorrectiveBean.fillListMachinePart(OtmaintenanceCorrectiveBean.machineUpdate, OtmaintenanceCorrectiveBean.orderUpdate, 0)}" update="cbMachinePart,tfNameMaintenance"/>
+                                            </p:selectOneMenu>                                                
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbMachinePart" value="Parte de Máquina*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbMachinePart"  value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idMachinePart}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" disabled="#{OtmaintenanceCorrectiveBean.isComboDisable(OtmaintenanceCorrectiveBean.machineUpdate)}"
+                                                             height="140" converter="machinePartConverter"
+                                                             >
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listMachineParts}" var="machinePart" itemLabel="#{machinePart.name} - #{machinePart.mark} - #{machinePart.serie}"/>
+                                                <p:ajax event="change" listener="#{OtmaintenanceCorrectiveBean.addPartMachineToName(OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idMachinePart, OtmaintenanceCorrectiveBean.orderUpdate)}" update="tfNameMaintenance"/>
+                                            </p:selectOneMenu>                                                
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbClasification" value="Clasificación*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbClasification"  value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idMaintenanceClasification}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" converter="maintenanceClasificationConverter"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listClasifications}" var="clasification" 
+                                                               itemLabel="#{clasification.clasification}"/>
+                                                
+                                            </p:selectOneMenu>                                                
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbPrority" value="Prioridad*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbPrority"  value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idPriority}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" converter="priorityConverter"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listPriority}" var="priority" 
+                                                               itemLabel="#{priority.name}"/>
+                                            </p:selectOneMenu> 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="cbDamage" value="Daño*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbDamage"  value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idMaintenanceDamage}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" converter="damageConverter"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItems value="#{OtmaintenanceCorrectiveBean.listDamage}" var="damage" 
+                                                               itemLabel="#{damage.damage}"/>
+                                                
+                                            </p:selectOneMenu>                                                
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDamage" value="Descripción del Daño"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputTextarea    id="tfDamage"  value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.descriptionDamage}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Duración*"/>
+                                        </td> 
+                                        
+                                        <td width="90%" align="left" colspan="3" >
+                                            <p:spinner id="minutes" value="#{OtmaintenanceCorrectiveBean.minutes}" min="0" max="59"
+                                                       maxlength="2" size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Minutos"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner id="hours" value="#{OtmaintenanceCorrectiveBean.hours}"  min="0" max="23"
+                                                       maxlength="2" size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner id="days" value="#{OtmaintenanceCorrectiveBean.days}" min="0" max="30"
+                                                       maxlength="2" size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Días"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner id="months" value="#{OtmaintenanceCorrectiveBean.months}"  min="0" max="12"
+                                                       maxlength="2" size="2">
+                                            <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Meses"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfStartHour" value="Hora de Inicio*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:spinner    id="tfStartHour"  value="#{OtmaintenanceCorrectiveBean.startHour}" min="0" max="23"
+                                                          size="2"> 
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel  value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner    id="tfStartMinutes"  value="#{OtmaintenanceCorrectiveBean.startMinutes}" min="0" max="59  "
+                                                          size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel  value="Minutos"/>
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfEndHour" value="Fecha de Finalización*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText  readonly="true"  id="tfEndHour"  
+                                            value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceCorrectiveBean.endDate)}"/>
+                                            <p:tooltip for="tfEndHour" value="La Fecha de Finalización se calcula con base a la hora de inicio y la duracción del mantenimiento"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="Actividades" id="tabActivities" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para asignar las actividades del mantenimiento">
+                            <p:panel header="Actividades del Mantenimiento" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="40%">
+                                            <table width="100%" cellspacing="10">
+                                                <tr>
+                                                    <td width="40%" >
+                                                        <p:outputLabel for="tfTitleActivity" value="Nombre de la Actividad*"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputText id="tfTitleActivity" value="#{OtmaintenanceCorrectiveBean.activityUpdate.name}"/>
+                                                        <p:tooltip for="tfTitleActivity" value="Ingrese el título la actividad a realizar"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="40%">
+                                                        <p:outputLabel for="tfDescriptionActivity" value="Descripción"/>
+                                                    </td>
+                                                    <td width="60%">
+                                                        <p:inputTextarea id="tfDescriptionActivity" value="#{OtmaintenanceCorrectiveBean.activityUpdate.description}"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <center>
+                                                            <p:commandButton value="Guardar" update="tfTitleActivity,tfDescriptionActivity,dataTableActivitys"
+                                                                             actionListener="#{OtmaintenanceCorrectiveBean.saveActivity(OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.scMaintenanceActivityList,
+                                                                                               OtmaintenanceCorrectiveBean.activityUpdate, OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance)}"/>
+                                                        </center>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                        </td>
+                                        <td width="60%" align="center" valign="top">
+                                            <p:dataTable id="dataTableActivitys"
+                                                         var="activity" 
+                                                         value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.scMaintenanceActivityList}"
+                                                         rowKey="#{activity.name}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{activity.name}">
+                                                <p:column  style="width:32px">
+                                                    <p:commandButton icon="ui-icon-close" update="dataTableActivitys" title="Eliminar Actividades"
+                                                                     process="dataTableActivitys" 
+                                                                     actionListener="#{OtmaintenanceCorrectiveBean.deleteActivity(OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.scMaintenanceActivityList, activity)}" >
+                                                    </p:commandButton>
+                                                </p:column>
+                                                <p:column  headerText="Actividad" sortBy="#{activity.name}">
+                                                    <p:outputLabel value="#{activity.name}" id="outTittle"/>
+                                                    <p:tooltip value="#{activity.name}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Descripción" sortBy="#{activity.description}">
+                                                    <p:outputLabel value="#{activity.description}" id="outDescription"/>
+                                                    <p:tooltip value="#{activity.description}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="Mano de Obra" id="tabEmployees" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para asignar la mano de obra">
+                            <p:panel header="Mano de Obra y Empleado" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" >
+                                            <p:outputLabel for="cbWorkForceType" value="Tipo de Mano de Obra"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:selectOneMenu id="cbWorkForceType"  value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idWorkforce.typeWorkforce}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff" required="true" requiredMessage="Error en el Campo Tipo de  Mano de Obra,
+                                                             Debe ingresar el tipo de la mano de obra"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItem itemLabel="Eléctrico" itemValue="Eléctrico"/>
+                                                <f:selectItem itemLabel="Mecánico" itemValue="Mecánico"/>
+                                                <f:selectItem itemLabel="Electrónico" itemValue="Electrónico"/>
+                                                <f:selectItem itemLabel="Hidráulico" itemValue="Hidráulico"/>
+                                                <f:selectItem itemLabel="Eléctrico" itemValue="Eléctrico"/>
+                                            </p:selectOneMenu>
+                                        </td>
+                                        <td width="10%" >
+                                            <p:outputLabel for="tfWorkForce" value="Descripción Mano de Obra"/>
+                                        </td>
+                                        <td width="40%">
+                                            <p:inputTextarea id="tfWorkForce" 
+                                                             value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idWorkforce.workforce}"/>
+                                            <p:tooltip for="tfWorkForce" value="Ingrese la descripción de  la mano de obra a realizar"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td width="60%" align="center" valign="top" colspan="4">
+                                            <p:dataTable id="dataTableEmployees" 
+                                                         var="employees" 
+                                                         value="#{OtmaintenanceCorrectiveBean.employeesList}"
+                                                         rowKey="#{employees.idEmployee}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         selectionMode="single"
+                                                         selection="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idWorkforce.idEmployee}"
+                                                         sortBy="#{employees.nameEmployee}">
+                                                
+                                                <p:ajax event="rowSelect" update="dataTableEmployees"/>
+                                                <p:column selectionMode="single" width="15">
+                                                    
+                                                </p:column>
+                                                <p:column  headerText="Empleado" sortBy="#{employees.nameEmployee}">
+                                                    <p:outputLabel value="#{employees.nameEmployee}" id="outTittle"/>
+                                                    <p:tooltip value="#{employees.nameEmployee}" for="outTittle"/>
+                                                </p:column>
+                                                <p:column  headerText="Cargo" sortBy="#{employees.position}">
+                                                    <p:outputLabel value="#{employees.position}" id="outDescription"/>
+                                                    <p:tooltip value="#{employees.position}" for="outDescription"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                            </p:panel>
+                        </p:tab> 
+                        
+                        <p:tab title="Confirmar" id="tabConfirm" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para confirmar los datos de la orden de mantenimiento a guardar">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Nombre Mantenimiento"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel   value="#{OtmaintenanceCorrectiveBean.orderUpdate.name}"
+                                                            />
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Descripción"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel     value="#{OtmaintenanceCorrectiveBean.orderUpdate.description}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Máquina"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel 
+                                            value="#{OtmaintenanceCorrectiveBean.machineUpdate.name}" />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Parte de Máquina"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  
+                                            value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idMachinePart.name}"/>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel value="Clasificación"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idMaintenanceClasification.clasification}" 
+                                                           />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Prioridad"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idPriority.name}" 
+                                                             />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Daño*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idMaintenanceDamage.damage}" 
+                                                             />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Empleado"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.idWorkforce.idEmployee.nameEmployee}"
+                                                            />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Duración"/>
+                                        </td> 
+                                        
+                                        <td width="90%" align="left" colspan="3" >
+                                            <p:outputLabel  value="#{OtmaintenanceCorrectiveBean.minutes}" />
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Minutos"/>
+                                            <p:spacer width="20"/>
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.hours}" />
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:outputLabel  value="#{OtmaintenanceCorrectiveBean.days}"/>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Días"/>
+                                            <p:spacer width="20"/>
+                                            <p:outputLabel value="#{OtmaintenanceCorrectiveBean.months}" />
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Meses"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Fecha de Inicio*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel   
+                                            value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceCorrectiveBean.orderUpdate.idMaintenance.creationDate)}"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Fecha de Finalización"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel  
+                                            value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceCorrectiveBean.endDate)}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="98%" align="right" colspan="4">
+                                            <p:commandButton id="btnUpdateMaintenance" value="Guardar Mantenimiento" 
+                                                             actionListener="#{OtmaintenanceCorrectiveBean.updateMaintenance()}" update=":formCorrective:otDataTableCorrective,:formWizarMaintenanceUpdate"
+                                                             oncomplete="PF('wizardUpdate').loadStep('tabGeneral', false);PF('dialogMaintenanceUpdate').hide();"/>
+                                            <p:spacer width="30"/>
+                                            <p:commandButton id="btnCancelMaintenance" value="Cancelar" oncomplete="PF('dialogMaintenanceUpdate').hide();PF('wizardUpdate').loadStep('tabGeneral', false)"
+                                                             actionListener="#{OtmaintenanceCorrectiveBean.cleanValues()}" update=":formCorrective:otDataTableCorrective,:formWizarMaintenanceUpdate"
+                                                             />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                    </p:wizard>
+                </h:form>
+                
+            </p:dialog>
+            <!--         finaliza el dialogo para actualizar mantenimientos               --> 
             
             
             
@@ -704,6 +1152,71 @@
             <!--            Tabla de Mantenimientos                                                   -->
             <h:form id="formCorrective">
                 <p:remoteCommand name="correctiveInit" update=":formCorrective:otDataTableCorrective" />
+                <p:panel style="width: 99%;" toggleable="true" header="Ordenes de Mantenimiento Correctivo"
+                         toggleOrientation="vertical" toggleTitle="Reduzca el tamaño de este menú">
+                    <table width="100%" style="color: #FFF;">
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Fecha Inicial:" for="initDate"/>
+                            </td>
+                            <td align="left">
+                                <p:calendar value="#{OtmaintenanceCorrectiveBean.filterStarDate}" autocomplete="true" effect="explode" id="initDate" pattern="dd-MM-yyyy" 
+                                            title="Ingrese la fecha inicial del rango que desea consultar" mask="true">
+                                    <p:ajax listener="#{OtmaintenanceCorrectiveBean.compareToDates()}" event="dateSelect" update="initDate, endDate"/>
+                                </p:calendar>
+                            </td>
+                            <td align="right">
+                                <p:outputLabel value="Fecha Final:" for="endDate"/>
+                            </td>
+                            <td align="left">
+                                <p:calendar value="#{OtmaintenanceCorrectiveBean.filterEndDate}" autocomplete="true" effect="explode" id="endDate" pattern="dd-MM-yyyy" 
+                                            title="Ingrese la fecha final del rango que desea consultar" mask="true" >
+                                    <p:ajax listener="#{OtmaintenanceCorrectiveBean.compareToDates()}" event="dateSelect" update="initDate, endDate"/>
+                                </p:calendar>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <p:outputLabel value="Clasificación:" for="cbOrderType"/>
+                            </td>
+                            <td align="left">
+                                <p:selectOneMenu id="cbOrderType" value="#{OtmaintenanceCorrectiveBean.clasification}" 
+                                                 style="width: 160px; top: 6px;" converter="maintenanceClasificationConverter"
+                                                 effect="puff"
+                                                 height="140">
+                                    <f:selectItem itemLabel="..."/>
+                                    <f:selectItems value="#{OtmaintenanceCorrectiveBean.listClasifications}" var="clasification" 
+                                                   itemLabel="#{clasification.clasification}"/>
+                                </p:selectOneMenu>                                               
+                            </td>
+                            <td align="right">
+                                <p:outputLabel value="Estado:" for="cbOrderClass"/>
+                            </td>
+                            <td align="left">
+                                <p:selectOneMenu id="cbOrderClass"  value="#{OtmaintenanceCorrectiveBean.maintenanceState}" 
+                                                 style="width:160px; top: 6px;"
+                                                 effect="puff" converter="maintenanceStateConverter"
+                                                 height="140">
+                                    <f:selectItem itemLabel="..." />
+                                    <f:selectItems value="#{OtmaintenanceCorrectiveBean.listStates}" var="state" 
+                                                   itemLabel="#{state.state}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="right">
+                                <p:commandButton value="Buscar" actionListener="#{OtmaintenanceCorrectiveBean.doSearchWithParameters()}" 
+                                                 update="otDataTableCorrective"/>
+                            </td>
+                            <td colspan="2" align="left">
+                                <p:commandButton value="Limpiar" actionListener="#{OtmaintenanceCorrectiveBean.resetData()}" 
+                                                 update="otDataTableCorrective,initDate,endDate,cbOrderType,cbOrderClass"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
+                
+                
                 <p:dataTable id="otDataTableCorrective" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{OtmaintenanceCorrectiveBean.correctiveList}" var="corrective"
                              paginator="true" rows="10"  
@@ -766,6 +1279,13 @@
                         <center>
                             <p:outputLabel value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy', corrective.idMaintenance.creationDate)}" id="lblCreationDate"/>
                             <p:tooltip for="lblCreationDate" value="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd/MM/yyyy', corrective.idMaintenance.creationDate)}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{corrective.idMaintenance.idMaintenanceState.state}" 
+                              id="columnMaintenanceState" headerText="Estado" sortBy="#{corrective.idMaintenance.idMaintenanceState.state}">    
+                        <center>
+                            <p:outputLabel value="#{corrective.idMaintenance.idMaintenanceState.state}" id="lblMaintenanceState"/>
+                            <p:tooltip for="lblMaintenanceState" value="#{corrective.idMaintenance.idMaintenanceState.state}"/>
                         </center>
                     </p:column>
                     <p:column headerText="Admin" width="100">

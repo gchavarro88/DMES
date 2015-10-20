@@ -124,7 +124,7 @@ public class ScMaintenanceState implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScMaintenanceState[ idMaintenanceState=" + idMaintenanceState + " ]";
+        return idMaintenanceState + ","+state;
     }
     
 }

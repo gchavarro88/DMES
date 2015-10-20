@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.6
--- Started on 2015-10-15 16:26:03 CEST
+-- Started on 2015-10-20 18:24:51 CEST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -64,7 +64,8 @@ CREATE TABLE ot_maintenance (
     id_maintenance_damage numeric(18,0) NOT NULL,
     creation_date timestamp with time zone NOT NULL,
     response_date timestamp with time zone,
-    end_date timestamp with time zone
+    end_date timestamp with time zone,
+    id_maintenance_schedule numeric(18,0)
 );
 
 
@@ -718,7 +719,7 @@ CREATE TABLE sc_person (
     studies character varying(2000),
     description character varying(2000),
     path_photo character varying NOT NULL,
-    creation_date date NOT NULL,
+    creation_date timestamp with time zone NOT NULL,
     modify_date timestamp with time zone,
     identification numeric(18,0) NOT NULL,
     "pathFile" character varying(100)
@@ -2433,8 +2434,12 @@ ALTER TABLE dmes.sqtype OWNER TO "sipPrueba";
 -- Data for Name: ot_maintenance; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date) VALUES (18, 11, 2, '', 2, 1, 9, 0, '', 1, '2015-10-15 00:00:00+02', NULL, '2015-10-15 00:00:00+02');
-INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date) VALUES (19, 8, 2, '', 2, 1, 10, 0, '', 2, '2015-10-15 00:00:00+02', NULL, '2015-10-15 00:00:00+02');
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (18, 11, 2, '', 2, 1, 9, 0, '', 1, '2015-10-15 00:00:00+02', NULL, '2015-10-15 00:00:00+02', NULL);
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (19, 8, 2, '', 2, 1, 10, 0, '', 2, '2015-10-15 00:00:00+02', NULL, '2015-10-15 00:00:00+02', NULL);
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (22, 18, 1, '', 1, 1, 14, 0, '', 1, '2015-10-20 03:03:00.073+02', NULL, '2016-01-24 05:09:00.073+01', NULL);
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (21, 15, 2, '', 1, 1, 12, 0, '', 2, '2015-10-20 00:00:01+02', NULL, '2015-12-23 00:00:00+01', NULL);
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (20, 10, 1, '', 1, 1, 11, 0, '', 1, '2015-10-20 00:00:01+02', NULL, '2015-10-20 00:00:00+02', NULL);
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (23, 11, 1, '', 2, 1, 15, 0, '', 1, '2015-10-20 04:15:00.739+02', NULL, '2016-01-24 08:19:00.739+01', 14);
 
 
 --
@@ -2444,6 +2449,10 @@ INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, descri
 --
 
 INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance) VALUES (11, 'Correctivo_Máquina 1_Gas para moto20151015162408', '', 19);
+INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance) VALUES (12, 'Correctivo_Máquina 2_motor20151020090633', '', 20);
+INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance) VALUES (13, 'Correctivo_Máquina 1_prueba 120151020110815', '', 21);
+INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance) VALUES (14, 'Correctivo_Máquina 2_120151020111217', '', 22);
+INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance) VALUES (15, 'Correctivo_Máquina 2_3320151020153605', '', 23);
 
 
 --
@@ -2459,6 +2468,10 @@ INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creat
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (7, 13, '2015-10-15', 7, '2015-10-15 00:00:00+02');
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (8, 8, '2015-10-15', 8, '2015-10-15 00:00:00+02');
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (10, 14, '2015-10-15', 19, '2015-10-15 00:00:00+02');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (11, 16, '2015-10-20', 20, '2015-10-20 00:00:00+02');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (12, 16, '2015-10-20', 21, '2015-12-23 00:00:00+01');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (13, 9, '2015-10-20', 22, '2016-01-24 00:00:00+01');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (14, 9, '2015-10-20', 23, '2016-01-24 00:00:00+01');
 
 
 --
@@ -2860,6 +2873,10 @@ INSERT INTO sc_mails (id_mail, mail, description, id_person) VALUES (30, 'adrasa
 
 INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (18, 'teste', '', 18);
 INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (19, 'Pruba del primer ingreso', '', 19);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (20, 'Pruba del primer ingreso', '', 20);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (21, 'Prueba para Jhon', '', 21);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (22, 'Pruba del primer ingreso', '', 22);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (23, 'Pruba del primer ingreso', '', 23);
 
 
 --
@@ -3166,23 +3183,23 @@ INSERT INTO sc_partner (id_partner, active, "position", web_page, creation_date,
 -- Data for Name: sc_person; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (2, 'Cristian Camilo', 'Chaparro Cuadros', 23, 'Colombia ', 'Cali', NULL, 'Oeste de Cali', NULL, NULL, '/', '2014-09-23', NULL, 111111111111111111, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (11, 'Valentina', 'Trujillo Ocampo', 33, 'Colombia', 'Cali', 'Barrio Champañat', 'Carrera 28 # 9-52', 'Colegio 3 de primaria básica', 'Niña de Javier', '/', '2014-11-04', '2014-11-09 00:00:00+01', 11133333333, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (14, 'carlos', 'uzman', 18, 'colombia', 'cali', 'ksksks', 'calle 100', 'ooo', 'sssss', '/', '2014-11-30', NULL, 222222222, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (16, 'jaime', 'acosta', 23, 'colombia', 'cali', 'szvsfzv', 'calla 1 34#45', 'fdbdf', 'sdvsv', '/', '2015-05-14', NULL, 1609873, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (17, 'Camilo', 'Topo', 22, 'Colombia', 'Cali', '', 'Crr 92 # 3 a 30', '', '', '/', '2015-07-29', NULL, 8675545, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (18, 'leonardo jose', 'ordoñes ', 29, 'colombia', 'cali', 'tiene habilidades en la creacion de diseño arquitectonico ', ' calle 49·43 - 76', 'ing. industrial', '', '/', '2015-07-29', NULL, 166905680, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (19, 'Jesus', 'Lopez', 30, 'Colombia', 'Cali', '', 'Cr 87#4-8', '', '', '/', '2015-07-29', NULL, 6456456, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (20, 'Jose Raúl', 'Lover Daza', 28, 'Colombia', 'Cali', '', 'Calle 1 # 25 - 32 Palmira', 'Ingeniería de Sistemas', '', '/', '2015-07-29', NULL, 11302322459, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (27, 'Camilo', 'Topo', 22, 'Colombia', 'Cali', '', 'Calle 2 #3-5', 'Tecnico', '', '/', '2015-08-11', NULL, 6456454, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (29, 'jorge luis', 'PEÑA', 24, 'Colombia', 'Cali', '', 'Calle 2 #3-4', 'Tecnico', '', '/', '2015-08-11', NULL, 6456458, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (30, 'fernando', 'SAUCEDO', 25, 'Colombia', 'Cali', '', 'Calle 2 #3-3', 'Tecnico', '', '/', '2015-08-11', NULL, 6456459, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (13, 'Lizeth Nathalia', 'Girón López ', 18, 'Colombia', 'Cali', 'test', 'Calle 23 # Alfonso Bonilla Aragón', 'Ingeniería Agrícola', 'Persona interesada en conocer la empresa', '/', '2014-11-08', '2015-08-15 00:00:00+02', 1149493828, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (22, 'Jhon', 'Guerrero', 30, 'Colombia', 'Cali', '', 'Calle 100', 'Ingeniero Electrónico', '', '/', '2015-08-08', '2015-08-17 00:00:00+02', 945409696, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (1, 'Gustavo Adolfo', 'Chavarro Ortiz', 26, 'Colombia', 'Cali', '', 'Carrera 21 # 13-16', 'Ingeniero de Sistemas', '', '/', '2014-09-26', '2015-08-17 00:00:00+02', 1107046850, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (34, 'Montenegro', 'Solis', 34, 'Colombia', 'Bogotá', '', 'Calle 34 # 23 -34 ', 'Licenciatura en Portugués', '', '/', '2015-08-24', NULL, 111110303, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (3, 'Yoleidy', 'Aconcha', 26, 'Colombia', 'Cali', '', 'Carrera 103 Calle 49', 'Ingeniera Electrónica', '', '/home/gchavarro88/inputs_filePath/img/monja.jpg', '2014-10-21', '2015-08-24 00:00:00+02', 11111111111111, NULL);
-INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (36, 'Felipe Alexander', 'Escobar Giraldo', 23, 'Venezuela', 'Caracas', '', 'Calle 44 av Cali', 'Gerente en ventas', '', '/home/gchavarro88/inputs_filePath/img/superman.png', '2015-08-24', NULL, 112040405, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (2, 'Cristian Camilo', 'Chaparro Cuadros', 23, 'Colombia ', 'Cali', NULL, 'Oeste de Cali', NULL, NULL, '/', '2014-09-23 00:00:00+02', NULL, 111111111111111111, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (11, 'Valentina', 'Trujillo Ocampo', 33, 'Colombia', 'Cali', 'Barrio Champañat', 'Carrera 28 # 9-52', 'Colegio 3 de primaria básica', 'Niña de Javier', '/', '2014-11-04 00:00:00+01', '2014-11-09 00:00:00+01', 11133333333, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (14, 'carlos', 'uzman', 18, 'colombia', 'cali', 'ksksks', 'calle 100', 'ooo', 'sssss', '/', '2014-11-30 00:00:00+01', NULL, 222222222, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (16, 'jaime', 'acosta', 23, 'colombia', 'cali', 'szvsfzv', 'calla 1 34#45', 'fdbdf', 'sdvsv', '/', '2015-05-14 00:00:00+02', NULL, 1609873, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (17, 'Camilo', 'Topo', 22, 'Colombia', 'Cali', '', 'Crr 92 # 3 a 30', '', '', '/', '2015-07-29 00:00:00+02', NULL, 8675545, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (18, 'leonardo jose', 'ordoñes ', 29, 'colombia', 'cali', 'tiene habilidades en la creacion de diseño arquitectonico ', ' calle 49·43 - 76', 'ing. industrial', '', '/', '2015-07-29 00:00:00+02', NULL, 166905680, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (19, 'Jesus', 'Lopez', 30, 'Colombia', 'Cali', '', 'Cr 87#4-8', '', '', '/', '2015-07-29 00:00:00+02', NULL, 6456456, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (20, 'Jose Raúl', 'Lover Daza', 28, 'Colombia', 'Cali', '', 'Calle 1 # 25 - 32 Palmira', 'Ingeniería de Sistemas', '', '/', '2015-07-29 00:00:00+02', NULL, 11302322459, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (27, 'Camilo', 'Topo', 22, 'Colombia', 'Cali', '', 'Calle 2 #3-5', 'Tecnico', '', '/', '2015-08-11 00:00:00+02', NULL, 6456454, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (29, 'jorge luis', 'PEÑA', 24, 'Colombia', 'Cali', '', 'Calle 2 #3-4', 'Tecnico', '', '/', '2015-08-11 00:00:00+02', NULL, 6456458, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (30, 'fernando', 'SAUCEDO', 25, 'Colombia', 'Cali', '', 'Calle 2 #3-3', 'Tecnico', '', '/', '2015-08-11 00:00:00+02', NULL, 6456459, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (13, 'Lizeth Nathalia', 'Girón López ', 18, 'Colombia', 'Cali', 'test', 'Calle 23 # Alfonso Bonilla Aragón', 'Ingeniería Agrícola', 'Persona interesada en conocer la empresa', '/', '2014-11-08 00:00:00+01', '2015-08-15 00:00:00+02', 1149493828, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (22, 'Jhon', 'Guerrero', 30, 'Colombia', 'Cali', '', 'Calle 100', 'Ingeniero Electrónico', '', '/', '2015-08-08 00:00:00+02', '2015-08-17 00:00:00+02', 945409696, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (1, 'Gustavo Adolfo', 'Chavarro Ortiz', 26, 'Colombia', 'Cali', '', 'Carrera 21 # 13-16', 'Ingeniero de Sistemas', '', '/', '2014-09-26 00:00:00+02', '2015-08-17 00:00:00+02', 1107046850, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (34, 'Montenegro', 'Solis', 34, 'Colombia', 'Bogotá', '', 'Calle 34 # 23 -34 ', 'Licenciatura en Portugués', '', '/', '2015-08-24 00:00:00+02', NULL, 111110303, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (3, 'Yoleidy', 'Aconcha', 26, 'Colombia', 'Cali', '', 'Carrera 103 Calle 49', 'Ingeniera Electrónica', '', '/home/gchavarro88/inputs_filePath/img/monja.jpg', '2014-10-21 00:00:00+02', '2015-08-24 00:00:00+02', 11111111111111, NULL);
+INSERT INTO sc_person (id_person, first_name, last_name, age, country, city, personal_information, domicilie, studies, description, path_photo, creation_date, modify_date, identification, "pathFile") VALUES (36, 'Felipe Alexander', 'Escobar Giraldo', 23, 'Venezuela', 'Caracas', '', 'Calle 44 av Cali', 'Gerente en ventas', '', '/home/gchavarro88/inputs_filePath/img/superman.png', '2015-08-24 00:00:00+02', NULL, 112040405, NULL);
 
 
 --
@@ -3500,7 +3517,7 @@ INSERT INTO sc_store_order (id_store_order, order_type, order_class, id_state, c
 INSERT INTO sc_store_order (id_store_order, order_type, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store, id_order_request) VALUES (75, 'Ingreso', 'Herramientas', 8, '2015-08-11 00:00:00+02', NULL, 'Almacén', 3, 12, NULL, NULL);
 INSERT INTO sc_store_order (id_store_order, order_type, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store, id_order_request) VALUES (76, 'Ingreso', 'Insumos', 8, '2015-10-13 00:00:00+02', NULL, 'Almacén', 1, 8, NULL, NULL);
 INSERT INTO sc_store_order (id_store_order, order_type, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store, id_order_request) VALUES (77, 'Ingreso', 'Herramientas', 8, '2015-10-14 00:00:00+02', NULL, 'Almacén', 1, 8, NULL, NULL);
-INSERT INTO sc_store_order (id_store_order, order_type, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store, id_order_request) VALUES (78, 'Entrega', 'Herramientas', 1, '2015-10-14 00:00:00+02', NULL, 'Mantenimiento', 1, 8, NULL, 'OM201212121');
+INSERT INTO sc_store_order (id_store_order, order_type, order_class, id_state, creation_date, reason_cancellation, required_by, amount_items, id_employee_create, id_employee_store, id_order_request) VALUES (78, 'Entrega', 'Herramientas', 3, '2015-10-14 00:00:00+02', NULL, 'Mantenimiento', 1, 8, NULL, 'OM201212121');
 
 
 --
@@ -3730,6 +3747,10 @@ INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) 
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (8, '', 8, 'Mecánico');
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (9, '', 9, 'Electrónico');
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (10, '', 14, 'Mecánico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (11, '', 16, 'Electrónico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (12, '', 16, 'Mecánico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (14, '', 9, 'Electrónico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (15, '', 9, 'Mecánico');
 
 
 --
@@ -3747,7 +3768,7 @@ SELECT pg_catalog.setval('sqclasstype', 1, false);
 -- Name: sqmaintenanceschedule; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqmaintenanceschedule', 10, true);
+SELECT pg_catalog.setval('sqmaintenanceschedule', 14, true);
 
 
 --
@@ -3756,7 +3777,7 @@ SELECT pg_catalog.setval('sqmaintenanceschedule', 10, true);
 -- Name: sqotmaintenance; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqotmaintenance', 19, true);
+SELECT pg_catalog.setval('sqotmaintenance', 23, true);
 
 
 --
@@ -3765,7 +3786,7 @@ SELECT pg_catalog.setval('sqotmaintenance', 19, true);
 -- Name: sqotmaintenancecorrective; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqotmaintenancecorrective', 11, true);
+SELECT pg_catalog.setval('sqotmaintenancecorrective', 15, true);
 
 
 --
@@ -3963,7 +3984,7 @@ SELECT pg_catalog.setval('sqscmails', 30, true);
 -- Name: sqscmaintenanceactivity; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmaintenanceactivity', 19, true);
+SELECT pg_catalog.setval('sqscmaintenanceactivity', 23, true);
 
 
 --
@@ -4341,7 +4362,7 @@ SELECT pg_catalog.setval('sqscworkexperience', 12, true);
 -- Name: sqscworkforce; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscworkforce', 10, true);
+SELECT pg_catalog.setval('sqscworkforce', 15, true);
 
 
 --
@@ -6000,7 +6021,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2015-10-15 16:26:04 CEST
+-- Completed on 2015-10-20 18:24:51 CEST
 
 --
 -- PostgreSQL database dump complete

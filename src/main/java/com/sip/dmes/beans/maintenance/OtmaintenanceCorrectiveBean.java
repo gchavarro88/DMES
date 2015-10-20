@@ -56,6 +56,7 @@ public class OtmaintenanceCorrectiveBean
     private List<ScMaintenanceClasification> listClasifications;
     private List<ScPriority> listPriority;
     private List<ScMaintenanceDamage> listDamage;
+    private List<ScMaintenanceState> listStates;
     private int months;
     private int days;
     private int hours;
@@ -70,6 +71,12 @@ public class OtmaintenanceCorrectiveBean
     private String itemAdd;
     private int startHour;
     private int startMinutes;
+    private Date filterStarDate;
+    private Date filterEndDate;
+    private ScMaintenanceState maintenanceState;
+    private ScMaintenanceClasification clasification;
+    
+    
     
     private final static Logger log = Logger.getLogger(OtmaintenanceCorrectiveBean.class);
     private final String TAB_GENERAL = "tabGeneral";
@@ -98,8 +105,9 @@ public class OtmaintenanceCorrectiveBean
         fillListDamages();
         fillListPriorities();
         fillListEmployees();
-        fillListReplacements();
-        fillListTools();
+        fillListMaintenanceStates();
+//        fillListReplacements();
+//        fillListTools();
     }   
     
     /**
@@ -223,6 +231,26 @@ public class OtmaintenanceCorrectiveBean
     }
     
     /**
+     * Método encargado de carga la lista inicial de empleados
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void fillListMaintenanceStates()
+    {
+        if(getListStates()== null)
+        {
+            try
+            {
+                setListStates(getOtMaintenanceCorrectiveServer().getAllMaintenanceStates());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de estados de mantenimiento para visualizar", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    /**
      * Método encargado de carga la lista inicial de repuestos y consumibles
      * @author Gustavo Chavarro Ortiz
      */
@@ -267,19 +295,26 @@ public class OtmaintenanceCorrectiveBean
      * Método encargado de carga una lista de máquinas dependiendo de la máquina
      * que se ha seleccionado.
      * @param machine máquina a la que se le van a consultar las partes
+     * @option es la opción si es para actualizar o guardar
      * @author Gustavo Chavarro Ortiz
      * @param orderSave order a modificar el nombre
      */
-    public void fillListMachinePart(ScMachine machine, OtMaintenanceCorrective orderSave)
+    public void fillListMachinePart(ScMachine machine, OtMaintenanceCorrective orderSave, int option)
     {
-        orderSave.setName("Correctivo");
-        orderSave.getIdMaintenance().setIdMachinePart(new ScMachinePart());
+        if(option == 0)
+        {
+            orderSave.setName("Correctivo");
+            orderSave.getIdMaintenance().setIdMachinePart(new ScMachinePart());
+        }
         if(machine != null)
         {
             try
             {
                 setListMachineParts(getOtMaintenanceCorrectiveServer().getAllMachinePartByMachine(machine));
-                orderSave.setName(orderSave.getName()+"_"+machine.getName());
+                if(option == 0)
+                {
+                    orderSave.setName(orderSave.getName()+"_"+machine.getName());
+                }
             }
             catch (Exception e)
             {
@@ -297,7 +332,15 @@ public class OtmaintenanceCorrectiveBean
      */
     public void addPartMachineToName(ScMachinePart machinePart, OtMaintenanceCorrective orderSave)
     {
-        orderSave.setName("Correctivo"+"_"+getMachineSave().getName());
+        if(getMachineSave().getName() != null)
+        {
+            orderSave.setName("Correctivo"+"_"+getMachineSave().getName());
+        }
+        else
+        {
+            orderSave.setName("Correctivo"+"_"+getMachineUpdate().getName());
+        }
+        
         if(machinePart != null)
         {
             orderSave.setName(orderSave.getName()+"_"+machinePart.getName()+getFormatDateGlobal("yyyyMMddHHmmss", new Date()));
@@ -544,6 +587,38 @@ public class OtmaintenanceCorrectiveBean
     }
     
     /**
+     * Metodo encargado de actualizar un mantenimiento.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void updateMaintenance()
+    {
+        try 
+        {
+            getOrderUpdate().getIdMaintenance().setDescription(getOrderUpdate().getDescription());
+            getOtMaintenanceCorrectiveServer().updateMaintenance(getOrderUpdate());
+            getOrderUpdate().getIdMaintenance().getIdMachinePart().setIdMachine(getMachineUpdate());
+            int pos = 0;
+            for(OtMaintenanceCorrective corrective: getCorrectiveList())
+            {
+                if(corrective.getIdMaintenanceCorrective().equals(getOrderUpdate().getIdMaintenanceCorrective()))
+                {
+                    getCorrectiveList().set(pos, getOrderUpdate());
+                }
+                pos++;
+            }
+            cleanValues();
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando actualizar una nueva orden de mantenimiento",e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+        
+    
+    }
+    
+    /**
      * Método encargardo de permitirle al usuario seleccionar un mantenimiento para visualizar
      * o para eliminar.
      * @param orderSelected mantenimiento a cargar
@@ -551,6 +626,7 @@ public class OtmaintenanceCorrectiveBean
      */
     public void selectedForViewOrDelete(OtMaintenanceCorrective orderSelected)
     {
+        cleanValues();
         if(orderSelected != null)
         {
             setOrderSelected(orderSelected);
@@ -565,16 +641,106 @@ public class OtmaintenanceCorrectiveBean
      */
     public void selectedForUpdate(OtMaintenanceCorrective orderSelected)
     {
+        cleanValues();
         if(orderSelected != null)
         {
             setOrderUpdate(orderSelected);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(getOrderUpdate().getIdMaintenance().getCreationDate());
-            setMonths(calendar.);
+            setMachineUpdate(getOrderUpdate().getIdMaintenance().getIdMachinePart().getIdMachine());
+            fillListMachinePart(getMachineUpdate(), getOrderUpdate(), 1);
+            setTimeDuration(getOrderUpdate().getIdMaintenance().getCreationDate(), getOrderUpdate().getIdMaintenance().getEndDate());
         }
     }
     
+    /**
+     * Método encargado de tomar una orden de mantinimiento y dividir su fecha inicial y final 
+     * en meses dias y años
+     * @param startDate fecha de inicio del mantenimiento
+     * @param finishDate fecha de finalización del mantenimiento
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void setTimeDuration(Date startDate, Date finishDate)
+    {
+            Calendar creationDate = Calendar.getInstance();
+            Calendar endDate = Calendar.getInstance();
+            creationDate.setTimeInMillis(startDate.getTime());
+            endDate.setTimeInMillis(finishDate.getTime());
+            setEndDate(finishDate);
+            //Obtenemos los meses de diferencia
+            setStartHour(creationDate.get(Calendar.HOUR_OF_DAY));
+            setStartMinutes(creationDate.get(Calendar.MINUTE));
+            while(true)
+            {
+                if(endDate.getTimeInMillis() > creationDate.getTimeInMillis())
+                {
+                    if(endDate.get(Calendar.YEAR) > creationDate.get(Calendar.YEAR))
+                    {
+                        endDate.add(Calendar.MONTH, -1);
+                        setMonths(getMonths()+1);
+                    }
+                    else if(endDate.get(Calendar.MONTH) > creationDate.get(Calendar.MONTH))
+                    {
+                        endDate.add(Calendar.MONTH, -1);
+                        setMonths(getMonths()+1);
+                    }
+                    else if(endDate.get(Calendar.DAY_OF_MONTH) > creationDate.get(Calendar.DAY_OF_MONTH))
+                    {
+                        endDate.add(Calendar.DAY_OF_MONTH, -1);
+                        setDays(getDays()+1);
+                    }
+                    else if(endDate.get(Calendar.HOUR_OF_DAY) > creationDate.get(Calendar.HOUR_OF_DAY))
+                    {
+                        endDate.add(Calendar.HOUR_OF_DAY, -1);
+                        setHours(getHours()+1);
+                    }
+                    else if(endDate.get(Calendar.MINUTE) > creationDate.get(Calendar.MINUTE))
+                    {
+                        endDate.add(Calendar.MINUTE, -1);
+                        setMinutes(getMinutes()+1);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+    } 
     
+    /**
+     * Método encargado de reiniciar los valores de los filtros.
+     */ 
+    public void resetData()
+    {
+        setCorrectiveList(null);
+        initData();
+        setFilterEndDate(null);
+        setFilterStarDate(null);
+        setClasification(null);
+        setMaintenanceState(null);
+    }
+    
+    /**
+     * Método encargado de realizar la búsqueda teniendo encuenta los filtros.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void doSearchWithParameters()
+    {
+        try
+        {   
+            setCorrectiveList(getOtMaintenanceCorrectiveServer().getMaintenanceByParameters(getFilterStarDate()
+                    , getFilterEndDate(), getClasification(), getMaintenanceState()));
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+        }
+        catch (Exception e)
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+            log.error("Error al intentar consultar las ordenes de mantenimiento con parámetros", e);
+        }
+    }
+    
+    /**
+     * Método encargado de eliminar un mantenimiento.
+     * @author Gustavo Chavarro Ortiz
+     */
     public void deleteMaintenance()
     {
         try 
@@ -679,6 +845,73 @@ public class OtmaintenanceCorrectiveBean
         else if(event.getOldStep().equals(TAB_EMPLOYEES))
         {
             if(validateFields("Empleado", getOrderSave().getIdMaintenance().getIdWorkforce().getIdEmployee(), 4))
+            {
+                return event.getOldStep();
+            }
+        }
+        return event.getNewStep();
+    }
+    
+    
+    
+    /**
+     * Método encargado de llevar el flujo al guardar un mantenimiento.
+     *
+     * @param event evento en el cual se encuentra el asistente para crear
+     * herramientas
+     * @return String al final retorna el nombre de la siguiente pestaña del
+     * asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessUpdateMaintenance(FlowEvent event)
+    {
+        if (event.getOldStep().equals(TAB_GENERAL))
+        {
+            if (validateFields("Nombre Mantenimiento", getOrderUpdate().getName(), 3)) 
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Máquina", getMachineUpdate(), 4))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Parte de Máquina", getOrderUpdate().getIdMaintenance().getIdMachinePart(), 4))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Clasificación", getOrderUpdate().getIdMaintenance().getIdMaintenanceClasification(), 4))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Prioridad", getOrderUpdate().getIdMaintenance().getIdPriority(), 4))
+            {
+                return event.getOldStep();
+            }   
+            if (validateFields("Daño", getOrderUpdate().getIdMaintenance().getIdMaintenanceDamage(), 4))
+            {
+                return event.getOldStep();
+            }
+            if (getMonths() == 0 && getDays() == 0 && getHours() == 0 && getMinutes() == 0)
+            {
+                addError(null, "Error en el Campo Duración", "Campo obligatorio, debe ingresar un valor para el campo Duración");
+                return event.getOldStep(); 
+            }
+            if(getEndDate() != null)
+            {
+                getOrderUpdate().getIdMaintenance().setEndDate(getEndDate());
+            }
+        }
+        else if(event.getOldStep().equals(TAB_ACTIVITIES))
+        {   
+            if(getOrderUpdate().getIdMaintenance().getScMaintenanceActivityList().isEmpty())
+            {
+                addError(null, "Error en el Campo Actividades", "Debe ingresar por lo menos una actividad");
+                return event.getOldStep();
+            }
+        }
+        else if(event.getOldStep().equals(TAB_EMPLOYEES))
+        {
+            if(validateFields("Empleado", getOrderUpdate().getIdMaintenance().getIdWorkforce().getIdEmployee(), 4))
             {
                 return event.getOldStep();
             }
@@ -893,12 +1126,21 @@ public class OtmaintenanceCorrectiveBean
         return result;
     }
     
-    public void addTime(OtMaintenanceCorrective order)
+    public void addTime(OtMaintenanceCorrective order, int option)
     {
         if(order != null)
         {
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(new Date());
+            if(option == 1)
+            {
+                Date date = order.getIdMaintenance().getCreationDate();
+                calendar.setTime(date);
+                
+            }
+            else
+            {
+                calendar.setTime(new Date());
+            }
             calendar.clear(Calendar.MINUTE);
             calendar.clear(Calendar.HOUR_OF_DAY);
             calendar.clear(Calendar.HOUR);
@@ -907,14 +1149,29 @@ public class OtmaintenanceCorrectiveBean
             calendar.add(Calendar.HOUR, getStartHour());
             calendar.add(Calendar.MINUTE, getStartMinutes());
             order.getIdMaintenance().setCreationDate(calendar.getTime()); //Se acomoda la fecha inicial
-            
+
             calendar.add(Calendar.MONTH, getMonths());
             calendar.add(Calendar.DAY_OF_YEAR, getDays());
             calendar.add(Calendar.HOUR, getHours());
             calendar.add(Calendar.MINUTE, getMinutes());
             setEndDate(calendar.getTime()); //Se acomoda la fecha final
+            
         }
         
+    }
+    
+    /**
+     * Método encargado de realizar la validación de las fechas.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void compareToDates()
+    {
+        if((getFilterStarDate()!= null && getFilterEndDate()!= null) && (getFilterStarDate().after(getFilterEndDate()))) 
+        {        
+            addError(null, "Validación de Fechas", "La fecha inicial debe ser menor o igual a la fecha final");
+            setFilterStarDate(null);
+            setFilterEndDate(null);
+        }
     }
     
     /**
@@ -1257,6 +1514,56 @@ public class OtmaintenanceCorrectiveBean
     public void setEndDate(Date endDate)
     {
         this.endDate = endDate;
+    }
+
+    public Date getFilterStarDate()
+    {
+        return filterStarDate;
+    }
+
+    public void setFilterStarDate(Date filterStarDate)
+    {
+        this.filterStarDate = filterStarDate;
+    }
+
+    public ScMaintenanceState getMaintenanceState()
+    {
+        return maintenanceState;
+    }
+
+    public void setMaintenanceState(ScMaintenanceState maintenanceState)
+    {
+        this.maintenanceState = maintenanceState;
+    }
+
+    public ScMaintenanceClasification getClasification()
+    {
+        return clasification;
+    }
+
+    public void setClasification(ScMaintenanceClasification clasification)
+    {
+        this.clasification = clasification;
+    }
+
+    public Date getFilterEndDate()
+    {
+        return filterEndDate;
+    }
+
+    public void setFilterEndDate(Date filterEndDate)
+    {
+        this.filterEndDate = filterEndDate;
+    }
+
+    public List<ScMaintenanceState> getListStates()
+    {
+        return listStates;
+    }
+
+    public void setListStates(List<ScMaintenanceState> listStates)
+    {
+        this.listStates = listStates;
     }
 
     

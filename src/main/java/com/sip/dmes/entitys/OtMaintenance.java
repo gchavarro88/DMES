@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -54,24 +55,27 @@ public class OtMaintenance implements Serializable
     @NotNull
     @Column(name = "id_maintenance")
     private Long idMaintenance;
-    @Size(max = 400)
+    @Size(max = 400) 
     @Column(name = "description")
     private String description;
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(javax.persistence.TemporalType.DATE) 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "response_date")
-    @Temporal(javax.persistence.TemporalType.DATE) 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date responseDate;
     @Column(name = "end_date")
-    @Temporal(javax.persistence.TemporalType.DATE) 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "duration")
     private long duration;
+    @Column(name = "id_maintenance_schedule")
+    private Long maintenanceSchedule;
+    
     @Size(max = 400)
     @Column(name = "description_damage")
     private String descriptionDamage;
@@ -254,6 +258,16 @@ public class OtMaintenance implements Serializable
     public void setEndDate(Date endDate)
     {
         this.endDate = endDate;
+    }
+
+    public Long getMaintenanceSchedule()
+    {
+        return maintenanceSchedule;
+    }
+
+    public void setMaintenanceSchedule(Long maintenanceSchedule)
+    {
+        this.maintenanceSchedule = maintenanceSchedule;
     }
 
     
