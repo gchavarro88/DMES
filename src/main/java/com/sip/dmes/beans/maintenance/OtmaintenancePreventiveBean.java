@@ -75,7 +75,7 @@ public class OtmaintenancePreventiveBean
     private Date filterEndDate;
     private ScMaintenanceState maintenanceState;
     private ScMaintenanceClasification clasification;
-    
+    private List<Date> listNextDates;
     
     
     private final static Logger log = Logger.getLogger(OtmaintenancePreventiveBean.class);
@@ -543,7 +543,7 @@ public class OtmaintenancePreventiveBean
     {
         setOrderSave(new OtMaintenancePreventive());
         getOrderSave().setIdMaintenance(new OtMaintenance());
-        
+        setListNextDates(new ArrayList<Date>());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_YEAR, 1);
@@ -1130,6 +1130,90 @@ public class OtmaintenancePreventiveBean
         return result;
     }
     
+    /**
+     * Método encargado de agregar tiempo a la duracción del mantenimiento para 
+     * obtener la fecha final.
+     * @param order orden de mantenimiento
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void maintenanceScheduler(OtMaintenancePreventive order)
+    {
+        Date finishDateSchedule;
+        if(order != null && order.getIdMaintenance() != null)
+        {
+            if(order.getIdMaintenance().getCreationDate() != null)
+            {
+                finishDateSchedule = order.getIdMaintenance().getCreationDate();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(finishDateSchedule);
+                int monthInit = calendar.get(Calendar.MONTH);
+                switch(order.getTypeFrecuency())
+                {
+                    case DMESConstants.FREQUENCY_DAILY: //Caso diario
+                        
+                        getListNextDates().add(calendar.getTime());
+                        while(calendar.get(Calendar.MONTH) - monthInit < DMESConstants.MONTHS_FREQUENCY)
+                        {
+                            calendar.add(Calendar.DAY_OF_YEAR, 1);
+                            getListNextDates().add(calendar.getTime());
+                        }
+                        break;
+                    case DMESConstants.FREQUENCY_WEEKLY: //Caso semanal
+                        getListNextDates().add(calendar.getTime());
+                        while(calendar.get(Calendar.MONTH) - monthInit < DMESConstants.MONTHS_FREQUENCY)
+                        {
+                            calendar.add(Calendar.DAY_OF_WEEK, 1);
+                            getListNextDates().add(calendar.getTime());
+                        }
+                        break;
+                    case DMESConstants.FREQUENCY_MONTHLY:
+                        getListNextDates().add(calendar.getTime());
+                        while(calendar.get(Calendar.YEAR) - monthInit < DMESConstants.YEARS_FREQUENCY)
+                        {
+                            calendar.add(Calendar.MONTH, 1);
+                            getListNextDates().add(calendar.getTime());
+                        }
+                        break;
+                    case DMESConstants.FREQUENCY_QUARTELY://Caso Trimestral
+                        getListNextDates().add(calendar.getTime());
+                        while(calendar.get(Calendar.YEAR) - monthInit < DMESConstants.YEARS_FREQUENCY)
+                        {
+                            calendar.add(Calendar.MONTH, 3);
+                            getListNextDates().add(calendar.getTime());
+                        }
+                        break;
+                    case DMESConstants.FREQUENCY_BIANNUAL:
+                        getListNextDates().add(calendar.getTime());
+                        while(calendar.get(Calendar.YEAR) - monthInit < DMESConstants.YEARS_FREQUENCY)
+                        {
+                            calendar.add(Calendar.MONTH, 6);
+                            getListNextDates().add(calendar.getTime());
+                        }
+                        break;
+                    case DMESConstants.FREQUENCY_ANNUAL:
+                        getListNextDates().add(calendar.getTime());
+                        while(calendar.get(Calendar.YEAR) - monthInit < DMESConstants.YEARS_FREQUENCY)
+                        {
+                            calendar.add(Calendar.YEAR, 1);
+                            getListNextDates().add(calendar.getTime());
+                        }
+                        break;
+                    default:
+                        break;
+                    
+                }
+            }
+        }
+    
+    }
+    
+    /**
+     * Método encargado de agregar tiempo a la duracción del mantenimiento para 
+     * obtener la fecha final.
+     * @param order orden de mantenimiento
+     * @param option opciópn que indica si es por creación o actualización
+     * @author Gustavo Chavarro Ortiz
+     */
     public void addTime(OtMaintenancePreventive order, int option)
     {
         if(order != null)
@@ -1568,6 +1652,16 @@ public class OtmaintenancePreventiveBean
     public void setListStates(List<ScMaintenanceState> listStates)
     {
         this.listStates = listStates;
+    }
+
+    public List<Date> getListNextDates()
+    {
+        return listNextDates;
+    }
+
+    public void setListNextDates(List<Date> listNextDates)
+    {
+        this.listNextDates = listNextDates;
     }
 
     

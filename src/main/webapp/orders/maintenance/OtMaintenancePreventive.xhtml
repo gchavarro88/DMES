@@ -225,10 +225,22 @@
                                             <p:tooltip for="tfEndHour" value="La Fecha de Finalización se calcula con base a la hora de inicio y la duracción del mantenimiento"/>
                                         </td>
                                         <td width="10%" align="right">
-                                           
+                                           <p:outputLabel  for="cbFrequency" value="Frecuencia*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            
+                                            <p:selectOneMenu id="cbFrequency"  value="#{OtmaintenancePreventiveBean.orderSave.typeFrecuency}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItem itemLabel="Diaria" itemValue="DAILY"/>
+                                                <f:selectItem itemLabel="Semanal" itemValue="WEEKLY"/>
+                                                <f:selectItem itemLabel="Mensual" itemValue="MONTHLY"/>
+                                                <f:selectItem itemLabel="Trimestral" itemValue="QUARTELY"/>
+                                                <f:selectItem itemLabel="Semestral" itemValue="BIANNUAL"/>
+                                                <f:selectItem itemLabel="Anual" itemValue="ANNUAL"/>
+                                                <p:ajax event="change" listener="" update="tfNameMaintenance"/>
+                                            </p:selectOneMenu>
                                         </td>
                                     </tr>
                                 </table>

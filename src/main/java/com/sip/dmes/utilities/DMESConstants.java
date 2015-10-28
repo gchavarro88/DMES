@@ -77,6 +77,17 @@ public class DMESConstants
     public static Long STATE_CANCEL_MAINTENANCE    = 7L;
     public static Long DAYS_LABORAL = 25L;
     
+    
+    //Frecuencias
+    public final  static String FREQUENCY_DAILY = "DAILY";
+    public final  static String FREQUENCY_WEEKLY = "WEEKLY";
+    public final  static String FREQUENCY_MONTHLY = "MONTHLY";
+    public final  static String FREQUENCY_QUARTELY = "QUARTELY";
+    public final  static String FREQUENCY_BIANNUAL = "BIANNUAL";
+    public final  static String FREQUENCY_ANNUAL = "ANNUAL";
+    public final  static Long YEARS_FREQUENCY = 5L;
+    public final  static Long MONTHS_FREQUENCY = 5L;
+    
     //Querys para consultar los items del almacén
     public static String QUERY_INPUT = "SELECT I.ID_INPUT, I.DESCRIPTION, S.CURRENT_STOCK  FROM DMES.SC_INPUT I, DMES.SC_STOCK S\n" +
     "WHERE I.ID_STOCK = S.ID_STOCK AND I.ID_INPUT IN (";

@@ -1125,7 +1125,12 @@ public class OtmaintenanceCorrectiveBean
         }
         return result;
     }
-    
+    /**
+     *Método encargado de realizar la agregación de tiempo al mantenimiento en la duracción
+     * @param order orden de mantenimiento 
+     * @param  option si es por creación o actualización
+     * @author Gustavo Chavarro Ortiz
+     */
     public void addTime(OtMaintenanceCorrective order, int option)
     {
         if(order != null)
