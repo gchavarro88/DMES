@@ -219,7 +219,7 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
             maintenanceSchedule.setEndDate(endDate);
             maintenanceSchedule.setIdMaintenance(orderSave.getIdMaintenance().getIdMaintenance());
             entityManager.persist(maintenanceSchedule);
-            orderSave.getIdMaintenance().setMaintenanceSchedule(maintenanceSchedule.getIdScheduleMaintenance());
+            orderSave.getIdMaintenance().setMaintenanceSchedule(maintenanceSchedule.getIdScheduleMaintenance()+"");
             entityManager.merge(orderSave.getIdMaintenance());
         }
         catch (Exception e)
@@ -239,10 +239,8 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
             entityManager.remove(entityManager.contains(orderSelected)?orderSelected:entityManager.merge(orderSelected));
             entityManager.remove(entityManager.contains(orderSelected.getIdMaintenance())
             ?orderSelected.getIdMaintenance():entityManager.merge(orderSelected.getIdMaintenance()));            
-            Query query = entityManager.createNamedQuery("OtMaintenanceSchedule.findByManyCriterias");
-            query.setParameter("creationDate", orderSelected.getIdMaintenance().getCreationDate());
-            query.setParameter("endDate", orderSelected.getIdMaintenance().getEndDate());
-            query.setParameter("idMaintenance", orderSelected.getIdMaintenance().getIdMaintenance());
+            Query query = entityManager.createNamedQuery("OtMaintenanceSchedule.findByIdScheduleMaintenance");
+            query.setParameter("idScheduleMaintenance", Long.parseLong(orderSelected.getIdMaintenance().getMaintenanceSchedule()));
             maintenanceSchedule = (OtMaintenanceSchedule) query.getSingleResult();
             entityManager.remove(entityManager.contains(maintenanceSchedule)?maintenanceSchedule:entityManager.merge(maintenanceSchedule));
         }

@@ -417,7 +417,7 @@ public class OtmaintenancePreventiveBean
 //                int position =0;
 //                for(ScMaintenanceReplacement maintenanceReplacement: replacementList)
 //                {
-//                    if(maintenanceReplacement.getIdReplacement().getIdReplacement().equals(itemDelete.getIdReplacement().getIdReplacement()))
+//                    if(maintenanceReplacement.getIdReplacement().getIdReplacement().equaaddls(itemDelete.getIdReplacement().getIdReplacement()))
 //                    {
 //                        break;
 //                    }
@@ -561,7 +561,7 @@ public class OtmaintenancePreventiveBean
         setMachineUpdate(new ScMachine());
         setActivitySave(new ScMaintenanceActivity());
         setActivityUpdate(new ScMaintenanceActivity());
-        
+        setAmountSchedule(1);
     }
     
     
@@ -575,7 +575,8 @@ public class OtmaintenancePreventiveBean
         try 
         {
             getOrderSave().getIdMaintenance().setDescription(getOrderSave().getDescription());
-            getOtMaintenancePreventiveServer().saveMaintenance(getOrderSave(), getEndDate());
+            getOtMaintenancePreventiveServer().saveMaintenance(getOrderSave(), getEndDate(), getListNextDates(),
+                    getMonths(), getDays(), getHours(), getMinutes());
             getOrderSave().getIdMaintenance().getIdMachinePart().setIdMachine(getMachineSave());
             getPreventiveList().add(getOrderSave());
             cleanValues();
@@ -1168,7 +1169,7 @@ public class OtmaintenancePreventiveBean
                         getListNextDates().add(calendar.getTime());
                         while(getListNextDates().size()< getAmountSchedule())
                         {
-                            calendar.add(Calendar.DAY_OF_WEEK, 1);
+                            calendar.add(Calendar.DAY_OF_YEAR, 7);
                             getListNextDates().add(calendar.getTime());
                         }
                         break;

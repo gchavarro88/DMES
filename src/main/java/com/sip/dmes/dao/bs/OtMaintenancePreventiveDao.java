@@ -207,19 +207,28 @@ public class OtMaintenancePreventiveDao implements IOtMaintenancePreventive
 
     @Override
     @Transactional
-    public void saveMaintenance(OtMaintenancePreventive orderSave, Date endDate) throws Exception
-    {   OtMaintenanceSchedule maintenanceSchedule = new OtMaintenanceSchedule();
+    public void saveMaintenance(OtMaintenancePreventive orderSave, Date endDate, List<Date> scheduleMaintenance,
+            int months, int days, int hours, int minutes) throws Exception
+    {   OtMaintenanceSchedule maintenanceSchedule; 
         try
         {
             entityManager.persist(orderSave.getIdMaintenance().getIdWorkforce());
             entityManager.persist(orderSave.getIdMaintenance());
             entityManager.persist(orderSave);
-            maintenanceSchedule.setIdEmployee(orderSave.getIdMaintenance().getIdWorkforce().getIdEmployee());
-            maintenanceSchedule.setCreationDate(orderSave.getIdMaintenance().getCreationDate());
-            maintenanceSchedule.setEndDate(endDate);
-            maintenanceSchedule.setIdMaintenance(orderSave.getIdMaintenance().getIdMaintenance());
-            entityManager.persist(maintenanceSchedule);
-            orderSave.getIdMaintenance().setMaintenanceSchedule(maintenanceSchedule.getIdScheduleMaintenance());
+            orderSave.getIdMaintenance().setMaintenanceSchedule("");
+            for(Date date: scheduleMaintenance)
+            {
+                maintenanceSchedule = new OtMaintenanceSchedule();
+                maintenanceSchedule.setIdEmployee(orderSave.getIdMaintenance().getIdWorkforce().getIdEmployee());
+                maintenanceSchedule.setCreationDate(date);
+                maintenanceSchedule.setEndDate(addTime(date, months, days, hours, minutes));
+                maintenanceSchedule.setIdMaintenance(orderSave.getIdMaintenance().getIdMaintenance());
+                entityManager.persist(maintenanceSchedule);
+                orderSave.getIdMaintenance().setMaintenanceSchedule(orderSave.getIdMaintenance().getMaintenanceSchedule()
+                        +","+maintenanceSchedule.getIdScheduleMaintenance());
+            }
+            orderSave.getIdMaintenance().setMaintenanceSchedule(orderSave.getIdMaintenance().getMaintenanceSchedule()
+                    .substring(1, orderSave.getIdMaintenance().getMaintenanceSchedule().length()));
             entityManager.merge(orderSave.getIdMaintenance());
         }
         catch (Exception e)
@@ -371,4 +380,31 @@ public class OtMaintenancePreventiveDao implements IOtMaintenancePreventive
 
     
 
+    
+    /**
+     * Método encargado de agregar tiempo a la duracción del mantenimiento para 
+     * obtener la fecha final.
+     * @param creationDate fecha de inicio del mantenimiento
+     * @param months meses de duracción
+     * @param days dias de duracción
+     * @param hours horas de duracción
+     * @param minutes minutos de duracción
+     * @return Date fecha de finalizacion a retornar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public Date addTime(Date creationDate, int months, int days, int hours, int minutes)
+    {
+        Date endDate = new Date();
+        if(creationDate != null)
+        {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(creationDate);
+            calendar.add(Calendar.MONTH, months);
+            calendar.add(Calendar.DAY_OF_YEAR, days);
+            calendar.add(Calendar.HOUR, hours);
+            calendar.add(Calendar.MINUTE, minutes);
+            endDate = calendar.getTime();
+        }
+        return endDate; //Se acomoda la fecha final
+    }
 }

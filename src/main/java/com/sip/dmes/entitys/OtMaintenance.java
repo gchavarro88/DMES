@@ -74,7 +74,7 @@ public class OtMaintenance implements Serializable
     @Column(name = "duration")
     private long duration;
     @Column(name = "id_maintenance_schedule")
-    private Long maintenanceSchedule;
+    private String maintenanceSchedule;
     
     @Size(max = 400)
     @Column(name = "description_damage")
@@ -260,12 +260,12 @@ public class OtMaintenance implements Serializable
         this.endDate = endDate;
     }
 
-    public Long getMaintenanceSchedule()
+    public String getMaintenanceSchedule()
     {
         return maintenanceSchedule;
     }
 
-    public void setMaintenanceSchedule(Long maintenanceSchedule)
+    public void setMaintenanceSchedule(String maintenanceSchedule)
     {
         this.maintenanceSchedule = maintenanceSchedule;
     }

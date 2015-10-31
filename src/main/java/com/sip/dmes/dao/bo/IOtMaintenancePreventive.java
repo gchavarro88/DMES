@@ -51,6 +51,7 @@ public interface IOtMaintenancePreventive
     public List<OtMaintenancePreventive> getMaintenanceByParameters(Date initDate, 
             Date endDate, ScMaintenanceClasification clasification, ScMaintenanceState state) throws Exception;
     
-    public void saveMaintenance(OtMaintenancePreventive orderSave, Date endDate) throws Exception;
+    public void saveMaintenance(OtMaintenancePreventive orderSave, Date endDate, List<Date> scheduleMantenaince,
+            int months, int days, int hours, int minutes) throws Exception;
 
 }

@@ -65,7 +65,7 @@ CREATE TABLE ot_maintenance (
     creation_date timestamp with time zone NOT NULL,
     response_date timestamp with time zone,
     end_date timestamp with time zone,
-    id_maintenance_schedule numeric(18,0)
+    id_maintenance_schedule character varying(400)
 );
 
 
@@ -2470,8 +2470,8 @@ INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, descri
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (22, 18, 1, '', 1, 1, 14, 0, '', 1, '2015-10-20 03:03:00.073+02', NULL, '2016-01-24 05:09:00.073+01', NULL);
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (21, 15, 2, '', 1, 1, 12, 0, '', 2, '2015-10-20 00:00:01+02', NULL, '2015-12-23 00:00:00+01', NULL);
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (20, 10, 1, '', 1, 1, 11, 0, '', 1, '2015-10-20 00:00:01+02', NULL, '2015-10-20 00:00:00+02', NULL);
-INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (23, 11, 1, '', 2, 1, 15, 0, '', 1, '2015-10-20 04:15:00.739+02', NULL, '2016-01-24 08:19:00.739+01', 14);
-INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (25, 10, 1, '', 1, 1, 17, 0, '', 1, '2015-10-31 00:00:00+01', NULL, '2015-10-31 03:02:00+01', 15);
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (23, 11, 1, '', 2, 1, 15, 0, '', 1, '2015-10-20 04:15:00.739+02', NULL, '2016-01-24 08:19:00.739+01', '14');
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (25, 10, 1, '', 1, 1, 17, 0, '', 1, '2015-10-31 00:00:00+01', NULL, '2015-10-31 03:02:00+01', '15');
 
 
 --
