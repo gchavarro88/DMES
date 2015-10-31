@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.5
 -- Dumped by pg_dump version 9.3.6
--- Started on 2015-10-26 17:05:26 CET
+-- Started on 2015-10-31 07:14:11 CET
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2471,6 +2471,7 @@ INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, descri
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (21, 15, 2, '', 1, 1, 12, 0, '', 2, '2015-10-20 00:00:01+02', NULL, '2015-12-23 00:00:00+01', NULL);
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (20, 10, 1, '', 1, 1, 11, 0, '', 1, '2015-10-20 00:00:01+02', NULL, '2015-10-20 00:00:00+02', NULL);
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (23, 11, 1, '', 2, 1, 15, 0, '', 1, '2015-10-20 04:15:00.739+02', NULL, '2016-01-24 08:19:00.739+01', 14);
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (25, 10, 1, '', 1, 1, 17, 0, '', 1, '2015-10-31 00:00:00+01', NULL, '2015-10-31 03:02:00+01', 15);
 
 
 --
@@ -2492,6 +2493,7 @@ INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, descript
 -- Data for Name: ot_maintenance_preventive; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
+INSERT INTO ot_maintenance_preventive (id_maintenance_preventive, name, description, id_maintenance, type_frequency) VALUES (2, 'Preventivo_Máquina 2_motor20151030154431', '', 25, 'DAILY');
 
 
 --
@@ -2511,6 +2513,7 @@ INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creat
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (12, 16, '2015-10-20', 21, '2015-12-23 00:00:00+01');
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (13, 9, '2015-10-20', 22, '2016-01-24 00:00:00+01');
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (14, 9, '2015-10-20', 23, '2016-01-24 00:00:00+01');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (15, 15, '2015-10-31', 25, '2015-10-31 00:00:00+01');
 
 
 --
@@ -2916,6 +2919,7 @@ INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description,
 INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (21, 'Prueba para Jhon', '', 21);
 INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (22, 'Pruba del primer ingreso', '', 22);
 INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (23, 'Pruba del primer ingreso', '', 23);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (25, 'teste', '', 25);
 
 
 --
@@ -3790,6 +3794,7 @@ INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) 
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (12, '', 16, 'Mecánico');
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (14, '', 9, 'Electrónico');
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (15, '', 9, 'Mecánico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (17, '', 15, 'Eléctrico');
 
 
 --
@@ -3807,7 +3812,7 @@ SELECT pg_catalog.setval('sqclasstype', 1, false);
 -- Name: sqmaintenanceschedule; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqmaintenanceschedule', 14, true);
+SELECT pg_catalog.setval('sqmaintenanceschedule', 15, true);
 
 
 --
@@ -3816,7 +3821,7 @@ SELECT pg_catalog.setval('sqmaintenanceschedule', 14, true);
 -- Name: sqotmaintenance; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqotmaintenance', 24, true);
+SELECT pg_catalog.setval('sqotmaintenance', 25, true);
 
 
 --
@@ -3834,7 +3839,7 @@ SELECT pg_catalog.setval('sqotmaintenancecorrective', 15, true);
 -- Name: sqotmaintenancepreventive; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqotmaintenancepreventive', 1, true);
+SELECT pg_catalog.setval('sqotmaintenancepreventive', 2, true);
 
 
 --
@@ -4032,7 +4037,7 @@ SELECT pg_catalog.setval('sqscmails', 30, true);
 -- Name: sqscmaintenanceactivity; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmaintenanceactivity', 24, true);
+SELECT pg_catalog.setval('sqscmaintenanceactivity', 25, true);
 
 
 --
@@ -4410,7 +4415,7 @@ SELECT pg_catalog.setval('sqscworkexperience', 12, true);
 -- Name: sqscworkforce; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscworkforce', 16, true);
+SELECT pg_catalog.setval('sqscworkforce', 17, true);
 
 
 --
@@ -6087,7 +6092,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2015-10-26 17:05:26 CET
+-- Completed on 2015-10-31 07:14:12 CET
 
 --
 -- PostgreSQL database dump complete

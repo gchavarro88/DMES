@@ -76,7 +76,7 @@ public class OtmaintenancePreventiveBean
     private ScMaintenanceState maintenanceState;
     private ScMaintenanceClasification clasification;
     private List<Date> listNextDates;
-    
+    private int amountSchedule;
     
     private final static Logger log = Logger.getLogger(OtmaintenancePreventiveBean.class);
     private final String TAB_GENERAL = "tabGeneral";
@@ -837,6 +837,10 @@ public class OtmaintenancePreventiveBean
             {
                 getOrderSave().getIdMaintenance().setEndDate(getEndDate());
             }
+            if(validateFields("Frecuencia", getOrderSave().getTypeFrecuency(), 3))
+            {
+                return event.getOldStep();
+            }
         }
         else if(event.getOldStep().equals(TAB_ACTIVITIES))
         {   
@@ -1147,12 +1151,14 @@ public class OtmaintenancePreventiveBean
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(finishDateSchedule);
                 int monthInit = calendar.get(Calendar.MONTH);
+                int yearInit = calendar.get(Calendar.YEAR); 
+                setListNextDates(new ArrayList<Date>());
                 switch(order.getTypeFrecuency())
                 {
                     case DMESConstants.FREQUENCY_DAILY: //Caso diario
                         
                         getListNextDates().add(calendar.getTime());
-                        while(calendar.get(Calendar.MONTH) - monthInit < DMESConstants.MONTHS_FREQUENCY)
+                        while(getListNextDates().size()< getAmountSchedule())
                         {
                             calendar.add(Calendar.DAY_OF_YEAR, 1);
                             getListNextDates().add(calendar.getTime());
@@ -1160,7 +1166,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_WEEKLY: //Caso semanal
                         getListNextDates().add(calendar.getTime());
-                        while(calendar.get(Calendar.MONTH) - monthInit < DMESConstants.MONTHS_FREQUENCY)
+                        while(getListNextDates().size()< getAmountSchedule())
                         {
                             calendar.add(Calendar.DAY_OF_WEEK, 1);
                             getListNextDates().add(calendar.getTime());
@@ -1168,7 +1174,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_MONTHLY:
                         getListNextDates().add(calendar.getTime());
-                        while(calendar.get(Calendar.YEAR) - monthInit < DMESConstants.YEARS_FREQUENCY)
+                        while(getListNextDates().size()< getAmountSchedule())
                         {
                             calendar.add(Calendar.MONTH, 1);
                             getListNextDates().add(calendar.getTime());
@@ -1176,7 +1182,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_QUARTELY://Caso Trimestral
                         getListNextDates().add(calendar.getTime());
-                        while(calendar.get(Calendar.YEAR) - monthInit < DMESConstants.YEARS_FREQUENCY)
+                        while(getListNextDates().size()< getAmountSchedule())
                         {
                             calendar.add(Calendar.MONTH, 3);
                             getListNextDates().add(calendar.getTime());
@@ -1184,7 +1190,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_BIANNUAL:
                         getListNextDates().add(calendar.getTime());
-                        while(calendar.get(Calendar.YEAR) - monthInit < DMESConstants.YEARS_FREQUENCY)
+                        while(getListNextDates().size()< getAmountSchedule())
                         {
                             calendar.add(Calendar.MONTH, 6);
                             getListNextDates().add(calendar.getTime());
@@ -1192,15 +1198,16 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_ANNUAL:
                         getListNextDates().add(calendar.getTime());
-                        while(calendar.get(Calendar.YEAR) - monthInit < DMESConstants.YEARS_FREQUENCY)
+                        while(getListNextDates().size()< getAmountSchedule())
                         {
                             calendar.add(Calendar.YEAR, 1);
                             getListNextDates().add(calendar.getTime());
                         }
                         break;
                     default:
+                        addError(null,DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe escoger una frecuencia");
+                        log.error("Error al intentar calcular las fechas siguientes en la creación del mantenimiento, Debe escoger una frecuencia");
                         break;
-                    
                 }
             }
         }
@@ -1243,7 +1250,10 @@ public class OtmaintenancePreventiveBean
             calendar.add(Calendar.HOUR, getHours());
             calendar.add(Calendar.MINUTE, getMinutes());
             setEndDate(calendar.getTime()); //Se acomoda la fecha final
-            
+            if(!Utilities.isEmpty(order.getTypeFrecuency()))
+            {
+                maintenanceScheduler(order);
+            }
         }
         
     }
@@ -1643,7 +1653,7 @@ public class OtmaintenancePreventiveBean
     {
         this.filterEndDate = filterEndDate;
     }
-
+ 
     public List<ScMaintenanceState> getListStates()
     {
         return listStates;
@@ -1662,6 +1672,16 @@ public class OtmaintenancePreventiveBean
     public void setListNextDates(List<Date> listNextDates)
     {
         this.listNextDates = listNextDates;
+    }
+
+    public int getAmountSchedule()
+    {
+        return amountSchedule;
+    }
+
+    public void setAmountSchedule(int amountSchedule)
+    {
+        this.amountSchedule = amountSchedule;
     }
 
     

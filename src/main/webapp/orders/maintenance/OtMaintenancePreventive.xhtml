@@ -141,6 +141,77 @@
                                                             />
                                         </td>
                                     </tr>
+                                    
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfBeginDate" value="Fecha de Programación*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:calendar value="#{OtmaintenancePreventiveBean.orderSave.idMaintenance.creationDate}" autocomplete="true" effect="explode" id="tfBeginDate" pattern="dd-MM-yyyy" 
+                                                        title="Debe ingresar la fecha de programació del mantenimiento" mask="true" 
+                                                        mindate="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd-MM-yyyy', OtmaintenancePreventiveBean.orderSave.idMaintenance.creationDate)}">
+                                                        <p:ajax listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}" update="tfEndHour" process="@form" event="dateSelect"/>
+                                                        
+                                            </p:calendar>
+                                            <p:tooltip for="tfBeginDate" value="Debe ingresar la fecha de programació del mantenimiento"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfStartHour" value="Hora de Inicio*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:spinner    id="tfStartHour"  value="#{OtmaintenancePreventiveBean.startHour}" min="0" max="23"
+                                                          size="2"> 
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel  value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner    id="tfStartMinutes"  value="#{OtmaintenancePreventiveBean.startMinutes}" min="0" max="59  "
+                                                          size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}"/>
+                                                
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel  value="Minutos"/>
+
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfEndHour" value="Fecha de Finalización*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText  readonly="true"  id="tfEndHour"  
+                                            value="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenancePreventiveBean.endDate)}"/>
+                                            <p:tooltip for="tfEndHour" value="La Fecha de Finalización se calcula con base a la hora de inicio y la duracción del mantenimiento"/>
+                                        </td>
+                                        <td width="10%" align="right">
+                                           <p:outputLabel  for="cbFrequency" value="Frecuencia*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:selectOneMenu id="cbFrequency"  value="#{OtmaintenancePreventiveBean.orderSave.typeFrecuency}" 
+                                                             style="width: 100px; top: 6px;"
+                                                             effect="puff"
+                                                             height="140">
+                                                <f:selectItem itemLabel="..."/>
+                                                <f:selectItem itemLabel="Diaria" itemValue="DAILY"/>
+                                                <f:selectItem itemLabel="Semanal" itemValue="WEEKLY"/>
+                                                <f:selectItem itemLabel="Mensual" itemValue="MONTHLY"/>
+                                                <f:selectItem itemLabel="Trimestral" itemValue="QUARTELY"/>
+                                                <f:selectItem itemLabel="Semestral" itemValue="BIANNUAL"/>
+                                                <f:selectItem itemLabel="Anual" itemValue="ANNUAL"/>
+                                                <p:ajax event="change" update="dataTableSchuduler" listener="#{OtmaintenancePreventiveBean.maintenanceScheduler(OtmaintenancePreventiveBean.orderSave)}"/>
+                                            </p:selectOneMenu>
+                                            <p:spacer width="10"/>
+                                            <p:spinner id="amountScheduler" value="#{OtmaintenancePreventiveBean.amountSchedule}" min="1" max="20"
+                                                       maxlength="2" size="2">
+                                                <p:ajax event="change" update="dataTableSchuduler" listener="#{OtmaintenancePreventiveBean.maintenanceScheduler(OtmaintenancePreventiveBean.orderSave)}"/>
+                                            </p:spinner>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td width="10%" align="right">
                                             <p:outputLabel   value="Duración*"/>
@@ -180,72 +251,46 @@
                                             <p:outputLabel   value="Meses"/>
                                         </td>
                                     </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="Mantenimientos" id="tabMtos" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los mantenimientos programdos con la frecuencia">
+                            <p:panel header="Fechas Programadas" >
+                                <table width="50%" cellspacing="10" >
                                     <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfBeginDate" value="Fecha de Programación*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:calendar value="#{OtmaintenancePreventiveBean.orderSave.idMaintenance.creationDate}" autocomplete="true" effect="explode" id="tfBeginDate" pattern="dd-MM-yyyy" 
-                                                        title="Debe ingresar la fecha de programació del mantenimiento" mask="true" 
-                                                        mindate="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd-MM-yyyy', OtmaintenancePreventiveBean.orderSave.idMaintenance.creationDate)}">
-                                                        <p:ajax listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}" update="tfEndHour" process="@form" event="dateSelect"/>
-                                            </p:calendar>
-                                            <p:tooltip for="tfBeginDate" value="Debe ingresar la fecha de programació del mantenimiento"/>
-                                        </td>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfStartHour" value="Hora de Inicio*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:spinner    id="tfStartHour"  value="#{OtmaintenancePreventiveBean.startHour}" min="0" max="23"
-                                                          size="2"> 
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}"/>
-                                            </p:spinner>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel  value="Horas"/>
-                                            <p:spacer width="20"/>
-                                            <p:spinner    id="tfStartMinutes"  value="#{OtmaintenancePreventiveBean.startMinutes}" min="0" max="59  "
-                                                          size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}"/>
-                                            </p:spinner>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel  value="Minutos"/>
-
-                                        </td>
-                                        
-                                    </tr>
-                                    <tr>
-                                        <td width="10%" align="right">
-                                            <p:outputLabel  for="tfEndHour" value="Fecha de Finalización*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:inputText  readonly="true"  id="tfEndHour"  
-                                            value="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenancePreventiveBean.endDate)}"/>
-                                            <p:tooltip for="tfEndHour" value="La Fecha de Finalización se calcula con base a la hora de inicio y la duracción del mantenimiento"/>
-                                        </td>
-                                        <td width="10%" align="right">
-                                           <p:outputLabel  for="cbFrequency" value="Frecuencia*"/>
-                                        </td>
-                                        <td width="40%" align="left">
-                                            <p:selectOneMenu id="cbFrequency"  value="#{OtmaintenancePreventiveBean.orderSave.typeFrecuency}" 
-                                                             style="width: 100px; top: 6px;"
-                                                             effect="puff"
-                                                             height="140">
-                                                <f:selectItem itemLabel="..."/>
-                                                <f:selectItem itemLabel="Diaria" itemValue="DAILY"/>
-                                                <f:selectItem itemLabel="Semanal" itemValue="WEEKLY"/>
-                                                <f:selectItem itemLabel="Mensual" itemValue="MONTHLY"/>
-                                                <f:selectItem itemLabel="Trimestral" itemValue="QUARTELY"/>
-                                                <f:selectItem itemLabel="Semestral" itemValue="BIANNUAL"/>
-                                                <f:selectItem itemLabel="Anual" itemValue="ANNUAL"/>
-                                                <p:ajax event="change" listener="" update="tfNameMaintenance"/>
-                                            </p:selectOneMenu>
+                                        <td>
+                                            <p:dataTable id="dataTableSchuduler"
+                                                         var="scheduler" 
+                                                         value="#{OtmaintenancePreventiveBean.listNextDates}"
+                                                         rowKey="#{scheduler.time}"
+                                                         paginator="true" rows="10"  
+                                                         pageLinks="40"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         liveResize="true" rowsPerPageTemplate="15,30,50"
+                                                         paginatorPosition="top"
+                                                         sortBy="#{scheduler.time}">
+                                                
+                                                <p:column  headerText="No. Programación" sortBy="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss',scheduler)}">
+                                                <center>
+                                                    <p:outputLabel value="#{(OtmaintenancePreventiveBean.listNextDates.indexOf(scheduler))+1}"/>
+                                                </center>
+                                                </p:column>
+                                                
+                                                <p:column  headerText="Fecha" sortBy="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss',scheduler)}">
+                                                <center>
+                                                    <p:outputLabel value="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss',scheduler)}" id="outDates"/>
+                                                    <p:tooltip value="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss',scheduler)}" for="outDates"/>
+                                                    </center>
+                                                </p:column>
+                                                
+                                            </p:dataTable>
                                         </td>
                                     </tr>
                                 </table>
                             </p:panel>
-                        </p:tab> 
+                        </p:tab>
                         <p:tab title="Actividades" id="tabActivities" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para asignar las actividades del mantenimiento">
                             <p:panel header="Actividades del Mantenimiento" >
