@@ -52,6 +52,9 @@ public class OtMaintenanceCorrective implements Serializable
     @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
+    @Column(name = "duration")
+    @Size(max = 100)
+    private String duration;
     @Size(max = 400)
     @Column(name = "description")
     private String description;
@@ -114,6 +117,18 @@ public class OtMaintenanceCorrective implements Serializable
         this.idMaintenance = idMaintenance;
     }
 
+    public String getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(String duration)
+    {
+        this.duration = duration;
+    }
+
+    
+    
     @Override
     public int hashCode()
     {

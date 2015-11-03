@@ -38,7 +38,8 @@ public interface IOtMaintenancePreventive
   
     public void deleteMaintenance(OtMaintenancePreventive orderSelected) throws Exception;
 
-    public void updateMaintenance(OtMaintenancePreventive orderSelected) throws Exception;
+    public void updateMaintenance(OtMaintenancePreventive orderSelected, List<Date> scheduleMaintenance,
+            int months, int days, int hours, int minutes) throws Exception;
     
     public List<ScReplacement> getAllReplacements() throws Exception;
     

@@ -570,6 +570,23 @@ public class OtmaintenanceCorrectiveBean
     {
         try 
         {
+            getOrderSave().setDescription("");
+            if(getMonths() > 0)
+            {
+                getOrderSave().setDescription(getMonths()+" Meses - ");
+            }
+            if(getDays() > 0)
+            {
+                getOrderSave().setDescription(getOrderSave().getDescription()+getDays()+" Días - ");
+            }
+            if(getHours() > 0)
+            {
+                getOrderSave().setDescription(getOrderSave().getDescription()+getHours()+" Horas - ");
+            }
+            if(getMinutes() > 0)
+            {
+                getOrderSave().setDescription(getOrderSave().getDescription()+getMinutes()+" Minutos ");
+            }
             getOrderSave().getIdMaintenance().setDescription(getOrderSave().getDescription());
             getOtMaintenanceCorrectiveServer().saveMaintenance(getOrderSave(), getEndDate());
             getOrderSave().getIdMaintenance().getIdMachinePart().setIdMachine(getMachineSave());
@@ -594,6 +611,23 @@ public class OtmaintenanceCorrectiveBean
     {
         try 
         {
+            getOrderUpdate().setDescription("");
+            if(getMonths() > 0)
+            {
+                getOrderUpdate().setDescription(getMonths()+" Meses - ");
+            }
+            if(getDays() > 0)
+            {
+                getOrderUpdate().setDescription(getOrderUpdate().getDescription()+getDays()+" Días - ");
+            }
+            if(getHours() > 0)
+            {
+                getOrderUpdate().setDescription(getOrderUpdate().getDescription()+getHours()+" Horas - ");
+            }
+            if(getMinutes() > 0)
+            {
+                getOrderUpdate().setDescription(getOrderUpdate().getDescription()+getMinutes()+" Minutos ");
+            }
             getOrderUpdate().getIdMaintenance().setDescription(getOrderUpdate().getDescription());
             getOtMaintenanceCorrectiveServer().updateMaintenance(getOrderUpdate());
             getOrderUpdate().getIdMaintenance().getIdMachinePart().setIdMachine(getMachineUpdate());

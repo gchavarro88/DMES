@@ -76,7 +76,6 @@ public class OtmaintenancePreventiveBean
     private ScMaintenanceState maintenanceState;
     private ScMaintenanceClasification clasification;
     private List<Date> listNextDates;
-    private int amountSchedule;
     
     private final static Logger log = Logger.getLogger(OtmaintenancePreventiveBean.class);
     private final String TAB_GENERAL = "tabGeneral";
@@ -561,7 +560,7 @@ public class OtmaintenancePreventiveBean
         setMachineUpdate(new ScMachine());
         setActivitySave(new ScMaintenanceActivity());
         setActivityUpdate(new ScMaintenanceActivity());
-        setAmountSchedule(1);
+        getOrderSave().setAmountSchedule(1);
     }
     
     
@@ -573,7 +572,25 @@ public class OtmaintenancePreventiveBean
     public void saveMaintenance()
     {
         try 
-        {
+        {   
+            getOrderSave().setDescription("");
+            if(getMonths() > 0)
+            {
+                getOrderSave().setDescription(getMonths()+" Meses - ");
+            }
+            if(getDays() > 0)
+            {
+                getOrderSave().setDescription(getOrderSave().getDescription()+getDays()+" Días - ");
+            }
+            if(getHours() > 0)
+            {
+                getOrderSave().setDescription(getOrderSave().getDescription()+getHours()+" Horas - ");
+            }
+            if(getMinutes() > 0)
+            {
+                getOrderSave().setDescription(getOrderSave().getDescription()+getMinutes()+" Minutos ");
+            }
+            
             getOrderSave().getIdMaintenance().setDescription(getOrderSave().getDescription());
             getOtMaintenancePreventiveServer().saveMaintenance(getOrderSave(), getEndDate(), getListNextDates(),
                     getMonths(), getDays(), getHours(), getMinutes());
@@ -599,8 +616,26 @@ public class OtmaintenancePreventiveBean
     {
         try 
         {
+            getOrderUpdate().setDescription("");
+            if(getMonths() > 0)
+            {
+                getOrderUpdate().setDescription(getMonths()+" Meses - ");
+            }
+            if(getDays() > 0)
+            {
+                getOrderUpdate().setDescription(getOrderUpdate().getDescription()+getDays()+" Días - ");
+            }
+            if(getHours() > 0)
+            {
+                getOrderUpdate().setDescription(getOrderUpdate().getDescription()+getHours()+" Horas - ");
+            }
+            if(getMinutes() > 0)
+            {
+                getOrderUpdate().setDescription(getOrderUpdate().getDescription()+getMinutes()+" Minutos ");
+            }
             getOrderUpdate().getIdMaintenance().setDescription(getOrderUpdate().getDescription());
-            getOtMaintenancePreventiveServer().updateMaintenance(getOrderUpdate());
+            getOtMaintenancePreventiveServer().updateMaintenance(getOrderUpdate(), getListNextDates(), getMonths(),
+                    getDays(), getHours(), getMinutes());
             getOrderUpdate().getIdMaintenance().getIdMachinePart().setIdMachine(getMachineUpdate());
             int pos = 0;
             for(OtMaintenancePreventive corrective: getPreventiveList())
@@ -635,6 +670,7 @@ public class OtmaintenancePreventiveBean
         if(orderSelected != null)
         {
             setOrderSelected(orderSelected);
+            maintenanceScheduler(getOrderSelected()); 
         }
     }
     
@@ -653,6 +689,7 @@ public class OtmaintenancePreventiveBean
             setMachineUpdate(getOrderUpdate().getIdMaintenance().getIdMachinePart().getIdMachine());
             fillListMachinePart(getMachineUpdate(), getOrderUpdate(), 1);
             setTimeDuration(getOrderUpdate().getIdMaintenance().getCreationDate(), getOrderUpdate().getIdMaintenance().getEndDate());
+            maintenanceScheduler(getOrderUpdate()); 
         }
     }
     
@@ -904,6 +941,10 @@ public class OtmaintenancePreventiveBean
             {
                 addError(null, "Error en el Campo Duración", "Campo obligatorio, debe ingresar un valor para el campo Duración");
                 return event.getOldStep(); 
+            }
+            if(validateFields("Frecuencia", getOrderUpdate().getTypeFrecuency(), 3))
+            {
+                return event.getOldStep();
             }
             if(getEndDate() != null)
             {
@@ -1159,7 +1200,7 @@ public class OtmaintenancePreventiveBean
                     case DMESConstants.FREQUENCY_DAILY: //Caso diario
                         
                         getListNextDates().add(calendar.getTime());
-                        while(getListNextDates().size()< getAmountSchedule())
+                        while(getListNextDates().size()< order.getAmountSchedule())
                         {
                             calendar.add(Calendar.DAY_OF_YEAR, 1);
                             getListNextDates().add(calendar.getTime());
@@ -1167,7 +1208,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_WEEKLY: //Caso semanal
                         getListNextDates().add(calendar.getTime());
-                        while(getListNextDates().size()< getAmountSchedule())
+                        while(getListNextDates().size()< order.getAmountSchedule())
                         {
                             calendar.add(Calendar.DAY_OF_YEAR, 7);
                             getListNextDates().add(calendar.getTime());
@@ -1175,7 +1216,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_MONTHLY:
                         getListNextDates().add(calendar.getTime());
-                        while(getListNextDates().size()< getAmountSchedule())
+                        while(getListNextDates().size()< order.getAmountSchedule())
                         {
                             calendar.add(Calendar.MONTH, 1);
                             getListNextDates().add(calendar.getTime());
@@ -1183,7 +1224,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_QUARTELY://Caso Trimestral
                         getListNextDates().add(calendar.getTime());
-                        while(getListNextDates().size()< getAmountSchedule())
+                        while(getListNextDates().size()< order.getAmountSchedule())
                         {
                             calendar.add(Calendar.MONTH, 3);
                             getListNextDates().add(calendar.getTime());
@@ -1191,7 +1232,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_BIANNUAL:
                         getListNextDates().add(calendar.getTime());
-                        while(getListNextDates().size()< getAmountSchedule())
+                        while(getListNextDates().size()< order.getAmountSchedule())
                         {
                             calendar.add(Calendar.MONTH, 6);
                             getListNextDates().add(calendar.getTime());
@@ -1199,7 +1240,7 @@ public class OtmaintenancePreventiveBean
                         break;
                     case DMESConstants.FREQUENCY_ANNUAL:
                         getListNextDates().add(calendar.getTime());
-                        while(getListNextDates().size()< getAmountSchedule())
+                        while(getListNextDates().size()< order.getAmountSchedule())
                         {
                             calendar.add(Calendar.YEAR, 1);
                             getListNextDates().add(calendar.getTime());
@@ -1673,16 +1714,6 @@ public class OtmaintenancePreventiveBean
     public void setListNextDates(List<Date> listNextDates)
     {
         this.listNextDates = listNextDates;
-    }
-
-    public int getAmountSchedule()
-    {
-        return amountSchedule;
-    }
-
-    public void setAmountSchedule(int amountSchedule)
-    {
-        this.amountSchedule = amountSchedule;
     }
 
     

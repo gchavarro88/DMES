@@ -248,12 +248,16 @@ public class OtMaintenancePreventiveDao implements IOtMaintenancePreventive
             entityManager.remove(entityManager.contains(orderSelected)?orderSelected:entityManager.merge(orderSelected));
             entityManager.remove(entityManager.contains(orderSelected.getIdMaintenance())
             ?orderSelected.getIdMaintenance():entityManager.merge(orderSelected.getIdMaintenance()));            
-            Query query = entityManager.createNamedQuery("OtMaintenanceSchedule.findByManyCriterias");
-            query.setParameter("creationDate", orderSelected.getIdMaintenance().getCreationDate());
-            query.setParameter("endDate", orderSelected.getIdMaintenance().getEndDate());
-            query.setParameter("idMaintenance", orderSelected.getIdMaintenance().getIdMaintenance());
-            maintenanceSchedule = (OtMaintenanceSchedule) query.getSingleResult();
-            entityManager.remove(entityManager.contains(maintenanceSchedule)?maintenanceSchedule:entityManager.merge(maintenanceSchedule));
+            Query query = entityManager.createNamedQuery("OtMaintenanceSchedule.findByIdScheduleMaintenance");
+            String idsSechedule[] = orderSelected.getIdMaintenance().getMaintenanceSchedule().split(",");
+            for(int i=0; i < idsSechedule.length; i++)
+            {
+                query.setParameter("idScheduleMaintenance", Long.parseLong(idsSechedule[i]));
+                maintenanceSchedule = (OtMaintenanceSchedule) query.getSingleResult();
+                entityManager.remove(entityManager.contains(maintenanceSchedule)?maintenanceSchedule:entityManager.merge(maintenanceSchedule));
+            }
+            
+            
         }
         catch (Exception e)
         { 
@@ -266,20 +270,40 @@ public class OtMaintenancePreventiveDao implements IOtMaintenancePreventive
 
     @Override
     @Transactional
-    public void updateMaintenance(OtMaintenancePreventive orderSelected) throws Exception
+    public void updateMaintenance(OtMaintenancePreventive orderSelected, List<Date> scheduleMaintenance,
+            int months, int days, int hours, int minutes) throws Exception
     {
-        String startDate = getFormatDateGlobal("yyyy-MM-dd HH:mm:ss", orderSelected.getIdMaintenance().getCreationDate());
-        String finishDate = getFormatDateGlobal("yyyy-MM-dd HH:mm:ss", orderSelected.getIdMaintenance().getEndDate());
-        String nativeQuery = "UPDATE dmes.ot_maintenance_schedule set creation_date = '"+startDate+
-        "', end_date = '"+finishDate+"', id_employee = "+orderSelected.getIdMaintenance().getIdWorkforce().getIdEmployee().getIdEmployee()+
-                " where id_schedule_maintenance = "+orderSelected.getIdMaintenance().getMaintenanceSchedule();
+        OtMaintenanceSchedule maintenanceSchedule = null; 
+        
         try
         {
+            Query query = entityManager.createNamedQuery("OtMaintenanceSchedule.findByIdScheduleMaintenance");
+            String idsSechedule[] = orderSelected.getIdMaintenance().getMaintenanceSchedule().split(",");
+            for(int i=0; i < idsSechedule.length; i++)
+            {
+                query.setParameter("idScheduleMaintenance", Long.parseLong(idsSechedule[i]));
+                maintenanceSchedule = (OtMaintenanceSchedule) query.getSingleResult();
+                entityManager.remove(entityManager.contains(maintenanceSchedule)?maintenanceSchedule:entityManager.merge(maintenanceSchedule));
+            }
+            
+            orderSelected.getIdMaintenance().setMaintenanceSchedule("");
+            for(Date date: scheduleMaintenance)
+            {
+                maintenanceSchedule = new OtMaintenanceSchedule();
+                maintenanceSchedule.setIdEmployee(orderSelected.getIdMaintenance().getIdWorkforce().getIdEmployee());
+                maintenanceSchedule.setCreationDate(date);
+                maintenanceSchedule.setEndDate(addTime(date, months, days, hours, minutes));
+                maintenanceSchedule.setIdMaintenance(orderSelected.getIdMaintenance().getIdMaintenance());
+                entityManager.persist(maintenanceSchedule);
+                orderSelected.getIdMaintenance().setMaintenanceSchedule(orderSelected.getIdMaintenance().getMaintenanceSchedule()
+                        +","+maintenanceSchedule.getIdScheduleMaintenance());
+            }
+            orderSelected.getIdMaintenance().setMaintenanceSchedule(orderSelected.getIdMaintenance().getMaintenanceSchedule()
+                    .substring(1, orderSelected.getIdMaintenance().getMaintenanceSchedule().length()));
             entityManager.merge(orderSelected.getIdMaintenance().getIdWorkforce());
             entityManager.merge(orderSelected.getIdMaintenance());
             entityManager.merge(orderSelected);
-            Query query = entityManager.createNativeQuery(nativeQuery);
-            int rows = query.executeUpdate();
+            
         }
         catch (Exception e)
         {

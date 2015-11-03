@@ -57,6 +57,11 @@ public class OtMaintenancePreventive implements Serializable
     @Size(min = 1, max = 50)
     @Column(name = "type_frequency")
     private String typeFrecuency;
+    @Column(name = "amount_schedule")
+    private long amountSchedule;
+    @Column(name = "duration")
+    @Size(max = 100)
+    private String duration;
     @Size(max = 400)
     @Column(name = "description")
     private String description;
@@ -127,6 +132,26 @@ public class OtMaintenancePreventive implements Serializable
     public void setTypeFrecuency(String typeFrecuency)
     {
         this.typeFrecuency = typeFrecuency;
+    }
+
+    public long getAmountSchedule()
+    {
+        return amountSchedule;
+    }
+
+    public void setAmountSchedule(long amountSchedule)
+    {
+        this.amountSchedule = amountSchedule;
+    }
+
+    public String getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(String duration)
+    {
+        this.duration = duration;
     }
     
     
