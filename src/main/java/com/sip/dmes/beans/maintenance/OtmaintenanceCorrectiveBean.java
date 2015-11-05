@@ -77,7 +77,6 @@ public class OtmaintenanceCorrectiveBean
     private ScMaintenanceClasification clasification;
     
     
-    
     private final static Logger log = Logger.getLogger(OtmaintenanceCorrectiveBean.class);
     private final String TAB_GENERAL = "tabGeneral";
     private final String TAB_ACTIVITIES = "tabActivities";
@@ -99,13 +98,14 @@ public class OtmaintenanceCorrectiveBean
     public void initData()
     {
         fillListCorrectives();
-        cleanValues();
         fillListMachines();
         fillListClasification();
         fillListDamages();
         fillListPriorities();
         fillListEmployees();
         fillListMaintenanceStates();
+        cleanValues();
+        
 //        fillListReplacements();
 //        fillListTools();
     }   
@@ -544,7 +544,7 @@ public class OtmaintenanceCorrectiveBean
         setOrderSave(new OtMaintenanceCorrective());
         getOrderSave().setIdMaintenance(new OtMaintenance());
         getOrderSave().getIdMaintenance().setCreationDate(new Date());
-        getOrderSave().getIdMaintenance().setIdMaintenanceState(new ScMaintenanceState(1L));
+        getOrderSave().getIdMaintenance().setIdMaintenanceState(getListStates().get(0));
         getOrderSave().getIdMaintenance().setScMaintenanceActivityList(new ArrayList<ScMaintenanceActivity>());
         getOrderSave().getIdMaintenance().setIdMachinePart(new ScMachinePart());
         getOrderSave().getIdMaintenance().setIdWorkforce(new ScWorkforce());
@@ -1604,6 +1604,8 @@ public class OtmaintenanceCorrectiveBean
     {
         this.listStates = listStates;
     }
+
+   
 
     
     

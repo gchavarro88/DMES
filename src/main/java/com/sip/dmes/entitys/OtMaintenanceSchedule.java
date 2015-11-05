@@ -58,13 +58,13 @@ public class OtMaintenanceSchedule implements Serializable
     @NotNull
     @Column(name = "end_date")
     @Temporal(TemporalType.DATE)
-    private Date endDate;
+    private Date endDate; 
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_maintenance") 
     private long idMaintenance;
     @JoinColumn(name = "id_employee", referencedColumnName = "id_employee")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScEmployee idEmployee;
 
     public OtMaintenanceSchedule()

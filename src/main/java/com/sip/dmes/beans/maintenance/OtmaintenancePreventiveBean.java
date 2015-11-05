@@ -98,13 +98,14 @@ public class OtmaintenancePreventiveBean
     public void initData()
     {
         fillListPreventives();
-        cleanValues();
         fillListMachines();
         fillListClasification();
         fillListDamages();
         fillListPriorities();
         fillListEmployees();
         fillListMaintenanceStates();
+        cleanValues();
+        
 //        fillListReplacements();
 //        fillListTools();
     }   
@@ -547,7 +548,7 @@ public class OtmaintenancePreventiveBean
         calendar.setTime(new Date());
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         getOrderSave().getIdMaintenance().setCreationDate(calendar.getTime());
-        getOrderSave().getIdMaintenance().setIdMaintenanceState(new ScMaintenanceState(1L));
+        getOrderSave().getIdMaintenance().setIdMaintenanceState(getListStates().get(0));
         getOrderSave().getIdMaintenance().setScMaintenanceActivityList(new ArrayList<ScMaintenanceActivity>());
         getOrderSave().getIdMaintenance().setIdMachinePart(new ScMachinePart());
         getOrderSave().getIdMaintenance().setIdWorkforce(new ScWorkforce());
@@ -1189,9 +1190,13 @@ public class OtmaintenancePreventiveBean
         {
             if(order.getIdMaintenance().getCreationDate() != null)
             {
+                
                 finishDateSchedule = order.getIdMaintenance().getCreationDate();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(finishDateSchedule);
+                calendar.set(Calendar.HOUR_OF_DAY, getStartHour());
+                calendar.set(Calendar.MINUTE, getStartMinutes());
+                order.getIdMaintenance().setCreationDate(calendar.getTime());
                 int monthInit = calendar.get(Calendar.MONTH);
                 int yearInit = calendar.get(Calendar.YEAR); 
                 setListNextDates(new ArrayList<Date>());

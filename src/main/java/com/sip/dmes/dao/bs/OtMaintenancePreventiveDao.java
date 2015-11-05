@@ -273,19 +273,13 @@ public class OtMaintenancePreventiveDao implements IOtMaintenancePreventive
     public void updateMaintenance(OtMaintenancePreventive orderSelected, List<Date> scheduleMaintenance,
             int months, int days, int hours, int minutes) throws Exception
     {
-        OtMaintenanceSchedule maintenanceSchedule = null; 
-        
+        OtMaintenanceSchedule maintenanceSchedule = null;  
         try
         {
-            Query query = entityManager.createNamedQuery("OtMaintenanceSchedule.findByIdScheduleMaintenance");
-            String idsSechedule[] = orderSelected.getIdMaintenance().getMaintenanceSchedule().split(",");
-            for(int i=0; i < idsSechedule.length; i++)
-            {
-                query.setParameter("idScheduleMaintenance", Long.parseLong(idsSechedule[i]));
-                maintenanceSchedule = (OtMaintenanceSchedule) query.getSingleResult();
-                entityManager.remove(entityManager.contains(maintenanceSchedule)?maintenanceSchedule:entityManager.merge(maintenanceSchedule));
-            }
-            
+            String queryString = "DELETE FROM dmes.ot_maintenance_schedule WHERE id_schedule_maintenance IN ("+
+                    orderSelected.getIdMaintenance().getMaintenanceSchedule()+")";
+            Query query = entityManager.createNativeQuery(queryString);
+            int rows = query.executeUpdate();
             orderSelected.getIdMaintenance().setMaintenanceSchedule("");
             for(Date date: scheduleMaintenance)
             {
@@ -299,7 +293,7 @@ public class OtMaintenancePreventiveDao implements IOtMaintenancePreventive
                         +","+maintenanceSchedule.getIdScheduleMaintenance());
             }
             orderSelected.getIdMaintenance().setMaintenanceSchedule(orderSelected.getIdMaintenance().getMaintenanceSchedule()
-                    .substring(1, orderSelected.getIdMaintenance().getMaintenanceSchedule().length()));
+                    .substring(1, orderSelected.getIdMaintenance().getMaintenanceSchedule().length())); 
             entityManager.merge(orderSelected.getIdMaintenance().getIdWorkforce());
             entityManager.merge(orderSelected.getIdMaintenance());
             entityManager.merge(orderSelected);
