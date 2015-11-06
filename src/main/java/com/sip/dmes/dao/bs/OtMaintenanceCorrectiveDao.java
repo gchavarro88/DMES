@@ -366,6 +366,23 @@ public class OtMaintenanceCorrectiveDao implements IOtMaintenanceCorrective
         }
         return result;
     }
+
+    @Override
+    public OtMaintenanceCorrective getMaintenanceById(Long idMaintenance)
+    {
+        OtMaintenanceCorrective result =null;
+        Query query  = entityManager.createNamedQuery("OtMaintenanceCorrective.findByIdMaintenance"); 
+        query.setParameter("idMaintenance", idMaintenance);
+        try
+        {
+            result = (OtMaintenanceCorrective) query.getSingleResult();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al consultar el mantenimiento correctivo por id del mantenimiento",e);
+        }
+        return result;
+    }
     
 
 }

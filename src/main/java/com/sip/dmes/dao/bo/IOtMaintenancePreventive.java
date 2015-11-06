@@ -57,5 +57,7 @@ public interface IOtMaintenancePreventive
             int months, int days, int hours, int minutes) throws Exception;
     
     public List<OtMaintenanceSchedule> getMaintenancesByMonth(Date startDate, Date endDate)throws Exception;
-
+    
+    public OtMaintenancePreventive getMaintenanceById(Long idMaintenance);
+    
 }

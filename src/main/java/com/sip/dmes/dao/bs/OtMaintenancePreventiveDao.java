@@ -443,4 +443,21 @@ public class OtMaintenancePreventiveDao implements IOtMaintenancePreventive
         }
         return result;
     }
+
+    @Override
+    public OtMaintenancePreventive getMaintenanceById(Long idMaintenance)
+    {
+        OtMaintenancePreventive result =null;
+        Query query  = entityManager.createNamedQuery("OtMaintenancePreventive.findByIdMaintenance"); 
+        query.setParameter("idMaintenance", idMaintenance);
+        try
+        {
+            result = (OtMaintenancePreventive) query.getSingleResult();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al consultar el mantenimiento preventivo por id del mantenimiento",e);
+        }
+        return result;
+    }
 }

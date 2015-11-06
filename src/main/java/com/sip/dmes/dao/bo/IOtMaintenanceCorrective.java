@@ -55,4 +55,5 @@ public interface IOtMaintenanceCorrective
     
     public void saveMaintenance(OtMaintenanceCorrective orderSave, Date endDate) throws Exception;
 
+    public OtMaintenanceCorrective getMaintenanceById(Long idMaintenance);
 }

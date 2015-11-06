@@ -8,28 +8,11 @@ package com.sip.dmes.beans.maintenance;
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IOtMaintenanceCorrective;
 import com.sip.dmes.dao.bo.IOtMaintenancePreventive;
-import com.sip.dmes.entitys.OtMaintenance;
 import com.sip.dmes.entitys.OtMaintenanceCorrective;
+import com.sip.dmes.entitys.OtMaintenancePreventive;
 import com.sip.dmes.entitys.OtMaintenanceSchedule;
-import com.sip.dmes.entitys.ScEmployee;
-import com.sip.dmes.entitys.ScMachine;
-import com.sip.dmes.entitys.ScMachinePart;
-import com.sip.dmes.entitys.ScMaintenanceActivity;
-import com.sip.dmes.entitys.ScMaintenanceClasification;
-import com.sip.dmes.entitys.ScMaintenanceDamage;
-
-import com.sip.dmes.entitys.ScMaintenanceState;
-
-import com.sip.dmes.entitys.ScPriority;
-import com.sip.dmes.entitys.ScReplacement;
-import com.sip.dmes.entitys.ScTool;
-import com.sip.dmes.entitys.ScWorkforce;
-
 import com.sip.dmes.utilities.DMESConstants;
-import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -37,9 +20,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
-import org.primefaces.event.FlowEvent;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.LazyScheduleModel;
+import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 /**
@@ -51,9 +36,11 @@ public class OtmaintenanceScheduleBean
     
     private SessionBean sessionBean;
     private IOtMaintenancePreventive otMaintenancePreventiveServer;
+    private IOtMaintenanceCorrective otMaintenanceCorrectiveServer;
     private ScheduleModel maintenanceSchedule;
-    
-    
+    private OtMaintenanceCorrective maintenanceCorrective;
+    private OtMaintenancePreventive maintenancePreventive;
+    private ScheduleEvent event;
     private final static Logger log = Logger.getLogger(OtmaintenanceScheduleBean.class);
     private final String TAB_GENERAL = "tabGeneral";
     private final String TAB_ACTIVITIES = "tabActivities";
@@ -74,7 +61,7 @@ public class OtmaintenanceScheduleBean
     @PostConstruct
     public void initData()
     {
-        
+        setEvent(new DefaultScheduleEvent());
         maintenanceSchedule = new LazyScheduleModel() 
         {
              
@@ -100,13 +87,71 @@ public class OtmaintenanceScheduleBean
                 }
                 catch (Exception e)
                 {
+                    addError(null, "Error de Consulta", "Error al intentar consultar las programaciones para el mes");
+                    log.error("Error al intentar consultar las programaciones para el mes",e);
                 }
                 
             }   
         };
     }   
     
-    
+    public void cleanValues()
+    {
+        setMaintenanceCorrective(null);
+        setMaintenancePreventive(null);
+    }
+    /**
+     * Consulta el mantenimiento y dependiendo del tipo de mantenimiento muestra 
+     * un resultado en la pantalla.
+     * @param idMaintenance id del mantenimiento
+     * @Author Gustavo Chavarro Ortiz
+     */
+    public void findMaintenance(Long idMaintenance)
+    {
+        try
+        {
+            cleanValues();
+            setMaintenanceCorrective(getOtMaintenanceCorrectiveServer().getMaintenanceById(idMaintenance));
+            setMaintenancePreventive(getOtMaintenancePreventiveServer().getMaintenanceById(idMaintenance));
+            if(getMaintenanceCorrective() != null)
+            {
+                RequestContext.getCurrentInstance().execute("PF('dialogMaintenanceCorrectiveView').show()");
+            }
+            else if(getMaintenancePreventive() != null)
+            {
+                RequestContext.getCurrentInstance().execute("PF('dialogMaintenancePreventiveView').show()");
+            }
+            else
+            {
+                addInfo(null, "Resultados Nulos", "No se obtuvieron resultados para la consulta del evento");
+            }
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+"\n"+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR,e);
+        }
+    }
+    /**
+     * Método encaragado de capturar el evento de click sobre las programaciones.
+     * @param selectEvent 
+     * @Author Gustavo Chavarro Ortiz
+     */
+    public void onEventSelect(SelectEvent selectEvent) 
+    {
+        setEvent((ScheduleEvent) selectEvent.getObject());
+        RequestContext.getCurrentInstance().execute("PF('dialogMaintenanceCorrectiveView').hide()");
+        RequestContext.getCurrentInstance().execute("PF('dialogMaintenancePreventiveView').hide()");
+        try
+        {
+            findMaintenance(Long.parseLong(getEvent().getTitle().substring(16, getEvent().getTitle().length())));
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR,
+                           DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
     
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
@@ -221,5 +266,47 @@ public class OtmaintenanceScheduleBean
     {
         this.maintenanceSchedule = maintenanceSchedule;
     }
+
+    public OtMaintenanceCorrective getMaintenanceCorrective()
+    {
+        return maintenanceCorrective;
+    }
+
+    public void setMaintenanceCorrective(OtMaintenanceCorrective maintenanceCorrective)
+    {
+        this.maintenanceCorrective = maintenanceCorrective;
+    }
+
+    public OtMaintenancePreventive getMaintenancePreventive()
+    {
+        return maintenancePreventive;
+    }
+
+    public void setMaintenancePreventive(OtMaintenancePreventive maintenancePreventive)
+    {
+        this.maintenancePreventive = maintenancePreventive;
+    }
+
+    public ScheduleEvent getEvent()
+    {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event)
+    {
+        this.event = event;
+    }
+
+    public IOtMaintenanceCorrective getOtMaintenanceCorrectiveServer()
+    {
+        return otMaintenanceCorrectiveServer;
+    }
+
+    public void setOtMaintenanceCorrectiveServer(IOtMaintenanceCorrective otMaintenanceCorrectiveServer)
+    {
+        this.otMaintenanceCorrectiveServer = otMaintenanceCorrectiveServer;
+    }
+    
+    
     
 }

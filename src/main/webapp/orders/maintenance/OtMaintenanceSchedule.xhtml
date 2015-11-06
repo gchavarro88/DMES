@@ -62,14 +62,274 @@
         <!--            Inicia el calendario de mantenimientos-->
         <center>
         <div style="height: 100px; width: 90%; text-align: center;">
-            <p:schedule id="schedule" value="#{OtmaintenanceScheduleBean.maintenanceSchedule}" widgetVar="maintenanceSchedule" timeZone="GMT-5" locale="es" aspectRatio="2.5"
-                        tooltip="true" draggable="false" minTime="0am" maxTime="11pm">
-                <p:ajax event="dateSelect" update="schedule" />
-                <p:ajax event="eventSelect" update="schedule" />
+            <p:schedule id="schedule" value="#{OtmaintenanceScheduleBean.maintenanceSchedule}" widgetVar="maintenanceSchedule" timeZone="GMT+1" locale="es" aspectRatio="2.5"
+                        tooltip="true" draggable="false" resizable="false">
+<!--                <p:ajax event="dateSelect" />-->
+<p:ajax event="eventSelect" listener="#{OtmaintenanceScheduleBean.onEventSelect}" update=":formWizarMaintenanceCorrectiveView,:formWizarMaintenancePreventiveView"/>
             </p:schedule>
         </div>
         </center>
         <!--                finaliza el calendario de mantenimientos-->
+        
+<!--                inicia dialogo para visualizar mantenimientos-->
+        <p:dialog id="dialogMaintenanceCorrectiveView" widgetVar="dialogMaintenanceCorrectiveView" draggable="true" 
+                  closable="true"  
+                  header="Mantenimiento Correctivo" 
+                  position="center top" width="800"
+                  hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+
+            <h:form id="formWizarMaintenanceCorrectiveView" >
+                        <p:panel header="Datos Básicos" >
+                            <table width="98%" cellspacing="10" >
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfNameMaintenance" value="Nombre Mantenimiento*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText    id="tfNameMaintenance"  value="#{OtmaintenanceScheduleBean.maintenanceCorrective.name}"
+                                                        readonly="true">
+                                            <p:tooltip for="tfNameMaintenance"   value="#{OtmaintenanceScheduleBean.maintenanceCorrective.name}" />
+                                        </p:inputText>
+
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputTextarea    id="tfDescription"  value="#{OtmaintenanceScheduleBean.maintenanceCorrective.description}"
+                                                            readonly="true"      />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbMachine" value="Máquina*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbMachine"  value="#{OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.idMachinePart.idMachine.name}" 
+                                                     readonly="true" />
+
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbMachinePart" value="Parte de Máquina*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbMachinePart"  value="#{OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.idMachinePart.name}" 
+                                                     readonly="true"/>
+
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbClasification" value="Clasificación*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbClasification"  value="#{OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.idMaintenanceClasification.clasification}" 
+                                                     readonly="true"
+                                                     />                                                
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbPrority" value="Prioridad*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbPrority"  value="#{OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.idPriority.name}" 
+                                                     readonly="true"                 />
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbDamage" value="Daño*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbDamage"  value="#{OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.idMaintenanceDamage.damage}" 
+                                                     readonly="true"/>
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfDamage" value="Descripción del Daño"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputTextarea    id="tfDamage"  value="#{OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.descriptionDamage}"
+                                                            readonly="true"     />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfStartHour" value="Fecha de Inicio*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText  readonly="true"  id="tfStartHour" 
+                                                      value="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.creationDate)}"/>
+
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfEndHour" value="Fecha de Finalización*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText  readonly="true"  id="tfEndHour"
+                                                      value="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.endDate)}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfnumberOrder" value="No Orden*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText  readonly="true"  id="tfnumberOrder"
+                                                      value="OM#{OtmaintenanceScheduleBean.getFormatDateGlobal('yyyyMMddHHmmss', OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.creationDate)+OtmaintenanceScheduleBean.maintenanceCorrective.idMaintenance.idMaintenance}"/>
+                                        
+                                    </td>
+                                    <td width="10%" align="right">
+                                        
+                                    </td>
+                                    <td width="40%" align="left">
+                                        
+                                    </td>
+                                </tr>
+                            </table> 
+                        </p:panel>
+            </h:form>
+
+        </p:dialog>
+<!--                finaliza dialogo para visualizar mantenimientos-->
+
+<!--                inicia dialogo para visualizar mantenimientos-->
+        <p:dialog id="dialogMaintenancePreventiveView" widgetVar="dialogMaintenancePreventiveView" draggable="true" 
+                  closable="true"  
+                  header="Mantenimiento Preventivo" 
+                  position="center top" width="800"
+                  hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+
+            <h:form id="formWizarMaintenancePreventiveView" >
+                        <p:panel header="Datos Básicos" >
+                            <table width="98%" cellspacing="10" >
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfNameMaintenance" value="Nombre Mantenimiento*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText    id="tfNameMaintenance"  value="#{OtmaintenanceScheduleBean.maintenancePreventive.name}"
+                                                        readonly="true">
+                                            <p:tooltip for="tfNameMaintenance"   value="#{OtmaintenanceScheduleBean.maintenancePreventive.name}" />
+                                        </p:inputText>
+
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputTextarea    id="tfDescription"  value="#{OtmaintenanceScheduleBean.maintenancePreventive.description}"
+                                                            readonly="true"      />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbMachine" value="Máquina*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbMachine"  value="#{OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.idMachinePart.idMachine.name}" 
+                                                     readonly="true" />
+
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbMachinePart" value="Parte de Máquina*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbMachinePart"  value="#{OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.idMachinePart.name}" 
+                                                     readonly="true"/>
+
+                                    </td>
+                                </tr> 
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbClasification" value="Clasificación*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbClasification"  value="#{OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.idMaintenanceClasification.clasification}" 
+                                                     readonly="true"
+                                                     />                                                
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbPrority" value="Prioridad*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbPrority"  value="#{OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.idPriority.name}" 
+                                                     readonly="true"                 />
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="cbDamage" value="Daño*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText id="cbDamage"  value="#{OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.idMaintenanceDamage.damage}" 
+                                                     readonly="true"/>
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfDamage" value="Descripción del Daño"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputTextarea    id="tfDamage"  value="#{OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.descriptionDamage}"
+                                                            readonly="true"     />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfStartHour" value="Fecha de Inicio*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText  readonly="true"  id="tfStartHour" 
+                                                      value="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.creationDate)}"/>
+
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfEndHour" value="Fecha de Finalización*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText  readonly="true"  id="tfEndHour"
+                                                      value="#{OtmaintenancePreventiveBean.getFormatDateGlobal('dd/MM/yyyy HH:mm:ss', OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.endDate)}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfFrequency" value="Frecuencia*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText  readonly="true"  id="tfFrequency" 
+                                                      value="#{OtmaintenanceScheduleBean.maintenancePreventive.typeFrecuency}"/>
+
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfAmountSchedule" value="Cantidad*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText  readonly="true"  id="tfAmountSchedule"
+                                                      value="#{OtmaintenanceScheduleBean.maintenancePreventive.amountSchedule}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfnumberOrder" value="No Orden*"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:inputText  readonly="true"  id="tfnumberOrder"
+                                                      value="OM#{OtmaintenanceScheduleBean.getFormatDateGlobal('yyyyMMddHHmmss', OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.creationDate)+OtmaintenanceScheduleBean.maintenancePreventive.idMaintenance.idMaintenance}"/>
+                                        
+                                    </td>
+                                    <td width="10%" align="right">
+                                        
+                                    </td>
+                                    <td width="40%" align="left">
+                                        
+                                    </td>
+                                </tr>
+                            </table> 
+                        </p:panel>
+            </h:form>
+
+        </p:dialog>
+<!--                finaliza dialogo para visualizar mantenimientos-->
+
     </h:body>
 </html>
 

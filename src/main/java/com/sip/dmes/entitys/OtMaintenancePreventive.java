@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 {
     @NamedQuery(name = "OtMaintenancePreventive.findAll", query = "SELECT o FROM OtMaintenancePreventive o"),
     @NamedQuery(name = "OtMaintenancePreventive.findByIdMaintenancePreventive", query = "SELECT o FROM OtMaintenancePreventive o WHERE o.idMaintenancePreventive = :idMaintenancePreventive"),
+    @NamedQuery(name = "OtMaintenancePreventive.findByIdMaintenance", query = "SELECT o FROM OtMaintenancePreventive o WHERE o.idMaintenance.idMaintenance = :idMaintenance"),
     @NamedQuery(name = "OtMaintenancePreventive.findByName", query = "SELECT o FROM OtMaintenancePreventive o WHERE o.name = :name"),
     @NamedQuery(name = "OtMaintenancePreventive.findByToday", query = "SELECT o FROM OtMaintenancePreventive o WHERE o.idMaintenance.creationDate >= :creationDate"),
     @NamedQuery(name = "OtMaintenancePreventive.findByDescription", query = "SELECT o FROM OtMaintenancePreventive o WHERE o.description = :description")
