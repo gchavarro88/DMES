@@ -425,4 +425,22 @@ public class OtMaintenancePreventiveDao implements IOtMaintenancePreventive
         }
         return endDate; //Se acomoda la fecha final
     }
+
+    @Override
+    public List<OtMaintenanceSchedule> getMaintenancesByMonth(Date startDate, Date endDate) throws Exception
+    {
+        List<OtMaintenanceSchedule> result = null;
+        try
+        {
+            Query query = entityManager.createNamedQuery("OtMaintenanceSchedule.findByDates");
+            query.setParameter("startDate", startDate);
+            query.setParameter("endDate", endDate);
+            result = (List<OtMaintenanceSchedule>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error al consultar las fechas de mantenimientos",e);
+        }
+        return result;
+    }
 }

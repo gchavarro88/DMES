@@ -75,7 +75,7 @@ public class ScMaintenancePlan implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "duration")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date duration; 
     @JoinColumn(name = "id_machine", referencedColumnName = "id_machine")
     @ManyToOne(optional = false)
@@ -88,7 +88,7 @@ public class ScMaintenancePlan implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "programing_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date programingDate; 
     @JoinColumn(name = "id_type_downtime", referencedColumnName = "id_type")
     @ManyToOne(optional = false)
@@ -105,10 +105,10 @@ public class ScMaintenancePlan implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "modify_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
     
     public ScMaintenancePlan()

@@ -73,10 +73,10 @@ public class ScPartner implements Serializable, Cloneable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "modify_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartner", fetch = FetchType.EAGER)
     private List<ScServicesOrProducts> scServicesOrProductsList;

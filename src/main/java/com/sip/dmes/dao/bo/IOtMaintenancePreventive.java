@@ -7,6 +7,7 @@ package com.sip.dmes.dao.bo;
 
 
 import com.sip.dmes.entitys.OtMaintenancePreventive;
+import com.sip.dmes.entitys.OtMaintenanceSchedule;
 import com.sip.dmes.entitys.ScEmployee;
 import com.sip.dmes.entitys.ScMachine;
 import com.sip.dmes.entitys.ScMachinePart;
@@ -54,5 +55,7 @@ public interface IOtMaintenancePreventive
     
     public void saveMaintenance(OtMaintenancePreventive orderSave, Date endDate, List<Date> scheduleMantenaince,
             int months, int days, int hours, int minutes) throws Exception;
+    
+    public List<OtMaintenanceSchedule> getMaintenancesByMonth(Date startDate, Date endDate)throws Exception;
 
 }

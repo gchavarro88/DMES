@@ -49,12 +49,12 @@ public class ScWorkExperience implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "init_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date initDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "end_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     @JoinColumn(name = "id_employee", referencedColumnName = "id_employee")
     @ManyToOne(optional = false)

@@ -67,10 +67,10 @@ public class ScOperatingConditions implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "modify_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
     @JoinColumn(name = "id_machine", referencedColumnName = "id_machine")
     @ManyToOne(optional = false)

@@ -95,7 +95,7 @@ public class ScTool implements Serializable, Cloneable
     @Column(name = "serie")
     private String serie;
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "description")
     private String description;

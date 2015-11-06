@@ -63,7 +63,7 @@ public class ScInputSpecifications implements Serializable {
     @Basic(optional = false)    
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     
     @JoinColumn(name = "id_input", referencedColumnName = "id_input")

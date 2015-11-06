@@ -67,7 +67,7 @@ public class ScMachinePartDocument implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Basic(optional = false) 
     @NotNull

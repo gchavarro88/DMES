@@ -67,7 +67,7 @@ public class ScStoreRequisition implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Size(max = 200)
     @Column(name = "reason_cancellation")

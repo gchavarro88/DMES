@@ -58,10 +58,10 @@ public class ScType implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "modify_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
     @JoinColumn(name = "id_class_type", referencedColumnName = "id_class_type")
     @ManyToOne(optional = false)

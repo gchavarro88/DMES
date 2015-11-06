@@ -55,7 +55,7 @@ public class ScStopMachine implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Size(max = 400)
     @Column(name = "reason")
@@ -65,7 +65,7 @@ public class ScStopMachine implements Serializable
     @Column(name = "duration_estimate")
     private long durationEstimate;
     @Column(name = "end_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     @Column(name = "duration_real")
     private Long durationReal;

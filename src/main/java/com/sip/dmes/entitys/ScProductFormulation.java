@@ -61,7 +61,7 @@ public class ScProductFormulation implements Serializable, Cloneable
     
     
     @Column(name = "expiry_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date expiryDate;
     
     @Basic(optional = false)    
@@ -90,7 +90,7 @@ public class ScProductFormulation implements Serializable, Cloneable
     private String serie;
     
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     
     @Column(name = "description")

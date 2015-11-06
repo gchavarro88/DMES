@@ -73,10 +73,10 @@ public class ScEmployee implements Serializable, Cloneable
     @Basic(optional = false)
     @NotNull
     @Column(name = "admission_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date admissionDate;
     @Column(name = "retirement_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date retirementDate;
     @Basic(optional = false)
     @NotNull
@@ -90,10 +90,10 @@ public class ScEmployee implements Serializable, Cloneable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "modify_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)

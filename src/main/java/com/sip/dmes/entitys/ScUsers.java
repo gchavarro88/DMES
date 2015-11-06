@@ -71,10 +71,10 @@ public class ScUsers implements Serializable, Cloneable
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @Column(name = "modify_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
     @JoinColumn(name = "id_role", referencedColumnName = "id_role")
     @ManyToOne(optional = false)

@@ -58,7 +58,7 @@ public class ScPersonDocumentationAttached implements Serializable
     @Column(name = "path")
     private String path;
     @Column(name = "creation_date")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
     @JoinColumn(name = "id_person", referencedColumnName = "id_person")
     @ManyToOne(optional = false)
