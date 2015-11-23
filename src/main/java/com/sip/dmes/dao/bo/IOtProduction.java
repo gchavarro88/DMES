@@ -5,8 +5,23 @@
  */
 package com.sip.dmes.dao.bo;
 
+import com.sip.dmes.entitys.OtProductionOrder;
+import com.sip.dmes.entitys.ScProductFormulation;
+import com.sip.dmes.entitys.ScProductionState;
+import java.util.Date;
+import java.util.List;
+
 
 public interface IOtProduction 
 {
+    
+    public List<ScProductionState> getListStates()throws Exception;
+    
+    public List<OtProductionOrder> getListProductionOrders()throws Exception;
+    
+    public List<ScProductFormulation> getListProductFormulations()throws Exception;
+    
+    public List<ScProductFormulation> getMaintenanceByParameters(Date initDate, 
+            Date endDate, Long orderNumber, ScProductionState state) throws Exception;
     
 }

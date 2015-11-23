@@ -8,7 +8,9 @@ package com.sip.dmes.beans.production;
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IOtProduction;
 import com.sip.dmes.entitys.OtProductionOrder;
+import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScProductionState;
+import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,7 +47,7 @@ public class OtproductionBean
     private OtProductionOrder orderSave;
     private OtProductionOrder orderUpdate;
     private OtProductionOrder orderSelected;
-    
+    private List<ScProductFormulation> listProductFormulations;
     
     /**
      * Creates a new instance of OtmaintenanceCorrectiveBean
@@ -59,28 +61,71 @@ public class OtproductionBean
     @PostConstruct
     public void initData()
     {
-        
+        fillListProductionState();
+        fillListProductionOrders();
+        fillListProductFormulations();
     }   
     
     /**
-     * Método encargado de carga la lista inicial de mantenimientos correctivos
+     * Método encargado de carga la lista inicial de estados de producción
      * @author Gustavo Chavarro Ortiz
     */
-//    public void fillListCorrectives()
-//    {
-//        if(getCorrectiveList()== null)
-//        {
-//            try
-//            {
-//                setCorrectiveList(getOtMaintenanceCorrectiveServer().getAllCorrectives());
-//            }
-//            catch (Exception e)
-//            {
-//                log.error("Error al intentar consutlar la lista de mantenimientos correctivos para visualizar", e);
-//                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-//            }
-//        }
-//    }
+    public void fillListProductionState()
+    {
+        if(getListState()== null)
+        {
+            try
+            {
+                setListState(getOtProductionServer().getListStates());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de estados de producción", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    
+    /**
+     * Método encargado de carga la lista inicial de ordenes de producción
+     * @author Gustavo Chavarro Ortiz
+    */
+    public void fillListProductionOrders()
+    {
+        if(getListProductionOrders()== null)
+        {
+            try
+            {
+                setListProductionOrders(getOtProductionServer().getListProductionOrders());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de ordenes de producción", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    /**
+     * Método encargado de carga la lista inicial de productos
+     * @author Gustavo Chavarro Ortiz
+    */
+    public void fillListProductFormulations()
+    {
+        if(getListProductFormulations()== null)
+        {
+            try
+            {
+                setListProductFormulations(getOtProductionServer().getListProductFormulations());
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar consutlar la lista de productos", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
     
     /**
      * Método encargado de limpiar los valores iniciales.
@@ -88,11 +133,31 @@ public class OtproductionBean
      */
     public void cleanValues()
     {
+        setOrderSave(new OtProductionOrder());
+        setOrderSelected(new OtProductionOrder());
+        setOrderUpdate(new OtProductionOrder());
         
     }
     
     
-    
+    /**
+     * Método encargado de realizar la búsqueda teniendo encuenta los filtros.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void doSearchWithParameters()
+    {
+        try
+        {   
+            setPreventiveList(getOtMaintenancePreventiveServer().getMaintenanceByParameters(getFilterStarDate()
+                    , getFilterEndDate(), getClasification(), getMaintenanceState()));
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+        }
+        catch (Exception e)
+        {
+            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
+            log.error("Error al intentar consultar las ordenes de mantenimiento con parámetros", e);
+        }
+    }
     
 //    /**
 //     * Método encargado de llevar el flujo al guardar un mantenimiento.
@@ -435,5 +500,59 @@ public class OtproductionBean
     {
         this.listState = listState;
     }
+
+    public List<OtProductionOrder> getListProductionOrders()
+    {
+        return listProductionOrders;
+    }
+
+    public void setListProductionOrders(List<OtProductionOrder> listProductionOrders)
+    {
+        this.listProductionOrders = listProductionOrders;
+    }
+
+    public OtProductionOrder getOrderSave()
+    {
+        return orderSave;
+    }
+
+    public void setOrderSave(OtProductionOrder orderSave)
+    {
+        this.orderSave = orderSave;
+    }
+
+    public OtProductionOrder getOrderUpdate()
+    {
+        return orderUpdate;
+    }
+
+    public void setOrderUpdate(OtProductionOrder orderUpdate)
+    {
+        this.orderUpdate = orderUpdate;
+    }
+
+    public OtProductionOrder getOrderSelected()
+    {
+        return orderSelected;
+    }
+
+    public void setOrderSelected(OtProductionOrder orderSelected)
+    {
+        this.orderSelected = orderSelected;
+    }
+
+    public List<ScProductFormulation> getListProductFormulations()
+    {
+        return listProductFormulations;
+    }
+
+    public void setListProductFormulations(List<ScProductFormulation> listProductFormulations)
+    {
+        this.listProductFormulations = listProductFormulations;
+    }
+    
+    
+    
+    
 
 }
