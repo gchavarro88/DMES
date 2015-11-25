@@ -21,7 +21,7 @@ public interface IOtProduction
     
     public List<ScProductFormulation> getListProductFormulations()throws Exception;
     
-    public List<ScProductFormulation> getMaintenanceByParameters(Date initDate, 
+    public List<OtProductionOrder> getProductionByParameters(Date initDate, 
             Date endDate, Long orderNumber, ScProductionState state) throws Exception;
     
 }

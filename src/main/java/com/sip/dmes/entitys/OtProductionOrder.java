@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 {
     @NamedQuery(name = "OtProductionOrder.findAll", query = "SELECT o FROM OtProductionOrder o"),
     @NamedQuery(name = "OtProductionOrder.findByIdProductionOrder", query = "SELECT o FROM OtProductionOrder o WHERE o.idProductionOrder = :idProductionOrder"),
-    @NamedQuery(name = "OtProductionOrder.findByCreationDate", query = "SELECT o FROM OtProductionOrder o WHERE o.creationDate = :creationDate"),
+    @NamedQuery(name = "OtProductionOrder.findByCreationDate", query = "SELECT o FROM OtProductionOrder o WHERE o.creationDate >= :creationDate"),
     @NamedQuery(name = "OtProductionOrder.findByStartDate", query = "SELECT o FROM OtProductionOrder o WHERE o.startDate = :startDate"),
     @NamedQuery(name = "OtProductionOrder.findByEndDate", query = "SELECT o FROM OtProductionOrder o WHERE o.endDate = :endDate")
 })

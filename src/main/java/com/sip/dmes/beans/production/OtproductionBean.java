@@ -148,14 +148,14 @@ public class OtproductionBean
     {
         try
         {   
-            setPreventiveList(getOtMaintenancePreventiveServer().getMaintenanceByParameters(getFilterStarDate()
-                    , getFilterEndDate(), getClasification(), getMaintenanceState()));
+            setListProductionOrders(getOtProductionServer().getProductionByParameters(getFilterStarDate()
+                    , getFilterEndDate(), getFilterOrderNumber(), getFilteState()));
             addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
         }
         catch (Exception e)
         {
             addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-            log.error("Error al intentar consultar las ordenes de mantenimiento con parámetros", e);
+            log.error("Error al intentar consultar las ordenes de producción con parámetros", e);
         }
     }
     
@@ -326,12 +326,11 @@ public class OtproductionBean
      */ 
     public void resetData()
     {
-//        setPreventiveList(null);
         initData();
         setFilterEndDate(null);
         setFilterStarDate(null);
-//        setClasification(null);
-//        setMaintenanceState(null);
+        setFilteState(null);
+        setFilterOrderNumber(null);
     }
     
     /**
