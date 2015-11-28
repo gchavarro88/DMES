@@ -82,19 +82,19 @@ public class OtProductionDao implements IOtProduction
         
         if(initDate != null)
         {
-            nameQuery += " AND o.idMaintenance.creationDate >= :initDate ";
+            nameQuery += " AND o.creationDate >= :initDate ";
         }
         if(endDate != null)
         {
-            nameQuery += " AND o.idMaintenance.creationDate <= :endDate  ";
+            nameQuery += " AND o.creationDate <= :endDate  ";
         }
         if(orderNumber != null)
         {
-            nameQuery += " AND o.idProductionOrder = :idProductionOrder ";
+            nameQuery += " TO_CHAR(o.creationDate, 'yyyymmddHH24miss')||o.idProductionOrder LIKE :idProductionOrder ";
         }
         if(state != null)
         {
-            nameQuery += " AND o.idProductionState = :idProductionState";
+            nameQuery += " AND o.idProductionState  :idProductionState";
         }
         try
         {
@@ -109,7 +109,7 @@ public class OtProductionDao implements IOtProduction
             }
             if(orderNumber != null)
             {
-                query.setParameter("idProductionOrder", orderNumber);
+                query.setParameter("idProductionOrder", "%"+orderNumber+"%");
             }
             if(state != null)
             {

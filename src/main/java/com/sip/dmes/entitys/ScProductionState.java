@@ -107,7 +107,7 @@ public class ScProductionState implements Serializable
     @Override
     public String toString()
     {
-        return "com.sip.dmes.entitys.ScProductionState[ idProductionState=" + idProductionState + " ]";
+        return idProductionState+","+description;
     }
     
 }

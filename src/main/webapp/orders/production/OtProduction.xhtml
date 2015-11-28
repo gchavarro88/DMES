@@ -117,6 +117,34 @@
                         </p:commandButton>
                     </f:facet>
                     
+                    <p:column filterMatchMode="contains"  filterBy="OP#{OtproductionBean.getFormatDateGlobal('yyyyMMddHHmmss', production.creationDate)}#{production.idProductionOrder}" 
+                              id="columnOrderProduction" headerText="No Orden" sortBy="OP#{OtproductionBean.getFormatDateGlobal('yyyyMMddHHmmss', production.creationDate)}#{production.idProductionOrder}">    
+                        <center>
+                            <p:outputLabel value="OP#{OtproductionBean.getFormatDateGlobal('yyyyMMddHHmmss', production.creationDate)}#{production.idProductionOrder}" id="lblOrderProduction"/>
+                            <p:tooltip for="lblOrderProduction" value="OP#{OtproductionBean.getFormatDateGlobal('yyyyMMddHHmmss', production.creationDate)}#{production.idProductionOrder}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.creationDate)}" 
+                              id="columnCreationDate" headerText="Fecha Creación" sortBy="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.creationDate)}">    
+                        <center>
+                            <p:outputLabel value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.creationDate)}" id="lblCreationDate"/>
+                            <p:tooltip for="lblCreationDate" value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.creationDate)}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.startDate)}" 
+                              id="columnStartDate" headerText="Fecha de Inicio" sortBy="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.startDate)}">    
+                        <center>
+                            <p:outputLabel value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.startDate)}" id="lblStartDate"/>
+                            <p:tooltip for="lblStartDate" value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.startDate)}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.endDate)}" 
+                              id="columnEndDate" headerText="Fecha de Finalización" sortBy="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.endDate)}">    
+                        <center>
+                            <p:outputLabel value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.endDate)}" id="lblEndDate"/>
+                            <p:tooltip for="lblEndDate" value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.endDate)}"/>
+                        </center>
+                    </p:column>
                 </p:dataTable>
             </h:form>
 
