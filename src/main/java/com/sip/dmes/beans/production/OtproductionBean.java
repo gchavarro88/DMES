@@ -8,11 +8,15 @@ package com.sip.dmes.beans.production;
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IOtProduction;
 import com.sip.dmes.entitys.OtProductionOrder;
+import com.sip.dmes.entitys.OtProductionProduct;
+import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScProductionState;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,6 +24,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+import org.primefaces.event.FlowEvent;
 
 /**
  *
@@ -48,7 +53,14 @@ public class OtproductionBean
     private OtProductionOrder orderUpdate;
     private OtProductionOrder orderSelected;
     private List<ScProductFormulation> listProductFormulations;
-    
+    private List<String> elementsAutocomplete;
+    private int hourStart;
+    private int minuteStar;
+    private int hourEnd;
+    private int minuteEnd;
+    private String productAdd;
+    private Long amount;
+    private Date currentDate;
     /**
      * Creates a new instance of OtmaintenanceCorrectiveBean
      */
@@ -61,9 +73,11 @@ public class OtproductionBean
     @PostConstruct
     public void initData()
     {
+        cleanValues();
         fillListProductionState();
         fillListProductionOrders();
         fillListProductFormulations();
+        fillListListAutocomplete();
     }   
     
     /**
@@ -128,15 +142,57 @@ public class OtproductionBean
     }
     
     /**
+     * Método encargado de carga la lista de autocompletar productos
+     * @author Gustavo Chavarro Ortiz
+    */
+    public void fillListListAutocomplete()
+    {
+        if(getListProductFormulations()!= null)
+        {
+            try
+            { 
+                if(getListProductFormulations() != null && !getListProductFormulations().isEmpty())
+                {
+                    for(ScProductFormulation product: getListProductFormulations())
+                    {
+                        if(product != null && product.getDescription().length() > 0)
+                        {
+                            getElementsAutocomplete().add(product.getIdProductFormulation()+"-"+product.getDescription());
+                        }
+                    }
+                }
+                
+            }
+            catch (Exception e)
+            {
+                log.error("Error al intentar cargar la lista de productos", e);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+    }
+    
+    /**
      * Método encargado de limpiar los valores iniciales.
      * @author Gustavo Chavarro Ortiz
      */
     public void cleanValues()
     {
         setOrderSave(new OtProductionOrder());
+        getOrderSave().setIdProductionState(new ScProductionState());
+        getOrderSave().setProductionsOrders(new ArrayList<OtProductionProduct>());
+        getOrderSave().setCreationDate(new Date());
+        getOrderSave().setStartDate(new Date());
+        setCurrentDate(new Date());       
         setOrderSelected(new OtProductionOrder());
         setOrderUpdate(new OtProductionOrder());
-        
+        setElementsAutocomplete(new ArrayList<String>());
+        setProductAdd("");
+        setMinuteEnd(0);
+        setMinuteStar(0);
+        setHourEnd(0);
+        setHourStart(0);
+        setAmount(new Long(0));
+        setProductAdd("");
     }
     
     
@@ -159,53 +215,28 @@ public class OtproductionBean
         }
     }
     
-//    /**
-//     * Método encargado de llevar el flujo al guardar un mantenimiento.
-//     *
-//     * @param event evento en el cual se encuentra el asistente para crear
-//     * herramientas
-//     * @return String al final retorna el nombre de la siguiente pestaña del
-//     * asistente
-//     * @author Gustavo Chavarro Ortiz
-//     */
-//    public String onFlowProcessSaveMaintenance(FlowEvent event)
-//    {
-//        if (event.getOldStep().equals(TAB_GENERAL))
-//        {
-//            if (validateFields("Nombre Mantenimiento", getOrderSave().getName(), 3)) 
-//            {
-//                return event.getOldStep();
-//            }   
-//            if (validateFields("Máquina", getMachineSave(), 4))
-//            {
-//                return event.getOldStep();
-//            }   
-//            if (validateFields("Parte de Máquina", getOrderSave().getIdMaintenance().getIdMachinePart(), 4))
-//            {
-//                return event.getOldStep();
-//            }   
-//            if (validateFields("Clasificación", getOrderSave().getIdMaintenance().getIdMaintenanceClasification(), 4))
-//            {
-//                return event.getOldStep();
-//            }   
-//            if (validateFields("Prioridad", getOrderSave().getIdMaintenance().getIdPriority(), 4))
-//            {
-//                return event.getOldStep();
-//            }   
-//            if (validateFields("Daño", getOrderSave().getIdMaintenance().getIdMaintenanceDamage(), 4))
-//            {
-//                return event.getOldStep();
-//            }
-//            if (getMonths() == 0 && getDays() == 0 && getHours() == 0 && getMinutes() == 0)
-//            {
-//                addError(null, "Error en el Campo Duración", "Campo obligatorio, debe ingresar un valor para el campo Duración");
-//                return event.getOldStep(); 
-//            }
-//            if(getEndDate() != null)
-//            {
-//                getOrderSave().getIdMaintenance().setEndDate(getEndDate());
-//            }
-//        }
+    /**
+     * Método encargado de llevar el flujo al guardar una orden.
+     * @param event evento en el cual se encuentra el asistente para crear
+     * ordenes de producción
+     * @return String al final retorna el nombre de la siguiente pestaña del
+     * asistente
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String onFlowProcessSaveProduction(FlowEvent event)
+    {
+        if (event.getOldStep().equals(TAB_GENERAL))
+        {
+            if (validateFields("Nombre Orden", getOrderSave().getName(), 3)) 
+            {
+                return event.getOldStep();
+            }   
+            if (getOrderSave().getProductionsOrders() == null || getOrderSave().getProductionsOrders().isEmpty())
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe seleccionar al menos un producto");
+                return event.getOldStep();
+            }   
+        }
 //        else if(event.getOldStep().equals(TAB_ACTIVITIES))
 //        {   
 //            if(getOrderSave().getIdMaintenance().getScMaintenanceActivityList().isEmpty())
@@ -221,8 +252,192 @@ public class OtproductionBean
 //                return event.getOldStep();
 //            }
 //        }
-//        return event.getNewStep();
+        return event.getNewStep();
+    }
+    
+    /**
+     * Método encargado de completar el item que se busca.
+     * @param query palabra o indicio con cual buscar
+     * @return List<String> lista de posibles opciones
+     * @author Gustavo Chavarro Ortiz
+     */
+    public List<String> autocompleteMetod(String query)
+    {
+        List<String> result = new ArrayList<>();
+        if(getElementsAutocomplete() != null && !getElementsAutocomplete().isEmpty())
+        {
+            for(String word: getElementsAutocomplete())
+            {
+                if(word.contains(query))
+                {
+                    result.add(word);
+                }
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Método encargado de validar la cantidad de los productos
+     * @param amountValidate cantidad de producto
+     * @param productionProduct producto
+     * @author Gustavo Chavarro Ortiz     * 
+     */
+//    public void validateAmount(Long amountValidate, OtProductionProduct productionProduct)
+//    {
+//        if(amountValidate == null)
+//        {
+//            log.error("Valor nulo para la cantidad");
+//            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Valor nulo para la cantidad");
+//            productionProduct.setAmount(1L);
+//        }
+//        else
+//        {
+//            if(amountValidate < 0)
+//            {
+//                log.error("La cantidad debe ser mayor que cero");
+//                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "La cantidad debe ser mayor que cero");
+//                productionProduct.setAmount(1L);
+//            }
+//        }
 //    }
+    
+    /**
+     * Método encargado de recalcular la fecha de finalización.
+     * @param order orden de producción
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void calculateEndDate(OtProductionOrder order)
+    {
+        Calendar calendar = Calendar.getInstance();
+        
+        if(order != null)
+        {
+            calendar.setTime(order.getCreationDate());
+            if(order.getProductionsOrders() != null && !order.getProductionsOrders().isEmpty())
+            {
+                for(OtProductionProduct productionProduct: order.getProductionsOrders())
+                {
+                    if(productionProduct != null && productionProduct.getIdProductFormulation() != null
+                            && productionProduct.getIdProductFormulation().getProcessProducts() != null
+                            && !productionProduct.getIdProductFormulation().getProcessProducts().isEmpty())
+                    {
+                        for(ScProcessProduct process: productionProduct.getIdProductFormulation().getProcessProducts())
+                        {
+                            if(process != null)
+                            {
+                                calendar.add(Calendar.MINUTE, (int) (process.getTotalTimeProcess()* productionProduct.getAmount()));
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            order.setEndDate(calendar.getTime());
+        }
+    }
+    
+    /**
+     * Método encargado de añadir los items seleccionados a la lista de la requisición.
+     * @param list lista de productos que se agregaran a al orden
+     * @param order orden a guardar
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void addProductsToOrder(List<OtProductionProduct> list, OtProductionOrder order)
+    {
+        OtProductionProduct productionProduct = new OtProductionProduct();
+        //Validamos que el item no sea nulo
+        if(!Utilities.isEmpty(getProductAdd()) && !Utilities.isEmpty(getAmount()+""))
+        {
+            //Validamos que exista una lista de items
+            if(list != null)
+            {
+                String fields[] = getProductAdd().split("-"); //Separamos el id del item
+                if(fields[0] != null && fields[0].length() > 0)
+                {
+                    Long idProduct = new Long(fields[0]);
+                    for(ScProductFormulation product: getListProductFormulations())
+                    {
+                        if(idProduct.equals(product.getIdProductFormulation()))
+                        {
+                            boolean exists = false;
+                            for(OtProductionProduct production: list)
+                            {
+                                if(product.getIdProductFormulation().equals(production.getIdProductFormulation().getIdProductFormulation()))
+                                {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                            if(!exists)
+                            {
+                                if(getAmount() != null && getAmount() > 0)
+                                {
+                                    productionProduct.setAmount(getAmount());
+                                    productionProduct.setIdProductFormulation(product);
+                                    list.add(productionProduct);
+                                    calculateEndDate(order);
+                                    break;
+                                }
+                                else
+                                {
+                                    log.error("La cantidad debe ser mayor que cero");
+                                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "La cantidad debe ser mayor que cero");
+                                }
+                            }
+                            else
+                            {
+                                    log.error("El producto ya fue agregado a la lista");
+                                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "El producto ya fue agregado a la lista");
+                            }
+                        }
+                    }
+                }
+                //Reseteamos el item a pedir
+                setProductAdd("");
+                setAmount(0L);
+                
+            }
+            else
+            {
+                log.error("Error la lista de productos es nula");
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+        else
+        {
+            log.error("Error producto no seleccionado");
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR,"Debe seleccionar un producto");
+        }
+    }
+    
+    /**
+     * Método encargardo de permitirle al usuario seleccionar una orden de producción para visualizar
+     * o para eliminar.
+     * @param orderSelected orden de produccón
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForViewOrDelete(OtProductionOrder orderSelected)
+    {
+        cleanValues();
+        if(orderSelected != null)
+        {
+            setOrderSelected(orderSelected); 
+        }
+    }
+    /**
+     * Método encargardo de permitirle al usuario seleccionar una orden de producción para actualizar.
+     * @param orderSelected orden de produccón
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectedForUpdate(OtProductionOrder orderSelected)
+    {
+        cleanValues();
+        if(orderSelected != null)
+        {
+            setOrderUpdate(orderSelected);
+        }
+    }
     
     
         
@@ -548,6 +763,86 @@ public class OtproductionBean
     public void setListProductFormulations(List<ScProductFormulation> listProductFormulations)
     {
         this.listProductFormulations = listProductFormulations;
+    }
+
+    public int getHourStart()
+    {
+        return hourStart;
+    }
+
+    public void setHourStart(int hourStart)
+    {
+        this.hourStart = hourStart;
+    }
+
+    public int getMinuteStar()
+    {
+        return minuteStar;
+    }
+
+    public void setMinuteStar(int minuteStar)
+    {
+        this.minuteStar = minuteStar;
+    }
+
+    public int getHourEnd()
+    {
+        return hourEnd;
+    }
+
+    public void setHourEnd(int hourEnd)
+    {
+        this.hourEnd = hourEnd;
+    }
+
+    public int getMinuteEnd()
+    {
+        return minuteEnd;
+    }
+
+    public void setMinuteEnd(int minuteEnd)
+    {
+        this.minuteEnd = minuteEnd;
+    }
+
+    public List<String> getElementsAutocomplete()
+    {
+        return elementsAutocomplete;
+    }
+
+    public void setElementsAutocomplete(List<String> elementsAutocomplete)
+    {
+        this.elementsAutocomplete = elementsAutocomplete;
+    }
+
+    public String getProductAdd()
+    {
+        return productAdd;
+    }
+
+    public void setProductAdd(String productAdd)
+    {
+        this.productAdd = productAdd;
+    }
+
+    public Long getAmount()
+    {
+        return amount;
+    }
+
+    public void setAmount(Long amount)
+    {
+        this.amount = amount;
+    }
+
+    public Date getCurrentDate()
+    {
+        return currentDate;
+    }
+
+    public void setCurrentDate(Date currentDate)
+    {
+        this.currentDate = currentDate;
     }
     
     

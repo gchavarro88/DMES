@@ -148,7 +148,7 @@
                                         </td>
                                         <td width="40%" align="left">
                                             <p:calendar value="#{OtmaintenancePreventiveBean.orderSave.idMaintenance.creationDate}" autocomplete="true" effect="explode" id="tfBeginDate" pattern="dd-MM-yyyy" 
-                                                        title="Debe ingresar la fecha de programació del mantenimiento" mask="true" 
+                                                        title="Debe ingresar la fecha de programación del mantenimiento" mask="true" 
                                                         mindate="#{OtmaintenanceCorrectiveBean.getFormatDateGlobal('dd-MM-yyyy', OtmaintenancePreventiveBean.orderSave.idMaintenance.creationDate)}">
                                                         <p:ajax listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}" update="tfEndHour" process="@form" event="dateSelect"/>
                                                         
@@ -1442,7 +1442,7 @@
                         </p:commandButton>
                     </f:facet>
 
-                    <p:column filterMatchMode="contains"  filterBy=" " headerText="No Orden" 
+                    <p:column filterMatchMode="contains"  filterBy="OM#{OtmaintenancePreventiveBean.getFormatDateGlobal('yyyyMMddHHmmss', preventive.idMaintenance.creationDate)}#{preventive.idMaintenance.idMaintenance}" headerText="No Orden" 
                               sortBy="#{preventive.name}" id="columnIdMachine">    
                         <center>
                             <p:outputLabel id="lblIdMachine" value="OM#{OtmaintenancePreventiveBean.getFormatDateGlobal('yyyyMMddHHmmss', preventive.idMaintenance.creationDate)}#{preventive.idMaintenance.idMaintenance}" />

@@ -28,16 +28,192 @@
         <div>
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <!--            Tabla de Mantenimientos                                                   -->
+            <!--         Dialogo para guardar nuevas ordenes         -->
+            <p:dialog id="dialogProductionSave" widgetVar="dialogProductionSave" draggable="true" 
+                      closable="true"  header="Crear Ordenes de Producció" position="center top" width="800"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
+
+                <h:form id="formWizarProductionSave" >
+
+                    <p:wizard  flowListener="#{OtproductionBean.onFlowProcessSaveProduction}" id="wizardSave" widgetVar="wizardSave" 
+                               backLabel="Atras" nextLabel="Siguiente">
+                        <p:tab title="Datos Generales" id="tabGeneral" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos de ordenes de producción">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfNameProduction" value="Nombre Orden*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText    id="tfNameProduction"  value="#{OtproductionBean.orderSave.name}">
+                                                <p:tooltip for="tfNameProduction"   value="#{OtproductionBean.orderSave.name}" />
+                                            </p:inputText>
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfDescription" value="Descripción"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputTextarea    id="tfDescription"  value="#{OtproductionBean.orderSave.description}"
+                                                                />
+                                        </td>
+                                    </tr>
+                                    <tr> 
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfStartDate" value="Fecha de Inicio*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:calendar value="#{OtproductionBean.orderSave.creationDate}" autocomplete="true" effect="explode" id="tfStartDate" pattern="dd-MM-yyyy HH:mm" 
+                                                        title="Debe ingresar la fecha de programación de la orden de producción" mask="true" 
+                                                        mindate="#{OtproductionBean.currentDate}">
+                                                <p:ajax listener="#{OtproductionBean.calculateEndDate(OtproductionBean.orderSave)}" update="tfEndHour" event="dateSelect"/>
+                                            </p:calendar>
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfEndHour" value="Fecha de Finalización*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:inputText  readonly="true"  id="tfEndHour"  
+                                                          value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm', OtproductionBean.orderSave.endDate)}"/>
+                                            <p:tooltip for="tfEndHour" value="La Fecha de Finalización se calcula con base a la hora de inicio y la duracción de los procesos"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfProductItem" value="Producto*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:autoComplete id="tfProductItem" completeMethod="#{OtproductionBean.autocompleteMetod}" 
+                                                            forceSelection="true" effect="explode" 
+                                                            value="#{OtproductionBean.productAdd}" emptyMessage="No hay resultados" 
+                                                            placeholder="Ingrese cualquier caracter"/>
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="tfAmount" value="Cantidad*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:spinner    id="tfAmount"  value="#{OtproductionBean.amount}"
+                                                          min="1" size="8"
+                                                          style="width: 100px;">
+                                            
+                                            </p:spinner>
+                                            <p:spacer width="5px"/>
+                                            <p:commandButton icon="ui-icon-plus" id="btnAddItem" 
+                                                             actionListener="#{OtproductionBean.addProductsToOrder(OtproductionBean.orderSave.productionsOrders,OtproductionBean.orderSave)}" 
+                                                             update="tfProductItem,tfAmount,otDataTableOrderSave,tfEndHour,otDataTableProducts"
+                                                             >
+                                                <p:tooltip for="btnAddItem" value="Agregue productos a la orden"/>
+                                            </p:commandButton>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="100%" align="center" colspan="4">
+
+
+                                            <p:dataTable id="otDataTableOrderSave" emptyMessage="No existe información para visualizar" 
+                                                         paginator="true" rows="5"  
+                                                         pageLinks="40"
+                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                         value="#{OtproductionBean.orderSave.productionsOrders}" var="production"
+                                                         rowKey="#{production.idProductionProduct}"
+                                                         rowsPerPageTemplate="5,10" 
+                                                         sortBy="#{production.idProductionProduct}"
+                                                         >
+                                                <p:column id="columnProduction" headerText="Producto" sortBy="#{production.idProductFormulation.description}">    
+                                                    <center>
+                                                        <p:outputLabel value="#{production.idProductFormulation.description}" id="lblProduction"/>
+                                                        <p:tooltip for="lblProduction" value="#{production.idProductFormulation.description}"/>
+                                                    </center>
+                                                </p:column>
+                                                <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amount}"
+                                                          width="100">    
+                                                    <center>
+                                                        <p:spinner value="#{production.amount}" id="lblAmountProduction"  min="1" 
+                                                                   size="8">
+                                                            <p:ajax listener="#{OtproductionBean.calculateEndDate(OtproductionBean.orderSave)}" update=":formWizarProductionSave:tfEndHour" event="change"/>
+                                                            <p:tooltip for="lblAmountProduction" value="#{production.amount}"/>
+                                                        </p:spinner>
+                                                    </center>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </td>
+                                    </tr> 
+
+                                </table>
+                            </p:panel>
+                        </p:tab> 
+                        <p:tab title="Detalle" id="Productos" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para ver el detalle de la orden de producción">
+                            <p:panel header="Productos de la Orden">
+
+                                <p:dataTable id="otDataTableProducts" emptyMessage="No existe información para visualizar" 
+                                             paginator="true" rows="5"  
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             value="#{OtproductionBean.orderSave.productionsOrders}" var="production"
+                                             rowKey="#{production.idProductionProduct}"
+                                             rowsPerPageTemplate="5,10" 
+                                             sortBy="#{production.idProductionProduct}"
+                                             >
+                                    <p:column id="columnProduction" headerText="#{production.idProductFormulation.description}" 
+                                              sortBy="#{production.idProductFormulation.description}">    
+                                        <center>
+                                            <p:outputLabel value="#{production.idProductFormulation.description}" id="lblProductionItem"/> 
+                                            <p:tooltip value="#{production.idProductFormulation.description}" for="lblProductionItem"/>
+                                        </center>
+                                    </p:column>
+                                    <p:column id="columnAmountItem" headerText="Cantidad" 
+                                              sortBy="#{production.amount}">    
+                                        <center>
+                                            <p:outputLabel value="#{production.amount}" id="lblAmountItem"/> 
+                                            <p:tooltip value="#{production.amount}" for="lblAmountItem"/>
+                                        </center>
+                                    </p:column>
+                                    <p:column id="columnMarkItem" headerText="Marca" 
+                                              sortBy="#{production.idProductFormulation.mark}">    
+                                        <center>
+                                            <p:outputLabel value="#{production.idProductFormulation.mark}" id="lblMarkItem"/> 
+                                            <p:tooltip value="#{production.idProductFormulation.mark}" for="lblMarkItem"/>
+                                        </center>
+                                    </p:column>
+                                    <p:column id="columnSerieItem" headerText="Serie" 
+                                              sortBy="#{production.idProductFormulation.serie}">    
+                                        <center>
+                                            <p:outputLabel value="#{production.idProductFormulation.serie}" id="lblSerieItem"/> 
+                                            <p:tooltip value="#{production.idProductFormulation.serie}" for="lblSerieItem"/>
+                                        </center>
+                                    </p:column>
+                                    <p:column id="columnAdmin" headerText="Detalle">
+                                        <center>
+                                        <p:commandButton icon="ui-icon-search" id="btnSearch" 
+                                                         >
+                                            <p:tooltip for="btnSearch" value="Visualizar un Producto "/>
+                                        </p:commandButton>
+                                        </center>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab> 
+
+                    </p:wizard>
+                </h:form>
+
+            </p:dialog>
+            <!--         finaliza el Dialogo para guardar nuevas ordenes               -->
+
+
+
+
+
+
+
+
+
+            <!--            Tabla de Ordenes de Producción                                                   -->
             <h:form id="formProduction">
                 <p:remoteCommand name="productionInit" update=":formProduction:otDataTableProduction" />
                 <p:panel style="width: 99%;" toggleable="true" header="Ordenes de Mantenimiento Correctivo"
@@ -96,8 +272,8 @@
                         </tr>
                     </table>
                 </p:panel>
-                
-                
+
+
                 <p:dataTable id="otDataTableProduction" draggableColumns="true" emptyMessage="No existe información para visualizar" 
                              value="#{OtproductionBean.listProductionOrders}" var="production"
                              paginator="true" rows="10"  
@@ -112,11 +288,11 @@
                              >
                     <f:facet name="header">
                         <p:commandButton icon="ui-icon-plus" id="btnAdd" style="float: right;"  
-                                         oncomplete="PF('dialogMaintenance').show()">
-                            <p:tooltip for="btnAdd" value="Agregar un Mantenimiento"/>
+                                         oncomplete="PF('dialogProductionSave').show()" >
+                            <p:tooltip for="btnAdd" value="Agregar una Orden de Producción"/>
                         </p:commandButton>
                     </f:facet>
-                    
+
                     <p:column filterMatchMode="contains"  filterBy="OP#{OtproductionBean.getFormatDateGlobal('yyyyMMddHHmmss', production.creationDate)}#{production.idProductionOrder}" 
                               id="columnOrderProduction" headerText="No Orden" sortBy="OP#{OtproductionBean.getFormatDateGlobal('yyyyMMddHHmmss', production.creationDate)}#{production.idProductionOrder}">    
                         <center>
@@ -145,7 +321,35 @@
                             <p:tooltip for="lblEndDate" value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy', production.endDate)}"/>
                         </center>
                     </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{production.idProductionState.description}" 
+                              id="colState" headerText="Estado" sortBy="#{production.idProductionState.description}">    
+                        <center>
+                            <p:outputLabel value="#{production.idProductionState.description}" id="lblState"/>
+                            <p:tooltip for="lblState" value="#{production.idProductionState.description}"/>
+                        </center>
+                    </p:column>
+                    <p:column headerText="Admin" width="100">
+                        <center>
+                            <p:commandButton icon="ui-icon-search" id="btnSearch" 
+                                             oncomplete="PF('dialogProductionSave').show()" actionListener="#{OtproductionBean.selectedForViewOrDelete(production)}">
+                                <p:tooltip for="btnSearch" value="Visualizar una Orden "/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-pencil" id="btnEdit" 
+                                             actionListener="#{OtproductionBean.selectedForUpdate(production)}"
+                                             oncomplete="PF('dialogProductionSaveUpdate').show()"  
+                                             >
+                                <p:tooltip for="btnEdit" value="Editar una Orden"/>
+                            </p:commandButton>
+                            <p:spacer width="3"/>
+                            <p:commandButton icon="ui-icon-close" id="btnDelete" oncomplete="PF('dialogProductionSaveDelete').show()" 
+                                             actionListener="#{OtproductionBean.selectedForViewOrDelete(production)}" >
+                                <p:tooltip for="btnDelete" value="Eliminar una Orden"/>
+                            </p:commandButton>
+                        </center>
+                    </p:column>
                 </p:dataTable>
+
             </h:form>
 
         </div>

@@ -52,6 +52,10 @@ public class OtProductionOrder implements Serializable
     @NotNull
     @Column(name = "id_production_order")
     private Long idProductionOrder;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "description")
+    private String description;
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
@@ -142,6 +146,26 @@ public class OtProductionOrder implements Serializable
     public void setProductionsOrders(List<OtProductionProduct> productionsOrders)
     {
         this.productionsOrders = productionsOrders;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 
     
