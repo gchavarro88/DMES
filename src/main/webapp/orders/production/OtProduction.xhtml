@@ -204,8 +204,20 @@
 
             </p:dialog>
             <!--         finaliza el Dialogo para guardar nuevas ordenes               -->
+            
+            <p:dialog id="dialogProductionSave" widgetVar="dialogProductionSave" draggable="true" 
+                      closable="true"  header="Crear Ordenes de Producció" position="center top" width="800"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
-
+                <h:form id="formWizarProductionSave" >
+                    <p:tabView dynamic="true" cache="true" effect="explode" id="tabFather" scrollable="true" >
+                        <p:tab title="Procesos">
+                            
+                        </p:tab>
+                    </p:tabView>
+                
+                </h:form>
+            </p:dialog>
 
 
 
