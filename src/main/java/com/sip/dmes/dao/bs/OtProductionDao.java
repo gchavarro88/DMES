@@ -53,7 +53,7 @@ public class OtProductionDao implements IOtProduction
         }
         catch (Exception e)
         {
-            log.error("Error intentando consultar los estados del producto",e);
+            log.error("Error intentando consultar la lista de ordenes del producto",e);
         }
         return result;
     }

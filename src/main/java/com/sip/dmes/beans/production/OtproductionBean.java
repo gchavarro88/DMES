@@ -9,11 +9,17 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IOtProduction;
 import com.sip.dmes.entitys.OtProductionOrder;
 import com.sip.dmes.entitys.OtProductionProduct;
+import com.sip.dmes.entitys.ScProcessEmployee;
+import com.sip.dmes.entitys.ScProcessInput;
+import com.sip.dmes.entitys.ScProcessMachine;
 import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScProductionState;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,6 +67,15 @@ public class OtproductionBean
     private String productAdd;
     private Long amount;
     private Date currentDate;
+    private ScProductFormulation productFormulationSelected;
+    private ScProcessProduct processProductSelected;
+    private ScProcessEmployee processEmployeeSelected;
+    private ScProcessInput processInputSelected;
+    private ScProcessMachine processMachineSelected;
+    private List<ScProcessProduct> listProcessProduct;
+    private List<ScProcessEmployee> listProcessEmployee;
+    private List<ScProcessInput> listProcessInput;
+    private List<ScProcessMachine> listProcessMachine;
     /**
      * Creates a new instance of OtmaintenanceCorrectiveBean
      */
@@ -193,7 +208,7 @@ public class OtproductionBean
         setHourStart(0);
         setAmount(new Long(0));
         setProductAdd("");
-    }
+    } 
     
     
     /**
@@ -253,6 +268,104 @@ public class OtproductionBean
 //            }
 //        }
         return event.getNewStep();
+    }
+    
+    /**
+     * Método encargado de visualizar la imagen de un elemento.
+     * @return String cadena con la ruta de la imagen
+     * @param pathPicture  producto al que se le consultará la imagen
+     * @author Gustavo Chavarro Ortiz
+     */
+    public String searchImage(String pathPicture)
+    {
+        try
+        {
+            
+            if(!Utilities.isEmpty(pathPicture))
+            {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(pathPicture)));
+                //la constante me permite mapear imagenes externas
+                return DMESConstants.PATH_EXTERN_PICTURES+pathPicture;
+            }
+
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR, "La imagen no existe");
+        }
+        return DMESConstants.PATH_IMAGE_DEFAULT;
+    }
+    
+    /************************************************************************
+     *                 Seleccionar para los diferentes eventos              *
+     ************************************************************************/
+    
+    /**
+     * Método encargado de seleccionar los procesos de un producto.
+     * @param product formulación de producto seleccionada por el usuario
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectProcessByProduct(ScProductFormulation product)
+    {
+        if(product != null)
+        {
+            setListProcessProduct(product.getProcessProducts());
+            setProductFormulationSelected(product);
+        }
+    }
+    /**
+     * Método encargado de seleccionar los procesos de un proceso de producto seleccionado.
+     * @param process proceso de producto seleccionado por el usuario.
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectProcessByProcess(ScProcessProduct process)
+    {
+        if(process != null)
+        {
+            setListProcessEmployee(process.getProcessEmployees());
+            setListProcessInput(process.getProcessInputs());
+            setListProcessMachine(process.getProcessMachines());
+            setProcessProductSelected(process);
+        }
+    }
+    
+    /**
+     * Método encargado de seleccionar un empleado de un proceso de empleados.
+     * @param employee empleado seleccionado por el usuario desde un proceso
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectProcessEmployeeByProcess(ScProcessEmployee employee)
+    {
+        if(employee != null)
+        {
+            setProcessEmployeeSelected(employee);
+        }
+    }
+    
+    /**
+     * Método encargado de seleccionar un insumo de un proceso de insumos.
+     * @param input insumo seleccionado por el usuario desde un proceso
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectProcessInputByProcess(ScProcessInput input)
+    {
+        if(input != null)
+        {
+            setProcessInputSelected(input);
+        }
+    }
+    
+    /**
+     * Método encargado de seleccionar una máquina de un proceso de máquinas.
+     * @param machine máquina seleccionado por el usuario desde un proceso
+     * @author Gustavo Chavarro Ortiz
+     */
+    public void selectProcessMachineByProcess(ScProcessMachine machine)
+    {
+        if(machine != null)
+        {
+            setProcessMachineSelected(machine);
+        }
     }
     
     /**
@@ -843,6 +956,96 @@ public class OtproductionBean
     public void setCurrentDate(Date currentDate)
     {
         this.currentDate = currentDate;
+    }
+
+    public List<ScProcessProduct> getListProcessProduct()
+    {
+        return listProcessProduct;
+    }
+
+    public void setListProcessProduct(List<ScProcessProduct> listProcessProduct)
+    {
+        this.listProcessProduct = listProcessProduct;
+    }
+
+    public List<ScProcessEmployee> getListProcessEmployee()
+    {
+        return listProcessEmployee;
+    }
+
+    public void setListProcessEmployee(List<ScProcessEmployee> listProcessEmployee)
+    {
+        this.listProcessEmployee = listProcessEmployee;
+    }
+
+    public List<ScProcessInput> getListProcessInput()
+    {
+        return listProcessInput;
+    }
+
+    public void setListProcessInput(List<ScProcessInput> listProcessInput)
+    {
+        this.listProcessInput = listProcessInput;
+    }
+
+    public List<ScProcessMachine> getListProcessMachine()
+    {
+        return listProcessMachine;
+    }
+
+    public void setListProcessMachine(List<ScProcessMachine> listProcessMachine)
+    {
+        this.listProcessMachine = listProcessMachine;
+    }
+
+    public ScProductFormulation getProductFormulationSelected()
+    {
+        return productFormulationSelected;
+    }
+
+    public void setProductFormulationSelected(ScProductFormulation productFormulationSelected)
+    {
+        this.productFormulationSelected = productFormulationSelected;
+    }
+
+    public ScProcessProduct getProcessProductSelected()
+    {
+        return processProductSelected;
+    }
+
+    public void setProcessProductSelected(ScProcessProduct processProductSelected)
+    {
+        this.processProductSelected = processProductSelected;
+    }
+
+    public ScProcessEmployee getProcessEmployeeSelected()
+    {
+        return processEmployeeSelected;
+    }
+
+    public void setProcessEmployeeSelected(ScProcessEmployee processEmployeeSelected)
+    {
+        this.processEmployeeSelected = processEmployeeSelected;
+    }
+
+    public ScProcessInput getProcessInputSelected()
+    {
+        return processInputSelected;
+    }
+
+    public void setProcessInputSelected(ScProcessInput processInputSelected)
+    {
+        this.processInputSelected = processInputSelected;
+    }
+
+    public ScProcessMachine getProcessMachineSelected()
+    {
+        return processMachineSelected;
+    }
+
+    public void setProcessMachineSelected(ScProcessMachine processMachineSelected)
+    {
+        this.processMachineSelected = processMachineSelected;
     }
     
     

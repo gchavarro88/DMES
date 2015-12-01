@@ -30,7 +30,7 @@
 
             <!--         Dialogo para guardar nuevas ordenes         -->
             <p:dialog id="dialogProductionSave" widgetVar="dialogProductionSave" draggable="true" 
-                      closable="true"  header="Crear Ordenes de Producció" position="center top" width="800"
+                      closable="true"  header="Crear Ordenes de Producción" position="center top" width="800"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
                 <h:form id="formWizarProductionSave" >
@@ -97,7 +97,7 @@
                                             <p:spinner    id="tfAmount"  value="#{OtproductionBean.amount}"
                                                           min="1" size="8"
                                                           style="width: 100px;">
-                                            
+
                                             </p:spinner>
                                             <p:spacer width="5px"/>
                                             <p:commandButton icon="ui-icon-plus" id="btnAddItem" 
@@ -154,45 +154,47 @@
                                              pageLinks="40"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             value="#{OtproductionBean.orderSave.productionsOrders}" var="production"
-                                             rowKey="#{production.idProductionProduct}"
+                                             value="#{OtproductionBean.orderSave.productionsOrders}" var="product"
+                                             rowKey="#{product.idProductionProduct}"
                                              rowsPerPageTemplate="5,10" 
-                                             sortBy="#{production.idProductionProduct}"
+                                             sortBy="#{product.idProductionProduct}"
                                              >
-                                    <p:column id="columnProduction" headerText="#{production.idProductFormulation.description}" 
-                                              sortBy="#{production.idProductFormulation.description}">    
+                                    <p:column id="columnProduction" headerText="Producto" 
+                                              sortBy="#{product.idProductFormulation.description}">    
                                         <center>
-                                            <p:outputLabel value="#{production.idProductFormulation.description}" id="lblProductionItem"/> 
-                                            <p:tooltip value="#{production.idProductFormulation.description}" for="lblProductionItem"/>
+                                            <p:outputLabel value="#{product.idProductFormulation.description}" id="lblProductionItem"/> 
+                                            <p:tooltip value="#{product.idProductFormulation.description}" for="lblProductionItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnAmountItem" headerText="Cantidad" 
-                                              sortBy="#{production.amount}">    
+                                              sortBy="#{product.amount}">    
                                         <center>
-                                            <p:outputLabel value="#{production.amount}" id="lblAmountItem"/> 
-                                            <p:tooltip value="#{production.amount}" for="lblAmountItem"/>
+                                            <p:outputLabel value="#{product.amount}" id="lblAmountItem"/> 
+                                            <p:tooltip value="#{product.amount}" for="lblAmountItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnMarkItem" headerText="Marca" 
-                                              sortBy="#{production.idProductFormulation.mark}">    
+                                              sortBy="#{product.idProductFormulation.mark}">    
                                         <center>
-                                            <p:outputLabel value="#{production.idProductFormulation.mark}" id="lblMarkItem"/> 
-                                            <p:tooltip value="#{production.idProductFormulation.mark}" for="lblMarkItem"/>
+                                            <p:outputLabel value="#{product.idProductFormulation.mark}" id="lblMarkItem"/> 
+                                            <p:tooltip value="#{product.idProductFormulation.mark}" for="lblMarkItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnSerieItem" headerText="Serie" 
-                                              sortBy="#{production.idProductFormulation.serie}">    
+                                              sortBy="#{product.idProductFormulation.serie}">    
                                         <center>
-                                            <p:outputLabel value="#{production.idProductFormulation.serie}" id="lblSerieItem"/> 
-                                            <p:tooltip value="#{production.idProductFormulation.serie}" for="lblSerieItem"/>
+                                            <p:outputLabel value="#{product.idProductFormulation.serie}" id="lblSerieItem"/> 
+                                            <p:tooltip value="#{product.idProductFormulation.serie}" for="lblSerieItem"/>
                                         </center>
                                     </p:column>
-                                    <p:column id="columnAdmin" headerText="Detalle">
+                                    <p:column id="columnAdmin" headerText="Admin">
                                         <center>
-                                        <p:commandButton icon="ui-icon-search" id="btnSearch" 
-                                                         >
-                                            <p:tooltip for="btnSearch" value="Visualizar un Producto "/>
-                                        </p:commandButton>
+                                            <p:commandButton icon="ui-icon-search" id="btnSearchProduct"  update=":formWizardProcessSave"
+                                                             action="#{OtproductionBean.selectProcessByProduct(product.idProductFormulation)}"
+                                                             onsuccess="PF('dialogDetailSave').show()"
+                                                             >
+                                                <p:tooltip for="btnSearchProduct" value="Visualizar un Producto "/>
+                                            </p:commandButton>
                                         </center>
                                     </p:column>
                                 </p:dataTable>
@@ -204,23 +206,400 @@
 
             </p:dialog>
             <!--         finaliza el Dialogo para guardar nuevas ordenes               -->
-            
-            <p:dialog id="dialogProductionSave" widgetVar="dialogProductionSave" draggable="true" 
-                      closable="true"  header="Crear Ordenes de Producció" position="center top" width="800"
+            <!--            inicia el dialogo de detalle para guardar productos-->
+            <p:dialog id="dialogDetailSave" widgetVar="dialogDetailSave" draggable="true" 
+                      closable="true"  header="Detalle de las Ordenes de Producción" position="center top" width="800"
                       hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
-                <h:form id="formWizarProductionSave" >
-                    <p:tabView dynamic="true" cache="true" effect="explode" id="tabFather" scrollable="true" >
+                <h:form id="formWizardProcessSave" >
+                    <p:tabView dynamic="true" cache="true" effect="explode" id="tabFather" scrollable="true" activeIndex="0" >
+                        <p:tab title="Detalle del Producto">
+                            <table width="98%" cellspacing="10" >
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  value="Imagen"/>
+                                    </td>
+                                    <td width="40%" align="left" valign="middle">
+                                        <h:graphicImage value="#{OtproductionBean.searchImage(OtproductionBean.productFormulationSelected.pathPicture)}" alt="Imagen no disponible" id="imageSave" 
+                                                        width="120" height="120"  />
+                                        <p:spacer width="5px"/>
+                                    </td>
+                                    <td colspan="2"></td>
+
+                                </tr>    
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfNameProduct" value="Nombre Producto"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfNameProduct"  value="#{OtproductionBean.productFormulationSelected.description}"/>
+
+
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfDueDate" value="Fecha de Caducidad"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfDueDate"  value="#{OtproductionBean.productFormulationSelected.expiryDate}"
+                                                          />
+                                    </td>
+                                </tr>
+                                <tr> 
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfMarkProduct" value="Marca"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfMarkProduct"  value="#{OtproductionBean.productFormulationSelected.serie}"
+                                                          />
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfSerieProduct" value="Serie"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfSerieProduct"  value="#{OtproductionBean.productFormulationSelected.serie}"
+                                                          />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfProductType" value="Tipo de Material"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfProductType"  value="#{OtproductionBean.productFormulationSelected.typeMaterial}"
+                                                          />
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfValueProduct" value="Valor del Producto"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfValueProduct"  
+                                                          value="#{OtproductionBean.productFormulationSelected.value} #{OtproductionBean.productFormulationSelected.money.description}"
+                                                          />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfProductPartner" value="Proveedor"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfProductPartner"  
+                                                          value="#{OtproductionBean.productFormulationSelected.supplierGuarantee.companyName}"
+                                                          />
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfCostCenterProduct" value="Centro de Costos"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfCostCenterProduct"  
+                                                          value="#{OtproductionBean.productFormulationSelected.costCenter.description}"
+                                                          />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfStoreProduct" value="Almacén"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfStoreProduct"  
+                                                          value="#{OtproductionBean.productFormulationSelected.location.store.name}"
+                                                          />
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfLocationProduct" value="Localización"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfLocationProduct"  
+                                                          value="#{OtproductionBean.productFormulationSelected.location.location}"
+                                                          />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfPriorityProduct" value="Prioridad"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfPriorityProduct"  
+                                                          value="#{OtproductionBean.productFormulationSelected.priority.name}"
+                                                          />
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfUnityPackProduct" value="Unidad de Empaque"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfUnityPackProduct"  
+                                                          value="#{OtproductionBean.productFormulationSelected.packingUnit.acronym}"
+                                                          />
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:tab>
                         <p:tab title="Procesos">
-                            
+                            <p:dataTable id="otDataTableProcess" emptyMessage="No existe información para visualizar" 
+                                         paginator="true" rows="5" pageLinks="40"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                         {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         value="#{OtproductionBean.listProcessProduct}" var="process"
+                                         rowKey="#{process.idProcessProduct}"
+                                         rowsPerPageTemplate="5,10" sortBy="#{process.idProcessProduct}"
+                                         >
+                                <p:column id="columnProcessName" headerText="Proceso" 
+                                          sortBy="#{process.name}">    
+                                    <center>
+                                        <p:outputLabel value="#{process.name}" id="lblProcessName"/> 
+                                        <p:tooltip value="#{process.name}" for="lblProcessName"/>
+                                    </center>
+                                </p:column>
+                                <p:column id="columnProcessDescription" headerText="Descripción" 
+                                          sortBy="#{process.description}">    
+                                    <center>
+                                        <p:outputLabel value="#{process.description}" id="lblProcessDescription"/> 
+                                        <p:tooltip value="#{process.description}" for="lblProcessDescription"/>
+                                    </center>
+                                </p:column>
+                                <p:column id="columnTimeProcess" headerText="Tiempo de Proceso" 
+                                          sortBy="#{process.totalTimeProcess}">    
+                                    <center>
+                                        <p:outputLabel value="#{process.totalTimeProcess}" id="lblTimeProcess"/> 
+                                        <p:tooltip value="#{process.totalTimeProcess}" for="lblTimeProcess"/>
+                                    </center>
+                                </p:column>
+                                <p:column id="columnValueProcess" headerText="Valor de Proceso" 
+                                          sortBy="#{process.totalValueProcess}">    
+                                    <center>
+                                        <p:outputLabel value="#{process.totalValueProcess}" id="lblValueProcess"/> 
+                                        <p:tooltip value="#{process.totalValueProcess}" for="lblValueProcess"/>
+                                    </center>
+                                </p:column>
+                                <p:column id="columnAdmin" headerText="Detalle">
+                                    <center>
+                                        <p:commandButton icon="ui-icon-search" id="btnSearch" actionListener="#{OtproductionBean.selectProcessByProcess(process)}"
+                                                         update=":formWizardDetailProcessSave:" onsuccess="PF('dialogProcessDetailSave').show();"
+                                                         >
+                                            <p:tooltip for="btnSearch" value="Visualizar un Proceso"/>
+                                        </p:commandButton>
+                                    </center>
+                                </p:column>
+                            </p:dataTable>
                         </p:tab>
                     </p:tabView>
-                
+
                 </h:form>
             </p:dialog>
+            <!--                finaliza el dialgo de detalle para guardar productos-->
 
+            <!--            inicia el dialogo de detalle de procesos -->
+            <p:dialog id="dialogProcessDetailSave" widgetVar="dialogProcessDetailSave" draggable="true" 
+                      closable="true"  header="Detalle de los Procesos de la Orden de Producción" position="center top" width="800"
+                      hideEffect="explode" modal="true" showEffect="explode" resizable="true">
 
+                <h:form id="formWizardDetailProcessSave" >
+                    <p:tabView dynamic="true" cache="true" effect="explode" id="tabFather" scrollable="true" activeIndex="0" >
+                        <p:tab title="Datos del Proceso" id="tabProcess" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para los datos básicos del proceso">
+                            <p:panel header="Datos Básicos" >
+                                <table width="98%" cellspacing="10" >
+                                    <tr>
+                                        <td width="20%" >
+                                            <p:outputLabel  value="Nombre del Proceso" />
+                                        </td>
+                                        <td width="30%" >
+                                            <p:outputLabel value="#{OtproductionBean.processProductSelected.name}" />
+                                        </td>
+                                        <td width="30%" >
+                                            <p:outputLabel  value="Tipo de Proceso" />
+                                        </td>
+                                        <td width="20%" >
+                                            <p:outputLabel  value="#{OtproductionBean.processProductSelected.processType.type}" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" >
+                                            <p:outputLabel  value="Descripción"/>
+                                        </td>
+                                        <td width="20%" >
+                                            <p:outputLabel value="#{OtproductionBean.processProductSelected.description}" />
+                                        </td>
 
+                                        <td width="30%" >
+                                            <p:outputLabel for="tfTotalValueInput" value="Total Valor Insumo"/>
+                                        </td>
+                                        <td width="20%">
+                                            <p:outputLabel id="tfTotalValueInput" value="#{OtproductionBean.processProductSelected.totalValueInput}"
+                                                           />
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td width="30%" >
+                                            <p:outputLabel for="tfTotalTimeMachine" value="Total Tiempo Máquina"/>
+                                        </td>
+                                        <td width="20%">
+                                            <p:outputLabel id="tfTotalTimeMachine" value="#{OtproductionBean.processProductSelected.totalTimeMachine}"/>
+                                        </td>
+                                        <td width="30%" >
+                                            <p:outputLabel for="tfTotalValueMachine" value="Total Valor Máquina"/>
+                                        </td>
+                                        <td width="20%">
+                                            <p:outputLabel id="tfTotalValueMachine" value="#{OtproductionBean.processProductSelected.totalValueMachine}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="30%" >
+                                            <p:outputLabel for="tfTotalTimeEmployee" value="Total Tiempo Empleado"/>
+                                        </td>
+                                        <td width="20%">
+                                            <p:outputLabel id="tfTotalTimeEmployee" value="#{OtproductionBean.processProductSelected.totalTimeEmployee}"/>
+                                        </td>
+                                        <td width="30%" >
+                                            <p:outputLabel for="tfTotalValueEmployee" value="Total Valor Empleado"/>
+                                        </td>
+                                        <td width="20%">
+                                            <p:outputLabel id="tfTotalValueEmployee" value="#{OtproductionBean.processProductSelected.totalValueEmployee}"/>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td width="30%" >
+                                            <p:outputLabel for="tfTotalProcesTime" value="Total Tiempo Proceso"/>
+                                        </td>
+                                        <td width="20%">
+                                            <p:outputLabel id="tfTotalProcesTime" value="#{OtproductionBean.processProductSelected.totalTimeProcess}"/>
+                                        </td>
+                                        <td width="30%" >
+                                            <p:outputLabel for="tfTotalValueProcess" value="Total Valor Proceso"/>
+                                        </td>
+                                        <td width="20%">
+                                            <p:outputLabel id="tfTotalValueProcess" value="#{OtproductionBean.processProductSelected.totalValueProcess}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        inicia pestaña para seleccionar máquinas                          -->
+                        <p:tab title="Máquinas" id="tabMachine" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña de las Máquinas del Proceso">
+                            <p:panel header="Máquinas" >
+
+                                <p:dataTable id="dataTableMachines"
+                                             var="machineProcess" 
+                                             value="#{OtproductionBean.processProductSelected.processMachines}"
+                                             rowKey="#{machineProcess.machine.name}"
+                                             paginator="true" rows="10"  
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                             paginatorPosition="top"
+                                             sortBy="#{machineProcess.machine.name}">
+
+                                    <p:column  headerText="Máquina" sortBy="#{machineProcess.machine.name}">
+                                        <p:outputLabel value="#{machineProcess.machine.name}" id="machineTable"/>
+                                        <p:tooltip value="#{machineProcess.machine.name}" for="machineTable"/>
+                                    </p:column>
+                                    <p:column  headerText="Tiempo de Uso (min)" sortBy="#{machineProcess.timeUse}">
+                                        <p:outputLabel value="#{machineProcess.timeUse}" id="outTimeUse"/>
+                                        <p:tooltip value="#{machineProcess.timeUse}" for="outTimeUse"/>
+                                    </p:column>
+                                    <p:column  headerText="Otros Gastos" sortBy="#{machineProcess.otherExpenses}">
+                                        <p:outputLabel value="#{machineProcess.otherExpenses}" id="outOtherExpenses"/>
+                                        <p:tooltip value="#{machineProcess.otherExpenses}" for="outOtherExpenses"/>
+                                    </p:column>
+                                    <p:column  headerText="Descripción Otros Gastos" sortBy="#{machineProcess.descriptionOtherExpenses}">
+                                        <p:outputLabel value="#{machineProcess.descriptionOtherExpenses}" id="outDescriptionOtherExpenses"/>
+                                        <p:tooltip value="#{machineProcess.descriptionOtherExpenses}" for="outDescriptionOtherExpenses"/>
+                                    </p:column>
+                                    <p:column  headerText="Valor Total" sortBy="#{machineProcess.totalValueMachine} #{machineProcess.machine.idMoney.acronym}">
+                                        <p:outputLabel value="#{machineProcess.totalValueMachine} #{machineProcess.machine.idMoney.acronym}" id="totalValueMachine"/>
+                                        <p:tooltip value="#{machineProcess.totalValueMachine} #{machineProcess.machine.idMoney.acronym}" for="totalValueMachine"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar máquinas                          -->
+                        <!--                        inicia pestaña para seleccionar empleados                          -->
+                        <p:tab title="Mano de Obra" id="tabEmployee" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña de los Empleados del Proceso">
+                            <p:panel header="Mano de Obra" >                                
+                                <p:dataTable id="dataTableEmployees"
+                                             var="employeeProcess" 
+                                             value="#{OtproductionBean.processProductSelected.processEmployees}"
+                                             rowKey="#{employeeProcess.employee.position}"
+                                             paginator="true" rows="10"  
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                             paginatorPosition="top"
+                                             sortBy="#{employeeProcess.employee.position}">
+
+                                    <p:column  headerText="Empleado" sortBy="#{employeeProcess.employee.position}">
+                                        <p:outputLabel value="#{employeeProcess.employee.position}" id="employeeTable"/>
+                                        <p:tooltip value="#{employeeProcess.employee.position}" for="employeeTable"/>
+                                    </p:column>
+                                    <p:column  headerText="Descripción Mano de Obra" sortBy="#{employeeProcess.laborDescription}">
+                                        <p:outputLabel value="#{employeeProcess.laborDescription}" id="outDescriptionLabor"/>
+                                        <p:tooltip value="#{employeeProcess.laborDescription}" for="outDescriptionLabor"/>
+                                    </p:column>
+                                    <p:column  headerText="Tiempo de Uso (min)" sortBy="#{employeeProcess.timeUse}">
+                                        <p:outputLabel value="#{employeeProcess.timeUse}" id="outTimeUse"/>
+                                        <p:tooltip value="#{employeeProcess.timeUse}" for="outTimeUse"/>
+                                    </p:column>
+                                    <p:column  headerText="Otros Gastos" sortBy="#{employeeProcess.otherExpenses}">
+                                        <p:outputLabel value="#{employeeProcess.otherExpenses}" id="outOtherExpenses"/>
+                                        <p:tooltip value="#{employeeProcess.otherExpenses}" for="outOtherExpenses"/>
+                                    </p:column>
+                                    <p:column  headerText="Descripción Otros Gastos" sortBy="#{employeeProcess.descriptionOtherExpenses}">
+                                        <p:outputLabel value="#{employeeProcess.descriptionOtherExpenses}" id="outDescriptionOtherExpenses"/>
+                                        <p:tooltip value="#{employeeProcess.descriptionOtherExpenses}" for="outDescriptionOtherExpenses"/>
+                                    </p:column>
+                                    <p:column  headerText="Valor Total" sortBy="#{employeeProcess.totalValueEmployee}$">
+                                        <p:outputLabel value="#{employeeProcess.totalValueEmployee}$" id="totalValueEmployee"/>
+                                        <p:tooltip value="#{employeeProcess.totalValueEmployee}$"  for="totalValueEmployee"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar Empleados                          -->
+                        <!--                        inicia pestaña para seleccionar Insumos                          -->
+                        <p:tab title="Insumos" id="tabInput" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña de los Insumos del Proceso">
+                            <p:panel header="Insumos" >
+
+                                <p:dataTable id="dataTableInputs"
+                                             var="inputProcess" 
+                                             value="#{OtproductionBean.processProductSelected.processInputs}"
+                                             rowKey="#{inputProcess.input.idInput}"
+                                             paginator="true" rows="10"  
+                                             pageLinks="40"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             liveResize="true" rowsPerPageTemplate="15,30,50"
+                                             paginatorPosition="top"
+                                             sortBy="#{inputProcess.input.idInput}"> 
+                                    <p:column  headerText="Insumo" sortBy="#{inputProcess.input.description}">
+                                        <p:outputLabel value="#{inputProcess.input.description}" id="inputOut"/>
+                                        <p:tooltip value="#{inputProcess.input.description}" for="inputOut"/>
+                                    </p:column>
+                                    <p:column  headerText="Cantidad de Distribución" sortBy="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}">
+                                        <p:outputLabel value="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}" id="outAmountDistribution"/>
+                                        <p:tooltip value="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}" for="outAmountDistribution"/>
+                                    </p:column>
+                                    <p:column  headerText="% de Merma (Desperdicios)" sortBy="#{inputProcess.percentageResidue}">
+                                        <p:outputLabel value="#{inputProcess.percentageResidue}" id="outPercentage"/>
+                                        <p:tooltip value="#{inputProcess.percentageResidue}" for="outPercentage"/>
+                                    </p:column>
+                                    <p:column  headerText="Valor Total" sortBy="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}">
+                                        <p:outputLabel value="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}" id="totalValueInput"/>
+                                        <p:tooltip value="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}" for="totalValueInput"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                        </p:tab>
+                        <!--                        finaliza pestaña para seleccionar Insumos                          -->
+                    </p:tabView>
+
+                </h:form>
+            </p:dialog>
+            <!--                finaliza el dialogo de detalle de procesos-->
 
 
 

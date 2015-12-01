@@ -1470,7 +1470,7 @@ public class ScProductFormulationBean
     /**
      * Método encargado de visualizar la imagen de un elemento.
      * @return String cadena con la ruta de la imagen
-     * @param input producto al que se le consultará la imagen
+     * @param pathPicture  producto al que se le consultará la imagen
      * @author Gustavo Chavarro Ortiz
      */
     public String searchImage(String pathPicture)
