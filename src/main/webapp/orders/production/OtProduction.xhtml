@@ -64,7 +64,7 @@
                                             <p:outputLabel  for="tfStartDate" value="Fecha de Inicio*"/>
                                         </td>
                                         <td width="40%" align="left">
-                                            <p:calendar value="#{OtproductionBean.orderSave.creationDate}" autocomplete="true" effect="explode" id="tfStartDate" pattern="dd-MM-yyyy HH:mm" 
+                                            <p:calendar value="#{OtproductionBean.orderSave.startDate}" autocomplete="true" effect="explode" id="tfStartDate" pattern="dd-MM-yyyy HH:mm" 
                                                         title="Debe ingresar la fecha de programación de la orden de producción" mask="true" 
                                                         mindate="#{OtproductionBean.currentDate}">
                                                 <p:ajax listener="#{OtproductionBean.calculateEndDate(OtproductionBean.orderSave)}" update="tfEndHour" event="dateSelect"/>
@@ -200,7 +200,58 @@
                                 </p:dataTable>
                             </p:panel>
                         </p:tab> 
+                        <p:tab title="Confirmar Orden de Producción" id="tabConfirm" titleStyleClass="tabTittleSavePerson" 
+                               titletip="Pestaña para confirmar la orden">
+                            <p:panel header="Confirmar Orden" >
 
+                                <table width="100%" cellspacing="10">
+                                    <tr>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="lblNameProduction" value="Nombre Orden*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel    id="lblNameProduction"  value="#{OtproductionBean.orderSave.name}">
+                                            </p:outputLabel>
+
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  for="lblDescription" value="Descripción"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel    id="lblDescription"  value="#{OtproductionBean.orderSave.description}"
+                                                                />
+                                        </td>
+                                    </tr>
+                                    <tr> 
+                                        <td width="10%" align="right">
+                                            <p:outputLabel  value="Fecha de Inicio*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', OtproductionBean.orderSave.startDate)}"
+                                                       />
+                                        </td>
+                                        <td width="10%" align="right">
+                                            <p:outputLabel   value="Fecha de Finalización*"/>
+                                        </td>
+                                        <td width="40%" align="left">
+                                            <p:outputLabel value="#{OtproductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', OtproductionBean.orderSave.endDate)}"
+                                                       />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" colspan="4">
+                                            <p:commandButton value="Guardar" 
+                                            actionListener="#{scProductFormulationBean.saveProcessProduct(scProductFormulationBean.productSave, scProductFormulationBean.processProductListSave, scProductFormulationBean.processProductSave)}"
+                                            update=":formWizarProductionSave,:formProduction:otDataTableProduction" oncomplete="PF('formWizarProductionSave').hide();PF('wizardSave').loadStep('tabGeneral', true)"/>
+                                            <p:spacer width="20px"/>
+                                            <p:commandButton value="Cancelar" actionListener="#{OtproductionBean.cleanValues()}"
+                                                             update=":formWizarProductionSave" oncomplete="PF('dialogProductionSave').hide();PF('wizardSave').loadStep('tabGeneral', true)"/>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </p:panel>
+                        </p:tab>
                     </p:wizard>
                 </h:form>
 

@@ -1126,7 +1126,7 @@
                                                             requiredMessage="Debe ingresar el tipo de material" />
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfValueProductFormulation" value="Valor*"/>
+                                            <p:outputLabel  for="tfValueProductFormulation" value="Valor Venta*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfValueProductFormulation"  value="#{scProductFormulationBean.productSave.value}" 
@@ -1890,7 +1890,7 @@
                                         <td colspan="2"></td>
                                         
                                     </tr>
-                                    <tr>
+        *                            <tr>
                                         <td width="10%" align="right">
                                             <p:outputLabel  for="tfNameProductFormulation" value="Nombre Producto*"/>
                                         </td>
@@ -1918,7 +1918,7 @@
                                                             disabled="true"/>
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfValueProductFormulation" value="Valor*"/>
+                                            <p:outputLabel  for="tfValueProductFormulation" value="Valor Venta*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfValueProductFormulation"  value="#{scProductFormulationBean.productSelected.value}" 
@@ -2415,7 +2415,7 @@
                                                             requiredMessage="Debe ingresar el tipo de material" />
                                         </td>
                                         <td width="10%" align="right">
-                                            <p:outputLabel  for="tfValueProductFormulation" value="Valor*"/>
+                                            <p:outputLabel  for="tfValueProductFormulation" value="Valor Venta*"/>
                                         </td>
                                         <td width="40%" align="left">
                                             <p:inputText    id="tfValueProductFormulation"  value="#{scProductFormulationBean.productSelected.value}" 
@@ -2543,7 +2543,7 @@
                         <!--                        finaliza la pestaña para datos generales-->
 
                         <!--                        inicia la pestaña para las dimensiones-->
-                        <p:tab title="Stockt y Dimensiones" id="tabDimension" titleStyleClass="tabTittleSavePerson" 
+                        <p:tab title="Stock y Dimensiones" id="tabDimension" titleStyleClass="tabTittleSavePerson" 
                                titletip="Pestaña para el stock y las dimensiones">
                             <p:panel header="Stock" toggleable="true" toggleTitle="Presione para minimizar el panel de Stock">
                                 <table width="98%" cellspacing="10" >
@@ -3496,7 +3496,7 @@
                         </center>
                     </p:column>
 
-                    <p:column filterMatchMode="contains"  filterBy="#{product.value} #{product.money.acronym}" id="columnValue" headerText="Valor" sortBy="#{product.value}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{product.value} #{product.money.acronym}" id="columnValue" headerText="Valor Venta" sortBy="#{product.value}">    
                         <center>
                             <p:outputLabel value="#{product.value} #{product.money.acronym}" id="lblValue"/>
                             <p:tooltip for="lblValue" value="#{product.value} #{product.money.acronym}" />
