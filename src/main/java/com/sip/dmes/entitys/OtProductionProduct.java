@@ -57,7 +57,7 @@ public class OtProductionProduct implements Serializable
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScProductFormulation idProductFormulation;
     @JoinColumn(name = "id_production_order", referencedColumnName = "id_production_order")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private OtProductionOrder idProductionOrder;
     
     public OtProductionProduct()

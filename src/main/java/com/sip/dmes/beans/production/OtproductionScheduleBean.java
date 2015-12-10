@@ -7,6 +7,7 @@ package com.sip.dmes.beans.production;
 
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IOtProduction;
+import com.sip.dmes.entitys.OtMaintenanceSchedule;
 import com.sip.dmes.entitys.OtProductionOrder;
 import com.sip.dmes.entitys.OtProductionProduct;
 import com.sip.dmes.entitys.ScProcessEmployee;
@@ -30,25 +31,32 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.apache.log4j.Logger;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.LazyScheduleModel;
+import org.primefaces.model.ScheduleEvent;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
  * @author gchavarro88
  */
-public class OtproductionBean
+public class OtproductionScheduleBean
 {
     
     private SessionBean sessionBean;
     private IOtProduction otProductionServer;
     
-    private final static Logger log = Logger.getLogger(OtproductionBean.class);
+    private ScheduleModel productionSchedule;
+    private ScheduleEvent event;
+    private final static Logger log = Logger.getLogger(OtproductionScheduleBean.class);
     private final String TAB_GENERAL = "tabGeneral";
     private final String TAB_ACTIVITIES = "tabActivities";
     private final String TAB_EMPLOYEES = "tabEmployees";
     private final String TAB_REPLACEMENTS = "tabReplacements";
     private final String TAB_TOOLS = "tabTools";
-    
     private Date filterStarDate;
     private Date filterEndDate;
     private Long filterOrderNumber;
@@ -76,10 +84,11 @@ public class OtproductionBean
     private List<ScProcessEmployee> listProcessEmployee;
     private List<ScProcessInput> listProcessInput;
     private List<ScProcessMachine> listProcessMachine;
+
     /**
      * Creates a new instance of OtmaintenanceCorrectiveBean
      */
-    public OtproductionBean()
+    public OtproductionScheduleBean()
     {
         
     }
@@ -90,10 +99,61 @@ public class OtproductionBean
     {
         cleanValues();
         fillListProductionState();
-        fillListProductionOrders();
         fillListProductFormulations();
         fillListListAutocomplete();
+        
+        setEvent(new DefaultScheduleEvent());
+        productionSchedule = new LazyScheduleModel() 
+        {
+             
+            @Override
+            public void loadEvents(Date start, Date end) 
+            {
+                try
+                {
+                    List<OtProductionOrder> listDates = getOtProductionServer().getProductionByParameters(start, end, null, null);
+                    if(listDates != null && !listDates.isEmpty())
+                    {
+                        for(OtProductionOrder productionOrder: listDates)
+                        {
+                            if(productionOrder != null)
+                            {
+                                addEvent(new DefaultScheduleEvent("OP"+getFormatDateGlobal
+                                ("yyyyMMddHHmmss", productionOrder.getStartDate())+productionOrder.getIdProductionOrder(), 
+                                        productionOrder.getStartDate(), productionOrder.getEndDate()));
+                            }
+                        }
+                    }
+                    
+                }
+                catch (Exception e)
+                {
+                    addError(null, "Error de Consulta", "Error al intentar consultar las programaciones para el mes");
+                    log.error("Error al intentar consultar las programaciones para el mes",e);
+                }
+                
+            }   
+        };
     }   
+    
+    public void cleanValues()
+    {
+        setOrderSave(new OtProductionOrder());
+        getOrderSave().setIdProductionState(new ScProductionState(1L));
+        getOrderSave().setProductionsOrders(new ArrayList<OtProductionProduct>());
+        getOrderSave().setCreationDate(new Date());
+        getOrderSave().setStartDate(new Date());
+        setCurrentDate(new Date());       
+        setOrderSelected(new OtProductionOrder());
+        setOrderUpdate(new OtProductionOrder());
+        setProductAdd("");
+        setMinuteEnd(0);
+        setMinuteStar(0);
+        setHourEnd(0);
+        setHourStart(0);
+        setAmount(new Long(0));
+        setProductAdd("");
+    }
     
     /**
      * Método encargado de carga la lista inicial de estados de producción
@@ -116,25 +176,6 @@ public class OtproductionBean
     }
     
     
-    /**
-     * Método encargado de carga la lista inicial de ordenes de producción
-     * @author Gustavo Chavarro Ortiz
-    */
-    public void fillListProductionOrders()
-    {
-        if(getListProductionOrders()== null)
-        {
-            try
-            {
-                setListProductionOrders(getOtProductionServer().getListProductionOrders());
-            }
-            catch (Exception e)
-            {
-                log.error("Error al intentar consutlar la lista de ordenes de producción", e);
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            }
-        }
-    }
     
     /**
      * Método encargado de carga la lista inicial de productos
@@ -184,49 +225,6 @@ public class OtproductionBean
                 log.error("Error al intentar cargar la lista de productos", e);
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
             }
-        }
-    }
-    
-    /**
-     * Método encargado de limpiar los valores iniciales.
-     * @author Gustavo Chavarro Ortiz
-     */
-    public void cleanValues()
-    {
-        setOrderSave(new OtProductionOrder());
-        getOrderSave().setIdProductionState(new ScProductionState(1L));
-        getOrderSave().setProductionsOrders(new ArrayList<OtProductionProduct>());
-        getOrderSave().setCreationDate(new Date());
-        getOrderSave().setStartDate(new Date());
-        setCurrentDate(new Date());       
-        setOrderSelected(new OtProductionOrder());
-        setOrderUpdate(new OtProductionOrder());
-        setProductAdd("");
-        setMinuteEnd(0);
-        setMinuteStar(0);
-        setHourEnd(0);
-        setHourStart(0);
-        setAmount(new Long(0));
-        setProductAdd("");
-    } 
-    
-    
-    /**
-     * Método encargado de realizar la búsqueda teniendo encuenta los filtros.
-     * @author Gustavo Chavarro Ortiz
-     */
-    public void doSearchWithParameters()
-    {
-        try
-        {   
-            setListProductionOrders(getOtProductionServer().getProductionByParameters(getFilterStarDate()
-                    , getFilterEndDate(), getFilterOrderNumber(), getFilteState()));
-            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-        }
-        catch (Exception e)
-        {
-            addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
-            log.error("Error al intentar consultar las ordenes de producción con parámetros", e);
         }
     }
     
@@ -523,22 +521,7 @@ public class OtproductionBean
             setOrderSelected(orderSelected); 
         }
     }
-    /**
-     * Método encargardo de permitirle al usuario seleccionar una orden de producción para actualizar.
-     * @param orderSelected orden de produccón
-     * @author Gustavo Chavarro Ortiz
-     */
-    public void selectedForUpdate(OtProductionOrder orderSelected)
-    {
-        cleanValues();
-        if(orderSelected != null)
-        {
-            setOrderUpdate(orderSelected);
-        }
-    }
     
-    
-        
     /**
      * Método encargado de validar los campos doubles.
      *
@@ -660,7 +643,6 @@ public class OtproductionBean
                         break;
                     }
                 }
-                getListProductionOrders().add(getOrderSave());
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
@@ -906,6 +888,67 @@ public class OtproductionBean
     }
     
     
+    
+    
+    /**
+     * Consulta el mantenimiento y dependiendo del tipo de mantenimiento muestra 
+     * un resultado en la pantalla.
+     * @param idOrderProduction id del mantenimiento
+     * @Author Gustavo Chavarro Ortiz
+     */
+    public void findMaintenance(Long idOrderProduction)
+    {
+        try
+        {
+            cleanValues();
+            setOrderSelected(getOtProductionServer().getProductionOrderById(idOrderProduction));
+            if(getOrderSelected() != null)
+            {
+                //Verificamos que el estado siga siendo pendiente
+                if(getOrderSelected().getIdProductionState().getIdProductionState().equals(new Long("1")))
+                {
+                    setOrderUpdate(getOrderSelected());
+                    RequestContext.getCurrentInstance().execute("PF('dialogProductionUpdate').show()");
+        
+                }
+                else
+                {
+                    RequestContext.getCurrentInstance().execute("PF('dialogProductionView').show()");
+                }
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "No se encontró la orden");
+                log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+"\n"+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            }
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+            log.error(DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR+"\n"+DMESConstants.MESSAGE_ERROR_ADMINISTRATOR,e);
+        }
+    }
+    /**
+     * Método encaragado de capturar el evento de click sobre las programaciones.
+     * @param selectEvent 
+     * @Author Gustavo Chavarro Ortiz
+     */
+    public void onEventSelect(SelectEvent selectEvent) 
+    {
+        setEvent((ScheduleEvent) selectEvent.getObject());
+        RequestContext.getCurrentInstance().execute("PF('dialogProductionUpdate').hide()");
+        RequestContext.getCurrentInstance().execute("PF('dialogProductionView').hide()");
+        try
+        {
+            findMaintenance(Long.parseLong(getEvent().getTitle().substring(16, getEvent().getTitle().length())));
+        }
+        catch (Exception e)
+        {
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR,
+                           DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        }
+    }
+    
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
      * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón
@@ -988,6 +1031,7 @@ public class OtproductionBean
     /**
      * Métodos Getters And Setters.
      */
+    
     public SessionBean getSessionBean()
     {
         return sessionBean;
@@ -1006,6 +1050,26 @@ public class OtproductionBean
     public void setOtProductionServer(IOtProduction otProductionServer)
     {
         this.otProductionServer = otProductionServer;
+    }
+
+    public ScheduleModel getProductionSchedule()
+    {
+        return productionSchedule;
+    }
+
+    public void setProductionSchedule(ScheduleModel productionSchedule)
+    {
+        this.productionSchedule = productionSchedule;
+    }
+
+    public ScheduleEvent getEvent()
+    {
+        return event;
+    }
+
+    public void setEvent(ScheduleEvent event)
+    {
+        this.event = event;
     }
 
     public Date getFilterStarDate()
@@ -1108,6 +1172,16 @@ public class OtproductionBean
         this.listProductFormulations = listProductFormulations;
     }
 
+    public List<String> getElementsAutocomplete()
+    {
+        return elementsAutocomplete;
+    }
+
+    public void setElementsAutocomplete(List<String> elementsAutocomplete)
+    {
+        this.elementsAutocomplete = elementsAutocomplete;
+    }
+
     public int getHourStart()
     {
         return hourStart;
@@ -1148,16 +1222,6 @@ public class OtproductionBean
         this.minuteEnd = minuteEnd;
     }
 
-    public List<String> getElementsAutocomplete()
-    {
-        return elementsAutocomplete;
-    }
-
-    public void setElementsAutocomplete(List<String> elementsAutocomplete)
-    {
-        this.elementsAutocomplete = elementsAutocomplete;
-    }
-
     public String getProductAdd()
     {
         return productAdd;
@@ -1186,46 +1250,6 @@ public class OtproductionBean
     public void setCurrentDate(Date currentDate)
     {
         this.currentDate = currentDate;
-    }
-
-    public List<ScProcessProduct> getListProcessProduct()
-    {
-        return listProcessProduct;
-    }
-
-    public void setListProcessProduct(List<ScProcessProduct> listProcessProduct)
-    {
-        this.listProcessProduct = listProcessProduct;
-    }
-
-    public List<ScProcessEmployee> getListProcessEmployee()
-    {
-        return listProcessEmployee;
-    }
-
-    public void setListProcessEmployee(List<ScProcessEmployee> listProcessEmployee)
-    {
-        this.listProcessEmployee = listProcessEmployee;
-    }
-
-    public List<ScProcessInput> getListProcessInput()
-    {
-        return listProcessInput;
-    }
-
-    public void setListProcessInput(List<ScProcessInput> listProcessInput)
-    {
-        this.listProcessInput = listProcessInput;
-    }
-
-    public List<ScProcessMachine> getListProcessMachine()
-    {
-        return listProcessMachine;
-    }
-
-    public void setListProcessMachine(List<ScProcessMachine> listProcessMachine)
-    {
-        this.listProcessMachine = listProcessMachine;
     }
 
     public ScProductFormulation getProductFormulationSelected()
@@ -1277,9 +1301,48 @@ public class OtproductionBean
     {
         this.processMachineSelected = processMachineSelected;
     }
-    
-    
-    
-    
 
+    public List<ScProcessProduct> getListProcessProduct()
+    {
+        return listProcessProduct;
+    }
+
+    public void setListProcessProduct(List<ScProcessProduct> listProcessProduct)
+    {
+        this.listProcessProduct = listProcessProduct;
+    }
+
+    public List<ScProcessEmployee> getListProcessEmployee()
+    {
+        return listProcessEmployee;
+    }
+
+    public void setListProcessEmployee(List<ScProcessEmployee> listProcessEmployee)
+    {
+        this.listProcessEmployee = listProcessEmployee;
+    }
+
+    public List<ScProcessInput> getListProcessInput()
+    {
+        return listProcessInput;
+    }
+
+    public void setListProcessInput(List<ScProcessInput> listProcessInput)
+    {
+        this.listProcessInput = listProcessInput;
+    }
+
+    public List<ScProcessMachine> getListProcessMachine()
+    {
+        return listProcessMachine;
+    }
+
+    public void setListProcessMachine(List<ScProcessMachine> listProcessMachine)
+    {
+        this.listProcessMachine = listProcessMachine;
+    }
+    
+    
+    
+    
 }

@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -120,6 +121,79 @@ public class OtProductionDao implements IOtProduction
         catch (Exception e)
         {
             log.error("Error intentando consultar las ordenes de producción por parámetros",e);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public void saveOrderProduction(OtProductionOrder productionOrder) throws Exception
+    {
+        try
+        {
+            if(productionOrder != null)
+            {
+                entityManager.persist(productionOrder);
+                
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando guardar la orden producción",e);
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateOrderProduction(OtProductionOrder productionOrder) throws Exception
+    {
+        try
+        {
+            if(productionOrder != null)
+            {
+                entityManager.merge(productionOrder);
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando actualizar la orden producción",e);
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrderProduction(OtProductionOrder productionOrder) throws Exception
+    {
+        try
+        {
+            if(productionOrder != null)
+            {
+                entityManager.remove(entityManager.contains(productionOrder)?productionOrder:entityManager.merge(productionOrder));
+            }
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando eliminar la orden producción",e);
+            throw e;
+        }
+    }
+
+    @Override
+    public OtProductionOrder getProductionOrderById(Long idProductionOrder) throws Exception
+    {
+        OtProductionOrder result = null;
+        try
+        {
+            Query query =  entityManager.createNamedQuery("OtProductionOrder.findByIdProductionOrder");
+            query.setParameter("idProductionOrder", idProductionOrder);
+            result = (OtProductionOrder) query.getSingleResult();
+        }
+        catch (Exception e)
+        {
+            log.error("Error intenando consultar la orden de producción",e);
+            throw e;
         }
         return result;
     }

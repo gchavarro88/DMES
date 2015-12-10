@@ -17,11 +17,19 @@ public interface IOtProduction
     
     public List<ScProductionState> getListStates()throws Exception;
     
+    public OtProductionOrder getProductionOrderById(Long idProductionOrder)throws Exception;
+    
     public List<OtProductionOrder> getListProductionOrders()throws Exception;
     
     public List<ScProductFormulation> getListProductFormulations()throws Exception;
     
     public List<OtProductionOrder> getProductionByParameters(Date initDate, 
             Date endDate, Long orderNumber, ScProductionState state) throws Exception;
+    
+    public void saveOrderProduction(OtProductionOrder productionOrder)throws Exception;
+    
+    public void updateOrderProduction(OtProductionOrder productionOrder)throws Exception;
+    
+    public void deleteOrderProduction(OtProductionOrder productionOrder)throws Exception;
     
 }
