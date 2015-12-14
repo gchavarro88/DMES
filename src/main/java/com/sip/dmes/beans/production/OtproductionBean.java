@@ -219,6 +219,22 @@ public class OtproductionBean
     {
         try
         {   
+            if(getFilterEndDate() != null)
+            {
+                getFilterEndDate().setDate(getFilterEndDate().getDate()+1);
+                getFilterEndDate().setHours(0);           
+                getFilterEndDate().setMinutes(0);
+                getFilterEndDate().setSeconds(0);
+            }
+            if(getFilterStarDate() != null)
+            {
+                getFilterStarDate().setDate(getFilterStarDate().getDate()-1);
+                getFilterStarDate().setHours(0);
+                getFilterStarDate().setMinutes(0);
+                getFilterStarDate().setSeconds(0);
+            }
+            
+            
             setListProductionOrders(getOtProductionServer().getProductionByParameters(getFilterStarDate()
                     , getFilterEndDate(), getFilterOrderNumber(), getFilteState()));
             addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);

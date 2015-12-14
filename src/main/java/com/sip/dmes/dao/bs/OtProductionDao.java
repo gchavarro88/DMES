@@ -95,7 +95,7 @@ public class OtProductionDao implements IOtProduction
         }
         if(state != null)
         {
-            nameQuery += " AND o.idProductionState  :idProductionState";
+            nameQuery += " AND o.idProductionState.idProductionState  :idProductionState";
         }
         try
         {
@@ -114,7 +114,7 @@ public class OtProductionDao implements IOtProduction
             }
             if(state != null)
             {
-                query.setParameter("idProductionState", state);
+                query.setParameter("idProductionState", state.getIdProductionState());
             }
             result = (List<OtProductionOrder>) query.getResultList();
         }
