@@ -896,7 +896,7 @@ public class OtproductionScheduleBean
      * @param idOrderProduction id del mantenimiento
      * @Author Gustavo Chavarro Ortiz
      */
-    public void findMaintenance(Long idOrderProduction)
+    public void findProductionOrder(Long idOrderProduction)
     {
         try
         {
@@ -940,7 +940,7 @@ public class OtproductionScheduleBean
         RequestContext.getCurrentInstance().execute("PF('dialogProductionView').hide()");
         try
         {
-            findMaintenance(Long.parseLong(getEvent().getTitle().substring(16, getEvent().getTitle().length())));
+            findProductionOrder(Long.parseLong(getEvent().getTitle().substring(16, getEvent().getTitle().length())));
         }
         catch (Exception e)
         {
@@ -949,6 +949,30 @@ public class OtproductionScheduleBean
         }
     }
     
+    /**
+     * Método encaragado de capturar el evento de click sobre las fechas vacias.
+     * @param selectEvent 
+     * @Author Gustavo Chavarro Ortiz
+     */
+    public void onDateSelect(SelectEvent selectEvent)
+    {   
+        Date yesterday = new Date();
+        yesterday.setDate(yesterday.getDate()-1);
+        if(selectEvent != null)
+        {
+            Date selectDate = (Date) selectEvent.getObject();
+            if(selectDate.after(yesterday))
+            {
+                selectDate.setDate(selectDate.getDate()+1);
+                getOrderSave().setStartDate(selectDate);
+                RequestContext.getCurrentInstance().execute("PF('dialogProductionSave').show()");
+            }
+            else
+            {
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe seleccionar una fecha igual o posterior al dia actual");
+            }
+        }
+    }
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y
      * deberá retornar una cadena de carácteres de la fecha siguiendo el patrón

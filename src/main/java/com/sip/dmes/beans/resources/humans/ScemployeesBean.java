@@ -16,6 +16,7 @@ import com.sip.dmes.entitys.ScWorkExperience;
 
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -196,7 +197,13 @@ public class ScemployeesBean
         }
         if(event.getOldStep().equals(TAB_EMPLOYEE_SAVE))
         {
-            if(getEmployeeAdd().getIdTurn() == null)
+            
+            if(getEmployeeAdd().getIdPerson().getStudies() == null || getEmployeeAdd().getIdPerson().getStudies().length() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "La formación debe ingresarse desde la creación del Tercero");
+                return event.getOldStep();
+            }
+            else if(getEmployeeAdd().getIdTurn() == null)
             {
                 addError(null, "Error al intentar crear un nuevo empleado", "Debe seleccionar un turno");
                 return event.getOldStep();
@@ -211,7 +218,7 @@ public class ScemployeesBean
                 addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser mayor que 0");
                 return event.getOldStep();
             }
-            else if(getEmployeeAdd().getHourValue() <= getEmployeeAdd().getSalary())
+            else if(getEmployeeAdd().getHourValue() > getEmployeeAdd().getSalary())
             {
                 addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser menor o igual al salario");
                 return event.getOldStep();
@@ -219,6 +226,7 @@ public class ScemployeesBean
         }
         if(event.getNewStep().equals(TAB_CONFIRM_SAVE))
         {
+            getEmployeeAdd().setFormation(getEmployeeAdd().getIdPerson().getStudies());
             getEmployeeAdd().setCreationDate(new Date());
         }
         
@@ -234,7 +242,12 @@ public class ScemployeesBean
         }
         if(event.getOldStep().equals(TAB_EMPLOYEE_UPDATE))
         {
-            if(getEmployeeSelected().getIdTurn() == null)
+            if(getEmployeeSelected().getIdPerson().getStudies()== null || getEmployeeSelected().getIdPerson().getStudies().length() < 1)
+            {
+                addError(null, "Error al intentar crear un nuevo empleado", "La formación debe ingresarse desde la creación del Tercero");
+                return event.getOldStep();
+            }
+            else if(getEmployeeSelected().getIdTurn() == null)
             {
                 addError(null, "Error al intentar actualizar un nuevo empleado", "Debe seleccionar un turno");
                 return event.getOldStep();
@@ -248,12 +261,12 @@ public class ScemployeesBean
                 addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser mayor que 0");
                 return event.getOldStep();
             }
-            else if(getEmployeeSelected().getHourValue() <= getEmployeeSelected().getSalary())
+            else if(getEmployeeSelected().getHourValue() > getEmployeeSelected().getSalary())
             {
                 addError(null, "Error al intentar crear un nuevo empleado", "El valor de la hora debe ser menor o igual al salario");
                 return event.getOldStep();
             }
-           
+            getEmployeeSelected().setFormation(getEmployeeSelected().getIdPerson().getStudies());
         }
             return event.getNewStep(); 
     }
@@ -547,7 +560,26 @@ public class ScemployeesBean
     {
         if(employee != null)
         {
-            employee.setHourValue(employee.getSalary()/DMESConstants.DAYS_LABORAL);
+            if(employee.getIdTurn() != null)
+            {
+                if(employee.getSalary() != null && employee.getSalary() > 0)
+                {
+                    DecimalFormat df = new DecimalFormat("#.###");
+                    employee.setHourValue(Double.parseDouble(df.format(employee.getSalary()/(DMESConstants.DAYS_LABORAL*employee.getIdTurn().getHourAmount()))));
+                }
+                else
+                {
+                    employee.setHourValue(null);
+                    addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe ingresar un salario para calcular el valor de hora trabajada");
+                }
+                
+            }
+            else
+            {
+                employee.setSalary(null);
+                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe seleccionar primero un turno para calcular el valor de hora trabajada");
+            }
+            
         }
     }
     /**

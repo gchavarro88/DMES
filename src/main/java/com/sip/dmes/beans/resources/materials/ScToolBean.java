@@ -711,7 +711,7 @@ public class ScToolBean
             }
             if (getToolSave().getStock().getMaximeStock() <= getToolSave().getStock().getMinimeStock())
             {
-                addError(null, "Error en el Stock del Herramienta", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+                addError(null, "Error en el Stock de la Herramienta", "El Stock Máximo debe ser mayor que el Stock Mínimo");
                 return event.getOldStep();
             }
             if (validateFields("Stock Real", getToolSave().getStock().getCurrentStock(), 2))
@@ -727,12 +727,12 @@ public class ScToolBean
             {
                 if (getToolSave().getStock().getMaximeStock() < getToolSave().getStock().getOptimeStock())
                 {
-                    addError(null, "Error en el Stock del Herramienta", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                    addError(null, "Error en el Stock de la Herramienta", "El Stock Máximo debe ser mayor que el Stock Óptimo");
                     return event.getOldStep();
                 }
                 if (getToolSave().getStock().getMinimeStock() > getToolSave().getStock().getOptimeStock())
                 {
-                    addError(null, "Error en el Stock del Herramienta", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                    addError(null, "Error en el Stock de la Herramienta", "El Stock Mínimo debe ser menor que el Stock Óptimo");
                     return event.getOldStep();
                 }
             }
@@ -1019,7 +1019,7 @@ public class ScToolBean
             }
             if (getToolSelected().getStock().getMaximeStock() <= getToolSelected().getStock().getMinimeStock())
             {
-                addError(null, "Error en el Stock del Herramienta", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+                addError(null, "Error en el Stock de la Herramienta", "El Stock Máximo debe ser mayor que el Stock Mínimo");
                 return event.getOldStep();
             }
             if (validateFields("Stock Real", getToolSelected().getStock().getCurrentStock(), 2))
@@ -1035,12 +1035,12 @@ public class ScToolBean
             {
                 if (getToolSelected().getStock().getMaximeStock() < getToolSelected().getStock().getOptimeStock())
                 {
-                    addError(null, "Error en el Stock del Herramienta", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                    addError(null, "Error en el Stock de la Herramienta", "El Stock Máximo debe ser mayor que el Stock Óptimo");
                     return event.getOldStep();
                 }
                 if (getToolSelected().getStock().getMinimeStock() > getToolSelected().getStock().getOptimeStock())
                 {
-                    addError(null, "Error en el Stock del Herramienta", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                    addError(null, "Error en el Stock de la Herramienta", "El Stock Mínimo debe ser menor que el Stock Óptimo");
                     return event.getOldStep();
                 }
             }

@@ -1112,10 +1112,10 @@ public class ScProductFormulationBean
             }
             
             //Validamos los campos seleccionables
-            if(validateFields("Proveedor y Garantía", getProductSave().getSupplierGuarantee(), 4))
-            {
-                return event.getOldStep();
-            }
+//            if(validateFields("Proveedor y Garantía", getProductSave().getSupplierGuarantee(), 4))
+//            {
+//                return event.getOldStep();
+//            }
             if(validateFields("Centro de Costos", getProductSave().getCostCenter(), 4))
             {
                 return event.getOldStep();
@@ -1155,6 +1155,42 @@ public class ScProductFormulationBean
         else if(event.getOldStep().equals(TAB_DIMENSION))
         {
             getProductSave().getStock().setIdStore(getStoreSelected());
+            //Validamos que ninguno de los campos del stock sea vacio o negativo
+            if (validateFields("Stock Máximo", getProductSave().getStock().getMaximeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Stock Mínimo", getProductSave().getStock().getMinimeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            if (getProductSave().getStock().getMaximeStock() <= getProductSave().getStock().getMinimeStock())
+            {
+                addError(null, "Error en el Stock del Producto", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+                return event.getOldStep();
+            }
+            if (validateFields("Stock Real", getProductSave().getStock().getCurrentStock(), 2))
+            {
+                return event.getOldStep();
+            }
+
+            if (validateFields("Stock Óptimo", getProductSave().getStock().getOptimeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            else
+            {
+                if (getProductSave().getStock().getMaximeStock() < getProductSave().getStock().getOptimeStock())
+                {
+                    addError(null, "Error en el Stock del Producto", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                    return event.getOldStep();
+                }
+                if (getProductSave().getStock().getMinimeStock() > getProductSave().getStock().getOptimeStock())
+                {
+                    addError(null, "Error en el Stock del Producto", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                    return event.getOldStep();
+                }
+            }
             
             if(validateFields("Altura", getProductSave().getDimension().getHight(), 1))
             {
@@ -1798,10 +1834,10 @@ public class ScProductFormulationBean
             }
             
             //Validamos los campos seleccionables
-            if(validateFields("Proveedor y Garantía", getProductSelected().getSupplierGuarantee(), 4))
-            {
-                return event.getOldStep();
-            }
+//            if(validateFields("Proveedor y Garantía", getProductSelected().getSupplierGuarantee(), 4))
+//            {
+//                return event.getOldStep();
+//            }
             if(validateFields("Centro de Costos", getProductSelected().getCostCenter(), 4))
             {
                 return event.getOldStep();
@@ -1838,6 +1874,43 @@ public class ScProductFormulationBean
         {
             getProductSelected().getStock().setIdStore(getStoreSelected());
                     
+            //Validamos que ninguno de los campos del stock sea vacio o negativo
+            if (validateFields("Stock Máximo", getProductSelected().getStock().getMaximeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            if (validateFields("Stock Mínimo", getProductSelected().getStock().getMinimeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            if (getProductSelected().getStock().getMaximeStock() <= getProductSelected().getStock().getMinimeStock())
+            {
+                addError(null, "Error en el Stock del Producto", "El Stock Máximo debe ser mayor que el Stock Mínimo");
+                return event.getOldStep();
+            }
+            if (validateFields("Stock Real", getProductSelected().getStock().getCurrentStock(), 2))
+            {
+                return event.getOldStep();
+            }
+
+            if (validateFields("Stock Óptimo", getProductSelected().getStock().getOptimeStock(), 2))
+            {
+                return event.getOldStep();
+            }
+            else
+            {
+                if (getProductSelected().getStock().getMaximeStock() < getProductSelected().getStock().getOptimeStock())
+                {
+                    addError(null, "Error en el Stock del Producto", "El Stock Máximo debe ser mayor que el Stock Óptimo");
+                    return event.getOldStep();
+                }
+                if (getProductSelected().getStock().getMinimeStock() > getProductSelected().getStock().getOptimeStock())
+                {
+                    addError(null, "Error en el Stock del Producto", "El Stock Mínimo debe ser menor que el Stock Óptimo");
+                    return event.getOldStep();
+                }
+            }
+            
             if(validateFields("Altura", getProductSelected().getDimension().getHight(), 1))
             {
                 return event.getOldStep();

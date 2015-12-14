@@ -290,7 +290,7 @@ public class ScpersonBean
         }
         catch (Exception e)
         {
-            addError(null, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR, "La imagen no existe");
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "La imagen no existe");
         }
         return DMESConstants.PATH_IMAGE_DEFAULT;
     }

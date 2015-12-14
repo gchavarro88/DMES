@@ -41,6 +41,7 @@ public class TurnConverter implements Converter{
             FacesMessage msg = new FacesMessage("Error al convertir el turno", "Formato no válido");
             turn = new ScTurn(Long.parseLong(fields[0]));
             turn.setDescription(fields[1]);
+            turn.setHourAmount(Long.parseLong(fields[2]));
         }
         
         return turn;

@@ -126,6 +126,7 @@ public class ScMachineBean
         fillListMoney();
         fillListTimes();
         fillListFactoryLocation();
+        cleanFieldsLocationFactory();
         cleanFieldsInit();
         getinitalParameters();
         

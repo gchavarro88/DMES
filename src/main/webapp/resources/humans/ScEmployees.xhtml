@@ -42,6 +42,7 @@
                                          paginatorPosition="top" selection="#{scemployeesBean.personAdd}"
                                          selectionMode="single"
                                          >
+
                                     <p:ajax event="rowSelect" update=":formWizard:dataTablePersons"/>
                                     <p:column  selectionMode="single" width="16"/>
                                     <p:column  headerText="Personas Disponibles">
@@ -81,18 +82,20 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:calendar  id="tfadmitionDate" value="#{scemployeesBean.employeeAdd.admissionDate}" pattern="dd/MM/yyyy"
-                                            required="true" requiredMessage="Campo obligatorio debe ingresar la fecha de admisión del empleado"
+                                                         required="true" requiredMessage="Debe ingresar la Fecha de Ingreso"
                                             />                                    
                                             <p:tooltip for="tfadmitionDate" value="Debe ingresar una fecha con el formato dd/mm/aaaa"/>
                                         </td>
                                         <td width="20%" align="left">
-                                            <p:outputLabel  for="tfturn" value="Turno*"/>
+                                            <p:outputLabel  for="tfturn" value="Turno"/>
                                         </td>
                                         <td  width="30%" align="left">
                                             <p:selectOneMenu id="tfturn"  value="#{scemployeesBean.employeeAdd.idTurn}" 
+                                                             required="true" requiredMessage="Debe seleccionar un turno para el cálculo del valor hora"
                                                              converter="turnConverter" converterMessage="Error en el turno" style="width: 180px; top: 6px;"
                                                              effect="puff"
                                                              height="140">
+                                                <p:ajax event="change" listener="#{scemployeesBean.calculateHour(scemployeesBean.employeeAdd)}" update="tfHourValueSave" />
                                                 <f:selectItem itemLabel="..."/>
                                                 <f:selectItems value="#{scemployeesBean.turnList}" var="turn" itemLabel="#{turn.description} - #{turn.hourAmount} Hrs."/>
 
@@ -113,8 +116,8 @@
                                             <p:outputLabel  for="tfHourValueSave" value="Valor Hora"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:inputText    id="tfHourValueSave"  value="#{scemployeesBean.employeeAdd.hourValue}"
-                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor de la hora del empleado">
+                                            <p:inputText    id="tfHourValueSave"  value="#{scemployeesBean.employeeAdd.hourValue}">
+                                            
                                             
                                             </p:inputText>
                                         </td>
@@ -453,7 +456,7 @@
                                         </td>
                                         <td width="30%" align="left">
                                             <p:calendar  id="tfadmitionDateUpdate" value="#{scemployeesBean.employeeSelected.admissionDate}" pattern="dd/MM/yyyy"
-                                            required="true" requiredMessage="Campo obligatorio debe ingresar la fecha de admisión del empleado"
+                                            required="true" requiredMessage="Debe ingresar la Fecha de Ingreso"
                                             />                                    
                                             <p:tooltip for="tfadmitionDateUpdate" value="Debe ingresar una fecha con el formato dd/mm/aaaa"/>
                                         </td>
@@ -462,9 +465,11 @@
                                         </td>
                                         <td  width="30%" align="left">
                                             <p:selectOneMenu id="tfturn"  value="#{scemployeesBean.employeeSelected.idTurn}" 
+                                                             required="true" requiredMessage="Debe seleccionar un turno para el cálculo del valor hora"
                                                              converter="turnConverter" converterMessage="Error en el turno" style="width: 180px; top: 6px;"
                                                              effect="puff"
                                                              height="140">
+                                                <p:ajax event="change" listener="#{scemployeesBean.calculateHour(scemployeesBean.employeeSelected)}" update="tfHourValueUpdate" />
                                                 <f:selectItem itemLabel="..."/>
                                                 <f:selectItems value="#{scemployeesBean.turnList}" var="turn" itemLabel="#{turn.description} - #{turn.hourAmount} Hrs."/>
 
@@ -478,15 +483,15 @@
                                         <td width="30%" align="left">
                                             <p:inputText    id="tfSalaryUpdate"  value="#{scemployeesBean.employeeSelected.salary}"
                                             required="true" requiredMessage="Campo obligatorio debe ingresar el salario del empleado">
-                                            
+                                                <p:ajax event="change" listener="#{scemployeesBean.calculateHour(scemployeesBean.employeeSelected)}" update="tfHourValueUpdate" />
                                             </p:inputText>
                                         </td>
                                         <td width="20%" align="left">
                                             <p:outputLabel  for="tfHourValueUpdate" value="Valor Hora"/>
                                         </td>
                                         <td width="30%" align="left">
-                                            <p:inputText    id="tfHourValueUpdate"  value="#{scemployeesBean.employeeSelected.hourValue}"
-                                            required="true" requiredMessage="Campo obligatorio debe ingresar el valor de la hora del empleado">
+                                            <p:inputText    id="tfHourValueUpdate"  value="#{scemployeesBean.employeeSelected.hourValue}">
+                                            
                                             
                                             </p:inputText>
                                         </td>
