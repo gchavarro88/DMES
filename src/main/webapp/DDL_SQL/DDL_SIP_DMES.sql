@@ -6212,7 +6212,7 @@ ALTER TABLE ONLY sc_person_observations
 -- Name: fk_person_specifications_for_person; Type: FK CONSTRAINT; Schema: dmes; Owner: sipPrueba
 --
 
-ALTER TABLE ONLY sc_person_specifications
+ALTER TABLE ONLY sc_person_specifications 
     ADD CONSTRAINT fk_person_specifications_for_person FOREIGN KEY (id_person) REFERENCES sc_person(id_person);
 
 
