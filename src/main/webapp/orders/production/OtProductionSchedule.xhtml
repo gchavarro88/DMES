@@ -65,7 +65,7 @@
             <p:schedule id="schedule" value="#{OtproductionScheduleBean.productionSchedule}" widgetVar="productionSchedule" timeZone="GMT+1" locale="es" aspectRatio="2.5"
                         tooltip="true" draggable="false" resizable="false">
 <!--                <p:ajax event="dateSelect" />-->
-            <p:ajax event="dateSelect" update=":formWizarProductionSave:" oncomplete="PF('dialogProductionSave').show();"/>
+            <p:ajax event="dateSelect" update=":formWizarProductionSave:" listener="#{OtproductionScheduleBean.onDateSelect}" />
             <p:ajax event="eventSelect" listener="#{OtproductionScheduleBean.onEventSelect}" update=":formWizarProductionView:,:formWizarProductionUpdate:"/>
             </p:schedule>
         </div>

@@ -122,7 +122,7 @@ public class ScTurn implements Serializable
     @Override
     public String toString()
     {
-        return idTurn+","+description;
+        return idTurn+","+description+","+hourAmount;
     }
     
 }

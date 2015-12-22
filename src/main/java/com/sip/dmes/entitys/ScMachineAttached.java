@@ -41,8 +41,8 @@ public class ScMachineAttached implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(generator = "dmes.sqscmachineattached")
-    @SequenceGenerator(name = "dmes.sqscmachineattached", sequenceName = "dmes.sqscmachineattached", allocationSize = 1)
+    @GeneratedValue(generator = "dmes.sqscfactoryLocation")
+    @SequenceGenerator(name = "dmes.sqscfactoryLocation", sequenceName = "dmes.sqscfactoryLocation", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_attached")

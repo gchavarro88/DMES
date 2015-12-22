@@ -129,9 +129,9 @@ public class ScProductFormulation implements Serializable, Cloneable
     @ManyToOne(optional = false)
     private ScLocation location;
     
-    @JoinColumn(name = "id_partner", referencedColumnName = "id_partner")
-    @ManyToOne(optional = false)
-    private ScPartner supplierGuarantee;
+//    @JoinColumn(name = "id_partner", referencedColumnName = "id_partner")
+//    @ManyToOne(optional = false)
+//    private ScPartner supplierGuarantee;
     
     @JoinColumn(name = "id_stock", referencedColumnName = "id_stock")
     @ManyToOne(optional = false)
@@ -326,15 +326,15 @@ public class ScProductFormulation implements Serializable, Cloneable
         this.location = location;
     }
 
-    public ScPartner getSupplierGuarantee()
-    {
-        return supplierGuarantee;
-    }
-
-    public void setSupplierGuarantee(ScPartner supplierGuarantee)
-    {
-        this.supplierGuarantee = supplierGuarantee;
-    }
+//    public ScPartner getSupplierGuarantee()
+//    {
+//        return supplierGuarantee;
+//    }
+//
+//    public void setSupplierGuarantee(ScPartner supplierGuarantee)
+//    {
+//        this.supplierGuarantee = supplierGuarantee;
+//    }
 
     public List<ScProcessProduct> getProcessProducts()
     {
@@ -389,7 +389,7 @@ public class ScProductFormulation implements Serializable, Cloneable
     @Override
     public String toString()
     {
-        return "ScProductFormulation{" + "idProductFormulation=" + idProductFormulation + ", typeMaterial=" + typeMaterial + ", expiryDate=" + expiryDate + ", mark=" + mark + ", value=" + value + ", manufacturingTime=" + manufacturingTime + ", pathPicture=" + pathPicture + ", serie=" + serie + ", creationDate=" + creationDate + ", description=" + description + ", scProductAttached=" + scProductAttached + ", scProductDocuments=" + scProductDocuments + ", costCenter=" + costCenter + ", packingUnit=" + packingUnit + ", money=" + money + ", priority=" + priority + ", dimension=" + dimension + ", location=" + location + ", supplierGuarantee=" + supplierGuarantee + '}';
+        return "ScProductFormulation{" + "idProductFormulation=" + idProductFormulation + ", typeMaterial=" + typeMaterial + ", expiryDate=" + expiryDate + ", mark=" + mark + ", value=" + value + ", manufacturingTime=" + manufacturingTime + ", pathPicture=" + pathPicture + ", serie=" + serie + ", creationDate=" + creationDate + ", description=" + description + ", scProductAttached=" + scProductAttached + ", scProductDocuments=" + scProductDocuments + ", costCenter=" + costCenter + ", packingUnit=" + packingUnit + ", money=" + money + ", priority=" + priority + ", dimension=" + dimension + ", location=" + location + '}';
     }
 
     
