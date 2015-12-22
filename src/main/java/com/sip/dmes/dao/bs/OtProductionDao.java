@@ -76,7 +76,7 @@ public class OtProductionDao implements IOtProduction
     }
 
     @Override
-    public List<OtProductionOrder> getProductionByParameters(Date initDate, Date endDate, Long orderNumber, ScProductionState state) throws Exception
+    public List<OtProductionOrder> getProductionByParameters(Date initDate, Date endDate, String orderNumber, ScProductionState state) throws Exception
     {
         String nameQuery = "SELECT o FROM OtProductionOrder o WHERE 1=1 ";
         List<OtProductionOrder> result = null;
@@ -91,11 +91,11 @@ public class OtProductionDao implements IOtProduction
         }
         if(orderNumber != null)
         {
-            nameQuery += " TO_CHAR(o.creationDate, 'yyyymmddHH24miss')||o.idProductionOrder LIKE :idProductionOrder ";
+            nameQuery += " AND o.name LIKE :description ";
         }
         if(state != null)
         {
-            nameQuery += " AND o.idProductionState.idProductionState  :idProductionState";
+            nameQuery += " AND o.idProductionState.idProductionState = :idProductionState";
         }
         try
         {
@@ -106,11 +106,11 @@ public class OtProductionDao implements IOtProduction
             }
             if(endDate != null)
             {
-                query.setParameter("endDate", endDate);
+                query.setParameter("endDate", endDate); 
             }
             if(orderNumber != null)
             {
-                query.setParameter("idProductionOrder", "%"+orderNumber+"%");
+                query.setParameter("description", "%"+orderNumber+"%");
             }
             if(state != null)
             {

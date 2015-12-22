@@ -51,7 +51,7 @@ public class OtproductionBean
     
     private Date filterStarDate;
     private Date filterEndDate;
-    private Long filterOrderNumber;
+    private String filterOrderNumber;
     private ScProductionState filteState;
     private List<ScProductionState> listState;
     private List<OtProductionOrder> listProductionOrders;
@@ -122,18 +122,15 @@ public class OtproductionBean
     */
     public void fillListProductionOrders()
     {
-        if(getListProductionOrders()== null)
+        try
         {
-            try
-            {
-                setListProductionOrders(getOtProductionServer().getListProductionOrders());
-            }
-            catch (Exception e)
-            {
-                log.error("Error al intentar consutlar la lista de ordenes de producción", e);
-                addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
-            }
+            setListProductionOrders(getOtProductionServer().getListProductionOrders());
         }
+        catch (Exception e)
+        {
+            log.error("Error al intentar consutlar la lista de ordenes de producción", e);
+            addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, DMESConstants.MESSAGE_ERROR_ADMINISTRATOR);
+        } 
     }
     
     /**
@@ -221,14 +218,14 @@ public class OtproductionBean
         {   
             if(getFilterEndDate() != null)
             {
-                getFilterEndDate().setDate(getFilterEndDate().getDate()+1);
-                getFilterEndDate().setHours(0);           
-                getFilterEndDate().setMinutes(0);
-                getFilterEndDate().setSeconds(0);
+                //getFilterEndDate().setDate(getFilterEndDate().getDate()+1);
+                getFilterEndDate().setHours(23);           
+                getFilterEndDate().setMinutes(59);
+                getFilterEndDate().setSeconds(59);
             }
             if(getFilterStarDate() != null)
             {
-                getFilterStarDate().setDate(getFilterStarDate().getDate()-1);
+                //getFilterStarDate().setDate(getFilterStarDate().getDate()-1);
                 getFilterStarDate().setHours(0);
                 getFilterStarDate().setMinutes(0);
                 getFilterStarDate().setSeconds(0);
@@ -1044,12 +1041,12 @@ public class OtproductionBean
         this.filterEndDate = filterEndDate;
     }
 
-    public Long getFilterOrderNumber()
+    public String getFilterOrderNumber()
     {
         return filterOrderNumber;
     }
 
-    public void setFilterOrderNumber(Long filterOrderNumber)
+    public void setFilterOrderNumber(String filterOrderNumber)
     {
         this.filterOrderNumber = filterOrderNumber;
     }

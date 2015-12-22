@@ -24,7 +24,7 @@ public interface IOtProduction
     public List<ScProductFormulation> getListProductFormulations()throws Exception;
     
     public List<OtProductionOrder> getProductionByParameters(Date initDate, 
-            Date endDate, Long orderNumber, ScProductionState state) throws Exception;
+            Date endDate, String orderNumber, ScProductionState state) throws Exception;
     
     public void saveOrderProduction(OtProductionOrder productionOrder)throws Exception;
     
