@@ -63,6 +63,7 @@ public class ScstoreRequisitionsBean
     final String nameQueryTool = "SELECT id_tool, name FROM dmes.sc_tool ORDER BY name ASC";
     final String nameQueryReplacement = "SELECT id_replacement, name FROM dmes.sc_replacement ORDER BY name ASC";
     final String nameQueryMaintenance = "SELECT 'OM'||to_char(creation_date, 'yyyymmdd')||id_maintenance as id_maintenance FROM dmes.ot_maintenance  WHERE id_maintenance_state  IN (1,2)";
+    final String nameQueryProduction = "SELECT 'OP'||to_char(creation_date, 'yyyymmddHHmiss')||id_production_order  FROM dmes.ot_production_order  WHERE id_production_state  IN (1,2)";
     final String AREA_PRODUCCION = "Producción";
     final String AREA_MANTENIMIENTO = "Mantenimiento";
     final String ORDER_CLASS_TOOL = "Herramientas";
@@ -864,7 +865,7 @@ public class ScstoreRequisitionsBean
             {
                 if(storeOrder.getRequiredBy().equals(AREA_PRODUCCION))
                 {
-
+                    setMaintenanceAutocomplete(getScStoreOrderServer().getItemsForAutocompleteMaintenance(nameQueryProduction));
                 }
                 else if(storeOrder.getRequiredBy().equals(AREA_MANTENIMIENTO))
                 {

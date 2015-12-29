@@ -409,7 +409,7 @@ public class OtproductionScheduleBean
         
         if(order != null)
         {
-            calendar.setTime(order.getCreationDate());
+            calendar.setTime(order.getStartDate());
             if(order.getProductionsOrders() != null && !order.getProductionsOrders().isEmpty())
             {
                 for(OtProductionProduct productionProduct: order.getProductionsOrders())
