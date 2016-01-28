@@ -44,6 +44,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class ScStopMachine implements Serializable
 {
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "state")
+    private short state;
+    @Size(max = 100)
+    @Column(name = "password")
+    private String password;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscstopmachine")
@@ -187,6 +194,26 @@ public class ScStopMachine implements Serializable
     public String toString()
     {
         return "com.sip.dmes.entitys.ScStopMachine[ idStopMachine=" + idStopMachine + " ]";
+    }
+
+    public short getState()
+    {
+        return state;
+    }
+
+    public void setState(short state)
+    {
+        this.state = state;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
     
 }
