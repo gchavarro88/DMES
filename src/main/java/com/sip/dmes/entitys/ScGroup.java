@@ -12,10 +12,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_group")
+@Table(name = "sc_group", schema = "dmes")
 @XmlRootElement
 @NamedQueries(
 {
@@ -40,6 +42,8 @@ public class ScGroup implements Serializable
 {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(generator = "dmes.sqscgroup")
+    @SequenceGenerator(name = "dmes.sqscgroup", sequenceName = "dmes.sqscgroup", allocationSize = 1)
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_group")

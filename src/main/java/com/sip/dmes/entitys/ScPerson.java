@@ -52,12 +52,8 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ScPerson implements Serializable
 {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson")
-    private List<ScPartner> scPartnerList;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "identification")
-    private Long identification;
+    
+    
     
    
     private static final long serialVersionUID = 1L;
@@ -69,6 +65,10 @@ public class ScPerson implements Serializable
     @NotNull
     @Column(name = "id_person")
     private Long idPerson;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "identification")
+    private Long identification;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -386,15 +386,6 @@ public class ScPerson implements Serializable
     public void setScUsersList(List<ScUsers> scUsersList)
     {
         this.scUsersList = scUsersList;
-    }
-
-    @XmlTransient
-    public List<ScPartner> getScPartnerList() {
-        return scPartnerList;
-    }
-
-    public void setScPartnerList(List<ScPartner> scPartnerList) {
-        this.scPartnerList = scPartnerList;
     }
     
 }
