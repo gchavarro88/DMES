@@ -74,7 +74,7 @@ public class ScMachine implements Serializable
     private String pathPicture;
     
     @Column(name = "id_state")
-    private String idState;
+    private Long idState;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachine", fetch = FetchType.EAGER)
     private List<ScMachineAttached> scMachineAttachedList;
@@ -387,12 +387,12 @@ public class ScMachine implements Serializable
         this.scMachinePartList = scMachinePartList;
     }
 
-    public String getIdState()
+    public Long getIdState()
     {
         return idState;
     }
 
-    public void setIdState(String idState)
+    public void setIdState(Long idState)
     {
         this.idState = idState;
     }

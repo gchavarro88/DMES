@@ -56,7 +56,8 @@ public class ScGroup implements Serializable
     @Size(max = 200)
     @Column(name = "description")
     private String description;
-    
+    @Column(name = "type")
+    private Long type;
 
     public ScGroup()
     {
@@ -103,6 +104,18 @@ public class ScGroup implements Serializable
         this.description = description;
     }
 
+    public Long getType()
+    {
+        return type;
+    }
+
+    public void setType(Long type)
+    {
+        this.type = type;
+    }
+
+    
+    
     @Override
     public int hashCode()
     {

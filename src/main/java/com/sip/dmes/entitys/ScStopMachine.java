@@ -67,8 +67,6 @@ public class ScStopMachine implements Serializable
     @Size(max = 400)
     @Column(name = "reason")
     private String reason;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "duration_estimate")
     private long durationEstimate;
     @Column(name = "end_date")
@@ -78,7 +76,7 @@ public class ScStopMachine implements Serializable
     private Long durationReal;
     @JoinColumn(name = "id_maintenance", referencedColumnName = "id_maintenance")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private OtMaintenance idMaintenance;
+    private OtMaintenance idMaintenance; 
 
     public ScStopMachine()
     {
