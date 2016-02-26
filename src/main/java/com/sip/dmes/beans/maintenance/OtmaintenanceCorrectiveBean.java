@@ -550,8 +550,8 @@ public class OtmaintenanceCorrectiveBean
         getOrderSave().getIdMaintenance().setIdWorkforce(new ScWorkforce());
         //getOrderSave().getIdMaintenance().setScMaintenanceReplacementList(new ArrayList<ScMaintenanceReplacement>());
         //getOrderSave().getIdMaintenance().setScMaintenanceToolList(new ArrayList<ScMaintenanceTool>());
-        setMonths(0); setDays(0); setHours(0); setMinutes(0); setStartHour(0); setStartMinutes(0);
-        setEndDate(null);
+        setMonths(0); setDays(0); setHours(1); setMinutes(0); setStartHour(new Date().getHours()); setStartMinutes(new Date().getMinutes());
+        setEndDate(new Date());
         setItemAdd("");
         setMachineSave(new ScMachine());
         setMachineUpdate(new ScMachine());
