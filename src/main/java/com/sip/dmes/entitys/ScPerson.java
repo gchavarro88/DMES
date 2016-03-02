@@ -55,6 +55,8 @@ public class ScPerson implements Serializable
     
     
     
+    
+    
    
     private static final long serialVersionUID = 1L;
     
@@ -65,10 +67,6 @@ public class ScPerson implements Serializable
     @NotNull
     @Column(name = "id_person")
     private Long idPerson;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "identification")
-    private Long identification;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -120,7 +118,11 @@ public class ScPerson implements Serializable
     @Column(name = "modify_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifyDate;
-     
+     @Basic(optional = false)
+    @NotNull
+    @Column(name = "identification")
+    private long identification;
+    
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPerson", fetch = FetchType.EAGER)
     private List<ScPersonObservations> scPersonObservationsList;
@@ -356,15 +358,6 @@ public class ScPerson implements Serializable
         this.scPersonSpecificationsList = scPersonSpecificationsList;
     }
 
-    public Long getIdentification()
-    {
-        return identification;
-    }
-
-    public void setIdentification(Long identification)
-    {
-        this.identification = identification;
-    }
 
     @XmlTransient
     public List<ScDocuments> getScDocumentsList()
@@ -387,5 +380,16 @@ public class ScPerson implements Serializable
     {
         this.scUsersList = scUsersList;
     }
+
+    public long getIdentification()
+    {
+        return identification;
+    }
+
+    public void setIdentification(long identification)
+    {
+        this.identification = identification;
+    }
+
     
 }

@@ -9,15 +9,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -39,6 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScMoney.findByAcronym", query = "SELECT s FROM ScMoney s WHERE s.acronym = :acronym")})
 public class ScMoney implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    
+    
+    
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     
     
@@ -50,11 +51,12 @@ public class ScMoney implements Serializable {
     @NotNull
     @Column(name = "id_money")
     private Long idMoney;
+    @Column(name = "trm")
+    private Double trm;
+    
     @Size(max = 200)
     @Column(name = "description")
     private String description;
-    @Column(name = "trm")
-    private Double trm;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
@@ -127,7 +129,6 @@ public class ScMoney implements Serializable {
         return idMoney.toString()+","+getAcronym().toString();
     }
 
-
     public Double getTrm()
     {
         return trm;
@@ -137,6 +138,7 @@ public class ScMoney implements Serializable {
     {
         this.trm = trm;
     }
+
 
    
 }

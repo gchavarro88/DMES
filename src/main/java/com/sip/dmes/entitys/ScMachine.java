@@ -6,6 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -37,6 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ScMachine implements Serializable
 {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @GeneratedValue(generator = "dmes.sqscmachine")
     @SequenceGenerator(name = "dmes.sqscmachine", sequenceName = "dmes.sqscmachine", allocationSize = 1)
@@ -49,10 +52,6 @@ public class ScMachine implements Serializable
     @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "hour_value")
-    private Double hourValue;
     @Size(max = 400)
     @Column(name = "description")
     private String description;
@@ -73,8 +72,13 @@ public class ScMachine implements Serializable
     @Column(name = "path_picture")
     private String pathPicture;
     
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "hour_value")
+    private Double hourValue;
     @Column(name = "id_state")
-    private Long idState;
+    private long idState;
+    
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMachine", fetch = FetchType.EAGER)
     private List<ScMachineAttached> scMachineAttachedList;
@@ -393,6 +397,11 @@ public class ScMachine implements Serializable
     }
 
     public void setIdState(Long idState)
+    {
+        this.idState = idState;
+    }
+
+    public void setIdState(Short idState)
     {
         this.idState = idState;
     }

@@ -6,19 +6,25 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.logging.Logger;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,6 +43,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScInputStock.findByTotalValue", query = "SELECT s FROM ScInputStock s WHERE s.totalValue = :totalValue"),
     @NamedQuery(name = "ScInputStock.findByOptimeStock", query = "SELECT s FROM ScInputStock s WHERE s.optimeStock = :optimeStock")})
 public class ScInputStock implements Serializable {
+    
+    
    
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,6 +54,15 @@ public class ScInputStock implements Serializable {
     @NotNull
     @Column(name = "id_stock")
     private Long idInputStock;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "price_unit")
+    private Double priceUnit;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "total_value")
+    private Double totalValue;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "maxime_stock")
@@ -58,14 +75,6 @@ public class ScInputStock implements Serializable {
     @NotNull
     @Column(name = "current_stock")
     private long currentStock;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "price_unit")
-    private Double priceUnit;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "total_value")
-    private Double totalValue;
     @Basic(optional = false)
     @NotNull
     @Column(name = "optime_stock")
@@ -101,6 +110,26 @@ public class ScInputStock implements Serializable {
         this.idInputStock = idInputStock;
     }
 
+    public Double getPriceUnit()
+    {
+        return priceUnit;
+    }
+
+    public void setPriceUnit(Double priceUnit)
+    {
+        this.priceUnit = priceUnit;
+    }
+
+    public Double getTotalValue()
+    {
+        return totalValue;
+    }
+
+    public void setTotalValue(Double totalValue)
+    {
+        this.totalValue = totalValue;
+    }
+
     public long getMaximeStock()
     {
         return maximeStock;
@@ -129,26 +158,6 @@ public class ScInputStock implements Serializable {
     public void setCurrentStock(long currentStock)
     {
         this.currentStock = currentStock;
-    }
-
-    public Double getPriceUnit()
-    {
-        return priceUnit;
-    }
-
-    public void setPriceUnit(Double priceUnit)
-    {
-        this.priceUnit = priceUnit;
-    }
-
-    public Double getTotalValue()
-    {
-        return totalValue;
-    }
-
-    public void setTotalValue(Double totalValue)
-    {
-        this.totalValue = totalValue;
     }
 
     public long getOptimeStock()
@@ -197,5 +206,6 @@ public class ScInputStock implements Serializable {
     public String toString() {
         return "com.sip.dmes.entitys.ScInputStock[ idInputStock=" + idInputStock + " ]";
     }
+    private static final Logger LOG = Logger.getLogger(ScInputStock.class.getName());
 
 }

@@ -26,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,6 +45,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class OtProductionOrder implements Serializable
 {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqotproductionorder")
@@ -70,9 +72,9 @@ public class OtProductionOrder implements Serializable
     @JoinColumn(name = "id_production_state", referencedColumnName = "id_production_state")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScProductionState idProductionState;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idProductionOrder", fetch = FetchType.EAGER)
-    private List<OtProductionProduct> productionsOrders;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idOrder", fetch = FetchType.EAGER)
+    private List<ScProductOrder> scProductOrderList;
+    
     public OtProductionOrder()
     {
     }
@@ -138,16 +140,6 @@ public class OtProductionOrder implements Serializable
         this.idProductionState = idProductionState;
     }
 
-    public List<OtProductionProduct> getProductionsOrders()
-    {
-        return productionsOrders;
-    }
-
-    public void setProductionsOrders(List<OtProductionProduct> productionsOrders)
-    {
-        this.productionsOrders = productionsOrders;
-    }
-
     public String getName()
     {
         return name;
@@ -198,6 +190,17 @@ public class OtProductionOrder implements Serializable
     public String toString()
     {
         return "com.sip.dmes.entitys.OtProductionOrder[ idProductionOrder=" + idProductionOrder + " ]";
+    }
+
+    @XmlTransient
+    public List<ScProductOrder> getScProductOrderList()
+    {
+        return scProductOrderList;
+    }
+
+    public void setScProductOrderList(List<ScProductOrder> scProductOrderList)
+    {
+        this.scProductOrderList = scProductOrderList;
     }
     
 }

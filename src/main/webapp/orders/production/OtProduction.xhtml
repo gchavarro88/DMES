@@ -101,7 +101,7 @@
                                             </p:spinner>
                                             <p:spacer width="5px"/>
                                             <p:commandButton icon="ui-icon-plus" id="btnAddItem" 
-                                                             actionListener="#{OtproductionBean.addProductsToOrder(OtproductionBean.orderSave.productionsOrders,OtproductionBean.orderSave)}" 
+                                                             actionListener="#{OtproductionBean.addProductsToOrder(OtproductionBean.orderSave.scProductOrderList,OtproductionBean.orderSave)}" 
                                                              update="tfProductItem,tfAmount,otDataTableOrderSave,tfEndHour,otDataTableProducts"
                                                              >
                                                 <p:tooltip for="btnAddItem" value="Agregue productos a la orden"/>
@@ -117,24 +117,24 @@
                                                          pageLinks="40"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         value="#{OtproductionBean.orderSave.productionsOrders}" var="production"
-                                                         rowKey="#{production.idProductionProduct}"
+                                                         value="#{OtproductionBean.orderSave.scProductOrderList}" var="production"
+                                                         rowKey="#{production.idProductOrder}"
                                                          rowsPerPageTemplate="5,10" 
-                                                         sortBy="#{production.idProductionProduct}"
+                                                         sortBy="#{production.idProductOrder}"
                                                          >
-                                                <p:column id="columnProduction" headerText="Producto" sortBy="#{production.idProductFormulation.description}">    
+                                                <p:column id="columnProduction" headerText="Producto" sortBy="#{production.description}">    
                                                     <center>
-                                                        <p:outputLabel value="#{production.idProductFormulation.description}" id="lblProduction"/>
-                                                        <p:tooltip for="lblProduction" value="#{production.idProductFormulation.description}"/>
+                                                        <p:outputLabel value="#{production.description}" id="lblProduction"/>
+                                                        <p:tooltip for="lblProduction" value="#{production.description}"/>
                                                     </center>
                                                 </p:column>
-                                                <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amount}"
+                                                <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amountRequired}"
                                                           width="100">    
                                                     <center>
-                                                        <p:spinner value="#{production.amount}" id="lblAmountProduction"  min="1" 
+                                                        <p:spinner value="#{production.amountRequired}" id="lblAmountProduction"  min="1" 
                                                                    size="8">
                                                             <p:ajax listener="#{OtproductionBean.calculateEndDate(OtproductionBean.orderSave)}" update=":formWizarProductionSave:tfEndHour" event="change"/>
-                                                            <p:tooltip for="lblAmountProduction" value="#{production.amount}"/>
+                                                            <p:tooltip for="lblAmountProduction" value="#{production.amountRequired}"/>
                                                         </p:spinner>
                                                     </center>
                                                 </p:column>
@@ -154,58 +154,58 @@
                                              pageLinks="40"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             value="#{OtproductionBean.orderSave.productionsOrders}" var="product"
-                                             rowKey="#{product.idProductionProduct}"
+                                             value="#{OtproductionBean.orderSave.scProductOrderList}" var="product"
+                                             rowKey="#{product.idProductOrder}"
                                              rowsPerPageTemplate="5,10" 
-                                             sortBy="#{product.idProductionProduct}"
+                                             sortBy="#{product.idProductOrder}"
                                              >
                                     <p:column id="columnProduction" headerText="Producto" 
-                                              sortBy="#{product.idProductFormulation.description}">    
+                                              sortBy="#{product.description}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.description}" id="lblProductionItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.description}" for="lblProductionItem"/>
+                                            <p:outputLabel value="#{product.description}" id="lblProductionItem"/> 
+                                            <p:tooltip value="#{product.description}" for="lblProductionItem"/>
                                         </center>
                                     </p:column>
                                     
                                     <p:column id="columnMarkItem" headerText="Marca" 
-                                              sortBy="#{product.idProductFormulation.mark}">    
+                                              sortBy="#{product.mark}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.mark}" id="lblMarkItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.mark}" for="lblMarkItem"/>
+                                            <p:outputLabel value="#{product.mark}" id="lblMarkItem"/> 
+                                            <p:tooltip value="#{product.mark}" for="lblMarkItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnSerieItem" headerText="Serie" 
-                                              sortBy="#{product.idProductFormulation.serie}">    
+                                              sortBy="#{product.serie}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.serie}" id="lblSerieItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.serie}" for="lblSerieItem"/>
+                                            <p:outputLabel value="#{product.serie}" id="lblSerieItem"/> 
+                                            <p:tooltip value="#{product.serie}" for="lblSerieItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnAmountItem" headerText="Cantidad" 
                                               sortBy="#{product.amount}">    
                                         <center>
-                                            <p:outputLabel value="#{product.amount}" id="lblAmountItem"/> 
-                                            <p:tooltip value="#{product.amount}" for="lblAmountItem"/>
+                                            <p:outputLabel value="#{product.amountRequired}" id="lblAmountItem"/> 
+                                            <p:tooltip value="#{product.amountRequired}" for="lblAmountItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnTimeItem" headerText="Tiempo de Fabricación C/U" 
-                                              sortBy="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)}">    
+                                              sortBy="#{OtproductionBean.getCountTimeProductByOrder(product)}">    
                                         <center>
-                                            <p:outputLabel value="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)} min" id="lblTimeItem"/> 
-                                            <p:tooltip value="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)} min" for="lblTimeItem"/>
+                                            <p:outputLabel value="#{OtproductionBean.getCountTimeProductByOrder(product)} min" id="lblTimeItem"/> 
+                                            <p:tooltip value="#{OtproductionBean.getCountTimeProductByOrder(product)} min" for="lblTimeItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnCostItem" headerText="Costo de Fabricación C/U" 
-                                              sortBy="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)}">    
+                                              sortBy="#{OtproductionBean.getCountCostProductByOrder(product)}">    
                                         <center>
-                                            <p:outputLabel value="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)} #{product.idProductFormulation.money.acronym}" id="lblCostItem"/> 
-                                            <p:tooltip value="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)} #{product.idProductFormulation.money.acronym}" for="lblCostItem"/>
+                                            <p:outputLabel value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idMoney.acronym}" id="lblCostItem"/> 
+                                            <p:tooltip value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idMoney.acronym}" for="lblCostItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnAdmin" headerText="Admin">
                                         <center>
                                             <p:commandButton icon="ui-icon-search" id="btnSearchProduct"  update=":formWizardProcessSave"
-                                                             action="#{OtproductionBean.selectProcessByProduct(product.idProductFormulation)}"
+                                                             action="#{OtproductionBean.selectProcessByProduct(product)}"
                                                              onsuccess="PF('dialogDetailSave').show()"
                                                              >
                                                 <p:tooltip for="btnSearchProduct" value="Visualizar un Producto "/>
@@ -377,7 +377,7 @@
                                             </p:spinner>
                                             <p:spacer width="5px"/>
                                             <p:commandButton icon="ui-icon-plus" id="btnAddItem" 
-                                                             actionListener="#{OtproductionBean.addProductsToOrder(OtproductionBean.orderUpdate.productionsOrders,OtproductionBean.orderUpdate)}" 
+                                                             actionListener="#{OtproductionBean.addProductsToOrder(OtproductionBean.orderUpdate.scProductOrderList,OtproductionBean.orderUpdate)}" 
                                                              update="tfProductItem,tfAmount,otDataTableorderUpdate,tfEndHour,otDataTableProducts"
                                                              >
                                                 <p:tooltip for="btnAddItem" value="Agregue productos a la orden"/>
@@ -393,15 +393,15 @@
                                                          pageLinks="40"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         value="#{OtproductionBean.orderUpdate.productionsOrders}" var="production"
-                                                         rowKey="#{production.idProductionProduct}"
+                                                         value="#{OtproductionBean.orderUpdate.scProductOrderList}" var="production"
+                                                         rowKey="#{production.idProductOrder}"
                                                          rowsPerPageTemplate="5,10" 
-                                                         sortBy="#{production.idProductionProduct}"
+                                                         sortBy="#{production.idProductOrder}"
                                                          >
-                                                <p:column id="columnProduction" headerText="Producto" sortBy="#{production.idProductFormulation.description}">    
+                                                <p:column id="columnProduction" headerText="Producto" sortBy="#{production.description}">    
                                                     <center>
-                                                        <p:outputLabel value="#{production.idProductFormulation.description}" id="lblProduction"/>
-                                                        <p:tooltip for="lblProduction" value="#{production.idProductFormulation.description}"/>
+                                                        <p:outputLabel value="#{production.description}" id="lblProduction"/>
+                                                        <p:tooltip for="lblProduction" value="#{production.description}"/>
                                                     </center>
                                                 </p:column>
                                                 <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amount}"
@@ -430,31 +430,31 @@
                                              pageLinks="40"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             value="#{OtproductionBean.orderUpdate.productionsOrders}" var="product"
-                                             rowKey="#{product.idProductionProduct}"
+                                             value="#{OtproductionBean.orderUpdate.scProductOrderList}" var="product"
+                                             rowKey="#{product.idProductOrder}"
                                              rowsPerPageTemplate="5,10" 
-                                             sortBy="#{product.idProductionProduct}"
+                                             sortBy="#{product.idProductOrder}"
                                              >
                                     <p:column id="columnProduction" headerText="Producto" 
-                                              sortBy="#{product.idProductFormulation.description}">    
+                                              sortBy="#{product.description}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.description}" id="lblProductionItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.description}" for="lblProductionItem"/>
+                                            <p:outputLabel value="#{product.description}" id="lblProductionItem"/> 
+                                            <p:tooltip value="#{product.description}" for="lblProductionItem"/>
                                         </center>
                                     </p:column>
                                     
                                     <p:column id="columnMarkItem" headerText="Marca" 
-                                              sortBy="#{product.idProductFormulation.mark}">    
+                                              sortBy="#{product.mark}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.mark}" id="lblMarkItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.mark}" for="lblMarkItem"/>
+                                            <p:outputLabel value="#{product.mark}" id="lblMarkItem"/> 
+                                            <p:tooltip value="#{product.mark}" for="lblMarkItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnSerieItem" headerText="Serie" 
                                               sortBy="#{product.idProductFormulation.serie}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.serie}" id="lblSerieItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.serie}" for="lblSerieItem"/>
+                                            <p:outputLabel value="#{product.serie}" id="lblSerieItem"/> 
+                                            <p:tooltip value="#{product.serie}" for="lblSerieItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnAmountItem" headerText="Cantidad" 
@@ -465,23 +465,23 @@
                                         </center>
                                     </p:column>
                                     <p:column id="columnTimeItem" headerText="Tiempo de Fabricación C/U" 
-                                              sortBy="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)}">    
+                                              sortBy="#{OtproductionBean.getCountTimeProductByOrder(product)}">    
                                         <center>
-                                            <p:outputLabel value="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)} min" id="lblTimeItem"/> 
-                                            <p:tooltip value="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)} min" for="lblTimeItem"/>
+                                            <p:outputLabel value="#{OtproductionBean.getCountTimeProductByOrder(product)} min" id="lblTimeItem"/> 
+                                            <p:tooltip value="#{OtproductionBean.getCountTimeProductByOrder(product)} min" for="lblTimeItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnCostItem" headerText="Costo de Fabricación  C/U" 
-                                              sortBy="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)}">    
+                                              sortBy="#{OtproductionBean.getCountCostProductByOrder(product)}">    
                                         <center>
-                                            <p:outputLabel value="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)} #{product.idProductFormulation.money.acronym}" id="lblCostItem"/> 
-                                            <p:tooltip value="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)} #{product.idProductFormulation.money.acronym}" for="lblCostItem"/>
+                                            <p:outputLabel value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idMoney.acronym}" id="lblCostItem"/> 
+                                            <p:tooltip value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idMoney.acronym}" for="lblCostItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnAdmin" headerText="Admin">
                                         <center>
                                             <p:commandButton icon="ui-icon-search" id="btnSearchProduct"  update=":formWizardProcessSave"
-                                                             action="#{OtproductionBean.selectProcessByProduct(product.idProductFormulation)}"
+                                                             action="#{OtproductionBean.selectProcessByProduct(product)}"
                                                              onsuccess="PF('dialogDetailSave').show()"
                                                              >
                                                 <p:tooltip for="btnSearchProduct" value="Visualizar un Producto "/>
@@ -634,15 +634,15 @@
                                                          pageLinks="40"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                                          {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         value="#{OtproductionBean.orderSelected.productionsOrders}" var="production"
-                                                         rowKey="#{production.idProductionProduct}"
+                                                         value="#{OtproductionBean.orderSelected.scProductOrderList}" var="production"
+                                                         rowKey="#{production.idProductOrder}"
                                                          rowsPerPageTemplate="5,10" 
-                                                         sortBy="#{production.idProductionProduct}"
+                                                         sortBy="#{production.idProductOrder}"
                                                          >
-                                                <p:column id="columnProduction" headerText="Producto" sortBy="#{production.idProductFormulation.description}">    
+                                                <p:column id="columnProduction" headerText="Producto" sortBy="#{production.description}">    
                                                     <center>
-                                                        <p:outputLabel value="#{production.idProductFormulation.description}" id="lblProduction"/>
-                                                        <p:tooltip for="lblProduction" value="#{production.idProductFormulation.description}"/>
+                                                        <p:outputLabel value="#{production.description}" id="lblProduction"/>
+                                                        <p:tooltip for="lblProduction" value="#{production.description}"/>
                                                     </center>
                                                 </p:column>
                                                 <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amount}"
@@ -667,31 +667,31 @@
                                              pageLinks="40"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             value="#{OtproductionBean.orderSelected.productionsOrders}" var="product"
-                                             rowKey="#{product.idProductionProduct}"
+                                             value="#{OtproductionBean.orderSelected.scProductOrderList}" var="product"
+                                             rowKey="#{product.idProductOrder}"
                                              rowsPerPageTemplate="5,10" 
-                                             sortBy="#{product.idProductionProduct}"
+                                             sortBy="#{product.idProductOrder}"
                                              >
                                     <p:column id="columnProduction" headerText="Producto" 
                                               sortBy="#{product.idProductFormulation.description}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.description}" id="lblProductionItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.description}" for="lblProductionItem"/>
+                                            <p:outputLabel value="#{product.description}" id="lblProductionItem"/> 
+                                            <p:tooltip value="#{product.description}" for="lblProductionItem"/>
                                         </center>
                                     </p:column>
                                     
                                     <p:column id="columnMarkItem" headerText="Marca" 
-                                              sortBy="#{product.idProductFormulation.mark}">    
+                                              sortBy="#{product.mark}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.mark}" id="lblMarkItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.mark}" for="lblMarkItem"/>
+                                            <p:outputLabel value="#{product.mark}" id="lblMarkItem"/> 
+                                            <p:tooltip value="#{product.mark}" for="lblMarkItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnSerieItem" headerText="Serie" 
-                                              sortBy="#{product.idProductFormulation.serie}">    
+                                              sortBy="#{product.serie}">    
                                         <center>
-                                            <p:outputLabel value="#{product.idProductFormulation.serie}" id="lblSerieItem"/> 
-                                            <p:tooltip value="#{product.idProductFormulation.serie}" for="lblSerieItem"/>
+                                            <p:outputLabel value="#{product.serie}" id="lblSerieItem"/> 
+                                            <p:tooltip value="#{product.serie}" for="lblSerieItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnAmountItem" headerText="Cantidad" 
@@ -702,23 +702,23 @@
                                         </center>
                                     </p:column>
                                     <p:column id="columnTimeItem" headerText="Tiempo de Fabricación C/U" 
-                                              sortBy="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)}">    
+                                              sortBy="#{OtproductionBean.getCountTimeProductByOrder(product)}">    
                                         <center>
-                                            <p:outputLabel value="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)} min" id="lblTimeItem"/> 
-                                            <p:tooltip value="#{OtproductionBean.getCountTimeProductByOrder(product.idProductFormulation)} min" for="lblTimeItem"/>
+                                            <p:outputLabel value="#{OtproductionBean.getCountTimeProductByOrder(product)} min" id="lblTimeItem"/> 
+                                            <p:tooltip value="#{OtproductionBean.getCountTimeProductByOrder(product)} min" for="lblTimeItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnCostItem" headerText="Costo de Fabricación C/U" 
-                                              sortBy="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)}">    
+                                              sortBy="#{OtproductionBean.getCountCostProductByOrder(product)}">    
                                         <center>
-                                            <p:outputLabel value="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)} #{product.idProductFormulation.money.acronym}" id="lblCostItem"/> 
-                                            <p:tooltip value="#{OtproductionBean.getCountCostProductByOrder(product.idProductFormulation)} #{product.idProductFormulation.money.acronym}" for="lblCostItem"/>
+                                            <p:outputLabel value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idProductFormulation.money.acronym}" id="lblCostItem"/> 
+                                            <p:tooltip value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idProductFormulation.money.acronym}" for="lblCostItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnAdmin" headerText="Admin">
                                         <center>
                                             <p:commandButton icon="ui-icon-search" id="btnSearchProduct"  update=":formWizardProcessSave"
-                                                             action="#{OtproductionBean.selectProcessByProduct(product.idProductFormulation)}"
+                                                             action="#{OtproductionBean.selectProcessByProduct(product)}"
                                                              onsuccess="PF('dialogDetailSave').show()"
                                                              >
                                                 <p:tooltip for="btnSearchProduct" value="Visualizar un Producto "/>

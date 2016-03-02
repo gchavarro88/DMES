@@ -9,12 +9,13 @@ import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IOtProduction;
 import com.sip.dmes.entitys.OtMaintenanceSchedule;
 import com.sip.dmes.entitys.OtProductionOrder;
-import com.sip.dmes.entitys.OtProductionProduct;
+import com.sip.dmes.entitys.ScProccesProductOrder;
 import com.sip.dmes.entitys.ScProcessEmployee;
 import com.sip.dmes.entitys.ScProcessInput;
 import com.sip.dmes.entitys.ScProcessMachine;
 import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScProductFormulation;
+import com.sip.dmes.entitys.ScProductOrder;
 import com.sip.dmes.entitys.ScProductionState;
 import com.sip.dmes.utilities.DMESConstants;
 import com.sip.dmes.utilities.Utilities;
@@ -140,7 +141,7 @@ public class OtproductionScheduleBean
     {
         setOrderSave(new OtProductionOrder());
         getOrderSave().setIdProductionState(new ScProductionState(1L));
-        getOrderSave().setProductionsOrders(new ArrayList<OtProductionProduct>());
+        getOrderSave().setScProductOrderList(new ArrayList<ScProductOrder>());
         getOrderSave().setCreationDate(new Date());
         getOrderSave().setStartDate(new Date());
         setCurrentDate(new Date());       
@@ -244,7 +245,7 @@ public class OtproductionScheduleBean
             {
                 return event.getOldStep();
             }   
-            if (getOrderSave().getProductionsOrders() == null || getOrderSave().getProductionsOrders().isEmpty())
+            if (getOrderSave().getScProductOrderList() == null || getOrderSave().getScProductOrderList().isEmpty())
             {
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe seleccionar al menos un producto");
                 return event.getOldStep();
@@ -269,7 +270,7 @@ public class OtproductionScheduleBean
             {
                 return event.getOldStep();
             }   
-            if (getOrderUpdate().getProductionsOrders() == null || getOrderUpdate().getProductionsOrders().isEmpty())
+            if (getOrderUpdate().getScProductOrderList() == null || getOrderUpdate().getScProductOrderList().isEmpty())
             {
                 addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR, "Debe seleccionar al menos un producto");
                 return event.getOldStep();
@@ -410,19 +411,20 @@ public class OtproductionScheduleBean
         if(order != null)
         {
             calendar.setTime(order.getStartDate());
-            if(order.getProductionsOrders() != null && !order.getProductionsOrders().isEmpty())
+            if(order.getScProductOrderList() != null && !order.getScProductOrderList().isEmpty())
             {
-                for(OtProductionProduct productionProduct: order.getProductionsOrders())
+                for(ScProductOrder productOrder: order.getScProductOrderList())
                 {
-                    if(productionProduct != null && productionProduct.getIdProductFormulation() != null
-                            && productionProduct.getIdProductFormulation().getProcessProducts() != null
-                            && !productionProduct.getIdProductFormulation().getProcessProducts().isEmpty())
+                    if(productOrder != null
+                            && productOrder.getScProccesProductOrderList() != null
+                            && !productOrder.getScProccesProductOrderList().isEmpty())
                     {
-                        for(ScProcessProduct process: productionProduct.getIdProductFormulation().getProcessProducts())
+                        for(ScProccesProductOrder process: productOrder.getScProccesProductOrderList())
                         {
                             if(process != null)
                             {
-                                calendar.add(Calendar.MINUTE, (int) (process.getTotalTimeProcess()* productionProduct.getAmount()));
+                                calendar.add(Calendar.MINUTE, (int) (process.getTotalTimeProcess() 
+                                        * productOrder.getAmountRequired()));
                             }
                         }
                         
@@ -439,9 +441,8 @@ public class OtproductionScheduleBean
      * @param order orden a guardar
      * @author Gustavo Chavarro Ortiz
      */
-    public void addProductsToOrder(List<OtProductionProduct> list, OtProductionOrder order)
+    public void addProductsToOrder(List<ScProductOrder> list, OtProductionOrder order)
     {
-        OtProductionProduct productionProduct = new OtProductionProduct();
         //Validamos que el item no sea nulo
         if(!Utilities.isEmpty(getProductAdd()) && !Utilities.isEmpty(getAmount()+""))
         {
@@ -457,9 +458,9 @@ public class OtproductionScheduleBean
                         if(idProduct.equals(product.getIdProductFormulation()))
                         {
                             boolean exists = false;
-                            for(OtProductionProduct production: list)
+                            for(ScProductOrder productOrder: list)
                             {
-                                if(product.getIdProductFormulation().equals(production.getIdProductFormulation().getIdProductFormulation()))
+                                if(product.getIdProductFormulation().equals(productOrder.getIdProductFormulation()))
                                 {
                                     exists = true;
                                     break;
@@ -469,9 +470,26 @@ public class OtproductionScheduleBean
                             {
                                 if(getAmount() != null && getAmount() > 0)
                                 {
-                                    productionProduct.setAmount(getAmount());
-                                    productionProduct.setIdProductFormulation(product);
-                                    list.add(productionProduct);
+                                    ScProductOrder newProduct = new ScProductOrder();
+                                    newProduct.setIdProductFormulation(product.getIdProductFormulation());
+                                    newProduct.setAmountRequired(getAmount());
+                                    newProduct.setCreationDate(product.getCreationDate());
+                                    newProduct.setDescription(product.getDescription());
+                                    newProduct.setExpiryDate(product.getExpiryDate());
+                                    newProduct.setIdCostCenter(product.getCostCenter());
+                                    newProduct.setIdLocation(product.getLocation().getIdLocation());
+                                    newProduct.setIdMoney(product.getMoney());
+                                    newProduct.setIdOrder(order);
+                                    newProduct.setIdPacking(product.getPackingUnit());
+                                    newProduct.setIdPriority(product.getPriority());
+                                    newProduct.setIdProductDimension(product.getDimension());
+                                    newProduct.setManufacturingTime(product.getManufacturingTime());
+                                    newProduct.setMark(product.getMark());
+                                    newProduct.setPathPicture(product.getPathPicture());
+                                    newProduct.setSerie(product.getSerie());
+                                    newProduct.setTypeMaterial(product.getTypeMaterial());
+                                    newProduct.setValue(product.getValue());
+                                    list.add(newProduct);
                                     calculateEndDate(order);
                                     break;
                                 }
@@ -627,11 +645,11 @@ public class OtproductionScheduleBean
         {
             try
             {
-                if(getOrderSave().getProductionsOrders() != null && !getOrderSave().getProductionsOrders().isEmpty())
+                if(getOrderSave().getScProductOrderList() != null && !getOrderSave().getScProductOrderList().isEmpty())
                 {
-                    for(OtProductionProduct productionProduct: getOrderSave().getProductionsOrders())
+                    for(ScProductOrder productOrder: getOrderSave().getScProductOrderList())
                     {
-                        productionProduct.setIdProductionOrder(getOrderSave());
+                        productOrder.setIdOrder(getOrderSave());
                     }
                 }
                 getOtProductionServer().saveOrderProduction(getOrderSave());
@@ -713,11 +731,11 @@ public class OtproductionScheduleBean
             {
                 if(getOrderUpdate().getIdProductionState().getIdProductionState().equals(1L))
                 {
-                    if(getOrderUpdate().getProductionsOrders() != null && !getOrderUpdate().getProductionsOrders().isEmpty())
+                    if(getOrderUpdate().getScProductOrderList() != null && !getOrderUpdate().getScProductOrderList().isEmpty())
                     {
-                        for(OtProductionProduct productionProduct: getOrderUpdate().getProductionsOrders())
+                        for(ScProductOrder productOrder: getOrderUpdate().getScProductOrderList())
                         {
-                            productionProduct.setIdProductionOrder(getOrderUpdate());
+                            productOrder.setIdOrder(getOrderUpdate());
                         }
                     }
                     getOtProductionServer().updateOrderProduction(getOrderUpdate());
@@ -749,16 +767,16 @@ public class OtproductionScheduleBean
         double result = 0;
         if(order != null)
         {
-            if(order.getProductionsOrders() != null && !order.getProductionsOrders().isEmpty())
+            if(order.getScProductOrderList()!= null && !order.getScProductOrderList().isEmpty())
             {
-                for(OtProductionProduct productionProduct: order.getProductionsOrders())
+                for(ScProductOrder productOrder: order.getScProductOrderList())
                 {
-                    if(productionProduct != null && productionProduct.getIdProductFormulation() != null)
+                    if(productOrder != null)
                     {
-                        if(productionProduct.getIdProductFormulation().getProcessProducts() != null &&
-                                !productionProduct.getIdProductFormulation().getProcessProducts().isEmpty())
+                        if(productOrder.getScProccesProductOrderList() != null &&
+                                !productOrder.getScProccesProductOrderList().isEmpty())
                         {
-                            for(ScProcessProduct processProduct: productionProduct.getIdProductFormulation().getProcessProducts())
+                            for(ScProccesProductOrder processProduct: productOrder.getScProccesProductOrderList())
                             {
                                 result += processProduct.getTotalValueProcess();
                             }
@@ -781,16 +799,16 @@ public class OtproductionScheduleBean
         int result = 0;
         if(order != null)
         {
-            if(order.getProductionsOrders() != null && !order.getProductionsOrders().isEmpty())
+            if(order.getScProductOrderList() != null && !order.getScProductOrderList().isEmpty())
             {
-                for(OtProductionProduct productionProduct: order.getProductionsOrders())
+                for(ScProductOrder productOrder: order.getScProductOrderList())
                 {
-                    if(productionProduct != null && productionProduct.getIdProductFormulation() != null)
+                    if(productOrder != null)
                     {
-                        if(productionProduct.getIdProductFormulation().getProcessProducts() != null &&
-                                !productionProduct.getIdProductFormulation().getProcessProducts().isEmpty())
+                        if(productOrder.getScProccesProductOrderList() != null &&
+                                !productOrder.getScProccesProductOrderList().isEmpty())
                         {
-                            for(ScProcessProduct processProduct: productionProduct.getIdProductFormulation().getProcessProducts())
+                            for(ScProccesProductOrder processProduct: productOrder.getScProccesProductOrderList())
                             {
                                 result += processProduct.getTotalTimeProcess();
                             }
@@ -851,9 +869,9 @@ public class OtproductionScheduleBean
         int result = 0;
         if(order != null)
         {
-            if(order.getProductionsOrders() != null && !order.getProductionsOrders().isEmpty())
+            if(order.getScProductOrderList()!= null && !order.getScProductOrderList().isEmpty())
             {
-                result = order.getProductionsOrders().size();
+                result = order.getScProductOrderList().size();
             }
         }
         return result;

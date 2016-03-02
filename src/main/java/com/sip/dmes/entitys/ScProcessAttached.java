@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author guschaor
  */
 @Entity
-@Table(name = "sc_product_attached", schema = "dmes")
+@Table(name = "sc_process_attached", schema = "dmes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ScProcessAttached.findAll", query = "SELECT s FROM ScProcessAttached s"),
@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ScProcessAttached.findByTittle", query = "SELECT s FROM ScProcessAttached s WHERE s.tittle = :tittle"),
     @NamedQuery(name = "ScProcessAttached.findByType", query = "SELECT s FROM ScProcessAttached s WHERE s.type = :type ORDER BY s.tittle"),
     @NamedQuery(name = "ScProcessAttached.findByDescription", query = "SELECT s FROM ScProcessAttached s WHERE s.description = :description")})
+
 public class ScProcessAttached implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

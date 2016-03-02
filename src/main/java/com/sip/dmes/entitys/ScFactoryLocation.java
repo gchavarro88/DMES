@@ -6,18 +6,22 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,11 +39,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class ScFactoryLocation implements Serializable
 {
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscmachineattached")
     @SequenceGenerator(name = "dmes.sqscmachineattached", sequenceName = "dmes.sqscmachineattached", allocationSize = 1)
-    @Basic(optional = false)
+    @Basic(optional = false) 
     @NotNull
     @Column(name = "id_factory_location")
     private Long idFactoryLocation;
@@ -48,10 +53,13 @@ public class ScFactoryLocation implements Serializable
     @Size(min = 1, max = 200)
     @Column(name = "location")
     private String location;
+    
     @Size(max = 2000)
     @Column(name = "description")
     private String description;
 
+    @OneToMany(mappedBy = "factoryLocation", fetch = FetchType.EAGER)
+    private List<ScMachine> scMachineList;
     public ScFactoryLocation()
     {
     }
@@ -125,6 +133,17 @@ public class ScFactoryLocation implements Serializable
     public String toString()
     {
         return idFactoryLocation+","+location;
+    }
+
+    @XmlTransient
+    public List<ScMachine> getScMachineList()
+    {
+        return scMachineList;
+    }
+
+    public void setScMachineList(List<ScMachine> scMachineList)
+    {
+        this.scMachineList = scMachineList;
     }
     
 }

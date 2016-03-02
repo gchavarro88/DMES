@@ -6,6 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +52,7 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ScInput implements Serializable, Cloneable
 {
-
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscinput")
@@ -93,12 +94,15 @@ public class ScInput implements Serializable, Cloneable
     private Date creationDate;
     @Column(name = "description")
     private String description;
+    
     @Column(name = "total_amount_distribution")
-    private long totalAmountDistribution;
+    private Long totalAmountDistribution;
     @Column(name = "distribution_amount")
-    private long distributionAmount;
+    private Long distributionAmount;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "distribution_value")
-    private double distributionValue;
+    private Double distributionValue;
+    
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idInput", fetch = FetchType.EAGER)
     private List<ScInputEquivalence> scInputEquivalenceList;
@@ -395,25 +399,7 @@ public class ScInput implements Serializable, Cloneable
         this.money = money;
     }
 
-    public long getTotalAmountDistribution()
-    {
-        return totalAmountDistribution;
-    }
-
-    public void setTotalAmountDistribution(long totalAmountDistribution)
-    {
-        this.totalAmountDistribution = totalAmountDistribution;
-    }
-
-    public long getDistributionAmount()
-    {
-        return distributionAmount;
-    }
-
-    public void setDistributionAmount(long distributionAmount)
-    {
-        this.distributionAmount = distributionAmount;
-    }
+    
 
     public ScDistributionUnit getDistributionUnit()
     {
@@ -425,15 +411,37 @@ public class ScInput implements Serializable, Cloneable
         this.distributionUnit = distributionUnit;
     }
 
-    public double getDistributionValue()
+    public Long getTotalAmountDistribution()
+    {
+        return totalAmountDistribution;
+    }
+
+    public void setTotalAmountDistribution(Long totalAmountDistribution)
+    {
+        this.totalAmountDistribution = totalAmountDistribution;
+    }
+
+    public Long getDistributionAmount()
+    {
+        return distributionAmount;
+    }
+
+    public void setDistributionAmount(Long distributionAmount)
+    {
+        this.distributionAmount = distributionAmount;
+    }
+
+    public Double getDistributionValue()
     {
         return distributionValue;
     }
 
-    public void setDistributionValue(double distributionValue)
+    public void setDistributionValue(Double distributionValue)
     {
         this.distributionValue = distributionValue;
     }
+    
+    
 
     @Override
     public int hashCode()
@@ -476,5 +484,7 @@ public class ScInput implements Serializable, Cloneable
     {
         return idInput.toString()+","+description;
     }
+
+    
 
 }

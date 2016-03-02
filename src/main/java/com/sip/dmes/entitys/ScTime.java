@@ -45,6 +45,7 @@ public class ScTime implements Serializable, Cloneable
 {
     
     
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -56,9 +57,10 @@ public class ScTime implements Serializable, Cloneable
     @Size(min = 1, max = 100)
     @Column(name = "acronym")
     private String acronym;
+    
     @Column(name = "minutes")
     private Integer minutes;
-
+    
     public ScTime()
     {
     }
@@ -148,6 +150,8 @@ public class ScTime implements Serializable, Cloneable
     {
         this.minutes = minutes;
     }
+
+    
 
     
 }

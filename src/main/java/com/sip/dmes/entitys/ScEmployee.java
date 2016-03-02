@@ -6,6 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -52,6 +54,9 @@ import javax.validation.constraints.Size;
 })
 public class ScEmployee implements Serializable, Cloneable
 {
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscemployee")
@@ -78,15 +83,16 @@ public class ScEmployee implements Serializable, Cloneable
     @Column(name = "retirement_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date retirementDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
-    private Character active;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "salary")
     private Double salary;
     @Column(name = "hour_value")
     private Double hourValue;
+//    @Column(name = "id_turn")
+//    private Long idTurn;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "active")
+    private Character active;
     @Basic(optional = false)
     @NotNull
     @Column(name = "creation_date")
@@ -175,16 +181,6 @@ public class ScEmployee implements Serializable, Cloneable
         this.retirementDate = retirementDate;
     }
 
-    public Character getActive()
-    {
-        return active;
-    }
-
-    public void setActive(Character active)
-    {
-        this.active = active;
-    }
-
     public Double getSalary()
     {
         return salary;
@@ -203,6 +199,16 @@ public class ScEmployee implements Serializable, Cloneable
     public void setHourValue(Double hourValue)
     {
         this.hourValue = hourValue;
+    }
+
+    public Character getActive()
+    {
+        return active;
+    }
+
+    public void setActive(Character active)
+    {
+        this.active = active;
     }
 
     public Date getCreationDate()
@@ -235,6 +241,16 @@ public class ScEmployee implements Serializable, Cloneable
         this.idPerson = idPerson;
     }
 
+    public ScTurn getIdTurn()
+    {
+        return idTurn;
+    }
+
+    public void setIdTurn(ScTurn idTurn)
+    {
+        this.idTurn = idTurn;
+    }
+
     public List<ScWorkExperience> getScWorkExperienceList()
     {
         return scWorkExperienceList;
@@ -255,52 +271,10 @@ public class ScEmployee implements Serializable, Cloneable
         this.scCompetenciesList = scCompetenciesList;
     }
 
-    public String getNameEmployee()
-    {
-        return this.idPerson.getFirstName()+" "+this.idPerson.getLastName();
-    }
-    
-    @Override
-    public int hashCode()
-    {
-        int hash = 0;
-        hash += (idEmployee != null ? idEmployee.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object)
-    {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ScEmployee))
-        {
-            return false;
-        }
-        ScEmployee other = (ScEmployee) object;
-        return !((this.idEmployee == null && other.idEmployee != null) || (this.idEmployee != null && !this.idEmployee.equals(other.idEmployee)));
-    }
-
-    @Override
-    public String toString()
-    {
-        return idEmployee.toString()+","+position;
-    }
-    
-    @Override
+   @Override
     public Object clone() throws CloneNotSupportedException 
     {
         return super.clone();
     }
-
-    public ScTurn getIdTurn()
-    {
-        return idTurn;
-    }
-
-    public void setIdTurn(ScTurn idTurn)
-    {
-        this.idTurn = idTurn;
-    }
-    
     
 }

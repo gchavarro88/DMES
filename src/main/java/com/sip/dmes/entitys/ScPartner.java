@@ -49,6 +49,7 @@ public class ScPartner implements Serializable, Cloneable
 {
     
     
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -233,5 +234,4 @@ public class ScPartner implements Serializable, Cloneable
         return super.clone();
     }
 
-   
 }
