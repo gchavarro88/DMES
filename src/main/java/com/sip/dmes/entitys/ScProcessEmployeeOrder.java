@@ -59,9 +59,9 @@ public class ScProcessEmployeeOrder implements Serializable
     private long timeUse;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "other_expenses")
-    private BigDecimal otherExpenses;
+    private Double otherExpenses;
     @Column(name = "total_value_employee")
-    private BigDecimal totalValueEmployee;
+    private Double totalValueEmployee;
     @Size(max = 2000)
     @Column(name = "description_other_expenses")
     private String descriptionOtherExpenses;
@@ -117,22 +117,22 @@ public class ScProcessEmployeeOrder implements Serializable
         this.timeUse = timeUse;
     }
 
-    public BigDecimal getOtherExpenses()
+    public Double getOtherExpenses()
     {
         return otherExpenses;
     }
 
-    public void setOtherExpenses(BigDecimal otherExpenses)
+    public void setOtherExpenses(Double otherExpenses)
     {
         this.otherExpenses = otherExpenses;
     }
 
-    public BigDecimal getTotalValueEmployee()
+    public Double getTotalValueEmployee()
     {
         return totalValueEmployee;
     }
 
-    public void setTotalValueEmployee(BigDecimal totalValueEmployee)
+    public void setTotalValueEmployee(Double totalValueEmployee)
     {
         this.totalValueEmployee = totalValueEmployee;
     }

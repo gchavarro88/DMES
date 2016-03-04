@@ -10,8 +10,11 @@ import com.sip.dmes.dao.bo.IOtProduction;
 import com.sip.dmes.entitys.OtProductionOrder;
 import com.sip.dmes.entitys.ScProccesProductOrder;
 import com.sip.dmes.entitys.ScProcessEmployee;
+import com.sip.dmes.entitys.ScProcessEmployeeOrder;
 import com.sip.dmes.entitys.ScProcessInput;
+import com.sip.dmes.entitys.ScProcessInputOrder;
 import com.sip.dmes.entitys.ScProcessMachine;
+import com.sip.dmes.entitys.ScProcessMachineOrder;
 import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScProductOrder;
@@ -329,12 +332,20 @@ public class OtproductionBean
      * @param product formulación de producto seleccionada por el usuario
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectProcessByProduct(ScProductFormulation product)
+    public void selectProcessByProduct(ScProductOrder product)
     {
-        if(product != null)
+        if(product != null) 
         {
-            setListProcessProduct(product.getProcessProducts());
-            setProductFormulationSelected(product);
+            for(ScProductFormulation productFormulation: listProductFormulations)
+            {
+                if(productFormulation.getIdProductFormulation().equals(product.getIdProductFormulation()))
+                {
+                    setListProcessProduct(productFormulation.getProcessProducts());
+                    setProductFormulationSelected(productFormulation);
+                    break;
+                }
+            }
+            
         }
     }
     /**
@@ -485,7 +496,7 @@ public class OtproductionBean
                                 if(getAmount() != null && getAmount() > 0)
                                 {
                                     ScProductOrder newProduct = new ScProductOrder();
-                                    
+                                    newProduct = copyProductInOrder(newProduct, product, order, getAmount());
                                     list.add(newProduct);
                                     calculateEndDate(order);
                                     break;
@@ -527,11 +538,12 @@ public class OtproductionBean
      * @param newProduct 
      * @param product
      * @param order
+     * @param amountProcess
      * @return ScProductOrder
      * @author Gustavo Chavarro Ortiz
      */
     public ScProductOrder copyProductInOrder(ScProductOrder newProduct, ScProductFormulation product,
-            OtProductionOrder order)
+            OtProductionOrder order, Long amountProcess)
     {
         newProduct.setIdProductFormulation(product.getIdProductFormulation());
         newProduct.setAmountRequired(getAmount());
@@ -553,11 +565,69 @@ public class OtproductionBean
         newProduct.setValue(product.getValue());
         
         //Copiamos los procesos
-        List<ScProccesProductOrder> processProductOrder = new ArrayList<>();
+        List<ScProccesProductOrder> processProductOrderList = new ArrayList<>();
         for(ScProcessProduct processProduct: product.getProcessProducts())
         {
-            
+            ScProccesProductOrder proccesProductOrder = new ScProccesProductOrder();
+            List<ScProcessMachineOrder> processMachineOrderList = new ArrayList<>();
+            //Primero copiamos los procesos maquina
+            for(ScProcessMachine processMachine: processProduct.getProcessMachines())
+            {
+                ScProcessMachineOrder processMachineOrder = new ScProcessMachineOrder();
+                processMachineOrder.setDescriptionOtherExpenses(processMachine.getDescriptionOtherExpenses());
+                processMachineOrder.setIdMachine(processMachine.getMachine());
+                processMachineOrder.setIdProcessOrder(proccesProductOrder);
+                processMachineOrder.setOtherExpenses(processMachine.getOtherExpenses());
+                processMachineOrder.setTimeUse(processMachine.getTimeUse());
+                processMachineOrder.setTotalValueMachine(processMachine.getTotalValueMachine());
+                processMachineOrderList.add(processMachineOrder);
+            }
+            List<ScProcessInputOrder> processInputOrderList = new ArrayList<>();
+            //Segundo copiamos los procesos de insumo
+            for(ScProcessInput processInput: processProduct.getProcessInputs())
+            {
+                ScProcessInputOrder processInputOrder = new ScProcessInputOrder();
+                processInputOrder.setAmountDistribution(processInput.getAmountDistribution());
+                processInputOrder.setIdInput(processInput.getInput());
+                processInputOrder.setIdProcessOrder(proccesProductOrder);
+                processInputOrder.setPercentageResidue(processInput.getPercentageResidue());
+                processInputOrder.setTotalValueInput(processInput.getTotalValueInput());
+                processInputOrderList.add(processInputOrder);
+            }
+            List<ScProcessEmployeeOrder> processEmployeeOrderList = new ArrayList<>();
+            //Tercero copiamos los procesos de empleados
+            for(ScProcessEmployee processEmployee: processProduct.getProcessEmployees())
+            {
+                ScProcessEmployeeOrder processEmployeeOrder = new ScProcessEmployeeOrder();
+                processEmployeeOrder.setDescriptionOtherExpenses(processEmployee.getDescriptionOtherExpenses());
+                processEmployeeOrder.setIdEmployee(processEmployee.getEmployee());
+                processEmployeeOrder.setIdProcessOrder(proccesProductOrder);
+                processEmployeeOrder.setLaborDescription(processEmployee.getLaborDescription());
+                processEmployeeOrder.setOtherExpenses(processEmployee.getOtherExpenses());
+                processEmployeeOrder.setTimeUse(processEmployee.getTimeUse());
+                processEmployeeOrder.setTotalValueEmployee(processEmployee.getTotalValueEmployee());
+                processEmployeeOrderList.add(processEmployeeOrder);
+            }
+            //Copiamos las caracteristicas del proceso
+            proccesProductOrder.setAmountProduced(amountProcess);
+            proccesProductOrder.setDescription(processProduct.getDescription());
+            proccesProductOrder.setIdProcessState(new ScProductionState(1L));
+            proccesProductOrder.setIdProcessType(processProduct.getProcessType());
+            proccesProductOrder.setIdProductOrder(newProduct);
+            proccesProductOrder.setName(processProduct.getName());
+            proccesProductOrder.setScProcessEmployeeOrderList(processEmployeeOrderList);
+            proccesProductOrder.setScProcessInputOrderList(processInputOrderList);
+            proccesProductOrder.setScProcessMachineOrderList(processMachineOrderList);
+            proccesProductOrder.setTotalTimeEmployee(processProduct.getTotalTimeEmployee());
+            proccesProductOrder.setTotalTimeMachine(processProduct.getTotalTimeMachine());
+            proccesProductOrder.setTotalTimeProcess(processProduct.getTotalTimeProcess());
+            proccesProductOrder.setTotalValueEmployee(processProduct.getTotalValueEmployee());
+            proccesProductOrder.setTotalValueInput(processProduct.getTotalValueInput());
+            proccesProductOrder.setTotalValueMachine(processProduct.getTotalValueMachine());
+            proccesProductOrder.setTotalValueProcess(processProduct.getTotalValueProcess());
+            processProductOrderList.add(proccesProductOrder);
         }
+        newProduct.setScProccesProductOrderList(processProductOrderList);
         return newProduct;
     }
     

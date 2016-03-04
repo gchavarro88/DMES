@@ -404,13 +404,13 @@
                                                         <p:tooltip for="lblProduction" value="#{production.description}"/>
                                                     </center>
                                                 </p:column>
-                                                <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amount}"
+                                                <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amountRequired}"
                                                           width="100">    
                                                     <center>
-                                                        <p:spinner value="#{production.amount}" id="lblAmountProduction"  min="1" 
+                                                        <p:spinner value="#{production.amountRequired}" id="lblAmountProduction"  min="1" 
                                                                    size="8">
                                                             <p:ajax listener="#{OtproductionBean.calculateEndDate(OtproductionBean.orderUpdate)}" update=":formWizarProductionUpdate:tfEndHour" event="change"/>
-                                                            <p:tooltip for="lblAmountProduction" value="#{production.amount}"/>
+                                                            <p:tooltip for="lblAmountProduction" value="#{production.amountRequired}"/>
                                                         </p:spinner>
                                                     </center>
                                                 </p:column>
@@ -458,10 +458,10 @@
                                         </center>
                                     </p:column>
                                     <p:column id="columnAmountItem" headerText="Cantidad" 
-                                              sortBy="#{product.amount}">    
+                                              sortBy="#{product.amountRequired}">    
                                         <center>
-                                            <p:outputLabel value="#{product.amount}" id="lblAmountItem"/> 
-                                            <p:tooltip value="#{product.amount}" for="lblAmountItem"/>
+                                            <p:outputLabel value="#{product.amountRequired}" id="lblAmountItem"/> 
+                                            <p:tooltip value="#{product.amountRequired}" for="lblAmountItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnTimeItem" headerText="Tiempo de Fabricación C/U" 
@@ -645,10 +645,10 @@
                                                         <p:tooltip for="lblProduction" value="#{production.description}"/>
                                                     </center>
                                                 </p:column>
-                                                <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amount}"
+                                                <p:column id="columnAmountProduction" headerText="Cantidad" sortBy="#{production.amountRequired}"
                                                           width="100">    
                                                     <center>
-                                                        <p:outputLabel  value="#{production.amount}" id="lblAmountProduction"/>
+                                                        <p:outputLabel  value="#{production.amountRequired}" id="lblAmountProduction"/>
                                                     </center>
                                                 </p:column>
                                             </p:dataTable>
@@ -695,10 +695,10 @@
                                         </center>
                                     </p:column>
                                     <p:column id="columnAmountItem" headerText="Cantidad" 
-                                              sortBy="#{product.amount}">    
+                                              sortBy="#{product.amountRequired}">    
                                         <center>
-                                            <p:outputLabel value="#{product.amount}" id="lblAmountItem"/> 
-                                            <p:tooltip value="#{product.amount}" for="lblAmountItem"/>
+                                            <p:outputLabel value="#{product.amountRequired}" id="lblAmountItem"/> 
+                                            <p:tooltip value="#{product.amountRequired}" for="lblAmountItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnTimeItem" headerText="Tiempo de Fabricación C/U" 
@@ -711,8 +711,8 @@
                                     <p:column id="columnCostItem" headerText="Costo de Fabricación C/U" 
                                               sortBy="#{OtproductionBean.getCountCostProductByOrder(product)}">    
                                         <center>
-                                            <p:outputLabel value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idProductFormulation.money.acronym}" id="lblCostItem"/> 
-                                            <p:tooltip value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idProductFormulation.money.acronym}" for="lblCostItem"/>
+                                            <p:outputLabel value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idMoney.acronym}" id="lblCostItem"/> 
+                                            <p:tooltip value="#{OtproductionBean.getCountCostProductByOrder(product)} #{product.idMoney.acronym}" for="lblCostItem"/>
                                         </center>
                                     </p:column>
                                     <p:column id="columnAdmin" headerText="Admin">
@@ -909,19 +909,19 @@
                                 </tr>
                                 <tr>
                                     <td width="10%" align="right">
-                                        <p:outputLabel  for="tfProductPartner" value="Proveedor"/>
-                                    </td>
-                                    <td width="40%" align="left">
-                                        <p:outputLabel    id="tfProductPartner"  
-                                                          value="#{OtproductionBean.productFormulationSelected.supplierGuarantee.companyName}"
-                                                          />
-                                    </td>
-                                    <td width="10%" align="right">
                                         <p:outputLabel  for="tfCostCenterProduct" value="Centro de Costos"/>
                                     </td>
                                     <td width="40%" align="left">
                                         <p:outputLabel    id="tfCostCenterProduct"  
                                                           value="#{OtproductionBean.productFormulationSelected.costCenter.description}"
+                                                          />
+                                    </td>
+                                    <td width="10%" align="right">
+                                        <p:outputLabel  for="tfPriorityProduct" value="Prioridad"/>
+                                    </td>
+                                    <td width="40%" align="left">
+                                        <p:outputLabel    id="tfPriorityProduct"  
+                                                          value="#{OtproductionBean.productFormulationSelected.priority.name}"
                                                           />
                                     </td>
                                 </tr>
@@ -944,14 +944,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="10%" align="right">
-                                        <p:outputLabel  for="tfPriorityProduct" value="Prioridad"/>
-                                    </td>
-                                    <td width="40%" align="left">
-                                        <p:outputLabel    id="tfPriorityProduct"  
-                                                          value="#{OtproductionBean.productFormulationSelected.priority.name}"
-                                                          />
-                                    </td>
+                                    
                                     <td width="10%" align="right">
                                         <p:outputLabel  for="tfUnityPackProduct" value="Unidad de Empaque"/>
                                     </td>
@@ -960,6 +953,7 @@
                                                           value="#{OtproductionBean.productFormulationSelected.packingUnit.acronym}"
                                                           />
                                     </td>
+                                    <td colspan="2"></td>
                                 </tr>
                             </table>
                         </p:tab>

@@ -55,11 +55,11 @@ public class ScProcessInputOrder implements Serializable
     @Basic(optional = false)
     @NotNull
     @Column(name = "percentage_residue")
-    private BigDecimal percentageResidue;
+    private Double percentageResidue;
     @Basic(optional = false)
     @NotNull
     @Column(name = "total_value_input")
-    private BigDecimal totalValueInput;
+    private Double totalValueInput;
     @JoinColumn(name = "id_process_order", referencedColumnName = "id_process_product_order")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScProccesProductOrder idProcessOrder;
@@ -76,7 +76,7 @@ public class ScProcessInputOrder implements Serializable
         this.idProcessInputOrder = idProcessInputOrder;
     }
 
-    public ScProcessInputOrder(Long idProcessInputOrder, long amountDistribution, BigDecimal percentageResidue, BigDecimal totalValueInput)
+    public ScProcessInputOrder(Long idProcessInputOrder, long amountDistribution, Double percentageResidue, Double totalValueInput)
     {
         this.idProcessInputOrder = idProcessInputOrder;
         this.amountDistribution = amountDistribution;
@@ -104,22 +104,22 @@ public class ScProcessInputOrder implements Serializable
         this.amountDistribution = amountDistribution;
     }
 
-    public BigDecimal getPercentageResidue()
+    public Double getPercentageResidue()
     {
         return percentageResidue;
     }
 
-    public void setPercentageResidue(BigDecimal percentageResidue)
+    public void setPercentageResidue(Double percentageResidue)
     {
         this.percentageResidue = percentageResidue;
     }
 
-    public BigDecimal getTotalValueInput()
+    public Double getTotalValueInput()
     {
         return totalValueInput;
     }
 
-    public void setTotalValueInput(BigDecimal totalValueInput)
+    public void setTotalValueInput(Double totalValueInput)
     {
         this.totalValueInput = totalValueInput;
     }
