@@ -903,7 +903,7 @@
                                     </td>
                                     <td width="40%" align="left">
                                         <p:outputLabel    id="tfValueProduct"  
-                                                          value="#{OtproductionBean.productFormulationSelected.value} #{OtproductionBean.productFormulationSelected.money.description}"
+                                                          value="#{OtproductionBean.productFormulationSelected.value} #{OtproductionBean.productFormulationSelected.idMoney.description}"
                                                           />
                                     </td>
                                 </tr>
@@ -913,7 +913,7 @@
                                     </td>
                                     <td width="40%" align="left">
                                         <p:outputLabel    id="tfCostCenterProduct"  
-                                                          value="#{OtproductionBean.productFormulationSelected.costCenter.description}"
+                                                          value="#{OtproductionBean.productFormulationSelected.idCostCenter.description}"
                                                           />
                                     </td>
                                     <td width="10%" align="right">
@@ -921,7 +921,7 @@
                                     </td>
                                     <td width="40%" align="left">
                                         <p:outputLabel    id="tfPriorityProduct"  
-                                                          value="#{OtproductionBean.productFormulationSelected.priority.name}"
+                                                          value="#{OtproductionBean.productFormulationSelected.idPriority.name}"
                                                           />
                                     </td>
                                 </tr>
@@ -931,7 +931,7 @@
                                     </td>
                                     <td width="40%" align="left">
                                         <p:outputLabel    id="tfStoreProduct"  
-                                                          value="#{OtproductionBean.productFormulationSelected.location.store.name}"
+                                                          value="#{OtproductionBean.productFormulationSelected.idLocation.store.name}"
                                                           />
                                     </td>
                                     <td width="10%" align="right">
@@ -939,7 +939,7 @@
                                     </td>
                                     <td width="40%" align="left">
                                         <p:outputLabel    id="tfLocationProduct"  
-                                                          value="#{OtproductionBean.productFormulationSelected.location.location}"
+                                                          value="#{OtproductionBean.productFormulationSelected.idLocation.location}"
                                                           />
                                     </td>
                                 </tr>
@@ -950,7 +950,7 @@
                                     </td>
                                     <td width="40%" align="left">
                                         <p:outputLabel    id="tfUnityPackProduct"  
-                                                          value="#{OtproductionBean.productFormulationSelected.packingUnit.acronym}"
+                                                          value="#{OtproductionBean.productFormulationSelected.idPacking.acronym}"
                                                           />
                                     </td>
                                     <td colspan="2"></td>
@@ -1033,7 +1033,7 @@
                                             <p:outputLabel  value="Tipo de Proceso" />
                                         </td>
                                         <td width="20%" >
-                                            <p:outputLabel  value="#{OtproductionBean.processProductSelected.processType.type}" />
+                                            <p:outputLabel  value="#{OtproductionBean.processProductSelected.idProcessType.type}" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -1105,27 +1105,27 @@
 
                                 <p:dataTable id="dataTableMachines"
                                              var="machineProcess" 
-                                             value="#{OtproductionBean.processProductSelected.processMachines}"
-                                             rowKey="#{machineProcess.machine.name}"
+                                             value="#{OtproductionBean.processProductSelected.scProcessMachineOrderList}"
+                                             rowKey="#{machineProcess.idMachine.idMachine}"
                                              paginator="true" rows="10"  
                                              pageLinks="40"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                              paginatorPosition="top"
-                                             sortBy="#{machineProcess.machine.name}">
+                                             sortBy="#{machineProcess.idMachine.name}">
 
-                                    <p:column  headerText="Máquina" sortBy="#{machineProcess.machine.name}">
-                                        <p:outputLabel value="#{machineProcess.machine.name}" id="machineTable"/>
-                                        <p:tooltip value="#{machineProcess.machine.name}" for="machineTable"/>
+                                    <p:column  headerText="Máquina" sortBy="#{machineProcess.idMachine.name}">
+                                        <p:outputLabel value="#{machineProcess.idMachine.name}" id="machineTable"/>
+                                        <p:tooltip value="#{machineProcess.idMachine.name}" for="machineTable"/>
                                     </p:column>
-                                    <p:column  headerText="Marca" sortBy="#{machineProcess.machine.mark}">
-                                        <p:outputLabel value="#{machineProcess.machine.mark}" id="outMarkMachine"/>
-                                        <p:tooltip value="#{machineProcess.machine.mark}" for="outMarkMachine"/>
+                                    <p:column  headerText="Marca" sortBy="#{machineProcess.idMachine.mark}">
+                                        <p:outputLabel value="#{machineProcess.idMachine.mark}" id="outMarkMachine"/>
+                                        <p:tooltip value="#{machineProcess.idMachine.mark}" for="outMarkMachine"/>
                                     </p:column>
-                                    <p:column  headerText="Serie" sortBy="#{machineProcess.machine.serie}">
-                                        <p:outputLabel value="#{machineProcess.machine.serie}" id="outSerieMachine"/>
-                                        <p:tooltip value="#{machineProcess.machine.serie}" for="outSerieMachine"/>
+                                    <p:column  headerText="Serie" sortBy="#{machineProcess.idMachine.serie}">
+                                        <p:outputLabel value="#{machineProcess.idMachine.serie}" id="outSerieMachine"/>
+                                        <p:tooltip value="#{machineProcess.idMachine.serie}" for="outSerieMachine"/>
                                     </p:column>
                                     <p:column  headerText="Tiempo de Uso (min)" sortBy="#{machineProcess.timeUse}">
                                         <p:outputLabel value="#{machineProcess.timeUse}" id="outTimeUse"/>
@@ -1140,9 +1140,9 @@
                                         <p:tooltip value="#{machineProcess.descriptionOtherExpenses}" for="outDescriptionOtherExpenses"/>
                                     </p:column>
                                     
-                                    <p:column  headerText="Valor Total" sortBy="#{machineProcess.totalValueMachine} #{machineProcess.machine.idMoney.acronym}">
-                                        <p:outputLabel value="#{machineProcess.totalValueMachine} #{machineProcess.machine.idMoney.acronym}" id="totalValueMachine"/>
-                                        <p:tooltip value="#{machineProcess.totalValueMachine} #{machineProcess.machine.idMoney.acronym}" for="totalValueMachine"/>
+                                    <p:column  headerText="Valor Total" sortBy="#{machineProcess.totalValueMachine} #{machineProcess.idMachine.idMoney.acronym}">
+                                        <p:outputLabel value="#{machineProcess.totalValueMachine} #{machineProcess.idMachine.idMoney.acronym}" id="totalValueMachine"/>
+                                        <p:tooltip value="#{machineProcess.totalValueMachine} #{machineProcess.idMachine.idMoney.acronym}" for="totalValueMachine"/>
                                     </p:column>
                                 </p:dataTable>
                             </p:panel>
@@ -1154,28 +1154,28 @@
                             <p:panel header="Mano de Obra" >                                
                                 <p:dataTable id="dataTableEmployees"
                                              var="employeeProcess" 
-                                             value="#{OtproductionBean.processProductSelected.processEmployees}"
-                                             rowKey="#{employeeProcess.employee.position}"
+                                             value="#{OtproductionBean.processProductSelected.scProcessEmployeeOrderList}"
+                                             rowKey="#{employeeProcess.idEmployee.position}"
                                              paginator="true" rows="10"  
                                              pageLinks="40"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                              paginatorPosition="top"
-                                             sortBy="#{employeeProcess.employee.position}">
+                                             sortBy="#{employeeProcess.idEmployee.position}">
 
-                                    <p:column  headerText="Identificación" sortBy="#{employeeProcess.employee.idPerson.identification}">
-                                        <p:outputLabel value="#{employeeProcess.employee.idPerson.identification}" id="employeeIdentification"/>
-                                        <p:tooltip value="#{employeeProcess.employee.idPerson.identification}" for="employeeIdentification"/>
+                                    <p:column  headerText="Identificación" sortBy="#{employeeProcess.idEmployee.idPerson.identification}">
+                                        <p:outputLabel value="#{employeeProcess.idEmployee.idPerson.identification}" id="employeeIdentification"/>
+                                        <p:tooltip value="#{employeeProcess.idEmployee.idPerson.identification}" for="employeeIdentification"/>
                                     </p:column>
-                                    <p:column  headerText="Empleado" sortBy="#{employeeProcess.employee.position}">
-                                        <p:outputLabel value="#{employeeProcess.employee.position}" id="employeeTable"/>
-                                        <p:tooltip value="#{employeeProcess.employee.position}" for="employeeTable"/>
+                                    <p:column  headerText="Empleado" sortBy="#{employeeProcess.idEmployee.position}">
+                                        <p:outputLabel value="#{employeeProcess.idEmployee.position}" id="employeeTable"/>
+                                        <p:tooltip value="#{employeeProcess.idEmployee.position}" for="employeeTable"/>
                                     </p:column>
-                                    <p:column  headerText="Nombre" sortBy="#{employeeProcess.employee.idPerson.lastName} #{employeeProcess.employee.idPerson.firstName}">
-                                        <p:outputLabel value="#{employeeProcess.employee.idPerson.lastName} #{employeeProcess.employee.idPerson.firstName}" 
+                                    <p:column  headerText="Nombre" sortBy="#{employeeProcess.idEmployee.idPerson.lastName} #{employeeProcess.idEmployee.idPerson.firstName}">
+                                        <p:outputLabel value="#{employeeProcess.idEmployee.idPerson.lastName} #{employeeProcess.idEmployee.idPerson.firstName}" 
                                                        id="employeeName"/>
-                                        <p:tooltip value="#{employeeProcess.employee.idPerson.lastName} #{employeeProcess.employee.idPerson.firstName}" 
+                                        <p:tooltip value="#{employeeProcess.idEmployee.idPerson.lastName} #{employeeProcess.idEmployee.idPerson.firstName}" 
                                                    for="employeeName"/>
                                     </p:column>
                                     <p:column  headerText="Descripción Mano de Obra" sortBy="#{employeeProcess.laborDescription}">
@@ -1209,30 +1209,30 @@
 
                                 <p:dataTable id="dataTableInputs"
                                              var="inputProcess" 
-                                             value="#{OtproductionBean.processProductSelected.processInputs}"
-                                             rowKey="#{inputProcess.input.idInput}"
+                                             value="#{OtproductionBean.processProductSelected.scProcessInputOrderList}"
+                                             rowKey="#{inputProcess.idInput.idInput}"
                                              paginator="true" rows="10"  
                                              pageLinks="40"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
                                              {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                              liveResize="true" rowsPerPageTemplate="15,30,50"
                                              paginatorPosition="top"
-                                             sortBy="#{inputProcess.input.idInput}"> 
-                                    <p:column  headerText="Insumo" sortBy="#{inputProcess.input.description}">
-                                        <p:outputLabel value="#{inputProcess.input.description}" id="inputOut"/>
-                                        <p:tooltip value="#{inputProcess.input.description}" for="inputOut"/>
+                                             sortBy="#{inputProcess.idInput.idInput}"> 
+                                    <p:column  headerText="Insumo" sortBy="#{inputProcess.idInput.description}">
+                                        <p:outputLabel value="#{inputProcess.idInput.description}" id="inputOut"/>
+                                        <p:tooltip value="#{inputProcess.idInput.description}" for="inputOut"/>
                                     </p:column>
-                                    <p:column  headerText="Cantidad de Distribución" sortBy="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}">
-                                        <p:outputLabel value="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}" id="outAmountDistribution"/>
-                                        <p:tooltip value="#{inputProcess.amountDistribution} #{inputProcess.input.distributionUnit.acronym}" for="outAmountDistribution"/>
+                                    <p:column  headerText="Cantidad de Distribución" sortBy="#{inputProcess.amountDistribution} #{inputProcess.idInput.distributionUnit.acronym}">
+                                        <p:outputLabel value="#{inputProcess.amountDistribution} #{inputProcess.idInput.distributionUnit.acronym}" id="outAmountDistribution"/>
+                                        <p:tooltip value="#{inputProcess.amountDistribution} #{inputProcess.idInput.distributionUnit.acronym}" for="outAmountDistribution"/>
                                     </p:column>
                                     <p:column  headerText="% de Merma (Desperdicios)" sortBy="#{inputProcess.percentageResidue}">
                                         <p:outputLabel value="#{inputProcess.percentageResidue}" id="outPercentage"/>
                                         <p:tooltip value="#{inputProcess.percentageResidue}" for="outPercentage"/>
                                     </p:column>
-                                    <p:column  headerText="Valor Total" sortBy="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}">
-                                        <p:outputLabel value="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}" id="totalValueInput"/>
-                                        <p:tooltip value="#{inputProcess.totalValueInput} #{inputProcess.input.money.acronym}" for="totalValueInput"/>
+                                    <p:column  headerText="Valor Total" sortBy="#{inputProcess.totalValueInput} #{inputProcess.idInput.money.acronym}">
+                                        <p:outputLabel value="#{inputProcess.totalValueInput} #{inputProcess.idInput.money.acronym}" id="totalValueInput"/>
+                                        <p:tooltip value="#{inputProcess.totalValueInput} #{inputProcess.idInput.money.acronym}" for="totalValueInput"/>
                                     </p:column>
                                 </p:dataTable>
                             </p:panel>

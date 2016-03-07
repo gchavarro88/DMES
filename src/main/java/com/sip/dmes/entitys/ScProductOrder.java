@@ -99,10 +99,6 @@ public class ScProductOrder implements Serializable
     private long value;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id_location")
-    private long idLocation;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "manufacturing_time")
     private long manufacturingTime;
     @Basic(optional = false)
@@ -114,6 +110,11 @@ public class ScProductOrder implements Serializable
     private Long amountRequired;
     @Column(name = "amount_produced")
     private Long amountProduced;
+    
+    @JoinColumn(name = "id_location", referencedColumnName = "id_location")
+    @ManyToOne(optional = false)
+    private ScLocation idLocation;
+    
     @JoinColumn(name = "id_priority", referencedColumnName = "id_priority")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ScPriority idPriority;
@@ -144,7 +145,7 @@ public class ScProductOrder implements Serializable
         this.idProductOrder = idProductOrder;
     }
 
-    public ScProductOrder(Long idProductOrder, String typeMaterial, String mark, String serie, Date creationDate, long value, long idLocation, long manufacturingTime, String description)
+    public ScProductOrder(Long idProductOrder, String typeMaterial, String mark, String serie, Date creationDate, long value, ScLocation idLocation, long manufacturingTime, String description)
     {
         this.idProductOrder = idProductOrder;
         this.typeMaterial = typeMaterial;
@@ -240,12 +241,12 @@ public class ScProductOrder implements Serializable
         this.value = value;
     }
 
-    public long getIdLocation()
+    public ScLocation getIdLocation()
     {
         return idLocation;
     }
 
-    public void setIdLocation(long idLocation)
+    public void setIdLocation(ScLocation idLocation)
     {
         this.idLocation = idLocation;
     }

@@ -7,12 +7,14 @@ package com.sip.dmes.beans.production;
 
 import com.sip.dmes.beans.SessionBean;
 import com.sip.dmes.dao.bo.IOtProduction;
-import com.sip.dmes.entitys.OtMaintenanceSchedule;
 import com.sip.dmes.entitys.OtProductionOrder;
 import com.sip.dmes.entitys.ScProccesProductOrder;
 import com.sip.dmes.entitys.ScProcessEmployee;
+import com.sip.dmes.entitys.ScProcessEmployeeOrder;
 import com.sip.dmes.entitys.ScProcessInput;
+import com.sip.dmes.entitys.ScProcessInputOrder;
 import com.sip.dmes.entitys.ScProcessMachine;
+import com.sip.dmes.entitys.ScProcessMachineOrder;
 import com.sip.dmes.entitys.ScProcessProduct;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScProductOrder;
@@ -58,9 +60,11 @@ public class OtproductionScheduleBean
     private final String TAB_EMPLOYEES = "tabEmployees";
     private final String TAB_REPLACEMENTS = "tabReplacements";
     private final String TAB_TOOLS = "tabTools";
+    
+       
     private Date filterStarDate;
     private Date filterEndDate;
-    private Long filterOrderNumber;
+    private String filterOrderNumber;
     private ScProductionState filteState;
     private List<ScProductionState> listState;
     private List<OtProductionOrder> listProductionOrders;
@@ -76,15 +80,15 @@ public class OtproductionScheduleBean
     private String productAdd;
     private Long amount;
     private Date currentDate;
-    private ScProductFormulation productFormulationSelected;
-    private ScProcessProduct processProductSelected;
+    private ScProductOrder productFormulationSelected;
+    private ScProccesProductOrder processProductSelected;
     private ScProcessEmployee processEmployeeSelected;
     private ScProcessInput processInputSelected;
     private ScProcessMachine processMachineSelected;
-    private List<ScProcessProduct> listProcessProduct;
-    private List<ScProcessEmployee> listProcessEmployee;
-    private List<ScProcessInput> listProcessInput;
-    private List<ScProcessMachine> listProcessMachine;
+    private List<ScProccesProductOrder> listProcessProduct;
+    private List<ScProcessEmployeeOrder> listProcessEmployee;
+    private List<ScProcessInputOrder> listProcessInput;
+    private List<ScProcessMachineOrder> listProcessMachine;
 
     /**
      * Creates a new instance of OtmaintenanceCorrectiveBean
@@ -314,12 +318,16 @@ public class OtproductionScheduleBean
      * @param product formulación de producto seleccionada por el usuario
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectProcessByProduct(ScProductFormulation product)
+    public void selectProcessByProduct(ScProductOrder product)
     {
-        if(product != null)
+        if(product != null) 
         {
-            setListProcessProduct(product.getProcessProducts());
-            setProductFormulationSelected(product);
+            
+                if(product.getScProccesProductOrderList() != null)
+                {
+                    setListProcessProduct(product.getScProccesProductOrderList());
+                    setProductFormulationSelected(product);
+                }
         }
     }
     /**
@@ -327,13 +335,13 @@ public class OtproductionScheduleBean
      * @param process proceso de producto seleccionado por el usuario.
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectProcessByProcess(ScProcessProduct process)
+    public void selectProcessByProcess(ScProccesProductOrder process)
     {
         if(process != null)
         {
-            setListProcessEmployee(process.getProcessEmployees());
-            setListProcessInput(process.getProcessInputs());
-            setListProcessMachine(process.getProcessMachines());
+            setListProcessEmployee(process.getScProcessEmployeeOrderList());
+            setListProcessInput(process.getScProcessInputOrderList());
+            setListProcessMachine(process.getScProcessMachineOrderList());
             setProcessProductSelected(process);
         }
     }
@@ -446,7 +454,7 @@ public class OtproductionScheduleBean
         //Validamos que el item no sea nulo
         if(!Utilities.isEmpty(getProductAdd()) && !Utilities.isEmpty(getAmount()+""))
         {
-            //Validamos que exista una lista de items
+            //Validamos que exista una lista de items 
             if(list != null)
             {
                 String fields[] = getProductAdd().split("-"); //Separamos el id del item
@@ -471,24 +479,7 @@ public class OtproductionScheduleBean
                                 if(getAmount() != null && getAmount() > 0)
                                 {
                                     ScProductOrder newProduct = new ScProductOrder();
-                                    newProduct.setIdProductFormulation(product.getIdProductFormulation());
-                                    newProduct.setAmountRequired(getAmount());
-                                    newProduct.setCreationDate(product.getCreationDate());
-                                    newProduct.setDescription(product.getDescription());
-                                    newProduct.setExpiryDate(product.getExpiryDate());
-                                    newProduct.setIdCostCenter(product.getCostCenter());
-                                    newProduct.setIdLocation(product.getLocation().getIdLocation());
-                                    newProduct.setIdMoney(product.getMoney());
-                                    newProduct.setIdOrder(order);
-                                    newProduct.setIdPacking(product.getPackingUnit());
-                                    newProduct.setIdPriority(product.getPriority());
-                                    newProduct.setIdProductDimension(product.getDimension());
-                                    newProduct.setManufacturingTime(product.getManufacturingTime());
-                                    newProduct.setMark(product.getMark());
-                                    newProduct.setPathPicture(product.getPathPicture());
-                                    newProduct.setSerie(product.getSerie());
-                                    newProduct.setTypeMaterial(product.getTypeMaterial());
-                                    newProduct.setValue(product.getValue());
+                                    newProduct = copyProductInOrder(newProduct, product, order, getAmount());
                                     list.add(newProduct);
                                     calculateEndDate(order);
                                     break;
@@ -523,6 +514,104 @@ public class OtproductionScheduleBean
             log.error("Error producto no seleccionado");
             addError(null, DMESConstants.MESSAGE_TITTLE_ERROR_ADMINISTRATOR,"Debe seleccionar un producto");
         }
+    }
+    
+    /**
+     * Método encargado de copiar un producto en una orden.
+     * @param newProduct 
+     * @param product
+     * @param order
+     * @param amountProcess
+     * @return ScProductOrder
+     * @author Gustavo Chavarro Ortiz
+     */
+    public ScProductOrder copyProductInOrder(ScProductOrder newProduct, ScProductFormulation product,
+            OtProductionOrder order, Long amountProcess)
+    {
+        newProduct.setIdProductFormulation(product.getIdProductFormulation());
+        newProduct.setAmountRequired(getAmount());
+        newProduct.setCreationDate(product.getCreationDate());
+        newProduct.setDescription(product.getDescription());
+        newProduct.setExpiryDate(product.getExpiryDate());
+        newProduct.setIdCostCenter(product.getCostCenter());
+        newProduct.setIdLocation(product.getLocation());
+        newProduct.setIdMoney(product.getMoney());
+        newProduct.setIdOrder(order);
+        newProduct.setIdPacking(product.getPackingUnit());
+        newProduct.setIdPriority(product.getPriority());
+        newProduct.setIdProductDimension(product.getDimension());
+        newProduct.setManufacturingTime(product.getManufacturingTime());
+        newProduct.setMark(product.getMark());
+        newProduct.setPathPicture(product.getPathPicture());
+        newProduct.setSerie(product.getSerie());
+        newProduct.setTypeMaterial(product.getTypeMaterial());
+        newProduct.setValue(product.getValue());
+        
+        //Copiamos los procesos
+        List<ScProccesProductOrder> processProductOrderList = new ArrayList<>();
+        for(ScProcessProduct processProduct: product.getProcessProducts())
+        {
+            ScProccesProductOrder proccesProductOrder = new ScProccesProductOrder();
+            List<ScProcessMachineOrder> processMachineOrderList = new ArrayList<>();
+            //Primero copiamos los procesos maquina
+            for(ScProcessMachine processMachine: processProduct.getProcessMachines())
+            {
+                ScProcessMachineOrder processMachineOrder = new ScProcessMachineOrder();
+                processMachineOrder.setDescriptionOtherExpenses(processMachine.getDescriptionOtherExpenses());
+                processMachineOrder.setIdMachine(processMachine.getMachine());
+                processMachineOrder.setIdProcessOrder(proccesProductOrder);
+                processMachineOrder.setOtherExpenses(processMachine.getOtherExpenses());
+                processMachineOrder.setTimeUse(processMachine.getTimeUse());
+                processMachineOrder.setTotalValueMachine(processMachine.getTotalValueMachine());
+                processMachineOrderList.add(processMachineOrder);
+            }
+            List<ScProcessInputOrder> processInputOrderList = new ArrayList<>();
+            //Segundo copiamos los procesos de insumo
+            for(ScProcessInput processInput: processProduct.getProcessInputs())
+            {
+                ScProcessInputOrder processInputOrder = new ScProcessInputOrder();
+                processInputOrder.setAmountDistribution(processInput.getAmountDistribution());
+                processInputOrder.setIdInput(processInput.getInput());
+                processInputOrder.setIdProcessOrder(proccesProductOrder);
+                processInputOrder.setPercentageResidue(processInput.getPercentageResidue());
+                processInputOrder.setTotalValueInput(processInput.getTotalValueInput());
+                processInputOrderList.add(processInputOrder);
+            }
+            List<ScProcessEmployeeOrder> processEmployeeOrderList = new ArrayList<>();
+            //Tercero copiamos los procesos de empleados
+            for(ScProcessEmployee processEmployee: processProduct.getProcessEmployees())
+            {
+                ScProcessEmployeeOrder processEmployeeOrder = new ScProcessEmployeeOrder();
+                processEmployeeOrder.setDescriptionOtherExpenses(processEmployee.getDescriptionOtherExpenses());
+                processEmployeeOrder.setIdEmployee(processEmployee.getEmployee());
+                processEmployeeOrder.setIdProcessOrder(proccesProductOrder);
+                processEmployeeOrder.setLaborDescription(processEmployee.getLaborDescription());
+                processEmployeeOrder.setOtherExpenses(processEmployee.getOtherExpenses());
+                processEmployeeOrder.setTimeUse(processEmployee.getTimeUse());
+                processEmployeeOrder.setTotalValueEmployee(processEmployee.getTotalValueEmployee());
+                processEmployeeOrderList.add(processEmployeeOrder);
+            }
+            //Copiamos las caracteristicas del proceso
+            proccesProductOrder.setAmountProduced(amountProcess);
+            proccesProductOrder.setDescription(processProduct.getDescription());
+            proccesProductOrder.setIdProcessState(new ScProductionState(1L));
+            proccesProductOrder.setIdProcessType(processProduct.getProcessType());
+            proccesProductOrder.setIdProductOrder(newProduct);
+            proccesProductOrder.setName(processProduct.getName());
+            proccesProductOrder.setScProcessEmployeeOrderList(processEmployeeOrderList);
+            proccesProductOrder.setScProcessInputOrderList(processInputOrderList);
+            proccesProductOrder.setScProcessMachineOrderList(processMachineOrderList);
+            proccesProductOrder.setTotalTimeEmployee(processProduct.getTotalTimeEmployee());
+            proccesProductOrder.setTotalTimeMachine(processProduct.getTotalTimeMachine());
+            proccesProductOrder.setTotalTimeProcess(processProduct.getTotalTimeProcess());
+            proccesProductOrder.setTotalValueEmployee(processProduct.getTotalValueEmployee());
+            proccesProductOrder.setTotalValueInput(processProduct.getTotalValueInput());
+            proccesProductOrder.setTotalValueMachine(processProduct.getTotalValueMachine());
+            proccesProductOrder.setTotalValueProcess(processProduct.getTotalValueProcess());
+            processProductOrderList.add(proccesProductOrder);
+        }
+        newProduct.setScProccesProductOrderList(processProductOrderList);
+        return newProduct;
     }
     
     /**
@@ -1134,12 +1223,12 @@ public class OtproductionScheduleBean
         this.filterEndDate = filterEndDate;
     }
 
-    public Long getFilterOrderNumber()
+    public String getFilterOrderNumber()
     {
         return filterOrderNumber;
     }
 
-    public void setFilterOrderNumber(Long filterOrderNumber)
+    public void setFilterOrderNumber(String filterOrderNumber)
     {
         this.filterOrderNumber = filterOrderNumber;
     }
@@ -1294,22 +1383,22 @@ public class OtproductionScheduleBean
         this.currentDate = currentDate;
     }
 
-    public ScProductFormulation getProductFormulationSelected()
+    public ScProductOrder getProductFormulationSelected()
     {
         return productFormulationSelected;
     }
 
-    public void setProductFormulationSelected(ScProductFormulation productFormulationSelected)
+    public void setProductFormulationSelected(ScProductOrder productFormulationSelected)
     {
         this.productFormulationSelected = productFormulationSelected;
     }
 
-    public ScProcessProduct getProcessProductSelected()
+    public ScProccesProductOrder getProcessProductSelected()
     {
         return processProductSelected;
     }
 
-    public void setProcessProductSelected(ScProcessProduct processProductSelected)
+    public void setProcessProductSelected(ScProccesProductOrder processProductSelected)
     {
         this.processProductSelected = processProductSelected;
     }
@@ -1344,46 +1433,46 @@ public class OtproductionScheduleBean
         this.processMachineSelected = processMachineSelected;
     }
 
-    public List<ScProcessProduct> getListProcessProduct()
+    public List<ScProccesProductOrder> getListProcessProduct()
     {
         return listProcessProduct;
     }
 
-    public void setListProcessProduct(List<ScProcessProduct> listProcessProduct)
+    public void setListProcessProduct(List<ScProccesProductOrder> listProcessProduct)
     {
         this.listProcessProduct = listProcessProduct;
     }
 
-    public List<ScProcessEmployee> getListProcessEmployee()
+    public List<ScProcessEmployeeOrder> getListProcessEmployee()
     {
         return listProcessEmployee;
     }
 
-    public void setListProcessEmployee(List<ScProcessEmployee> listProcessEmployee)
+    public void setListProcessEmployee(List<ScProcessEmployeeOrder> listProcessEmployee)
     {
         this.listProcessEmployee = listProcessEmployee;
     }
 
-    public List<ScProcessInput> getListProcessInput()
+    public List<ScProcessInputOrder> getListProcessInput()
     {
         return listProcessInput;
     }
 
-    public void setListProcessInput(List<ScProcessInput> listProcessInput)
+    public void setListProcessInput(List<ScProcessInputOrder> listProcessInput)
     {
         this.listProcessInput = listProcessInput;
     }
 
-    public List<ScProcessMachine> getListProcessMachine()
+    public List<ScProcessMachineOrder> getListProcessMachine()
     {
         return listProcessMachine;
     }
 
-    public void setListProcessMachine(List<ScProcessMachine> listProcessMachine)
+    public void setListProcessMachine(List<ScProcessMachineOrder> listProcessMachine)
     {
         this.listProcessMachine = listProcessMachine;
     }
-    
+
     
     
     

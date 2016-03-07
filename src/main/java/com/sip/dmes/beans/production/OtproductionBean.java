@@ -71,15 +71,15 @@ public class OtproductionBean
     private String productAdd;
     private Long amount;
     private Date currentDate;
-    private ScProductFormulation productFormulationSelected;
-    private ScProcessProduct processProductSelected;
+    private ScProductOrder productFormulationSelected;
+    private ScProccesProductOrder processProductSelected;
     private ScProcessEmployee processEmployeeSelected;
     private ScProcessInput processInputSelected;
     private ScProcessMachine processMachineSelected;
-    private List<ScProcessProduct> listProcessProduct;
-    private List<ScProcessEmployee> listProcessEmployee;
-    private List<ScProcessInput> listProcessInput;
-    private List<ScProcessMachine> listProcessMachine;
+    private List<ScProccesProductOrder> listProcessProduct;
+    private List<ScProcessEmployeeOrder> listProcessEmployee;
+    private List<ScProcessInputOrder> listProcessInput;
+    private List<ScProcessMachineOrder> listProcessMachine;
     /**
      * Creates a new instance of OtmaintenanceCorrectiveBean
      */
@@ -336,16 +336,12 @@ public class OtproductionBean
     {
         if(product != null) 
         {
-            for(ScProductFormulation productFormulation: listProductFormulations)
-            {
-                if(productFormulation.getIdProductFormulation().equals(product.getIdProductFormulation()))
-                {
-                    setListProcessProduct(productFormulation.getProcessProducts());
-                    setProductFormulationSelected(productFormulation);
-                    break;
-                }
-            }
             
+                if(product.getScProccesProductOrderList() != null)
+                {
+                    setListProcessProduct(product.getScProccesProductOrderList());
+                    setProductFormulationSelected(product);
+                }
         }
     }
     /**
@@ -353,13 +349,13 @@ public class OtproductionBean
      * @param process proceso de producto seleccionado por el usuario.
      * @author Gustavo Chavarro Ortiz
      */
-    public void selectProcessByProcess(ScProcessProduct process)
+    public void selectProcessByProcess(ScProccesProductOrder process)
     {
         if(process != null)
         {
-            setListProcessEmployee(process.getProcessEmployees());
-            setListProcessInput(process.getProcessInputs());
-            setListProcessMachine(process.getProcessMachines());
+            setListProcessEmployee(process.getScProcessEmployeeOrderList());
+            setListProcessInput(process.getScProcessInputOrderList());
+            setListProcessMachine(process.getScProcessMachineOrderList());
             setProcessProductSelected(process);
         }
     }
@@ -551,7 +547,7 @@ public class OtproductionBean
         newProduct.setDescription(product.getDescription());
         newProduct.setExpiryDate(product.getExpiryDate());
         newProduct.setIdCostCenter(product.getCostCenter());
-        newProduct.setIdLocation(product.getLocation().getIdLocation());
+        newProduct.setIdLocation(product.getLocation());
         newProduct.setIdMoney(product.getMoney());
         newProduct.setIdOrder(order);
         newProduct.setIdPacking(product.getPackingUnit());
@@ -1313,62 +1309,62 @@ public class OtproductionBean
         this.currentDate = currentDate;
     }
 
-    public List<ScProcessProduct> getListProcessProduct()
+    public List<ScProccesProductOrder> getListProcessProduct()
     {
         return listProcessProduct;
     }
 
-    public void setListProcessProduct(List<ScProcessProduct> listProcessProduct)
+    public void setListProcessProduct(List<ScProccesProductOrder> listProcessProduct)
     {
         this.listProcessProduct = listProcessProduct;
     }
 
-    public List<ScProcessEmployee> getListProcessEmployee()
+    public List<ScProcessEmployeeOrder> getListProcessEmployee()
     {
         return listProcessEmployee;
     }
 
-    public void setListProcessEmployee(List<ScProcessEmployee> listProcessEmployee)
+    public void setListProcessEmployee(List<ScProcessEmployeeOrder> listProcessEmployee)
     {
         this.listProcessEmployee = listProcessEmployee;
     }
 
-    public List<ScProcessInput> getListProcessInput()
+    public List<ScProcessInputOrder> getListProcessInput()
     {
         return listProcessInput;
     }
 
-    public void setListProcessInput(List<ScProcessInput> listProcessInput)
+    public void setListProcessInput(List<ScProcessInputOrder> listProcessInput)
     {
         this.listProcessInput = listProcessInput;
     }
 
-    public List<ScProcessMachine> getListProcessMachine()
+    public List<ScProcessMachineOrder> getListProcessMachine()
     {
         return listProcessMachine;
     }
 
-    public void setListProcessMachine(List<ScProcessMachine> listProcessMachine)
+    public void setListProcessMachine(List<ScProcessMachineOrder> listProcessMachine)
     {
         this.listProcessMachine = listProcessMachine;
     }
 
-    public ScProductFormulation getProductFormulationSelected()
+    public ScProductOrder getProductFormulationSelected()
     {
         return productFormulationSelected;
     }
 
-    public void setProductFormulationSelected(ScProductFormulation productFormulationSelected)
+    public void setProductFormulationSelected(ScProductOrder productFormulationSelected)
     {
         this.productFormulationSelected = productFormulationSelected;
     }
 
-    public ScProcessProduct getProcessProductSelected()
+    public ScProccesProductOrder getProcessProductSelected()
     {
         return processProductSelected;
     }
 
-    public void setProcessProductSelected(ScProcessProduct processProductSelected)
+    public void setProcessProductSelected(ScProccesProductOrder processProductSelected)
     {
         this.processProductSelected = processProductSelected;
     }
