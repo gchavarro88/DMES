@@ -5,6 +5,7 @@
  */
 package com.sip.dmes.entitys;
 
+import com.sip.dmes.entitys.ScGroup;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -37,6 +38,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 public class ScNotification implements Serializable
 {
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_notification")
+    private Long idNotification;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(generator = "dmes.sqscnotification")
@@ -128,5 +134,15 @@ public class ScNotification implements Serializable
     {
         return "com.sip.dmes.entitys.ScNotification[ idStopMachine=" + idStopMachine + " ]";
     }
-    
+
+    public Long getIdNotification()
+    {
+        return idNotification;
+    }
+
+    public void setIdNotification(Long idNotification)
+    {
+        this.idNotification = idNotification;
+    }
+   
 }

@@ -780,6 +780,7 @@ public class OtproductionBean
                     }
                 }
                 getListProductionOrders().add(getOrderSave());
+                cleanValues();
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
