@@ -750,6 +750,7 @@ public class OtproductionScheduleBean
                         break;
                     }
                 }
+                cleanValues();
                 addInfo(null, DMESConstants.MESSAGE_TITTLE_SUCCES, DMESConstants.MESSAGE_SUCCES);
             }
             catch (Exception e)
@@ -915,12 +916,13 @@ public class OtproductionScheduleBean
      * @return double valor del producto
      * @author Gustavo Chavarro Ortiz
      */
-    public double getCountCostProductByOrder(ScProductFormulation product)
+    public double getCountCostProductByOrder(ScProductOrder product)
     {
         double result = 0;
-        if(product != null && product.getProcessProducts() != null && !product.getProcessProducts().isEmpty())
+        if(product != null && product.getScProccesProductOrderList()!= null && 
+                !product.getScProccesProductOrderList().isEmpty())
         {
-            for(ScProcessProduct processProduct: product.getProcessProducts())
+            for(ScProccesProductOrder processProduct: product.getScProccesProductOrderList())
             {
                 result += processProduct.getTotalValueProcess();
             }
@@ -934,12 +936,13 @@ public class OtproductionScheduleBean
      * @return int valor del producto
      * @author Gustavo Chavarro Ortiz
      */
-    public int getCountTimeProductByOrder(ScProductFormulation product)
+    public int getCountTimeProductByOrder(ScProductOrder product)
     {
         int result = 0;
-        if(product != null && product.getProcessProducts() != null && !product.getProcessProducts().isEmpty())
+        if(product != null && product.getScProccesProductOrderList()!= null &&
+                !product.getScProccesProductOrderList().isEmpty())
         {
-            for(ScProcessProduct processProduct: product.getProcessProducts())
+            for(ScProccesProductOrder processProduct: product.getScProccesProductOrderList())
             {
                 result += processProduct.getTotalTimeProcess();
             }
