@@ -6,6 +6,7 @@
 package com.sip.dmes.dao.bs;
 
 import com.sip.dmes.dao.bo.IOtProduction;
+import com.sip.dmes.entitys.OtLogProduction;
 import com.sip.dmes.entitys.OtProductionOrder;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScProductionState;
@@ -194,6 +195,22 @@ public class OtProductionDao implements IOtProduction
         {
             log.error("Error intenando consultar la orden de producción",e);
             throw e;
+        }
+        return result;
+    }
+
+    @Override
+    public List<OtLogProduction> getListLogProduction() throws Exception
+    {
+        List<OtLogProduction> result = null;
+        try
+        {
+            Query query = entityManager.createNamedQuery("OtLogProduction.findAll");
+            result = (List<OtLogProduction>) query.getResultList();
+        }
+        catch (Exception e)
+        {
+            log.error("Error intentando consultar la lista de logs de producción",e);
         }
         return result;
     }

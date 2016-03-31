@@ -5,6 +5,7 @@
  */
 package com.sip.dmes.dao.bo;
 
+import com.sip.dmes.entitys.OtLogProduction;
 import com.sip.dmes.entitys.OtProductionOrder;
 import com.sip.dmes.entitys.ScProductFormulation;
 import com.sip.dmes.entitys.ScProductionState;
@@ -31,5 +32,7 @@ public interface IOtProduction
     public void updateOrderProduction(OtProductionOrder productionOrder)throws Exception;
     
     public void deleteOrderProduction(OtProductionOrder productionOrder)throws Exception;
+    
+    public List<OtLogProduction> getListLogProduction()throws Exception;
     
 }

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>             <meta http-equiv="expires" content="0"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>
+        <title>.:FATCON:. - Logs de Producción</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        <script type="text/javascript">
+//            function start() {
+//                PF('statusDialog').show();
+//            }
+//
+//            function stop() {
+//                PF('statusDialog').hide();
+//            }
+            //window.setTimeout("correctiveInit()",1000);
+        </script>
+    </h:head>
+    <h:body style="background-color: #000;">
+<!--        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>-->
+        <div>
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+
+            <h:form>
+                <p:poll interval="2" listener="#{OtlogProductionBean.fillListProductionState()}" update="otDataTableProduction" />
+                <p:dataTable id="otDataTableProduction" draggableColumns="true" emptyMessage="No existe información para visualizar" 
+                             value="#{OtlogProductionBean.listLog}" var="log"
+                             paginator="true" rows="10"  
+                             pageLinks="40"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} 
+                             {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowKey="#{log.idLog}"
+                             resizableColumns="true" 
+                             liveResize="true" rowsPerPageTemplate="10,20,30" 
+                             selectionMode="single" paginatorPosition="top"
+                             sortBy="#{log.idLog}"
+                             >
+                    
+
+                    <p:column filterMatchMode="contains"  filterBy="#{log.idLog}" 
+                              id="columnIdLog" headerText="ID" sortBy="#{log.idLog}">    
+                        <center>
+                            <p:outputLabel value="#{log.idLog}" id="lblIdLog"/>
+                            <p:tooltip for="lblIdLog" value="#{log.idLog}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{log.idOrder}" 
+                              id="columnNroOrder" headerText="No Orden" sortBy="#{log.idOrder}">    
+                        <center>
+                            <p:outputLabel value="#{log.idOrder}" id="lblNroOrder"/>
+                            <p:tooltip for="lblNroOrder" value="#{log.idOrder}"/>
+                        </center>
+                    </p:column>
+                    
+                    <p:column filterMatchMode="contains"  filterBy="#{log.idProcessProduct}" 
+                              id="columnNroProcess" headerText="Fecha de Inicio" sortBy="#{log.idProcessProduct}">    
+                        <center>
+                            <p:outputLabel value="#{log.idProcessProduct}" id="lblNroProcess"/>
+                            <p:tooltip for="lblNroProcess" value="#{log.idProcessProduct}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{OtlogProductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', log.creationDate)}" 
+                              id="columnCreationDate" headerText="Fecha Creación" sortBy="#{OtlogProductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', log.creationDate)}">    
+                        <center>
+                            <p:outputLabel value="#{OtlogProductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', log.creationDate)}" id="lblCreationDate"/>
+                            <p:tooltip for="lblCreationDate" value="#{OtlogProductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', log.creationDate)}"/>
+                        </center>
+                    </p:column>
+                    
+                </p:dataTable>
+
+            </h:form>
+
+        </div>
+    </h:body>
+</html>
+
