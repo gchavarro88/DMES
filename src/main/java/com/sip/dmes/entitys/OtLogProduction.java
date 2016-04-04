@@ -7,27 +7,20 @@ package com.sip.dmes.entitys;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OtLogProduction.findIdProcessProduct", query = "SELECT o FROM OtLogProduction o WHERE o.idProcessProduct = :idProcessProduct"),
     @NamedQuery(name = "OtLogProduction.findByIdOrder", query = "SELECT o FROM OtLogProduction o WHERE o.idOrder = :idOrder")
 })
-public class OtLogProduction implements Serializable
+public class OtLogProduction implements Serializable, Comparable<OtLogProduction>
 {
     
     private static final long serialVersionUID = 1L;
@@ -60,11 +53,14 @@ public class OtLogProduction implements Serializable
     private Long idProcessProduct;
     @NotNull
     @Column(name = "id_order")
-    private String idOrder;
+    private Long idOrder;
     @NotNull
     @Column(name = "creation_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
+    @NotNull
+    @Column(name = "id_Machine")
+    private Long idMachine;
     
     public OtLogProduction()
     {
@@ -95,12 +91,12 @@ public class OtLogProduction implements Serializable
         this.idProcessProduct = idProcessProduct;
     }
 
-    public String getIdOrder()
+    public Long getIdOrder()
     {
         return idOrder;
     }
 
-    public void setIdOrder(String idOrder)
+    public void setIdOrder(Long idOrder)
     {
         this.idOrder = idOrder;
     }
@@ -115,6 +111,18 @@ public class OtLogProduction implements Serializable
         this.creationDate = creationDate;
     }
 
+    public Long getIdMachine()
+    {
+        return idMachine;
+    }
+
+    public void setIdMachine(Long idMachine)
+    {
+        this.idMachine = idMachine;
+    }
+
+    
+    
     @Override
     public int hashCode()
     {
@@ -148,5 +156,24 @@ public class OtLogProduction implements Serializable
         return "OtLogProduction{" + "idLog=" + idLog + ", idProcessProduct=" + idProcessProduct + ", idOrder=" + idOrder + ", creationDate=" + creationDate + '}';
     }
 
+    @Override
+    public int compareTo(OtLogProduction object)
+    {
+        int result = 2;
+        if(this.idLog < object.getIdLog())
+        {
+            result = 1;
+        }
+        else if(this.idLog > object.getIdLog())
+        {
+            result = -1;
+        }
+        else
+        {
+            result = 0;
+        }
+        return result;
+    }
+    
     
 }

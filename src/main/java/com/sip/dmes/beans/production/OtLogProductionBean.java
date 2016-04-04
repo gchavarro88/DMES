@@ -84,7 +84,17 @@ public class OtLogProductionBean
         
     }
     
-    
+    /**
+     * Metodo encargado de ordenar los registros de la tabla
+     * @author Gustavo Chavarro Ortiz
+     * @param object1 
+     * @param object2
+     * @return int
+     */
+    public int sortLogs(OtLogProduction object1, OtLogProduction object2)
+    {
+        return object1.compareTo(object2);
+    }
     
     /**
      * Método que se encarga de recibir un patrón y una fecha de tipo Date, y

@@ -40,19 +40,18 @@
                              resizableColumns="true" 
                              liveResize="true" rowsPerPageTemplate="10,20,30" 
                              selectionMode="single" paginatorPosition="top"
-                             sortBy="#{log.idLog}"
                              >
                     
 
-                    <p:column filterMatchMode="contains"  filterBy="#{log.idLog}" 
-                              id="columnIdLog" headerText="ID" sortBy="#{log.idLog}">    
+                    <p:column filterMatchMode="contains"  filterBy="#{log.idLog}" sortFunction="#{OtlogProductionBean.sortLogs}" 
+                              id="columnIdLog" headerText="ID">    
                         <center>
                             <p:outputLabel value="#{log.idLog}" id="lblIdLog"/>
                             <p:tooltip for="lblIdLog" value="#{log.idLog}"/>
                         </center>
                     </p:column>
                     <p:column filterMatchMode="contains"  filterBy="#{log.idOrder}" 
-                              id="columnNroOrder" headerText="No Orden" sortBy="#{log.idOrder}">    
+                              id="columnNroOrder" headerText="No Orden" >    
                         <center>
                             <p:outputLabel value="#{log.idOrder}" id="lblNroOrder"/>
                             <p:tooltip for="lblNroOrder" value="#{log.idOrder}"/>
@@ -60,17 +59,24 @@
                     </p:column>
                     
                     <p:column filterMatchMode="contains"  filterBy="#{log.idProcessProduct}" 
-                              id="columnNroProcess" headerText="Fecha de Inicio" sortBy="#{log.idProcessProduct}">    
+                              id="columnNroProcess" headerText="No Proceso" >    
                         <center>
                             <p:outputLabel value="#{log.idProcessProduct}" id="lblNroProcess"/>
                             <p:tooltip for="lblNroProcess" value="#{log.idProcessProduct}"/>
                         </center>
                     </p:column>
                     <p:column filterMatchMode="contains"  filterBy="#{OtlogProductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', log.creationDate)}" 
-                              id="columnCreationDate" headerText="Fecha Creación" sortBy="#{OtlogProductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', log.creationDate)}">    
+                              id="columnCreationDate" headerText="Fecha Creación" >    
                         <center>
                             <p:outputLabel value="#{OtlogProductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', log.creationDate)}" id="lblCreationDate"/>
                             <p:tooltip for="lblCreationDate" value="#{OtlogProductionBean.getFormatDateGlobal('dd-MM-yyyy HH:mm:ss', log.creationDate)}"/>
+                        </center>
+                    </p:column>
+                    <p:column filterMatchMode="contains"  filterBy="#{log.idMachine}" 
+                              id="columnIdMachine" headerText="Fecha Creación" >    
+                        <center>
+                            <p:outputLabel value="#{log.idMachine}" id="lblIdMachine"/>
+                            <p:tooltip for="lblIdMachine" value="#{log.idMachine}"/>
                         </center>
                     </p:column>
                     
