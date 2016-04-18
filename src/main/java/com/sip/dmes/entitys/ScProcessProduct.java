@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 {
     @NamedQuery(name = "ScProcessProduct.findAll", query = "SELECT s FROM ScProcessProduct s ORDER BY s.name"),
     @NamedQuery(name = "ScProcessProduct.findById", query = "SELECT s FROM ScProcessProduct s WHERE s.idProcessProduct = :idProcessProduct ORDER BY s.name"),
-    @NamedQuery(name = "ScProcessProduct.findByProductFormulation", query = "SELECT s FROM ScProcessProduct s WHERE s.productFormulation = :productFormulation")
+    @NamedQuery(name = "ScProcessProduct.findByProductFormulation", query = "SELECT s FROM ScProcessProduct s WHERE s.productFormulation = :productFormulation"),
+        @NamedQuery(name = "ScProcessProduct.findByProductFormulationID", query = "SELECT s FROM ScProcessProduct s WHERE s.productFormulation.idProductFormulation = :idProductFormulation")
     
 })
 public class ScProcessProduct implements Serializable, Cloneable

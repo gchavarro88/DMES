@@ -271,6 +271,11 @@ public class ScEmployee implements Serializable, Cloneable
         this.scCompetenciesList = scCompetenciesList;
     }
 
+    public String getNameEmployee()
+    {
+        return this.idPerson.getFirstName()+" "+this.idPerson.getLastName();
+    }
+    
    @Override
     public Object clone() throws CloneNotSupportedException 
     {

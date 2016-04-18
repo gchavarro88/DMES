@@ -103,8 +103,8 @@ public class ScProductFormulationDao implements IScProductFormulation
         try
         {
             List<ScProcessProduct> result = null;
-            Query query = entityManager.createNamedQuery("ScProcessProduct.findByProductFormulation");
-            query.setParameter("productFormulation", productFormulation);
+            Query query = entityManager.createNamedQuery("ScProcessProduct.findByProductFormulationID");
+            query.setParameter("idProductFormulation", productFormulation.getIdProductFormulation());
             result = (List<ScProcessProduct>) query.getResultList();
             if(result != null && !result.isEmpty())
             {
@@ -113,6 +113,12 @@ public class ScProductFormulationDao implements IScProductFormulation
                     entityManager.remove(entityManager.contains(processProduct) ? processProduct : entityManager.merge(processProduct));
                 }
             }
+                entityManager.flush(); 
+            for(ScProcessProduct processProduct: productFormulation.getProcessProducts())
+            {
+                entityManager.merge(processProduct);
+            }
+            entityManager.flush(); 
             entityManager.merge(productFormulation);
             entityManager.merge(productFormulation.getStock());
             entityManager.merge(productFormulation.getDimension());
