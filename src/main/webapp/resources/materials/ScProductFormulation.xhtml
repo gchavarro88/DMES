@@ -227,7 +227,7 @@
                                                                          height="140">
                                                             <f:selectItem itemLabel="..." />
                                                             <p:ajax event="change" update="tfTimeUseEmployee,tfOtherExpensesEmployee,tfDescriptionOtherExpensesEmployee"/>
-                                                            <f:selectItems value="#{scProductFormulationBean.employeesList}" var="employee" itemLabel="#{employee.position}"/>
+                                                            <f:selectItems value="#{scProductFormulationBean.employeesList}" var="employee" itemLabel="#{employee.position} #{employee.nameEmployee} "/>
                                                         </p:selectOneMenu>
                                                     </td>
                                                 </tr>

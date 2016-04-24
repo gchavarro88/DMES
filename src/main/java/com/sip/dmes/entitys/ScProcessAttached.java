@@ -6,6 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -127,6 +128,69 @@ public class ScProcessAttached implements Serializable {
     public void setProcessProduct(ScProcessProduct processProduct)
     {
         this.processProduct = processProduct;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.idProcessAttached);
+        hash = 97 * hash + Objects.hashCode(this.type);
+        hash = 97 * hash + Objects.hashCode(this.tittle);
+        hash = 97 * hash + Objects.hashCode(this.description);
+        hash = 97 * hash + Objects.hashCode(this.processProduct);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ScProcessAttached other = (ScProcessAttached) obj;
+        if (!Objects.equals(this.idProcessAttached, other.idProcessAttached))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.tittle, other.tittle))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.processProduct, other.processProduct))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public Long getIdProcessAttached()
+    {
+        return idProcessAttached;
+    }
+
+    public void setIdProcessAttached(Long idProcessAttached)
+    {
+        this.idProcessAttached = idProcessAttached;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ScProcessAttached{" + "idProcessAttached=" + idProcessAttached + ", type=" + type + ", tittle=" + tittle + ", description=" + description + ", processProduct=" + processProduct + '}';
     }
 
 

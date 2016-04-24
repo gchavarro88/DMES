@@ -36,7 +36,8 @@ public class EmployeeConverter implements Converter{
     {
         ScEmployee employee = null;
         if(value.length()>0)
-        {   String fields[] = value.split(",");
+        {   
+            String fields[] = value.split(",");
             FacesMessage msg = new FacesMessage("Error al convertir el empleado", "Formato no válido");
             employee = new ScEmployee(Long.parseLong(fields[0]));
             employee.setPosition(fields[1]);

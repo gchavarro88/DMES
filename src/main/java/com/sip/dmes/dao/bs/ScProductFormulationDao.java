@@ -77,8 +77,6 @@ public class ScProductFormulationDao implements IScProductFormulation
         }
     }
 
-    
-
     @Override
     @Transactional
     public void deleteProductFormulation(ScProductFormulation productFormulation) throws Exception
@@ -102,29 +100,23 @@ public class ScProductFormulationDao implements IScProductFormulation
     {
         try
         {
-            List<ScProcessProduct> result = null;
-            Query query = entityManager.createNamedQuery("ScProcessProduct.findByProductFormulationID");
-            query.setParameter("idProductFormulation", productFormulation.getIdProductFormulation());
-            result = (List<ScProcessProduct>) query.getResultList();
-            if(result != null && !result.isEmpty())
-            {
-                for(ScProcessProduct processProduct: result)
-                {
-                    entityManager.remove(entityManager.contains(processProduct) ? processProduct : entityManager.merge(processProduct));
-                }
-            }
-                entityManager.flush(); 
-            for(ScProcessProduct processProduct: productFormulation.getProcessProducts())
-            {
-                entityManager.merge(processProduct);
-            }
-            entityManager.flush(); 
+//            List<ScProcessProduct> result = null;
+//            Query query = entityManager.createNamedQuery("ScProcessProduct.findByProductFormulationID");
+//            query.setParameter("idProductFormulation", productFormulation.getIdProductFormulation());
+//            result = (List<ScProcessProduct>) query.getResultList();
+//            if(result != null && !result.isEmpty())
+//            {
+//                for(ScProcessProduct processProduct: result)
+//                {
+//                    entityManager.remove(entityManager.contains(processProduct) ? processProduct : entityManager.merge(processProduct));
+//                }
+//            } 
             entityManager.merge(productFormulation);
             entityManager.merge(productFormulation.getStock());
             entityManager.merge(productFormulation.getDimension());
             entityManager.flush();
         }
-        catch (Exception e)
+        catch (Exception e) 
         {
             log.error("Error al intentar hacer la persistencia de los productos", e);
         }

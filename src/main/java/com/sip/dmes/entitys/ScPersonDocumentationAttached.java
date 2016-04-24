@@ -7,6 +7,7 @@ package com.sip.dmes.entitys;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -128,6 +129,43 @@ public class ScPersonDocumentationAttached implements Serializable
     public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.idPersonDocumentationAttached);
+        hash = 19 * hash + Objects.hashCode(this.tittle);
+        hash = 19 * hash + Objects.hashCode(this.path);
+        hash = 19 * hash + Objects.hashCode(this.creationDate);
+        hash = 19 * hash + Objects.hashCode(this.idPerson);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ScPersonDocumentationAttached other = (ScPersonDocumentationAttached) obj;
+        if (!Objects.equals(this.idPersonDocumentationAttached, other.idPersonDocumentationAttached))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ScPersonDocumentationAttached{" + "idPersonDocumentationAttached=" + idPersonDocumentationAttached + ", tittle=" + tittle + ", path=" + path + ", creationDate=" + creationDate + ", idPerson=" + idPerson + '}';
     }
 
 

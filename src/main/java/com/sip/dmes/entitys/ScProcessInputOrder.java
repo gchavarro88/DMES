@@ -6,7 +6,6 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;

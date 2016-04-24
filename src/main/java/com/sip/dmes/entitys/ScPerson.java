@@ -391,5 +391,11 @@ public class ScPerson implements Serializable
         this.identification = identification;
     }
 
+    @Override
+    public String toString()
+    {
+        return "ScPerson{" + "idPerson=" + idPerson + ", firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", country=" + country + ", city=" + city + ", personalInformation=" + personalInformation + ", domicilie=" + domicilie + ", studies=" + studies + ", description=" + description + ", pathPhoto=" + pathPhoto + ", creationDate=" + creationDate + ", modifyDate=" + modifyDate + ", identification=" + identification + ", scPersonObservationsList=" + scPersonObservationsList + ", scDocumentsList=" + scDocumentsList + ", scMailsList=" + scMailsList + ", scPhonesList=" + scPhonesList + ", scPersonSpecificationsList=" + scPersonSpecificationsList + ", scUsersList=" + scUsersList + '}';
+    }
+
     
 }

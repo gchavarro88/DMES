@@ -95,7 +95,7 @@ public class ScProductFormulation implements Serializable, Cloneable
     
     @Column(name = "description")
     private String description;
-    
+     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productFormulation", fetch = FetchType.EAGER)
     private List<ScProcessProduct> processProducts;
     
@@ -399,4 +399,5 @@ public class ScProductFormulation implements Serializable, Cloneable
         return super.clone();
     }
 
+    
 }

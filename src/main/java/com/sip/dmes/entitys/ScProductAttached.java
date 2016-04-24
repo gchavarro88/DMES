@@ -6,6 +6,7 @@
 package com.sip.dmes.entitys;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -125,6 +126,59 @@ public class ScProductAttached implements Serializable {
     public void setProductFormulation(ScProductFormulation productFormulation)
     {
         this.productFormulation = productFormulation;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 5;
+        hash = 79 * hash + Objects.hashCode(this.idProductAttached);
+        hash = 79 * hash + Objects.hashCode(this.type);
+        hash = 79 * hash + Objects.hashCode(this.tittle);
+        hash = 79 * hash + Objects.hashCode(this.description);
+        hash = 79 * hash + Objects.hashCode(this.productFormulation);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ScProductAttached other = (ScProductAttached) obj;
+        if (!Objects.equals(this.idProductAttached, other.idProductAttached))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.tittle, other.tittle))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.productFormulation, other.productFormulation))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ScProductAttached{" + "idProductAttached=" + idProductAttached + ", type=" + type + ", tittle=" + tittle + ", description=" + description + ", productFormulation=" + productFormulation + '}';
     }
 
     

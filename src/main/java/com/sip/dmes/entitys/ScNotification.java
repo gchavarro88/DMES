@@ -5,7 +5,6 @@
  */
 package com.sip.dmes.entitys;
 
-import com.sip.dmes.entitys.ScGroup;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;

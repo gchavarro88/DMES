@@ -7,6 +7,7 @@ package com.sip.dmes.entitys;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -174,6 +175,74 @@ public class ScServicesOrProducts implements Serializable
     public void setIdPartner(ScPartner idPartner)
     {
         this.idPartner = idPartner;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.idServiceOrProducts);
+        hash = 97 * hash + Objects.hashCode(this.nameServiceOrProduct);
+        hash = 97 * hash + Objects.hashCode(this.cost);
+        hash = 97 * hash + Objects.hashCode(this.guarantee);
+        hash = 97 * hash + Objects.hashCode(this.description);
+        hash = 97 * hash + (int) (this.amount ^ (this.amount >>> 32));
+        hash = 97 * hash + Objects.hashCode(this.type);
+        hash = 97 * hash + Objects.hashCode(this.idPartner);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final ScServicesOrProducts other = (ScServicesOrProducts) obj;
+        if (!Objects.equals(this.idServiceOrProducts, other.idServiceOrProducts))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.nameServiceOrProduct, other.nameServiceOrProduct))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.cost, other.cost))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.guarantee, other.guarantee))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description))
+        {
+            return false;
+        }
+        if (this.amount != other.amount)
+        {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.idPartner, other.idPartner))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ScServicesOrProducts{" + "idServiceOrProducts=" + idServiceOrProducts + ", nameServiceOrProduct=" + nameServiceOrProduct + ", cost=" + cost + ", guarantee=" + guarantee + ", description=" + description + ", amount=" + amount + ", type=" + type + ", idPartner=" + idPartner + '}';
     }
 
     
