@@ -147,21 +147,13 @@
                                         </td> 
                                         
                                         <td width="90%" align="left" colspan="3" >
-                                            <p:spinner id="minutes" value="#{OtmaintenanceCorrectiveBean.minutes}" min="0" max="59"
+                                            <p:spinner id="months" value="#{OtmaintenanceCorrectiveBean.months}"  min="0" max="12"
                                                        maxlength="2" size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                            <p:ajax event="change" update="tfEndHour" process="@form"
                                                         listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
-                                            <p:outputLabel   value="Minutos"/>
-                                            <p:spacer width="20"/>
-                                            <p:spinner id="hours" value="#{OtmaintenanceCorrectiveBean.hours}"  min="0" max="23"
-                                                       maxlength="2" size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
-                                            </p:spinner>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel   value="Horas"/>
+                                            <p:outputLabel   value="Meses"/>
                                             <p:spacer width="20"/>
                                             <p:spinner id="days" value="#{OtmaintenanceCorrectiveBean.days}" min="0" max="30"
                                                        maxlength="2" size="2">
@@ -171,13 +163,21 @@
                                             <p:spacer width="5"/>
                                             <p:outputLabel   value="Días"/>
                                             <p:spacer width="20"/>
-                                            <p:spinner id="months" value="#{OtmaintenanceCorrectiveBean.months}"  min="0" max="12"
+                                            <p:spinner id="hours" value="#{OtmaintenanceCorrectiveBean.hours}"  min="0" max="23"
                                                        maxlength="2" size="2">
-                                            <p:ajax event="change" update="tfEndHour" process="@form"
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
                                                         listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
-                                            <p:outputLabel   value="Meses"/>
+                                            <p:outputLabel   value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner id="minutes" value="#{OtmaintenanceCorrectiveBean.minutes}" min="0" max="59"
+                                                       maxlength="2" size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderSave, 0)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Minutos"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -809,21 +809,13 @@
                                         </td> 
                                         
                                         <td width="90%" align="left" colspan="3" >
-                                            <p:spinner id="minutes" value="#{OtmaintenanceCorrectiveBean.minutes}" min="0" max="59"
+                                            <p:spinner id="months" value="#{OtmaintenanceCorrectiveBean.months}"  min="0" max="12"
                                                        maxlength="2" size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                            <p:ajax event="change" update="tfEndHour" process="@form"
                                                         listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
-                                            <p:outputLabel   value="Minutos"/>
-                                            <p:spacer width="20"/>
-                                            <p:spinner id="hours" value="#{OtmaintenanceCorrectiveBean.hours}"  min="0" max="23"
-                                                       maxlength="2" size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
-                                            </p:spinner>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel   value="Horas"/>
+                                            <p:outputLabel   value="Meses"/>
                                             <p:spacer width="20"/>
                                             <p:spinner id="days" value="#{OtmaintenanceCorrectiveBean.days}" min="0" max="30"
                                                        maxlength="2" size="2">
@@ -833,13 +825,21 @@
                                             <p:spacer width="5"/>
                                             <p:outputLabel   value="Días"/>
                                             <p:spacer width="20"/>
-                                            <p:spinner id="months" value="#{OtmaintenanceCorrectiveBean.months}"  min="0" max="12"
+                                            <p:spinner id="hours" value="#{OtmaintenanceCorrectiveBean.hours}"  min="0" max="23"
                                                        maxlength="2" size="2">
-                                            <p:ajax event="change" update="tfEndHour" process="@form"
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
                                                         listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
-                                            <p:outputLabel   value="Meses"/>
+                                            <p:outputLabel   value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner id="minutes" value="#{OtmaintenanceCorrectiveBean.minutes}" min="0" max="59"
+                                                       maxlength="2" size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenanceCorrectiveBean.addTime(OtmaintenanceCorrectiveBean.orderUpdate, 1)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Minutos"/>
                                         </td>
                                     </tr>
                                     <tr>

@@ -218,21 +218,13 @@
                                         </td> 
                                         
                                         <td width="90%" align="left" colspan="3" >
-                                            <p:spinner id="minutes" value="#{OtmaintenancePreventiveBean.minutes}" min="0" max="59"
+                                            <p:spinner id="months" value="#{OtmaintenancePreventiveBean.months}"  min="0" max="12"
                                                        maxlength="2" size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                            <p:ajax event="change" update="tfEndHour" process="@form"
                                                         listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
-                                            <p:outputLabel   value="Minutos"/>
-                                            <p:spacer width="20"/>
-                                            <p:spinner id="hours" value="#{OtmaintenancePreventiveBean.hours}"  min="0" max="23"
-                                                       maxlength="2" size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}"/>
-                                            </p:spinner>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel   value="Horas"/>
+                                            <p:outputLabel   value="Meses"/>                                            
                                             <p:spacer width="20"/>
                                             <p:spinner id="days" value="#{OtmaintenancePreventiveBean.days}" min="0" max="30"
                                                        maxlength="2" size="2">
@@ -242,13 +234,21 @@
                                             <p:spacer width="5"/>
                                             <p:outputLabel   value="Días"/>
                                             <p:spacer width="20"/>
-                                            <p:spinner id="months" value="#{OtmaintenancePreventiveBean.months}"  min="0" max="12"
+                                            <p:spinner id="hours" value="#{OtmaintenancePreventiveBean.hours}"  min="0" max="23"
                                                        maxlength="2" size="2">
-                                            <p:ajax event="change" update="tfEndHour" process="@form"
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
                                                         listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
-                                            <p:outputLabel   value="Meses"/>
+                                            <p:outputLabel   value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner id="minutes" value="#{OtmaintenancePreventiveBean.minutes}" min="0" max="59"
+                                                       maxlength="2" size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderSave, 0)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Minutos"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -1009,21 +1009,13 @@
                                         </td> 
                                         
                                         <td width="90%" align="left" colspan="3" >
-                                            <p:spinner id="minutes" value="#{OtmaintenancePreventiveBean.minutes}" min="0" max="59"
+                                            <p:spinner id="months" value="#{OtmaintenancePreventiveBean.months}"  min="0" max="12"
                                                        maxlength="2" size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                            <p:ajax event="change" update="tfEndHour" process="@form"
                                                         listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderUpdate, 1)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
-                                            <p:outputLabel   value="Minutos"/>
-                                            <p:spacer width="20"/>
-                                            <p:spinner id="hours" value="#{OtmaintenancePreventiveBean.hours}"  min="0" max="23"
-                                                       maxlength="2" size="2">
-                                                <p:ajax event="change" update="tfEndHour" process="@form"
-                                                        listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderUpdate, 1)}"/>
-                                            </p:spinner>
-                                            <p:spacer width="5"/>
-                                            <p:outputLabel   value="Horas"/>
+                                            <p:outputLabel   value="Meses"/>
                                             <p:spacer width="20"/>
                                             <p:spinner id="days" value="#{OtmaintenancePreventiveBean.days}" min="0" max="30"
                                                        maxlength="2" size="2">
@@ -1033,13 +1025,21 @@
                                             <p:spacer width="5"/>
                                             <p:outputLabel   value="Días"/>
                                             <p:spacer width="20"/>
-                                            <p:spinner id="months" value="#{OtmaintenancePreventiveBean.months}"  min="0" max="12"
+                                            <p:spinner id="hours" value="#{OtmaintenancePreventiveBean.hours}"  min="0" max="23"
                                                        maxlength="2" size="2">
-                                            <p:ajax event="change" update="tfEndHour" process="@form"
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
                                                         listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderUpdate, 1)}"/>
                                             </p:spinner>
                                             <p:spacer width="5"/>
-                                            <p:outputLabel   value="Meses"/>
+                                            <p:outputLabel   value="Horas"/>
+                                            <p:spacer width="20"/>
+                                            <p:spinner id="minutes" value="#{OtmaintenancePreventiveBean.minutes}" min="0" max="59"
+                                                       maxlength="2" size="2">
+                                                <p:ajax event="change" update="tfEndHour" process="@form"
+                                                        listener="#{OtmaintenancePreventiveBean.addTime(OtmaintenancePreventiveBean.orderUpdate, 1)}"/>
+                                            </p:spinner>
+                                            <p:spacer width="5"/>
+                                            <p:outputLabel   value="Minutos"/>
                                         </td>
                                     </tr>
                                 </table>

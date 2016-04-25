@@ -86,7 +86,7 @@ public class TemplateBean implements Serializable
         setMainTabs(new ArrayList<MainTabs>());
         setMapTabs(new HashMap<String, Integer>()) ;
         setModel(new DefaultMenuModel());
-        getMainTabs().add(new MainTabs("DMES", 0, "", true));
+        getMainTabs().add(new MainTabs(".:FATCON Manager:.", 0, "", true));
         
     }
     
@@ -212,7 +212,7 @@ public class TemplateBean implements Serializable
                     if(getMapTabs() != null && getMapTabs().get(nodeSelected.getName()) == null)
                     {
                         if(getMainTabs() != null && getMainTabs().size() == 1 && 
-                                getMainTabs().get(0).getTitle().equalsIgnoreCase("DMES"))
+                                getMainTabs().get(0).getTitle().equalsIgnoreCase(".:Fatcon Manager:."))
                         {
                             getMainTabs().clear();
                         }
@@ -298,7 +298,7 @@ public class TemplateBean implements Serializable
            if(getMainTabs().isEmpty())
            {
                getMainTabs().clear();
-               getMainTabs().add(new MainTabs("DMES", 0, "", true));
+               getMainTabs().add(new MainTabs(".:FATCON Manager:.", 0, "", true));
            }
            String idDelete = model.getElements().get(position).getId();
            model.getElements().remove(position);
