@@ -59,6 +59,8 @@
     <bean id="otMaintenanceCorrectiveServer" class="com.sip.dmes.dao.bs.OtMaintenanceCorrectiveDao"></bean>
     <bean id="otMaintenancePreventiveServer" class="com.sip.dmes.dao.bs.OtMaintenancePreventiveDao"></bean>
     <bean id="otProductionServer" class="com.sip.dmes.dao.bs.OtProductionDao"></bean>
+    <bean id="otProductionServer" class="com.sip.dmes.dao.bs.OtProductionDao"></bean>
+    <bean id="factoryVisibilityServer" class="com.sip.dmes.dao.bs.FactoryVisibilityDao"></bean>
     <!--
     <bean id="scOperatingConditionsServer" class="com.sip.dmes.dao.bs.ScOperatingConditionsDao"></bean>
     <bean id="scMaintenancePlanServer" class="com.sip.dmes.dao.bs.ScMaintenancePlanDao"></bean>-->

@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.10
 -- Dumped by pg_dump version 9.3.10
--- Started on 2016-04-04 08:45:52 COT
+-- Started on 2016-04-28 11:54:46 COT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2865,6 +2865,10 @@ INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, descri
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (38, 9, 3, '1 Meses - 1 Días - 1 Horas - 1 Minutos ', 2, 1, 30, 0, '', 2, '2016-02-13 20:01:00.964-05', NULL, '2016-03-14 21:02:00.964-05', '52');
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (36, 15, 1, '1 Días - 1 Horas - 1 Minutos ', 1, 1, 28, 0, '', 2, '2016-02-12 20:01:00.715-05', '2016-02-14 07:04:55-05', '2016-08-14 12:05:09-05', '50');
 INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (39, 15, 1, '1 Horas - ', 1, 1, 31, 0, '', 1, '2016-02-26 00:43:17.356-05', NULL, '2016-02-26 00:43:17.356-05', '53');
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (40, 8, 2, '3 Horas - 3 Minutos ', 1, 1, 32, 0, '', 1, '2016-04-18 06:09:00.317-05', NULL, '2016-04-18 09:12:00.317-05', '54');
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (41, 15, 3, '3 Horas - 3 Minutos ', 1, 1, 33, 0, 'test', 1, '2016-04-19 00:00:00-05', NULL, '2016-04-19 07:05:00-05', '55,56,57');
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (42, 1, 1, '4 Horas - 5 Minutos ', 2, 1, 34, 0, '', 2, '2016-04-23 21:10:00.33-05', NULL, '2016-04-24 01:15:00.33-05', '58');
+INSERT INTO ot_maintenance (id_maintenance, id_machine_part, id_priority, description, id_maintenance_clasification, id_maintenance_state, id_workforce, duration, description_damage, id_maintenance_damage, creation_date, response_date, end_date, id_maintenance_schedule) VALUES (43, 8, 2, '3 Minutos ', 2, 1, 35, 0, '', 1, '2016-04-24 00:00:00-05', NULL, '2016-04-24 02:03:00-05', '59,60,61');
 
 
 --
@@ -2882,6 +2886,8 @@ INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, descript
 INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance, duration) VALUES (23, 'Correctivo_Máquina 4_bandas20160213225519', '1 Minutos ', 37, NULL);
 INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance, duration) VALUES (24, 'Correctivo_Máquina 4_test20160214144558', '1 Meses - 1 Días - 1 Horas - 1 Minutos ', 38, NULL);
 INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance, duration) VALUES (25, 'Correctivo_Máquina 1_prueba 120160226004333', '1 Horas - ', 39, NULL);
+INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance, duration) VALUES (26, 'Correctivo_Máquina 1_Gas para moto20160418000900', '3 Horas - 3 Minutos ', 40, NULL);
+INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, description, id_maintenance, duration) VALUES (27, 'Correctivo_Máquina 1_Máquina 1 Test20160423211020', '4 Horas - 5 Minutos ', 42, NULL);
 
 
 --
@@ -2891,6 +2897,8 @@ INSERT INTO ot_maintenance_corrective (id_maintenance_corrective, name, descript
 --
 
 INSERT INTO ot_maintenance_preventive (id_maintenance_preventive, name, description, id_maintenance, type_frequency, amount_schedule, duration) VALUES (6, 'Preventivo_Máquina 1_Gas para moto20151106154747', '2 Horas - ', 34, 'DAILY', 5, NULL);
+INSERT INTO ot_maintenance_preventive (id_maintenance_preventive, name, description, id_maintenance, type_frequency, amount_schedule, duration) VALUES (7, 'Preventivo_Máquina 1_prueba 120160418001021', '3 Horas - 3 Minutos ', 41, 'DAILY', 3, NULL);
+INSERT INTO ot_maintenance_preventive (id_maintenance_preventive, name, description, id_maintenance, type_frequency, amount_schedule, duration) VALUES (8, 'Preventivo_Máquina 1_Gas para moto20160423212132', '3 Minutos ', 43, 'DAILY', 3, NULL);
 
 
 --
@@ -2913,6 +2921,14 @@ INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creat
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (51, 12, '2016-02-12 20:00:01-05', 37, '2016-02-12 20:01:00.533-05');
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (52, 13, '2016-02-13 20:01:01-05', 38, '2016-03-14 21:02:00.964-05');
 INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (53, 9, '2016-02-26 00:43:17-05', 39, '2016-02-26 00:43:17.356-05');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (54, 8, '2016-04-18 06:09:00-05', 40, '2016-04-18 09:12:00.317-05');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (55, 13, '2016-04-19 04:02:00-05', 41, '2016-04-19 07:05:00-05');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (56, 13, '2016-04-20 04:02:00-05', 41, '2016-04-20 07:05:00-05');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (57, 13, '2016-04-21 04:02:00-05', 41, '2016-04-21 07:05:00-05');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (58, 15, '2016-04-23 21:10:00-05', 42, '2016-04-24 01:15:00.33-05');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (59, 15, '2016-04-24 02:00:00-05', 43, '2016-04-24 02:03:00-05');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (60, 15, '2016-04-25 02:00:00-05', 43, '2016-04-25 02:03:00-05');
+INSERT INTO ot_maintenance_schedule (id_schedule_maintenance, id_employee, creation_date, id_maintenance, end_date) VALUES (61, 15, '2016-04-26 02:00:00-05', 43, '2016-04-26 02:03:00-05');
 
 
 --
@@ -3088,6 +3104,7 @@ INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight,
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (69, '1-Mts', '1-Mts', '1-Mts', '1-Mts', '', '', '', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (70, '56-Mms', '9-Yoleidy Measure', '4-KMS', '8-galon', '', '', '', '');
 INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (71, '9-KMS', '9-Mms', '8-KMS', '6-galon', '', '', '', '');
+INSERT INTO sc_input_dimension (id_input_dimension, hight, width, large, weight, volume, thickness, radio, observations) VALUES (74, '12-Cts', '300-Mms', '10-Cts', '500-Gramos', '', '', '', '');
 
 
 --
@@ -3331,6 +3348,10 @@ INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description,
 INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (38, 'test', 'test', 37);
 INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (39, 'jhon prueba', 'bloqueo equipo', 38);
 INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (40, 'test', 'test', 39);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (41, 'Limpiar Piñon', 'test', 40);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (42, 'Limpiar Piñon', 'teste', 41);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (43, 'test', 'test', 42);
+INSERT INTO sc_maintenance_activity (id_maintenance_activity, name, description, id_maintenance) VALUES (44, 'test', 'teste', 43);
 
 
 --
@@ -3390,6 +3411,7 @@ INSERT INTO sc_measure_unit (id_measure, acronym, type) VALUES (25, 'test measur
 INSERT INTO sc_measure_unit (id_measure, acronym, type) VALUES (26, 'wallet', 'dinero');
 INSERT INTO sc_measure_unit (id_measure, acronym, type) VALUES (27, 'galon', 'liquido');
 INSERT INTO sc_measure_unit (id_measure, acronym, type) VALUES (28, 'milla1', 'distancia');
+INSERT INTO sc_measure_unit (id_measure, acronym, type) VALUES (29, 'Gramos', 'Peso');
 
 
 --
@@ -3398,7 +3420,6 @@ INSERT INTO sc_measure_unit (id_measure, acronym, type) VALUES (28, 'milla1', 'd
 -- Data for Name: sc_module_permission; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (1, 'Gestión de Planta', NULL, 'bar.png', 'Home', -1, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (2, 'Visibilidad de Planta', NULL, 'oee.png', 'Folder', 1, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (3, 'Programación de Orden de Fabricación', NULL, 'ord.png', 'Folder', 1, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (5, 'Gestión del Mantenimiento', NULL, 'man.png', 'Folder', 1, 'Help.jsf');
@@ -3430,13 +3451,16 @@ INSERT INTO sc_module_permission (id_module_permission, name, description, icone
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (30, 'Partes de una Máquina', NULL, 'maquinas.png', 'Item', 10, 'resources/materials/ScMachinePart.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (31, 'Visibilidad del Almacén', NULL, 'maquinas.png', 'Item', 23, 'resources/materials/store/ScViewStore.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (33, 'Correctivo', NULL, 'cargue_documentos.png', 'Item', 32, 'orders/maintenance/OtMaintenanceCorrective.jsf');
-INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (32, 'Mantenimiento', NULL, 'maquinas.png', 'Folder', 7, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (34, 'Preventivo', NULL, 'cargue_documentos.png', 'Item', 32, 'orders/maintenance/OtMaintenancePreventive.jsf');
-INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (36, 'Producción', NULL, 'maquinas.png', 'Folder', 7, 'Help.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (35, 'Programación de Mantenimientos', NULL, 'maquinas.png', 'Item', 32, 'orders/maintenance/OtMaintenanceSchedule.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (38, 'Programación de Producción', NULL, 'maquinas.png', 'Item', 36, 'orders/production/OtProductionSchedule.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (37, 'Ordenes de Producción', NULL, 'productos.png', 'Item', 36, 'orders/production/OtProduction.jsf');
 INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (39, 'Log de Producción', NULL, 'repuestos_y_consumibles.png', 'Item', 36, 'orders/production/OtLogProduction.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (1, 'Gestión de Planta', NULL, 'oee.png', 'Home', -1, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (32, 'Mantenimiento', NULL, 'maquinas.png', 'Folder', 5, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (36, 'Producción', NULL, 'maquinas.png', 'Folder', 3, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (40, 'Fábrica y Máquinas', NULL, 'maquinas.png', 'Folder', 2, 'Help.jsf');
+INSERT INTO sc_module_permission (id_module_permission, name, description, icone, type, id_father, page) VALUES (41, 'Indicadores', NULL, 'Recursos_materiales.png', 'Item', 40, 'factoryVisibility/FactoryVisibility.jsf');
 
 
 --
@@ -3536,64 +3560,69 @@ INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role,
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1958, 1, 'CRUD', 18);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1962, 1, 'CRUD', 21);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1986, 1, 'CRUD', 23);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2112, 8, 'CRUD', 1);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2113, 8, 'CRUD', 7);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2114, 8, 'CRUD', 13);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2115, 8, 'CRUD', 15);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2002, 1, 'CRUD', 32);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2119, 8, 'CRUD', 16);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1933, 1, 'CRUD', 7);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1935, 1, 'CRUD', 15);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1939, 1, 'CRUD', 14);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1943, 1, 'CRUD', 16);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2123, 8, 'CRUD', 14);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1947, 1, 'CRUD', 11);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1951, 1, 'CRUD', 12);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1955, 1, 'CRUD', 17);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2126, 8, 'CRUD', 9);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2127, 8, 'CRUD', 12);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1959, 1, 'CRUD', 20);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1963, 1, 'CRUD', 22);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1967, 1, 'CRUD', 19);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1971, 1, 'CRUD', 24);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1975, 1, 'CRUD', 25);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1979, 1, 'CRUD', 26);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2131, 8, 'CRUD', 11);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1983, 1, 'CRUD', 27);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1987, 1, 'CRUD', 28);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2134, 8, 'CRUD', 10);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1991, 1, 'CRUD', 29);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1995, 1, 'CRUD', 30);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2135, 8, 'CRUD', 17);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (1999, 1, 'CRUD', 31);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2003, 1, 'CRUD', 34);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2138, 8, 'CRUD', 18);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2007, 1, 'CRUD', 33);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2139, 8, 'CRUD', 19);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2011, 1, 'CRUD', 35);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2014, 1, 'CRUD', 36);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2015, 1, 'CRUD', 38);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2143, 8, 'CRUD', 20);
 INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2019, 1, 'CRUD', 37);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2020, 8, 'CRUD', 1);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2021, 8, 'CRUD', 7);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2022, 8, 'CRUD', 13);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2023, 8, 'CRUD', 15);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2027, 8, 'CRUD', 16);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2031, 8, 'CRUD', 14);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2034, 8, 'CRUD', 9);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2035, 8, 'CRUD', 12);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2039, 8, 'CRUD', 11);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2042, 8, 'CRUD', 10);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2043, 8, 'CRUD', 17);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2046, 8, 'CRUD', 18);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2047, 8, 'CRUD', 19);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2051, 8, 'CRUD', 20);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2054, 8, 'CRUD', 21);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2055, 8, 'CRUD', 22);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2059, 8, 'CRUD', 25);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2063, 8, 'CRUD', 24);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2067, 8, 'CRUD', 26);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2071, 8, 'CRUD', 27);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2074, 8, 'CRUD', 23);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2075, 8, 'CRUD', 28);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2079, 8, 'CRUD', 29);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2083, 8, 'CRUD', 30);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2087, 8, 'CRUD', 31);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2090, 8, 'CRUD', 32);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2091, 8, 'CRUD', 33);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2095, 8, 'CRUD', 34);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2099, 8, 'CRUD', 35);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2102, 8, 'CRUD', 36);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2103, 8, 'CRUD', 37);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2107, 8, 'CRUD', 38);
-INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2111, 8, 'CRUD', 39);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2146, 8, 'CRUD', 21);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2147, 8, 'CRUD', 22);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2151, 8, 'CRUD', 25);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2155, 8, 'CRUD', 24);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2159, 8, 'CRUD', 26);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2163, 8, 'CRUD', 27);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2166, 8, 'CRUD', 23);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2167, 8, 'CRUD', 28);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2171, 8, 'CRUD', 29);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2175, 8, 'CRUD', 30);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2179, 8, 'CRUD', 31);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2181, 8, 'CRUD', 5);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2182, 8, 'CRUD', 32);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2183, 8, 'CRUD', 33);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2187, 8, 'CRUD', 34);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2191, 8, 'CRUD', 35);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2193, 8, 'CRUD', 3);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2194, 8, 'CRUD', 36);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2195, 8, 'CRUD', 37);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2199, 8, 'CRUD', 38);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2203, 8, 'CRUD', 39);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2205, 8, 'CRUD', 2);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2206, 8, 'CRUD', 40);
+INSERT INTO sc_module_permission_by_role (id_module_permission_by_role, id_role, id_type, id_module_permission) VALUES (2207, 8, 'CRUD', 41);
 
 
 --
@@ -3793,7 +3822,7 @@ INSERT INTO sc_priority (id_priority, name, description) VALUES (3, 'Baja', 'Baj
 -- Data for Name: sc_procces_product; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_procces_product (id_process_product, id_process_type, name, description, total_time_machine, total_value_machine, total_value_input, total_time_process, total_value_process, total_time_employee, total_value_employee, id_product_formulation) VALUES (25, 2, 'Fundido de Lamina', 'Moldeado de la lamina a 30° Celsius', 130, 2333.33, 4800.00, 250, 7135.33, 120, 2.00, 12);
+INSERT INTO sc_procces_product (id_process_product, id_process_type, name, description, total_time_machine, total_value_machine, total_value_input, total_time_process, total_value_process, total_time_employee, total_value_employee, id_product_formulation) VALUES (35, 1, 'Empaquetado', 'Proceso donde se guardan los el producto en sus empaques', 1, 16.67, 4000.00, 2, 4033.34, 1, 16.67, 15);
 
 
 --
@@ -3823,7 +3852,7 @@ INSERT INTO sc_procces_product_order (id_process_product_order, id_process_type,
 -- Data for Name: sc_process_employee; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_process_employee (id_process_employee, labor_description, time_use, other_expenses, total_value_employee, id_employee, id_process, description_other_expenses) VALUES (33, 'Fundido de la lámina', 120, 0.00, 2.00, 10, 25, '');
+INSERT INTO sc_process_employee (id_process_employee, labor_description, time_use, other_expenses, total_value_employee, id_employee, id_process, description_other_expenses) VALUES (42, 'Operador que maneja la máquina', 1, 0.00, 16.67, 14, 35, '');
 
 
 --
@@ -3845,8 +3874,7 @@ INSERT INTO sc_process_employee_order (id_process_employee_order, labor_descript
 -- Data for Name: sc_process_input; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (22, 25, 16, 12, 0.00, 2400.00);
-INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (23, 25, 16, 12, 0.00, 2400.00);
+INSERT INTO sc_process_input (id_process_input, id_process, id_input, amount_distribution, percentage_residue, total_value_input) VALUES (39, 35, 16, 20, 12.00, 4000.00);
 
 
 --
@@ -3873,8 +3901,7 @@ INSERT INTO sc_process_input_order (id_process_input_order, id_process_order, id
 -- Data for Name: sc_process_machine; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (31, 1, 120, 0.00, 2000.00, 25, '');
-INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (32, 2, 10, 0.00, 333.33, 25, '');
+INSERT INTO sc_process_machine (id_process_machine, id_machine, time_use, other_expenses, total_value_machine, id_process, description_other_expenses) VALUES (43, 1, 1, 0.00, 16.67, 35, '');
 
 
 --
@@ -3911,11 +3938,6 @@ INSERT INTO sc_process_type (id_process_type, description, type) VALUES (2, 'Pro
 -- Data for Name: sc_product_attached; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (43, 'CARACTERISTICA', '5 Puertas', 'Carro tipo sedán', 12);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (44, 'ESPECIFICACION', 'Luces Antiniebla', 'Luces que permiten desplegar un rayo de luz en la oscuridad, traspasando la niebla', 12);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (45, 'CARACTERISTICA', '5 Llantas', '4 Llantas de uso y 1 de Repuesto', 12);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (46, 'ESPECIFICACION', 'Frenos ABS', 'Frenos que permiten mantener el equilibrio después de un duro frenado', 12);
-INSERT INTO sc_product_attached (id_product_attached, type, tittle, description, id_product_formulation) VALUES (47, 'OBSERVACION', 'Pintura de policromado', 'Pintura con brillo', 12);
 
 
 --
@@ -3924,7 +3946,6 @@ INSERT INTO sc_product_attached (id_product_attached, type, tittle, description,
 -- Data for Name: sc_product_documents; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_product_documents (id_product_documents, document_path, document_tittle, creation_date, document_name, upload_by, type_document, id_product_formulation) VALUES (13, '/home/gchavarro88/product_filePath/docs', 'Manual técnico', '2015-04-30 17:00:00-05', 'GSI-R-29 Formulario PQR V2.pdf', 'guschaor', 'application/pdf', 12);
 
 
 --
@@ -3933,7 +3954,7 @@ INSERT INTO sc_product_documents (id_product_documents, document_path, document_
 -- Data for Name: sc_product_formulation; Type: TABLE DATA; Schema: dmes; Owner: sipPrueba
 --
 
-INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_location, manufacturing_time, description, id_product_dimension, id_stock) VALUES (12, '/home/gchavarro88/products_filePath/img/celos.jpg', 'Metal', 'Spark GT', 'ACGD12021988', 6, '2020-02-11 18:00:00-05', '2015-04-30 17:00:00-05', 1, 10, 15000, 1, 1, 250, 'Carros Chevrolet', 27, 2);
+INSERT INTO sc_product_formulation (id_product_formulation, path_picture, type_material, mark, serie, id_packing, expiry_date, creation_date, id_priority, id_cost_center, value, id_money, id_location, manufacturing_time, description, id_product_dimension, id_stock) VALUES (15, '/home/gchavarro88/product_filePath/img/yupi.jpg', 'Semilla de Girasol', 'Frito Light', '123AC', 3, NULL, '2016-04-23 20:49:07.63-05', 3, 16, 500, 2, 17, 2, 'Yupis 500Grs', 74, 42);
 
 
 --
@@ -4022,7 +4043,7 @@ INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VA
 INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VALUES (2, 'GESTIÓN HUMANA', 'Rol asignado al personal de selección y pruebas', '2014-10-12 17:00:00-05', '2015-08-14 17:00:00-05');
 INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VALUES (11, 'TESTING', 'pruebas', '2015-08-14 17:00:00-05', NULL);
 INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VALUES (1, 'ADMINISTRATOR', 'Grupo de permisos infinitos', '2014-09-25 17:00:00-05', '2015-12-12 14:23:34.593-05');
-INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VALUES (8, 'DESARROLLO', 'Perfil asociado a los desarrolladores de la aplicación ', '2015-07-28 17:00:00-05', '2016-03-31 02:01:00.88-05');
+INSERT INTO sc_roles (id_role, name, description, creation_date, modify_date) VALUES (8, 'DESARROLLO', 'Perfil asociado a los desarrolladores de la aplicación ', '2015-07-28 17:00:00-05', '2016-04-27 23:57:16.772-05');
 
 
 --
@@ -4065,7 +4086,6 @@ INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (15, 100, 40, 63, 2000, 100000, 5, 60);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (33, 50, 5, 30, 455, 9100, 2, 10);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (34, 100, 10, 21, 5656, 113120, 1, 20);
-INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (2, 4444, 1, 28, 12500, 275000, 2, 22);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (25, 167, 87, 110, 30000, 2670000, 1, 100);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (27, 20, 10, 42, 400000, 6000000, 2, 16);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (29, 6, 5, 38, 7000000, 35000000, 2, 5);
@@ -4077,6 +4097,10 @@ INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (39, 10, 2, 1, 40000, 40000, 5, 6);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (13, 2, 1, 11, 33, 33, 2, 1);
 INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (28, 100, 20, 658, 6000, 3600000, 2, 50);
+INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (2, 4444, 1, 28, 15000, 275000, 1, 22);
+INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (40, 5, 4, 4, 3, 12, 1, 4);
+INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (41, 4, 3, 3, 3, 9, 2, 3);
+INSERT INTO sc_stock (id_stock, maxime_stock, minime_stock, current_stock, price_unit, total_value, id_store, optime_stock) VALUES (42, 600, 200, 1, 500, 500, 2, 350);
 
 
 --
@@ -4393,6 +4417,10 @@ INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) 
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (29, 'test', 12, 'Mecánico');
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (30, '', 13, 'Mecánico');
 INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (31, '', 9, 'Electrónico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (32, '', 8, 'Mecánico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (33, 'test', 13, 'Mecánico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (34, 'test', 15, 'Eléctrico');
+INSERT INTO sc_workforce (id_workforce, workforce, id_employee, type_workforce) VALUES (35, 'test', 15, 'Mecánico');
 
 
 --
@@ -4410,7 +4438,7 @@ SELECT pg_catalog.setval('sqclasstype', 1, false);
 -- Name: sqmaintenanceschedule; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqmaintenanceschedule', 53, true);
+SELECT pg_catalog.setval('sqmaintenanceschedule', 61, true);
 
 
 --
@@ -4428,7 +4456,7 @@ SELECT pg_catalog.setval('sqotlogproduction', 5, true);
 -- Name: sqotmaintenance; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqotmaintenance', 39, true);
+SELECT pg_catalog.setval('sqotmaintenance', 43, true);
 
 
 --
@@ -4437,7 +4465,7 @@ SELECT pg_catalog.setval('sqotmaintenance', 39, true);
 -- Name: sqotmaintenancecorrective; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqotmaintenancecorrective', 25, true);
+SELECT pg_catalog.setval('sqotmaintenancecorrective', 27, true);
 
 
 --
@@ -4446,7 +4474,7 @@ SELECT pg_catalog.setval('sqotmaintenancecorrective', 25, true);
 -- Name: sqotmaintenancepreventive; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqotmaintenancepreventive', 6, true);
+SELECT pg_catalog.setval('sqotmaintenancepreventive', 8, true);
 
 
 --
@@ -4545,7 +4573,7 @@ SELECT pg_catalog.setval('sqscinput', 18, true);
 -- Name: sqscinputdimension; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscinputdimension', 71, true);
+SELECT pg_catalog.setval('sqscinputdimension', 74, true);
 
 
 --
@@ -4680,7 +4708,7 @@ SELECT pg_catalog.setval('sqscmails', 39, true);
 -- Name: sqscmaintenanceactivity; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmaintenanceactivity', 40, true);
+SELECT pg_catalog.setval('sqscmaintenanceactivity', 44, true);
 
 
 --
@@ -4716,7 +4744,7 @@ SELECT pg_catalog.setval('sqscmaintenancetool', 1, false);
 -- Name: sqscmeasure; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmeasure', 28, true);
+SELECT pg_catalog.setval('sqscmeasure', 31, true);
 
 
 --
@@ -4725,7 +4753,7 @@ SELECT pg_catalog.setval('sqscmeasure', 28, true);
 -- Name: sqscmodulespermissionbyrole; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscmodulespermissionbyrole', 2111, true);
+SELECT pg_catalog.setval('sqscmodulespermissionbyrole', 2207, true);
 
 
 --
@@ -4860,7 +4888,7 @@ SELECT pg_catalog.setval('sqscprocessattached', 1, false);
 -- Name: sqscprocessemployee; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessemployee', 33, true);
+SELECT pg_catalog.setval('sqscprocessemployee', 42, true);
 
 
 --
@@ -4878,7 +4906,7 @@ SELECT pg_catalog.setval('sqscprocessemployeeorder', 39, true);
 -- Name: sqscprocessinput; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessinput', 23, true);
+SELECT pg_catalog.setval('sqscprocessinput', 39, true);
 
 
 --
@@ -4896,7 +4924,7 @@ SELECT pg_catalog.setval('sqscprocessinputorder', 36, true);
 -- Name: sqscprocessmachine; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessmachine', 32, true);
+SELECT pg_catalog.setval('sqscprocessmachine', 43, true);
 
 
 --
@@ -4914,7 +4942,7 @@ SELECT pg_catalog.setval('sqscprocessmachineorder', 45, true);
 -- Name: sqscprocessproduct; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscprocessproduct', 25, true);
+SELECT pg_catalog.setval('sqscprocessproduct', 35, true);
 
 
 --
@@ -4941,7 +4969,7 @@ SELECT pg_catalog.setval('sqscprocesstype', 1, false);
 -- Name: sqscproductattached; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscproductattached', 47, true);
+SELECT pg_catalog.setval('sqscproductattached', 48, true);
 
 
 --
@@ -4959,7 +4987,7 @@ SELECT pg_catalog.setval('sqscproductdocuments', 13, true);
 -- Name: sqscproductformulation; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscproductformulation', 12, true);
+SELECT pg_catalog.setval('sqscproductformulation', 15, true);
 
 
 --
@@ -5022,7 +5050,7 @@ SELECT pg_catalog.setval('sqscservicesorproducts', 23, true);
 -- Name: sqscstock; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscstock', 39, true);
+SELECT pg_catalog.setval('sqscstock', 42, true);
 
 
 --
@@ -5121,7 +5149,7 @@ SELECT pg_catalog.setval('sqscworkexperience', 12, true);
 -- Name: sqscworkforce; Type: SEQUENCE SET; Schema: dmes; Owner: sipPrueba
 --
 
-SELECT pg_catalog.setval('sqscworkforce', 31, true);
+SELECT pg_catalog.setval('sqscworkforce', 35, true);
 
 
 --
@@ -7059,7 +7087,7 @@ ALTER TABLE ONLY sc_competencies
     ADD CONSTRAINT id_competencies_employee FOREIGN KEY (id_employee) REFERENCES sc_employee(id_employee);
 
 
--- Completed on 2016-04-04 08:45:52 COT
+-- Completed on 2016-04-28 11:54:46 COT
 
 --
 -- PostgreSQL database dump complete

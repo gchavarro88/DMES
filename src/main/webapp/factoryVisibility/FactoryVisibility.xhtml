@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>             <meta http-equiv="expires" content="0"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>             <meta http-equiv="Cache-Control" content="no-cache"></meta>
+        <title>.:FATCON:. - Visibilidad de Planta</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/css/webStyle.css"/>
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+           //window.setTimeout("toolInit()",1000);
+        </script>
+        <script type="text/javascript" src="../lib/jquery-1.11.1/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="../lib/js/jquery.blockUI.js"></script>
+    </h:head>
+    <h:body style="background-color: #000;">
+        <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+        <p:dialog modal="true" widgetVar="statusDialog" header="Cargando..."
+                  draggable="false" closable="false" resizable="false">
+            <p:graphicImage value="/images/loadBar.gif"/>
+        </p:dialog>
+        <div id="mainVisibility">
+            
+        </div>
+            <p:growl autoUpdate="true" showDetail="true" life="8000" />
+            
+    </h:body>     
+            
+</html>
+
