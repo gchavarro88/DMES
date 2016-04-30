@@ -28,10 +28,12 @@
             <p:graphicImage value="/images/loadBar.gif"/>
         </p:dialog>
         <div id="mainVisibility">
-            
+            <script type="text/javascript" src="../views/factoryVisibility.js"></script>
         </div>
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
-            
+            <h:form>
+                <p:remoteCommand actionListener="#{factoryVisibilityBean.findLocations()}" name="findLocations" autoRun="true"/>
+            </h:form>
     </h:body>     
             
 </html>

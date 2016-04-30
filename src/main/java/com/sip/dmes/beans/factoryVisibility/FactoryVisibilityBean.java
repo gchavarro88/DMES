@@ -20,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
+import org.primefaces.context.RequestContext;
 
 
 /**
@@ -63,6 +64,7 @@ public class FactoryVisibilityBean
             setFactoryLocations(getFactoryVisibilityServer().getFactoryLocations());
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext();
             session.setAttribute("locations", getFactoryLocations());
+            RequestContext.getCurrentInstance().execute("getFactoryLocations();");
         }
         return getFactoryLocations();
     }

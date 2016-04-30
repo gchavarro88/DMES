@@ -1,8 +1,8 @@
-<%-- 
+ 
     Document   : getFactoryLocations
     Created on : 28/04/2016, 12:42:15 AM
     Author     : gchavarro88
---%>
+
 
 <%@page import="com.sip.dmes.entitys.ScFactoryLocation"%>
 <%@page import="java.util.List"%>
@@ -13,8 +13,7 @@
 try
 {
     FactoryVisibilityBean bean = new FactoryVisibilityBean();
-    List<ScFactoryLocation> result = bean.findLocations();
-    session.setAttribute("locations", result);
+    List<ScFactoryLocation> result = (List<ScFactoryLocation>) session.getAttribute("locations");
     String factory = "";
     if(result != null && !result.isEmpty())
     {
