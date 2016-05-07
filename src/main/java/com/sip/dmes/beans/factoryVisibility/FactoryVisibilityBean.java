@@ -62,8 +62,8 @@ public class FactoryVisibilityBean
         if(getFactoryLocations() == null || getFactoryLocations().isEmpty())
         {
             setFactoryLocations(getFactoryVisibilityServer().getFactoryLocations());
-            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext();
-            session.setAttribute("locations", getFactoryLocations());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("locations");
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("locations", getFactoryLocations());
             RequestContext.getCurrentInstance().execute("getFactoryLocations();");
         }
         return getFactoryLocations();

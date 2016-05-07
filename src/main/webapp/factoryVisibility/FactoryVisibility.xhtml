@@ -18,8 +18,11 @@
             }
            //window.setTimeout("toolInit()",1000);
         </script>
-        <script type="text/javascript" src="../lib/jquery-1.11.1/jquery-1.11.1.min.js"></script>
+<!--        <script type="text/javascript" src="../lib/jquery-1.11.1/jquery-1.11.1.min.js"></script>-->
         <script type="text/javascript" src="../lib/js/jquery.blockUI.js"></script>
+        <script type="text/javascript" src="../views/factoryVisibility.js"></script>
+        <script type="text/javascript" src="../utilities/utilities.js"></script>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/indicators.css"/>
     </h:head>
     <h:body style="background-color: #000;">
         <p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
@@ -27,13 +30,29 @@
                   draggable="false" closable="false" resizable="false">
             <p:graphicImage value="/images/loadBar.gif"/>
         </p:dialog>
-        <div id="mainVisibility">
-            <script type="text/javascript" src="../views/factoryVisibility.js"></script>
-        </div>
+        
             <p:growl autoUpdate="true" showDetail="true" life="8000" />
             <h:form>
-                <p:remoteCommand actionListener="#{factoryVisibilityBean.findLocations()}" name="findLocations" autoRun="true"/>
+                <p:remoteCommand actionListener="#{factoryVisibilityBean.findLocations()}" name="findLocations" />
+                <p:remoteCommand actionListener="#{factoryVisibilityBean.addError(null, 'Error de Petición',
+                                                   'Error intentando cargar la informaición')}" name="messageError" />
+                <p:remoteCommand actionListener="#{factoryVisibilityBean.addInfo(null, 'Operación Exitosa',
+                                                   'Se realizó la operación con total éxito')}" name="messageSucess" />
             </h:form>
+            <div class="information-main">
+                <div class="information withoutuse">Sin Uso</div> 
+                <div class="information active">Producción</div> 
+                <div class="information maintenance">Mantenimiento</div> 
+                <div class="information stop">Paro</div> 
+            </div>
+            <div style="height: 40px;"></div>
+            <div id="main" >
+                        <center>
+                            <div id="factory">
+                                
+                            </div>
+                        </center>
+                    </div>
     </h:body>     
             
 </html>
